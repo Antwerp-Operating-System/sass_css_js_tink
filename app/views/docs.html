@@ -1,0 +1,98 @@
+<p class="shame-open-sidenav">
+  <a href="" data-ng-click="sidenav.open = !sidenav.open"><i class="fa fa-bars"><span class="sr-only">Open menu</span></i></a>
+</p>
+<div id="shame-content" data-ng-switch="subview">
+
+  <aside data-ng-include=" 'views/sidenav.html' " id="shame-nav-container"></aside>
+
+  <div data-ng-switch-when="">
+    <div class="container-fluid">
+      <h1>Documentation</h1>
+      <hr>
+      <h2>Overview</h2>
+      <h2 class="h3"><a href="#/docs/grid">Grid</a></h2>
+      <h2 class="h3"><a href="#/docs/ui">UI Kit</a></h2>
+      <ul class="h4">
+        <li><a href="#/docs/ui/typography">Typography</a></li>
+        <li><a href="#/docs/ui/buttons">Buttons</a></li>
+        <li><a href="#/docs/ui/icons">Icons</a></li>
+        <li><a href="#/docs/ui/color">Color</a></li>
+        <li><a href="#/docs/ui/media">Media</a></li>
+      </ul>
+      <h2 class="h3"><a href="#/docs/tables">Tables</a></h2>
+      <h2 class="h3"><a href="#/docs/forms/elements">Forms</a></h2>
+      <ul class="h4">
+        <li><a href="#/docs/forms/elements">Elements</a></li>
+        <li><a href="#/docs/forms/validation">Validation</a></li>
+      </ul>
+    </div>
+  </div>
+  <div data-ng-switch-default>
+    <div data-ng-include="subview"></div>
+  </div>
+</div>
+<!-- <aside data-ng-include=" 'views/sidenav.html' " id="shame-nav-container"></aside>
+
+<div id="shame-content">
+  <div class="container-fluid-max-width">
+
+    <h1 class="shame-h1">Tables</h1>
+    <div class="row">
+      <div class="col-xs-12">
+        <h2 class="shame-h2">Contextual tables</h2>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Table heading</th>
+              <th>Table heading</th>
+              <th>Table heading</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="active">
+              <td>tr.active</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+            <tr class="success">
+              <td>tr.success</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+            <tr class="info">
+              <td>tr.info</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+            <tr class="warning">
+              <td>tr.warning</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+            <tr class="danger">
+              <td>tr.danger</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+              <td>Table cell</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <th></th>
+              <th>Table footer</th>
+              <th>Table footer</th>
+              <th>Table footer</th>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+    <hr />
+
+  </div>
+</div> -->

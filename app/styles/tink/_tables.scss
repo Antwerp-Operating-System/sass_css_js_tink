@@ -1,0 +1,337 @@
+/**
+ * Tables
+ * --------------------------------------------------
+ */
+
+
+table {
+  background-color: $table-bg;
+  margin-bottom: rem($line-height-computed);
+  max-width: 100%;
+  width: 100%;
+
+  > tbody,
+  > tfoot,
+  > thead {
+    > tr {
+      > td,
+      > th {
+        border-top: 1px solid $table-border-color;
+        line-height: $line-height-base;
+        padding: rem($table-cell-padding);
+        text-align: left;
+        vertical-align: top;
+      }
+    }
+  }
+
+  > thead > tr > th {
+    border-bottom: 2px solid $table-border-color;
+    vertical-align: bottom; // Bottom align for column headings
+  }
+
+  > caption + thead,
+  > colgroup + thead,
+  > thead:first-child {
+    > tr:first-child {
+      > th,
+      > td {
+        border-top: 0; // Remove top border from thead by default
+      }
+    }
+  }
+
+  // Account for multiple tbody instances
+  > tbody + tbody {
+    border-top: 2px solid $table-border-color;
+  }
+
+  // Nesting
+  table {
+    background-color: $body-bg;
+  }
+}
+
+
+// Condensed table w/ half padding
+.table-condensed {
+  > thead,
+  > tbody,
+  > tfoot {
+    > tr {
+      > th,
+      > td {
+        padding: rem($table-condensed-cell-padding);
+      }
+    }
+  }
+}
+
+
+// Add borders all around the table and between all the columns.
+.table-bordered {
+  border: 1px solid $table-border-color;
+
+  > thead,
+  > tbody,
+  > tfoot {
+    > tr {
+      > th,
+      > td {
+        border: 1px solid $table-border-color;
+      }
+    }
+  }
+  > thead > tr {
+    > th,
+    > td {
+      border-bottom-width: 2px;
+    }
+  }
+}
+
+
+// Default zebra-stripe styles (alternating gray and transparent backgrounds)
+.table-striped {
+  > tbody > tr:nth-child(odd) {
+    > td,
+    > th {
+      background-color: $table-bg-accent;
+    }
+  }
+}
+
+
+// Reset default table cell sizing behavior
+
+table col[class*="col-"] {
+  position: static; // Prevent border hiding in Firefox and IE9/10 (see https://github.com/twbs/bootstrap/issues/11623)
+  float: none;
+  display: table-column;
+}
+
+table {
+  td,
+  th {
+    &[class*="col-"] {
+      position: static; // Prevent border hiding in Firefox and IE9/10 (see https://github.com/twbs/bootstrap/issues/11623)
+      float: none;
+      display: table-cell;
+    }
+  }
+}
+
+
+// Responsive tables
+// Wrap your tables in `.table-responsive` and we'll make them mobile friendly by enabling horizontal scrolling. Only applies <768px. Everything above that will display normally.
+
+.table-responsive {
+  @media screen and (max-width: $screen-xs-max) {
+    border: 1px solid $table-border-color;
+    margin-bottom: rem(($line-height-computed * 0.75));
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 100%;
+
+    > table {
+      margin-bottom: 0; // Tighten up spacing
+
+      // Ensure the content doesn't wrap
+      > thead,
+      > tbody,
+      > tfoot {
+        > tr {
+          > td,
+          > th {
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+
+    // Special overrides for the bordered tables
+    > .table-bordered {
+      border: 0;
+
+      // Nuke the appropriate borders so that the parent can handle them
+      > thead,
+      > tbody,
+      > tfoot {
+        > tr {
+          > td:first-child,
+          > th:first-child {
+            border-left: 0;
+          }
+          > td:last-child,
+          > th:last-child {
+            border-right: 0;
+          }
+        }
+      }
+
+      // Only nuke the last row's bottom-border in `tbody` and `tfoot` since chances are there will be only one `tr` in a `thead` and that would remove the border altogether.
+      > tbody,
+      > tfoot {
+        > tr:last-child {
+          > td,
+          > th {
+            border-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+// Flip scroll tables
+.table-flip-scroll {
+  @media screen and (max-width: $screen-xs-max) {
+    table {
+      border: 1px solid $table-border-color;
+      border-bottom: none;
+      border-collapse: collapse;
+      border-spacing: 0;
+      display: block;
+      position: relative;
+      width: 100%;
+    }
+
+    th,
+    td {
+      border: none;
+      border-bottom: 1px solid $table-border-color;
+      display: block;
+      margin: 0;
+      min-height: 2.63em;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      display: block;
+      text-align: right;
+    }
+
+    thead {
+      border-right: 2px solid $table-border-color;
+      display: block;
+      float: left;
+
+      tr {
+        display: block;
+      }
+    }
+
+    tbody {
+      display: block;
+      overflow-x: auto;
+      position: relative;
+      white-space: nowrap;
+      width: auto;
+
+      tr {
+        display: inline-block;
+        margin-right: -4px; // Dirty hack
+        vertical-align: top;
+      }
+    }
+
+    // Special overrides for the bordered tables
+    > .table-bordered {
+      th,
+      td {
+        border: none;
+        border-bottom: 1px solid $table-border-color;
+      }
+    }
+  }
+}
+
+// No more tables
+.table-no-more {
+  @media screen and (max-width: $screen-xs-max) {
+    display: block;
+
+    tbody,
+    td,
+    th,
+    thead,
+    tr {
+      display: block;
+    }
+
+    // .sr-only can't be extended inside a media query
+    thead {
+      tr {
+        border: 0;
+        clip: rect(0,0,0,0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+      }
+    }
+
+    tr {
+      border: 1px solid $table-border-color;
+      border-bottom: none;
+    }
+
+    td {
+      border: none;
+      border-bottom: 1px solid $table-border-color;
+      padding-left: 50%;
+      position: relative;
+      text-align:left;
+      white-space: normal;
+
+      &:before {
+        content: attr(data-title);
+        font-weight: bold;
+        left: 0;
+        padding: rem($table-cell-padding);
+        position: absolute;
+        text-align:left;
+        top: 0;
+        width: 45%;
+        white-space: nowrap;
+      }
+    }
+
+    &.table-bordered {
+      border: none;
+
+      th,
+      td {
+        border: none;
+        border-bottom: 1px solid $table-border-color;
+      }
+    }
+
+    &.table-condensed {
+      td {
+        padding-left: 50%;
+
+        &:before {
+          padding: $table-condensed-cell-padding;
+        }
+      }
+    }
+  }
+}
+
+
+// Table backgrounds
+// Exact selectors below required to override `.table-striped` and prevent inheritance to nested tables.
+
+// Generate the contextual variants
+@include table-row-variant('active', $table-bg-active);
+@include table-row-variant('success', $state-success-bg);
+@include table-row-variant('info', $state-info-bg);
+@include table-row-variant('warning', $state-warning-bg);
+@include table-row-variant('danger', $state-danger-bg);

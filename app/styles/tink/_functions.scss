@@ -1,0 +1,52 @@
+/**
+ * Functions
+ * ----------------------------------------------------------------
+ */
+
+/**
+ * Strip units from any number
+ */
+@function strip-units($number) {
+  @return $number / ($number * 0 + 1);
+}
+
+/**
+ *  Convert pixels to em
+ */
+@function em($px, $base: 16) {
+    @return (strip-units($px) / strip-units($base)) * 1em;
+}
+
+/**
+ *  Convert pixels to rem
+ */
+@function calculate-rem($px, $base: $font-size-base) {
+    @return (strip-units($px) / strip-units($base)) * 1rem;
+}
+
+/**
+ * Return a space separated list as rem values
+ * e.g. padding: rem(10 20 10 15);
+ */
+@function rem($values, $context: $font-size-base) {
+  $v: "";
+  @each $value in $values {
+    @if type_of($value) == "number" {
+      $v: $v + calculate-rem($value, $context) + " ";
+    } @else {
+      $v: $v + $value + " ";
+    }
+  }
+  @return unquote($v);
+}
+
+
+// Black transparent background
+@function black($opacity){
+    @return rgba(0, 0, 0, $opacity);
+}
+
+// White transparent background
+@function white($opacity){
+    @return rgba(255, 255, 255, $opacity);
+}

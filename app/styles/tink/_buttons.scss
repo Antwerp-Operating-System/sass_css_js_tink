@@ -1,0 +1,277 @@
+/**
+ * Buttons
+ * --------------------------------------------------
+ */
+
+
+/**
+ * Base styles
+ */
+
+%btn {
+  @include button-size($padding-base-vertical, $padding-base-horizontal, $font-size-base, $line-height-base, $border-radius-base);
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: 1px solid transparent;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: $btn-font-weight;
+  margin-bottom: 0; // For input.btn
+  text-align: center;
+  transition: background $animation-speed linear, border $animation-speed linear, color $animation-speed linear;
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  &,
+  &:active,
+  &.active {
+    &:focus {
+      @include tab-focus();
+    }
+  }
+
+  &:hover,
+  &:focus {
+    color: $btn-default-color;
+    text-decoration: none;
+  }
+
+  &:active,
+  &.active {
+    background-image: none;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    outline: 0;
+  }
+
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: .65;
+    pointer-events: none; // Future-proof disabling of clicks
+  }
+}
+
+
+
+/**
+ * Default buttons
+ */
+
+button,
+input[type="button"],
+.btn {
+  @extend %btn;
+  @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border);
+}
+
+button[type="submit"],
+input[type="submit"],
+.btn-primary {
+  @extend %btn;
+  @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+}
+
+// Alternate buttons
+// --------------------------------------------------
+
+// .btn-default {
+//   @include button-variant($btn-default-color, $btn-default-bg, $btn-default-border); // of @extend .btn?
+// }
+// .btn-primary {
+//   @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+// }
+// Success appears as green
+.btn-success {
+  @include button-variant($btn-success-color, $btn-success-bg, $btn-success-border);
+}
+// Info appears as blue-green
+.btn-info {
+  @include button-variant($btn-info-color, $btn-info-bg, $btn-info-border);
+}
+// Warning appears as orange
+.btn-warning {
+  @include button-variant($btn-warning-color, $btn-warning-bg, $btn-warning-border);
+}
+// Danger and error appear as red
+.btn-danger {
+  @include button-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
+}
+
+// Line buttons (only outline has color)
+// --------------------------------------------------
+
+// .btn-line-default {
+//     @include button-line-variant($btn-default-color, $btn-default-bg, $btn-default-border);
+// }
+// .btn-line-primary {
+//     @include button-line-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+// }
+// .btn-line-success {
+//     @include button-line-variant($btn-success-color, $btn-success-bg, $btn-success-border);
+// }
+// .btn-line-info {
+//     @include button-line-variant($btn-info-color, $btn-info-bg, $btn-info-border);
+// }
+// .btn-line-warning {
+//     @include button-line-variant($btn-warning-color, $btn-warning-bg, $btn-warning-border);
+// }
+// .btn-line-danger {
+//     @include button-line-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
+// }
+
+// .btn-line-default, .btn-line-primary, .btn-line-success, .btn-line-info, .btn-line-warning, .btn-line-danger {
+//   background-color: $btn-default-bg;
+// }
+
+// .btn-line-default {
+//   border-color: $btn-default-border;
+//   &:hover {
+//     background-color: $btn-default-hover-bg;
+//   }
+// }
+// .btn-line-primary {
+//   border-color: $btn-primary-border;
+//   &:hover {
+//     background-color: $btn-primary-bg;
+//     color: $white;
+//   }
+// }
+// // Success appears as green
+// .btn-line-success {
+//   border-color: $btn-success-border;
+//   &:hover {
+//     background-color: $btn-success-bg;
+//     color: $white;
+//   }
+// }
+// // Info appears as blue-green
+// .btn-line-info {
+//   border-color: $btn-info-border;
+//   &:hover {
+//     background-color: $btn-info-bg;
+//     color: $white;
+//   }
+// }
+// // Warning appears as orange
+// .btn-line-warning {
+//   border-color: $btn-warning-border;
+//   &:hover {
+//     background-color: $btn-warning-bg;
+//     color: $white;
+//   }
+// }
+// // Danger and error appear as red
+// .btn-line-danger {
+//   border-color: $btn-danger-border;
+//   &:hover {
+//     background-color: $btn-danger-bg;
+//     color: $white;
+//   }
+// }
+
+
+// Round Buttons
+// --------------------------------------------------
+// .btn-icon-round {
+//     display: inline-block;
+//     border-radius: 50%;
+//     text-align: center;
+//     &:hover {
+//         //color: $reverse;
+//     }
+// }
+// .btn-icon-round-sm {
+//     @include button-icon-variant(30px);
+// }
+// .btn-icon-round-md {
+//     @include button-icon-variant(45px);
+// }
+
+
+
+// // Link buttons
+// // -------------------------
+
+// // Make a button look and behave like a link
+// .btn-link {
+//   color: $link-color;
+//   font-weight: normal;
+//   cursor: pointer;
+//   border-radius: 0;
+
+//   &,
+//   &:active,
+//   &[disabled],
+//   fieldset[disabled] & {
+//     background-color: transparent;
+//     @include box-shadow(none);
+//   }
+//   &,
+//   &:hover,
+//   &:focus,
+//   &:active {
+//     border-color: transparent;
+//   }
+//   &:hover,
+//   &:focus {
+//     color: $link-hover-color;
+//     text-decoration: underline;
+//     background-color: transparent;
+//   }
+//   &[disabled],
+//   fieldset[disabled] & {
+//     &:hover,
+//     &:focus {
+//       color: $btn-link-disabled-color;
+//       text-decoration: none;
+//     }
+//   }
+// }
+
+
+// // Button Sizes
+// // --------------------------------------------------
+
+.btn-lg {
+  // line-height: ensure even-numbered height of button next to large input
+  @include button-size($padding-large-vertical, $padding-large-horizontal, $font-size-large, $line-height-large, $border-radius-large);
+}
+.btn-sm {
+  // line-height: ensure proper height of button next to small input
+  @include button-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small, $border-radius-small);
+}
+.btn-xs {
+  @include button-size($padding-xs-vertical, $padding-xs-horizontal, $font-size-small, $line-height-small, $border-radius-small);
+}
+
+
+// // Block button
+// // --------------------------------------------------
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+// Vertically space out multiple block buttons
+.btn-block + .btn-block {
+  margin-top: 5px;
+}
+
+// // Specificity overrides
+// input[type="submit"],
+// input[type="reset"],
+// input[type="button"] {
+//   &.btn-block {
+//     width: 100%;
+//   }
+// }
+
+// ICONS
+// TH thought it was a good idea to put 'em in the buttons scss file, currently disabled bc of collision with rounded icon buttons
+// --------------------------------------------------
+// .fa {
+//   padding-right: .25em;
+// }
