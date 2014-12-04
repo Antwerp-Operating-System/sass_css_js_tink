@@ -107,7 +107,7 @@ angular.module('tink.datepicker')
           var copyViewDate = new Date(viewDate.getTime());
           copyViewDate.setMonth(copyViewDate.getMonth() + 1);
           scope.firstTitle = dateLang.format(viewDate,'mm yyyy');
-          scope.lastTitle = dateLang.format(viewDate,'mm yyyy');
+          scope.lastTitle = dateLang.format(copyViewDate,'mm yyyy');
           scope.secondCal = calView.createMonthDays(copyViewDate,config.selectedDates.first,config.selectedDates.last);
         };
 
@@ -209,13 +209,33 @@ angular.module('tink.datepicker')
     }
   })
   .factory('calView', function (dateLang) {
+
+    function isSameDate(a,b){
+      if(angular.isDate(a) && angular.isDate(b)) {
+        return a.getTime() === b.getTime();
+      }else{
+        return false;
+      }
+    };
+
+    function inRange(date,first,last) {
+      if(angular.isDate(first) && angular.isDate(last) && angular.isDate(date)){
+        if(date> first && date< last ){
+          return true;
+        }else{
+          return false;
+        }
+      }else {
+        return false;
+      }
+    };
+
     return {
       createMonthDays: function (date,firstRange,lastRange) {
-console.log(date,firstRange,lastRange)
+
         function mod(n, m) {
           return ((n % m) + m) % m;
         }
-
 
         var today = new Date().toDateString();
         var year = dateLang.format(date, 'yyyy'), month = dateLang.format(date, 'mm');
@@ -235,7 +255,7 @@ console.log(date,firstRange,lastRange)
         var days = [];
         for (var i = 0; i < daysToDraw; i++) {
           var day = new Date(firstDayOfWeek.getFullYear(), firstDayOfWeek.getMonth(), firstDayOfWeek.getDate() + i);
-          days.push({date: day, isToday: day.toDateString() === today,range:dateLang.inRange(day,firstRange,lastRange), label: dateLang.format(day, 'dd')});
+          days.push({date: day, isToday: day.toDateString() === today,selected:isSameDate(day,firstRange) || isSameDate(day,lastRange),range:inRange(day,firstRange,lastRange), label: dateLang.format(day, 'dd')});
         }
 
         return dateLang.splitRow(days, 7);
@@ -459,17 +479,6 @@ console.log(date,firstRange,lastRange)
     }
 
     return {
-      inRange: function (date,first,last) {
-        if(first && last){
-          if(date> first.date && date< last.date ){
-            return true;
-          }else{
-            return false;
-          }
-        }else return false;
-
-
-      },
       dateBeforeOther:function(first,last){
         if(new Date(first).getTime() > new Date(last).getTime())
         {
