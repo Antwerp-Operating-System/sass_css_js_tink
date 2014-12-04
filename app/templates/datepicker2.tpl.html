@@ -1,0 +1,61 @@
+<div style="width:500px">
+  <div class="pull-left" style="background: red; width: 250px;">
+    <div class="" style="line-height: 39px;">
+      <div class="pull-left">
+        <button tabindex="-1" type="button" class="btn pull-left" ng-click="$selectPane(0)">
+          <i class="fa fa-chevron-left"></i>
+        </button>
+      </div>
+      <div class="text-center clearfix">
+        <label ng-bind="firstTitle"></label>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table style="width: 250px; display: block; ">
+        <thead>
+        <tr >
+          <th ng-repeat="dayLabel in dayLabels"><span ng-bind="dayLabel"></span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="(i, row) in firstCal" height="{{ 100 / rows.length }}%">
+          <td class="text-center" ng-repeat="(j, el) in row">
+            <button tabindex="-1" type="button" ng-class="{'btn-success': el.selected,'btn-warning': el.range, 'btn-info btn-today': el.isToday && !el.selected}" ng-click="$select(el)" ng-disabled="el.disabled">
+              <span ng-bind="el.label"></span>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="pull-right" style="background: green; width: 250px;">
+    <div class="" style="line-height: 39px;">
+      <div class="pull-right">
+        <button tabindex="-1" type="button" class="btn pull-left" ng-click="$selectPane(1)">
+          <i class="fa fa-chevron-right"></i>
+        </button>
+      </div>
+      <div class="text-center clearfix">
+        <label ng-bind="lastTitle"></label>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table style="width: 250px; display: block; ">
+        <thead>
+        <tr >
+          <th ng-repeat="dayLabel in dayLabels"><span ng-bind="dayLabel"></span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="(i, row) in secondCal" height="{{ 100 / rows.length }}%">
+          <td class="text-center" ng-repeat="(j, el) in row">
+            <button tabindex="-1" type="button" ng-class="{'btn-success': el.selected,'btn-warning': el.range, 'btn-info btn-today': el.isToday && !el.selected}" ng-click="$select(el)" ng-disabled="el.disabled">
+              <span ng-bind="el.label"></span>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
