@@ -2,16 +2,25 @@
 
 /**
  * @ngdoc function
- * @name frameworkApp.controller:MainCtrl
+ * @name tinkApp.controller:MainCtrl
  * @description
  * # MainCtrl
- * Controller of the frameworkApp
+ * Controller of the tinkApp
  */
-angular.module('frameworkApp')
-  .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+ angular.module('tink.controllers')
+ .controller('MainCtrl', function ($scope, $location, $anchorScroll) {
+
+  $scope.$on('$locationChangeStart', function() {
+    $scope.sidenav.open = false;
   });
+
+  $scope.sidenav = {
+    open: false
+  };
+
+  $scope.scrollTo = function scrollTo(id) {
+    $location.hash(id);
+    $anchorScroll();
+  };
+
+ });

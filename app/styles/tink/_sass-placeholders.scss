@@ -1,0 +1,29 @@
+/**
+ * Placeholders
+ * --------------------------------------------------
+ */
+
+// useful for particular modules to @extend rather than to use @include mixins for that
+// won't get compiled unless used in an extend rule
+// a few examples
+
+// http://thesassway.com/intermediate/understanding-placeholder-selectors
+
+%separator {
+    border-top: 1px solid black;
+}
+
+%plane {
+    box-shadow: 0 2px 5px rgba(black, .1);
+    border-radius: $border-radius-base;
+}
+
+%white-plane {
+    @extend %plane;
+    background-color: #fff;
+}
+
+%off-white-plane { 
+    @extend %plane;
+    background-color: $gray-lighter;
+}

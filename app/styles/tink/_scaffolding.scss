@@ -1,0 +1,98 @@
+/**
+ * Scaffolding
+ * --------------------------------------------------
+ */
+
+
+// Reset the box-sizing
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+
+// Body reset
+html {
+  font-size: em($font-size-base); // font-size: .875em;
+  -webkit-font-smoothing: antialiased;
+  -webkit-overflow-scrolling: touch;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+
+  // edit font-size with media-queries
+  @media (min-width: $screen-sm) {
+    font-size: em($font-size-base * $font-size-factor-sm);
+  }
+  @media (min-width: $screen-md) {
+    font-size: em($font-size-base * $font-size-factor-md);
+  }
+  @media (min-width: $screen-lg) {
+    font-size: em($font-size-base * $font-size-factor-lg);
+  }
+}
+
+body {
+  background-color: $body-bg;
+  color: $text-color;
+  font-family: $font-family-base;
+  font-size: rem($font-size-base);
+  line-height: $line-height-base;
+}
+
+
+// Reset fonts for relevant elements
+input,
+button,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+// Links
+a {
+  color: $link-color;
+  text-decoration: none;
+  transition: all $animation-speed linear;
+
+  &:hover,
+  &:focus {
+    color: $link-hover-color;
+    text-decoration: underline;
+  }
+
+  &:focus {
+    @include tab-focus();
+  }
+}
+
+
+// Figures
+//
+// We reset this here because previously Normalize had no `figure` margins. This
+// ensures we don't break anyone's use of the element.
+figure {
+  margin: 0;
+}
+
+
+// Images
+
+// Images are by default responsive (they don't scale beyond their parents)
+img {
+  @include img-responsive();
+  vertical-align: middle;
+}
+
+
+// Horizontal rules
+
+hr {
+  margin-top:    rem($line-height-computed);
+  margin-bottom: rem($line-height-computed);
+  border: 0;
+  border-top: 1px solid $hr-border;
+}

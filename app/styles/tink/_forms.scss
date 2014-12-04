@@ -1,0 +1,485 @@
+/**
+ * Forms
+ * --------------------------------------------------
+ */
+
+@mixin form-control-validation($text-color: #555, $border-color: #ccc, $background-color: #f5f5f5) {
+
+  > label {
+    color: $text-color;
+  }
+
+  /* Check appendix A */
+  input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]),
+  select,
+  textarea {
+    border-color: $border-color;
+
+    @include form-control-focus($border-color);
+  }
+
+}
+
+
+
+fieldset {
+  border: 0;
+  margin: 0;
+  min-width: 0; // reset min-width: min-content; in Chrome and Firefox
+  padding: 0;
+}
+
+legend {
+  border: 0;
+  border-bottom: 1px solid $legend-border-color;
+  color: $legend-color;
+  display: block;
+  font-size: rem($font-size-base * 1.5);
+  line-height: inherit;
+  margin-bottom: rem($line-height-computed);
+  padding: 0;
+  width: 100%;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: rem(5);
+  max-width: 100%; // Force IE8 to wrap long content (see https://github.com/twbs/bootstrap/issues/13141)
+  font-weight: bold;
+}
+
+/* Check appendix A */
+input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]),
+select,
+textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: $input-bg;
+  background-image: none; // Reset unusual Firefox-on-Android default style
+  border: 1px solid $input-border;
+  border-radius: rem($input-border-radius);
+  color: $input-color;
+  display: block;
+  font-size: rem($font-size-base);
+  height: rem($input-height-base); // Make inputs at least the height of their button counterpart (base line-height + padding + border)
+  line-height: $line-height-base;
+  padding: rem($padding-base-vertical $padding-base-horizontal);
+  transition: border-color linear $animation-speed, box-shadow linear $animation-speed;
+  width: 100%;
+
+  // Focus
+  @include form-control-focus();
+
+  // Placeholder
+  @include placeholder();
+
+  // Disabled and read-only inputs
+  // HTML5 says that controls under a fieldset > legend:first-child won't be disabled if the fieldset is disabled. Due to implementation difficulty, we don't honor that edge case; we style them as disabled anyway.
+  &[disabled],
+  &[readonly],
+  fieldset[disabled] & {
+    background-color: $input-bg-disabled;
+    cursor: not-allowed;
+    opacity: 1; // iOS fix for unreadable disabled content
+  }
+}
+
+input[type="search"] {
+  -webkit-appearance: none;
+  box-sizing: border-box;
+}
+
+// Position radios and checkboxes better
+input[type="radio"],
+input[type="checkbox"] {
+  line-height: normal;
+  margin: rem(4 0 0);
+  margin-top: 1px \9; // IE8-9
+}
+
+// Set the height of file controls to match text inputs
+input[type="file"] {
+  display: block;
+
+  &:focus {
+    @include tab-focus();
+  }
+}
+
+// Make range inputs behave like textual form controls
+input[type="range"] {
+  display: block;
+  width: 100%;
+}
+
+// Special styles for iOS temporal inputs
+//
+// In Mobile Safari, setting `display: block` on temporal inputs causes the
+// text within the input to become vertically misaligned.
+// As a workaround, we set a pixel line-height that matches the
+// given height of the input. Since this fucks up everything else, we have to
+// appropriately reset it for Internet Explorer and the size variations.
+// input[type="date"],
+// input[type="datetime-local"],
+// input[type="month"],
+// input[type="time"] {
+//   line-height: $input-height-base;
+// }
+
+input[type="date"],
+input[type="datetime-local"],
+input[type="week"],
+input[type="month"],
+input[type="number"],
+input[type="time"] {
+
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    border-left: 1px solid $input-border;
+    display: block;
+    height: rem($input-height-base - 2px);
+    position: relative;
+    transition: border-color linear $animation-speed;
+    width: rem(20);
+
+    &:before, &:after {
+      border-style: solid;
+      content: "";
+      height: 0;
+      position: absolute;
+      right: rem(6);
+      width: 0;
+    }
+
+    &:before {
+      border-color: transparent transparent $gray-light;
+      border-width: rem(4 4 6 4);
+      top: 0;
+    }
+
+    &:after {
+      border-color: $gray-light transparent transparent;
+      border-width: rem(6 4 4 4);
+      bottom: 0;
+    }
+  }
+
+  &:focus {
+
+    &::-webkit-inner-spin-button {
+      border-left: 1px solid $input-border-focus;
+
+      &:before {
+        border-color: transparent transparent $brand-light;
+      }
+
+      &:after {
+        border-color: $brand-light transparent transparent;
+      }
+    }
+  }
+}
+
+// Custom styling for checkboxes and radio buttons
+input[type="checkbox"],
+input[type="radio"] {
+  opacity: 0;
+  margin: 0;
+  position: absolute;
+  z-index: -1;
+
+  + label {
+    font-weight: normal;
+    min-height: rem(24);
+    padding: rem(2 0 0 32);
+    position: relative;
+    user-select: none;
+
+    @media screen and (min-width: $screen-sm) {
+      padding-left: rem(26);
+    }
+
+    &:before {
+      background: #fff;
+      border: 1px solid $input-border;
+      position: absolute;
+    }
+  }
+
+  &[disabled],
+  &[readonly] {
+
+    + label {
+      opacity: .4;
+    }
+  }
+}
+
+input[type="checkbox"] {
+
+  + label {
+
+    &:before,
+    &:after {
+      height: rem(22);
+      left: rem(1);
+      top: rem(1);
+      width: rem(22);
+
+      @media screen and (min-width: $screen-sm) {
+        height: rem(16);
+        top: rem(4);
+        width: rem(16);
+      }
+    }
+
+    &:before {
+      border-radius: rem($input-border-radius);
+      content: '';
+    }
+
+    &:after {
+      color: $brand-light;
+      content: '\f00c';
+      font-family: 'FontAwesome';
+      font-size: rem(16);
+      line-height: 1.4;
+      opacity: 0;
+      position: absolute;
+      text-align: center;
+      transform: scale(2);
+      transition: opacity linear $animation-speed, transform linear $animation-speed;
+
+      @media screen and (min-width: $screen-sm) {
+        font-size: rem(13);
+        line-height: 1.25;
+      }
+    }
+  }
+
+  &:checked {
+
+    + label {
+
+      &:after {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+
+  &:focus {
+
+    + label {
+
+      &:before {
+        box-shadow: 0 0 0 2px rgba($brand-light, .25);
+      }
+    }
+  }
+}
+
+input[type="radio"] {
+
+  + label {
+
+    &:before {
+      background: $brand-light;
+      border-radius: 50%;
+      box-shadow: 0 0 0 40px #fff inset;
+      content: "";
+      height: rem(24);
+      left: 0;
+      top: 0;
+      transition: box-shadow linear $animation-speed;
+      width: rem(24);
+
+      @media screen and (min-width: $screen-sm) {
+        height: rem(18);
+        top: rem(3);
+        width: rem(18);
+      }
+    }
+  }
+
+  &:checked {
+
+    + label {
+
+      &:before {
+        box-shadow: 0 0 0 rem(4) #fff inset;
+      }
+    }
+  }
+
+  &:focus {
+
+    + label {
+
+      &:before {
+        box-shadow: 0 0 0 rem(4) #fff inset, 0 0 0 rem(2) rgba($brand-light, .25);
+      }
+    }
+  }
+}
+
+// Fix for tables
+table {
+  input[type="checkbox"],
+  input[type="radio"] {
+    + label {
+      margin: rem(-2 0 -7);
+    }
+  }
+}
+
+// ---- Start Firefox 30 select bug hacks
+@-moz-document url-prefix() {
+  .select {
+    position: relative;
+
+    &:before {
+      background: $white url("/images/gui/select-arrow.svg") no-repeat right center;
+      border-bottom-right-radius: rem($input-border-radius);
+      border-top-right-radius: rem($input-border-radius);
+      bottom: 1px;
+      content: '';
+      opacity: 1;
+      pointer-events: none;
+      position: absolute;
+      right: 1px;
+      top: 1px;
+      width: rem(18);
+      z-index: layer('pseudo');
+    }
+  }
+}
+// ---- End Firefox 30 select bug hacks
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: $white url("/images/gui/select-arrow.svg") no-repeat right center;
+  background-size: contain;
+  text-indent: 0.01px;
+  text-overflow: '';
+
+  &:focus {
+    background-image: url("/images/gui/select-arrow-focus.svg");
+  }
+}
+
+select[multiple],
+select[size],
+textarea {
+  background-image: none !important;
+  height: auto;
+}
+
+textarea {
+  resize: vertical;
+}
+
+// Adjust output element
+output {
+  display: block;
+  padding-top: rem($padding-base-vertical + 1);
+  font-size: rem($font-size-base);
+  line-height: $line-height-base;
+  color: $input-color;
+}
+
+.form-group {
+  margin-bottom: rem(15);
+}
+
+/**
+ * Feedback states
+ */
+.has-success {
+  @include form-control-validation($state-success-text, $state-success-text, $state-success-bg);
+}
+// .has-warning {
+//   @include form-control-validation($state-warning-text, $state-warning-text, $state-warning-bg);
+// }
+.has-error {
+  @include form-control-validation($state-danger-text, $state-danger-text, $state-danger-bg);
+}
+
+
+// Form control feedback states
+//
+// Apply contextual and semantic states to individual form controls.
+
+// .has-feedback {
+//   // Enable absolute positioning
+//   position: relative;
+
+//   // Ensure icons don't overlap text
+//   .form-control {
+//     padding-right: ($input-height-base * 1.25);
+//   }
+// }
+// Feedback icon (requires .glyphicon classes)
+// .form-control-feedback {
+//   position: absolute;
+//   top: ($line-height-computed + 5); // Height of the `label` and its margin
+//   right: 0;
+//   z-index: 2; // Ensure icon is above input groups
+//   display: block;
+//   width: $input-height-base;
+//   height: $input-height-base;
+//   line-height: $input-height-base;
+//   text-align: center;
+// }
+// .input-lg + .form-control-feedback {
+//   width: $input-height-large;
+//   height: $input-height-large;
+//   line-height: $input-height-large;
+// }
+// .input-sm + .form-control-feedback {
+//   width: $input-height-small;
+//   height: $input-height-small;
+//   line-height: $input-height-small;
+// }
+
+
+// Reposition feedback icon if label is hidden with "screenreader only" state
+// .has-feedback label.sr-only ~ .form-control-feedback {
+//   top: 0;
+// }
+
+
+// Help text
+//
+// Apply to any element you wish to create light text for placement immediately
+// below a form control. Use for general help, formatting, or instructional text.
+
+.help-block {
+  color: lighten($text-color, 25%); // lighten the text some for contrast
+  display: block; // account for any element using help-block
+  font-size: rem($font-size-base * .85);
+  margin: rem(5 0 10 1);
+  // padding: rem(0 $padding-base-horizontal);
+}
+
+
+
+/**
+ * Appendix A
+ * We prefer ':not' over all these declarations
+ */
+// input[type="color"],
+// input[type="date"],
+// input[type="datetime"],
+// input[type="datetime-local"],
+// input[type="email"],
+// input[type="month"],
+// input[type="number"],
+// input[type="password"],
+// input[type="search"],
+// input[type="tel"],
+// input[type="time"],
+// input[type="text"],
+// input[type="url"],
+// input[type="week"],

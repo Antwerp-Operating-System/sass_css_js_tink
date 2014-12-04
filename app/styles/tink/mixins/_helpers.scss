@@ -1,0 +1,72 @@
+// Mixin Helpers
+//
+
+
+// @include zero
+
+@mixin zero {
+margin : 0;
+padding : 0; }
+
+
+// simple MQ mixin
+// source idea http://alwaystwisted.com/post.php?s=2013-04-01-my-media-query-mixin
+@mixin mq($point, $IE9: false, $query1: min, $query2: width) {
+    @if $IE9 == true{
+        .lt-ie9 & {
+            @content;
+        }
+    }
+
+    @media (#{$query1}-#{$query2}: $point / strip-units($font-size-base) +em) {
+        @content;
+    }
+}
+
+
+// HIDDEN Mixins
+
+// Hide from both screenreaders and browsers: h5bp.com/u
+@mixin hidden {
+  display : none !important;
+  visibility : hidden; 
+}
+
+// Out of Screen hidden
+@mixin hide-text {
+  text-indent : 100%;
+  white-space : nowrap;
+  overflow : hidden; 
+}
+
+// Hide visually and from screenreaders, but maintain layout
+@mixin invisible {
+  visibility : hidden; 
+}
+
+
+// Hide only visually, but have it available for screenreaders: h5bp.com/v
+@mixin visuallyhidden {
+  overflow : hidden;
+  position : absolute;
+  clip : rect(0 0 0 0);
+  height : 1px;
+  width : 1px;
+  margin : -1px;
+  padding : 0;
+  border : 0;
+
+    &.focusable {
+      // Extends the .visuallyhidden class to allow the element to be focusable
+      // when navigated to via the keyboard: h5bp.com/p
+    &:active,
+    &:focus {
+      position : static;
+      clip : auto;
+      height : auto;
+      width : auto;
+      margin : 0;
+      overflow: visible; 
+    } 
+  }
+}

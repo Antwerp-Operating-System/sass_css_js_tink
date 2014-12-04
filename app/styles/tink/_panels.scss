@@ -1,0 +1,83 @@
+/**
+ * Panels
+ * --------------------------------------------------
+ */
+
+// Base class
+.panel {
+  background-color: $panel-bg;
+  border: 1px solid transparent;
+  border-radius: $panel-border-radius;
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  margin-bottom: rem($line-height-computed);
+  @include panel-variant($panel-default-border, $panel-default-text, $panel-default-heading-bg, $panel-default-border);
+}
+
+// Panel contents
+.panel-body {
+  padding: $panel-body-padding;
+  @include clearfix();
+  &:not(:last-child) { border-bottom: 1px solid $panel-default-border; }
+}
+
+// Optional heading
+.panel-heading {
+  background-color: #f6f6f6;
+  font-size: rem(16);
+  font-weight: 700;
+  padding: $panel-heading-padding;
+  //text-transform: uppercase;
+
+  // border-bottom: 1px solid transparent;
+  // border-top-radius: $panel-border-radius - 1;
+  //border: 1px solid #e9e9e9;
+
+  > .dropdown .dropdown-toggle {
+    color: inherit;
+  }
+  .fa {
+    color: $panel-default-icon-color;
+  }
+  .panel-title {
+    background: none;
+    color: $panel-default-text;
+    display: inline-block;
+    font-size: rem(14);
+    font-weight: 700;
+    margin: 0 0 0 rem(24);
+    padding: 0;
+  }
+  .fa + .panel-title {
+    margin-left: rem(4);
+  }
+}
+
+
+
+// Optional Footer
+.panel-footer {
+  border-top: 1px solid $gray-lighter;
+  font-size: rem(12);
+  padding: $panel-heading-padding;
+}
+
+
+
+
+// Panel variations
+
+// .panel-primary {
+//   @include panel-variant($panel-primary-border, $panel-primary-text, $panel-primary-heading-bg, $panel-primary-border);
+// }
+// .panel-success {
+//   @include panel-variant($panel-success-border, $panel-success-text, $panel-success-heading-bg, $panel-success-border);
+// }
+// .panel-info {
+//   @include panel-variant($panel-info-border, $panel-info-text, $panel-info-heading-bg, $panel-info-border);
+// }
+// .panel-warning {
+//   @include panel-variant($panel-warning-border, $panel-warning-text, $panel-warning-heading-bg, $panel-warning-border);
+// }
+// .panel-danger {
+//   @include panel-variant($panel-danger-border, $panel-danger-text, $panel-danger-heading-bg, $panel-danger-border);
+// }

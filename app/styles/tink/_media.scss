@@ -1,0 +1,117 @@
+/**
+ * Media objects
+ * --------------------------------------------------
+ * Source: http://stubbornella.org/content/?p=497
+ */
+
+
+/**
+ * Image styles
+ */
+
+// Rounded corners
+.img-rounded {
+  border-radius: $border-radius-large;
+}
+
+// Image thumbnails
+.img-thumbnail {
+  background-color: $thumbnail-bg;
+  border: 1px solid $thumbnail-border;
+  border-radius: $thumbnail-border-radius;
+  line-height: $line-height-base;
+  padding: $thumbnail-padding;
+  transition: all $animation-speed linear;
+
+  // Keep them at most 100% wide
+  @include img-responsive(inline-block);
+}
+
+// Perfect circle
+.img-circle {
+  border-radius: 50%; // set radius in percents
+}
+
+
+// Common styles
+// -------------------------
+
+// Clear the floats
+.media,
+.media-body {
+  overflow: hidden;
+  zoom: 1;
+}
+
+// Proper spacing between instances of .media
+.media,
+.media .media {
+  margin-top: rem(15);
+}
+.media:first-child {
+  margin-top: 0;
+}
+
+// For images and videos, set to block
+.media-object {
+  display: block;
+}
+
+// Reset margins on headings for tighter default spacing
+.media-heading {
+  margin: 0 0 rem(5);
+}
+
+
+// Media image alignment
+// -------------------------
+
+.media {
+  > .pull-left {
+    margin-right: rem(10);
+  }
+  > .pull-right {
+    margin-left: rem(10);
+  }
+}
+
+
+// Media list variation
+// -------------------------
+
+// Undo default ul/ol styles
+.media-list {
+  padding-left: 0;
+  list-style: none;
+}
+
+
+// Video
+// -------------------------
+
+video {
+  width: 100%;
+  height: auto;
+}
+
+.responsive-wrapper {
+  position: relative;
+  padding-bottom: 63.25%;
+  height: 0;
+  overflow: hidden;
+  margin-bottom: 1.5em;
+
+  iframe,
+  object,
+  embed,
+  video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%
+  }
+}
+
+
+

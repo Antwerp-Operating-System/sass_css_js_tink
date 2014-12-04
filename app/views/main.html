@@ -1,23 +1,63 @@
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
-</div>
+<div class="container-fluid-max-width">
 
-<div class="row marketing">
-  <h4>HTML5 Boilerplate</h4>
-  <p>
-    HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites.
-  </p>
+	<p class="text-center main-logo">
+	  <img src="images/tink/tink_logo_rgb.svg" alt="Tink logo" />
+	  <br />
+	  (v<!--@@-->0.3.2<!--@-->)
+	</p>
+	<nav>
+	<ul class="text-center list-inline main-ul h4">
+	  <li><a href="#/start">Getting started</a></li>
+	  <li><a href="#/docs">Documentation</a></li>
+    <li><a href="#/changelog">Changelog</a></li>
+	</ul>
+	</nav>
 
-  <h4>Angular</h4>
-  <p>
-    AngularJS is a toolset for building the framework most suited to your application development.
-  </p>
+	<hr>
 
-  <h4>Karma</h4>
-  <p>Spectacular Test Runner for JavaScript.</p>
+	<h1>F.A.Q.</h1>
+	<dl class="shame-faq">
+		<dt data-title="Q"><span class="sr-only">Q: </span>Waar kan ik meer info vinden?</dt>
+		<dd data-title="A"><span class="sr-only">A: </span>Alle info vind je op deze website. Je volgt ook best de <a href="https://www.yammer.com/digipolis.be/#/threads/inGroup?type=in_group&feedId=4902640" title="Yammer : Tink" target="_blank" rel="external">Yammer groep</a>.</dd>
+
+		<dt data-title="Q"><span class="sr-only">Q: </span>Moet ik Tink nu gebruiken?</dt>
+		<dd data-title="A"><span class="sr-only">A: </span>Op dit moment nog niet. Tink staat in haar kinderschoenen, en is dus nog niet bruikbaar voor productiecode. Als alternatief kan je voorlopig gewoon Bootstrap gebruiken. Let wel, Tink is geen Bootstrap theme (zie verder). Heb je interesse in hoe Tink zal evolueren tijdens de komende maanden? Hou de Yammer groep in de gaten, check de roadmap op tink.digipolis.be of kom eens langs op het 6e!</dd>
+
+		<dt data-title="Q"><span class="sr-only">Q: </span>Weer een nieuw framework dat ik moet leren?</dt>
+		<dd data-title="A"><span class="sr-only">A: </span>We hanteren de syntax van bootstrap dus als je ervaring hebt daarmee ben je klaar om te beginnen!</dd>
+
+		<dt data-title="Q"><span class="sr-only">Q: </span>Zijn we het warm water niet aan het uitvinden?</dt>
+		<dd data-title="A"><span class="sr-only">A: </span>Wij vinden van niet. De meeste frameworks zoals Bootstrap bieden enorm veel opties, waardoor ze moeilijk coherente stijl of interactie kunnen garanderen. Tink moet een framework worden dat voldoet aan de specifieke noden van de Groep Stad Antwerpen. Door haar zelf te bouwen, bewaken we niet alleen de consistentie van de gebruikservaring op een stadsbreed niveau, we vermijden er ook afhankelijkheden mee - zoals omschreven in de criteria van de Digipolis Application Stack.</dd>
+
+		<dt data-title="Q"><span class="sr-only">Q: </span>Ik dacht dat Tink op bootstrap gebaseerd ging zijn?</dt>
+		<dd data-title="A"><span class="sr-only">A: </span>We zijn onze inspiratie gaan halen bij Bootstrap en Flatify (een Bootstrap flavor), maar Tink hebben we from the ground up gebouwd. Aangezien er veel developers zijn die Bootstrap reeds kennen hebben we de syntax ervan overgenomen. Het grote verschil tussen Tink en Bootstrap is dat Bootstrap zo breed mogelijk is opgevat, omdat het in veel verschillende omgevingen moet kunnen werken: zowel commerciële websites als rich data applicaties moeten ervan gebruik kunnen maken. Bij Tink is er bewust gekozen voor een beperkte set elementen en opties, omdat Digipolis vooral tools maakt voor de Stad Antwerpen en haar bedrijven, en die tools bevatten veel componenten en patronen die regelmatig terugkomen.</dd>
+
+		<dt data-title="Q"><span class="sr-only">Q: </span>Verliezen we niet het voordeel van de community die rond bootstrap opgebouwd is?</dt>
+		<dd data-title="A"><span class="sr-only">A: </span>De internationale community die Bootstrap ondersteunt is inderdaad niet bruikbaar voor support of nieuwe features, maar daar tegenover willen we de kleinere community van Digipolis en de Stad plaatsen: componenten die tijdens de loop van een project worden gebouwd zijn wellicht voor een ander project (en een andere klant) herbruikbaar. Door de uitbouw van componenten te decentraliseren creëren we op termijn een aantal gereedschapskisten die meer eenheid creëren binnen de verschillende stadsdiensten en die development-werk makkelijker maken.</dd>
+
+		<dt data-title="Q"><span class="sr-only">Q: </span>Is Tink vooral een theme (CSS), of bevat ze ook behaviour (JavaScript)?</dt>
+		<dd data-title="A"><span class="sr-only">A: </span>Voorlopig bestaat Tink uit een visual styleguide met voorbeelden, zodat developers deze kunnen gaan gebruiken om snel up and running te zijn. In een tweede fase worden een aantal behaviours mee toegevoegd zodat standaard componenten snel en correct kunnen worden geïmplementeerd. We denken dan bv. aan menu’s, form validatie en date- en time pickers.</dd>
+
+		<dt data-title="Q"><span class="sr-only">Q: </span>Ok, ik ben mee. Mag ik Tink downloaden en beginnen gebruiken?</dt>
+		<dd data-title="A"><span class="sr-only">A: </span>Als je productiecode gaat schrijven raden we het op dit moment af. Tink staat in haar kinderschoenen. We verwachten wel eind januari met een eerste productieklare versie naar buiten te kunnen komen. We hopen uiteraard wel dat zo veel mogelijk mensen al beginnen kijken wat ze is en wat ze kan/zal worden, maar in een ‘experimentele’ context.</dd>
+
+		<dt data-title="Q"><span class="sr-only">Q: </span>Wat kan ik zelf bijdragen aan Tink?</dt>
+		<dd data-title="A"><span class="sr-only">A: </span>Voorlopig sleutelen we aan de basis-componenten van het framework, en we volgen hierbij het principe van Atomic Design. Op termijn is het de bedoeling dat elke developer binnen Digipolis elementen kan uitwerken die indien relevant kunnen terug vloeien naar het framework.</dd>
+
+		<dt data-title="Q"><span class="sr-only">Q: </span>Wat is jullie roadmap?</dt>
+		<dd data-title="A"><span class="sr-only">A: </span>Je kan deze terugvinden op <a href="#/changelog" title="Tink changelog">tink.digipolis.be/#/changelog</a>. We communiceren telkens wat er in de volgende versie zal zitten en wanneer we deze willen opleveren. De rest van de roadmap zal steeds high-level blijven. Tink kan uitgroeien tot vele dingen en gezien de evolutie(snelheid) van het web willen we ons nog niet te veel vastpinnen.</dd>
+
+		<dt data-title="Q"><span class="sr-only">Q: </span>Hoe gebruik ik Tink?</dt>
+		<dd data-title="A"><span class="sr-only">A: </span>We proberen de documentatie zo duidelijk mogelijk te houden, te vinden op <a href="#/docs" title="Tink documentation">tink.digipolis.be/#/docs</a>. Geef ons zeker een seintje als er iets niet duidelijk is of ontbreekt.</dd>
+
+		<dt data-title="Q"><span class="sr-only">Q: </span>Waar staan jullie met Tink?</dt>
+		<dd data-title="A"><span class="sr-only">A: </span>We verwijzen daarvoor graag naar de roadmap. Voor meer detail trek je best de laatste versie van Tink even binnen.</dd>
+
+		<dt data-title="Q"><span class="sr-only">Q: </span>Hangen wij nu af van het UX team wat Tink betreft?</dt>
+		<dd data-title="A"><span class="sr-only">A: </span>De drijvende kracht achter Tink zit op dit moment bij een kernteam dat het framework volop aan het uitwerken is. Het UX team bewaakt hierbij vooral een consistente gebruikservaring, terwijl het Tink team de effectieve uitbouw voor haar rekening neemt. Tink zelf is echter opgevat als een open source project, en we hopen dat er op termijn zo veel mogelijk mensen aan haar willen meewerken.</dd>
+
+		<dt data-title="Q"><span class="sr-only">Q: </span>Ik zou graag iets toegevoegd zien in Tink. What do I do?</dt>
+		<dd data-title="A"><span class="sr-only">A: </span>Als je zelf wat code kan schrijven mag je steeds <a href="https://bitbucket.org/digipolis/sass_css_js_tink" title="digipolis / sass_css_js_tink — Bitbucket" target="_blank" rel="external">een pull-request indienen</a>. Extra karma points! We volgen hier de algemene git flow die intern gehanteerd zal worden. Feature requests kunnen ook steeds ingediend worden via <a href="mailto:tink@digipolis.be">tink@digipolis.be</a>, we bekijken wekelijks onze vooruitgang.</dd>
+  </dl>
+
 </div>
