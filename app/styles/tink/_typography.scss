@@ -90,6 +90,34 @@ h6,
   font-size: rem($font-size-h6);
 }
 
+// Titles and title helper classes
+.page-header {
+  margin-top: rem(32px);
+  margin-bottom: rem(32px);
+  height: rem(36px);
+  // border:1px solid red;
+}
+.page-title, .subpage-title, .title-light {
+  font-weight: 300;
+  font-size: rem(24);
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: rem($padding-base-vertical 0);
+
+  .fa-angle-left {
+    border: 1px solid $gray-light;
+    border-radius: 50%;
+    color: $gray-dark;
+    font-size: 1rem;
+    margin-top: -0.5rem; // remove space on top of icon
+    margin-right: rem(8px);
+    padding: rem(6px 12px 6px 10px);
+    vertical-align: middle; // override font-awesome style to align to baseline
+  }
+}
+.page-title {
+  font-weight: normal;
+}
 
 // Paragraphs
 
@@ -103,7 +131,7 @@ p {
     //   font-weight: 300;
     //   line-height: 1.4;
 
-    //   @media (min-width: $screen-sm) {
+    //   @include mq($screen-sm) {
     //     font-size: ($font-size-base * 1.5);
     //   }
     // }
@@ -203,6 +231,7 @@ ol {
 // Unstyled keeps list items block level, just removes default browser padding and list-style
 .list-unstyled {
   list-style: none;
+  margin-bottom: 0;
   padding-left: 0;
 }
 
@@ -245,7 +274,7 @@ dd {
     @include clearfix(); // Clear the floated `dt` if an empty `dd` is present
   }
 
-  @media (min-width: $grid-float-breakpoint) {
+  @include mq($grid-float-breakpoint) {
     dt {
       clear: left;
       float: left;

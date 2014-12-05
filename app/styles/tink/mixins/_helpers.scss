@@ -11,14 +11,9 @@ padding : 0; }
 
 // simple MQ mixin
 // source idea http://alwaystwisted.com/post.php?s=2013-04-01-my-media-query-mixin
-@mixin mq($point, $IE9: false, $query1: min, $query2: width) {
-    @if $IE9 == true{
-        .lt-ie9 & {
-            @content;
-        }
-    }
-
-    @media (#{$query1}-#{$query2}: $point / strip-units($font-size-base) +em) {
+// Adjusted for modern browsers
+@mixin mq($point, $query1: min, $query2: width) {
+    @media (#{$query1}-#{$query2}: #{$point}) {
         @content;
     }
 }
@@ -29,19 +24,19 @@ padding : 0; }
 // Hide from both screenreaders and browsers: h5bp.com/u
 @mixin hidden {
   display : none !important;
-  visibility : hidden; 
+  visibility : hidden;
 }
 
 // Out of Screen hidden
 @mixin hide-text {
   text-indent : 100%;
   white-space : nowrap;
-  overflow : hidden; 
+  overflow : hidden;
 }
 
 // Hide visually and from screenreaders, but maintain layout
 @mixin invisible {
-  visibility : hidden; 
+  visibility : hidden;
 }
 
 
@@ -66,7 +61,7 @@ padding : 0; }
       height : auto;
       width : auto;
       margin : 0;
-      overflow: visible; 
-    } 
+      overflow: visible;
+    }
   }
 }
