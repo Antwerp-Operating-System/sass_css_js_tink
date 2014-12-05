@@ -33,6 +33,7 @@
     "jshint-stylish": "^0.2.0",
     "load-grunt-tasks": "^0.4.0",
     "time-grunt": "^0.3.1",
+    "grunt-replace": "~0.8.0",
     "jasmine-core": "~2.1.2",
     "karma-jasmine": "~0.3.2",
     "karma-phantomjs-launcher": "~0.1.4",
@@ -43,6 +44,12 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "postinstall": "bower install && sudo gem install compass && sudo gem install sass",
+    "start": "grunt serve",
+    "build": "grunt build",
+    "build-patch": "grunt build --bump=patch && git commit -am 'pre patch' && mversion patch -m",
+    "build-minor": "grunt build --bump=minor && git commit -am 'pre minor' && mversion minor -m",
+    "build-major": "grunt build --bump=major && git commit -am 'pre major' && mversion major -m"
   }
 }
