@@ -6,8 +6,7 @@
 </head>
 <body>
 <input type="text" class="form-control" ng-model="selectedDate" name="date" bs-datepicker>
-<input type="text" class="form-control" ng-model="selectedDate" name="date" thinkdatepicker data-fristdate="first" data-lastdate="last">
-<input type="text" class="form-control" ng-model="selectedDate" name="date" bs-datepicker>
-<input type="text" class="form-control" ng-model="selectedDate" name="date" bs-datepicker>
+<tink-datepicker name="date"  data-fristdate="dates.first" data-lastdate="dates.last"></tink-datepicker>
+<button ng-click="clickF()"></button>
 </body>
 </html>

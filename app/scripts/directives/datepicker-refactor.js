@@ -41,7 +41,7 @@ angular.module('tink.datepicker')
       }
     };
   }])
-  .directive('tinkDatepicker', function ($q, $templateCache, $http, $compile, calView, dateParser) {
+  .directive('tinkDatepicker', function ($q, $templateCache, $http, $compile, calView, dateParser,$sce) {
     return {
       restrict: 'EAC',
       replace: true,
@@ -52,29 +52,116 @@ angular.module('tink.datepicker')
       },
       link: function postLink(scope, element, attr, controller) {
         // labels for the days you can make this variable //
-        scope.dayLabels = ['ma', 'di', 'wo', 'do', 'vr', 'za', 'zo'];
+        var dayLabels = ['ma', 'di', 'wo', 'do', 'vr', 'za', 'zo'];
+        scope.dayLabels = $sce.trustAsHtml('<th>' + dayLabels.join('</th><th>') + '</th>');
+        // Add a watch to know when input changes from the outside //
         scope.$watch('firstDate', function (newDate,oldDate) {
-          if(newDate !== oldDate && angular.isDefined(newDate) && newDate !== null && angular.isDate(newDate)){
-            setFirstDate({date:dateParser.getDate(scope.firstDate, config.dateFormat)});
+          if(newDate !== oldDate && angular.isDefined(newDate) && newDate !== null){
+            if(angular.isDate(newDate)){
+              scope.firstDate = newDate;
+            }else{
+              try{
+                var date = dateParser.getDate(newDate, config.dateFormat);
+                scope.firstDate = date;
+              }catch(e){
+                scope.firstDate = null;
+              }
+            };
+            scope.firstDateModel = dateParser.format(scope.firstDate,config.dateFormat);
+            console.log(scope.firstDate)
+            refreshView();
+          }
+
+        });
+        // Add a watch to know when input changes from the outside //
+        scope.$watch('lastDate', function (newDate,oldDate) {
+          if(newDate !== oldDate && angular.isDefined(newDate) && newDate !== null){
+            //console.log("strange")
+            if(angular.isDate(newDate)){
+              scope.lastDate = newDate;
+            }else{
+              try{
+                var date = dateParser.getDate(newDate, config.dateFormat);
+                scope.lastDate = date;
+              }catch(e){
+                scope.lastDate = null;
+              }
+            };
+            scope.lastDateModel = dateParser.format(scope.lastDate,config.dateFormat);
+            refreshView();
           }
         });
-        scope.$watch('lastDate', function (newDate,oldDate) {
-          if(newDate !== oldDate && angular.isDefined(newDate) && newDate !== null && angular.isDate(newDate)){
-            setLastDate({date:dateParser.getDate(scope.lastDate, config.dateFormat)});
-          }
-        })
 
+        var
+          config = {
+            dateFormat: 'dd/mm/yyyy'
+          },
+          $directive = {
+            open: false,
+            focused: {firstDateElem: element[0].children[0], lastDateElem: element[0].children[1]},
+            focusedModel: null,
+            selectedDates:{first:scope.firstDate,last:scope.lastDate},
+            mouse:0,
+            viewDate:null,
+            preRender:null
+          },
+          fetchPromises = {
 
-
-        var config = {
-          dateFormat: 'dd/mm/yyyy',
-          open: false,
-          focused: {firstDateElem: element[0].children[0], lastDateElem: element[0].children[1]},
-          focusedModel: null,
-          selectedDates:{first:null,last:null}
+          };
+        // -- When the call view needs to be callculated and changed ! --/
+        function changeView() {
+          //console.log(scope.firstDate)
+          scope.firstCal = calView.createMonthDays($directive.viewDate,scope.firstDate,scope.lastDate);
+          var copyViewDate = new Date($directive.viewDate.getTime());
+          copyViewDate.setMonth(copyViewDate.getMonth() + 1);
+          scope.firstTitle = dateParser.format($directive.viewDate,'mmmm yyyy');
+          scope.lastTitle = dateParser.format(copyViewDate,'mmmm yyyy');
+          scope.secondCal = calView.createMonthDays(copyViewDate,scope.firstDate,scope.lastDate);
         };
-        var fetchPromises = {}, settings = {};
 
+        function buildView(){
+          scope.firstCal = calView.createMonthDays($directive.viewDate,scope.firstDate,scope.lastDate);
+          var copyViewDate = new Date($directive.viewDate.getTime());
+          copyViewDate.setMonth(copyViewDate.getMonth() + 1);
+          scope.firstTitle = dateParser.format($directive.viewDate,'mmmm yyyy');
+          scope.lastTitle = dateParser.format(copyViewDate,'mmmm yyyy');
+          scope.secondCal = calView.createMonthDays(copyViewDate,scope.firstDate,scope.lastDate);
+        }
+
+        // -- refresh the view --/
+        function refreshView(){
+          changeView();
+        };
+
+        // -- to change the month of the calender --/
+        function nextMonth() {
+          var nextMonth = $directive.viewDate.setMonth($directive.viewDate.getMonth() + 1);
+          setViewDate($directive.viewDate);
+        };
+        // -- to change the month of the calender --/
+        function prevMonth() {
+          var prevMonth = $directive.viewDate.setMonth($directive.viewDate.getMonth() - 1);
+          setViewDate($directive.viewDate);
+        };
+
+        function setViewDate(viewDate){
+          try{
+            if(angular.isDefined(viewDate) && viewDate !== null){
+              if(angular.isDate(viewDate)){
+
+                $directive.viewDate = viewDate;
+                buildView();
+              }else{
+                ////console.logerror("Wrong date");
+              }
+            }
+          }catch(e){
+            ////console.logerror(e);
+          }
+        }
+
+        // -- To load the template for the popup but we can change this ! no html file is better
+        // if it is finished we can but it in the javascript file with $cacheTemplate --/
         function haalTemplateOp(template) {
           // --- if the template already is in our app cache return it. //
           if (fetchPromises[template]) return fetchPromises[template];
@@ -89,9 +176,6 @@ angular.module('tink.datepicker')
               return res;
             }));
         };
-
-        var viewDate;
-
         var templateElem;
         var promise = haalTemplateOp('templates/datepicker2.tpl.html');
         // --- when the data is loaded //
@@ -104,97 +188,25 @@ angular.module('tink.datepicker')
           });
           templateElem.css({display: 'block', position: 'absolute', visibility: 'hidden'});
           element.append(templateElem);
+          init();
         });
 
-        // -- event liseners to know if you are hitting the right elements --/
-        element.on('mouseleave', function () {
-          settings.mouse = 0;
-        });
-        element.on('mouseenter', function () {
-          settings.mouse = 1;
-        });
-        // -- this change the view ! --/
-        function changeView() {
-          console.log("run");
-          scope.firstCal = calView.createMonthDays(viewDate,config.selectedDates.first,config.selectedDates.last);
-          var copyViewDate = new Date(viewDate.getTime());
-          copyViewDate.setMonth(copyViewDate.getMonth() + 1);
-          scope.firstTitle = dateParser.format(viewDate,'mmmm yyyy');
-          scope.lastTitle = dateParser.format(copyViewDate,'mmmm yyyy');
-          scope.secondCal = calView.createMonthDays(copyViewDate,config.selectedDates.first,config.selectedDates.last);
-        };
-        // -- refresh the view --/
-        function refreshView(){
-          changeView();
-        };
-        // -- to change the month of the calender --/
-        function nextMonth() {
-          var nextMonth = viewDate.setMonth(viewDate.getMonth() + 1);
-        };
-        // -- to change the month of the calender --/
-        function prevMonth() {
-          var prevMonth = viewDate.setMonth(viewDate.getMonth() - 1);
-        };
-        // -- change viewdate --/
-        function setViewDate(date){
-          viewDate = date;
-        };
-        // -- This is to set the first date cal --/
-        function setFirstDate(value) {
-          try{
-
-            if(angular.isDefined(value) && angular.isDate(value.date)){
-              config.selectedDates.first = scope.fristdate = value.date;
-              scope.firstDate = dateParser.format(value.date,config.dateFormat);
-              if(dateParser.dateBeforeOther(config.selectedDates.first,config.selectedDates.last)){
-                setLastDate();
-              }
-            }else{
-              config.selectedDates.first = scope.firstDate = scope.dataFirstdate = null;
-            }
-          }catch(e){
-            console.log(e)
-          }
-          refreshView();
-        };
-        // -- this is to set the second date call --/
-        function setLastDate(value) {
-          try{
-            if(angular.isDefined(value) && angular.isDate(value.date)){
-              config.selectedDates.last = scope.lastdate = value.date;
-              scope.lastDate = dateParser.format(value.date,config.dateFormat);
-              if(dateParser.dateBeforeOther(config.selectedDates.first,config.selectedDates.last)){
-                setFirstDate();
-              }
-            }else{
-              config.selectedDates.last = scope.lastDate = null;
-            }
-          }catch(e){
-           console.log(e)
-          }
-          refreshView();
-        };
-        scope.$select = function (el) {
-          if (config.focusedModel !== null) {
-            if (config.focusedModel === 'firstDateElem') {
-              setFirstDate(el);
-              config.focusedModel = 'lastDateElem';
-            } else if (config.focusedModel === 'lastDateElem') {
-              setLastDate(el);
-              config.focusedModel = 'firstDateElem';
-            }
-          }
-
+        function init(){
+          bindEvents();
         }
-
-        scope.$watch(function () {
-          return viewDate.getTime()
-        }, function (newDate, oldDate) {
-          console.log(newDate)
-          if (angular.isDefined(newDate)) {
-            changeView(newDate);
+        scope.$select = function (el) {
+          ////console.loglog($directive.focusedModel)
+          if ($directive.focusedModel !== null) {
+            if ($directive.focusedModel === 'firstDateElem') {
+              scope.firstDate = el.date;
+              $directive.focusedModel = 'lastDateElem';
+            } else if ($directive.focusedModel === 'lastDateElem') {
+              scope.lastDate = el.date;
+              $directive.focusedModel = 'firstDateElem';
+            }
           }
-        });
+
+        };
 
         scope.$selectPane = function (value) {
 
@@ -205,46 +217,57 @@ angular.module('tink.datepicker')
           }
         };
 
-        angular.element(document).on("click", function () {
-          scope.$apply(function () {
-            if (settings.mouse) {
-              templateElem.css({visibility: 'visible'})
-              show();
-              config.open = true;
-            } else {
-              templateElem.css({visibility: 'hidden'})
-              config.open = false;
+        function hide(){
+          templateElem.css({visibility: 'hidden'});
+          $directive.open = false;
+        }
+
+        function bindEvents(){
+          element.bind('click',function(){
+            event.stopPropagation();
+          })
+          element.bind('mousedown',function(evt){
+            evt.preventDefault();
+            evt.stopPropagation(); console.log(evt)
+            if(evt.srcElement.nodeName === "INPUT"){
+              evt.srcElement.focus();
             }
+
+          })
+
+          angular.element($directive.focused.firstDateElem).on('blur',hide);
+          angular.element($directive.focused.lastDateElem).on('blur', hide);
+
+          angular.element($directive.focused.firstDateElem).on('focus', function () {
+            $directive.focusedModel = "firstDateElem";
+            scope.$apply(show);
+
           });
-        });
+          angular.element($directive.focused.lastDateElem).on('focus', function () {
+            $directive.focusedModel = "lastDateElem";
+            scope.$apply(show);
+
+          });
+        }
 
 
         function show() {
-          if (angular.isDefined(scope.firstDate) && !config.open) {
-            if (config.focusedModel === 'firstDateElem'){
-              if (angular.isDate(scope.firstDate)){
-                setViewDate(dateParser.getDate(scope.firstDate, config.dateFormat));
+          if(!$directive.open){
+            if($directive.focusedModel !== null){
+              if($directive.focusedModel === "firstDateElem" && angular.isDate(scope.firstDate)){
+                setViewDate(scope.firstDate);
+              }else if( angular.isDate(scope.lastDate)){
+                setViewDate(scope.lastDate);
+              }else{
+                setViewDate(new Date())
               }
-            }else if(config.focusedModel === 'lastDateElem'){
-                var hulpDate = dateParser.getDate(scope.lastDate, config.dateFormat);
-                hulpDate.setMonth(hulpDate.getMonth()-1);
-              setViewDate(hulpDate);
             }else{
-              setViewDate(new Date());
+              setViewDate(new Date())
             }
-          } else if(!config.open) {
-            setViewDate(new Date());
           }
-          changeView();
-        }
-
-        angular.element(config.focused.firstDateElem).on('focus', function () {
-          config.focusedModel = "firstDateElem";
-        });
-        angular.element(config.focused.lastDateElem).on('focus', function () {
-          config.focusedModel = "lastDateElem";
-        });
-
+          templateElem.css({visibility: 'visible'})
+          $directive.open = true;
+        };
 
       }
     }
@@ -273,10 +296,10 @@ angular.module('tink.datepicker')
 
     return {
       createMonthDays: function (date,firstRange,lastRange) {
-
         function mod(n, m) {
           return ((n % m) + m) % m;
         }
+        //console.log(firstRange)
 
         var today = new Date().toDateString();
         var year = dateParser.format(date, 'yyyy'), month = dateParser.format(date, 'mm');
@@ -298,105 +321,12 @@ angular.module('tink.datepicker')
           var day = new Date(firstDayOfWeek.getFullYear(), firstDayOfWeek.getMonth(), firstDayOfWeek.getDate() + i);
           var dayMonth = day.getMonth();
           var month = firstDayOfMonth.getMonth();
-          days.push({label:1})
-          //days.push({date: day,view:dayMonth == month,isToday: day.toDateString() === today,selected:isSameDate(day,firstRange) || isSameDate(day,lastRange),range:inRange(day,firstRange,lastRange), label: dateParser.format(day, 'dd')});
+          days.push({date: day,view:dayMonth == month,isToday: day.toDateString() === today,selected:isSameDate(day,firstRange) || isSameDate(day,lastRange),range:inRange(day,firstRange,lastRange), label: dateParser.format(day, 'dd')});
         }
 
         return dateParser.splitRow(days, 7);
       }
     }
-  })
-  .provider('$datepicker', function () {
-    var defaults = this.defaults = {
-      template: 'templates/datepicker.tpl.html'
-    };
-    this.$get = function ($templateCache, $q, $http, $compile, $rootScope, $animate) {
-
-      // --- init variables. //
-      var fetchPromises = {}, $datepicker = {}, templateHtml, templateElem, elemScope;
-      // --- function to retrieve the templates. //
-      function haalTemplateOp(template) {
-        // --- if the template already is in our app cache return it. //
-        if (fetchPromises[template]) return fetchPromises[template];
-        // --- If not get the template from templatecache or http. //
-        return (fetchPromises[template] = $q.when($templateCache.get(template) || $http.get(template))
-          .then(function (res) {
-            // --- When the template is retrieved return it. //
-            if (angular.isObject(res)) {
-              $templateCache.put(template, res.data);
-              return res.data;
-            }
-            return res;
-          }));
-      };
-
-      // --- init function for startup //
-      function init(template) {
-        // --- retrieve template //
-        $datepicker.$promise = haalTemplateOp(template);
-        // --- when the data is loaded //
-        $datepicker.$promise.then(function (template) {
-          if (angular.isObject(template)) template = template.data;
-          // --- store the html we retrieved //
-          templateHtml = String.prototype.trim.apply(template);
-          // --- compile the html into a real angular object //
-          // --- this is needed to make ng annotations to work //
-          templateElem = $compile(template);
-        });
-      };
-
-
-      function DatepickerFactory(element, controller, config) {
-        // --- Load the template and compile it //
-        init(defaults.template);
-        // --- function for when we need to show the template //
-        $datepicker.show = function () {
-          // --- check if the template is loaded //
-          if (angular.isDefined(templateElem)) {
-            // --- create a new scope for the template //
-            $datepicker.$scope = config.scope && config.scope.$new() || $rootScope.$new();
-            // --- add the new scope//
-            $datepicker.$element = templateElem($datepicker.$scope, function (clonedElement, clone) {
-            });
-            // --- add the css to show the element //
-            $datepicker.$element.css({
-              top: '-9999px',
-              left: '-9999px',
-              display: 'block',
-              position: 'aboslute',
-              visibility: 'visible'
-            });
-            // --- add the element after the main element //
-            $animate.enter($datepicker.$element, null, element);
-
-
-          }
-
-
-        }
-
-        $datepicker.destroy = function () {
-          if ($datepicker.$scope) {
-            $datepicker.$scope.$destroy();
-            $datepicker.$scope = null;
-          }
-
-          if (templateElem) {
-            $datepicker.$element.remove();
-            $datepicker.$element = null;
-          }
-        }
-
-
-        return $datepicker;
-
-      }
-
-      DatepickerFactory.defaults = defaults;
-      return DatepickerFactory;
-
-    };
-
   })
   .factory('dateParser', function () {
     var nl = {

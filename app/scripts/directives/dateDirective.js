@@ -4,8 +4,8 @@
  * V2.14
  * */
 
-angular.module('tink.datepicker', []);
-angular.module('tink.datepicker')
+angular.module('tink.datepicker1', []);
+angular.module('tink.datepicker1')
 	.factory('dimensions', function ($document, $window) {
 
 		var jqLite = angular.element;
@@ -182,7 +182,7 @@ angular.module('tink.datepicker')
 			var $body = angular.element($window.document);
 
 			function TooltipFactory(element, config) {
-
+console.log(element)
 				var $tooltip = {};
 
 				// Common vars
@@ -531,11 +531,11 @@ angular.module('tink.datepicker')
 					// Some browsers do not auto-focus buttons (eg. Safari)
 					$tooltip.$isShown ? element[0].blur() : element[0].focus();
 				};
-
 				// bind/unbind events
-				function bindTriggerEvents() {
+				function bindTriggerEvents() {console.log(triggers)
 					var triggers = options.trigger.split(' ');
 					angular.forEach(triggers, function (trigger) {
+            console.log(trigger)
 						if (trigger === 'click') {
 							element.on('click', $tooltip.toggle);
 						} else if (trigger !== 'manual') {

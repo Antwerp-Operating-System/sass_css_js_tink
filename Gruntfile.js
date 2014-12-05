@@ -109,10 +109,14 @@ module.exports = function (grunt) {
 		compass: {
 			options: {
 				sassDir: '<%= yeoman.app %>/styles',
-				cssDir: '.tmp/styles'
+				cssDir: '.tmp/styles',
+        imagesDir: '',
+        force: true,
+        outputStyle: 'expanded'
 			},
 			dist: {
 				options: {
+
 				}
 			},
 			server: {
@@ -121,6 +125,33 @@ module.exports = function (grunt) {
 				}
 			}
 		},
+   /* compass: {
+      options: {
+        sassDir: '<%= yeoman.app %>/styles',
+        cssDir: '.tmp/styles',
+        generatedImagesDir: '.tmp/images/generated',
+        imagesDir: '<%= yeoman.app %>/images',
+        javascriptsDir: '<%= yeoman.app %>/scripts',
+        fontsDir: '<%= yeoman.app %>/styles/fonts',
+        importPath: './bower_components',
+        httpImagesPath: '/images',
+        httpGeneratedImagesPath: '/images/generated',
+        httpFontsPath: '/styles/fonts',
+        relativeAssets: false,
+        assetCacheBuster: false,
+        raw: 'Sass::Script::Number.precision = 10\n'
+      },
+      dist: {
+        options: {
+          generatedImagesDir: '<%= yeoman.dist %>/images/generated'
+        }
+      },
+      server: {
+        options: {
+          debugInfo: true
+        }
+      }
+    },*/
 		cssmin: {
 			   dist: {
 			     files: {

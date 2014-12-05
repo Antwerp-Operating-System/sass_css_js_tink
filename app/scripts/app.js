@@ -17,7 +17,8 @@ angular.module('tink', [
     'ngSanitize',
     'ngTouch',
 		'tink.controllers',
-		'tink.datepicker'
+		'tink.datepicker',
+    'tink.datepicker1'
   ])
 	.config(function ($routeProvider) { /*, $locationProvider */
 		$routeProvider
@@ -50,10 +51,10 @@ angular.module('tink', [
 				templateUrl: 'views/changelog.html'
 			})
 			.when('/datepicker', {
-				templateUrl: 'views/datepickertest.html'
+				templateUrl: 'views/datepickertest.html',
+        controller:'DateCtrl'
 			})
 			.otherwise({
 				redirectTo: '/'
 			});
-
 	});
