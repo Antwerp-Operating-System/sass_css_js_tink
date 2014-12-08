@@ -5,6 +5,15 @@
     "framework/styles/tink.min.css",
     "framework/scripts/tink-directives.min.js"
   ],
+  "ignore": [
+    ".*",
+    "**/.*",
+    "app",
+    "Gruntfile.js",
+    "package.json",
+    "test",
+    "Tink.sublime-project"
+  ],
   "dependencies": {
     "angular": "~1.2.0",
     "angular-resource": "~1.2.0",

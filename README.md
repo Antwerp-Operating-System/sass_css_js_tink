@@ -1,6 +1,6 @@
 # Tink Framework #
 
-## v0.5.2 ##
+## v0.5.3 ##
 
 ## This documentation is temporary outdated
 
