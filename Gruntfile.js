@@ -249,7 +249,7 @@ module.exports = function (grunt) {
       }
     },
     replace: {
-      'css-js': {
+      cssjs: {
         options: {
           patterns: [
             {
