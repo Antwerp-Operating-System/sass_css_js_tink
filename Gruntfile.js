@@ -62,7 +62,7 @@ module.exports = function (grunt) {
         },
         files: [
           '<%= yeoman.app %>/{,*/}*.html',
-          '.tmp/styles/{,*/}*.css',
+          '.tmp/*.css',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       }
@@ -132,9 +132,9 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '.tmp/styles/',
+          cwd: '.tmp/',
           src: '{,*/}*.css',
-          dest: '.tmp/styles/'
+          dest: '.tmp/'
         }]
       }
     },
@@ -166,7 +166,11 @@ module.exports = function (grunt) {
       },
       dist: {
         options: {
-          generatedImagesDir: '<%= yeoman.dist %>/images/generated'
+          // root: '<%= yeoman.dist %>',
+          cssDir: '.tmp',
+          generatedImagesDir: 'images/generated',
+          imagesDir: 'images',
+          fontsDir: 'fonts'
         }
       },
       server: {
@@ -200,7 +204,7 @@ module.exports = function (grunt) {
       },
       styles: {
         expand: true,
-        cwd: '.tmp/styles',
+        cwd: '.tmp',
         dest: '<%= yeoman.dist %>/styles/',
         src: '*'
       }
@@ -243,7 +247,7 @@ module.exports = function (grunt) {
       dist: {
         files: {
           '<%= yeoman.dist %>/styles/tink.min.css': [
-            '.tmp/styles/{,*/}*.css'
+            '.tmp/{,*/}*.css'
           ]
         }
       }

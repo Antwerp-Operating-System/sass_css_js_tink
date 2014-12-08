@@ -16,8 +16,8 @@ angular.module('tink', [
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-	'tink.controllers',
-	'tink.datepicker'
+    'tink.controllers',
+    // 'tink.datepicker'
   ])
 	.config(function ($routeProvider) { /*, $locationProvider */
 		$routeProvider
