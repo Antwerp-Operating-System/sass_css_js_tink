@@ -239,7 +239,7 @@ module.exports = function (grunt) {
     cssmin: {
       options: {
         banner: '/*! Tink v<%= yeoman.version %> */'
-      }
+      },
       dist: {
         files: {
           '<%= yeoman.dist %>/styles/tink-<%= yeoman.version %>.min.css': [
