@@ -1,12 +1,12 @@
 # Tink Framework #
 
-## v<!--@@-->0.4.2<!--@--> ##
+## v0.4.2 ##
 
 ## This documentation is temporary outdated
 
 ### What is this repository for? ###
 
-Tink is an in-house developed easy-to-use front-end framework for quick prototyping and simple deployment of all kinds of websites and apps, keeping a uniform and consistent look and feel.
+Tink is an in-house developed easy-to-use front end framework for quick prototyping and simple deployment of all kinds of websites and apps, keeping a uniform and consistent look and feel.
 
 ### Setup
 
