@@ -3575,7 +3575,7 @@ table input[type="radio"] + label {
   }
   /* line 342, ../../app/styles/tink/_forms.scss */
   .select:before {
-    background: #fff url('/images/gui/select-arrow.svg?1418034187') no-repeat right center;
+    background: #fff url('../../app/images/gui/select-arrow.svg?1418034187') no-repeat right center;
     border-bottom-right-radius: 0.1428571429rem ;
     border-top-right-radius: 0.1428571429rem ;
     bottom: 1px;
@@ -3593,14 +3593,14 @@ table input[type="radio"] + label {
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
-  background: #fff url('/images/gui/select-arrow.svg?1418034187') no-repeat right center;
+  background: #fff url('../../app/images/gui/select-arrow.svg?1418034187') no-repeat right center;
   background-size: contain;
   text-indent: 0.01px;
   text-overflow: '';
 }
 /* line 368, ../../app/styles/tink/_forms.scss */
 select:focus {
-  background-image: url('/images/gui/select-arrow-focus.svg?1418034187');
+  background-image: url('../../app/images/gui/select-arrow-focus.svg?1418034187');
 }
 
 /* line 373, ../../app/styles/tink/_forms.scss */

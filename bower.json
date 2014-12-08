@@ -8,7 +8,6 @@
   "ignore": [
     ".*",
     "**/.*",
-    // "app",
     "Gruntfile.js",
     "package.json",
     "test",
