@@ -211,7 +211,7 @@ module.exports = function (grunt) {
       },
       dist: {
         src: ['<%= yeoman.app %>/scripts/directives/*.js'],
-        dest: '<%= yeoman.dist %>/scripts/tink-directives-<%= yeoman.version %>.js'
+        dest: '<%= yeoman.dist %>/scripts/tink-directives.js'
       }
     },
     uglify: {
