@@ -160,7 +160,7 @@ module.exports = function (grunt) {
         httpImagesPath: '/images',
         httpGeneratedImagesPath: '/images/generated',
         httpFontsPath: '/fonts',
-        relativeAssets: false,
+        relativeAssets: true,
         assetCacheBuster: true,
         raw: 'Sass::Script::Number.precision = 10\n'
       },
