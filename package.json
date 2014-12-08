@@ -49,8 +49,8 @@
     "postinstall": "bower install && sudo gem install compass && sudo gem install sass",
     "start": "grunt serve",
     "build": "grunt build",
-    "build-patch": "grunt build --bump=patch && git commit -am 'pre patch' && mversion patch -m",
-    "build-minor": "grunt build --bump=minor && git commit -am 'pre minor' && mversion minor -m",
-    "build-major": "grunt build --bump=major && git commit -am 'pre major' && mversion major -m"
+    "build-patch": "grunt build --bump=patch && git add . && git commit -am 'pre patch' && mversion patch -m",
+    "build-minor": "grunt build --bump=minor && git add . && git commit -am 'pre minor' && mversion minor -m",
+    "build-major": "grunt build --bump=major && git add . && git commit -am 'pre major' && mversion major -m"
   }
 }
