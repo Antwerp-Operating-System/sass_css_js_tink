@@ -208,6 +208,10 @@ module.exports = function (grunt) {
     concat: {
       options: {
         separator: ';'
+        initFiles: [
+          '**/init.js',
+          '!init.js'
+        ]
       },
       dist: {
         src: ['<%= yeoman.app %>/scripts/directives/*.js'],
@@ -245,7 +249,7 @@ module.exports = function (grunt) {
       }
     },
     replace: {
-      css: {
+      'css-js': {
         options: {
           patterns: [
             {
@@ -255,35 +259,20 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: false, src: ['app/**/tink.scss'], dest: ''}
+          {expand: true, flatten: false, src: ['app/styles/tink.scss', 'app/scripts/directives/init.js'], dest: ''}
         ]
       },
-      html: {
+      md: {
         options: {
           patterns: [
             {
-              match: /tink\-(\d+)\.(\d+)\.(\d+)\./g,
-              replacement: 'tink-<%= yeoman.version %>.'
+              match: /v(\d+)\.(\d+)\.(\d+)\./g,
+              replacement: 'v<%= yeoman.version %>.'
             }
           ]
         },
         files: [
-          {expand: true, flatten: false, src: ['app/**/start.html'], dest: ''}
-        ]
-      },
-      other: {
-        options: {
-          patterns: [
-            {
-              match: /\-\-\>(\d+).(\d+).(\d+)<\!\-\-\@\-\-\>/g,
-              replacement: '--><%= yeoman.version %><!--@-->'
-            }
-          ]
-        },
-        files: [
-          {
-            expand: true, flatten: false, src: ['app/**/*.html', 'app/**/*.js', 'README.md'], dest: ''
-          }
+          {expand: true, flatten: false, src: ['README.md'], dest: ''}
         ]
       }
     },
