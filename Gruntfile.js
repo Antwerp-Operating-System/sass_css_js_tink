@@ -24,7 +24,7 @@ module.exports = function (grunt) {
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: 'release',
+    dist: 'framework',
     version: nextversion
   };
 
@@ -221,7 +221,7 @@ module.exports = function (grunt) {
       },
       dist: {
         files: {
-          '<%= yeoman.dist %>/scripts/tink-directives-<%= yeoman.version %>.min.js': ['<%= yeoman.dist %>/scripts/tink-directives-<%= yeoman.version %>.js']
+          '<%= yeoman.dist %>/scripts/tink-directives.min.js': ['<%= yeoman.dist %>/scripts/tink-directives.js']
         }
       }
     },
@@ -242,14 +242,14 @@ module.exports = function (grunt) {
       },
       dist: {
         files: {
-          '<%= yeoman.dist %>/styles/tink-<%= yeoman.version %>.min.css': [
+          '<%= yeoman.dist %>/styles/tink.min.css': [
             '.tmp/styles/{,*/}*.css'
           ]
         }
       }
     },
     replace: {
-      md: {
+      dist: {
         options: {
           patterns: [
             {
@@ -259,7 +259,7 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: false, src: ['README.md'], dest: ''}
+          {expand: true, flatten: true, src: ['README.md'], dest: ''}
         ]
       }
     },
@@ -298,11 +298,12 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('test', [
-    'clean:server',
-    'concurrent:test',
-    'autoprefixer',
-    'connect:test',
-    'karma'
+    // 'clean:server',
+    // 'concurrent:test',
+    // 'autoprefixer',
+    // 'connect:test',
+    // 'karma'
+    'replace'
   ]);
 
   grunt.registerTask('build', [
