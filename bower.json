@@ -1,6 +1,6 @@
 {
   "name": "Tink",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "dependencies": {
     "angular": "~1.2.0",
     "angular-resource": "~1.2.0",
