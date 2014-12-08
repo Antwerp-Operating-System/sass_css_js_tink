@@ -208,10 +208,6 @@ module.exports = function (grunt) {
     concat: {
       options: {
         separator: ';'
-        initFiles: [
-          '**/init.js',
-          '!init.js'
-        ]
       },
       dist: {
         src: ['<%= yeoman.app %>/scripts/directives/*.js'],
@@ -220,7 +216,8 @@ module.exports = function (grunt) {
     },
     uglify: {
       options: {
-        mangle: false
+        mangle: false,
+        banner: '/*! Tink v<%= yeoman.version %> */'
       },
       dist: {
         files: {
@@ -259,7 +256,7 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: false, src: ['app/styles/tink.scss', 'app/scripts/directives/init.js'], dest: ''}
+          {expand: true, flatten: false, src: ['app/styles/tink.scss'], dest: ''}
         ]
       },
       md: {
