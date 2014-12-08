@@ -151,10 +151,23 @@ module.exports = function (grunt) {
     compass: {
       options: {
         sassDir: '<%= yeoman.app %>/styles',
-        cssDir: '.tmp/styles'
+        cssDir: '.tmp/styles',
+        generatedImagesDir: '.tmp/images/generated',
+        imagesDir: '<%= yeoman.app %>/images',
+        javascriptsDir: '<%= yeoman.app %>/scripts',
+        fontsDir: '<%= yeoman.app %>/fonts',
+        importPath: './bower_components',
+        httpImagesPath: '/images',
+        httpGeneratedImagesPath: '/images/generated',
+        httpFontsPath: '/fonts',
+        relativeAssets: false,
+        assetCacheBuster: true,
+        raw: 'Sass::Script::Number.precision = 10\n'
       },
       dist: {
-        options: {}
+        options: {
+          generatedImagesDir: '<%= yeoman.dist %>/images/generated'
+        }
       },
       server: {
         options: {
@@ -198,7 +211,7 @@ module.exports = function (grunt) {
       },
       dist: {
         src: ['<%= yeoman.app %>/scripts/directives/*.js'],
-        dest: '<%= yeoman.dist %>/scripts/tink-directives.js'
+        dest: '<%= yeoman.dist %>/scripts/tink-directives-<%= yeoman.version %>.js'
       }
     },
     uglify: {
@@ -207,7 +220,7 @@ module.exports = function (grunt) {
       },
       dist: {
         files: {
-          '<%= yeoman.dist %>/scripts/tink-directives.min.js': ['<%= yeoman.dist %>/scripts/tink-directives.js']
+          '<%= yeoman.dist %>/scripts/tink-directives-<%= yeoman.version %>.min.js': ['<%= yeoman.dist %>/scripts/tink-directives-<%= yeoman.version %>.js']
         }
       }
     },
@@ -225,7 +238,7 @@ module.exports = function (grunt) {
     cssmin: {
       dist: {
         files: {
-          '<%= yeoman.dist %>/styles/tink-css-min.css': [
+          '<%= yeoman.dist %>/styles/tink-<%= yeoman.version %>.min.css': [
             '.tmp/styles/{,*/}*.css'
           ]
         }
