@@ -237,6 +237,9 @@ module.exports = function (grunt) {
       ]
     },
     cssmin: {
+      options: {
+        banner: '/*! Tink v<%= yeoman.version %> */'
+      }
       dist: {
         files: {
           '<%= yeoman.dist %>/styles/tink-<%= yeoman.version %>.min.css': [
@@ -246,19 +249,6 @@ module.exports = function (grunt) {
       }
     },
     replace: {
-      cssjs: {
-        options: {
-          patterns: [
-            {
-              match: /\/\*\! Tink v(\d+)\.(\d+)\.(\d+) \*\//g,
-              replacement: '/*! Tink v<%= yeoman.version %> */'
-            }
-          ]
-        },
-        files: [
-          {expand: true, flatten: false, src: ['app/styles/tink.scss'], dest: ''}
-        ]
-      },
       md: {
         options: {
           patterns: [
