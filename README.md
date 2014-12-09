@@ -16,9 +16,13 @@ Tink is an in-house developed easy-to-use front end framework for quick prototyp
 `bower install tink --save`
 
 ## Development cycle
-* Clone this repo to your hard drive
-  * via SSH `git pull git@bitbucket.org:digipolis/sass_css_js_tink.git`
-  * or HTTPS `git pull https://`your-bitbucket-user-name`@bitbucket.org/digipolis/sass_css_js_tink.git`
+* Clone this repo to your hard drive:
+  * BitBucket:
+    * via SSH `git pull git@bitbucket.org:digipolis/sass_css_js_tink.git`
+    * or HTTPS `git pull https://`your-bitbucket-user-name`@bitbucket.org/digipolis/sass_css_js_tink.git`
+  * GitHub:
+    * via SSH `git@github.com:Antwerp-Operating-System/sass_css_js_tink.git`
+    * or HTTPS `https://github.com/Antwerp-Operating-System/sass_css_js_tink.git`
 * Navigate to your local Tink directory: `cd sass_css_js_tink`
 * install dependencies: `npm install`
 * Start you development server `npm start`
