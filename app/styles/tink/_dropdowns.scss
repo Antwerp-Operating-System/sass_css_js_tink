@@ -30,7 +30,7 @@
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: $zindex-dropdown;
+  // z-index: $zindex-dropdown;
   display: none; // none by default, but block on "open" of the menu
   float: left;
   min-width: 160px;
@@ -165,7 +165,7 @@
   right: 0;
   bottom: 0;
   top: 0;
-  z-index: ($zindex-dropdown - 10);
+  // z-index: ($zindex-dropdown - 10);
 }
 
 // Right aligned dropdowns
@@ -200,7 +200,7 @@
 //
 // Reiterate per navbar.less and the modified component alignment there.
 
-@media (min-width: $grid-float-breakpoint) {
+@include mq($grid-float-breakpoint) {
   .navbar-right {
     .dropdown-menu {
       right: 0; left: auto;

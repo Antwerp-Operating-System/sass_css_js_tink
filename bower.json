@@ -1,10 +1,27 @@
 {
-  "name": "framework",
-  "version": "0.0.0",
+  "name": "Tink",
+  "version": "0.5.6",
+  "main": [
+    "framework/styles/tink.min.css",
+    "framework/scripts/tink-directives.min.js"
+  ],
+  "ignore": [
+    ".*",
+    "**/.*",
+    "app/404.html",
+    "app/favicon.ico",
+    "app/images",
+    "app/index.html",
+    "app/robots.txt",
+    "app/scripts",
+    "app/views",
+    "Gruntfile.js",
+    "package.json",
+    "test",
+    "Tink.sublime-project"
+  ],
   "dependencies": {
     "angular": "~1.2.0",
-    "json3": "~3.3.1",
-    "es5-shim": "~3.1.0",
     "angular-resource": "~1.2.0",
     "angular-cookies": "~1.2.0",
     "angular-sanitize": "~1.2.0",

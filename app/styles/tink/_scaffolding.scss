@@ -20,13 +20,13 @@ html {
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 
   // edit font-size with media-queries
-  @media (min-width: $screen-sm) {
+  @include mq($screen-sm) {
     font-size: em($font-size-base * $font-size-factor-sm);
   }
-  @media (min-width: $screen-md) {
+  @include mq($screen-md) {
     font-size: em($font-size-base * $font-size-factor-md);
   }
-  @media (min-width: $screen-lg) {
+  @include mq($screen-lg) {
     font-size: em($font-size-base * $font-size-factor-lg);
   }
 }

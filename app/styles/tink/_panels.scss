@@ -11,13 +11,41 @@
   box-shadow: 0 1px 1px rgba(0,0,0,.05);
   margin-bottom: rem($line-height-computed);
   @include panel-variant($panel-default-border, $panel-default-text, $panel-default-heading-bg, $panel-default-border);
+
+
+  &.colored {
+    background: lighten($brand, 50);
+    border: none;
+  }
 }
 
 // Panel contents
 .panel-body {
-  padding: $panel-body-padding;
+  padding: rem($panel-body-padding $panel-body-padding * 2); //$panel-body-padding;
   @include clearfix();
   &:not(:last-child) { border-bottom: 1px solid $panel-default-border; }
+
+  .panel-body-title {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    span { font-size: 70%; color: $gray; }
+  }
+
+  .panel-body-section-title {
+    border-bottom: 1px solid $gray-lighter;
+    font-weight: 300;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+
+    span { font-size: 70%; }
+  }
+
+  .panel-body { // panel inside another oanel
+    padding: rem($panel-body-padding);
+  }
+
 }
 
 // Optional heading
@@ -48,10 +76,9 @@
     padding: 0;
   }
   .fa + .panel-title {
-    margin-left: rem(4);
+    margin-left: rem(9);
   }
 }
-
 
 
 // Optional Footer

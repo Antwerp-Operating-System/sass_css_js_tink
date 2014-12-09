@@ -17,9 +17,16 @@
 // Media queries breakpoints
 
 $screen-xs:                  480px !default; // Extra small screen / phone
+$screen-xs-min:              $screen-xs !default;
+
 $screen-sm:                  768px !default; // Small screen / tablet
+$screen-sm-min:              $screen-sm !default;
+
 $screen-md:                  992px !default; // Medium screen / desktop
+$screen-md-min:              $screen-md !default;
+
 $screen-lg:                  1200px !default; // Large screen / wide desktop
+$screen-lg-min:              $screen-lg !default;
 
 // So media queries don't overlap when required, provide a maximum
 $screen-xs-max:              ($screen-sm - 1) !default;
@@ -28,7 +35,6 @@ $screen-md-max:              ($screen-lg - 1) !default;
 
 
 // Grid system
-//
 $grid-columns:              12 !default; // Number of columns in the grid.
 $grid-gutter-width:         1.875rem !default; // Padding between columns. Gets divided in half for the left and right.
 
@@ -38,7 +44,6 @@ $grid-float-breakpoint-max: ($grid-float-breakpoint - 1) !default; // Point at w
 
 
 // Container sizes
-
 $container-tablet:             ((45rem + $grid-gutter-width)) !default; // Small screen / tablet // 720px
 $container-sm:                 $container-tablet !default; // For `$screen-sm-min` and up.
 
@@ -73,7 +78,7 @@ $brand-warning:         #ff8d00 !default; // orange
 $brand-danger:          #e60038 !default; // red
 
 // Settings for some of the most global styles.
-$body-bg:               $white !default;
+$body-bg:               #f7f7f7 !default;
 $text-color:            $gray-dark !default;
 $link-color:            $brand-light !default;
 $link-hover-color:      darken($link-color, 10%) !default;
@@ -150,6 +155,7 @@ $pre-border-color:            lighten($brand, 48%) !default;
 $pre-scrollable-max-height:   340px !default;
 
 
+
 //== Iconography
 //
 //## Specify custom location and filename of the included Glyphicons icon font. Useful for those including Bootstrap via Bower.
@@ -168,6 +174,7 @@ $pre-scrollable-max-height:   340px !default;
  */
 
 $animation-speed:                .1s !default;
+
 
 
 /**
@@ -208,8 +215,9 @@ $table-border-color:            $gray-light !default; // Border color for table 
 $table-bg-active:               $gray-lighter !default;
 
 
+
 /**
- * Components
+ * Components - global settings
  */
 
 $padding-base-vertical:     6px !default;
@@ -242,13 +250,14 @@ $border-radius-small:       2px !default;
     $caret-width-large:         5px !default;
 
 
+
 /**
  * Buttons
  *
  * For each of Bootstrap's buttons, define text, background and border color.
  */
 
-$btn-font-weight:                normal !default;
+$btn-font-weight:                600 !default;
 
 $btn-default-color:              $gray-dark !default;
 $btn-default-bg:                 $white !default;
@@ -276,7 +285,7 @@ $btn-danger-bg:                  $brand-danger !default;
 $btn-danger-border:              darken($btn-danger-bg, 4%) !default;
 
 $btn-link-disabled-color:        $gray-light !default;
-
+$btn-icon-margin:                8px; // right margin when icon inside button
 
 
 /**
@@ -299,6 +308,7 @@ $legend-border-color:            $gray-lighter !default;
 
 // $input-group-addon-bg:           $gray-lighter !default; // Background color for textual input addons
 // $input-group-addon-border-color: $input-border !default; // Border color for textual input addons
+
 
 
 //== Dropdowns
@@ -336,21 +346,49 @@ $legend-border-color:            $gray-lighter !default;
     // $dropdown-caret-color:           $black !default;
 
 
-//-- Z-index master list
-//
-// Warning: Avoid customizing these values. They're used for a bird's eye view
-// of components dependent on the z-axis and are designed to all work together.
-//
-// Note: These variables are not generated into the Customizer.
 
-    // $zindex-navbar:            1000 !default;
-    $zindex-dropdown:          1000 !default;
-    // $zindex-popover:           1060 !default;
-    // $zindex-tooltip:           1070 !default;
-    // $zindex-navbar-fixed:      1030 !default;
-    // $zindex-modal-background:  1040 !default;
-    // $zindex-modal:             1050 !default;
+/**
+ * Z-index, a better implementation
+ *
+ * Use like this:
+ *   z-index: layer("popover");
+ *     where popover is a list item of the default list "$layers" (see below)
+ *   or
+ *   z-index: layer("popover", $other-layers);
+ *     where popover is a list item of a custom list named "$other-layers"
+ *
+ * Current layer list
+ * z-index: -1  // cellar
+ * z-index: 0   // ground
+ * z-index: 1   // base => here's where $layers start
+ *
+ * Complete layer list (for reference, add these to $layers only if needed)
+ * $layers: base, navbar, dropdown, tooltip, navbar-sticky, navbar-fixed, modal-background, modal, popover;
+ */
+$layers: base, pseudo, side-nav, top-header;
 
+
+
+/**
+ * Navigation
+ *
+ * Settings for the header and the off-canvas navigation
+ */
+$top-header-height:                      50px !default;
+$top-header-bg-color:                    $gray-dark !default;
+$top-header-text-color:                  $white !default;
+$top-header-link-color:                  $body-bg !default;
+$top-header-link-hover-color:            $white !default;
+
+$nav-left-width:                         220px !default;
+$nav-left-item-height:                   $top-header-height !default;
+$nav-left-subitem-height:                40px !default;
+$nav-left-bg-color:                      $white !default;
+$nav-left-border-color:                  $gray-lighter !default;
+$nav-left-link-color:                    $gray-darker !default;
+$nav-left-link-background-color:         $white !default;
+$nav-left-link-hover-color:              $gray-darker !default;
+$nav-left-link-hover-background-color:   $white !default;
 
 
 //== Navbar
@@ -767,16 +805,16 @@ $legend-border-color:            $gray-lighter !default;
 //
 //##
 
-    // $breadcrumb-padding-vertical:   8px !default;
-    // $breadcrumb-padding-horizontal: 15px !default;
+    $breadcrumb-padding-vertical:   8px !default;
+    $breadcrumb-padding-horizontal: 15px !default;
 //** Breadcrumb background color
-    // $breadcrumb-bg:                 lighten($gray-lighter, 6%) !default;
+    $breadcrumb-bg:                 lighten($gray-lighter, 6%) !default;
 //** Breadcrumb text color
-    // $breadcrumb-color:              #ccc !default;
+    $breadcrumb-color:              $gray-light !default;
 //** Text color of current page in the breadcrumb
-    // $breadcrumb-active-color:       $gray-light !default;
+    $breadcrumb-active-color:       $gray-light !default;
 //** Textual separator for between breadcrumb elements
-    // $breadcrumb-separator:          "/" !default;
+    $breadcrumb-separator:          "/" !default;
 
 
 //== Carousel

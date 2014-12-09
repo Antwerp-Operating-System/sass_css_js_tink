@@ -43,7 +43,8 @@ legend {
 
 label {
   display: inline-block;
-  margin-bottom: rem(5);
+  margin-bottom: rem(4);
+  // margin-top: rem(8); // TH Added top-margin to give nicer look and spacing
   max-width: 100%; // Force IE8 to wrap long content (see https://github.com/twbs/bootstrap/issues/13141)
   font-weight: bold;
 }
@@ -333,13 +334,13 @@ table {
   }
 }
 
-// ---- Start Firefox 30 select bug hacks
+// ---- Start Firefox 30 select bug hack. See https://bugzilla.mozilla.org/show_bug.cgi?id=649849
 @-moz-document url-prefix() {
   .select {
     position: relative;
 
     &:before {
-      background: $white url("/images/gui/select-arrow.svg") no-repeat right center;
+      background: $white image-url("gui/select-arrow.svg") no-repeat right center;
       border-bottom-right-radius: rem($input-border-radius);
       border-top-right-radius: rem($input-border-radius);
       bottom: 1px;
@@ -359,13 +360,13 @@ table {
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
-  background: $white url("/images/gui/select-arrow.svg") no-repeat right center;
+  background: $white image-url("gui/select-arrow.svg") no-repeat right center;
   background-size: contain;
   text-indent: 0.01px;
   text-overflow: '';
 
   &:focus {
-    background-image: url("/images/gui/select-arrow-focus.svg");
+    background-image: image-url("gui/select-arrow-focus.svg");
   }
 }
 
@@ -483,3 +484,47 @@ output {
 // input[type="text"],
 // input[type="url"],
 // input[type="week"],
+
+/*
+ * Appendix B
+ * Tinkering with form layout with div.fields around the inputs and labels for better layout control
+ * Inspired by lack of control now and the way so many others do it, esp. looking at Semantic UI atm.
+ * TH
+*/
+.actionbar {
+  @include clearfix();
+  @extend .margin-top;
+  @extend .margin-bottom;
+  padding: rem($breadcrumb-padding-vertical 0);
+
+  &.padded {
+    background: lighten($gray-light, 10);
+    padding-left: $panel-heading-padding;
+    padding-right: $panel-heading-padding;
+  }
+}
+.select-box-inline {
+  margin-left: 8px;
+  display: inline-block;
+  select {
+    padding-right: $padding-base-horizontal * 2;
+  }
+}
+.checkbox-inline {
+  margin-left: 8px;
+  display: inline-block;
+}
+.btn.search-submit {
+  background: none;
+  border: none;
+  color: $gray-dark;
+  position: absolute;
+  right: 1.0em;
+  top: 0em;
+  &:hover {
+    background: none;
+    border: none;
+    color: $gray-dark;
+  }
+}
+

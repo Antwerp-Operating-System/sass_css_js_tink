@@ -100,3 +100,21 @@
   display: inline;
   padding: 5px;
 }
+
+// Extra margin helpers
+// e.g. for use on rows that serve as e.g. actionbars (.actionbar extends both classes btw)
+.margin-bottom {
+  margin-bottom: rem($padding-large-vertical * 1.5);
+}
+.margin-top {
+  margin-top: rem($padding-large-vertical * 1.5);
+}
+.margin-left {
+  margin-left: rem($padding-large-horizontal * 1.5);
+}
+.margin-right {
+  margin-right: rem($padding-large-horizontal * 1.5);
+}
+
+// Remove borders
+.no-border { border: none !important; }

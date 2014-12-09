@@ -50,3 +50,23 @@
 @function white($opacity){
     @return rgba(255, 255, 255, $opacity);
 }
+
+// Handle z-index (layers)
+@function layer($layer, $list: $layers, $zero: 'ground', $minus-one: 'cellar') {
+
+    // Layer
+    $z-index: index($list, $layer);
+
+    // Return layer
+    @if $z-index {
+        @return $z-index;
+    } @else if $layer == $minus-one {
+        @return -1;
+    } @else if $layer == $zero {
+        @return 0;
+    }
+
+    // Return warning if $layer doesn't exist
+    @warn 'There is no item "#{$layer}" in this list; choose one of: #{$list}';
+    @return null;
+}

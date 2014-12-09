@@ -1,5 +1,3 @@
-/*! Tink v0.3.2 */
-
 // Tabula rasa
 @import "tink/prerequisites";
 @import "tink/variables";
@@ -17,6 +15,7 @@
 @import "tink/media";
 @import "tink/buttons";
 @import "tink/panels";
+@import "tink/breadcrumbs";
 
 // Forms
 @import "tink/forms";
@@ -24,17 +23,14 @@
 @import "tink/buttons";
 // @import "tink/dropdowns";
 
-//datepicker
-@import "tink/datepicker";
-
 // Utilities
 @import "tink/a11y"; // accessibility sass
 @import "tink/utilities";
-//@import "tink/responsive-utilities";
+@import "tink/responsive-utilities";
 
 
 // Vendor
 
 
 // Components
-// @import "tink/navs";
+@import "tink/navigation";

@@ -51,6 +51,9 @@
     opacity: .65;
     pointer-events: none; // Future-proof disabling of clicks
   }
+  &.btn-text {
+    .fa { margin-right: rem($btn-icon-margin); } // Add margin to buttons with text + icons -- REMOVED
+  }
 }
 
 

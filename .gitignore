@@ -1,6 +1,7 @@
 node_modules
-dist
 .tmp
-.sass-cache
+.DS_Store
+**\.sass-cache
 bower_components
-release/
+npm-debug.log
+*.sublime-workspace

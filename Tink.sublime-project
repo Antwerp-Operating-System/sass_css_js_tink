@@ -1,0 +1,33 @@
+{
+	"folders":
+	[
+		{
+			"file_exclude_patterns":
+			[
+				"._*",
+				"*.ico",
+				"*.swf",
+				"*.tar",
+				"*.zip",
+				"*.7z",
+				"*.rar",
+				"*.sublime-workspace",
+				".ghignore"
+			],
+			"folder_exclude_patterns":
+			[
+				"bower_components",
+				"dist",
+				"node_modules",
+				".sass-cache"
+			],
+			"name": "Tink Framework",
+			"path": "/"
+		}
+	],
+	"settings":
+	{
+		"tab_size": 2,
+		"translate_tabs_to_spaces": true
+	}
+}
