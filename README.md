@@ -16,6 +16,24 @@ Tink is an in-house developed easy-to-use front end framework for quick prototyp
 ## Use latest version in your project
 `bower install tink --save`
 
+Than include the necessary files in your project. Here is a basic template to start from:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Tink</title>
+    <link rel="stylesheet" href="bower_components/tink/framework/styles/tink.min.css">
+  </head>
+  <body>
+    <div class="container-fluid">
+      <h1 class="text-center">Hello, Tink!</h1>
+    </div>
+  </body>
+</html>
+```
+
 ## Development
 
 ### Dev prerequisites
