@@ -15,6 +15,7 @@
     "app/robots.txt",
     "app/scripts",
     "app/views",
+    "Gemfile",
     "Gruntfile.js",
     "package.json",
     "test",
