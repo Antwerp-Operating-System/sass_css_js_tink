@@ -194,6 +194,15 @@ module.exports = function (grunt) {
           {
             expand: true,
             dot: true,
+            cwd: '<%= yeoman.app %>/scripts/services',
+            dest: '<%= yeoman.dist %>/scripts/services',
+            src: [
+              '{,*/}*'
+            ]
+          },
+          {
+            expand: true,
+            dot: true,
             cwd: '<%= yeoman.app %>/images/gui',
             dest: '<%= yeoman.dist %>/images/gui',
             src: [
@@ -214,7 +223,7 @@ module.exports = function (grunt) {
         separator: ';'
       },
       dist: {
-        src: ['<%= yeoman.app %>/scripts/directives/*.js'],
+        src: ['<%= yeoman.app %>/scripts/directives/*.js','<%= yeoman.app %>/scripts/services/*.js'],
         dest: '<%= yeoman.dist %>/scripts/tink-directives.js'
       }
     },
