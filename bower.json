@@ -8,6 +8,13 @@
   "ignore": [
     ".*",
     "**/.*",
+    "app/404.html",
+    "app/favicon.ico",
+    "app/images",
+    "app/index.html",
+    "app/robots.txt",
+    "app/scripts",
+    "app/views",
     "Gruntfile.js",
     "package.json",
     "test",
