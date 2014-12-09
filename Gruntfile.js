@@ -257,8 +257,8 @@ module.exports = function (grunt) {
         options: {
           patterns: [
             {
-              match: /v(\d+)\.(\d+)\.(\d+)\./g,
-              replacement: 'v<%= yeoman.version %>.'
+              match: /v(\d+)\.(\d+)\.(\d+)/g,
+              replacement: 'v<%= yeoman.version %>'
             }
           ]
         },
@@ -281,7 +281,6 @@ module.exports = function (grunt) {
       'copy-production-css-to-release-folder': 'find <%= yeoman.dist %>/styles/ -type f -name "tink.*.css" -exec cp "{}" <%= yeoman.dist %>/releases/tink-<%= yeoman.version %>/tink-<%= yeoman.version %>.css ";"',
       'create-production-zip-file': 'cd <%= yeoman.dist %>/releases && zip -rm tink-<%= yeoman.version %>.zip tink-<%= yeoman.version %>'
     }
-
 
   });
 
