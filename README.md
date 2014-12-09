@@ -1,4 +1,5 @@
 # Tink Framework
+
 v0.5.6
 
 ## What is this repository for?
@@ -8,14 +9,22 @@ Tink is an in-house developed easy-to-use front end framework for quick prototyp
 ## Setup
 
 ### Prerequisites
+
 * nodeJS [http://nodejs.org/download/](http://nodejs.org/download/)
-* grunt-cli : `npm install -g grunt-cli`
 * bower: `npm install -g bower`
 
 ## Use latest version in your project
 `bower install tink --save`
 
-## Development cycle
+## Development
+
+### Dev prerequisites
+
+* grunt-cli : `npm install -g grunt-cli`
+* bundler: `gem install bundler` (or `sudo gem install bundler` if your setup requires it)
+
+### Dev Cycle
+
 * Clone this repo to your hard drive:
   * BitBucket:
     * via SSH `git pull git@bitbucket.org:digipolis/sass_css_js_tink.git`
@@ -23,11 +32,11 @@ Tink is an in-house developed easy-to-use front end framework for quick prototyp
   * GitHub:
     * via SSH `git@github.com:Antwerp-Operating-System/sass_css_js_tink.git`
     * or HTTPS `https://github.com/Antwerp-Operating-System/sass_css_js_tink.git`
-* Navigate to your local Tink directory: `cd sass_css_js_tink`
-* install dependencies: `npm install`
-* Start you development server `npm start`
+* Navigate to your local Tink directory: `cd /path/to/sass_css_js_tink`
+* Install or update dependencies: `npm install`
+* Start you development server: `npm start`
 
-## Contribution guidelines
+### Contribution guidelines
 
 * If you don't have access to the repo, contact one of the people mentioned below
 * Create a branch from the development branch (feature/branch-name or bugfix/branch-name)
