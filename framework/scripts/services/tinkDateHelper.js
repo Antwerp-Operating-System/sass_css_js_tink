@@ -305,7 +305,7 @@ angular.module('tink.dateHelper')
       } else if (isSameDate(date, new Date())) {
         cssClass = "btn-warning"
       }
-      return '<td><button ng-click="$select(\''+date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+'\')" class="no-border ' + cssClass + '"><span>' + label + '</span></button></td>'
+      return '<td><button ng-click="$select(\''+date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+'\')" class="' + cssClass + '"><span>' + label + '</span></button></td>'
     } else{
       return '<td></td>';
     }
@@ -337,7 +337,7 @@ angular.module('tink.dateHelper')
             }else{
               label = createLabels(day, firstRange, lastRange);
             }
-
+            
             //tr.appendChild(label);
             tr += label;
             if ((i + 1) % 7 === 0) {
@@ -350,7 +350,7 @@ angular.module('tink.dateHelper')
           domElem = '<tbody id="secondCal">' + domElem + '</tbody>';
           return domElem;
 
-
+          
         }
       }
     });

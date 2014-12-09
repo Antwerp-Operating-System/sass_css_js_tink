@@ -148,9 +148,9 @@
                   if(!dateParser.isSameMonth(viewDate,$directive.viewDate) && !dateParser.isSameMonth(hulpDate,$directive.viewDate)){
                         // -- change the global variable  --/
                         $directive.viewDate = new Date(viewDate);
-                      }
+                      }         
                        // -- build the entire view  --/
-                       buildView();
+                       buildView();       
 
                      } else {
                       console.logerror("Wrong date");
@@ -209,7 +209,7 @@
                   if(!scope.lastDate){
                     $directive.hardCodeFocus = true;
                     $directive.focused.lastDateElem.focus();
-                  }
+                  }                
 
                 } else if ($directive.focusedModel === 'lastDateElem') {
                   scope.lastDate = date;
@@ -261,7 +261,7 @@
               if(evt.relatedTarget && evt.relatedTarget.nodeName === 'INPUT'){
 
               }else{
-                templateElem.css({display: 'none'}); // TH TEMPORARY DISABLE FOR DEV PURPOSES - disables hide on blur
+                templateElem.css({display: 'none'});
                 $directive.open = false;
                 $directive.focusedModel = null;
               }
