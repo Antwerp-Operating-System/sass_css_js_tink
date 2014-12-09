@@ -13,26 +13,29 @@ Tink is an in-house developed easy-to-use front end framework for quick prototyp
 * nodeJS [http://nodejs.org/download/](http://nodejs.org/download/)
 * bower: `npm install -g bower`
 
-## Use latest version in your project
-`bower install tink --save`
+## Getting started
 
-Than include the necessary files in your project. Here is a basic template to start from:
+1. Type the following command in your Terminal
+   `bower install tink --save`
 
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Tink</title>
-    <link rel="stylesheet" href="bower_components/tink/framework/styles/tink.min.css">
-  </head>
-  <body>
-    <div class="container-fluid">
-      <h1 class="text-center">Hello, Tink!</h1>
-    </div>
-  </body>
-</html>
-```
+2. Then include the necessary files in your project. Here is a basic template to start from:
+   ```html
+   <!DOCTYPE html>
+   <html>
+     <head>
+       <meta charset="utf-8">
+       <title>Tink</title>
+       <link rel="stylesheet" href="bower_components/tink/framework/styles/tink.min.css">
+     </head>
+     <body>
+       <div class="container-fluid">
+         <h1 class="text-center">Hello, Tink!</h1>
+       </div>
+     </body>
+   </html>
+   ```
+
+3. On http://tink.digipolis.be you will find the necessary documentation
 
 ## Development
 
