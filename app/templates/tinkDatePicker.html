@@ -21,7 +21,7 @@
         <tr ng-show="showLabels" class="days" ng-bind-html="labels"></tr>
         </thead>
         <tbody>
-        <tr ng-repeat="(i, row) in firstCal" height="{{ 100 / rows.length }}%">
+        <tr ng-repeat="(i, row) in rows" height="{{ 100 / rows.length }}%">
             <td class="text-center" ng-repeat="(j, el) in row">
                 <button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{'btn-primary': el.selected, 'btn-info btn-today': el.isToday && !el.selected}" ng-click="$select(el.date)" ng-disabled="el.disabled">
                     <span ng-class="{'text-muted': el.muted}" ng-bind="el.label"></span>
