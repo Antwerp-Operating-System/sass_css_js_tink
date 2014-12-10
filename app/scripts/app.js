@@ -19,7 +19,9 @@ angular.module('tink', [
     'tink.controllers',
     'tink.datepicker',
     'tink.dateHelper',
-    'tink.popOver'
+    'tink.popOver',
+    'tink.tooltip',
+    'tink.datepickerRange'
 
     // 'tink.datepicker'
   ])
