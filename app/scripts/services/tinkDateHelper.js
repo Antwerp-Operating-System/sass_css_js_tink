@@ -165,7 +165,7 @@ angular.module('tink.dateHelper')
     },
     daysInMonth: function (month,year) {
       if(angular.isDate(month)){
-        return new Date(date.getYear(), date.getMonth() + 1, 0).getDate();
+        return new Date(month.getYear(), month.getMonth() + 1, 0).getDate();
       }else{
         return new Date(year, month, 0).getDate();
       }      
@@ -248,7 +248,7 @@ angular.module('tink.dateHelper')
     }
   }
 }])
-.factory('calView', function (dateParser, $sce,$compile) {
+.factory('calView', function (dateCalculator, $sce,$compile) {
   var generatedMonths = {};
 
   function isSameDate(a, b) {
@@ -297,7 +297,7 @@ angular.module('tink.dateHelper')
       firstDayOfWeek = new Date(+firstDayOfWeek + (offsetDayOfweek - offsetDayOfMonth) * 60e3);
     }
 
-    var daysToDraw = dateParser.daysInMonth(date) + dateParser.daysBetween(firstDayOfWeek, firstDayOfMonth);
+    var daysToDraw = dateCalculator.daysInMonth(date) + dateCalculator.daysBetween(firstDayOfWeek, firstDayOfMonth);
     if (daysToDraw % 7 !== 0) {
       daysToDraw += 7 - (daysToDraw % 7);
     }

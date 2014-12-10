@@ -9,6 +9,7 @@
           lastDate: '='
         },
         link: function postLink(scope, element, attr, controller) {
+
              // -- check if we are using a touch device  --/
              var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
              var isTouch = ('createTouch' in $window.document) && isNative;

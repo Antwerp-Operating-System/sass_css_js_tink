@@ -54,10 +54,9 @@ angular.module('tink.tooltip', [])
    * Returns the actual instance of the $tooltip service.
    * TODO support multiple triggers
    */
-  this.$get = [ '$window', '$compile', '$timeout', '$document', '$position', '$interpolate', function ( $window, $compile, $timeout, $document, $position, $interpolate ) {
+  this.$get = [ '$window', '$compile', '$timeout', '$document', '$position', '$interpolate', function ( $window, $compile, $timeout, $document, $position, $interpolate ) {console.log("d")
     return function $tooltip ( type, prefix, defaultTriggerShow ) {
       var options = angular.extend( {}, defaultOptions, globalOptions );
-console.log("dof")
       /**
        * Returns an object of show and hide triggers.
        *
@@ -493,6 +492,5 @@ console.log("dof")
 })
 
 .directive( 'tinkTooltipHtmlUnsafe', [ '$tooltip', function ( $tooltip ) {
-  console.log("flop")
   return $tooltip( 'tinkTooltipHtmlUnsafe', 'tinkTooltip', 'mouseenter' );
 }]);
