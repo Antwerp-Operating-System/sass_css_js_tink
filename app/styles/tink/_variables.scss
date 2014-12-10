@@ -306,8 +306,8 @@ $input-height-small:             (floor($font-size-small * $line-height-small) +
 $legend-color:                   $gray-dark !default;
 $legend-border-color:            $gray-lighter !default;
 
-// $input-group-addon-bg:           $gray-lighter !default; // Background color for textual input addons
-// $input-group-addon-border-color: $input-border !default; // Border color for textual input addons
+$input-group-addon-bg:           $gray-lighter !default; // Background color for textual input addons
+$input-group-addon-border-color: $input-border !default; // Border color for textual input addons
 
 
 
