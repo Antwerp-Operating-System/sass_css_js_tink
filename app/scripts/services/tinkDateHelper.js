@@ -161,6 +161,9 @@ angular.module('tink.dateHelper')
       }
     },
     getDate: function (date, format) {
+      if(date.length !== format.length)
+        return null;
+
       return stringToDate(date, format);
     },
     daysInMonth: function (month,year) {
@@ -169,6 +172,9 @@ angular.module('tink.dateHelper')
       }else{
         return new Date(year, month, 0).getDate();
       }      
+    },
+    isValid:function(date){
+      console.log()
     },
     daysInMonthNodays: function (month,year) {
   
@@ -316,7 +322,9 @@ angular.module('tink.dateHelper')
       } else if (isSameDate(date, new Date())) {
         cssClass = "btn-warning"
       }
-      return '<td><button ng-click="$select(\''+date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+'\')" class="' + cssClass + '"><span>' + label + '</span></button></td>'
+      var month = ("0" + (date.getMonth() + 1)).slice(-2);
+      var day = ("0" + (date.getDate())).slice(-2);
+      return '<td><button ng-click="$select(\''+date.getFullYear()+"/"+month+"/"+day+'\')" class="' + cssClass + '"><span>' + label + '</span></button></td>'
     } else{
       return '<td></td>';
     }

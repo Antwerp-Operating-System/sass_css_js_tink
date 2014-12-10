@@ -34,9 +34,14 @@
                   } catch (e) {
                     scope.firstDate = null;
                   }
-                }
-                ;
+                };
+                stopWatch();
                 scope.firstDateModel = dateCalculator.format(date, config.dateFormat);
+                startWatch();
+              }else{
+                stopWatch();
+                scope.firstDateModel = "";
+                startWatch();
               }
 
             });
@@ -54,20 +59,39 @@
                 } catch (e) {
                   scope.lastDate = null;
                 }
-              }
-              ;
+              };
+              stopWatch();
               scope.lastDateModel = dateCalculator.format(scope.lastDate, config.dateFormat);
+              startWatch();
+            }else{
+              stopWatch();
+              scope.lastDateModel = "";
+              startWatch();
             }
           });
 
-            /* this slows down the code !! refactor this */
-            scope.$watch('firstDateModel',function(date){
-              scope.firstDate = date;
+            var firstDateWatch=null,lastDateWatch = null;
+            startWatch();
+
+            function startWatch(){
+              firstDateWatch =  scope.$watch('firstDateModel',function(newDate,oldDate){
+                if(newDate !== oldDate){
+                  scope.firstDate = newDate;
+                }
+              });
+
+              lastDateWatch = scope.$watch('lastDateModel',function(newDate,oldDate){
+               if(newDate !== oldDate){
+                  scope.lastDate = newDate;
+                }
             });
 
-            scope.$watch('lastDateModel',function(date){
-              scope.lastDate = date;
-            });
+            }
+
+            function stopWatch(){
+              firstDateWatch();
+              lastDateWatch();
+            }
 
               // -- the config is for the devolopers to change ! for in the future  --/
               // -- the $directive is four the directive hehehe ;) to keep track of stuff --/
@@ -87,6 +111,16 @@
       hardCodeFocus: false
     },
     fetchPromises = {};
+          /*angular.element($directive.focused.firstDateElem).bind('input',function(){
+            scope.$apply(function(date){
+              scope.firstDate = date.firstDateModel;
+            });
+          });
+          angular.element($directive.focused.lastDateElem).bind('input',function(){
+            scope.$apply(function(date){
+              scope.lastDate = date.lastDateModel;
+            });
+          });*/
 
             // -- This builds the view --/
             function buildView() {
@@ -156,6 +190,8 @@
                      } else {
                       console.logerror("Wrong date");
                     }
+                  }else {
+
                   }
             //  } catch (e) {
              //   console.log(e);
@@ -207,17 +243,25 @@
               if ($directive.focusedModel !== null) {
                 if ($directive.focusedModel === 'firstDateElem') {
                   scope.firstDate = date;
-                  if(!scope.lastDate){
-                    $directive.hardCodeFocus = true;
+                  if(!angular.isDate(scope.lastDate)){
                     $directive.focused.lastDateElem.focus();
-                  }                
+                  }else{
+                    if(dateCalculator.dateBeforeOther(scope.firstDate,scope.lastDate)){
+                      scope.lastDate = null;
+                      $directive.focused.lastDateElem.focus();
+                    }
+                  }   
 
                 } else if ($directive.focusedModel === 'lastDateElem') {
                   scope.lastDate = date;
-                  if(!scope.firstDate){
-                    $directive.hardCodeFocus = true;
+                  if(!angular.isDate(scope.firstDate)){
                     $directive.focused.firstDateElem.focus();
-                  }
+                  }else{
+                    if(dateCalculator.dateBeforeOther(scope.firstDate,scope.lastDate)){
+                      scope.firstDate = null;
+                      $directive.focused.firstDateElem.focus();
+                    }
+                  } 
 
                 }
 
