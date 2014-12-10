@@ -41,6 +41,7 @@
               }else{
                 stopWatch();
                 scope.firstDateModel = "";
+                refreshView();
                 startWatch();
               }
 
@@ -66,6 +67,7 @@
             }else{
               stopWatch();
               scope.lastDateModel = "";
+              buildView()
               startWatch();
             }
           });
@@ -76,13 +78,13 @@
             function startWatch(){
               firstDateWatch =  scope.$watch('firstDateModel',function(newDate,oldDate){
                 if(newDate !== oldDate){
-                  scope.firstDate = newDate;
+                  scope.$select(newDate,config.dateFormat,true);
                 }
               });
 
               lastDateWatch = scope.$watch('lastDateModel',function(newDate,oldDate){
                if(newDate !== oldDate){
-                  scope.lastDate = newDate;
+                  scope.$select(newDate,config.dateFormat,true);
                 }
             });
 
@@ -107,7 +109,7 @@
       selectedDates: {first: scope.firstDate, last: scope.lastDate},
       valid:{firstDateElem:false,lastDateElem:false},
       mouse: 0,
-      viewDate: null,
+      viewDate: new Date(),
       hardCodeFocus: false
     },
     fetchPromises = {};
@@ -237,16 +239,18 @@
               bindEvents();
             }
 
-            scope.$select = function (el) {
-              var date = dateCalculator.getDate(el,"yyyy/mm/dd");
-
+            scope.$select = function (el,format,clear) {
+              if(!angular.isDefined(format)){
+                  format = "yyyy/mm/dd"
+              }
+              var date = dateCalculator.getDate(el,format);
               if ($directive.focusedModel !== null) {
                 if ($directive.focusedModel === 'firstDateElem') {
                   scope.firstDate = date;
                   if(!angular.isDate(scope.lastDate)){
                     $directive.focused.lastDateElem.focus();
                   }else{
-                    if(dateCalculator.dateBeforeOther(scope.firstDate,scope.lastDate)){
+                    if(!clear && dateCalculator.dateBeforeOther(scope.firstDate,scope.lastDate)){
                       scope.lastDate = null;
                       $directive.focused.lastDateElem.focus();
                     }
@@ -257,7 +261,7 @@
                   if(!angular.isDate(scope.firstDate)){
                     $directive.focused.firstDateElem.focus();
                   }else{
-                    if(dateCalculator.dateBeforeOther(scope.firstDate,scope.lastDate)){
+                    if(!clear && dateCalculator.dateBeforeOther(scope.firstDate,scope.lastDate)){
                       scope.firstDate = null;
                       $directive.focused.firstDateElem.focus();
                     }
