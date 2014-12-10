@@ -17,6 +17,10 @@ angular.module('tink', [
     'ngSanitize',
     'ngTouch',
     'tink.controllers',
+    'tink.datepicker',
+    'tink.dateHelper',
+    'tink.popOver'
+
     // 'tink.datepicker'
   ])
 	.config(function ($routeProvider) { /*, $locationProvider */
@@ -24,6 +28,10 @@ angular.module('tink', [
 			.when('/', {
 				templateUrl: 'views/main.html',
 				controller: 'MainCtrl'
+			})
+			.when('/datepicker', {
+				templateUrl: 'views/datepickertest.html',
+				controller: 'DateCtrl'
 			})
 			.otherwise({
 				redirectTo: '/'

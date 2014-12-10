@@ -1,6 +1,6 @@
 angular.module('tink.dateHelper', []);
 angular.module('tink.dateHelper')
-.factory('dateParser', function () {
+.factory('dateCalculator', function () {
   var nl = {
     "DAY": ["zondag", "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"],
     "MONTH": ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"],
@@ -90,7 +90,7 @@ angular.module('tink.dateHelper')
   // Some common format strings
   dateFormat.masks = {
     "default": "ddd mmm dd yyyy HH:MM:ss",
-    shortDate: "d/m/yy",
+    shortDate: "dd/mm/yyyy",
     mediumDate: "mmm d, yyyy",
     longDate: "mmmm d, yyyy",
     fullDate: "dddd, mmmm d, yyyy",
@@ -163,11 +163,22 @@ angular.module('tink.dateHelper')
     getDate: function (date, format) {
       return stringToDate(date, format);
     },
-    daysInMonth: function (date) {
-      return new Date(date.getYear(), date.getMonth() + 1, 0).getDate();
+    daysInMonth: function (month,year) {
+      if(angular.isDate(month)){
+        return new Date(date.getYear(), date.getMonth() + 1, 0).getDate();
+      }else{
+        return new Date(year, month, 0).getDate();
+      }      
+    },
+    daysInMonthNodays: function (month,year) {
+  
+      return new Date(year, month, 0).getDate();
     },
     format: function (date, format, lang) {
       return dateFormat(date, format, null, nl);
+    },
+    formatDate: function (date, format, lang) {
+        return dateFormat(date, format,null,nl);
     },
     getShortDays: function (lang) {
 

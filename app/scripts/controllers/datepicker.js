@@ -13,5 +13,6 @@ angular.module('tink.controllers')
     scope.clickF= function(){
       console.log(scope.dates);
     }
+    scope.tmlTooltip = '<div>binde tis ds <p>fdf</p></div>';
 
   }]);

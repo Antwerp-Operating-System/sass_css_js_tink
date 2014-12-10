@@ -1,5 +1,5 @@
     angular.module('tink.datepickerRange', ['tink.dateHelper','tink.safeApply'])
-    .directive('tinkDatepickerRange', function ($q, $templateCache, $http, $compile, calView, dateParser, $sce,$compile,dateParser,$window,safeApply) {
+    .directive('tinkDatepickerRange', function ($q, $templateCache, $http, $compile, calView, dateCalculator, $sce,$compile,dateCalculator,$window,safeApply) {
       return {
         restrict: 'E',
         replace: true,
@@ -27,7 +27,7 @@
                   setViewDate(newDate);
                 } else {
                   try {
-                    date = dateParser.getDate(newDate, config.dateFormat);
+                    date = dateCalculator.getDate(newDate, config.dateFormat);
                     scope.firstDate = date;
                     //setViewDate(date);
                   } catch (e) {
@@ -35,7 +35,7 @@
                   }
                 }
                 ;
-                scope.firstDateModel = dateParser.format(date, config.dateFormat);
+                scope.firstDateModel = dateCalculator.format(date, config.dateFormat);
               }
 
             });
@@ -47,7 +47,7 @@
                  setViewDate(newDate);
                } else {
                 try {
-                  var date = dateParser.getDate(newDate, config.dateFormat);
+                  var date = dateCalculator.getDate(newDate, config.dateFormat);
                   scope.lastDate = date;
                   setViewDate(date);
                 } catch (e) {
@@ -55,7 +55,7 @@
                 }
               }
               ;
-              scope.lastDateModel = dateParser.format(scope.lastDate, config.dateFormat);
+              scope.lastDateModel = dateCalculator.format(scope.lastDate, config.dateFormat);
             }
           });
 
@@ -105,8 +105,8 @@
                copyViewDate.setMonth(copyViewDate.getMonth() + 1);
 
                // -- place the right titles in the scope  --/
-               scope.firstTitle = dateParser.format($directive.viewDate, 'mmmm yyyy');
-               scope.lastTitle = dateParser.format(copyViewDate, 'mmmm yyyy');
+               scope.firstTitle = dateCalculator.format($directive.viewDate, 'mmmm yyyy');
+               scope.lastTitle = dateCalculator.format(copyViewDate, 'mmmm yyyy');
 
               // -- create the second view   --/
               var htmlLast = calView.createMonthDays(copyViewDate, scope.firstDate, scope.lastDate);
@@ -145,7 +145,7 @@
                   var hulpDate = new Date(viewDate.getTime());
                   hulpDate.setMonth(hulpDate.getMonth()-1);
 
-                  if(!dateParser.isSameMonth(viewDate,$directive.viewDate) && !dateParser.isSameMonth(hulpDate,$directive.viewDate)){
+                  if(!dateCalculator.isSameMonth(viewDate,$directive.viewDate) && !dateCalculator.isSameMonth(hulpDate,$directive.viewDate)){
                         // -- change the global variable  --/
                         $directive.viewDate = new Date(viewDate);
                       }         
@@ -201,7 +201,7 @@
             }
 
             scope.$select = function (el) {
-              var date = dateParser.getDate(el,"yyyy/mm/dd");
+              var date = dateCalculator.getDate(el,"yyyy/mm/dd");
 
               if ($directive.focusedModel !== null) {
                 if ($directive.focusedModel === 'firstDateElem') {
