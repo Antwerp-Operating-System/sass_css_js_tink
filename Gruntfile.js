@@ -11,20 +11,18 @@ module.exports = function (grunt) {
 
   // Semantic version options
   var bump = grunt.option('bump') || '';
-
   var currentversion = require('./package.json').version;
+  var nextversion = currentversion;
 
   if (bump !== '') {
     var semversion = require('semver');
-    var nextversion = semversion.inc(currentversion, bump);
-  } else {
-    var nextversion = currentversion;
+    nextversion = semversion.inc(currentversion, bump);
   }
 
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
-    dist: 'framework',
+    dist: 'dist',
     version: nextversion
   };
 
