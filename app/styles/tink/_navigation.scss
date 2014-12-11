@@ -1,7 +1,7 @@
 /**
  * Navigation
  * --------------------------------------------------
- * - headernav
+ * - top navigation
  * - off-canvas nav
  * - nav states
  */
@@ -9,97 +9,111 @@
 
 
 /**
- * Header
+ * Default behaviour is that there is a fixed top-nav,
+ * so we need to 'fix' the body's padding
+ */
+body {
+  padding-top: rem($top-nav-height);
+
+  // If the top-nav for some reason needs to scroll with the page
+  &.has-relative-top-nav {
+    padding-top: 0;
+
+    .top-nav {
+      position: relative;
+    }
+  }
+}
+
+
+
+
+/**
+ * Top navigation
  */
 
-.top-header {
-  background-color: $top-header-bg-color;
-  color: $top-header-text-color;
-  display: table;
+.top-nav {
+  background-color: $top-nav-bg-color;
+  line-height: rem($top-nav-height);
+  overflow: auto;
   position: fixed;
   top: 0;
-  transition: height $animation-speed linear;
   width: 100%;
-  z-index: layer('top-header');
+  z-index: layer('top-nav');
+}
+
+ul.top-nav-branding,
+ul.top-nav-left,
+ul.top-nav-right {
+  @extend .list-inline;
+  margin: 0;
+
+  li {
+    padding: 0;
+  }
 
   a {
-    color: $top-header-link-color;
+    color: $top-nav-link-color;
+    outline: none;
     text-decoration: none;
+    display: inline-block;
+    line-height: rem($top-nav-height - $top-nav-padding);
+    margin: rem(($top-nav-padding / 2) 0);
+    padding: rem(0 $top-nav-padding);
 
     &:hover,
     &:active,
     &:focus {
-      color: $top-header-link-hover-color;
+      color: $top-nav-link-hover-color;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 2px rgba($brand-light, .5);
     }
   }
 }
 
-.top-header-left {
-  display: table-cell;
-  height: rem($top-header-height);
-  top: 0;
+ul.top-nav-branding {
+  float: left;
 
-  > div {
-    display: table;
+  li {
     float: left;
-    height: rem($top-header-height);
 
-    &.app-logo {
-      margin-right: rem($padding-base-horizontal);
-
-      img {
-        height: rem($top-header-height);
-      }
-    }
-
-    &.sidenav-toggle {
-      // font-size: rem(21);
-      padding: rem($padding-base-vertical 0);
-
+    &:first-child {
       a {
-        padding: rem(0 $padding-base-horizontal);
+        float: left;
+        margin: rem(0 $top-nav-padding 0 0);
+        padding: 0;
       }
     }
+  }
 
-    &.app-name {
-      display: none;
-      padding: rem($padding-base-vertical 0);
+  img {
+    float: left;
+    height: rem($top-nav-height);
+  }
 
-      @include mq($screen-sm) {
-        display: table;
-        font-weight: 900;
-      }
-
-      a {
-        padding: rem(0 $padding-base-horizontal);
-      }
-    }
-
-    > * {
-      display: table-cell;
-      vertical-align: middle;
-    }
+  h1 {
+    font-size: rem($font-size-base);
+    font-weight: 700;
+    line-height: rem($top-nav-height);
+    margin: 0;
   }
 }
 
-.top-header-right {
-  display: none;
-  // display: table-cell;
-  // height: rem($top-header-height);
-  // top: 0;
+section.top-nav-section {
+  position: relative;
+  width: auto;
+}
 
-  // > ul {
-  //   @extend .list-unstyled;
-  //   display: table;
-  //   float: right;
-  //   height: 100%;
-  //   max-height: rem($top-header-height);
+ul.top-nav-left {
+  float: left;
+  margin-left: rem($top-nav-padding / 2);
+}
 
-  //   li {
-  //     float: right;
-  //     display: table-cell;
-  //   }
-  // }
+ul.top-nav-right {
+  float: right;
+  margin-right: rem($top-nav-padding / 2);
 }
 
 
@@ -115,7 +129,7 @@
   left: 0;
   overflow: auto;
   position: fixed;
-  top: rem($top-header-height);
+  top: rem($top-nav-height);
   transform: translate(rem(-$nav-left-width), 0);
   transition: transform $animation-speed linear;
   width: rem($nav-left-width);
