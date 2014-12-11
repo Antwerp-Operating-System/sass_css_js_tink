@@ -1,5 +1,5 @@
     angular.module('tink.datepickerRange', ['tink.dateHelper','tink.safeApply'])
-    .directive('tinkDatepickerRange', function ($q, $templateCache, $http, $compile, calView, dateCalculator, $sce,$compile,dateCalculator,$window,safeApply) {
+    .directive('tinkDatepickerRange',["$q", "$templateCache", "$http", "$compile", "calView", "dateCalculator", "$sce","$compile","dateCalculator","$window","safeApply", function ($q, $templateCache, $http, $compile, calView, dateCalculator, $sce,$compile,dateCalculator,$window,safeApply) {
       return {
         restrict: 'E',
         replace: true,
@@ -383,4 +383,4 @@
 
         }
       }
-    });
+    }]);

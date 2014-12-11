@@ -6,7 +6,7 @@
 
 angular.module('tink.datepicker', []);
 angular.module('tink.datepicker')
-  .factory('dimensions', function ($document, $window) {
+  .factory('dimensions', ["$document","$window", function ($document, $window) {
 
     var jqLite = angular.element;
     var fn = {};
@@ -150,7 +150,7 @@ angular.module('tink.datepicker')
 
     return fn;
 
-  })
+  }])
   .provider('$dateTooltip', function () {
 
     var defaults = this.defaults = {
@@ -1004,7 +1004,7 @@ angular.module('tink.datepicker')
     };
 
   })
-  .directive('tinkDatepicker', function ($window, $parse, $q, dateCalculator, $dateParser, $datepicker) {
+  .directive('tinkDatepicker',["$window","$parse","$q","dateCalculator","$dateParser","$datepicker", function ($window, $parse, $q, dateCalculator, $dateParser, $datepicker) {
 
     var defaults = $datepicker.defaults;
     var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
@@ -1163,7 +1163,7 @@ angular.module('tink.datepicker')
       }
     };
 
-  })
+  }])
   .provider('datepickerViews', function () {
 
     var defaults = this.defaults = {
@@ -1424,7 +1424,7 @@ angular.module('tink.datepicker')
     };
 
   })
-  .provider('$dateParser', function ($localeProvider) {
+  .provider('$dateParser', ["$localeProvider",function ($localeProvider) {
 
     // define a custom ParseDate object to use instead of native Date
     // to avoid date values wrapping when setting date component values
@@ -1709,5 +1709,5 @@ angular.module('tink.datepicker')
 
     };
 
-  })
+  }])
  

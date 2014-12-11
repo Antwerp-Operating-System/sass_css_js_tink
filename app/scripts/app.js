@@ -25,7 +25,7 @@ angular.module('tink', [
 
     // 'tink.datepicker'
   ])
-	.config(function ($routeProvider) { /*, $locationProvider */
+  	.config(function ($routeProvider) { /*, $locationProvider */
 		$routeProvider
 			.when('/', {
 				templateUrl: 'views/main.html',

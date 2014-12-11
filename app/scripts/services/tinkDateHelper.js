@@ -238,7 +238,7 @@ angular.module('tink.dateHelper')
   }
 
 })
-.factory('safeApply', [function($rootScope) {
+.factory('safeApply', [function() {
   return function($scope, fn) {
     var phase = $scope.$root.$$phase;
     if(phase == '$apply' || phase == '$digest') {
@@ -254,7 +254,7 @@ angular.module('tink.dateHelper')
     }
   }
 }])
-.factory('calView', function (dateCalculator, $sce,$compile) {
+.factory('calView',["dateCalculator","$sce","$compile",function (dateCalculator, $sce,$compile) {
   var generatedMonths = {};
 
   function isSameDate(a, b) {
@@ -372,4 +372,4 @@ angular.module('tink.dateHelper')
           
         }
       }
-    });
+    }]);
