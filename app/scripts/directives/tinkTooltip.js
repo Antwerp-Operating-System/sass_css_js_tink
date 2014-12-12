@@ -1,3 +1,4 @@
+'use strict';
 angular.module('tink.tooltip', [])
 .provider( '$tooltip', function () {
   // The default options tooltip and popover.
@@ -42,7 +43,8 @@ angular.module('tink.tooltip', [])
   /**
    * This is a helper function for translating camel-case to snake-case.
    */
-  function snake_case(name){console.log("neee")
+   /*jshint camelcase: false */
+  function snake_case(name){
     var regexp = /[A-Z]/g;
     var separator = '-';
     return name.replace(regexp, function(letter, pos) {
@@ -54,7 +56,7 @@ angular.module('tink.tooltip', [])
    * Returns the actual instance of the $tooltip service.
    * TODO support multiple triggers
    */
-  this.$get = [ '$window', '$compile', '$timeout', '$document', '$position', '$interpolate', function ( $window, $compile, $timeout, $document, $position, $interpolate ) {console.log("d")
+  this.$get = [ '$window', '$compile', '$timeout', '$document', '$position', '$interpolate', function ( $window, $compile, $timeout, $document, $position, $interpolate ) {
     return function $tooltip ( type, prefix, defaultTriggerShow ) {
       var options = angular.extend( {}, defaultOptions, globalOptions );
       /**
@@ -96,7 +98,7 @@ angular.module('tink.tooltip', [])
 
       return {
         restrict: 'EA',
-        compile: function (tElem, tAttrs) {
+        compile: function () {
           var tooltipLinker = $compile( template );
 
           return function link ( scope, element, attrs ) {
@@ -364,7 +366,7 @@ angular.module('tink.tooltip', [])
         var elBCR = this.offset(element);
         var offsetParentBCR = { top: 0, left: 0 };
         var offsetParentEl = parentOffsetEl(element[0]);
-        if (offsetParentEl != $document[0]) {
+        if (offsetParentEl !== $document[0]) {
           offsetParentBCR = this.offset(angular.element(offsetParentEl));
           offsetParentBCR.top += offsetParentEl.clientTop - offsetParentEl.scrollTop;
           offsetParentBCR.left += offsetParentEl.clientLeft - offsetParentEl.scrollLeft;
