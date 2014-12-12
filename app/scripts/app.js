@@ -16,12 +16,7 @@ angular.module('tink', [
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'tink.controllers',
-    'tink.datepicker',
-    'tink.dateHelper',
-    'tink.popOver',
-    'tink.tooltip',
-    'tink.datepickerRange'
+    'tink.controllers'
 
     // 'tink.datepicker'
   ])
