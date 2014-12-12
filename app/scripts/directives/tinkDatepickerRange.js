@@ -1,5 +1,5 @@
     angular.module('tink.datepickerRange', ['tink.dateHelper','tink.safeApply'])
-    .directive('tinkDatepickerRange',["$q", "$templateCache", "$http", "$compile", "calView", "dateCalculator", "$sce","$compile","dateCalculator","$window","safeApply", function ($q, $templateCache, $http, $compile, calView, dateCalculator, $sce,$compile,dateCalculator,$window,safeApply) {
+    .directive('tinkDatepickerRange',["$q", "$templateCache", "$http", "calView", "dateCalculator", "$sce","$compile","dateCalculator","$window","safeApply", function ($q, $templateCache, $http, calView, dateCalculator, $sce,$compile,dateCalculator,$window,safeApply) {
       return {
         restrict: 'E',
         replace: true,
@@ -76,7 +76,17 @@
             startWatch();
 
             function startWatch(){
-              firstDateWatch =  scope.$watch('firstDateModel',function(newDate,oldDate){
+             firstDateWatch = scope.$watch(function(){
+console.log(scope.firstDateModel + scope.lastDateModel)
+              return scope.firstDateModel + scope.lastDateModel;
+
+              },function(newDate,oldDate){
+                if(newDate !== oldDate){
+                  scope.$select(newDate,config.dateFormat,true);
+                }
+              });
+
+              /*firstDateWatch =  scope.$watch('firstDateModel',function(newDate,oldDate){
                 if(newDate !== oldDate){
                   scope.$select(newDate,config.dateFormat,true);
                 }
@@ -86,13 +96,13 @@
                if(newDate !== oldDate){
                   scope.$select(newDate,config.dateFormat,true);
                 }
-            });
+            });*/
 
             }
 
             function stopWatch(){
               firstDateWatch();
-              lastDateWatch();
+             // lastDateWatch();
             }
 
               // -- the config is for the devolopers to change ! for in the future  --/
