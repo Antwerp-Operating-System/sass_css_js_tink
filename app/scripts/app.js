@@ -29,7 +29,7 @@ angular.module('tink', [
 		$routeProvider
 			.when('/', {
 				templateUrl: 'views/main.html',
-				controller: 'MainCtrl'
+				// controller: 'MainCtrl'
 			})
 			.when('/datepicker', {
 				templateUrl: 'views/datepickertest.html',
