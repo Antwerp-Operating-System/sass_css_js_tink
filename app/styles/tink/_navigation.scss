@@ -25,8 +25,25 @@ body {
   }
 }
 
+// TH attempt to generic actionbar
 
+// .bar {
+//   background: $gray-dark;
+//   line-height: rem($top-nav-height / 2);
+//   overflow: auto;
+//   position: fixed;
+//   width: 100%;
+//   z-index: layer('top-nav');
 
+//   &-nav {
+//     @extend .list-inline;
+//     margin: 0;
+
+//     li {
+//       padding: 0;
+//     }
+//   }
+// }
 
 /**
  * Top navigation
