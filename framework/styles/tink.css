@@ -64,7 +64,7 @@
 /**
  * Navigation
  *
- * Settings for the header and the off-canvas navigation
+ * Settings for the top navigation and the off-canvas navigation
  */
 /**
  * Functions
@@ -2058,18 +2058,24 @@ ol ol {
 }
 
 /* line 232, ../app/styles/tink/_typography.scss */
-.list-unstyled, .list-inline, .nav-left ul {
+.list-unstyled, .list-inline, ul.top-nav-branding,
+ul.top-nav-left,
+ul.top-nav-right, .nav-left ul {
   list-style: none;
   margin-bottom: 0;
   padding-left: 0;
 }
 
 /* line 239, ../app/styles/tink/_typography.scss */
-.list-inline {
+.list-inline, ul.top-nav-branding,
+ul.top-nav-left,
+ul.top-nav-right {
   margin-left: -0.4285714286rem ;
 }
 /* line 243, ../app/styles/tink/_typography.scss */
-.list-inline > li {
+.list-inline > li, ul.top-nav-branding > li,
+ul.top-nav-left > li,
+ul.top-nav-right > li {
   display: inline-block;
   padding-left: 0.4285714286rem ;
   padding-right: 0.4285714286rem ;
@@ -4357,6 +4363,270 @@ input[type="submit"].active,
   margin-top: 5px;
 }
 
+/**
+ * Popovers
+ * --------------------------------------------------
+ */
+/* line 35, ../app/styles/tink/_popovers.scss */
+.popover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1060;
+  display: none;
+  max-width: 276px;
+  padding: 1px;
+  font-family: Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.428571429;
+  text-align: left;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  white-space: normal;
+}
+/* line 60, ../app/styles/tink/_popovers.scss */
+.popover.top {
+  margin-top: -10px;
+}
+/* line 61, ../app/styles/tink/_popovers.scss */
+.popover.right {
+  margin-left: 10px;
+}
+/* line 62, ../app/styles/tink/_popovers.scss */
+.popover.bottom {
+  margin-top: 10px;
+}
+/* line 63, ../app/styles/tink/_popovers.scss */
+.popover.left {
+  margin-left: -10px;
+}
+
+/* line 66, ../app/styles/tink/_popovers.scss */
+.popover-title {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 14px;
+  background-color: #f7f7f7;
+  border-bottom: 1px solid #ebebeb;
+  border-radius: 3px 3px 0 0;
+}
+
+/* line 75, ../app/styles/tink/_popovers.scss */
+.popover-content {
+  padding: 9px 14px;
+}
+
+/* line 84, ../app/styles/tink/_popovers.scss */
+.popover > .arrow, .popover > .arrow:after {
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+
+/* line 94, ../app/styles/tink/_popovers.scss */
+.popover > .arrow {
+  border-width: 11px;
+}
+
+/* line 97, ../app/styles/tink/_popovers.scss */
+.popover > .arrow:after {
+  border-width: 10px;
+  content: "";
+}
+
+/* line 103, ../app/styles/tink/_popovers.scss */
+.popover.top > .arrow {
+  left: 50%;
+  margin-left: -11px;
+  border-bottom-width: 0;
+  border-top-color: #999999;
+  border-top-color: rgba(0, 0, 0, 0.25);
+  bottom: -11px;
+}
+/* line 110, ../app/styles/tink/_popovers.scss */
+.popover.top > .arrow:after {
+  content: " ";
+  bottom: 1px;
+  margin-left: -10px;
+  border-bottom-width: 0;
+  border-top-color: #fff;
+}
+/* line 118, ../app/styles/tink/_popovers.scss */
+.popover.right > .arrow {
+  top: 50%;
+  left: -11px;
+  margin-top: -11px;
+  border-left-width: 0;
+  border-right-color: #999999;
+  border-right-color: rgba(0, 0, 0, 0.25);
+}
+/* line 125, ../app/styles/tink/_popovers.scss */
+.popover.right > .arrow:after {
+  content: " ";
+  left: 1px;
+  bottom: -10px;
+  border-left-width: 0;
+  border-right-color: #fff;
+}
+/* line 133, ../app/styles/tink/_popovers.scss */
+.popover.bottom > .arrow {
+  left: 50%;
+  margin-left: -11px;
+  border-top-width: 0;
+  border-bottom-color: #999999;
+  border-bottom-color: rgba(0, 0, 0, 0.25);
+  top: -11px;
+}
+/* line 140, ../app/styles/tink/_popovers.scss */
+.popover.bottom > .arrow:after {
+  content: " ";
+  top: 1px;
+  margin-left: -10px;
+  border-top-width: 0;
+  border-bottom-color: #fff;
+}
+/* line 149, ../app/styles/tink/_popovers.scss */
+.popover.left > .arrow {
+  top: 50%;
+  right: -11px;
+  margin-top: -11px;
+  border-right-width: 0;
+  border-left-color: #999999;
+  border-left-color: rgba(0, 0, 0, 0.25);
+}
+/* line 156, ../app/styles/tink/_popovers.scss */
+.popover.left > .arrow:after {
+  content: " ";
+  right: 1px;
+  border-right-width: 0;
+  border-left-color: #fff;
+  bottom: -10px;
+}
+
+/* line 27, ../app/styles/tink/_tooltip.scss */
+.tooltip {
+  position: absolute;
+  z-index: 1070;
+  display: block;
+  visibility: visible;
+  font-family: Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1.4;
+}
+/* line 40, ../app/styles/tink/_tooltip.scss */
+.tooltip.top {
+  margin-top: -3px;
+  padding: 5px 0;
+}
+/* line 41, ../app/styles/tink/_tooltip.scss */
+.tooltip.right {
+  margin-left: 3px;
+  padding: 0 5px;
+}
+/* line 42, ../app/styles/tink/_tooltip.scss */
+.tooltip.bottom {
+  margin-top: 3px;
+  padding: 5px 0;
+}
+/* line 43, ../app/styles/tink/_tooltip.scss */
+.tooltip.left {
+  margin-left: -3px;
+  padding: 0 5px;
+}
+
+/* line 47, ../app/styles/tink/_tooltip.scss */
+.tooltip-inner {
+  max-width: 200px;
+  padding: 3px 8px;
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  background-color: #000;
+  border-radius: 2px;
+}
+
+/* line 58, ../app/styles/tink/_tooltip.scss */
+.tooltip-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+
+/* line 67, ../app/styles/tink/_tooltip.scss */
+.tooltip.top .tooltip-arrow {
+  bottom: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px 5px 0;
+  border-top-color: #000;
+}
+/* line 74, ../app/styles/tink/_tooltip.scss */
+.tooltip.top-left .tooltip-arrow {
+  bottom: 0;
+  right: 5px;
+  margin-bottom: -5px;
+  border-width: 5px 5px 0;
+  border-top-color: #000;
+}
+/* line 81, ../app/styles/tink/_tooltip.scss */
+.tooltip.top-right .tooltip-arrow {
+  bottom: 0;
+  left: 5px;
+  margin-bottom: -5px;
+  border-width: 5px 5px 0;
+  border-top-color: #000;
+}
+/* line 88, ../app/styles/tink/_tooltip.scss */
+.tooltip.right .tooltip-arrow {
+  top: 50%;
+  left: 0;
+  margin-top: -5px;
+  border-width: 5px 5px 5px 0;
+  border-right-color: #000;
+}
+/* line 95, ../app/styles/tink/_tooltip.scss */
+.tooltip.left .tooltip-arrow {
+  top: 50%;
+  right: 0;
+  margin-top: -5px;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #000;
+}
+/* line 102, ../app/styles/tink/_tooltip.scss */
+.tooltip.bottom .tooltip-arrow {
+  top: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: #000;
+}
+/* line 109, ../app/styles/tink/_tooltip.scss */
+.tooltip.bottom-left .tooltip-arrow {
+  top: 0;
+  right: 5px;
+  margin-top: -5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: #000;
+}
+/* line 116, ../app/styles/tink/_tooltip.scss */
+.tooltip.bottom-right .tooltip-arrow {
+  top: 0;
+  left: 5px;
+  margin-top: -5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: #000;
+}
+
 /* A11Y 
 *  Accessibility
 *  refers to the accessibility of a computer system to all people, regardless of disability or severity of impairment.
@@ -4833,93 +5103,132 @@ a[role="tab"]:focus {
 /**
  * Navigation
  * --------------------------------------------------
- * - headernav
+ * - top navigation
  * - off-canvas nav
  * - nav states
  */
 /**
- * Header
+ * Default behaviour is that there is a fixed top-nav,
+ * so we need to 'fix' the body's padding
  */
 /* line 15, ../app/styles/tink/_navigation.scss */
-.top-header {
+body {
+  padding-top: 3.5714285714rem ;
+}
+/* line 19, ../app/styles/tink/_navigation.scss */
+body.has-relative-top-nav {
+  padding-top: 0;
+}
+/* line 22, ../app/styles/tink/_navigation.scss */
+body.has-relative-top-nav .top-nav {
+  position: relative;
+}
+
+/**
+ * Top navigation
+ */
+/* line 35, ../app/styles/tink/_navigation.scss */
+.top-nav {
   background-color: #333;
-  color: #fff;
-  display: table;
+  line-height: 3.5714285714rem ;
+  overflow: auto;
   position: fixed;
   top: 0;
-  transition: height 0.1s linear;
   width: 100%;
   z-index: 4;
 }
-/* line 25, ../app/styles/tink/_navigation.scss */
-.top-header a {
-  color: #f7f7f7;
-  text-decoration: none;
-}
-/* line 29, ../app/styles/tink/_navigation.scss */
-.top-header a:hover, .top-header a:active, .top-header a:focus {
-  color: #fff;
-}
 
-/* line 37, ../app/styles/tink/_navigation.scss */
-.top-header-left {
-  display: table-cell;
-  height: 3.5714285714rem ;
-  top: 0;
+/* line 45, ../app/styles/tink/_navigation.scss */
+ul.top-nav-branding,
+ul.top-nav-left,
+ul.top-nav-right {
+  margin: 0;
 }
-/* line 42, ../app/styles/tink/_navigation.scss */
-.top-header-left > div {
-  display: table;
-  float: left;
-  height: 3.5714285714rem ;
-}
-/* line 47, ../app/styles/tink/_navigation.scss */
-.top-header-left > div.app-logo {
-  margin-right: 0.8571428571rem ;
-}
-/* line 50, ../app/styles/tink/_navigation.scss */
-.top-header-left > div.app-logo img {
-  height: 3.5714285714rem ;
+/* line 51, ../app/styles/tink/_navigation.scss */
+ul.top-nav-branding li,
+ul.top-nav-left li,
+ul.top-nav-right li {
+  padding: 0;
 }
 /* line 55, ../app/styles/tink/_navigation.scss */
-.top-header-left > div.sidenav-toggle {
-  padding: 0.4285714286rem 0rem ;
-}
-/* line 59, ../app/styles/tink/_navigation.scss */
-.top-header-left > div.sidenav-toggle a {
+ul.top-nav-branding a,
+ul.top-nav-left a,
+ul.top-nav-right a {
+  color: #f7f7f7;
+  outline: none;
+  text-decoration: none;
+  display: inline-block;
+  line-height: 2.7142857143rem ;
+  margin: 0.4285714286rem 0rem ;
   padding: 0rem 0.8571428571rem ;
 }
 /* line 64, ../app/styles/tink/_navigation.scss */
-.top-header-left > div.app-name {
-  display: none;
-  padding: 0.4285714286rem 0rem ;
+ul.top-nav-branding a:hover, ul.top-nav-branding a:active, ul.top-nav-branding a:focus,
+ul.top-nav-left a:hover,
+ul.top-nav-left a:active,
+ul.top-nav-left a:focus,
+ul.top-nav-right a:hover,
+ul.top-nav-right a:active,
+ul.top-nav-right a:focus {
+  color: #fff;
 }
-@media (min-width: 768px) {
-  /* line 64, ../app/styles/tink/_navigation.scss */
-  .top-header-left > div.app-name {
-    display: table;
-    font-weight: 900;
-  }
-}
-/* line 73, ../app/styles/tink/_navigation.scss */
-.top-header-left > div.app-name a {
-  padding: 0rem 0.8571428571rem ;
-}
-/* line 78, ../app/styles/tink/_navigation.scss */
-.top-header-left > div > * {
-  display: table-cell;
-  vertical-align: middle;
+/* line 70, ../app/styles/tink/_navigation.scss */
+ul.top-nav-branding a:focus,
+ul.top-nav-left a:focus,
+ul.top-nav-right a:focus {
+  box-shadow: 0 0 0 2px rgba(95, 177, 214, 0.5);
 }
 
-/* line 85, ../app/styles/tink/_navigation.scss */
-.top-header-right {
-  display: none;
+/* line 76, ../app/styles/tink/_navigation.scss */
+ul.top-nav-branding {
+  float: left;
+}
+/* line 79, ../app/styles/tink/_navigation.scss */
+ul.top-nav-branding li {
+  float: left;
+}
+/* line 83, ../app/styles/tink/_navigation.scss */
+ul.top-nav-branding li:first-child a {
+  float: left;
+  margin: 0rem 0.8571428571rem 0rem 0rem ;
+  padding: 0;
+}
+/* line 91, ../app/styles/tink/_navigation.scss */
+ul.top-nav-branding img {
+  float: left;
+  height: 3.5714285714rem ;
+  width: auto;
+}
+/* line 97, ../app/styles/tink/_navigation.scss */
+ul.top-nav-branding h1 {
+  font-size: 1rem ;
+  font-weight: 700;
+  line-height: 3.5714285714rem ;
+  margin: 0;
+}
+
+/* line 105, ../app/styles/tink/_navigation.scss */
+section.top-nav-section {
+  position: relative;
+  width: auto;
+}
+
+/* line 110, ../app/styles/tink/_navigation.scss */
+ul.top-nav-left {
+  float: left;
+  margin-left: 0.4285714286rem ;
+}
+
+/* line 115, ../app/styles/tink/_navigation.scss */
+ul.top-nav-right {
+  float: right;
+  margin-right: 0.4285714286rem ;
 }
 
 /**
  * Sidenav
  */
-/* line 112, ../app/styles/tink/_navigation.scss */
+/* line 127, ../app/styles/tink/_navigation.scss */
 .nav-left {
   background: #fff;
   bottom: 0;
@@ -4938,14 +5247,14 @@ a[role="tab"]:focus {
   -webkit-overflow-scrolling: -blackberry-touch;
 }
 @media (min-width: 768px) {
-  /* line 112, ../app/styles/tink/_navigation.scss */
+  /* line 127, ../app/styles/tink/_navigation.scss */
   .nav-left {
     -webkit-transform: translate(0, 0);
     -ms-transform: translate(0, 0);
     transform: translate(0, 0);
   }
 }
-/* line 130, ../app/styles/tink/_navigation.scss */
+/* line 145, ../app/styles/tink/_navigation.scss */
 .nav-left:before {
   background: rgba(0, 0, 0, 0.12);
   bottom: 0;
@@ -4958,13 +5267,13 @@ a[role="tab"]:focus {
   width: 2px;
   z-index: 2;
 }
-/* line 147, ../app/styles/tink/_navigation.scss */
+/* line 162, ../app/styles/tink/_navigation.scss */
 .nav-left > ul {
   overflow: visible;
   -webkit-backface-visibility: hidden;
   -webkit-transform-style: preserve-3d;
 }
-/* line 152, ../app/styles/tink/_navigation.scss */
+/* line 167, ../app/styles/tink/_navigation.scss */
 .nav-left > ul > li {
   display: block;
   float: left;
@@ -4975,43 +5284,43 @@ a[role="tab"]:focus {
   -webkit-backface-visibility: hidden;
   -webkit-transform-style: preserve-3d;
 }
-/* line 162, ../app/styles/tink/_navigation.scss */
+/* line 177, ../app/styles/tink/_navigation.scss */
 .nav-left > ul > li:last-child {
   border-bottom: 1px solid #eaeaea;
 }
-/* line 170, ../app/styles/tink/_navigation.scss */
+/* line 185, ../app/styles/tink/_navigation.scss */
 .nav-left > ul > li:hover > a > i, .nav-left > ul > li:active > a > i, .nav-left > ul > li:focus > a > i {
   color: #fff;
 }
-/* line 173, ../app/styles/tink/_navigation.scss */
+/* line 188, ../app/styles/tink/_navigation.scss */
 .nav-left > ul > li:hover > a > i .icon-bg, .nav-left > ul > li:active > a > i .icon-bg, .nav-left > ul > li:focus > a > i .icon-bg {
   -webkit-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
   transform: translate(0, 0);
 }
-/* line 182, ../app/styles/tink/_navigation.scss */
+/* line 197, ../app/styles/tink/_navigation.scss */
 .nav-left > ul > li.active > a {
   background: rgba(0, 0, 0, 0.05);
 }
-/* line 185, ../app/styles/tink/_navigation.scss */
+/* line 200, ../app/styles/tink/_navigation.scss */
 .nav-left > ul > li.active > a > i {
   color: #fff;
 }
-/* line 188, ../app/styles/tink/_navigation.scss */
+/* line 203, ../app/styles/tink/_navigation.scss */
 .nav-left > ul > li.active > a > i .icon-bg {
   -webkit-transform: translate(0, 0);
   -ms-transform: translate(0, 0);
   transform: translate(0, 0);
 }
-/* line 195, ../app/styles/tink/_navigation.scss */
+/* line 210, ../app/styles/tink/_navigation.scss */
 .nav-left > ul > li.active ul {
   max-height: 35.7142857143rem ;
 }
-/* line 201, ../app/styles/tink/_navigation.scss */
+/* line 216, ../app/styles/tink/_navigation.scss */
 .nav-left > ul > li.active li.active > a {
   background: rgba(0, 0, 0, 0.05);
 }
-/* line 214, ../app/styles/tink/_navigation.scss */
+/* line 229, ../app/styles/tink/_navigation.scss */
 .nav-left > ul > li a {
   color: #141414;
   display: table;
@@ -5020,24 +5329,24 @@ a[role="tab"]:focus {
   text-decoration: none;
   width: 100%;
 }
-/* line 222, ../app/styles/tink/_navigation.scss */
+/* line 237, ../app/styles/tink/_navigation.scss */
 .nav-left > ul > li a:hover, .nav-left > ul > li a:active, .nav-left > ul > li a:focus {
   background: rgba(0, 0, 0, 0.05);
 }
-/* line 228, ../app/styles/tink/_navigation.scss */
+/* line 243, ../app/styles/tink/_navigation.scss */
 .nav-left > ul > li a > span {
   display: table-cell;
   padding: 0rem 0rem 0rem 0.7142857143rem ;
   vertical-align: middle;
 }
-/* line 235, ../app/styles/tink/_navigation.scss */
+/* line 250, ../app/styles/tink/_navigation.scss */
 .nav-left > ul > li > a {
   background-color: #fff;
   border-top: 1px solid #eaeaea;
   min-height: 3.5714285714rem ;
   padding: 1rem 0rem 1rem 0rem ;
 }
-/* line 242, ../app/styles/tink/_navigation.scss */
+/* line 257, ../app/styles/tink/_navigation.scss */
 .nav-left > ul > li i {
   display: table-cell;
   padding-top: 0.2857142857rem ;
@@ -5047,7 +5356,7 @@ a[role="tab"]:focus {
   width: 3.5714285714rem ;
   z-index: 1;
 }
-/* line 251, ../app/styles/tink/_navigation.scss */
+/* line 266, ../app/styles/tink/_navigation.scss */
 .nav-left > ul > li i .icon-bg {
   background: linear-gradient(135deg, #347ea6 0%, #5fb1d6 100%);
   bottom: -1rem ;
@@ -5062,25 +5371,25 @@ a[role="tab"]:focus {
   width: 3.5714285714rem ;
   z-index: -1;
 }
-/* line 266, ../app/styles/tink/_navigation.scss */
+/* line 281, ../app/styles/tink/_navigation.scss */
 .nav-left > ul ul {
   background: #f7f7f7;
   max-height: 0;
   transition: max-height 0.3s linear;
 }
 
-/* line 277, ../app/styles/tink/_navigation.scss */
+/* line 292, ../app/styles/tink/_navigation.scss */
 html.sidenav-open body {
   overflow-x: hidden;
 }
 @media (max-width: 768px) {
-  /* line 285, ../app/styles/tink/_navigation.scss */
+  /* line 300, ../app/styles/tink/_navigation.scss */
   html.sidenav-open .main-content {
     -webkit-transform: translate(220px, 0);
     -ms-transform: translate(220px, 0);
     transform: translate(220px, 0);
   }
-  /* line 288, ../app/styles/tink/_navigation.scss */
+  /* line 303, ../app/styles/tink/_navigation.scss */
   html.sidenav-open .nav-left {
     -webkit-transform: translate(0, 0);
     -ms-transform: translate(0, 0);
@@ -5088,20 +5397,20 @@ html.sidenav-open body {
   }
 }
 @media (min-width: 768px) {
-  /* line 295, ../app/styles/tink/_navigation.scss */
+  /* line 310, ../app/styles/tink/_navigation.scss */
   html.sidenav-open .main-content {
     padding-left: 3.5714285714rem ;
   }
-  /* line 298, ../app/styles/tink/_navigation.scss */
+  /* line 313, ../app/styles/tink/_navigation.scss */
   html.sidenav-open .nav-left {
     overflow: visible;
     width: 3.5714285714rem ;
   }
-  /* line 303, ../app/styles/tink/_navigation.scss */
+  /* line 318, ../app/styles/tink/_navigation.scss */
   html.sidenav-open .nav-left > ul > li {
     overflow: visible;
   }
-  /* line 306, ../app/styles/tink/_navigation.scss */
+  /* line 321, ../app/styles/tink/_navigation.scss */
   html.sidenav-open .nav-left > ul > li ul {
     background: #f7f7f7;
     border: solid rgba(0, 0, 0, 0.12);
@@ -5115,11 +5424,11 @@ html.sidenav-open body {
     width: 15.7142857143rem ;
     z-index: 3;
   }
-  /* line 323, ../app/styles/tink/_navigation.scss */
+  /* line 338, ../app/styles/tink/_navigation.scss */
   html.sidenav-open .nav-left > ul > li:hover ul, html.sidenav-open .nav-left > ul > li:active ul, html.sidenav-open .nav-left > ul > li:focus ul {
     display: block;
   }
-  /* line 330, ../app/styles/tink/_navigation.scss */
+  /* line 345, ../app/styles/tink/_navigation.scss */
   html.sidenav-open .nav-left > ul > li > a > span {
     display: none;
   }

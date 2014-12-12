@@ -1,5 +1,5 @@
-  angular.module('tink.validDate',['tink.dateHelper','tink.safeApply'])
-  .directive('tinkValidDate', ['$timeout', '$filter','dateParser','safeApply', function ($timeout, $filter,dateParser,safeApply) {
+  angular.module('tink.datepicker',['tink.dateHelper','tink.safeApply'])
+  .directive('tinkValidDate', ['$timeout', '$filter','dateCalculator','safeApply', function ($timeout, $filter,dateCalculator,safeApply) {
     return {
       require: 'ngModel',
       require: '?ngModel',
@@ -13,7 +13,8 @@
 
             if(date.length !== 10){ return false; }
 
-            var date = dateParser.getDate(date, format);
+            var date = dateCalculator.getDate(date, format);
+
             if(date !== "INVALID DATE"){
               return true;
             }
@@ -30,7 +31,7 @@
             if(checkForValid($element.val(),format)){
               ctrl.$setViewValue($element.val());
             }else{
-             ctrl.$setViewValue(null);
+             ctrl.$setViewValue(undefined);
            }
            
          });         
