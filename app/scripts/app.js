@@ -16,7 +16,9 @@ angular.module('tink', [
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'tink.controllers'
+    'tink.controllers',
+    'tink.datepicker',
+    'tink.datepickerRange'
 
     // 'tink.datepicker'
   ])
@@ -27,8 +29,7 @@ angular.module('tink', [
 				// controller: 'MainCtrl'
 			})
 			.when('/datepicker', {
-				templateUrl: 'views/datepickertest.html',
-				controller: 'DateCtrl'
+				templateUrl: 'views/datepickertest.html'
 			})
 			.otherwise({
 				redirectTo: '/'
