@@ -22,31 +22,31 @@
   <![endif]-->
 
 
-  <nav nav-header class="top-nav">
-    <ul class="top-nav-branding">
+  <nav nav-header class="nav-top">
+    <ul class="nav-top-branding">
       <li>
         <a href="#" title=""><img src="images/playground/tink-logo.svg" alt="" /></a>
       </li>
-      <li>
+      <li class="nav-left-toggle">
         <a href="#" title="Open menu" data-ng-click="sidenav.open = !sidenav.open"><i class="fa fa-bars"><span class="sr-only">Open menu</span></i></a>
       </li>
-      <li>
+      <li class="nav-left-app">
         <h1><a href="#">My App</a></h1>
       </li>
     </ul>
 
-    <section class="top-nav-section">
-      <ul class="top-nav-left">
+    <section class="nav-top-section">
+      <!-- <ul class="nav-top-left">
         <li>
           <a href="#">Menu L1</a>
         </li>
-      </ul>
+      </ul> -->
 
-      <div class="top-nav-center">
+      <div class="nav-top-center">
         <input type="search" class="input-search" placeholder="Zoeken" />
       </div>
 
-      <ul class="top-nav-right">
+      <ul class="nav-top-right">
         <li class="active">
           <a href="#">Menu R1</a>
         </li>
@@ -56,6 +56,52 @@
       </ul>
     </section>
   </nav>
+
+  <aside class="nav-left">
+    <ul class="nav-aside-main" role="sidenav">
+      <li>
+        <a href="#">
+          <i class="fa fa-dashboard"></i>
+          <span>Menu item 1</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="fa fa-dashboard"></i>
+          <span>Menu item 2</span>
+        </a>
+        <ul>
+          <li>
+            <a href="#">
+              Sub menu item 1
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              Sub menu item 2
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              Sub menu item 3
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">
+          <i class="fa fa-dashboard"></i>
+          <span>Menu item 3</span>
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="fa fa-dashboard"></i>
+          <span>Menu item 4</span>
+        </a>
+      </li>
+    </ul>
+  </aside>
 
   <div>
     <div class="main" role="main" data-ng-view="" data-autoscroll="true"></div>

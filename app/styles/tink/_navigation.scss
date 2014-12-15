@@ -9,19 +9,28 @@
 
 
 /**
- * Default behaviour is that there is a fixed top-nav,
+ * Default behaviour is that there is a fixed nav-top,
  * so we need to 'fix' the body's padding
  */
 body {
-  padding-top: rem($top-nav-height);
+  overflow-x: hidden;
+  padding-top: rem($nav-top-height);
 
-  // If the top-nav for some reason needs to scroll with the page
-  &.has-relative-top-nav {
+  // If the nav-top for some reason needs to scroll with the page
+  &.has-relative-nav-top {
     padding-top: 0;
 
-    .top-nav {
+    .nav-top {
       position: relative;
     }
+  }
+}
+
+.main {
+  transition: padding $animation-speed linear;
+
+  @include mq($screen-sm) {
+    padding-left: rem($nav-aside-width);
   }
 }
 
@@ -32,19 +41,19 @@ body {
  * Top navigation
  */
 
-.top-nav {
-  background-color: $top-nav-bg-color;
-  line-height: rem($top-nav-height);
+.nav-top {
+  background-color: $nav-top-bg-color;
+  line-height: rem($nav-top-height);
   overflow: auto;
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: layer('top-nav');
+  z-index: layer('nav-top');
 }
 
-ul.top-nav-branding,
-ul.top-nav-left,
-ul.top-nav-right {
+ul.nav-top-branding,
+ul.nav-top-left,
+ul.nav-top-right {
   @extend .list-inline;
   margin: 0;
 
@@ -53,18 +62,18 @@ ul.top-nav-right {
   }
 
   a {
-    color: $top-nav-link-color;
+    color: $nav-top-link-color;
     outline: none;
     text-decoration: none;
     display: inline-block;
-    line-height: rem($top-nav-height - $top-nav-padding);
-    margin: rem(($top-nav-padding / 2) 0);
-    padding: rem(0 $top-nav-padding);
+    line-height: rem($nav-top-height - $nav-top-padding);
+    margin: rem(($nav-top-padding / 2) 0);
+    padding: rem(0 $nav-top-padding);
 
     &:hover,
     &:active,
     &:focus {
-      color: $top-nav-link-hover-color;
+      color: $nav-top-link-hover-color;
     }
 
     &:focus {
@@ -73,7 +82,7 @@ ul.top-nav-right {
   }
 }
 
-ul.top-nav-branding {
+ul.nav-top-branding {
   float: left;
   position: relative;
   z-index: layer("base");
@@ -84,38 +93,50 @@ ul.top-nav-branding {
     &:first-child {
       a {
         float: left;
-        margin: rem(0 $top-nav-padding 0 0);
+        margin: rem(0 $nav-top-padding 0 0);
         padding: 0;
+      }
+    }
+
+    &.nav-left-toggle {
+      @include mq($screen-sm) {
+        display: none;
+      }
+    }
+
+    &.nav-left-app {
+      @include mq($screen-sm, "max") {
+        display: none;
       }
     }
   }
 
   img {
     float: left;
-    height: rem($top-nav-height);
+    height: rem($nav-top-height);
     width: auto;
   }
 
   h1 {
     font-size: rem($font-size-base);
     font-weight: 700;
-    line-height: rem($top-nav-height);
+    line-height: rem($nav-top-height);
     margin: 0;
   }
 }
 
-section.top-nav-section {
+section.nav-top-section {
   position: relative;
   text-align: center;
   width: auto;
 }
 
-ul.top-nav-left {
+ul.nav-top-left {
   float: left;
-  margin-left: rem($top-nav-padding / 2);
+  margin-left: rem($nav-top-padding / 2);
 }
 
-div.top-nav-center {
+div.nav-top-center {
   display: inline-block;
 
   input[type="search"] {
@@ -124,35 +145,29 @@ div.top-nav-center {
   }
 }
 
-ul.top-nav-right {
+ul.nav-top-right {
   float: right;
-  margin-right: rem($top-nav-padding / 2);
+  margin-right: rem($nav-top-padding / 2);
 }
 
 
 
 
 /**
- * Sidenav
+ * Side navigation (left)
  */
 
-.nav-left {
-  background: $nav-left-bg-color;
+%nav-aside {
+  background: $nav-aside-bg-color;
   bottom: 0;
-  left: 0;
   overflow: auto;
   position: fixed;
-  top: rem($top-nav-height);
-  transform: translate(rem(-$nav-left-width), 0);
+  top: rem($nav-top-height);
   transition: transform $animation-speed linear;
-  width: rem($nav-left-width);
-  z-index: layer('side-nav');
+  width: rem($nav-aside-width);
+  z-index: layer('nav-aside');
   -webkit-overflow-scrolling: touch;
   -webkit-overflow-scrolling: -blackberry-touch;
-
-  @include mq($screen-sm) {
-    transform: translate(0, 0);
-  }
 
   &:before {
     background: rgba(0, 0, 0, .12);
@@ -161,7 +176,6 @@ ul.top-nav-right {
     height: 100%;
     pointer-events: none;
     position: absolute;
-    right: 0;
     top: 0;
     width: 2px;
     z-index: layer("pseudo");
@@ -170,196 +184,29 @@ ul.top-nav-right {
   ul {
     @extend .list-unstyled;
   }
+}
 
-  > ul {
-    overflow: visible;
-    -webkit-backface-visibility: hidden;
-    -webkit-transform-style: preserve-3d;
+.nav-left {
+  @extend %nav-aside;
+  left: 0;
+  transform: translate(rem(-$nav-aside-width), 0);
+  transition: transform $animation-speed linear;
 
-    > li {
-      display: block;
-      float: left;
-      overflow: hidden;
-      position: relative;
-      transition: max-height $animation-speed linear;
-      width: 100%;
-      -webkit-backface-visibility: hidden;
-      -webkit-transform-style: preserve-3d;
+  @include mq($screen-sm) {
+    transform: translate(0, 0);
+  }
 
-      &:last-child {
-        border-bottom: 1px solid $nav-left-border-color;
-      }
-
-      &:hover,
-      &:active,
-      &:focus {
-        > a {
-          > i {
-            color: $white;
-
-            .icon-bg {
-              transform: translate(0, 0);
-              // z-index: layer('cellar');
-            }
-          }
-        }
-      }
-
-      &.active {
-        > a {
-          background: rgba(0, 0, 0, .05);
-
-          > i {
-            color: $white;
-
-            .icon-bg {
-              transform: translate(0, 0);
-              // z-index: layer('cellar');
-            }
-          }
-        }
-
-        ul {
-          max-height: rem(500);
-        }
-
-        li {
-          &.active {
-            > a {
-              background: rgba(0, 0, 0, .05);
-            }
-          }
-        }
-      }
-
-      // &.open {
-      //   ul {
-      //     max-height: rem(1000);
-      //   }
-      // }
-
-      a {
-        color: $nav-left-link-color;
-        display: table;
-        padding: rem(10 10 10 0);
-        position: relative;
-        text-decoration: none;
-        width: 100%;
-
-        &:hover,
-        &:active,
-        &:focus {
-          background: rgba(0, 0, 0, .05);
-        }
-
-        > span {
-          display: table-cell;
-          padding: rem(0 0 0 10);
-          vertical-align: middle;
-        }
-      }
-
-      > a {
-        background-color: $nav-left-link-background-color;
-        border-top: 1px solid $nav-left-border-color;
-        min-height: rem($nav-left-item-height);
-        padding: rem(14 0 14 0);
-      }
-
-      i {
-        display: table-cell;
-        padding-top: rem(4);
-        position: relative;
-        text-align: center;
-        vertical-align: top;
-        width: rem($nav-left-item-height);
-        z-index: layer('base');
-
-        .icon-bg {
-          background: linear-gradient(135deg, $brand 0%, $brand-light 100%);
-          // background: $panel-default-heading-bg;
-          bottom: rem(-14);
-          left: 0;
-          position: absolute;
-          top: rem(-14);
-          transform: translate(rem(-$nav-left-item-height + 3px), 0);
-          transition: transform $animation-speed linear;
-          width: rem($nav-left-item-height);
-          z-index: layer('cellar');
-        }
-      }
-    }
-
-    ul {
-      background: $body-bg;
-      max-height: 0;
-      transition: max-height ($animation-speed * 3) linear;
-    }
+  &:before {
+    right: 0;
   }
 }
 
-// Behaviour!
-html.sidenav-open {
+.nav-aside-main {
+  > li {
 
-  body {
-    // height: 100%;
-    overflow-x: hidden;
-    // position: absolute;
-    // width: 100%;
-  }
-
-  @include mq($screen-sm, "max") {
-    .main-content {
-      transform: translate($nav-left-width, 0);
-    }
-    .nav-left {
-      transform: translate(0, 0);
-    }
-  }
-
-  @include mq($screen-sm) {
-
-    .main-content {
-      padding-left: rem($nav-left-item-height);
-    }
-    .nav-left {
-      overflow: visible;
-      width: rem($nav-left-item-height);
-
-      > ul {
-        > li {
-          overflow: visible;
-
-          ul {
-            background: $body-bg;
-            border: solid rgba(0, 0, 0, .12);
-            border-width: 2px 2px 2px 0;
-            display: none;
-            height: auto;
-            max-height: rem(500);
-            position: absolute;
-            left: rem($nav-left-item-height);
-            top: 0;
-            width: rem($nav-left-width);
-            z-index: layer(side-nav);
-          }
-
-          &:hover,
-          &:active,
-          &:focus {
-            ul {
-              display: block;
-            }
-          }
-
-          > a {
-
-            > span {
-              display: none;
-            }
-          }
-        }
-      }
+    > a {
+      display: block;
+      min-height: $nav-aside-item-height;
     }
   }
 }
