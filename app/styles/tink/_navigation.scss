@@ -75,6 +75,8 @@ ul.top-nav-right {
 
 ul.top-nav-branding {
   float: left;
+  position: relative;
+  z-index: layer("base");
 
   li {
     float: left;
@@ -91,6 +93,7 @@ ul.top-nav-branding {
   img {
     float: left;
     height: rem($top-nav-height);
+    width: auto;
   }
 
   h1 {
@@ -103,12 +106,22 @@ ul.top-nav-branding {
 
 section.top-nav-section {
   position: relative;
+  text-align: center;
   width: auto;
 }
 
 ul.top-nav-left {
   float: left;
   margin-left: rem($top-nav-padding / 2);
+}
+
+div.top-nav-center {
+  display: inline-block;
+
+  input[type="search"] {
+    display: inline-block;
+    width: auto;
+  }
 }
 
 ul.top-nav-right {

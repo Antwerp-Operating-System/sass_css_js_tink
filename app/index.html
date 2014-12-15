@@ -22,7 +22,7 @@
   <![endif]-->
 
 
-  <nav class="top-nav">
+  <nav nav-header class="top-nav">
     <ul class="top-nav-branding">
       <li>
         <a href="#" title=""><img src="images/playground/tink-logo.svg" alt="" /></a>
@@ -41,6 +41,10 @@
           <a href="#">Menu L1</a>
         </li>
       </ul>
+
+      <div class="top-nav-center">
+        <input type="search" class="input-search" placeholder="Zoeken" />
+      </div>
 
       <ul class="top-nav-right">
         <li class="active">
@@ -72,6 +76,11 @@
 
       <!-- build:js({.tmp,app}) scripts/scripts.js -->
   <script src="scripts/app.js"></script>
+  <script src="scripts/directives/tinkHeader.js"></script>
+  <script src="scripts/directives/tinkDatepickerRange.js"></script>
+  <script src="scripts/services/tinkDateHelper.js"></script>
+  <script src="scripts/services/tinkSafeApply.js"></script>
+  <script src="scripts/directives/tinkValidDate.js"></script>
   <!-- <script src="scripts/controllers/main.js"></script> -->
       <!-- endbuild -->
 </body>
