@@ -374,11 +374,18 @@ $layers: base, pseudo, side-nav, top-nav;
  *
  * Settings for the top navigation and the off-canvas navigation
  */
-$top-nav-height:                      50px !default;
-$top-nav-bg-color:                    $gray-dark !default;
-$top-nav-link-color:                  $body-bg !default;
-$top-nav-link-hover-color:            $white !default;
-$top-nav-padding:                     $padding-base-horizontal !default;
+$bar-nav-height:                      50px !default;
+$bar-nav-bg-color:                    $gray-dark !default;
+$bar-nav-link-color:                  $body-bg !default;
+$bar-nav-link-hover-color:            $white !default;
+$bar-nav-padding:                     $padding-base-horizontal !default;
+
+
+$top-nav-height:                      $bar-nav-height;
+$top-nav-bg-color:                    $bar-nav-bg-color;
+$top-nav-link-color:                  $bar-nav-link-color;
+$top-nav-link-hover-color:            $bar-nav-link-hover-color;
+$top-nav-padding:                     $bar-nav-padding;
 
 
 $nav-left-width:                         220px !default;
