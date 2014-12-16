@@ -234,7 +234,9 @@ body {
       border-bottom: 1px solid $gray-lighter;
       font-weight: 700;
       padding: (($nav-aside-item-height - $line-height-computed) / 2) 15px;
+      position: relative;
       width: 100%;
+      z-index: layer('pseudo');
     }
 
     &.open {
@@ -259,13 +261,12 @@ body {
       font-family: FontAwesome;
       font-style: normal;
       font-weight: normal;
-      pointer-events: none;
       position: absolute;
       right: 15px;
       text-decoration: inherit;
       top: 14px;
       transition: color $animation-speed linear;
-      z-index: layer('pseudo');
+      z-index: layer('base');
     }
 
     li {
