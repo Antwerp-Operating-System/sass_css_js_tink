@@ -11,14 +11,12 @@ module.exports = function (grunt) {
 
   // Semantic version options
   var bump = grunt.option('bump') || '';
-
   var currentversion = require('./package.json').version;
+  var nextversion = currentversion;
 
   if (bump !== '') {
     var semversion = require('semver');
-    var nextversion = semversion.inc(currentversion, bump);
-  } else {
-    var nextversion = currentversion;
+    nextversion = semversion.inc(currentversion, bump);
   }
 
   // Configurable paths for the application
@@ -65,6 +63,24 @@ module.exports = function (grunt) {
           '.tmp/*.css',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
+      }
+    },
+    jshint: {
+      options: {
+        jshintrc: '.jshintrc',
+        reporter: require('jshint-stylish')
+      },
+      all: {
+        src: [
+          'Gruntfile.js',
+          '<%= yeoman.app %>/scripts/{,*/}*.js'
+        ]
+      },
+     test: {
+        options: {
+          jshintrc: 'test/.jshintrc'
+        },
+        src: ['test/spec/{,*/}*.js']
       }
     },
     connect: {

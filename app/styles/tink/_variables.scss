@@ -365,23 +365,24 @@ $input-group-addon-border-color: $input-border !default; // Border color for tex
  * Complete layer list (for reference, add these to $layers only if needed)
  * $layers: base, navbar, dropdown, tooltip, navbar-sticky, navbar-fixed, modal-background, modal, popover;
  */
-$layers: base, pseudo, side-nav, top-header;
+$layers: base, pseudo, side-nav, top-nav;
 
 
 
 /**
  * Navigation
  *
- * Settings for the header and the off-canvas navigation
+ * Settings for the top navigation and the off-canvas navigation
  */
-$top-header-height:                      50px !default;
-$top-header-bg-color:                    $gray-dark !default;
-$top-header-text-color:                  $white !default;
-$top-header-link-color:                  $body-bg !default;
-$top-header-link-hover-color:            $white !default;
+$top-nav-height:                      50px !default;
+$top-nav-bg-color:                    $gray-dark !default;
+$top-nav-link-color:                  $body-bg !default;
+$top-nav-link-hover-color:            $white !default;
+$top-nav-padding:                     $padding-base-horizontal !default;
+
 
 $nav-left-width:                         220px !default;
-$nav-left-item-height:                   $top-header-height !default;
+$nav-left-item-height:                   $top-nav-height !default;
 $nav-left-subitem-height:                40px !default;
 $nav-left-bg-color:                      $white !default;
 $nav-left-border-color:                  $gray-lighter !default;

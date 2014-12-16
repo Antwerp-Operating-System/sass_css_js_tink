@@ -1,6 +1,6 @@
 angular.module('tink.dateHelper', []);
 angular.module('tink.dateHelper')
-.factory('dateParser', function () {
+.factory('dateCalculator', function () {
   var nl = {
     "DAY": ["zondag", "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"],
     "MONTH": ["januari", "februari", "maart", "april", "mei", "juni", "juli", "augustus", "september", "oktober", "november", "december"],
@@ -90,7 +90,7 @@ angular.module('tink.dateHelper')
   // Some common format strings
   dateFormat.masks = {
     "default": "ddd mmm dd yyyy HH:MM:ss",
-    shortDate: "d/m/yy",
+    shortDate: "dd/mm/yyyy",
     mediumDate: "mmm d, yyyy",
     longDate: "mmmm d, yyyy",
     fullDate: "dddd, mmmm d, yyyy",
@@ -161,13 +161,30 @@ angular.module('tink.dateHelper')
       }
     },
     getDate: function (date, format) {
+      if(!angular.isDefined(date) || !angular.isDefined(format) || date.length !== format.length)
+        return null;
+
       return stringToDate(date, format);
     },
-    daysInMonth: function (date) {
-      return new Date(date.getYear(), date.getMonth() + 1, 0).getDate();
+    daysInMonth: function (month,year) {
+      if(angular.isDate(month)){
+        return new Date(month.getYear(), month.getMonth() + 1, 0).getDate();
+      }else{
+        return new Date(year, month, 0).getDate();
+      }      
+    },
+    isValid:function(date){
+      console.log()
+    },
+    daysInMonthNodays: function (month,year) {
+  
+      return new Date(year, month, 0).getDate();
     },
     format: function (date, format, lang) {
       return dateFormat(date, format, null, nl);
+    },
+    formatDate: function (date, format, lang) {
+        return dateFormat(date, format,null,nl);
     },
     getShortDays: function (lang) {
 
@@ -221,7 +238,7 @@ angular.module('tink.dateHelper')
   }
 
 })
-.factory('safeApply', [function($rootScope) {
+.factory('safeApply', [function() {
   return function($scope, fn) {
     var phase = $scope.$root.$$phase;
     if(phase == '$apply' || phase == '$digest') {
@@ -237,7 +254,7 @@ angular.module('tink.dateHelper')
     }
   }
 }])
-.factory('calView', function (dateParser, $sce,$compile) {
+.factory('calView',["dateCalculator","$sce","$compile",function (dateCalculator, $sce,$compile) {
   var generatedMonths = {};
 
   function isSameDate(a, b) {
@@ -286,7 +303,7 @@ angular.module('tink.dateHelper')
       firstDayOfWeek = new Date(+firstDayOfWeek + (offsetDayOfweek - offsetDayOfMonth) * 60e3);
     }
 
-    var daysToDraw = dateParser.daysInMonth(date) + dateParser.daysBetween(firstDayOfWeek, firstDayOfMonth);
+    var daysToDraw = dateCalculator.daysInMonth(date) + dateCalculator.daysBetween(firstDayOfWeek, firstDayOfMonth);
     if (daysToDraw % 7 !== 0) {
       daysToDraw += 7 - (daysToDraw % 7);
     }
@@ -305,7 +322,9 @@ angular.module('tink.dateHelper')
       } else if (isSameDate(date, new Date())) {
         cssClass = "btn-warning"
       }
-      return '<td><button ng-click="$select(\''+date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+'\')" class="' + cssClass + '"><span>' + label + '</span></button></td>'
+      var month = ("0" + (date.getMonth() + 1)).slice(-2);
+      var day = ("0" + (date.getDate())).slice(-2);
+      return '<td><button ng-click="$select(\''+date.getFullYear()+"/"+month+"/"+day+'\')" class="' + cssClass + '"><span>' + label + '</span></button></td>'
     } else{
       return '<td></td>';
     }
@@ -353,4 +372,4 @@ angular.module('tink.dateHelper')
           
         }
       }
-    });
+    }]);
