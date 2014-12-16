@@ -1,0 +1,32 @@
+/**
+ * Side navigation mixins
+ */
+
+@mixin nav-aside() {
+  background: $nav-aside-bg-color;
+  bottom: 0;
+  overflow: auto;
+  position: fixed;
+  top: rem($nav-top-height);
+  transition: transform $animation-speed linear;
+  width: rem($nav-aside-width);
+  z-index: layer('nav-aside');
+  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: -blackberry-touch;
+
+  &:before {
+    background: rgba(0, 0, 0, .12);
+    bottom: 0;
+    content: '';
+    height: 100%;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    width: 2px;
+    z-index: layer("pseudo");
+  }
+
+  ul {
+    @extend .list-unstyled;
+  }
+}

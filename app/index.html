@@ -22,8 +22,8 @@
   <![endif]-->
 
 
-  <nav nav-header class="top-nav">
-    <ul class="top-nav-branding">
+  <nav nav-header class="nav-top">
+    <ul class="nav-top-branding">
       <li class="logo">
         <a href="#" title=""><img src="images/playground/tink-logo.svg" alt="" /></a>
       </li>
@@ -35,18 +35,18 @@
       </li>
     </ul>
 
-    <section class="top-nav-section">
-      <ul class="top-nav-section-left">
+    <section class="nav-top-section">
+      <ul class="nav-top-section-left">
         <li>
           <a href="#">Menu L1</a>
         </li>
       </ul>
 
-      <div class="top-nav-section-center">
+      <div class="nav-top-section-center">
         <input type="search" class="input-search" placeholder="Zoeken" />
       </div>
 
-      <ul class="top-nav-section-right">
+      <ul class="nav-top-section-right">
         <li class="active">
           <a href="#">Menu R1</a>
         </li>
@@ -60,45 +60,51 @@
 
 
   <aside class="nav-left">
-    <ul class="nav-aside-main" role="sidenav">
-      <li>
+    <ul class="nav-aside-list" role="sidenav">
+      <li class="active">
         <a href="#">
-          <i class="fa fa-dashboard"></i>
-          <span>Menu item 1</span>
+          <!-- <i class="fa fa-fw fa-dashboard"></i> -->
+          <span>
+            Menu item 1
+            <span class="badge">479</span>
+          </span>
         </a>
       </li>
-      <li>
+      <li class="open">
         <a href="#">
-          <i class="fa fa-dashboard"></i>
+          <!-- <i class="fa fa-fw fa-dashboard"></i> -->
           <span>Menu item 2</span>
         </a>
         <ul>
           <li>
             <a href="#">
-              Sub menu item 1
+              <span>Sub menu item 1</span>
             </a>
           </li>
           <li>
             <a href="#">
-              Sub menu item 2
+              <span>Sub menu item 2</span>
             </a>
           </li>
-          <li>
+          <li class="active">
             <a href="#">
-              Sub menu item 3
+              <span>
+                Sub menu item 3
+                <span class="badge">479</span>
+              </span>
             </a>
           </li>
         </ul>
       </li>
       <li>
         <a href="#">
-          <i class="fa fa-dashboard"></i>
+          <!-- <i class="fa fa-fw fa-dashboard"></i> -->
           <span>Menu item 3</span>
         </a>
       </li>
       <li>
         <a href="#">
-          <i class="fa fa-dashboard"></i>
+          <!-- <i class="fa fa-fw fa-dashboard"></i> -->
           <span>Menu item 4</span>
         </a>
       </li>

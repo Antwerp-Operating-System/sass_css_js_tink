@@ -365,7 +365,20 @@ $legend-border-color:            $gray-lighter !default;
  * Complete layer list (for reference, add these to $layers only if needed)
  * $layers: base, navbar, dropdown, tooltip, navbar-sticky, navbar-fixed, modal-background, modal, popover;
  */
-$layers: base, pseudo, nav-aside, top-nav;
+$layers: base, pseudo, nav-aside, nav-top;
+
+
+
+/**
+ * Bar component
+ *
+ * Settings for a standard bar
+ */
+$bar-height:                            50px !default;
+$bar-bg-color:                          $gray-dark !default;
+$bar-link-color:                        $body-bg !default;
+$bar-link-hover-color:                  $white !default;
+$bar-padding:                           $padding-base-horizontal !default;
 
 
 
@@ -374,27 +387,28 @@ $layers: base, pseudo, nav-aside, top-nav;
  *
  * Settings for the top navigation and the off-canvas navigation
  */
-$bar-height:                      50px !default;
-$bar-bg-color:                    $gray-dark !default;
-$bar-link-color:                  $body-bg !default;
-$bar-link-hover-color:            $white !default;
-$bar-padding:                     $padding-base-horizontal !default;
 
-$nav-aside-width:                         220px !default;
-$nav-aside-item-height:                   $bar-height !default;
-$nav-aside-subitem-height:                40px !default;
-$nav-aside-bg-color:                      $white !default;
-$nav-aside-border-color:                  $gray-lighter !default;
-$nav-aside-link-color:                    $gray-darker !default;
-$nav-aside-link-background-color:         $white !default;
-$nav-aside-link-hover-color:              $gray-darker !default;
-$nav-aside-link-hover-background-color:   $white !default;
+$nav-top-height:                         $bar-height;
+$nav-top-bg-color:                       $bar-bg-color;
+$nav-top-link-color:                     $bar-link-color;
+$nav-top-link-hover-color:               $bar-link-hover-color;
+$nav-top-padding:                        $bar-padding;
 
-$top-nav-height:                      $bar-height;
-$top-nav-bg-color:                    $bar-bg-color;
-$top-nav-link-color:                  $bar-link-color;
-$top-nav-link-hover-color:            $bar-link-hover-color;
-$top-nav-padding:                     $bar-padding;
+$nav-aside-width:                        220px !default;
+$nav-aside-item-height:                  $bar-height !default;
+$nav-aside-subitem-height:               40px !default;
+
+$nav-aside-bg-color:                     $white !default;
+$nav-aside-link-color:                   lighten($gray-dark, 12%) !default;
+$nav-aside-link-hover-color:             $gray-darker !default;
+$nav-aside-link-active-color:            $gray-darker !default;
+$nav-aside-link-active-background-color: $body-bg !default;
+
+// $nav-aside-border-color:                $gray-lighter !default;
+
+// $nav-aside-link-background-color:       transparent !default;
+// $nav-aside-link-hover-color:            $gray-darker !default;
+// $nav-aside-link-hover-background-color: $white !default;
 
 
 
