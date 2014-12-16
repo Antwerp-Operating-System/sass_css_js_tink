@@ -188,26 +188,25 @@ body {
     }
 
     i {
-      padding: 4px 10px 0 0;
+      padding: rem(4 10 0 0);
     }
 
     &.active {
 
       a {
-        background-color: $brand;
-        color: $white;
+        background-color: $nav-aside-link-active-background-color;
+        color: $nav-aside-link-active-color;
       }
     }
 
     &.open,
     &.active {
-      background: $nav-aside-link-active-background-color;
+      background: $nav-aside-item-open-color;
 
       ul {
         li {
           a {
-            // border-bottom: 8px solid $nav-aside-link-active-background-color;
-            border-left: 15px solid $nav-aside-link-active-background-color;
+            border-left: rem(15) solid $nav-aside-item-open-color;
           }
         }
       }
@@ -231,20 +230,20 @@ body {
     width: 100%;
 
     > a {
-      border-bottom: 1px solid $gray-lighter;
+      border-bottom: 1px solid $nav-aside-item-border-color;
       font-weight: 700;
-      padding: (($nav-aside-item-height - $line-height-computed) / 2) 15px;
+      padding: rem((($nav-aside-item-height - $line-height-computed) / 2) 15);
       position: relative;
       width: 100%;
       z-index: layer('pseudo');
     }
 
     &.open {
-      border-bottom: 1px solid $gray-lighter;
+      border-bottom: 1px solid $nav-aside-item-border-color;
 
       > a {
         border-bottom: none;
-        padding-right: 30px;
+        padding-right: rem(30);
       }
     }
   }
@@ -262,9 +261,9 @@ body {
       font-style: normal;
       font-weight: normal;
       position: absolute;
-      right: 15px;
+      right: rem(15);
       text-decoration: inherit;
-      top: 14px;
+      top: rem(14);
       transition: color $animation-speed linear;
       z-index: layer('base');
     }
@@ -275,9 +274,9 @@ body {
 
     a {
       // border-bottom: 8px solid $white;
-      border-left: 15px solid $white;
+      border-left: rem(15) solid $nav-aside-bg-color;
       font-weight: 600;
-      padding: (($nav-aside-subitem-height - $line-height-computed) / 2) 15px;
+      padding: rem((($nav-aside-subitem-height - $line-height-computed) / 2) 15);
     }
   }
 }

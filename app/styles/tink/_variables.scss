@@ -399,10 +399,12 @@ $nav-aside-item-height:                  $bar-height !default;
 $nav-aside-subitem-height:               40px !default;
 
 $nav-aside-bg-color:                     $white !default;
+$nav-aside-item-border-color:            $gray-lighter !default;
+$nav-aside-item-open-color:              $body-bg !default;
 $nav-aside-link-color:                   lighten($gray-dark, 12%) !default;
 $nav-aside-link-hover-color:             $gray-darker !default;
-$nav-aside-link-active-color:            $gray-darker !default;
-$nav-aside-link-active-background-color: $body-bg !default;
+$nav-aside-link-active-color:            $white !default;
+$nav-aside-link-active-background-color: $brand !default;
 
 // $nav-aside-border-color:                $gray-lighter !default;
 
