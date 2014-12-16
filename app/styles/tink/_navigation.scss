@@ -9,18 +9,17 @@
 
 
 /**
- * Default behaviour is that there is a fixed nav-top,
+ * Default behaviour is that there is a fixed top-nav,
  * so we need to 'fix' the body's padding
  */
 body {
-  overflow-x: hidden;
-  padding-top: rem($nav-top-height);
+  padding-top: rem($top-nav-height);
 
-  // If the nav-top for some reason needs to scroll with the page
-  &.has-relative-nav-top {
+  // If the top-nav for some reason needs to scroll with the page
+  &.has-relative-top-nav {
     padding-top: 0;
 
-    .nav-top {
+    .top-nav {
       position: relative;
     }
   }
@@ -34,121 +33,130 @@ body {
   }
 }
 
+@mixin bar($name, $bar-height, $bar-bg-color) {
 
+  .#{$name} {
+    background-color: $bar-bg-color;
+    line-height: rem($bar-height);
+    overflow: auto;
 
+    > ul,
+    &-section-left,
+    &-section-right {
+      @extend .list-inline;
+      margin: 0;
 
-/**
- * Top navigation
- */
+      li {
+        padding: 0;
+      }
 
-.nav-top {
-  background-color: $nav-top-bg-color;
-  line-height: rem($nav-top-height);
+      a {
+        color: $bar-link-color;
+        outline: none;
+        text-decoration: none;
+        display: inline-block;
+        line-height: rem($bar-height - $bar-padding);
+        margin: rem(($bar-padding / 2) 0);
+        padding: rem(0 $bar-padding);
+
+        &:hover,
+        &:active,
+        &:focus {
+          color: $bar-link-hover-color;
+        }
+
+        &:focus {
+          box-shadow: 0 0 0 2px rgba($brand-light, .5);
+        }
+      }
+    }
+
+    &-section {
+      position: relative;
+      text-align: center;
+      width: auto;
+
+      &-left {
+        float: left;
+        margin-left: rem($bar-padding / 2);
+      }
+
+      &-center {
+        display: inline-block;
+
+        input[type="search"] {
+          display: inline-block;
+          width: auto;
+        }
+      }
+
+      &-right {
+        float: right;
+        margin-right: rem($bar-padding / 2);
+      }
+    }
+  }
+}
+
+// @mixin bar($name, $bar-height, $bar-bg-color, $bar-link-color, $bar-link-hover-color, $bar-padding) {
+
+@include bar("top-nav", $top-nav-height, $top-nav-bg-color);
+
+.top-nav {
   overflow: auto;
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: layer('nav-top');
-}
+  z-index: layer('top-nav');
 
-ul.nav-top-branding,
-ul.nav-top-left,
-ul.nav-top-right {
-  @extend .list-inline;
-  margin: 0;
-
-  li {
-    padding: 0;
-  }
-
-  a {
-    color: $nav-top-link-color;
-    outline: none;
-    text-decoration: none;
-    display: inline-block;
-    line-height: rem($nav-top-height - $nav-top-padding);
-    margin: rem(($nav-top-padding / 2) 0);
-    padding: rem(0 $nav-top-padding);
-
-    &:hover,
-    &:active,
-    &:focus {
-      color: $nav-top-link-hover-color;
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 2px rgba($brand-light, .5);
-    }
-  }
-}
-
-ul.nav-top-branding {
-  float: left;
-  position: relative;
-  z-index: layer("base");
-
-  li {
+  &-branding {
     float: left;
+    position: relative;
+    z-index: layer("base");
 
-    &:first-child {
-      a {
-        float: left;
-        margin: rem(0 $nav-top-padding 0 0);
-        padding: 0;
+    li {
+      float: left;
+
+      &.logo {
+        a {
+          float: left ;
+          margin: rem(0 $bar-padding 0 0);
+          padding: 0;
+        }
+      }
+
+      &.toggle {
+        @include mq($screen-sm) {
+          display: none;
+        }
+      }
+
+      &.app {
+        @include mq($screen-sm, "max") {
+          display: none;
+        }
       }
     }
 
-    &.nav-left-toggle {
-      @include mq($screen-sm) {
-        display: none;
-      }
+    img {
+      float: left;
+      height: rem($bar-height);
+      width: auto;
     }
 
-    &.nav-left-app {
-      @include mq($screen-sm, "max") {
-        display: none;
-      }
+    h1 {
+      font-size: rem($font-size-base);
+      font-weight: 700;
+      line-height: rem($top-nav-height);
+      margin: 0;
     }
   }
-
-  img {
-    float: left;
-    height: rem($nav-top-height);
-    width: auto;
-  }
-
-  h1 {
-    font-size: rem($font-size-base);
-    font-weight: 700;
-    line-height: rem($nav-top-height);
-    margin: 0;
-  }
 }
 
-section.nav-top-section {
-  position: relative;
-  text-align: center;
-  width: auto;
-}
 
-ul.nav-top-left {
-  float: left;
-  margin-left: rem($nav-top-padding / 2);
-}
+@include bar("test", $top-nav-height, red);
 
-div.nav-top-center {
-  display: inline-block;
 
-  input[type="search"] {
-    display: inline-block;
-    width: auto;
-  }
-}
-
-ul.nav-top-right {
-  float: right;
-  margin-right: rem($nav-top-padding / 2);
-}
 
 
 
@@ -162,7 +170,7 @@ ul.nav-top-right {
   bottom: 0;
   overflow: auto;
   position: fixed;
-  top: rem($nav-top-height);
+  top: rem($top-nav-height);
   transition: transform $animation-speed linear;
   width: rem($nav-aside-width);
   z-index: layer('nav-aside');
