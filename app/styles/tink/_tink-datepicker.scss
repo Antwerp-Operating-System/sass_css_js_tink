@@ -8,6 +8,7 @@
 
   .tink-datepickerrange-header-left,
   .tink-datepickerrange-header-right {
+    padding: rem($table-cell-padding / 4);
     button, .btn {
       &:hover {
         background: $gray-light;
@@ -46,7 +47,7 @@
   td, th {
     border: none;
     color: $gray;
-    padding: rem($table-cell-padding / 4);
+    padding: rem($table-cell-padding / 3);
     text-align: center;
   }
 }
