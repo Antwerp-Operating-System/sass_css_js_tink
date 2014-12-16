@@ -792,6 +792,9 @@ $nav-left-link-hover-background-color:   $white !default;
     $badge-link-hover-color:      $white !default;
     $badge-bg:                    $gray-lighter !default;
 
+    $badge-padding-vertical:      4px !default;
+    $badge-padding-horizontal:    8px !default;
+
 // ** Badge text color in active nav link
     $badge-active-color:          $link-color !default;
 // ** Badge background color in active nav link
@@ -799,7 +802,7 @@ $nav-left-link-hover-background-color:   $white !default;
 
     $badge-font-weight:           bold !default;
     $badge-line-height:           1 !default;
-    $badge-border-radius:         10px !default;
+    $badge-border-radius:         3px !default;
 
 
 //== Breadcrumbs
