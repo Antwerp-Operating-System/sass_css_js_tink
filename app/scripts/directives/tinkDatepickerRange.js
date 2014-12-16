@@ -186,9 +186,9 @@ startWatch();
                   if(!dateCalculator.isSameMonth(viewDate,$directive.viewDate) && !dateCalculator.isSameMonth(hulpDate,$directive.viewDate)){
                         // -- change the global variable  --/
                         $directive.viewDate = new Date(viewDate);
-                      }         
+                      }
                        // -- build the entire view  --/
-                       buildView();       
+                       buildView();
 
                      } else {
                       console.logerror('Wrong date');
