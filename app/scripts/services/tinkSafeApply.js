@@ -1,8 +1,9 @@
+'use strict';
 angular.module('tink.safeApply', [])
-.factory('safeApply', [function($rootScope) {
+.factory('safeApply', [function() {
     return function($scope, fn) {
         var phase = $scope.$root.$$phase;
-        if(phase == '$apply' || phase == '$digest') {
+        if(phase === '$apply' || phase === '$digest') {
             if (fn) {
                 $scope.$eval(fn);
             }
@@ -13,5 +14,5 @@ angular.module('tink.safeApply', [])
                 $scope.$apply();
             }
         }
-    }
-}])
+    };
+}]);

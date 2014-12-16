@@ -306,8 +306,8 @@ $input-height-small:             (floor($font-size-small * $line-height-small) +
 $legend-color:                   $gray-dark !default;
 $legend-border-color:            $gray-lighter !default;
 
-// $input-group-addon-bg:           $gray-lighter !default; // Background color for textual input addons
-// $input-group-addon-border-color: $input-border !default; // Border color for textual input addons
+$input-group-addon-bg:           $gray-lighter !default; // Background color for textual input addons
+$input-group-addon-border-color: $input-border !default; // Border color for textual input addons
 
 
 
@@ -787,19 +787,19 @@ $nav-left-link-hover-background-color:   $white !default;
 //
 //##
 
-    // $badge-color:                 $white !default;
-//** Linked badge text color on hover
-    // $badge-link-hover-color:      $white !default;
-    // $badge-bg:                    $gray-light !default;
+    $badge-color:                 $gray-dark !default;
+// ** Linked badge text color on hover
+    $badge-link-hover-color:      $white !default;
+    $badge-bg:                    $gray-lighter !default;
 
-//** Badge text color in active nav link
-    // $badge-active-color:          $link-color !default;
-//** Badge background color in active nav link
-    // $badge-active-bg:             $white !default;
+// ** Badge text color in active nav link
+    $badge-active-color:          $link-color !default;
+// ** Badge background color in active nav link
+    $badge-active-bg:             $white !default;
 
-    // $badge-font-weight:           bold !default;
-    // $badge-line-height:           1 !default;
-    // $badge-border-radius:         10px !default;
+    $badge-font-weight:           bold !default;
+    $badge-line-height:           1 !default;
+    $badge-border-radius:         10px !default;
 
 
 //== Breadcrumbs
