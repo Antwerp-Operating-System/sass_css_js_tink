@@ -5,7 +5,6 @@
 @import "tink/mixins";
 @import "tink/normalize";
 
-
 // Core
 @import "tink/grid";
 @import "tink/scaffolding";
@@ -22,6 +21,9 @@
 @import "tink/button-groups";
 @import "tink/buttons";
 // @import "tink/dropdowns";
+
+@import "tink/popovers";
+@import "tink/tooltip";
 
 // Utilities
 @import "tink/a11y"; // accessibility sass
