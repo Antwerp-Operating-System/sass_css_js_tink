@@ -1,118 +1,81 @@
 /**
  * Navigation
  * --------------------------------------------------
+ * - navigation behaviour states
  * - top navigation
- * - off-canvas nav
- * - nav states
+ * - left navigation
  */
+
 
 
 
 /**
- * Default behaviour is that there is a fixed top-nav,
+ * HTML behaviour when side navigation is open
+ */
+html.nav-left-open {
+
+  body {
+    overflow-x: hidden;
+  }
+
+  @include mq($screen-sm, "max") {
+    .main {
+      transform: translate($nav-aside-width, 0);
+    }
+    .nav-left {
+      transform: translate(0, 0);
+    }
+  }
+}
+
+
+
+
+/**
+ * Default behaviour is that there is a fixed nav-top,
  * so we need to 'fix' the body's padding
  */
 body {
-  padding-top: rem($top-nav-height);
+  padding-top: rem($nav-top-height);
 
-  // If the top-nav for some reason needs to scroll with the page
-  &.has-relative-top-nav {
+  // If the nav-top for some reason needs to scroll with the page
+  &.has-relative-nav-top {
     padding-top: 0;
 
-    .top-nav {
+    .nav-top {
       position: relative;
     }
   }
 }
 
 .main {
-  transition: padding $animation-speed linear;
+  transition: padding $animation-speed linear, transform $animation-speed linear;
 
   @include mq($screen-sm) {
     padding-left: rem($nav-aside-width);
   }
 }
 
-@mixin bar($name, $bar-height, $bar-bg-color) {
 
-  .#{$name} {
-    background-color: $bar-bg-color;
-    line-height: rem($bar-height);
-    overflow: auto;
 
-    > ul,
-    &-section-left,
-    &-section-right {
-      @extend .list-inline;
-      margin: 0;
 
-      li {
-        padding: 0;
-      }
+/**
+ * Top navigation
+ */
 
-      a {
-        color: $bar-link-color;
-        outline: none;
-        text-decoration: none;
-        display: inline-block;
-        line-height: rem($bar-height - $bar-padding);
-        margin: rem(($bar-padding / 2) 0);
-        padding: rem(0 $bar-padding);
+.nav-top {
+  @include bar();
 
-        &:hover,
-        &:active,
-        &:focus {
-          color: $bar-link-hover-color;
-        }
-
-        &:focus {
-          box-shadow: 0 0 0 2px rgba($brand-light, .5);
-        }
-      }
-    }
-
-    &-section {
-      position: relative;
-      text-align: center;
-      width: auto;
-
-      &-left {
-        float: left;
-        margin-left: rem($bar-padding / 2);
-      }
-
-      &-center {
-        display: inline-block;
-
-        input[type="search"] {
-          display: inline-block;
-          width: auto;
-        }
-      }
-
-      &-right {
-        float: right;
-        margin-right: rem($bar-padding / 2);
-      }
-    }
-  }
-}
-
-// @mixin bar($name, $bar-height, $bar-bg-color, $bar-link-color, $bar-link-hover-color, $bar-padding) {
-
-@include bar("top-nav", $top-nav-height, $top-nav-bg-color);
-
-.top-nav {
   overflow: auto;
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: layer('top-nav');
+  z-index: layer('nav-top');
 
   &-branding {
     float: left;
     position: relative;
-    z-index: layer("base");
+    z-index: layer('base');
 
     li {
       float: left;
@@ -147,55 +110,22 @@ body {
     h1 {
       font-size: rem($font-size-base);
       font-weight: 700;
-      line-height: rem($top-nav-height);
+      line-height: rem($nav-top-height);
       margin: 0;
     }
   }
 }
 
 
-@include bar("test", $top-nav-height, red);
-
-
-
-
 
 
 /**
- * Side navigation (left)
+ * Left navigation
  */
 
-%nav-aside {
-  background: $nav-aside-bg-color;
-  bottom: 0;
-  overflow: auto;
-  position: fixed;
-  top: rem($top-nav-height);
-  transition: transform $animation-speed linear;
-  width: rem($nav-aside-width);
-  z-index: layer('nav-aside');
-  -webkit-overflow-scrolling: touch;
-  -webkit-overflow-scrolling: -blackberry-touch;
-
-  &:before {
-    background: rgba(0, 0, 0, .12);
-    bottom: 0;
-    content: '';
-    height: 100%;
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    width: 2px;
-    z-index: layer("pseudo");
-  }
-
-  ul {
-    @extend .list-unstyled;
-  }
-}
-
 .nav-left {
-  @extend %nav-aside;
+  @include nav-aside();
+
   left: 0;
   transform: translate(rem(-$nav-aside-width), 0);
   transition: transform $animation-speed linear;
@@ -209,12 +139,145 @@ body {
   }
 }
 
-.nav-aside-main {
+.nav-aside-list {
+  position: relative;
+
+  &:before {
+    background-color: rgba(0, 0, 0, .1);
+    content: '';
+    height: 1px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: layer('pseudo');
+  }
+
+
+  /**
+   * All levels
+   */
+  li {
+
+    a {
+      color: $nav-aside-link-color;
+      display: table;
+      text-decoration: none;
+      width: 100%;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background: rgba(0, 0, 0, .05);
+        color: $nav-aside-link-hover-color;
+
+        + ul {
+
+          &:before {
+            color: $nav-aside-link-hover-color;
+            // transform: rotate(180deg);
+          }
+        }
+      }
+
+      > * {
+        display: table-cell;
+      }
+
+      .badge {
+        float: right;
+      }
+    }
+
+    i {
+      padding: rem(4 10 0 0);
+    }
+
+    &.active {
+
+      a {
+        background-color: $nav-aside-link-active-background-color;
+        color: $nav-aside-link-active-color;
+      }
+    }
+
+    &.open,
+    &.active {
+      background: $nav-aside-item-open-color;
+
+      ul {
+        li {
+          a {
+            border-left: rem(15) solid $nav-aside-item-open-color;
+          }
+        }
+      }
+    }
+  }
+
+  a {
+
+  }
+
+
+  /**
+   * One level deep
+   */
+
   > li {
+    display: block;
+    // float: left;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
 
     > a {
-      display: block;
-      min-height: $nav-aside-item-height;
+      border-bottom: 1px solid $nav-aside-item-border-color;
+      font-weight: 700;
+      padding: rem((($nav-aside-item-height - $line-height-computed) / 2) 15);
+      position: relative;
+      width: 100%;
+      z-index: layer('pseudo');
+    }
+
+    &.open {
+      border-bottom: 1px solid $nav-aside-item-border-color;
+
+      > a {
+        border-bottom: none;
+        padding-right: rem(30);
+      }
+    }
+  }
+
+
+  /**
+   * Two levels deep
+   */
+
+  ul {
+
+    &:before {
+      content: "\f0d7";
+      font-family: FontAwesome;
+      font-style: normal;
+      font-weight: normal;
+      position: absolute;
+      right: rem(15);
+      text-decoration: inherit;
+      top: rem(14);
+      transition: color $animation-speed linear, transform $animation-speed linear;
+      z-index: layer('base');
+    }
+
+    li {
+
+    }
+
+    a {
+      // border-bottom: 8px solid $white;
+      border-left: rem(15) solid $nav-aside-bg-color;
+      font-weight: 600;
+      padding: rem((($nav-aside-subitem-height - $line-height-computed) / 2) 15);
     }
   }
 }

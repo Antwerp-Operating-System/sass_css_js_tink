@@ -1,0 +1,65 @@
+/**
+ * Bar component
+ */
+
+@mixin bar($height: $bar-height, $bg-color: $bar-bg-color) {
+  background-color: $bg-color;
+  line-height: rem($height);
+  overflow: auto;
+
+  > ul,
+  &-section-left,
+  &-section-right {
+    @extend .list-inline;
+    margin: 0;
+
+    li {
+      padding: 0;
+    }
+
+    a {
+      color: $bar-link-color;
+      outline: none;
+      text-decoration: none;
+      display: inline-block;
+      line-height: rem($height - $bar-padding);
+      margin: rem(($bar-padding / 2) 0);
+      padding: rem(0 $bar-padding);
+
+      &:hover,
+      &:active,
+      &:focus {
+        color: $bar-link-hover-color;
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 2px rgba($brand-light, .5);
+      }
+    }
+  }
+
+  &-section {
+    position: relative;
+    text-align: center;
+    width: auto;
+
+    &-left {
+      float: left;
+      margin-left: rem($bar-padding / 2);
+    }
+
+    &-center {
+      display: inline-block;
+
+      input[type="search"] {
+        display: inline-block;
+        width: auto;
+      }
+    }
+
+    &-right {
+      float: right;
+      margin-right: rem($bar-padding / 2);
+    }
+  }
+}
