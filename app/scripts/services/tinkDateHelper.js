@@ -334,7 +334,7 @@ angular.module('tink.dateHelper')
             }else{
               label = createLabels(day, firstRange, lastRange);
             }
-            
+
             //tr.appendChild(label);
             tr += label;
             if ((i + 1) % 7 === 0) {
@@ -347,7 +347,7 @@ angular.module('tink.dateHelper')
           domElem = '<tbody id="secondCal">' + domElem + '</tbody>';
           return domElem;
 
-          
+
         }
       };
     }]);
