@@ -25,134 +25,157 @@ body {
   }
 }
 
+.main {
+  transition: padding $animation-speed linear;
 
+  @include mq($screen-sm) {
+    padding-left: rem($nav-aside-width);
+  }
+}
 
+@mixin bar($name, $bar-height, $bar-bg-color) {
 
-/**
- * Top navigation
- */
+  .#{$name} {
+    background-color: $bar-bg-color;
+    line-height: rem($bar-height);
+    overflow: auto;
+
+    > ul,
+    &-section-left,
+    &-section-right {
+      @extend .list-inline;
+      margin: 0;
+
+      li {
+        padding: 0;
+      }
+
+      a {
+        color: $bar-link-color;
+        outline: none;
+        text-decoration: none;
+        display: inline-block;
+        line-height: rem($bar-height - $bar-padding);
+        margin: rem(($bar-padding / 2) 0);
+        padding: rem(0 $bar-padding);
+
+        &:hover,
+        &:active,
+        &:focus {
+          color: $bar-link-hover-color;
+        }
+
+        &:focus {
+          box-shadow: 0 0 0 2px rgba($brand-light, .5);
+        }
+      }
+    }
+
+    &-section {
+      position: relative;
+      text-align: center;
+      width: auto;
+
+      &-left {
+        float: left;
+        margin-left: rem($bar-padding / 2);
+      }
+
+      &-center {
+        display: inline-block;
+
+        input[type="search"] {
+          display: inline-block;
+          width: auto;
+        }
+      }
+
+      &-right {
+        float: right;
+        margin-right: rem($bar-padding / 2);
+      }
+    }
+  }
+}
+
+// @mixin bar($name, $bar-height, $bar-bg-color, $bar-link-color, $bar-link-hover-color, $bar-padding) {
+
+@include bar("top-nav", $top-nav-height, $top-nav-bg-color);
 
 .top-nav {
-  background-color: $top-nav-bg-color;
-  line-height: rem($top-nav-height);
   overflow: auto;
   position: fixed;
   top: 0;
   width: 100%;
   z-index: layer('top-nav');
-}
 
-ul.top-nav-branding,
-ul.top-nav-left,
-ul.top-nav-right {
-  @extend .list-inline;
-  margin: 0;
-
-  li {
-    padding: 0;
-  }
-
-  a {
-    color: $top-nav-link-color;
-    outline: none;
-    text-decoration: none;
-    display: inline-block;
-    line-height: rem($top-nav-height - $top-nav-padding);
-    margin: rem(($top-nav-padding / 2) 0);
-    padding: rem(0 $top-nav-padding);
-
-    &:hover,
-    &:active,
-    &:focus {
-      color: $top-nav-link-hover-color;
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 2px rgba($brand-light, .5);
-    }
-  }
-}
-
-ul.top-nav-branding {
-  float: left;
-  position: relative;
-  z-index: layer("base");
-
-  li {
+  &-branding {
     float: left;
+    position: relative;
+    z-index: layer("base");
 
-    &:first-child {
-      a {
-        float: left;
-        margin: rem(0 $top-nav-padding 0 0);
-        padding: 0;
+    li {
+      float: left;
+
+      &.logo {
+        a {
+          float: left ;
+          margin: rem(0 $bar-padding 0 0);
+          padding: 0;
+        }
+      }
+
+      &.toggle {
+        @include mq($screen-sm) {
+          display: none;
+        }
+      }
+
+      &.app {
+        @include mq($screen-sm, "max") {
+          display: none;
+        }
       }
     }
-  }
 
-  img {
-    float: left;
-    height: rem($top-nav-height);
-    width: auto;
-  }
+    img {
+      float: left;
+      height: rem($bar-height);
+      width: auto;
+    }
 
-  h1 {
-    font-size: rem($font-size-base);
-    font-weight: 700;
-    line-height: rem($top-nav-height);
-    margin: 0;
-  }
-}
-
-section.top-nav-section {
-  position: relative;
-  text-align: center;
-  width: auto;
-}
-
-ul.top-nav-left {
-  float: left;
-  margin-left: rem($top-nav-padding / 2);
-}
-
-div.top-nav-center {
-  display: inline-block;
-
-  input[type="search"] {
-    display: inline-block;
-    width: auto;
+    h1 {
+      font-size: rem($font-size-base);
+      font-weight: 700;
+      line-height: rem($top-nav-height);
+      margin: 0;
+    }
   }
 }
 
-ul.top-nav-right {
-  float: right;
-  margin-right: rem($top-nav-padding / 2);
-}
+
+@include bar("test", $top-nav-height, red);
+
+
 
 
 
 
 /**
- * Sidenav
+ * Side navigation (left)
  */
 
-.nav-left {
-  background: $nav-left-bg-color;
+%nav-aside {
+  background: $nav-aside-bg-color;
   bottom: 0;
-  left: 0;
   overflow: auto;
   position: fixed;
   top: rem($top-nav-height);
-  transform: translate(rem(-$nav-left-width), 0);
   transition: transform $animation-speed linear;
-  width: rem($nav-left-width);
-  z-index: layer('side-nav');
+  width: rem($nav-aside-width);
+  z-index: layer('nav-aside');
   -webkit-overflow-scrolling: touch;
   -webkit-overflow-scrolling: -blackberry-touch;
-
-  @include mq($screen-sm) {
-    transform: translate(0, 0);
-  }
 
   &:before {
     background: rgba(0, 0, 0, .12);
@@ -161,7 +184,6 @@ ul.top-nav-right {
     height: 100%;
     pointer-events: none;
     position: absolute;
-    right: 0;
     top: 0;
     width: 2px;
     z-index: layer("pseudo");
@@ -170,196 +192,29 @@ ul.top-nav-right {
   ul {
     @extend .list-unstyled;
   }
+}
 
-  > ul {
-    overflow: visible;
-    -webkit-backface-visibility: hidden;
-    -webkit-transform-style: preserve-3d;
+.nav-left {
+  @extend %nav-aside;
+  left: 0;
+  transform: translate(rem(-$nav-aside-width), 0);
+  transition: transform $animation-speed linear;
 
-    > li {
-      display: block;
-      float: left;
-      overflow: hidden;
-      position: relative;
-      transition: max-height $animation-speed linear;
-      width: 100%;
-      -webkit-backface-visibility: hidden;
-      -webkit-transform-style: preserve-3d;
+  @include mq($screen-sm) {
+    transform: translate(0, 0);
+  }
 
-      &:last-child {
-        border-bottom: 1px solid $nav-left-border-color;
-      }
-
-      &:hover,
-      &:active,
-      &:focus {
-        > a {
-          > i {
-            color: $white;
-
-            .icon-bg {
-              transform: translate(0, 0);
-              // z-index: layer('cellar');
-            }
-          }
-        }
-      }
-
-      &.active {
-        > a {
-          background: rgba(0, 0, 0, .05);
-
-          > i {
-            color: $white;
-
-            .icon-bg {
-              transform: translate(0, 0);
-              // z-index: layer('cellar');
-            }
-          }
-        }
-
-        ul {
-          max-height: rem(500);
-        }
-
-        li {
-          &.active {
-            > a {
-              background: rgba(0, 0, 0, .05);
-            }
-          }
-        }
-      }
-
-      // &.open {
-      //   ul {
-      //     max-height: rem(1000);
-      //   }
-      // }
-
-      a {
-        color: $nav-left-link-color;
-        display: table;
-        padding: rem(10 10 10 0);
-        position: relative;
-        text-decoration: none;
-        width: 100%;
-
-        &:hover,
-        &:active,
-        &:focus {
-          background: rgba(0, 0, 0, .05);
-        }
-
-        > span {
-          display: table-cell;
-          padding: rem(0 0 0 10);
-          vertical-align: middle;
-        }
-      }
-
-      > a {
-        background-color: $nav-left-link-background-color;
-        border-top: 1px solid $nav-left-border-color;
-        min-height: rem($nav-left-item-height);
-        padding: rem(14 0 14 0);
-      }
-
-      i {
-        display: table-cell;
-        padding-top: rem(4);
-        position: relative;
-        text-align: center;
-        vertical-align: top;
-        width: rem($nav-left-item-height);
-        z-index: layer('base');
-
-        .icon-bg {
-          background: linear-gradient(135deg, $brand 0%, $brand-light 100%);
-          // background: $panel-default-heading-bg;
-          bottom: rem(-14);
-          left: 0;
-          position: absolute;
-          top: rem(-14);
-          transform: translate(rem(-$nav-left-item-height + 3px), 0);
-          transition: transform $animation-speed linear;
-          width: rem($nav-left-item-height);
-          z-index: layer('cellar');
-        }
-      }
-    }
-
-    ul {
-      background: $body-bg;
-      max-height: 0;
-      transition: max-height ($animation-speed * 3) linear;
-    }
+  &:before {
+    right: 0;
   }
 }
 
-// Behaviour!
-html.sidenav-open {
+.nav-aside-main {
+  > li {
 
-  body {
-    // height: 100%;
-    overflow-x: hidden;
-    // position: absolute;
-    // width: 100%;
-  }
-
-  @include mq($screen-sm, "max") {
-    .main-content {
-      transform: translate($nav-left-width, 0);
-    }
-    .nav-left {
-      transform: translate(0, 0);
-    }
-  }
-
-  @include mq($screen-sm) {
-
-    .main-content {
-      padding-left: rem($nav-left-item-height);
-    }
-    .nav-left {
-      overflow: visible;
-      width: rem($nav-left-item-height);
-
-      > ul {
-        > li {
-          overflow: visible;
-
-          ul {
-            background: $body-bg;
-            border: solid rgba(0, 0, 0, .12);
-            border-width: 2px 2px 2px 0;
-            display: none;
-            height: auto;
-            max-height: rem(500);
-            position: absolute;
-            left: rem($nav-left-item-height);
-            top: 0;
-            width: rem($nav-left-width);
-            z-index: layer(side-nav);
-          }
-
-          &:hover,
-          &:active,
-          &:focus {
-            ul {
-              display: block;
-            }
-          }
-
-          > a {
-
-            > span {
-              display: none;
-            }
-          }
-        }
-      }
+    > a {
+      display: block;
+      min-height: $nav-aside-item-height;
     }
   }
 }

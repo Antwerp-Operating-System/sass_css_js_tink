@@ -22,30 +22,38 @@
   <![endif]-->
 
 
-  <nav nav-header class="top-nav">
-    <ul class="top-nav-branding">
-      <li class="logo">
+  <nav nav-header class="nav-top">
+    <ul class="nav-top-branding">
+      <li>
         <a href="#" title=""><img src="images/playground/tink-logo.svg" alt="" /></a>
       </li>
-      <li class="toggle">
+      <li class="nav-left-toggle">
         <a href="#" title="Open menu" data-ng-click="sidenav.open = !sidenav.open"><i class="fa fa-bars"><span class="sr-only">Open menu</span></i></a>
       </li>
-      <li class="app">
+      <li class="nav-left-app">
         <h1><a href="#">My App</a></h1>
       </li>
     </ul>
 
+<<<<<<< HEAD
+    <section class="nav-top-section">
+      <!-- <ul class="nav-top-left">
+=======
     <section class="top-nav-section">
       <ul class="top-nav-section-left">
+>>>>>>> feature/bars
         <li>
           <a href="#">Menu L1</a>
         </li>
-      </ul>
+      </ul> -->
 
-      <div class="top-nav-section-center">
+      <div class="nav-top-center">
         <input type="search" class="input-search" placeholder="Zoeken" />
       </div>
 
+<<<<<<< HEAD
+      <ul class="nav-top-right">
+=======
       <ul class="top-nav-section-right">
         <li class="active">
           <a href="#">Menu R1</a>
@@ -57,7 +65,39 @@
     </section>
   </nav>
 
+  <hr>
 
+  <nav class="th-test">
+    <ul class="th-test-branding">
+      <li>
+        <a href="#" title=""><img src="images/playground/tink-logo.svg" alt="" /></a>
+      </li>
+      <li>
+        <a href="#" title="Open menu" data-ng-click="sidenav.open = !sidenav.open"><i class="fa fa-bars"><span class="sr-only">Open menu</span></i></a>
+      </li>
+      <li>
+        <h1><a href="#">My App</a></h1>
+      </li>
+    </ul>
+
+    <section class="th-test-section">
+      <ul class="th-test-section-left">
+        <li>
+          <a href="#">Menu L1</a>
+        </li>
+      </ul>
+
+      <ul class="th-test-section-right">
+>>>>>>> feature/bars
+        <li class="active">
+          <a href="#">Menu R1</a>
+        </li>
+        <li>
+          <a href="#">Menu R2</a>
+        </li>
+      </ul>
+    </section>
+  </nav>
 
   <aside class="nav-left">
     <ul class="nav-aside-main" role="sidenav">
@@ -121,10 +161,6 @@
   <script src="bower_components/angular-route/angular-route.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
-
-  <script src="scripts/services/tinkSafeApply.js"></script>
-  <script src="scripts/services/tinkDateHelper.js"></script>
-  <script src="scripts/directives/tinkDatepickerRange.js"></script>
 
       <!-- build:js({.tmp,app}) scripts/scripts.js -->
   <script src="scripts/app.js"></script>
