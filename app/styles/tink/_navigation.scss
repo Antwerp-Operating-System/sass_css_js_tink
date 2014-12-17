@@ -1,27 +1,58 @@
 /**
  * Navigation
  * --------------------------------------------------
+ * - navigation behaviour states
  * - top navigation
- * - off-canvas nav
- * - nav states
+ * - left navigation
  */
+
 
 
 
 /**
- * Default behaviour is that there is a fixed top-nav,
+ * HTML behaviour when side navigation is open
+ */
+html.nav-left-open {
+
+  body {
+    overflow-x: hidden;
+  }
+
+  @include mq($screen-sm, "max") {
+    .main {
+      transform: translate($nav-aside-width, 0);
+    }
+    .nav-left {
+      transform: translate(0, 0);
+    }
+  }
+}
+
+
+
+
+/**
+ * Default behaviour is that there is a fixed nav-top,
  * so we need to 'fix' the body's padding
  */
 body {
-  padding-top: rem($top-nav-height);
+  padding-top: rem($nav-top-height);
 
-  // If the top-nav for some reason needs to scroll with the page
-  &.has-relative-top-nav {
+  // If the nav-top for some reason needs to scroll with the page
+  &.has-relative-nav-top {
     padding-top: 0;
 
-    .top-nav {
+    .nav-top {
       position: relative;
     }
+  }
+}
+
+.main {
+  transition: padding $animation-speed linear, transform $animation-speed linear;
+
+  @include mq($screen-sm) {
+    padding-left: rem($nav-aside-width);
   }
 }
 
@@ -32,334 +63,221 @@ body {
  * Top navigation
  */
 
-.top-nav {
-  background-color: $top-nav-bg-color;
-  line-height: rem($top-nav-height);
+.nav-top {
+  @include bar();
+
   overflow: auto;
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: layer('top-nav');
-}
+  z-index: layer('nav-top');
 
-ul.top-nav-branding,
-ul.top-nav-left,
-ul.top-nav-right {
-  @extend .list-inline;
-  margin: 0;
-
-  li {
-    padding: 0;
-  }
-
-  a {
-    color: $top-nav-link-color;
-    outline: none;
-    text-decoration: none;
-    display: inline-block;
-    line-height: rem($top-nav-height - $top-nav-padding);
-    margin: rem(($top-nav-padding / 2) 0);
-    padding: rem(0 $top-nav-padding);
-
-    &:hover,
-    &:active,
-    &:focus {
-      color: $top-nav-link-hover-color;
-    }
-
-    &:focus {
-      box-shadow: 0 0 0 2px rgba($brand-light, .5);
-    }
-  }
-}
-
-ul.top-nav-branding {
-  float: left;
-  position: relative;
-  z-index: layer("base");
-
-  li {
+  &-branding {
     float: left;
+    position: relative;
+    z-index: layer('base');
 
-    &:first-child {
-      a {
-        float: left;
-        margin: rem(0 $top-nav-padding 0 0);
-        padding: 0;
+    li {
+      float: left;
+
+      &.logo {
+        a {
+          float: left ;
+          margin: rem(0 $bar-padding 0 0);
+          padding: 0;
+        }
+      }
+
+      &.toggle {
+        @include mq($screen-sm) {
+          display: none;
+        }
+      }
+
+      &.app {
+        @include mq($screen-sm, "max") {
+          display: none;
+        }
       }
     }
+
+    img {
+      float: left;
+      height: rem($bar-height);
+      width: auto;
+    }
+
+    h1 {
+      font-size: rem($font-size-base);
+      font-weight: 700;
+      line-height: rem($nav-top-height);
+      margin: 0;
+    }
   }
-
-  img {
-    float: left;
-    height: rem($top-nav-height);
-    width: auto;
-  }
-
-  h1 {
-    font-size: rem($font-size-base);
-    font-weight: 700;
-    line-height: rem($top-nav-height);
-    margin: 0;
-  }
-}
-
-section.top-nav-section {
-  position: relative;
-  text-align: center;
-  width: auto;
-}
-
-ul.top-nav-left {
-  float: left;
-  margin-left: rem($top-nav-padding / 2);
-}
-
-div.top-nav-center {
-  display: inline-block;
-
-  input[type="search"] {
-    display: inline-block;
-    width: auto;
-  }
-}
-
-ul.top-nav-right {
-  float: right;
-  margin-right: rem($top-nav-padding / 2);
 }
 
 
 
 
 /**
- * Sidenav
+ * Left navigation
  */
 
 .nav-left {
-  background: $nav-left-bg-color;
-  bottom: 0;
+  @include nav-aside();
+
   left: 0;
-  overflow: auto;
-  position: fixed;
-  top: rem($top-nav-height);
-  transform: translate(rem(-$nav-left-width), 0);
+  transform: translate(rem(-$nav-aside-width), 0);
   transition: transform $animation-speed linear;
-  width: rem($nav-left-width);
-  z-index: layer('side-nav');
-  -webkit-overflow-scrolling: touch;
-  -webkit-overflow-scrolling: -blackberry-touch;
 
   @include mq($screen-sm) {
     transform: translate(0, 0);
   }
 
   &:before {
-    background: rgba(0, 0, 0, .12);
-    bottom: 0;
-    content: '';
-    height: 100%;
-    pointer-events: none;
-    position: absolute;
     right: 0;
+  }
+}
+
+.nav-aside-list {
+  position: relative;
+
+  &:before {
+    background-color: rgba(0, 0, 0, .1);
+    content: '';
+    height: 1px;
+    position: absolute;
     top: 0;
-    width: 2px;
-    z-index: layer("pseudo");
+    width: 100%;
+    z-index: layer('pseudo');
   }
 
-  ul {
-    @extend .list-unstyled;
-  }
 
-  > ul {
-    overflow: visible;
-    -webkit-backface-visibility: hidden;
-    -webkit-transform-style: preserve-3d;
+  /**
+   * All levels
+   */
+  li {
 
-    > li {
-      display: block;
-      float: left;
-      overflow: hidden;
-      position: relative;
-      transition: max-height $animation-speed linear;
+    a {
+      color: $nav-aside-link-color;
+      display: table;
+      text-decoration: none;
       width: 100%;
-      -webkit-backface-visibility: hidden;
-      -webkit-transform-style: preserve-3d;
-
-      &:last-child {
-        border-bottom: 1px solid $nav-left-border-color;
-      }
 
       &:hover,
       &:active,
       &:focus {
-        > a {
-          > i {
-            color: $white;
+        background: rgba(0, 0, 0, .05);
+        color: $nav-aside-link-hover-color;
 
-            .icon-bg {
-              transform: translate(0, 0);
-              // z-index: layer('cellar');
-            }
+        + ul {
+
+          &:before {
+            color: $nav-aside-link-hover-color;
+            // transform: rotate(180deg);
           }
         }
       }
 
-      &.active {
-        > a {
-          background: rgba(0, 0, 0, .05);
-
-          > i {
-            color: $white;
-
-            .icon-bg {
-              transform: translate(0, 0);
-              // z-index: layer('cellar');
-            }
-          }
-        }
-
-        ul {
-          max-height: rem(500);
-        }
-
-        li {
-          &.active {
-            > a {
-              background: rgba(0, 0, 0, .05);
-            }
-          }
-        }
+      > * {
+        display: table-cell;
       }
 
-      // &.open {
-      //   ul {
-      //     max-height: rem(1000);
-      //   }
-      // }
+      .badge {
+        float: right;
+      }
+    }
+
+    i {
+      padding: rem(4 10 0 0);
+    }
+
+    &.active {
 
       a {
-        color: $nav-left-link-color;
-        display: table;
-        padding: rem(10 10 10 0);
-        position: relative;
-        text-decoration: none;
-        width: 100%;
+        background-color: $nav-aside-link-active-background-color;
+        color: $nav-aside-link-active-color;
+      }
+    }
 
-        &:hover,
-        &:active,
-        &:focus {
-          background: rgba(0, 0, 0, .05);
-        }
+    &.open,
+    &.active {
+      background: $nav-aside-item-open-color;
 
-        > span {
-          display: table-cell;
-          padding: rem(0 0 0 10);
-          vertical-align: middle;
+      ul {
+        li {
+          a {
+            border-left: rem(15) solid $nav-aside-item-open-color;
+          }
         }
       }
+    }
+  }
+
+  a {
+
+  }
+
+
+  /**
+   * One level deep
+   */
+
+  > li {
+    display: block;
+    // float: left;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+
+    > a {
+      border-bottom: 1px solid $nav-aside-item-border-color;
+      font-weight: 700;
+      padding: rem((($nav-aside-item-height - $line-height-computed) / 2) 15);
+      position: relative;
+      width: 100%;
+      z-index: layer('pseudo');
+    }
+
+    &.open {
+      border-bottom: 1px solid $nav-aside-item-border-color;
 
       > a {
-        background-color: $nav-left-link-background-color;
-        border-top: 1px solid $nav-left-border-color;
-        min-height: rem($nav-left-item-height);
-        padding: rem(14 0 14 0);
+        border-bottom: none;
+        padding-right: rem(30);
       }
-
-      i {
-        display: table-cell;
-        padding-top: rem(4);
-        position: relative;
-        text-align: center;
-        vertical-align: top;
-        width: rem($nav-left-item-height);
-        z-index: layer('base');
-
-        .icon-bg {
-          background: linear-gradient(135deg, $brand 0%, $brand-light 100%);
-          // background: $panel-default-heading-bg;
-          bottom: rem(-14);
-          left: 0;
-          position: absolute;
-          top: rem(-14);
-          transform: translate(rem(-$nav-left-item-height + 3px), 0);
-          transition: transform $animation-speed linear;
-          width: rem($nav-left-item-height);
-          z-index: layer('cellar');
-        }
-      }
-    }
-
-    ul {
-      background: $body-bg;
-      max-height: 0;
-      transition: max-height ($animation-speed * 3) linear;
-    }
-  }
-}
-
-// Behaviour!
-html.sidenav-open {
-
-  body {
-    // height: 100%;
-    overflow-x: hidden;
-    // position: absolute;
-    // width: 100%;
-  }
-
-  @include mq($screen-sm, "max") {
-    .main-content {
-      transform: translate($nav-left-width, 0);
-    }
-    .nav-left {
-      transform: translate(0, 0);
     }
   }
 
-  @include mq($screen-sm) {
 
-    .main-content {
-      padding-left: rem($nav-left-item-height);
+  /**
+   * Two levels deep
+   */
+
+  ul {
+
+    &:before {
+      content: "\f0d7";
+      font-family: FontAwesome;
+      font-style: normal;
+      font-weight: normal;
+      position: absolute;
+      right: rem(15);
+      text-decoration: inherit;
+      top: rem(14);
+      transition: color $animation-speed linear, transform $animation-speed linear;
+      z-index: layer('base');
     }
-    .nav-left {
-      overflow: visible;
-      width: rem($nav-left-item-height);
 
-      > ul {
-        > li {
-          overflow: visible;
+    li {
 
-          ul {
-            background: $body-bg;
-            border: solid rgba(0, 0, 0, .12);
-            border-width: 2px 2px 2px 0;
-            display: none;
-            height: auto;
-            max-height: rem(500);
-            position: absolute;
-            left: rem($nav-left-item-height);
-            top: 0;
-            width: rem($nav-left-width);
-            z-index: layer(side-nav);
-          }
+    }
 
-          &:hover,
-          &:active,
-          &:focus {
-            ul {
-              display: block;
-            }
-          }
-
-          > a {
-
-            > span {
-              display: none;
-            }
-          }
-        }
-      }
+    a {
+      // border-bottom: 8px solid $white;
+      border-left: rem(15) solid $nav-aside-bg-color;
+      font-weight: 600;
+      padding: rem((($nav-aside-subitem-height - $line-height-computed) / 2) 15);
     }
   }
 }

@@ -1,34 +1,459 @@
-<div class="container-fluid">
+<!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"> -->
 
-	<h1>Tink playground!</h1>
-	<section class="panel">
-		<div class="panel-heading">
-			<p class="panel-title">Some panel</p>
-		</div>
-		<div class="panel-body">
-			<table>
-				<thead>
-					<tr>
-						<th>Lorem</th>
-						<th>Lorem</th>
-						<th>Lorem</th>
-					</tr>
-				</thead>
-				<tr>
-					<td>Ipsum</td>
-					<td>Ipsum</td>
-					<td>Ipsum</td>
-				</tr>
-				<tfoot>
-				<tr>
-					<td>Dolorem</td>
-					<td>Dolorem</td>
-					<td>Dolorem</td>
-				</tr>
-				</tfoot>
-			</table>
-		</div>
-	</section>
+<div class="container">
+
+  <h1>Tink playground!</h1>
+  <p>Thijs code</p>
+
+  <hr>
+  Comments Tom / Jasper: <br>
+  - form-group + .row class attached anders collapse <br>
+  - switched glyphicons for fontawesome, dus .fa ipv .glyphicon en evt. andere symbol (bv. fa-info-circle ipv glyphicon-info-sign) <br>
+  - .container-fluid is gewoon .container in Tink<br>
+
+  <hr>
+  <!-- THIJS CODE -->
+<div id="page-content-wrapper">
+                    <div class="page-content">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+
+
+
+
+<div class="row pagetitle-row">
+    <div class="col-xs-12">
+        <h1>
+1: Test - thijs        </h1>
+    </div>
+</div>
+
+<hr/>
+
+<div class="row">
+    <div class="col-lg-9">
+<form action="/Digipolis.WorkAgileDigipolis.MvcUI/Resultaat/Bewaren" enctype="multipart/form-data" id="form" method="post" role="form">            <div class="form-horizontal">
+
+                <div class="col-xs-12">
+                    <div class="validation-summary-valid alert alert-danger" data-valmsg-summary="true"><span>Verbeter volgende fouten en probeer opnieuw a.u.b.:</span>
+<ul><li style="display:none"></li>
+</ul></div>
+
+                    <input data-val="true" data-val-number="The field Id must be a number." data-val-required="The Id field is required." id="Resultaat_Id" name="Resultaat.Id" type="hidden" value="1" />
+                    <input data-val="true" data-val-number="The field FilterStatusId must be a number." data-val-required="The FilterStatusId field is required." id="FilterStatusId" name="FilterStatusId" type="hidden" value="-1" />
+                </div>
+
+                <div class="col-xs-12"><h2 id="algemeen" class="anchor">Algemeen</h2></div>
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="Resultaat_Titel">Titel</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input class="form-control" data-val="true" data-val-length="De titel is te lang (max.250 karakters)." data-val-length-max="250" data-val-required="Ingeven van een titel is verplicht." id="Resultaat_Titel" name="Resultaat.Titel" placeholder="Geef een titel in voor de component" type="text" value="Test - thijs" />
+                        <span class="field-validation-valid" data-valmsg-for="Resultaat.Titel" data-valmsg-replace="true"></span>
+                        <span class="field-validation-valid pull-right alert alert-error" data-valmsg-for="Resultaat.Titel" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="Resultaat_Tags">Tags</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input class="form-control" data-role="tagsinput" id="TagVeld" name="TagVeld" placeholder="Tag" type="text" value="" />
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="Resultaat_Prio">Prioriteit nummer</label>
+                    </div>
+                    <div class="col-md-9">
+<input class="form-control" data-val="true" data-val-number="The field Prio must be a number." data-val-regex="De prioriteit moet een getal zijn." data-val-regex-pattern="\d+" disabled="disabled" id="Resultaat_Prio" name="Resultaat.Prio" placeholder="Nummer Prioriteit" type="text" value="" />                        <span class="field-validation-valid pull-right alert alert-error" data-valmsg-for="Resultaat.Prio" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="Resultaat_OpleverDatumGewenst">Gewenste opleverdatum</label>
+                    </div>
+                    <div class="col-md-9">
+
+
+
+
+
+
+
+<input class="form-control" data-val="true" data-val-date="The field OpleverDatumGewenst must be a date." id="Resultaat_OpleverDatumGewenst" name="Resultaat.OpleverDatumGewenst" placeholder="Gewenste opleverdatum" type="Date" value="2015-01-01" />
+
+                        <span class="field-validation-valid pull-right alert alert-error" data-valmsg-for="Resultaat.OpleverDatumGewenst" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="OpleverDatumVerwacht">Prognose opleverdatum</label>
+                    </div>
+                    <div class="col-md-9">
+
+
+
+
+
+
+
+<input class="form-control" data-val="true" data-val-date="The field OpleverDatumVerwacht must be a date." id="Resultaat_OpleverDatumVerwacht" name="Resultaat.OpleverDatumVerwacht" placeholder="Gewenste opleverdatum" type="Date" value="" />
+
+                        <span class="field-validation-valid pull-right alert alert-error" data-valmsg-for="Resultaat.OpleverDatumVerwacht" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="Status">Status</label>
+                    </div>
+                    <div class="col-md-9">
+<select class="form-control" data-val="true" data-val-number="The field GeselecteerdeStatus must be a number." id="GeselecteerdeStatus" name="GeselecteerdeStatus"><option value=""></option>
+<option selected="selected" value="1">Aangevraagd</option>
+<option value="2">Gedefinieerd</option>
+<option value="3">Gepokerd</option>
+<option value="4">VAM Prio</option>
+<option value="5">Toegewezen</option>
+<option value="6">Verwijderd</option>
+<option value="7">Gerealiseerd</option>
+<option value="8">Afgewezen</option>
+</select>                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="MotivatieBijStatus">Motivatie bij status</label>
+                    </div>
+                    <div class="col-md-9">
+                        <textarea class="form-control" cols="20" id="MotivatieBijStatus" name="MotivatieBijStatus" placeholder="Motivatie bij status" rows="2">
+(auto) Eerste ingave in toepassing</textarea>
+                        <span class="field-validation-valid pull-right alert alert-error" data-valmsg-for="MotivatieBijStatus" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="GeselecteerdGewicht">Gewicht</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control" data-val="true" data-val-number="The field GeselecteerdGewicht must be a number." id="GeselecteerdGewicht" name="GeselecteerdGewicht"><option selected="selected" value="1">Nog niet bepaald</option>
+<option value="2">S</option>
+<option value="3">M</option>
+<option value="4">L</option>
+<option value="5">XL</option>
+</select>
+                        <span class="field-validation-valid pull-right alert alert-error" data-valmsg-for="GeselecteerdGewicht" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="MotivatieBijGewicht">Motivatie bij gewicht</label>
+                    </div>
+                    <div class="col-md-9">
+                        <textarea class="form-control" cols="20" id="MotivatieBijGewicht" name="MotivatieBijGewicht" placeholder="Motivatie bij gewicht" rows="2">
+(auto) Eerste ingave in toepassing</textarea>
+                        <span class="field-validation-valid pull-right alert alert-error" data-valmsg-for="MotivatieBijGewicht" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="Omschrijving">Omschrijving</label>
+                    </div>
+                    <div class="col-md-9">
+                        <textarea class="form-control" cols="20" data-val="true" data-val-regex="Omschrijving is te lang." data-val-regex-pattern="[\s\S]*" id="Resultaat_Omschrijving" name="Resultaat.Omschrijving" placeholder="Vul hier eventuele opmerkingen of een omschrijving in om het resultaat te kaderen" rows="2">
+</textarea>
+                        <span class="field-validation-valid pull-right alert alert-error" data-valmsg-for="Resultaat.Omschrijving" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+                <div class="col-xs-12"><h2 id="documentatie" class="anchor">Documentatie</h2></div>
+
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <label class="control-label" for="Documenten">
+                            Hier kan je links voorzien naar de relevante user stories of wireframes die als documentatie moeten dienen
+                            tijdens development.
+                        </label>
+                    </div>
+                    <div class="col-md-12">
+                        <div id="Documenten">
+                            <div class="DocumentatieItem">
+    <input data-val="true" data-val-number="The field Id must be a number." data-val-required="The Id field is required." id="Documenten_0__Id" name="Documenten[0].Id" type="hidden" value="1" />
+
+    <div class="input-group">
+        <span class="badge"><a href="#" onclick="javascript:removeNestedForm(this,&#39;div.DocumentatieItem&#39;,&#39;input.mark-for-delete&#39;);return false;">X</a><br /></span>
+</div>
+        <div class="input-group">
+            <span class="input-group-addon"><span class="fa fa-info-circle"></span></span>
+            <input class="form-control" id="Documenten_0__Titel" name="Documenten[0].Titel" placeholder="Titel van de bijlage" type="text" value="Bijlage 1" />
+        </div>
+
+        <div class="input-group">
+            <span class="input-group-addon"><span class="fa fa-globe"></span></span>
+            <input class="form-control" id="txt_URL1" name="Documenten[0].URL" placeholder="URL van de bijlage" type="text" value="google.com" />
+            <span id="1" class="link input-group-addon">Open URL</span>
+        </div>
+        <div class="input-group">
+            <input class="mark-for-delete" data-val="true" data-val-required="The IsDeleted field is required." id="Documenten_0__IsDeleted" name="Documenten[0].IsDeleted" type="hidden" value="False" />
+
+
+        </div>
+        <br />
+    </div>
+
+
+                        </div>
+                        <span class="badge">
+                            <a href="#" onclick="javascript:addNestedForm(&#39;#Documenten&#39;,&#39;.DocumentatieItem&#39;,&#39;635532994027943784&#39;,&#39;&lt;div class=\&quot;DocumentatieItem\&quot;\>    &lt;input data-val=\&quot;true\&quot; data-val-number=\&quot;The field Id must be a number.\&quot; data-val-required=\&quot;The Id field is required.\&quot; id=\&quot;Documenten_635532994027943784__Id\&quot; name=\&quot;Documenten[635532994027943784].Id\&quot; type=\&quot;hidden\&quot; value=\&quot;0\&quot; /\>    &lt;div class=\&quot;input-group\&quot;\>        &lt;span class=\&quot;badge\&quot;\>&lt;a href=\&quot;#\&quot; onclick=\&quot;javascript:removeNestedForm(this,&amp;#39;div.DocumentatieItem&amp;#39;,&amp;#39;input.mark-for-delete&amp;#39;);return false;\&quot;\>X&lt;/a\>&lt;br /\>&lt;/span\>&lt;/div\>        &lt;div class=\&quot;input-group\&quot;\>            &lt;span class=\&quot;input-group-addon\&quot;\>&lt;span class=\&quot;fa fa-info-circle\&quot;\>&lt;/span\>&lt;/span\>            &lt;input class=\&quot;form-control\&quot; id=\&quot;Documenten_635532994027943784__Titel\&quot; name=\&quot;Documenten[635532994027943784].Titel\&quot; placeholder=\&quot;Titel van de bijlage\&quot; type=\&quot;text\&quot; value=\&quot;\&quot; /\>        &lt;/div\>        &lt;div class=\&quot;input-group\&quot;\>            &lt;span class=\&quot;input-group-addon\&quot;\>&lt;span class=\&quot;fa fa-globe\&quot;\>&lt;/span\>&lt;/span\>            &lt;input class=\&quot;form-control\&quot; id=\&quot;txt_URL0\&quot; name=\&quot;Documenten[635532994027943784].URL\&quot; placeholder=\&quot;URL van de bijlage\&quot; type=\&quot;text\&quot; value=\&quot;\&quot; /\>            &lt;span id=\&quot;0\&quot; class=\&quot;link input-group-addon\&quot;\>Open URL&lt;/span\>        &lt;/div\>        &lt;div class=\&quot;input-group\&quot;\>            &lt;input class=\&quot;mark-for-delete\&quot; data-val=\&quot;true\&quot; data-val-required=\&quot;The IsDeleted field is required.\&quot; id=\&quot;Documenten_635532994027943784__IsDeleted\&quot; name=\&quot;Documenten[635532994027943784].IsDeleted\&quot; type=\&quot;hidden\&quot; value=\&quot;False\&quot; /\>        &lt;/div\>        &lt;br /\>    &lt;/div\>&#39;);return false;"><span class='fa fa-plus'></span> Toevoegen</a>
+                        </span>
+
+                        <button type="button" class="btn-text"><i class="fa fa-plus"></i>Toevoegen</button>
+                    </div>
+                </div>
+
+                <div class="col-xs-12"><h2 id="financien" class="anchor">Financiën</h2></div>
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="Code">Bestedingslijn Navision</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input class="form-control" data-val="true" data-val-length="De code is te lang (max.50 karakters)." data-val-length-max="50" id="Resultaat_Code" name="Resultaat.Code" placeholder="Teller Navision" type="text" value="" />
+                        <span class="field-validation-valid pull-right alert alert-error" data-valmsg-for="Resultaat.Code" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="DoelstellingNummer">Doelstelling nummer</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input class="form-control" data-val="true" data-val-length="Het doelstellingnummer is te lang (max.50 karakters)." data-val-length-max="50" id="Resultaat_DoelstellingNummer" name="Resultaat.DoelstellingNummer" placeholder="Nummer doelstelling" type="text" value="" />
+                        <span class="field-validation-valid pull-right alert alert-error" data-valmsg-for="Resultaat.DoelstellingNummer" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="TotaalBedragGesponsord">Sponsering</label>
+                    </div>
+                    <div class="col-md-9" style="margin-top:8px">
+                        <input class="" data-val="true" data-val-required="The TotaalBedragGesponsord field is required." id="TotaalBedragGesponsord" name="TotaalBedragGesponsord" placeholder="" type="checkbox" value="true" /><input name="TotaalBedragGesponsord" type="hidden" value="false" />
+                        <label for="TotaalBedragGesponsord">Gesponsord (€ 0,00)</label>
+                    </div>
+                </div>
+
+                <div class="col-xs-12"><h2 id="mensen" class="anchor">Mensen</h2></div>
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="Resultaat_NaamBezieler">Bezieler</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input data-val="true" data-val-length="De naam van de bezieler is te lang (max.50 karakters)." data-val-length-max="50" data-val-required="Ingeven van de naam van de bezieler is verplicht." id="Resultaat_NaamBezieler" name="Resultaat.NaamBezieler" type="hidden" value="Thijs Dickmans" />
+                        <input class="form-control" disabled="disabled" id="Resultaat_NaamBezieler" name="Resultaat.NaamBezieler" placeholder="Bezieler" type="text" value="Thijs Dickmans" />
+                        <span class="field-validation-valid pull-right alert alert-error" data-valmsg-for="Resultaat.NaamBezieler" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="Hoofdklant">Hoofdklant</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control" data-val="true" data-val-number="The field Hoofdklant_Id must be a number." data-val-range="Selecteren van een hoofdklant is verplicht." data-val-range-max="2147483647" data-val-range-min="1" data-val-regex="Selecteren van een hoofdklant is verplicht..." data-val-regex-pattern="([1-9][0-9]*)" data-val-required="Selecteren van een hoofdklant is verplicht." id="Resultaat_Hoofdklant_Id" name="Resultaat.Hoofdklant_Id"><option value=""></option>
+<option selected="selected" value="1">Stad</option>
+<option value="2">OCMW</option>
+<option value="3">Zorgbedrijf</option>
+<option value="4">Politie</option>
+</select>
+                        <span class="field-validation-valid pull-right alert alert-error" data-valmsg-for="Resultaat.Hoofdklant_Id" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row" id="dept" style="">
+                    <div class="col-md-3">
+                        <label class="control-label" for="Departement">Bedrijfseenheid</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control" data-val="true" data-val-number="The field Departement_Id must be a number." id="Resultaat_Departement_Id" name="Resultaat.Departement_Id"><option value=""></option>
+<option value="1">BW</option>
+<option value="2">BZ</option>
+<option value="3">CS</option>
+<option value="4">DL</option>
+<option value="5">FI</option>
+<option value="6">KOP</option>
+<option value="7">OS</option>
+<option value="8">PM</option>
+<option value="9">SB</option>
+<option value="10">SL</option>
+<option value="11">SW</option>
+<option selected="selected" value="12">SO</option>
+<option value="13">KAB</option>
+</select>
+                        <span class="field-validation-valid pull-right alert alert-error" data-valmsg-for="Resultaat.Departement_Id" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="NaamVertegenwoordigerKlant">Vertegenwoordiger klant</label>
+                    </div>
+                    <div class="col-md-9">
+                        <input class="form-control" data-val="true" data-val-length="De naam van &#39;vertegenwoordiger klant&#39; is te lang (max.50 karakters)." data-val-length-max="50" id="Resultaat_NaamVertegenwoordigerKlant" name="Resultaat.NaamVertegenwoordigerKlant" placeholder="Vertegenwoordiger van de klant" type="text" value="" />
+                        <span class="field-validation-valid pull-right alert alert-error" data-valmsg-for="Resultaat.NaamVertegenwoordigerKlant" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="Resultaat_ScrumMasterId">Scrum master</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control" data-val="true" data-val-number="The field ScrumMasterId must be a number." id="Resultaat_ScrumMasterId" name="Resultaat.ScrumMasterId"><option value=""></option>
+<option value="1">Gert Bouwens</option>
+<option value="2">Patrick Vanoverbeke</option>
+<option value="3">Sandra Michielse</option>
+<option value="4">Pauline Depi&#232;re</option>
+<option value="5">Hans Bosmans</option>
+</select>
+                        <span class="field-validation-valid pull-right alert alert-error" data-valmsg-for="Resultaat.ScrumMasterId" data-valmsg-replace="true"></span>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <label class="control-label" for="Team">Scrum Team</label>
+                    </div>
+                    <div class="col-md-9">
+                        <select class="form-control" data-val="true" data-val-number="The field Team_Id must be a number." id="Resultaat_Team_Id" name="Resultaat.Team_Id"><option value=""></option>
+<option value="1">Team 1</option>
+<option value="2">Team 2</option>
+<option value="3">Team 3</option>
+<option value="4">Team 4</option>
+<option value="5">Team 5</option>
+<option value="6">Team 6</option>
+<option value="7">Team 7</option>
+</select>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <button type="button" class="btn btn-default" tabindex="-1">Annuleren</button>
+
+                        <button type="button" id="btn-save" class="btn btn-primary">Bewaren</button>
+
+                </div>
+            </div>
+</form>    </div>
+
+    <div class="col-lg-3">
+            <h2>Activiteit</h2>
+                <div id="history-status">
+                    <h3>Statussen</h3>
+                    <ul class="list-group">
+                            <li class="list-group-item sidebar-list">
+                                <div>
+                                    Thijs Dickmans heeft de status gewijzigd naar
+                                    <span class="label label-default">Aangevraagd</span>.
+                                </div>
+                                <div class="date">
+                                    <small title="1/12/2014 13:03:24">
+                                        1
+                                        december
+
+                                        , 13:03
+                                    </small>
+                                </div>
+                            </li>
+                    </ul>
+                </div>
+                <div id="history-gewicht">
+                    <h3>Gewichten</h3>
+                    <ul class="list-group">
+                            <li class="list-group-item sidebar-list">
+                                <div>
+                                    Thijs Dickmans heeft het gewicht gewijzigd naar
+                                    <span class="label label-default">Nog niet bepaald</span>.
+                                </div>
+                                <div class="date">
+                                    <small title="1/12/2013 13:03:24">
+                                        1
+                                        december
+2013                                        , 13:03
+                                    </small>
+                                </div>
+                            </li>
+                    </ul>
+                </div>
+    </div>
+</div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+  <!-- end THIJS CODE -->
+  <hr>
+  <hr>
+
+  <section class="panel">
+    <div class="panel-heading">
+      <p class="panel-title">Some panel</p>
+    </div>
+    <div class="panel-body">
+      <table>
+        <thead>
+          <tr>
+            <th>Lorem</th>
+            <th>Lorem</th>
+            <th>Lorem</th>
+          </tr>
+        </thead>
+        <tr>
+          <td>Ipsum</td>
+          <td>Ipsum</td>
+          <td>Ipsum</td>
+        </tr>
+        <tfoot>
+        <tr>
+          <td>Dolorem</td>
+          <td>Dolorem</td>
+          <td>Dolorem</td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
 
   <section class="panel">
     <div class="panel-heading">
