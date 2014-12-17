@@ -236,7 +236,7 @@ body {
       padding: rem((($nav-aside-item-height - $line-height-computed) / 2) 15);
       position: relative;
       width: 100%;
-      z-index: layer('pseudo');
+      z-index: layer('base');
     }
 
     &.open {
@@ -266,7 +266,7 @@ body {
       text-decoration: inherit;
       top: rem(14);
       transition: color $animation-speed linear, transform $animation-speed linear;
-      z-index: layer('base');
+      z-index: layer('ground');
     }
 
     li {
