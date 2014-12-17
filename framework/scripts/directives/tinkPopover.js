@@ -1,3 +1,4 @@
+'use strict';
 angular.module('tink.popOver', ['tink.tooltip'])
 .directive( 'tinkPopoverPopup', function () {
   return {
@@ -7,6 +8,6 @@ angular.module('tink.popOver', ['tink.tooltip'])
     templateUrl: 'templates/popover.html'
   };
 })
-.directive( 'tinkPopover', [ '$tooltip', function ( $tooltip ) {console.log("docxw")
+.directive( 'tinkPopover', [ '$tooltip', function ( $tooltip ) {
   return $tooltip( 'tinkPopover', 'tinkPopover', 'click' );
 }]);

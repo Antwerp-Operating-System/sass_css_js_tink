@@ -9,6 +9,8 @@ module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
+  
+
   // Semantic version options
   var bump = grunt.option('bump') || '';
   var currentversion = require('./package.json').version;
@@ -47,9 +49,9 @@ module.exports = function (grunt) {
         files: ['test/spec/{,*/}*.js'],
         tasks: ['newer:jshint:test', 'karma']
       },
-      compass: {
+      sass: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-        tasks: ['compass:server', 'autoprefixer']
+        tasks: ['sass:server', 'autoprefixer']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -148,9 +150,9 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '.tmp/',
+          cwd: '.tmp/styles',
           src: '{,*/}*.css',
-          dest: '.tmp/'
+          dest: '.tmp/styles'
         }]
       }
     },
@@ -164,36 +166,31 @@ module.exports = function (grunt) {
         ignorePath: /(\.\.\/){1,2}bower_components\//
       }
     },
-    compass: {
-      options: {
-        sassDir: '<%= yeoman.app %>/styles',
-        cssDir: '.tmp/styles',
-        generatedImagesDir: '.tmp/images/generated',
-        imagesDir: '<%= yeoman.app %>/images',
-        javascriptsDir: '<%= yeoman.app %>/scripts',
-        fontsDir: '<%= yeoman.app %>/fonts',
-        importPath: './bower_components',
-        httpImagesPath: '/images',
-        httpGeneratedImagesPath: '/images/generated',
-        httpFontsPath: '/fonts',
-        relativeAssets: true,
-        assetCacheBuster: true,
-        raw: 'Sass::Script::Number.precision = 10\n'
-      },
-      dist: {
+    sass: {
         options: {
-          // root: '<%= yeoman.dist %>',
-          cssDir: '.tmp',
-          generatedImagesDir: 'images/generated',
-          imagesDir: 'images',
-          fontsDir: 'fonts'
+          imagePath:'../images',
+            includePaths: [
+                'bower_components'
+            ]
+        },
+        dist: {
+            files: [{
+                expand: true,
+                cwd: '<%= yeoman.app %>/styles',
+                src: ['*.scss'],
+                dest: '.tmp/styles',
+                ext: '.css'
+            }]
+        },
+        server: {
+            files: [{
+                expand: true,
+                cwd: '<%= yeoman.app %>/styles',
+                src: ['*.scss'],
+                dest: '.tmp/styles',
+                ext: '.css'
+            }]
         }
-      },
-      server: {
-        options: {
-          debugInfo: true
-        }
-      }
     },
     copy: {
       dist: {
@@ -218,7 +215,6 @@ module.exports = function (grunt) {
           },
           {
             expand: true,
-            dot: true,
             cwd: '<%= yeoman.app %>/images/gui',
             dest: '<%= yeoman.dist %>/images/gui',
             src: [
@@ -229,7 +225,7 @@ module.exports = function (grunt) {
       },
       styles: {
         expand: true,
-        cwd: '.tmp',
+        cwd: '.tmp/styles',
         dest: '<%= yeoman.dist %>/styles/',
         src: '*'
       }
@@ -254,15 +250,26 @@ module.exports = function (grunt) {
         }
       }
     },
+    usemin: {
+        html: ['<%= yeoman.dist %>/{,*/}*.html'],
+        css: ['.tmp/styles/{,*/}*.css'],
+        options: {
+            dirs: ['<%= yeoman.dist %>/images'],
+            basedir: ['<%= yeoman.dist %>/images'],
+            assetsDirs: ['<%= yeoman.dist %>', '<%= yeoman.dist %>/images']
+        }
+    },
     concurrent: {
       server: [
-        'compass:server'
+        'sass:server',
+        'copy:styles'
       ],
       test: [
-        'compass'
+        'copy:styles'
       ],
       dist: [
-        'compass:dist'
+        'sass',
+        'copy:styles'
       ]
     },
     cssmin: {
@@ -272,7 +279,7 @@ module.exports = function (grunt) {
       dist: {
         files: {
           '<%= yeoman.dist %>/styles/tink.min.css': [
-            '.tmp/{,*/}*.css'
+            '.tmp/styles/{,*/}*.css'
           ]
         }
       }
@@ -341,9 +348,9 @@ module.exports = function (grunt) {
     'uglify:dist',
     'concurrent:dist',
     'autoprefixer:dist',
+    'usemin',
     'cssmin',
-    'copy:styles'
-
+    'copy:styles',
   ]);
 
   grunt.registerTask('default', [
