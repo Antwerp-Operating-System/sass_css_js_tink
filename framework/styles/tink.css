@@ -1905,14 +1905,14 @@ button[type="submit"], input[type="submit"], .btn-primary {
 
 .badge {
   background-color: #eaeaea;
-  border-radius: 10px;
+  border-radius: 3px;
   color: #333;
   display: inline-block;
   font-size: 12px;
   font-weight: bold;
   line-height: 1;
   min-width: 10px;
-  padding: 6px 12px;
+  padding: 6px 6px;
   text-align: center;
   vertical-align: baseline;
   white-space: nowrap; }
@@ -3288,6 +3288,9 @@ body {
     top: 0;
     width: 100%;
     z-index: 2; }
+  .nav-aside-list .badge {
+    background-color: #888;
+    color: #fff; }
   .nav-aside-list li a {
     color: #525252;
     display: table;
@@ -3296,6 +3299,9 @@ body {
     .nav-aside-list li a:hover, .nav-aside-list li a:active, .nav-aside-list li a:focus {
       background: rgba(0, 0, 0, 0.05);
       color: #141414; }
+      .nav-aside-list li a:hover .badge, .nav-aside-list li a:active .badge, .nav-aside-list li a:focus .badge {
+        background-color: #fff;
+        color: #000; }
       .nav-aside-list li a:hover + ul:before, .nav-aside-list li a:active + ul:before, .nav-aside-list li a:focus + ul:before {
         color: #141414; }
     .nav-aside-list li a > * {
@@ -3307,6 +3313,9 @@ body {
   .nav-aside-list li.active a {
     background-color: #347ea6;
     color: #fff; }
+    .nav-aside-list li.active a .badge {
+      background-color: #fff;
+      color: #000; }
   .nav-aside-list li.open, .nav-aside-list li.active {
     background: #f7f7f7; }
     .nav-aside-list li.open ul li a, .nav-aside-list li.active ul li a {
