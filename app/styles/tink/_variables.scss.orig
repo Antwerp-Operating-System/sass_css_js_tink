@@ -306,8 +306,8 @@ $input-height-small:             (floor($font-size-small * $line-height-small) +
 $legend-color:                   $gray-dark !default;
 $legend-border-color:            $gray-lighter !default;
 
-$input-group-addon-bg:           $gray-lighter !default; // Background color for textual input addons
-$input-group-addon-border-color: $input-border !default; // Border color for textual input addons
+// $input-group-addon-bg:           $gray-lighter !default; // Background color for textual input addons
+// $input-group-addon-border-color: $input-border !default; // Border color for textual input addons
 
 
 
@@ -370,48 +370,52 @@ $layers: base, pseudo, nav-aside, nav-top;
 
 
 /**
- * Bar component
- *
- * Settings for a standard bar
- */
-$bar-height:                            50px !default;
-$bar-bg-color:                          $gray-dark !default;
-$bar-link-color:                        $body-bg !default;
-$bar-link-hover-color:                  $white !default;
-$bar-padding:                           $padding-base-horizontal !default;
-
-
-
-/**
  * Navigation
  *
  * Settings for the top navigation and the off-canvas navigation
  */
+<<<<<<< HEAD
+$nav-top-height:                      50px !default;
+$nav-top-bg-color:                    $gray-dark !default;
+$nav-top-link-color:                  $body-bg !default;
+$nav-top-link-hover-color:            $white !default;
+$nav-top-padding:                     $padding-base-horizontal !default;
 
-$nav-top-height:                         $bar-height;
-$nav-top-bg-color:                       $bar-bg-color;
-$nav-top-link-color:                     $bar-link-color;
-$nav-top-link-hover-color:               $bar-link-hover-color;
-$nav-top-padding:                        $bar-padding;
+$nav-aside-width:                         220px !default;
+$nav-aside-item-height:                   $nav-top-height !default;
+$nav-aside-subitem-height:                40px !default;
+$nav-aside-bg-color:                      $white !default;
+$nav-aside-border-color:                  $gray-lighter !default;
+$nav-aside-link-color:                    $gray-darker !default;
+$nav-aside-link-background-color:         $white !default;
+$nav-aside-link-hover-color:              $gray-darker !default;
+$nav-aside-link-hover-background-color:   $white !default;
 
-$nav-aside-width:                        220px !default;
-$nav-aside-item-height:                  $bar-height !default;
-$nav-aside-subitem-height:               40px !default;
+=======
+$bar-nav-height:                      50px !default;
+$bar-nav-bg-color:                    $gray-dark !default;
+$bar-nav-link-color:                  $body-bg !default;
+$bar-nav-link-hover-color:            $white !default;
+$bar-nav-padding:                     $padding-base-horizontal !default;
 
-$nav-aside-bg-color:                     $white !default;
-$nav-aside-item-border-color:            $gray-lighter !default;
-$nav-aside-item-open-color:              $body-bg !default;
-$nav-aside-link-color:                   lighten($gray-dark, 12%) !default;
-$nav-aside-link-hover-color:             $gray-darker !default;
-$nav-aside-link-active-color:            $white !default;
-$nav-aside-link-active-background-color: $brand !default;
 
-// $nav-aside-border-color:                $gray-lighter !default;
+$top-nav-height:                      $bar-nav-height;
+$top-nav-bg-color:                    $bar-nav-bg-color;
+$top-nav-link-color:                  $bar-nav-link-color;
+$top-nav-link-hover-color:            $bar-nav-link-hover-color;
+$top-nav-padding:                     $bar-nav-padding;
 
-// $nav-aside-link-background-color:       transparent !default;
-// $nav-aside-link-hover-color:            $gray-darker !default;
-// $nav-aside-link-hover-background-color: $white !default;
 
+$nav-left-width:                         220px !default;
+$nav-left-item-height:                   $top-nav-height !default;
+$nav-left-subitem-height:                40px !default;
+$nav-left-bg-color:                      $white !default;
+$nav-left-border-color:                  $gray-lighter !default;
+$nav-left-link-color:                    $gray-darker !default;
+$nav-left-link-background-color:         $white !default;
+$nav-left-link-hover-color:              $gray-darker !default;
+$nav-left-link-hover-background-color:   $white !default;
+>>>>>>> feature/bars
 
 
 //== Navbar
@@ -809,19 +813,19 @@ $nav-aside-link-active-background-color: $brand !default;
 //
 //##
 
-    $badge-color:                 $gray-dark !default;
-// ** Linked badge text color on hover
-    $badge-link-hover-color:      $white !default;
-    $badge-bg:                    $gray-lighter !default;
+    // $badge-color:                 $white !default;
+//** Linked badge text color on hover
+    // $badge-link-hover-color:      $white !default;
+    // $badge-bg:                    $gray-light !default;
 
-// ** Badge text color in active nav link
-    $badge-active-color:          $link-color !default;
-// ** Badge background color in active nav link
-    $badge-active-bg:             $white !default;
+//** Badge text color in active nav link
+    // $badge-active-color:          $link-color !default;
+//** Badge background color in active nav link
+    // $badge-active-bg:             $white !default;
 
-    $badge-font-weight:           bold !default;
-    $badge-line-height:           1 !default;
-    $badge-border-radius:         10px !default;
+    // $badge-font-weight:           bold !default;
+    // $badge-line-height:           1 !default;
+    // $badge-border-radius:         10px !default;
 
 
 //== Breadcrumbs

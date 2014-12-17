@@ -1,0 +1,389 @@
+/**
+ * Navigation
+ * --------------------------------------------------
+ * - top navigation
+ * - off-canvas nav
+ * - nav states
+ */
+
+
+
+/**
+ * Default behaviour is that there is a fixed nav-top,
+ * so we need to 'fix' the body's padding
+ */
+body {
+  overflow-x: hidden;
+  padding-top: rem($nav-top-height);
+
+  // If the nav-top for some reason needs to scroll with the page
+  &.has-relative-nav-top {
+    padding-top: 0;
+
+    .nav-top {
+      position: relative;
+    }
+  }
+}
+
+<<<<<<< HEAD
+.main {
+  transition: padding $animation-speed linear;
+
+  @include mq($screen-sm) {
+    padding-left: rem($nav-aside-width);
+  }
+}
+
+=======
+// TH attempt to generic actionbar
+@mixin bar( $name, $bar-nav-height, $bar-nav-bg-color ) {
+  background-color: $bar-nav-bg-color;
+  line-height: rem($bar-nav-height);
+  overflow: auto;
+>>>>>>> feature/bars
+
+  &-branding,
+  &-section-left,
+  &-section-right {
+    @extend .list-inline;
+    margin: 0;
+
+    li {
+      padding: 0;
+    }
+    a {
+      color: $bar-nav-link-color;
+      outline: none;
+      text-decoration: none;
+      display: inline-block;
+      line-height: rem($bar-nav-height - $bar-nav-padding);
+      margin: rem(($bar-nav-padding / 2) 0);
+      padding: rem(0 $bar-nav-padding);
+
+<<<<<<< HEAD
+/**
+ * Top navigation
+ */
+
+.nav-top {
+  background-color: $nav-top-bg-color;
+  line-height: rem($nav-top-height);
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: layer('nav-top');
+}
+
+ul.nav-top-branding,
+ul.nav-top-left,
+ul.nav-top-right {
+  @extend .list-inline;
+  margin: 0;
+=======
+      &:hover,
+      &:active,
+      &:focus {
+        color: $bar-nav-link-hover-color;
+      }
+>>>>>>> feature/bars
+
+      &:focus {
+        box-shadow: 0 0 0 2px rgba($brand-light, .5);
+      }
+    }
+  }
+
+<<<<<<< HEAD
+  a {
+    color: $nav-top-link-color;
+    outline: none;
+    text-decoration: none;
+    display: inline-block;
+    line-height: rem($nav-top-height - $nav-top-padding);
+    margin: rem(($nav-top-padding / 2) 0);
+    padding: rem(0 $nav-top-padding);
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: $nav-top-link-hover-color;
+    }
+=======
+  &-section {
+    position: relative ;
+    width: auto;
+>>>>>>> feature/bars
+
+    &-left {
+      float: left;
+      margin-left:rem($bar-nav-padding / 2);
+    }
+    &-right {
+      float: right;
+      margin-right:rem($bar-nav-padding / 2);
+    }
+  }
+
+<<<<<<< HEAD
+ul.nav-top-branding {
+  float: left;
+  position: relative;
+  z-index: layer("base");
+
+  li {
+=======
+  &-branding {
+>>>>>>> feature/bars
+    float: left;
+    li {
+      float: left;
+
+<<<<<<< HEAD
+    &:first-child {
+      a {
+        float: left;
+        margin: rem(0 $nav-top-padding 0 0);
+        padding: 0;
+      }
+    }
+
+    &.nav-left-toggle {
+      @include mq($screen-sm) {
+        display: none;
+      }
+    }
+
+    &.nav-left-app {
+      @include mq($screen-sm, "max") {
+        display: none;
+      }
+    }
+  }
+
+  img {
+    float: left;
+    height: rem($nav-top-height);
+    width: auto;
+  }
+
+  h1 {
+    font-size: rem($font-size-base);
+    font-weight: 700;
+    line-height: rem($nav-top-height);
+    margin: 0;
+  }
+}
+
+section.nav-top-section {
+  position: relative;
+  text-align: center;
+  width: auto;
+}
+
+ul.nav-top-left {
+  float: left;
+  margin-left: rem($nav-top-padding / 2);
+}
+
+div.nav-top-center {
+  display: inline-block;
+
+  input[type="search"] {
+    display: inline-block;
+    width: auto;
+  }
+}
+
+ul.nav-top-right {
+  float: right;
+  margin-right: rem($nav-top-padding / 2);
+=======
+      &:first-child {
+        a {
+          float: left ;
+          margin: rem(0 $bar-nav-padding 0 0);
+          padding: 0;
+        }
+      }
+    }
+    img {
+      float: left;
+      height: rem($bar-nav-height);
+      width: auto;
+    }
+    h1 {
+      font-size: rem($font-size-base);
+      font-weight: 700;
+      line-height: rem($top-nav-height);
+      margin: 0;
+    }
+  }
+
+}
+
+// @mixin bar($name, $bar-nav-height, $bar-nav-bg-color, $bar-nav-link-color, $bar-nav-link-hover-color, $bar-nav-padding) {
+
+.top-nav {
+  @include bar("top-bar", $top-nav-height, $top-nav-bg-color);
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: layer('top-nav');
+}
+.th-test {
+  @include bar("th-test", $top-nav-height, red);
+>>>>>>> feature/bars
+}
+
+/**
+ * Top navigation
+ */
+
+// .top-nav {
+//   background-color: $top-nav-bg-color;
+//   line-height: rem($top-nav-height);
+//   overflow: auto;
+//   position: fixed;
+//   top: 0;
+//   width: 100%;
+//   z-index: layer('top-nav');
+// }
+
+// ul.top-nav-branding,
+// ul.top-nav-left,
+// ul.top-nav-right {
+//   @extend .list-inline;
+//   margin: 0;
+
+//   li {
+//     padding: 0;
+//   }
+
+//   a {
+//     color: $top-nav-link-color;
+//     outline: none;
+//     text-decoration: none;
+//     display: inline-block;
+//     line-height: rem($top-nav-height - $top-nav-padding);
+//     margin: rem(($top-nav-padding / 2) 0);
+//     padding: rem(0 $top-nav-padding);
+
+//     &:hover,
+//     &:active,
+//     &:focus {
+//       color: $top-nav-link-hover-color;
+//     }
+
+//     &:focus {
+//       box-shadow: 0 0 0 2px rgba($brand-light, .5);
+//     }
+//   }
+// }
+
+// ul.top-nav-branding {
+//   float: left;
+
+//   li {
+//     float: left;
+
+//     &:first-child {
+//       a {
+//         float: left;
+//         margin: rem(0 $top-nav-padding 0 0);
+//         padding: 0;
+//       }
+//     }
+//   }
+
+//   img {
+//     float: left;
+//     height: rem($top-nav-height);
+//     width: auto;
+//   }
+
+//   h1 {
+//     font-size: rem($font-size-base);
+//     font-weight: 700;
+//     line-height: rem($top-nav-height);
+//     margin: 0;
+//   }
+// }
+
+// section.top-nav-section {
+//   position: relative;
+//   width: auto;
+// }
+
+// ul.top-nav-left {
+//   float: left;
+//   margin-left: rem($top-nav-padding / 2);
+// }
+
+// ul.top-nav-right {
+//   float: right;
+//   margin-right: rem($top-nav-padding / 2);
+// }
+
+
+
+
+/**
+ * Side navigation (left)
+ */
+
+%nav-aside {
+  background: $nav-aside-bg-color;
+  bottom: 0;
+  overflow: auto;
+  position: fixed;
+  top: rem($nav-top-height);
+  transition: transform $animation-speed linear;
+  width: rem($nav-aside-width);
+  z-index: layer('nav-aside');
+  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: -blackberry-touch;
+
+  &:before {
+    background: rgba(0, 0, 0, .12);
+    bottom: 0;
+    content: '';
+    height: 100%;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    width: 2px;
+    z-index: layer("pseudo");
+  }
+
+  ul {
+    @extend .list-unstyled;
+  }
+}
+
+.nav-left {
+  @extend %nav-aside;
+  left: 0;
+  transform: translate(rem(-$nav-aside-width), 0);
+  transition: transform $animation-speed linear;
+
+  @include mq($screen-sm) {
+    transform: translate(0, 0);
+  }
+
+  &:before {
+    right: 0;
+  }
+}
+
+.nav-aside-main {
+  > li {
+
+    > a {
+      display: block;
+      min-height: $nav-aside-item-height;
+    }
+  }
+}
