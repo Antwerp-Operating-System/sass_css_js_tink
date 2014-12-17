@@ -1,6 +1,6 @@
 # Tink Framework
 
-v0.5.10
+v0.6.1
 
 ## What is this repository for?
 
@@ -43,7 +43,6 @@ Tink is an in-house developed easy-to-use front end framework for quick prototyp
 ### Dev prerequisites
 
 * grunt-cli : `npm install -g grunt-cli`
-* bundler: `gem install bundler` (or `sudo gem install bundler` if your setup requires it)
 
 ### Dev Cycle
 

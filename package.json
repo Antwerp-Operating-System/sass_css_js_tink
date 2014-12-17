@@ -1,6 +1,6 @@
 {
   "name": "Tink",
-  "version": "0.5.10",
+  "version": "0.6.1",
   "repository": {
     "type": "git",
     "url": "git@github.com:Antwerp-Operating-System/sass_css_js_tink.git"
@@ -52,7 +52,7 @@
   },
   "scripts": {
     "test": "grunt test",
-    "postinstall": "bower install && bower update && bundle install",
+    "postinstall": "bower install && bower update",
     "start": "grunt serve",
     "build": "grunt build",
     "build-patch": "grunt build --bump=patch && git add . && git commit -am 'pre patch' && mversion patch -m",
