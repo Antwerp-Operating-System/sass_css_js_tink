@@ -62,6 +62,11 @@
  * $layers: base, navbar, dropdown, tooltip, navbar-sticky, navbar-fixed, modal-background, modal, popover;
  */
 /**
+ * Bar component
+ *
+ * Settings for a standard bar
+ */
+/**
  * Navigation
  *
  * Settings for the top navigation and the off-canvas navigation
@@ -86,6 +91,12 @@
 /**
  * Mixins
  * --------------------------------------------------
+ */
+/**
+ * Bar component
+ */
+/**
+ * Side navigation mixins
  */
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 /**
@@ -542,48 +553,8 @@ th {
 .container:after {
   clear: both;
 }
-@media (min-width: 768px) {
-  /* line 11, ../app/styles/tink/_grid.scss */
-  .container {
-    width: 46.875rem;
-  }
-}
-@media (min-width: 992px) {
-  /* line 11, ../app/styles/tink/_grid.scss */
-  .container {
-    width: 60.625rem;
-  }
-}
-@media (min-width: 1200px) {
-  /* line 11, ../app/styles/tink/_grid.scss */
-  .container {
-    width: 73.125rem;
-  }
-}
 
-/* line 31, ../app/styles/tink/_grid.scss */
-.container-fluid, .container-fluid-max-width {
-  margin-right: auto;
-  margin-left: auto;
-  padding-left: 0.9375rem;
-  padding-right: 0.9375rem;
-}
-/* line 14, ../app/styles/tink/mixins/_clearfix.scss */
-.container-fluid:before, .container-fluid-max-width:before, .container-fluid:after, .container-fluid-max-width:after {
-  content: " ";
-  display: table;
-}
-/* line 19, ../app/styles/tink/mixins/_clearfix.scss */
-.container-fluid:after, .container-fluid-max-width:after {
-  clear: both;
-}
-
-/* line 35, ../app/styles/tink/_grid.scss */
-.container-fluid-max-width {
-  max-width: 73.125rem;
-}
-
-/* line 45, ../app/styles/tink/_grid.scss */
+/* line 20, ../app/styles/tink/_grid.scss */
 .row {
   margin-left: -0.9375rem;
   margin-right: -0.9375rem;
@@ -597,12 +568,12 @@ th {
 .row:after {
   clear: both;
 }
-/* line 49, ../app/styles/tink/_grid.scss */
+/* line 24, ../app/styles/tink/_grid.scss */
 .row.no-gutter {
   margin-left: 0;
   margin-right: 0;
 }
-/* line 53, ../app/styles/tink/_grid.scss */
+/* line 28, ../app/styles/tink/_grid.scss */
 .row.no-gutter [class*='col-']:not(:first-child),
 .row.no-gutter [class*='col-']:not(:last-child) {
   padding-right: 0;
@@ -2058,24 +2029,18 @@ ol ol {
 }
 
 /* line 232, ../app/styles/tink/_typography.scss */
-.list-unstyled, .list-inline, ul.top-nav-branding,
-ul.top-nav-left,
-ul.top-nav-right, .nav-left ul {
+.list-unstyled, .list-inline, .nav-top > ul, .nav-top-section-left, .nav-top-section-right, .nav-left ul {
   list-style: none;
   margin-bottom: 0;
   padding-left: 0;
 }
 
 /* line 239, ../app/styles/tink/_typography.scss */
-.list-inline, ul.top-nav-branding,
-ul.top-nav-left,
-ul.top-nav-right {
+.list-inline, .nav-top > ul, .nav-top-section-left, .nav-top-section-right {
   margin-left: -0.4285714286rem ;
 }
 /* line 243, ../app/styles/tink/_typography.scss */
-.list-inline > li, ul.top-nav-branding > li,
-ul.top-nav-left > li,
-ul.top-nav-right > li {
+.list-inline > li, .nav-top > ul > li, .nav-top-section-left > li, .nav-top-section-right > li {
   display: inline-block;
   padding-left: 0.4285714286rem ;
   padding-right: 0.4285714286rem ;
@@ -3215,11 +3180,57 @@ input[type="submit"].active,
   color: #bbb;
 }
 
+/* line 7, ../app/styles/tink/_badges.scss */
+.badge {
+  background-color: #eaeaea;
+  border-radius: 10px;
+  color: #333;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  min-width: 10px;
+  padding: 6px 12px;
+  text-align: center;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+/* line 22, ../app/styles/tink/_badges.scss */
+.badge:empty {
+  display: none;
+}
+/* line 27, ../app/styles/tink/_badges.scss */
+.btn .badge {
+  position: relative;
+  top: -1px;
+}
+/* line 31, ../app/styles/tink/_badges.scss */
+.btn-xs .badge, .btn-group-xs > .btn .badge {
+  top: 0;
+  padding: 1px 5px;
+}
+/* line 39, ../app/styles/tink/_badges.scss */
+a.list-group-item.active > .badge, .nav-pills > .active > a > .badge {
+  background-color: #fff;
+  color: #5fb1d6;
+}
+/* line 44, ../app/styles/tink/_badges.scss */
+.nav-pills > li > a > .badge {
+  margin-left: 3px;
+}
+
+/* line 51, ../app/styles/tink/_badges.scss */
+a.badge:hover, a.badge:focus {
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
 /**
  * Forms
  * --------------------------------------------------
  */
-/* line 25, ../app/styles/tink/_forms.scss */
+/* line 39, ../app/styles/tink/_forms.scss */
 fieldset {
   border: 0;
   margin: 0;
@@ -3227,7 +3238,7 @@ fieldset {
   padding: 0;
 }
 
-/* line 32, ../app/styles/tink/_forms.scss */
+/* line 46, ../app/styles/tink/_forms.scss */
 legend {
   border: 0;
   border-bottom: 1px solid #eaeaea;
@@ -3240,7 +3251,7 @@ legend {
   width: 100%;
 }
 
-/* line 44, ../app/styles/tink/_forms.scss */
+/* line 58, ../app/styles/tink/_forms.scss */
 label {
   display: inline-block;
   margin-bottom: 0.2857142857rem ;
@@ -3249,8 +3260,21 @@ label {
 }
 
 /* Check appendix A */
-/* line 53, ../app/styles/tink/_forms.scss */
-input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]),
+/* line 68, ../app/styles/tink/_forms.scss */
+input[type="color"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="month"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="time"],
+input[type="text"],
+input[type="url"],
+input[type="week"],
 select,
 textarea {
   -webkit-appearance: none;
@@ -3269,7 +3293,20 @@ textarea {
   width: 100%;
 }
 /* line 55, ../app/styles/tink/mixins/_forms.scss */
-input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]):focus,
+input[type="color"]:focus,
+input[type="date"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="email"]:focus,
+input[type="month"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="time"]:focus,
+input[type="text"]:focus,
+input[type="url"]:focus,
+input[type="week"]:focus,
 select:focus,
 textarea:focus {
   border-color: #5fb1d6;
@@ -3277,7 +3314,20 @@ textarea:focus {
   outline: 0;
 }
 /* line 90, ../app/styles/tink/mixins/_forms.scss */
-input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"])::-moz-placeholder,
+input[type="color"]::-moz-placeholder,
+input[type="date"]::-moz-placeholder,
+input[type="datetime"]::-moz-placeholder,
+input[type="datetime-local"]::-moz-placeholder,
+input[type="email"]::-moz-placeholder,
+input[type="month"]::-moz-placeholder,
+input[type="number"]::-moz-placeholder,
+input[type="password"]::-moz-placeholder,
+input[type="search"]::-moz-placeholder,
+input[type="tel"]::-moz-placeholder,
+input[type="time"]::-moz-placeholder,
+input[type="text"]::-moz-placeholder,
+input[type="url"]::-moz-placeholder,
+input[type="week"]::-moz-placeholder,
 select::-moz-placeholder,
 textarea::-moz-placeholder {
   color: #bbb;
@@ -3285,40 +3335,144 @@ textarea::-moz-placeholder {
   transition: color linear 0.1s;
 }
 /* line 93, ../app/styles/tink/mixins/_forms.scss */
-input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]):-ms-input-placeholder,
+input[type="color"]:-ms-input-placeholder,
+input[type="date"]:-ms-input-placeholder,
+input[type="datetime"]:-ms-input-placeholder,
+input[type="datetime-local"]:-ms-input-placeholder,
+input[type="email"]:-ms-input-placeholder,
+input[type="month"]:-ms-input-placeholder,
+input[type="number"]:-ms-input-placeholder,
+input[type="password"]:-ms-input-placeholder,
+input[type="search"]:-ms-input-placeholder,
+input[type="tel"]:-ms-input-placeholder,
+input[type="time"]:-ms-input-placeholder,
+input[type="text"]:-ms-input-placeholder,
+input[type="url"]:-ms-input-placeholder,
+input[type="week"]:-ms-input-placeholder,
 select:-ms-input-placeholder,
 textarea:-ms-input-placeholder {
   color: #bbb;
   transition: color linear 0.1s;
 }
 /* line 95, ../app/styles/tink/mixins/_forms.scss */
-input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"])::-webkit-input-placeholder,
+input[type="color"]::-webkit-input-placeholder,
+input[type="date"]::-webkit-input-placeholder,
+input[type="datetime"]::-webkit-input-placeholder,
+input[type="datetime-local"]::-webkit-input-placeholder,
+input[type="email"]::-webkit-input-placeholder,
+input[type="month"]::-webkit-input-placeholder,
+input[type="number"]::-webkit-input-placeholder,
+input[type="password"]::-webkit-input-placeholder,
+input[type="search"]::-webkit-input-placeholder,
+input[type="tel"]::-webkit-input-placeholder,
+input[type="time"]::-webkit-input-placeholder,
+input[type="text"]::-webkit-input-placeholder,
+input[type="url"]::-webkit-input-placeholder,
+input[type="week"]::-webkit-input-placeholder,
 select::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
   color: #bbb;
   transition: color linear 0.1s;
 }
 /* line 99, ../app/styles/tink/mixins/_forms.scss */
-input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]):focus::-moz-placeholder,
+input[type="color"]:focus::-moz-placeholder,
+input[type="date"]:focus::-moz-placeholder,
+input[type="datetime"]:focus::-moz-placeholder,
+input[type="datetime-local"]:focus::-moz-placeholder,
+input[type="email"]:focus::-moz-placeholder,
+input[type="month"]:focus::-moz-placeholder,
+input[type="number"]:focus::-moz-placeholder,
+input[type="password"]:focus::-moz-placeholder,
+input[type="search"]:focus::-moz-placeholder,
+input[type="tel"]:focus::-moz-placeholder,
+input[type="time"]:focus::-moz-placeholder,
+input[type="text"]:focus::-moz-placeholder,
+input[type="url"]:focus::-moz-placeholder,
+input[type="week"]:focus::-moz-placeholder,
 select:focus::-moz-placeholder,
 textarea:focus::-moz-placeholder {
   color: #cfcfcf;
   opacity: 1;
 }
 /* line 101, ../app/styles/tink/mixins/_forms.scss */
-input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]):focus:-ms-input-placeholder,
+input[type="color"]:focus:-ms-input-placeholder,
+input[type="date"]:focus:-ms-input-placeholder,
+input[type="datetime"]:focus:-ms-input-placeholder,
+input[type="datetime-local"]:focus:-ms-input-placeholder,
+input[type="email"]:focus:-ms-input-placeholder,
+input[type="month"]:focus:-ms-input-placeholder,
+input[type="number"]:focus:-ms-input-placeholder,
+input[type="password"]:focus:-ms-input-placeholder,
+input[type="search"]:focus:-ms-input-placeholder,
+input[type="tel"]:focus:-ms-input-placeholder,
+input[type="time"]:focus:-ms-input-placeholder,
+input[type="text"]:focus:-ms-input-placeholder,
+input[type="url"]:focus:-ms-input-placeholder,
+input[type="week"]:focus:-ms-input-placeholder,
 select:focus:-ms-input-placeholder,
 textarea:focus:-ms-input-placeholder {
   color: #cfcfcf;
 }
 /* line 102, ../app/styles/tink/mixins/_forms.scss */
-input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]):focus::-webkit-input-placeholder,
+input[type="color"]:focus::-webkit-input-placeholder,
+input[type="date"]:focus::-webkit-input-placeholder,
+input[type="datetime"]:focus::-webkit-input-placeholder,
+input[type="datetime-local"]:focus::-webkit-input-placeholder,
+input[type="email"]:focus::-webkit-input-placeholder,
+input[type="month"]:focus::-webkit-input-placeholder,
+input[type="number"]:focus::-webkit-input-placeholder,
+input[type="password"]:focus::-webkit-input-placeholder,
+input[type="search"]:focus::-webkit-input-placeholder,
+input[type="tel"]:focus::-webkit-input-placeholder,
+input[type="time"]:focus::-webkit-input-placeholder,
+input[type="text"]:focus::-webkit-input-placeholder,
+input[type="url"]:focus::-webkit-input-placeholder,
+input[type="week"]:focus::-webkit-input-placeholder,
 select:focus::-webkit-input-placeholder,
 textarea:focus::-webkit-input-placeholder {
   color: #cfcfcf;
 }
-/* line 79, ../app/styles/tink/_forms.scss */
-input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"])[disabled], input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"])[readonly], fieldset[disabled] input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]),
+/* line 107, ../app/styles/tink/_forms.scss */
+input[type="color"][disabled], input[type="color"][readonly], fieldset[disabled] input[type="color"],
+input[type="date"][disabled],
+input[type="date"][readonly], fieldset[disabled]
+input[type="date"],
+input[type="datetime"][disabled],
+input[type="datetime"][readonly], fieldset[disabled]
+input[type="datetime"],
+input[type="datetime-local"][disabled],
+input[type="datetime-local"][readonly], fieldset[disabled]
+input[type="datetime-local"],
+input[type="email"][disabled],
+input[type="email"][readonly], fieldset[disabled]
+input[type="email"],
+input[type="month"][disabled],
+input[type="month"][readonly], fieldset[disabled]
+input[type="month"],
+input[type="number"][disabled],
+input[type="number"][readonly], fieldset[disabled]
+input[type="number"],
+input[type="password"][disabled],
+input[type="password"][readonly], fieldset[disabled]
+input[type="password"],
+input[type="search"][disabled],
+input[type="search"][readonly], fieldset[disabled]
+input[type="search"],
+input[type="tel"][disabled],
+input[type="tel"][readonly], fieldset[disabled]
+input[type="tel"],
+input[type="time"][disabled],
+input[type="time"][readonly], fieldset[disabled]
+input[type="time"],
+input[type="text"][disabled],
+input[type="text"][readonly], fieldset[disabled]
+input[type="text"],
+input[type="url"][disabled],
+input[type="url"][readonly], fieldset[disabled]
+input[type="url"],
+input[type="week"][disabled],
+input[type="week"][readonly], fieldset[disabled]
+input[type="week"],
 select[disabled],
 select[readonly], fieldset[disabled]
 select,
@@ -3330,13 +3484,13 @@ textarea {
   opacity: 1;
 }
 
-/* line 88, ../app/styles/tink/_forms.scss */
+/* line 116, ../app/styles/tink/_forms.scss */
 input[type="search"] {
   -webkit-appearance: none;
   box-sizing: border-box;
 }
 
-/* line 94, ../app/styles/tink/_forms.scss */
+/* line 122, ../app/styles/tink/_forms.scss */
 input[type="radio"],
 input[type="checkbox"] {
   line-height: normal;
@@ -3344,22 +3498,22 @@ input[type="checkbox"] {
   margin-top: 1px \9;
 }
 
-/* line 102, ../app/styles/tink/_forms.scss */
+/* line 130, ../app/styles/tink/_forms.scss */
 input[type="file"] {
   display: block;
 }
-/* line 105, ../app/styles/tink/_forms.scss */
+/* line 133, ../app/styles/tink/_forms.scss */
 input[type="file"]:focus {
   outline: thin dotted;
 }
 
-/* line 111, ../app/styles/tink/_forms.scss */
+/* line 139, ../app/styles/tink/_forms.scss */
 input[type="range"] {
   display: block;
   width: 100%;
 }
 
-/* line 137, ../app/styles/tink/_forms.scss */
+/* line 165, ../app/styles/tink/_forms.scss */
 input[type="date"]::-webkit-inner-spin-button,
 input[type="datetime-local"]::-webkit-inner-spin-button,
 input[type="week"]::-webkit-inner-spin-button,
@@ -3374,7 +3528,7 @@ input[type="time"]::-webkit-inner-spin-button {
   transition: border-color linear 0.1s;
   width: 1.4285714286rem ;
 }
-/* line 146, ../app/styles/tink/_forms.scss */
+/* line 174, ../app/styles/tink/_forms.scss */
 input[type="date"]::-webkit-inner-spin-button:before, input[type="date"]::-webkit-inner-spin-button:after,
 input[type="datetime-local"]::-webkit-inner-spin-button:before,
 input[type="datetime-local"]::-webkit-inner-spin-button:after,
@@ -3393,7 +3547,7 @@ input[type="time"]::-webkit-inner-spin-button:after {
   right: 0.4285714286rem ;
   width: 0;
 }
-/* line 155, ../app/styles/tink/_forms.scss */
+/* line 183, ../app/styles/tink/_forms.scss */
 input[type="date"]::-webkit-inner-spin-button:before,
 input[type="datetime-local"]::-webkit-inner-spin-button:before,
 input[type="week"]::-webkit-inner-spin-button:before,
@@ -3404,7 +3558,7 @@ input[type="time"]::-webkit-inner-spin-button:before {
   border-width: 0.2857142857rem 0.2857142857rem 0.4285714286rem 0.2857142857rem ;
   top: 0;
 }
-/* line 161, ../app/styles/tink/_forms.scss */
+/* line 189, ../app/styles/tink/_forms.scss */
 input[type="date"]::-webkit-inner-spin-button:after,
 input[type="datetime-local"]::-webkit-inner-spin-button:after,
 input[type="week"]::-webkit-inner-spin-button:after,
@@ -3415,7 +3569,7 @@ input[type="time"]::-webkit-inner-spin-button:after {
   border-width: 0.4285714286rem 0.2857142857rem 0.2857142857rem 0.2857142857rem ;
   bottom: 0;
 }
-/* line 170, ../app/styles/tink/_forms.scss */
+/* line 198, ../app/styles/tink/_forms.scss */
 input[type="date"]:focus::-webkit-inner-spin-button,
 input[type="datetime-local"]:focus::-webkit-inner-spin-button,
 input[type="week"]:focus::-webkit-inner-spin-button,
@@ -3424,7 +3578,7 @@ input[type="number"]:focus::-webkit-inner-spin-button,
 input[type="time"]:focus::-webkit-inner-spin-button {
   border-left: 1px solid #5fb1d6;
 }
-/* line 173, ../app/styles/tink/_forms.scss */
+/* line 201, ../app/styles/tink/_forms.scss */
 input[type="date"]:focus::-webkit-inner-spin-button:before,
 input[type="datetime-local"]:focus::-webkit-inner-spin-button:before,
 input[type="week"]:focus::-webkit-inner-spin-button:before,
@@ -3433,7 +3587,7 @@ input[type="number"]:focus::-webkit-inner-spin-button:before,
 input[type="time"]:focus::-webkit-inner-spin-button:before {
   border-color: transparent transparent #5fb1d6;
 }
-/* line 177, ../app/styles/tink/_forms.scss */
+/* line 205, ../app/styles/tink/_forms.scss */
 input[type="date"]:focus::-webkit-inner-spin-button:after,
 input[type="datetime-local"]:focus::-webkit-inner-spin-button:after,
 input[type="week"]:focus::-webkit-inner-spin-button:after,
@@ -3443,7 +3597,7 @@ input[type="time"]:focus::-webkit-inner-spin-button:after {
   border-color: #5fb1d6 transparent transparent;
 }
 
-/* line 185, ../app/styles/tink/_forms.scss */
+/* line 213, ../app/styles/tink/_forms.scss */
 input[type="checkbox"],
 input[type="radio"] {
   opacity: 0;
@@ -3451,7 +3605,7 @@ input[type="radio"] {
   position: absolute;
   z-index: -1;
 }
-/* line 192, ../app/styles/tink/_forms.scss */
+/* line 220, ../app/styles/tink/_forms.scss */
 input[type="checkbox"] + label,
 input[type="radio"] + label {
   font-weight: normal;
@@ -3464,27 +3618,27 @@ input[type="radio"] + label {
   user-select: none;
 }
 @media screen and (min-width: 768px) {
-  /* line 192, ../app/styles/tink/_forms.scss */
+  /* line 220, ../app/styles/tink/_forms.scss */
   input[type="checkbox"] + label,
   input[type="radio"] + label {
     padding-left: 1.8571428571rem ;
   }
 }
-/* line 203, ../app/styles/tink/_forms.scss */
+/* line 231, ../app/styles/tink/_forms.scss */
 input[type="checkbox"] + label:before,
 input[type="radio"] + label:before {
   background: #fff;
   border: 1px solid #bbb;
   position: absolute;
 }
-/* line 213, ../app/styles/tink/_forms.scss */
+/* line 241, ../app/styles/tink/_forms.scss */
 input[type="checkbox"][disabled] + label, input[type="checkbox"][readonly] + label,
 input[type="radio"][disabled] + label,
 input[type="radio"][readonly] + label {
   opacity: .4;
 }
 
-/* line 223, ../app/styles/tink/_forms.scss */
+/* line 251, ../app/styles/tink/_forms.scss */
 input[type="checkbox"] + label:before, input[type="checkbox"] + label:after {
   height: 1.5714285714rem ;
   left: 0.0714285714rem ;
@@ -3492,19 +3646,19 @@ input[type="checkbox"] + label:before, input[type="checkbox"] + label:after {
   width: 1.5714285714rem ;
 }
 @media screen and (min-width: 768px) {
-  /* line 223, ../app/styles/tink/_forms.scss */
+  /* line 251, ../app/styles/tink/_forms.scss */
   input[type="checkbox"] + label:before, input[type="checkbox"] + label:after {
     height: 1.1428571429rem ;
     top: 0.2857142857rem ;
     width: 1.1428571429rem ;
   }
 }
-/* line 237, ../app/styles/tink/_forms.scss */
+/* line 265, ../app/styles/tink/_forms.scss */
 input[type="checkbox"] + label:before {
   border-radius: 0.1428571429rem ;
   content: '';
 }
-/* line 242, ../app/styles/tink/_forms.scss */
+/* line 270, ../app/styles/tink/_forms.scss */
 input[type="checkbox"] + label:after {
   color: #5fb1d6;
   content: '\f00c';
@@ -3521,25 +3675,25 @@ input[type="checkbox"] + label:after {
   transition: opacity linear 0.1s, transform linear 0.1s;
 }
 @media screen and (min-width: 768px) {
-  /* line 242, ../app/styles/tink/_forms.scss */
+  /* line 270, ../app/styles/tink/_forms.scss */
   input[type="checkbox"] + label:after {
     font-size: 0.9285714286rem ;
     line-height: 1.25;
   }
 }
-/* line 265, ../app/styles/tink/_forms.scss */
+/* line 293, ../app/styles/tink/_forms.scss */
 input[type="checkbox"]:checked + label:after {
   opacity: 1;
   -webkit-transform: scale(1);
   -ms-transform: scale(1);
   transform: scale(1);
 }
-/* line 276, ../app/styles/tink/_forms.scss */
+/* line 304, ../app/styles/tink/_forms.scss */
 input[type="checkbox"]:focus + label:before {
   box-shadow: 0 0 0 2px rgba(95, 177, 214, 0.25);
 }
 
-/* line 287, ../app/styles/tink/_forms.scss */
+/* line 315, ../app/styles/tink/_forms.scss */
 input[type="radio"] + label:before {
   background: #5fb1d6;
   border-radius: 50%;
@@ -3552,34 +3706,34 @@ input[type="radio"] + label:before {
   width: 1.7142857143rem ;
 }
 @media screen and (min-width: 768px) {
-  /* line 287, ../app/styles/tink/_forms.scss */
+  /* line 315, ../app/styles/tink/_forms.scss */
   input[type="radio"] + label:before {
     height: 1.2857142857rem ;
     top: 0.2142857143rem ;
     width: 1.2857142857rem ;
   }
 }
-/* line 310, ../app/styles/tink/_forms.scss */
+/* line 338, ../app/styles/tink/_forms.scss */
 input[type="radio"]:checked + label:before {
   box-shadow: 0 0 0 0.2857142857rem  #fff inset;
 }
-/* line 320, ../app/styles/tink/_forms.scss */
+/* line 348, ../app/styles/tink/_forms.scss */
 input[type="radio"]:focus + label:before {
   box-shadow: 0 0 0 0.2857142857rem  #fff inset, 0 0 0 0.1428571429rem  rgba(95, 177, 214, 0.25);
 }
 
-/* line 331, ../app/styles/tink/_forms.scss */
+/* line 359, ../app/styles/tink/_forms.scss */
 table input[type="checkbox"] + label,
 table input[type="radio"] + label {
   margin: -0.1428571429rem 0rem -0.5rem ;
 }
 
 @-moz-document url-prefix() {
-  /* line 339, ../app/styles/tink/_forms.scss */
+  /* line 367, ../app/styles/tink/_forms.scss */
   .select {
     position: relative;
   }
-  /* line 342, ../app/styles/tink/_forms.scss */
+  /* line 370, ../app/styles/tink/_forms.scss */
   .select:before {
     background: #fff url('../images/gui/select-arrow.svg') no-repeat right center;
     border-bottom-right-radius: 0.1428571429rem ;
@@ -3595,7 +3749,7 @@ table input[type="radio"] + label {
     z-index: 2;
   }
 }
-/* line 360, ../app/styles/tink/_forms.scss */
+/* line 388, ../app/styles/tink/_forms.scss */
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -3604,12 +3758,12 @@ select {
   text-indent: 0.01px;
   text-overflow: '';
 }
-/* line 368, ../app/styles/tink/_forms.scss */
+/* line 396, ../app/styles/tink/_forms.scss */
 select:focus {
   background-image: url('../images/gui/select-arrow-focus.svg');
 }
 
-/* line 373, ../app/styles/tink/_forms.scss */
+/* line 401, ../app/styles/tink/_forms.scss */
 select[multiple],
 select[size],
 textarea {
@@ -3617,12 +3771,12 @@ textarea {
   height: auto;
 }
 
-/* line 380, ../app/styles/tink/_forms.scss */
+/* line 408, ../app/styles/tink/_forms.scss */
 textarea {
   resize: vertical;
 }
 
-/* line 385, ../app/styles/tink/_forms.scss */
+/* line 413, ../app/styles/tink/_forms.scss */
 output {
   display: block;
   padding-top: 0.5rem ;
@@ -3631,7 +3785,7 @@ output {
   color: #5c5c5c;
 }
 
-/* line 393, ../app/styles/tink/_forms.scss */
+/* line 421, ../app/styles/tink/_forms.scss */
 .form-group {
   margin-bottom: 1.0714285714rem ;
 }
@@ -3639,7 +3793,7 @@ output {
 /**
  * Feedback states
  */
-/* line 400, ../app/styles/tink/_forms.scss */
+/* line 428, ../app/styles/tink/_forms.scss */
 .has-success {
   /* Check appendix A */
 }
@@ -3647,14 +3801,40 @@ output {
 .has-success > label {
   color: #4a921f;
 }
-/* line 13, ../app/styles/tink/_forms.scss */
-.has-success input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]),
+/* line 14, ../app/styles/tink/_forms.scss */
+.has-success input[type="color"],
+.has-success input[type="date"],
+.has-success input[type="datetime"],
+.has-success input[type="datetime-local"],
+.has-success input[type="email"],
+.has-success input[type="month"],
+.has-success input[type="number"],
+.has-success input[type="password"],
+.has-success input[type="search"],
+.has-success input[type="tel"],
+.has-success input[type="time"],
+.has-success input[type="text"],
+.has-success input[type="url"],
+.has-success input[type="week"],
 .has-success select,
 .has-success textarea {
   border-color: #4a921f;
 }
 /* line 55, ../app/styles/tink/mixins/_forms.scss */
-.has-success input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]):focus,
+.has-success input[type="color"]:focus,
+.has-success input[type="date"]:focus,
+.has-success input[type="datetime"]:focus,
+.has-success input[type="datetime-local"]:focus,
+.has-success input[type="email"]:focus,
+.has-success input[type="month"]:focus,
+.has-success input[type="number"]:focus,
+.has-success input[type="password"]:focus,
+.has-success input[type="search"]:focus,
+.has-success input[type="tel"]:focus,
+.has-success input[type="time"]:focus,
+.has-success input[type="text"]:focus,
+.has-success input[type="url"]:focus,
+.has-success input[type="week"]:focus,
 .has-success select:focus,
 .has-success textarea:focus {
   border-color: #4a921f;
@@ -3662,7 +3842,7 @@ output {
   outline: 0;
 }
 
-/* line 406, ../app/styles/tink/_forms.scss */
+/* line 434, ../app/styles/tink/_forms.scss */
 .has-error {
   /* Check appendix A */
 }
@@ -3670,14 +3850,40 @@ output {
 .has-error > label {
   color: #e60038;
 }
-/* line 13, ../app/styles/tink/_forms.scss */
-.has-error input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]),
+/* line 14, ../app/styles/tink/_forms.scss */
+.has-error input[type="color"],
+.has-error input[type="date"],
+.has-error input[type="datetime"],
+.has-error input[type="datetime-local"],
+.has-error input[type="email"],
+.has-error input[type="month"],
+.has-error input[type="number"],
+.has-error input[type="password"],
+.has-error input[type="search"],
+.has-error input[type="tel"],
+.has-error input[type="time"],
+.has-error input[type="text"],
+.has-error input[type="url"],
+.has-error input[type="week"],
 .has-error select,
 .has-error textarea {
   border-color: #e60038;
 }
 /* line 55, ../app/styles/tink/mixins/_forms.scss */
-.has-error input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]):focus,
+.has-error input[type="color"]:focus,
+.has-error input[type="date"]:focus,
+.has-error input[type="datetime"]:focus,
+.has-error input[type="datetime-local"]:focus,
+.has-error input[type="email"]:focus,
+.has-error input[type="month"]:focus,
+.has-error input[type="number"]:focus,
+.has-error input[type="password"]:focus,
+.has-error input[type="search"]:focus,
+.has-error input[type="tel"]:focus,
+.has-error input[type="time"]:focus,
+.has-error input[type="text"]:focus,
+.has-error input[type="url"]:focus,
+.has-error input[type="week"]:focus,
 .has-error select:focus,
 .has-error textarea:focus {
   border-color: #e60038;
@@ -3685,7 +3891,7 @@ output {
   outline: 0;
 }
 
-/* line 459, ../app/styles/tink/_forms.scss */
+/* line 487, ../app/styles/tink/_forms.scss */
 .help-block {
   color: #737373;
   display: block;
@@ -3703,7 +3909,7 @@ output {
  * Inspired by lack of control now and the way so many others do it, esp. looking at Semantic UI atm.
  * TH
 */
-/* line 494, ../app/styles/tink/_forms.scss */
+/* line 522, ../app/styles/tink/_forms.scss */
 .actionbar {
   padding: 0.5714285714rem 0rem ;
 }
@@ -3716,30 +3922,30 @@ output {
 .actionbar:after {
   clear: both;
 }
-/* line 500, ../app/styles/tink/_forms.scss */
+/* line 528, ../app/styles/tink/_forms.scss */
 .actionbar.padded {
   background: #d4d4d4;
   padding-left: 12px;
   padding-right: 12px;
 }
 
-/* line 506, ../app/styles/tink/_forms.scss */
+/* line 534, ../app/styles/tink/_forms.scss */
 .select-box-inline {
   margin-left: 8px;
   display: inline-block;
 }
-/* line 509, ../app/styles/tink/_forms.scss */
+/* line 537, ../app/styles/tink/_forms.scss */
 .select-box-inline select {
   padding-right: 24px;
 }
 
-/* line 513, ../app/styles/tink/_forms.scss */
+/* line 541, ../app/styles/tink/_forms.scss */
 .checkbox-inline {
   margin-left: 8px;
   display: inline-block;
 }
 
-/* line 517, ../app/styles/tink/_forms.scss */
+/* line 545, ../app/styles/tink/_forms.scss */
 .btn.search-submit {
   background: none;
   border: none;
@@ -3748,7 +3954,7 @@ output {
   right: 1.0em;
   top: 0em;
 }
-/* line 524, ../app/styles/tink/_forms.scss */
+/* line 552, ../app/styles/tink/_forms.scss */
 .btn.search-submit:hover {
   background: none;
   border: none;
@@ -4363,6 +4569,145 @@ input[type="submit"].active,
   margin-top: 5px;
 }
 
+/* line 7, ../app/styles/tink/_input-groups.scss */
+.input-group {
+  border-collapse: separate;
+  display: table;
+  position: relative;
+}
+/* line 13, ../app/styles/tink/_input-groups.scss */
+.input-group[class*="col-"] {
+  float: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+/* line 19, ../app/styles/tink/_input-groups.scss */
+.input-group .form-control {
+  float: left;
+  margin-bottom: 0;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+/* line 54, ../app/styles/tink/_input-groups.scss */
+.input-group-addon,
+.input-group-btn,
+.input-group .form-control {
+  display: table-cell;
+}
+/* line 59, ../app/styles/tink/_input-groups.scss */
+.input-group-addon:not(:first-child):not(:last-child),
+.input-group-btn:not(:first-child):not(:last-child),
+.input-group .form-control:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+/* line 64, ../app/styles/tink/_input-groups.scss */
+.input-group-addon,
+.input-group-btn {
+  width: 1%;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* line 73, ../app/styles/tink/_input-groups.scss */
+.input-group-addon {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1;
+  color: #5c5c5c;
+  text-align: center;
+  background-color: #eaeaea;
+  border: 1px solid #bbb;
+  border-radius: 2px;
+}
+/* line 85, ../app/styles/tink/_input-groups.scss */
+.input-group-addon.input-sm,
+.input-group-sm > .input-group-addon,
+.input-group-sm > .input-group-btn > .input-group-addon.btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 2px;
+}
+/* line 90, ../app/styles/tink/_input-groups.scss */
+.input-group-addon.input-lg,
+.input-group-lg > .input-group-addon,
+.input-group-lg > .input-group-btn > .input-group-addon.btn {
+  padding: 10px 16px;
+  font-size: 18px;
+  border-radius: 4px;
+}
+/* line 97, ../app/styles/tink/_input-groups.scss */
+.input-group-addon input[type="radio"],
+.input-group-addon input[type="checkbox"] {
+  margin-top: 0;
+}
+
+/* line 104, ../app/styles/tink/_input-groups.scss */
+.input-group .form-control:first-child,
+.input-group-addon:first-child,
+.input-group-btn:first-child > .btn,
+.input-group-btn:first-child > .btn-group > .btn,
+.input-group-btn:first-child > .dropdown-toggle,
+.input-group-btn:last-child > .btn:not(:last-child):not(.dropdown-toggle),
+.input-group-btn:last-child > .btn-group:not(:last-child) > .btn {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* line 113, ../app/styles/tink/_input-groups.scss */
+.input-group-addon:first-child {
+  border-right: 0;
+}
+
+/* line 116, ../app/styles/tink/_input-groups.scss */
+.input-group .form-control:last-child,
+.input-group-addon:last-child,
+.input-group-btn:last-child > .btn,
+.input-group-btn:last-child > .btn-group > .btn,
+.input-group-btn:last-child > .dropdown-toggle,
+.input-group-btn:first-child > .btn:not(:first-child),
+.input-group-btn:first-child > .btn-group:not(:first-child) > .btn {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+/* line 125, ../app/styles/tink/_input-groups.scss */
+.input-group-addon:last-child {
+  border-left: 0;
+}
+
+/* line 131, ../app/styles/tink/_input-groups.scss */
+.input-group-btn {
+  font-size: 0;
+  position: relative;
+  white-space: nowrap;
+}
+/* line 141, ../app/styles/tink/_input-groups.scss */
+.input-group-btn > .btn {
+  position: relative;
+}
+/* line 143, ../app/styles/tink/_input-groups.scss */
+.input-group-btn > .btn + .btn {
+  margin-left: -1px;
+}
+/* line 147, ../app/styles/tink/_input-groups.scss */
+.input-group-btn > .btn:hover, .input-group-btn > .btn:focus, .input-group-btn > .btn:active {
+  z-index: 2;
+}
+/* line 156, ../app/styles/tink/_input-groups.scss */
+.input-group-btn:first-child > .btn,
+.input-group-btn:first-child > .btn-group {
+  margin-right: -1px;
+}
+/* line 162, ../app/styles/tink/_input-groups.scss */
+.input-group-btn:last-child > .btn,
+.input-group-btn:last-child > .btn-group {
+  margin-left: -1px;
+}
+
 /**
  * Popovers
  * --------------------------------------------------
@@ -4810,7 +5155,7 @@ a[role="tab"]:focus {
 }
 
 /* line 120, ../app/styles/tink/_utilities.scss */
-.no-border {
+.no-border, .tink-datepickerrange button, .tink-datepickerrange .btn {
   border: none !important;
 }
 
@@ -5103,57 +5448,85 @@ a[role="tab"]:focus {
 /**
  * Navigation
  * --------------------------------------------------
+ * - navigation behaviour states
  * - top navigation
- * - off-canvas nav
- * - nav states
+ * - left navigation
  */
 /**
- * Default behaviour is that there is a fixed top-nav,
+ * HTML behaviour when side navigation is open
+ */
+/* line 17, ../app/styles/tink/_navigation.scss */
+html.nav-left-open body {
+  overflow-x: hidden;
+}
+@media (max-width: 768px) {
+  /* line 22, ../app/styles/tink/_navigation.scss */
+  html.nav-left-open .main {
+    -webkit-transform: translate(220px, 0);
+    -ms-transform: translate(220px, 0);
+    transform: translate(220px, 0);
+  }
+  /* line 25, ../app/styles/tink/_navigation.scss */
+  html.nav-left-open .nav-left {
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+}
+
+/**
+ * Default behaviour is that there is a fixed nav-top,
  * so we need to 'fix' the body's padding
  */
-/* line 15, ../app/styles/tink/_navigation.scss */
+/* line 38, ../app/styles/tink/_navigation.scss */
 body {
   padding-top: 3.5714285714rem ;
 }
-/* line 19, ../app/styles/tink/_navigation.scss */
-body.has-relative-top-nav {
+/* line 42, ../app/styles/tink/_navigation.scss */
+body.has-relative-nav-top {
   padding-top: 0;
 }
-/* line 22, ../app/styles/tink/_navigation.scss */
-body.has-relative-top-nav .top-nav {
+/* line 45, ../app/styles/tink/_navigation.scss */
+body.has-relative-nav-top .nav-top {
   position: relative;
+}
+
+/* line 51, ../app/styles/tink/_navigation.scss */
+.main {
+  transition: padding 0.1s linear, -webkit-transform 0.1s linear;
+  transition: padding 0.1s linear, transform 0.1s linear;
+}
+@media (min-width: 768px) {
+  /* line 51, ../app/styles/tink/_navigation.scss */
+  .main {
+    padding-left: 15.7142857143rem ;
+  }
 }
 
 /**
  * Top navigation
  */
-/* line 35, ../app/styles/tink/_navigation.scss */
-.top-nav {
+/* line 66, ../app/styles/tink/_navigation.scss */
+.nav-top {
   background-color: #333;
   line-height: 3.5714285714rem ;
+  overflow: auto;
   overflow: auto;
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 4;
 }
-
-/* line 45, ../app/styles/tink/_navigation.scss */
-ul.top-nav-branding,
-ul.top-nav-left,
-ul.top-nav-right {
+/* line 10, ../app/styles/tink/mixins/_bar.scss */
+.nav-top > ul, .nav-top-section-left, .nav-top-section-right {
   margin: 0;
 }
-/* line 51, ../app/styles/tink/_navigation.scss */
-ul.top-nav-branding li,
-ul.top-nav-left li,
-ul.top-nav-right li {
+/* line 16, ../app/styles/tink/mixins/_bar.scss */
+.nav-top > ul li, .nav-top-section-left li, .nav-top-section-right li {
   padding: 0;
 }
-/* line 55, ../app/styles/tink/_navigation.scss */
-ul.top-nav-branding a,
-ul.top-nav-left a,
-ul.top-nav-right a {
+/* line 20, ../app/styles/tink/mixins/_bar.scss */
+.nav-top > ul a, .nav-top-section-left a, .nav-top-section-right a {
   color: #f7f7f7;
   outline: none;
   text-decoration: none;
@@ -5162,99 +5535,104 @@ ul.top-nav-right a {
   margin: 0.4285714286rem 0rem ;
   padding: 0rem 0.8571428571rem ;
 }
-/* line 64, ../app/styles/tink/_navigation.scss */
-ul.top-nav-branding a:hover, ul.top-nav-branding a:active, ul.top-nav-branding a:focus,
-ul.top-nav-left a:hover,
-ul.top-nav-left a:active,
-ul.top-nav-left a:focus,
-ul.top-nav-right a:hover,
-ul.top-nav-right a:active,
-ul.top-nav-right a:focus {
+/* line 29, ../app/styles/tink/mixins/_bar.scss */
+.nav-top > ul a:hover, .nav-top > ul a:active, .nav-top > ul a:focus, .nav-top-section-left a:hover, .nav-top-section-left a:active, .nav-top-section-left a:focus, .nav-top-section-right a:hover, .nav-top-section-right a:active, .nav-top-section-right a:focus {
   color: #fff;
 }
-/* line 70, ../app/styles/tink/_navigation.scss */
-ul.top-nav-branding a:focus,
-ul.top-nav-left a:focus,
-ul.top-nav-right a:focus {
+/* line 35, ../app/styles/tink/mixins/_bar.scss */
+.nav-top > ul a:focus, .nav-top-section-left a:focus, .nav-top-section-right a:focus {
   box-shadow: 0 0 0 2px rgba(95, 177, 214, 0.5);
 }
-
-/* line 76, ../app/styles/tink/_navigation.scss */
-ul.top-nav-branding {
+/* line 41, ../app/styles/tink/mixins/_bar.scss */
+.nav-top-section {
+  position: relative;
+  text-align: center;
+  width: auto;
+}
+/* line 46, ../app/styles/tink/mixins/_bar.scss */
+.nav-top-section-left {
+  float: left;
+  margin-left: 0.4285714286rem ;
+}
+/* line 51, ../app/styles/tink/mixins/_bar.scss */
+.nav-top-section-center {
+  display: inline-block;
+}
+/* line 54, ../app/styles/tink/mixins/_bar.scss */
+.nav-top-section-center input[type="search"] {
+  display: inline-block;
+  width: auto;
+}
+/* line 60, ../app/styles/tink/mixins/_bar.scss */
+.nav-top-section-right {
+  float: right;
+  margin-right: 0.4285714286rem ;
+}
+/* line 75, ../app/styles/tink/_navigation.scss */
+.nav-top-branding {
+  float: left;
+  position: relative;
+  z-index: 1;
+}
+/* line 80, ../app/styles/tink/_navigation.scss */
+.nav-top-branding li {
   float: left;
 }
-/* line 79, ../app/styles/tink/_navigation.scss */
-ul.top-nav-branding li {
-  float: left;
-}
-/* line 83, ../app/styles/tink/_navigation.scss */
-ul.top-nav-branding li:first-child a {
+/* line 84, ../app/styles/tink/_navigation.scss */
+.nav-top-branding li.logo a {
   float: left;
   margin: 0rem 0.8571428571rem 0rem 0rem ;
   padding: 0;
 }
-/* line 91, ../app/styles/tink/_navigation.scss */
-ul.top-nav-branding img {
+@media (min-width: 768px) {
+  /* line 91, ../app/styles/tink/_navigation.scss */
+  .nav-top-branding li.toggle {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  /* line 97, ../app/styles/tink/_navigation.scss */
+  .nav-top-branding li.app {
+    display: none;
+  }
+}
+/* line 104, ../app/styles/tink/_navigation.scss */
+.nav-top-branding img {
   float: left;
   height: 3.5714285714rem ;
   width: auto;
 }
-/* line 97, ../app/styles/tink/_navigation.scss */
-ul.top-nav-branding h1 {
+/* line 110, ../app/styles/tink/_navigation.scss */
+.nav-top-branding h1 {
   font-size: 1rem ;
   font-weight: 700;
   line-height: 3.5714285714rem ;
   margin: 0;
 }
 
-/* line 105, ../app/styles/tink/_navigation.scss */
-section.top-nav-section {
-  position: relative;
-  width: auto;
-}
-
-/* line 110, ../app/styles/tink/_navigation.scss */
-ul.top-nav-left {
-  float: left;
-  margin-left: 0.4285714286rem ;
-}
-
-/* line 115, ../app/styles/tink/_navigation.scss */
-ul.top-nav-right {
-  float: right;
-  margin-right: 0.4285714286rem ;
-}
-
 /**
- * Sidenav
+ * Left navigation
  */
-/* line 127, ../app/styles/tink/_navigation.scss */
+/* line 126, ../app/styles/tink/_navigation.scss */
 .nav-left {
   background: #fff;
   bottom: 0;
-  left: 0;
   overflow: auto;
   position: fixed;
   top: 3.5714285714rem ;
-  -webkit-transform: translate(-15.7142857143rem , 0);
-  -ms-transform: translate(-15.7142857143rem , 0);
-  transform: translate(-15.7142857143rem , 0);
   transition: -webkit-transform 0.1s linear;
   transition: transform 0.1s linear;
   width: 15.7142857143rem ;
   z-index: 3;
   -webkit-overflow-scrolling: touch;
   -webkit-overflow-scrolling: -blackberry-touch;
+  left: 0;
+  -webkit-transform: translate(-15.7142857143rem , 0);
+  -ms-transform: translate(-15.7142857143rem , 0);
+  transform: translate(-15.7142857143rem , 0);
+  transition: transform 0.1s linear;
 }
-@media (min-width: 768px) {
-  /* line 127, ../app/styles/tink/_navigation.scss */
-  .nav-left {
-    -webkit-transform: translate(0, 0);
-    -ms-transform: translate(0, 0);
-    transform: translate(0, 0);
-  }
-}
-/* line 145, ../app/styles/tink/_navigation.scss */
+/* line 17, ../app/styles/tink/mixins/_nav-aside.scss */
 .nav-left:before {
   background: rgba(0, 0, 0, 0.12);
   bottom: 0;
@@ -5262,174 +5640,183 @@ ul.top-nav-right {
   height: 100%;
   pointer-events: none;
   position: absolute;
-  right: 0;
   top: 0;
   width: 2px;
   z-index: 2;
 }
-/* line 162, ../app/styles/tink/_navigation.scss */
-.nav-left > ul {
-  overflow: visible;
-  -webkit-backface-visibility: hidden;
-  -webkit-transform-style: preserve-3d;
-}
-/* line 167, ../app/styles/tink/_navigation.scss */
-.nav-left > ul > li {
-  display: block;
-  float: left;
-  overflow: hidden;
-  position: relative;
-  transition: max-height 0.1s linear;
-  width: 100%;
-  -webkit-backface-visibility: hidden;
-  -webkit-transform-style: preserve-3d;
-}
-/* line 177, ../app/styles/tink/_navigation.scss */
-.nav-left > ul > li:last-child {
-  border-bottom: 1px solid #eaeaea;
-}
-/* line 185, ../app/styles/tink/_navigation.scss */
-.nav-left > ul > li:hover > a > i, .nav-left > ul > li:active > a > i, .nav-left > ul > li:focus > a > i {
-  color: #fff;
-}
-/* line 188, ../app/styles/tink/_navigation.scss */
-.nav-left > ul > li:hover > a > i .icon-bg, .nav-left > ul > li:active > a > i .icon-bg, .nav-left > ul > li:focus > a > i .icon-bg {
-  -webkit-transform: translate(0, 0);
-  -ms-transform: translate(0, 0);
-  transform: translate(0, 0);
-}
-/* line 197, ../app/styles/tink/_navigation.scss */
-.nav-left > ul > li.active > a {
-  background: rgba(0, 0, 0, 0.05);
-}
-/* line 200, ../app/styles/tink/_navigation.scss */
-.nav-left > ul > li.active > a > i {
-  color: #fff;
-}
-/* line 203, ../app/styles/tink/_navigation.scss */
-.nav-left > ul > li.active > a > i .icon-bg {
-  -webkit-transform: translate(0, 0);
-  -ms-transform: translate(0, 0);
-  transform: translate(0, 0);
-}
-/* line 210, ../app/styles/tink/_navigation.scss */
-.nav-left > ul > li.active ul {
-  max-height: 35.7142857143rem ;
-}
-/* line 216, ../app/styles/tink/_navigation.scss */
-.nav-left > ul > li.active li.active > a {
-  background: rgba(0, 0, 0, 0.05);
-}
-/* line 229, ../app/styles/tink/_navigation.scss */
-.nav-left > ul > li a {
-  color: #141414;
-  display: table;
-  padding: 0.7142857143rem 0.7142857143rem 0.7142857143rem 0rem ;
-  position: relative;
-  text-decoration: none;
-  width: 100%;
-}
-/* line 237, ../app/styles/tink/_navigation.scss */
-.nav-left > ul > li a:hover, .nav-left > ul > li a:active, .nav-left > ul > li a:focus {
-  background: rgba(0, 0, 0, 0.05);
-}
-/* line 243, ../app/styles/tink/_navigation.scss */
-.nav-left > ul > li a > span {
-  display: table-cell;
-  padding: 0rem 0rem 0rem 0.7142857143rem ;
-  vertical-align: middle;
-}
-/* line 250, ../app/styles/tink/_navigation.scss */
-.nav-left > ul > li > a {
-  background-color: #fff;
-  border-top: 1px solid #eaeaea;
-  min-height: 3.5714285714rem ;
-  padding: 1rem 0rem 1rem 0rem ;
-}
-/* line 257, ../app/styles/tink/_navigation.scss */
-.nav-left > ul > li i {
-  display: table-cell;
-  padding-top: 0.2857142857rem ;
-  position: relative;
-  text-align: center;
-  vertical-align: top;
-  width: 3.5714285714rem ;
-  z-index: 1;
-}
-/* line 266, ../app/styles/tink/_navigation.scss */
-.nav-left > ul > li i .icon-bg {
-  background: linear-gradient(135deg, #347ea6 0%, #5fb1d6 100%);
-  bottom: -1rem ;
-  left: 0;
-  position: absolute;
-  top: -1rem ;
-  -webkit-transform: translate(-3.3571428571rem , 0);
-  -ms-transform: translate(-3.3571428571rem , 0);
-  transform: translate(-3.3571428571rem , 0);
-  transition: -webkit-transform 0.1s linear;
-  transition: transform 0.1s linear;
-  width: 3.5714285714rem ;
-  z-index: -1;
-}
-/* line 281, ../app/styles/tink/_navigation.scss */
-.nav-left > ul ul {
-  background: #f7f7f7;
-  max-height: 0;
-  transition: max-height 0.3s linear;
-}
-
-/* line 292, ../app/styles/tink/_navigation.scss */
-html.sidenav-open body {
-  overflow-x: hidden;
-}
-@media (max-width: 768px) {
-  /* line 300, ../app/styles/tink/_navigation.scss */
-  html.sidenav-open .main-content {
-    -webkit-transform: translate(220px, 0);
-    -ms-transform: translate(220px, 0);
-    transform: translate(220px, 0);
-  }
-  /* line 303, ../app/styles/tink/_navigation.scss */
-  html.sidenav-open .nav-left {
+@media (min-width: 768px) {
+  /* line 126, ../app/styles/tink/_navigation.scss */
+  .nav-left {
     -webkit-transform: translate(0, 0);
     -ms-transform: translate(0, 0);
     transform: translate(0, 0);
   }
 }
-@media (min-width: 768px) {
-  /* line 310, ../app/styles/tink/_navigation.scss */
-  html.sidenav-open .main-content {
-    padding-left: 3.5714285714rem ;
-  }
-  /* line 313, ../app/styles/tink/_navigation.scss */
-  html.sidenav-open .nav-left {
-    overflow: visible;
-    width: 3.5714285714rem ;
-  }
-  /* line 318, ../app/styles/tink/_navigation.scss */
-  html.sidenav-open .nav-left > ul > li {
-    overflow: visible;
-  }
-  /* line 321, ../app/styles/tink/_navigation.scss */
-  html.sidenav-open .nav-left > ul > li ul {
-    background: #f7f7f7;
-    border: solid rgba(0, 0, 0, 0.12);
-    border-width: 2px 2px 2px 0;
-    display: none;
-    height: auto;
-    max-height: 35.7142857143rem ;
-    position: absolute;
-    left: 3.5714285714rem ;
-    top: 0;
-    width: 15.7142857143rem ;
-    z-index: 3;
-  }
-  /* line 338, ../app/styles/tink/_navigation.scss */
-  html.sidenav-open .nav-left > ul > li:hover ul, html.sidenav-open .nav-left > ul > li:active ul, html.sidenav-open .nav-left > ul > li:focus ul {
-    display: block;
-  }
-  /* line 345, ../app/styles/tink/_navigation.scss */
-  html.sidenav-open .nav-left > ul > li > a > span {
-    display: none;
-  }
+/* line 137, ../app/styles/tink/_navigation.scss */
+.nav-left:before {
+  right: 0;
+}
+
+/* line 142, ../app/styles/tink/_navigation.scss */
+.nav-aside-list {
+  position: relative;
+  /**
+   * All levels
+   */
+  /**
+   * One level deep
+   */
+  /**
+   * Two levels deep
+   */
+}
+/* line 145, ../app/styles/tink/_navigation.scss */
+.nav-aside-list:before {
+  background-color: rgba(0, 0, 0, 0.1);
+  content: '';
+  height: 1px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+/* line 161, ../app/styles/tink/_navigation.scss */
+.nav-aside-list li a {
+  color: #525252;
+  display: table;
+  text-decoration: none;
+  width: 100%;
+}
+/* line 167, ../app/styles/tink/_navigation.scss */
+.nav-aside-list li a:hover, .nav-aside-list li a:active, .nav-aside-list li a:focus {
+  background: rgba(0, 0, 0, 0.05);
+  color: #141414;
+}
+/* line 175, ../app/styles/tink/_navigation.scss */
+.nav-aside-list li a:hover + ul:before, .nav-aside-list li a:active + ul:before, .nav-aside-list li a:focus + ul:before {
+  color: #141414;
+}
+/* line 182, ../app/styles/tink/_navigation.scss */
+.nav-aside-list li a > * {
+  display: table-cell;
+}
+/* line 186, ../app/styles/tink/_navigation.scss */
+.nav-aside-list li a .badge {
+  float: right;
+}
+/* line 191, ../app/styles/tink/_navigation.scss */
+.nav-aside-list li i {
+  padding: 0.2857142857rem 0.7142857143rem 0rem 0rem ;
+}
+/* line 197, ../app/styles/tink/_navigation.scss */
+.nav-aside-list li.active a {
+  background-color: #347ea6;
+  color: #fff;
+}
+/* line 203, ../app/styles/tink/_navigation.scss */
+.nav-aside-list li.open, .nav-aside-list li.active {
+  background: #f7f7f7;
+}
+/* line 209, ../app/styles/tink/_navigation.scss */
+.nav-aside-list li.open ul li a, .nav-aside-list li.active ul li a {
+  border-left: 1.0714285714rem  solid #f7f7f7;
+}
+/* line 226, ../app/styles/tink/_navigation.scss */
+.nav-aside-list > li {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+/* line 233, ../app/styles/tink/_navigation.scss */
+.nav-aside-list > li > a {
+  border-bottom: 1px solid #eaeaea;
+  font-weight: 700;
+  padding: 1.0714285714rem 1.0714285714rem ;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+/* line 242, ../app/styles/tink/_navigation.scss */
+.nav-aside-list > li.open {
+  border-bottom: 1px solid #eaeaea;
+}
+/* line 245, ../app/styles/tink/_navigation.scss */
+.nav-aside-list > li.open > a {
+  border-bottom: none;
+  padding-right: 2.1428571429rem ;
+}
+/* line 259, ../app/styles/tink/_navigation.scss */
+.nav-aside-list ul:before {
+  content: "\f0d7";
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+  position: absolute;
+  right: 1.0714285714rem ;
+  text-decoration: inherit;
+  top: 1rem ;
+  transition: color 0.1s linear, -webkit-transform 0.1s linear;
+  transition: color 0.1s linear, transform 0.1s linear;
+  z-index: 0;
+}
+/* line 276, ../app/styles/tink/_navigation.scss */
+.nav-aside-list ul a {
+  border-left: 1.0714285714rem  solid #fff;
+  font-weight: 600;
+  padding: 0.7142857143rem 1.0714285714rem ;
+}
+
+/* line 4, ../app/styles/tink/_tink-datepicker.scss */
+.tink-datepickerrange {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  color: #333;
+}
+/* line 9, ../app/styles/tink/_tink-datepicker.scss */
+.tink-datepickerrange .tink-datepickerrange-header-left,
+.tink-datepickerrange .tink-datepickerrange-header-right {
+  padding: 0.1428571429rem ;
+}
+/* line 13, ../app/styles/tink/_tink-datepicker.scss */
+.tink-datepickerrange .tink-datepickerrange-header-left button:hover, .tink-datepickerrange .tink-datepickerrange-header-left .btn:hover,
+.tink-datepickerrange .tink-datepickerrange-header-right button:hover,
+.tink-datepickerrange .tink-datepickerrange-header-right .btn:hover {
+  background: #bbb;
+}
+/* line 19, ../app/styles/tink/_tink-datepicker.scss */
+.tink-datepickerrange .tink-datepickerrange-left,
+.tink-datepickerrange .tink-datepickerrange-right {
+  background: #fff;
+  width: 50%;
+}
+/* line 24, ../app/styles/tink/_tink-datepicker.scss */
+.tink-datepickerrange .tink-datepickerrange-right {
+  border-left: 1px solid #bbb;
+}
+/* line 28, ../app/styles/tink/_tink-datepicker.scss */
+.tink-datepickerrange button, .tink-datepickerrange .btn {
+  color: #888;
+  padding: 0.4285714286rem 0rem ;
+  width: 44px;
+}
+/* line 35, ../app/styles/tink/_tink-datepicker.scss */
+.tink-datepickerrange button:hover, .tink-datepickerrange .btn:hover {
+  background: #6eafd2;
+  color: #fff;
+}
+/* line 39, ../app/styles/tink/_tink-datepicker.scss */
+.tink-datepickerrange button.btn-warning, .tink-datepickerrange .btn.btn-warning {
+  background: #fff;
+  border: 1px solid #347ea6 !important;
+}
+/* line 43, ../app/styles/tink/_tink-datepicker.scss */
+.tink-datepickerrange button.btn-primary, .tink-datepickerrange button.btn-info, .tink-datepickerrange .btn.btn-primary, .tink-datepickerrange .btn.btn-info {
+  color: #fff;
+}
+/* line 47, ../app/styles/tink/_tink-datepicker.scss */
+.tink-datepickerrange td, .tink-datepickerrange th {
+  border: none;
+  color: #888;
+  padding: 0.1904761905rem ;
+  text-align: center;
 }

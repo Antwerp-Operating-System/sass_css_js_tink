@@ -152,7 +152,10 @@ body {
     z-index: layer('pseudo');
   }
 
-
+  .badge {
+    background-color: $gray;
+    color: $white;
+  }
   /**
    * All levels
    */
@@ -170,6 +173,11 @@ body {
         background: rgba(0, 0, 0, .05);
         color: $nav-aside-link-hover-color;
 
+        .badge {
+          background-color: $white;
+          color: $black;
+        }
+
         + ul {
 
           &:before {
@@ -179,7 +187,7 @@ body {
         }
       }
 
-      > * {
+      > *, {
         display: table-cell;
       }
 
@@ -197,6 +205,11 @@ body {
       a {
         background-color: $nav-aside-link-active-background-color;
         color: $nav-aside-link-active-color;
+
+        .badge {
+          background-color: $white;
+          color: $black;
+        }
       }
     }
 
