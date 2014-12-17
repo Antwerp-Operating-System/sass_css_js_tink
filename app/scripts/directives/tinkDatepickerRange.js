@@ -74,7 +74,7 @@
           });
 
             var firstDateWatch=null,lastDateWatch = null;
-            
+
 
             function startWatch(){
               firstDateWatch =  scope.$watch('firstDateModel',function(newDate,oldDate){
@@ -205,7 +205,7 @@ startWatch();
             // if it is finished we can but it in the javascript file with $cacheTemplate --/
             function haalTemplateOp(template) {
               // --- if the template already is in our app cache return it. //
-              if (fetchPromises[template]){ 
+              if (fetchPromises[template]){
                 return fetchPromises[template];
               }
               // --- If not get the template from templatecache or http. //
@@ -223,7 +223,7 @@ startWatch();
             var promise = haalTemplateOp('templates/tinkDatePickerRange.html');
             // --- when the data is loaded //
             promise.then(function (template) {
-              if (angular.isObject(template)){ 
+              if (angular.isObject(template)){
                 template = template.data;
               }
               // --- store the html we retrieved //
@@ -268,7 +268,7 @@ startWatch();
                       scope.firstDate = null;
                       $directive.focused.firstDateElem.focus();
                     }
-                  } 
+                  }
 
                 }
 
