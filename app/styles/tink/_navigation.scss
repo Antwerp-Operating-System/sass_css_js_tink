@@ -247,11 +247,11 @@ body {
       border-bottom: 1px solid $nav-aside-item-border-color;
     }
 
-    &.open {
+    // &.open { // TH removed conditional open state, label should always sit next to the caret
       > a {
         padding-right: rem(30);
       }
-    }
+    // }
   }
 
 
