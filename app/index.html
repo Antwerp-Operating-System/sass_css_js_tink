@@ -13,7 +13,9 @@
   <!-- build:css(.tmp) styles/tink.css -->
   <link rel="stylesheet" href="styles/tink.css">
   <!-- endbuild -->
-
+  <script src="scripts/modernizr.js"></script>
+  <script src="scripts/enquire.js"></script>
+  <script src="scripts/api.js"></script>
 
 </head>
 <body>
@@ -59,10 +61,10 @@
 
 
 
-  <aside class="nav-left">
+  <aside data-tink class="nav-left">
     <ul class="nav-aside-list" role="sidenav">
-      <li class="active">
-        <a href="#">
+      <li>
+        <a href="#/menu1">
           <!-- <i class="fa fa-fw fa-dashboard"></i> -->
           <span>
             Menu item 1
@@ -70,26 +72,26 @@
           </span>
         </a>
       </li>
-      <li class="open">
-        <a href="#">
+      <li>
+        <a href="#/menu2">
           <!-- <i class="fa fa-fw fa-dashboard"></i> -->
           <span>Menu item 2<span class="badge">479</span></span>
 
         </a>
         <ul>
           <li>
-            <a href="#">
+            <a href="#/menu2/menu1">
               <span>Sub menu item 1<span class="badge">479</span></span>
 
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="#/menu2/menu2">
               <span>Sub menu item 2</span>
             </a>
           </li>
-          <li class="active">
-            <a href="#">
+          <li>
+            <a href="#/menu2/menu3">
               <span>
                 Sub menu item 3
                 <span class="badge">479</span>
@@ -99,13 +101,13 @@
         </ul>
       </li>
       <li>
-        <a href="#">
+        <a href="#/menu3">
           <!-- <i class="fa fa-fw fa-dashboard"></i> -->
           <span>Menu item 3</span>
         </a>
       </li>
       <li>
-        <a href="#">
+        <a href="#/menu3/menu4">
           <!-- <i class="fa fa-fw fa-dashboard"></i> -->
           <span>Menu item 4</span>
         </a>
@@ -141,6 +143,7 @@
   <script src="scripts/services/tinkDateHelper.js"></script>
   <script src="scripts/services/tinkSafeApply.js"></script>
   <script src="scripts/directives/tinkValidDate.js"></script>
+  <script src="scripts/controllers/locationCtrl.js"></script>
   <!-- endbuild -->
 </body>
 </html>
