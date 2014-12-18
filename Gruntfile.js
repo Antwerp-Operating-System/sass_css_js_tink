@@ -9,7 +9,7 @@ module.exports = function (grunt) {
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
 
-  
+
 
   // Semantic version options
   var bump = grunt.option('bump') || '';
@@ -269,7 +269,8 @@ module.exports = function (grunt) {
       ],
       dist: [
         'sass',
-        'copy:styles'
+        // 'imagemin',
+        'svgmin'
       ]
     },
     cssmin: {

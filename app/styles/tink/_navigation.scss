@@ -173,11 +173,6 @@ body {
         background: rgba(0, 0, 0, .05);
         color: $nav-aside-link-hover-color;
 
-        .badge {
-          background-color: $white;
-          color: $black;
-        }
-
         + ul {
 
           &:before {
