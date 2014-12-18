@@ -13,14 +13,11 @@
   <!-- build:css(.tmp) styles/tink.css -->
   <link rel="stylesheet" href="styles/tink.css">
   <!-- endbuild -->
-
-
 </head>
 <body>
   <!--[if lt IE 9]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
-
 
   <nav nav-header class="nav-top">
     <ul class="nav-top-branding">
@@ -57,30 +54,49 @@
     </section>
   </nav>
 
-
-
   <aside class="nav-left">
     <ul class="nav-aside-list" role="sidenav">
-      <li class="active">
+      <li>
         <a href="#">
-          <!-- <i class="fa fa-fw fa-dashboard"></i> -->
           <span>
             Menu item 1
             <span class="badge">479</span>
           </span>
         </a>
       </li>
-      <li class="open">
+      <li class="open active">
         <a href="#">
-          <!-- <i class="fa fa-fw fa-dashboard"></i> -->
           <span>Menu item 2<span class="badge">479</span></span>
-
         </a>
         <ul>
           <li>
             <a href="#">
               <span>Sub menu item 1<span class="badge">479</span></span>
-
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span>Sub menu item 2</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span>
+                Sub menu item 3
+                <span class="badge">479</span>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#">
+          <span>Menu item 3</span>
+        </a>
+        <ul>
+          <li>
+            <a href="#">
+              <span>Sub menu item 1<span class="badge">479</span></span>
             </a>
           </li>
           <li>
@@ -98,17 +114,30 @@
           </li>
         </ul>
       </li>
-      <li>
+      <li class="open">
         <a href="#">
-          <!-- <i class="fa fa-fw fa-dashboard"></i> -->
-          <span>Menu item 3</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <!-- <i class="fa fa-fw fa-dashboard"></i> -->
           <span>Menu item 4</span>
         </a>
+        <ul>
+          <li>
+            <a href="#">
+              <span>Sub menu item 1<span class="badge">479</span></span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span>Sub menu item 2</span>
+            </a>
+          </li>
+          <li class="active">
+            <a href="#">
+              <span>
+                Sub menu item 3
+                <span class="badge">479</span>
+              </span>
+            </a>
+          </li>
+        </ul>
       </li>
     </ul>
   </aside>
@@ -116,7 +145,6 @@
   <div>
     <div class="main" role="main" data-ng-view="" data-autoscroll="true"></div>
   </div>
-
 
   <!-- build:js(.) scripts/vendor.js -->
   <!-- bower:js -->
