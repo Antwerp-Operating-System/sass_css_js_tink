@@ -13,30 +13,18 @@ Tink is an in-house developed easy-to-use front end framework for quick prototyp
 * nodeJS [http://nodejs.org/download/](http://nodejs.org/download/)
 * bower: `npm install -g bower`
 
-## Getting started
+## Getting started using Tink
 
-1. Type the following command in your Terminal
+1. Go to the root of your project and type the following command in your terminal:
    `bower install tink --save`
 
-2. Then include the necessary files in your project. Here is a basic template to start from:
-   ```html
-   <!DOCTYPE html>
-   <html>
-     <head>
-       <meta charset="utf-8">
-       <title>Tink</title>
-       <link rel="stylesheet" href="bower_components/tink/framework/styles/tink.min.css">
-     </head>
-     <body>
-       <div class="container-fluid text-center">
-         <h1>Hello, Tink!</h1>
-         <p>View the Tink documentation on <a href="http://tink.digipolis.be">http://tink.digipolis.be</a></p>
-       </div>
-     </body>
-   </html>
-   ```
+2. Include the `tink.min.css` file in your project.
 
-3. On http://tink.digipolis.be you will find the necessary documentation
+3. If you want to use the Angular flavor of Tink, you'll also need to:
+    * include the `tink-directives.min.js` file in your project
+    * declare the Tink module as a dependency: `angular.module('yourModule', ['Tink']);`
+
+4. On http://tink.digipolis.be you will find all necessary documentation.
 
 ## Development
 
@@ -47,12 +35,12 @@ Tink is an in-house developed easy-to-use front end framework for quick prototyp
 ### Dev Cycle
 
 * Clone this repo to your hard drive:
-  * BitBucket:
-    * via SSH `git pull git@bitbucket.org:digipolis/sass_css_js_tink.git`
-    * or HTTPS `git pull https://`your-bitbucket-user-name`@bitbucket.org/digipolis/sass_css_js_tink.git`
-  * GitHub:
-    * via SSH `git@github.com:Antwerp-Operating-System/sass_css_js_tink.git`
-    * or HTTPS `https://github.com/Antwerp-Operating-System/sass_css_js_tink.git`
+    * BitBucket:
+        * via SSH `git pull git@bitbucket.org:digipolis/sass_css_js_tink.git`
+        * or HTTPS `git pull https://`your-bitbucket-user-name`@bitbucket.org/digipolis/sass_css_js_tink.git`
+    * GitHub:
+        * via SSH `git@github.com:Antwerp-Operating-System/sass_css_js_tink.git`
+        * or HTTPS `https://github.com/Antwerp-Operating-System/sass_css_js_tink.git`
 * Navigate to your local Tink directory: `cd /path/to/sass_css_js_tink`
 * Install or update dependencies: `npm install`
 * Start you development server: `npm start`
