@@ -22,8 +22,8 @@ Tink is an in-house developed easy-to-use front end framework for quick prototyp
 
 3. If you want to use the Angular flavor of Tink, you'll also need to:
 
-  - include the `tink-directives.min.js` file in your project
-  - declare the Tink module as a dependency: `angular.module('yourModule', ['Tink']);`
+  * include the `tink-directives.min.js` file in your project
+  * declare the Tink module as a dependency: `angular.module('yourModule', ['Tink']);`
 
 4. On http://tink.digipolis.be you will find all necessary documentation.
 
