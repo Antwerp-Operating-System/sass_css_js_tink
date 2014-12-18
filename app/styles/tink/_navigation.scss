@@ -153,6 +153,7 @@ body {
    */
 
   li {
+    transition: height $animation-speed linear;
 
     a {
       color: $nav-aside-link-color;
