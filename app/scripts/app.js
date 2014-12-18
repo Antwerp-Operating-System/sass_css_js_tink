@@ -18,7 +18,8 @@ angular.module('tink', [
     'ngTouch',
     'tink.controllers',
     'tink.datepicker',
-    'tink.datepickerRange'
+    'tink.datepickerRange',
+    'tink.header'
 
     // 'tink.datepicker'
   ])

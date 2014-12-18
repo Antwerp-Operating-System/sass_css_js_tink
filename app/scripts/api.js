@@ -48,7 +48,7 @@
 	}
 	function removeCassToElem(elem,classStr){
 		if(elemHasClass(elem,classStr)){
-			elem.className = elem.className.replace(classStr,' ');
+			elem.className = elem.className.replace(classStr,'');
 		}
 	}
 
@@ -263,7 +263,7 @@
 		var closeMenu = function(){
 				var menu = convertToElement(options.toggleMenu);
 				if(elemHasClass(menu,options.toggleClass)){
-					menu.className = menu.className.replace(options.toggleClass,' ');
+					menu.className = menu.className.replace(options.toggleClass,'');
 				}	
 		}
 
