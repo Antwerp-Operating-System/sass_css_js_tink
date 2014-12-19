@@ -77,6 +77,16 @@
 
 	}
 
+	function addEvent(elem, type, eventHandle) {
+	    if (elem == null || typeof(elem) == 'undefined') return;
+	    if ( elem.addEventListener ) {
+	        elem.addEventListener( type, eventHandle, false );
+	    } else if ( elem.attachEvent ) {
+	        elem.attachEvent( "on" + type, eventHandle );
+	    } else {
+	        elem["on"+type]=eventHandle;
+	    }
+	};
 
 		function getClosest (elem, selector) {
 
@@ -123,8 +133,9 @@
 			toggleClass :'nav-left-open',
 			toggleMenu: 'html',
 			mobileAutoClose:true,
-			menuStr:'aside[data-tink]',
+			menuStr:'aside[data-tink-nav-aside]',
 			activeCss:'active',
+			navHeader:'nav.nav-top',
 			openCss:'open',
 			accordion:true,
 			gotoPage:false
@@ -133,61 +144,86 @@
 		options.menuStr = convertToElement(options.menuStr);
 
 
-		if(options.accordion){
-
-		}
 
 		(function registerClick(){
-			var lis = options.menuStr.querySelectorAll('li > a');
-			[].forEach.call(lis,function (el) {
-					el.onclick = function(){
-						setActiveElemnt(el.href);
-					}				
-				}
-			);			
+			$( ".nav-aside-list li a" ).each(function( index ) {
+				$(this).on("click",function(){
+					setActiveElemnt($(this).parent())
+				});
+			});	
 		})();
 
-		(function calculateHeight(){
-			var firstLi = options.menuStr.querySelectorAll('.nav-aside-list > li > a');
-			[].forEach.call(firstLi,function (el) {
-					el.parentNode.style.height = el.clientHeight + 'px';
-					if(options.accordion && el.parentNode.querySelectorAll('ul').length){
-						el.href='javascript:void(0);';
-						el.onclick = function(e){
-							//toggleAccordion(el.parentNode)
-							setActiveElemnt(el)
-						};
+		var calculateHeight = function(){
+			
+			$( ".nav-aside-list > li" ).each(function( index ) {
+				//$(this).css( "height",$(this).find('a').height());
+				var ulHelper = $(this).find('ul');
+			  if(ulHelper.length){
+					$(this).addClass('can-open');
+					if(options.accordion){
+						$(this).find('a')[0].href ='javascript:void(0);';
 					}
 
+				}else{
+					//$(this).css('height',$(this).find('a').outerHeight());
 				}
-			);			
-		})();
+				if(currentTogggleElem){
+					
+					var totalHeight = 0;
+					currentTogggleElem.find('a').each(function( index ) {
+						totalHeight += $(this).outerHeight();
+					});
+					//currentTogggleElem.css('height',totalHeight);
+				}
+			});
+		}
+		
 
 		var currentTogggleElem = null;
-		var toggleAccordion = function(el){
-			if(currentTogggleElem !== null){
-				removeCassToElem(currentTogggleElem,options.openCss);
-				currentTogggleElem.style.height = currentTogggleElem.querySelector('a').clientHeight+'px';
-			}
 
-			if(el !== null && currentTogggleElem !== el){
-				var fullHeight = 0;
-			[].forEach.call(el.querySelectorAll('a[href]'),function (el) {
-			        fullHeight += el.clientHeight;
-			    }
-			);
-			el.style.height = fullHeight+'px';
+		var openAccordion = function(el){
+			el.find('ul').slideDown( "slow", function() {});
+			el.addClass(options.openCss);
 			currentTogggleElem = el;
-			addCassToElem(el,options.openCss);
-			if(options.gotoPage){
-				var activateUrl = el.querySelector('ul li').querySelector('a');
-					document.location.href = activateUrl.href;
-					setActiveElemnt(activateUrl.href);
-			}
+		}
 
-		}else{
+		var closeAccordion = function(el){
+			var Aelem = el.find('a:first');
+
+			el.find('ul').slideUp( "slow", function() {});
+			el.removeClass(options.openCss);
 			currentTogggleElem = null;
 		}
+
+		var toggleAccordion = function(el){
+			if(currentTogggleElem !== null){
+				currentTogggleElem.removeClass(options.openCss);
+			}	
+
+			if(el !== null){
+
+				var height = 0;
+
+
+				if(currentTogggleElem && el[0] === currentTogggleElem[0]){
+					closeAccordion(el);
+				}else{
+					if(currentTogggleElem !== null){
+						closeAccordion(currentTogggleElem)
+					}
+					openAccordion(el);
+
+					if(options.gotoPage && currentActiveElement && currentActiveElement.parent().parent()[0] !== el[0]){
+						var firstA = el.find('ul a:first');
+						document.location.href = firstA[0].href;
+						setActiveElemnt(el.find('ul li:first'));
+					}
+
+				}				
+				
+			}else{
+				currentTogggleElem = null;
+			}
 
 			
 		}
@@ -206,53 +242,38 @@
 		})();
 
 		var currentActiveElement = null;
-		var setActiveElemnt = function(href){
+
+		var setActiveElemnt = function(el){
 			var activeElem;
-			if(href){
-				activeElem = urlDomMap[href];
+			if(el){
+				activeElem = el;
 			}else{
-				activeElem = urlDomMap[location.href];
+				activeElem = $(urlDomMap[location.href]).parent();
 			}
 
-			if(activeElem && activeElem.parentNode.nodeName === 'LI'){
-
-				var subUl = activeElem.parentNode.querySelector('ul');
-				if(subUl){
-
-					toggleAccordion(activeElem.parentNode)
-
-				}else{
-
-					if(currentActiveElement !== null){
-						removeCassToElem(currentActiveElement,options.activeCss);
-					}
-
-					addCassToElem(activeElem.parentNode,options.activeCss);
-					currentActiveElement = activeElem.parentNode;
-					if(activeElem.parentNode.parentNode.parentNode.nodeName === 'LI'){
-
-					}else{
-						toggleAccordion(null)
-					}
-				}
+			if(activeElem && activeElem.hasClass('can-open')){
+				toggleAccordion(activeElem);
 				
+			}else if(activeElem.parent().parent().hasClass('can-open')){
+				if(currentTogggleElem === null || activeElem.parent().parent()[0] !== currentTogggleElem[0]){
+					toggleAccordion(activeElem.parent().parent());
+				}	
+			}else if(currentTogggleElem){
+				toggleAccordion(currentTogggleElem)
 			}
 
-
-			
-			/*if(subLi){
-
-
-
-			}else{
-				console.log(activeElem,urlDomMap)
-				addCassToElem(activeElem,options.active);
-			}*/
-
+			if(!(options.accordion && activeElem.hasClass('can-open') )){
+				if(currentActiveElement !== null){
+					currentActiveElement.removeClass(options.activeCss);
+				}
+				activeElem.addClass(options.activeCss);
+				currentActiveElement = activeElem;
+			}		
 			
 		}
+	
+		calculateHeight();
 		setActiveElemnt();
-
 		var openMenu = function(){
 			var menu = convertToElement(options.toggleMenu);
 				if(!elemHasClass(menu,options.toggleClass)){

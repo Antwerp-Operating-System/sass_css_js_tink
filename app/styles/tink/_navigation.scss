@@ -225,7 +225,7 @@ body {
 
   > li {
     display: block;
-    height: rem($nav-aside-item-height);
+    /*height: rem($nav-aside-item-height);*/
     overflow: hidden;
     position: relative;
     width: 100%;
@@ -260,6 +260,7 @@ body {
    */
 
   ul {
+    display:none;
     &:before {
       content: "\f0d7";
       font-family: FontAwesome;
