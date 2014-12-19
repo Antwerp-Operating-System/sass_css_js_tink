@@ -18,7 +18,8 @@ angular.module('tink', [
     'ngTouch',
     'tink.controllers',
     'tink.datepicker',
-    'tink.datepickerRange'
+    'tink.datepickerRange',
+    'tink.header'
 
     // 'tink.datepicker'
   ])
@@ -31,6 +32,14 @@ angular.module('tink', [
 			.when('/datepicker', {
 				templateUrl: 'views/datepickertest.html'
 			})
+			.when('/:page', {
+			    templateUrl: 'views/home.html',
+			    controller: 'LocationCtrl'
+			  })
+			.when('/:page/:subpage', {
+			    templateUrl: 'views/home.html',
+			    controller: 'LocationCtrl'
+			  })
 			.otherwise({
 				redirectTo: '/'
 			});

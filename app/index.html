@@ -13,11 +13,14 @@
   <!-- build:css(.tmp) styles/tink.css -->
   <link rel="stylesheet" href="styles/tink.css">
   <!-- endbuild -->
+  <script src="scripts/api.js"></script>
+
 </head>
 <body>
   <!--[if lt IE 9]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
+
 
   <nav nav-header class="nav-top">
     <ul class="nav-top-branding">
@@ -54,35 +57,65 @@
     </section>
   </nav>
 
-  <aside class="nav-left">
+
+
+  <aside data-tink-nav-aside class="nav-left">
     <ul class="nav-aside-list" role="sidenav">
       <li>
-        <a href="#">
-          <span>
-            Menu item 1
-            <span class="badge">479</span>
-          </span>
+        <a href="#/menu1">
+          <i class="fa fa-fw fa-dashboard"></i>
+          <span>Menu item 1</span>
+          <span class="badge">479</span>
         </a>
       </li>
-      <li class="open active">
-        <a href="#">
-          <span>Menu item 2<span class="badge">479</span></span>
+      <li class="can-open">
+        <a href="#/menu2">
+          <i class="fa fa-fw fa-dashboard"></i>
+          <span>Menu item 2</span>
+          <span class="badge">479</span>
         </a>
         <ul>
           <li>
-            <a href="#">
-              <span>Sub menu item 1<span class="badge">479</span></span>
+            <a href="#/menu2/menu1">
+              <span>Sub menu item 1</span>
+              <span class="badge">479</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="#/menu2/menu2">
               <span>Sub menu item 2</span>
             </a>
           </li>
           <li>
-            <a href="#">
+            <a href="#/menu2/menu3">
+              <span>Sub menu item 3 als dat geen probleem is</span>
+              <span class="badge">479</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#/menu4">
+          <!-- <i class="fa fa-fw fa-dashboard"></i> -->
+          <span>Menu item 4<span class="badge">479</span></span>
+
+        </a>
+        <ul>
+          <li>
+            <a href="#/menu4/menu1">
+              <span>Sub menu item 14<span class="badge">479</span></span>
+
+            </a>
+          </li>
+          <li>
+            <a href="#/menu4/menu2">
+              <span>Sub menu item14</span>
+            </a>
+          </li>
+          <li>
+            <a href="#/menu4/menu3">
               <span>
-                Sub menu item 3
+                Sub menu item 54
                 <span class="badge">479</span>
               </span>
             </a>
@@ -90,54 +123,16 @@
         </ul>
       </li>
       <li>
-        <a href="#">
+        <a href="#/menu3">
+          <i class="fa fa-fw fa-dashboard"></i>
           <span>Menu item 3</span>
         </a>
-        <ul>
-          <li>
-            <a href="#">
-              <span>Sub menu item 1<span class="badge">479</span></span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <span>Sub menu item 2</span>
-            </a>
-          </li>
-          <li class="active">
-            <a href="#">
-              <span>
-                Sub menu item 3
-                <span class="badge">479</span>
-              </span>
-            </a>
-          </li>
-        </ul>
       </li>
-      <li class="open">
-        <a href="#">
+      <li>
+        <a href="#/menu3/menu4">
+          <i class="fa fa-fw fa-dashboard"></i>
           <span>Menu item 4</span>
         </a>
-        <ul>
-          <li>
-            <a href="#">
-              <span>Sub menu item 1<span class="badge">479</span></span>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <span>Sub menu item 2</span>
-            </a>
-          </li>
-          <li class="active">
-            <a href="#">
-              <span>
-                Sub menu item 3
-                <span class="badge">479</span>
-              </span>
-            </a>
-          </li>
-        </ul>
       </li>
     </ul>
   </aside>
@@ -146,8 +141,10 @@
     <div class="main" role="main" data-ng-view="" data-autoscroll="true"></div>
   </div>
 
+
   <!-- build:js(.) scripts/vendor.js -->
   <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-resource/angular-resource.js"></script>
   <script src="bower_components/angular-cookies/angular-cookies.js"></script>
@@ -169,6 +166,7 @@
   <script src="scripts/services/tinkDateHelper.js"></script>
   <script src="scripts/services/tinkSafeApply.js"></script>
   <script src="scripts/directives/tinkValidDate.js"></script>
+  <script src="scripts/controllers/locationCtrl.js"></script>
   <!-- endbuild -->
 </body>
 </html>
