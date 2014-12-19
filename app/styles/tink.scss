@@ -1,41 +1,55 @@
-// Tabula rasa
+/**
+ * Tabula rasa
+ */
 @import "tink/prerequisites";
 @import "tink/variables";
 @import "tink/functions";
 @import "tink/mixins";
 @import "tink/normalize";
 
-// Core
+/**
+ * Core
+ */
 @import "tink/grid";
 @import "tink/scaffolding";
 @import "tink/typography";
 @import "tink/code";
 @import "tink/tables";
 @import "tink/media";
+
+/**
+ * Forms
+ */
+@import "tink/forms";
 @import "tink/buttons";
+
+/**
+ * Vendor
+ */
+// Insert CSS from vendors here
+
+/**
+ * Components
+ */
+@import "tink/button-groups";
 @import "tink/panels";
 @import "tink/breadcrumbs";
 @import "tink/badges";
-
-// Forms
-@import "tink/forms";
-@import "tink/button-groups";
-@import "tink/buttons";
-// @import "tink/dropdowns";
 @import "tink/input-groups";
+// @import "tink/dropdowns";
 
+
+/**
+ * Angular related components
+ */
 @import "tink/popovers";
 @import "tink/tooltip";
-
-// Utilities
-@import "tink/a11y"; // accessibility sass
-@import "tink/utilities";
-@import "tink/responsive-utilities";
-
-
-// Vendor
-
-
-// Components
 @import "tink/navigation";
 @import "tink/tink-datepicker";
+
+/**
+ * Utilities
+ */
+@import "tink/a11y"; // accessibility
+@import "tink/utilities";
+@import "tink/responsive-utilities";

@@ -7,14 +7,14 @@
 // Base class
 .badge {
   background-color: $badge-bg;
-  border-radius: $badge-border-radius;
+  border-radius: rem($badge-border-radius);
   color: $badge-color;
   display: inline-block;
-  font-size: $font-size-small;
+  font-size: rem($badge-font-size);
   font-weight: $badge-font-weight;
   line-height: $badge-line-height;
-  min-width: 10px;
-  padding: $badge-padding-vertical $badge-padding-horizontal;
+  min-width: rem(10);
+  padding: rem($badge-padding-vertical $badge-padding-horizontal);
   text-align: center;
   vertical-align: baseline;
   white-space: nowrap;
@@ -27,11 +27,11 @@
   // Quick fix for badges in buttons
   .btn & {
     position: relative;
-    top: -1px;
+    top: rem(-1);
   }
   .btn-xs & {
     top: 0;
-    padding: 1px 5px;
+    padding: rem(1 5);
   }
 
   // [converter] extracted a& to a.badge
@@ -43,7 +43,7 @@
     color: $badge-active-color;
   }
   .nav-pills > li > a > & {
-    margin-left: 3px;
+    margin-left: rem(3);
   }
 }
 
