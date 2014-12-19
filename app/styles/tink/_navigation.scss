@@ -142,8 +142,8 @@ body {
 .nav-aside-list {
 
   .badge {
-    background-color: $nav-aside-badge-color;
-    color: $nav-aside-badge-text-color;
+    background-color: $nav-aside-badge-background-color;
+    color: $nav-aside-badge-color;
     float: right;
   }
 
@@ -175,6 +175,7 @@ body {
 
       > *, {
         display: table-cell;
+        vertical-align: top;
       }
     }
 
@@ -209,6 +210,10 @@ body {
       background: $nav-aside-item-open-color;
 
       ul {
+        &:before {
+          transform: rotate(180deg);
+        }
+
         li {
           a {
             border-left: rem(15) solid $nav-aside-item-open-color;
@@ -233,7 +238,7 @@ body {
     > a {
       border-top: 1px solid $nav-aside-item-border-color;
       font-weight: 700;
-      padding: rem((($nav-aside-item-height - ($line-height-computed)) / 2) (($nav-aside-item-height - ($line-height-computed)) / 2));
+      padding: rem(($nav-aside-item-height - ($line-height-computed)) / 2);
       width: 100%;
     }
 
@@ -247,11 +252,11 @@ body {
       border-bottom: 1px solid $nav-aside-item-border-color;
     }
 
-    // &.open { // TH removed conditional open state, label should always sit next to the caret
+    &.can-open {
       > a {
         padding-right: rem(30);
       }
-    // }
+    }
   }
 
 
@@ -267,9 +272,9 @@ body {
       font-weight: normal;
       pointer-events: none;
       position: absolute;
-      right: rem(15);
+      right: rem(($nav-aside-item-height - ($line-height-computed)) / 2);
       text-decoration: inherit;
-      top: rem(15);
+      top: rem(($nav-aside-item-height - ($line-height-computed)) / 2);
       transition: color $animation-speed linear, transform $animation-speed linear;
       z-index: layer('pseudo');
     }
