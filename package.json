@@ -1,6 +1,6 @@
 {
   "name": "Tink",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:Antwerp-Operating-System/sass_css_js_tink.git"
@@ -58,6 +58,6 @@
     "build-patch": "grunt build --bump=patch && git add . && git commit -am 'pre patch' && mversion patch -m",
     "build-minor": "grunt build --bump=minor && git add . && git commit -am 'pre minor' && mversion minor -m",
     "build-major": "grunt build --bump=major && git add . && git commit -am 'pre major' && mversion major -m",
-    "mversion-minor":"mversion minor -m"
+    "mversion-minor": "mversion minor -m"
   }
 }
