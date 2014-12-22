@@ -213,7 +213,7 @@
             window.addEventListener('resize', function(){
                 calculateTop();
             });
-        }
+        };
 
 
 		return {

@@ -41,3 +41,4 @@ angular.module('tinkFramework', [
 			});
 
 	});
+console.log("dd")
