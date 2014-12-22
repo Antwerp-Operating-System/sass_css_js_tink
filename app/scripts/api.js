@@ -13,9 +13,9 @@
 
 	// Check if the element has the class
 	function elemHasClass(elem,classStr){
-		var elemHulp  = convertToElement(elem);
-		if(elemHulp && elemHulp.className){
-			if(elemHulp.className.indexOf(classStr) !== -1){
+		var elemHelp  = convertToElement(elem);
+		if(elemHelp && elem.className){
+			if(elemHelp.className.indexOf(classStr) !== -1){
 				return true;
 			}else{
 				return false;
@@ -51,58 +51,54 @@
 			mobileAutoClose:true,
 			menuStr:'aside[data-tink-nav-aside]',
 			activeCss:'active',
-			canOpenCls:'can-open',
-			topHeader:'nav[data-tink-top-header]',
+			topNav:'nav.nav-top',
 			openCss:'open',
-			accordion:true,
+			accordion:false,
 			gotoPage:false
 		};
 
-		var options = $.extend( {}, defaults, opts );
-		console.log(options);
+        var options = $.extend( {}, defaults, opts );
 
 		options.menuStr = convertToElement(options.menuStr);
 
+		if(options.gotoPage){
+			options.accordion = true;
+		}
 
-
-		(function registerClick(){
-			$('.nav-aside-list li a').each(function() {
+		var registerClick = function(){
+			$( '.nav-aside-list li a' ).each(function() {
 				$(this).on('click',function(){
 					setActiveElemnt($(this).parent());
 				});
 			});	
-		})();
+		};
 
 		var calculateHeight = function(){
-			$('.nav-aside-list > li' ).each(function() {
-				//$(this).css( "height",$(this).find('a').height());
+			
+			$( '.nav-aside-list > li' ).each(function() {
+				//$(this).css( 'height',$(this).find('a').height());
 				var ulHelper = $(this).find('ul');
 			  if(ulHelper.length){
-					$(this).addClass(options.canOpenCls);
+					$(this).addClass('can-open');
 					if(options.accordion){
-						$($(this).find('a')[0]).click(function() {
-						    return false;
-						});
+						$(this).find('a')[0].href ='javascript:void(0);';
 					}
+
+				}else{
+					//$(this).css('height',$(this).find('a').outerHeight());
+				}
+				if(currentTogggleElem){
+					
+					var totalHeight = 0;
+					currentTogggleElem.find('a').each(function() {
+						totalHeight += $(this).outerHeight();
+					});
+					//currentTogggleElem.css('height',totalHeight);
 				}
 			});
 		};
+		
 
-		var calculateTop = function(){
-
-			if($(options.topHeader).length === 1){console.log($(options.topHeader).outerHeight());
-					$(options.menuStr).css('top',$(options.topHeader).outerHeight());
-				}
-
-		};
-
-		var watchForPadding = function(){
-			window.addEventListener('resize', function(){
-				calculateTop();
-			});
-		};	
-
-		watchForPadding();
 		var currentTogggleElem = null;
 
 		var openAccordion = function(el){
@@ -112,9 +108,7 @@
 		};
 
 		var closeAccordion = function(el){
-			//var Aelem = el.find('a:first');
-
-			el.find('ul').slideUp('slow', function() {});
+			el.find('ul').slideUp( 'slow', function() {});
 			el.removeClass(options.openCss);
 			currentTogggleElem = null;
 		};
@@ -136,9 +130,8 @@
 
 					if(options.gotoPage && currentActiveElement && currentActiveElement.parent().parent()[0] !== el[0]){
 						var firstA = el.find('ul a:first');
-						firstA[0].click();
-						/*document.location.href = firstA[0].href;
-						setActiveElemnt(el.find('ul li:first'));*/
+						document.location.href = firstA[0].href;
+						setActiveElemnt(el.find('ul li:first'));
 					}
 
 				}				
@@ -166,7 +159,6 @@
 		var currentActiveElement = null;
 
 		var setActiveElemnt = function(el){
-		
 			var activeElem;
 			if(el){
 				activeElem = el;
@@ -174,10 +166,10 @@
 				activeElem = $(urlDomMap[location.href]).parent();
 			}
 
-			if(activeElem && activeElem.hasClass(options.canOpenCls)){
+			if(activeElem && activeElem.hasClass('can-open')){
 				toggleAccordion(activeElem);
 				
-			}else if(activeElem.parent().parent().hasClass(options.canOpenCls)){
+			}else if(activeElem.parent().parent().hasClass('can-open')){
 				if(currentTogggleElem === null || activeElem.parent().parent()[0] !== currentTogggleElem[0]){
 					toggleAccordion(activeElem.parent().parent());
 				}	
@@ -185,20 +177,15 @@
 				toggleAccordion(currentTogggleElem);
 			}
 
-			if(!(options.accordion && activeElem.hasClass(options.canOpenCls) )){
+			if(!(options.accordion && activeElem.hasClass('can-open') )){
 				if(currentActiveElement !== null){
 					currentActiveElement.removeClass(options.activeCss);
 				}
-			if(!activeElem.hasClass(options.openCss)){
 				activeElem.addClass(options.activeCss);
-			}				
 				currentActiveElement = activeElem;
 			}		
 			
 		};
-	
-		calculateHeight();
-		setActiveElemnt();
 		var openMenu = function(){
 			var menu = convertToElement(options.toggleMenu);
 				if(!elemHasClass(menu,options.toggleClass)){
@@ -212,6 +199,21 @@
 					menu.className = menu.className.replace(options.toggleClass,'');
 				}	
 		};
+
+		var calculateTop = function(){
+
+            if($(options.topNav).length === 1){console.log($(options.topNav).outerHeight());
+
+                    $(options.menuStr).css('top',$(options.topNav).outerHeight());
+                }
+
+        };
+
+        var watchForPadding = function(){
+            window.addEventListener('resize', function(){
+                calculateTop();
+            });
+        }
 
 
 		return {
@@ -228,6 +230,13 @@
 					openMenu();
 				}
 			},
+			init:function(){
+				calculateHeight();
+				setActiveElemnt();
+				registerClick();
+				watchForPadding();				
+				calculateTop();
+			},
 			reloadActive:function(){
 				setActiveElemnt();
 			}
@@ -236,4 +245,4 @@
 
 
 root.tinkApi = tinkApi;
-}).call(this);
+}).call(window);

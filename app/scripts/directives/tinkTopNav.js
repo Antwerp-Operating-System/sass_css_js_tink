@@ -21,13 +21,13 @@
           },
           init: function(options){
             navigationOptions = options;
-            $window.tinkApi.sideNavigation(navigationOptions);
+            $window.tinkApi.sideNavigation(navigationOptions).init();
           },
           toggleMenu: function(){
             $window.tinkApi.sideNavigation(navigationOptions).toggleMenu();
           }
         }
-      }
+      };
       
     }]
   };
@@ -41,9 +41,9 @@
       var height = elem[0].clientHeight;
       angular.element($document[0].body).css({ 'padding-top': height+'px' });
     };
-    var toggle = angular.element(elem[0].querySelector('li.toggle'))
+    var toggle = angular.element(elem[0].querySelector('li.toggle'));
      
-      toggle.bind("click", function(){
+      toggle.bind('click', function(){
        tinkApi.sideNavigation.toggleMenu();
         return false;
       });

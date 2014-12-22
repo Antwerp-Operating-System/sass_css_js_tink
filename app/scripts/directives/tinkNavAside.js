@@ -13,7 +13,6 @@
     	if(attr.accordionFirst){
     		opts.gotoPage = (attr.accordionFirst === 'true');
     	}
-    	console.log(opts)
     	tinkApi.sideNavigation.init(opts);
   	}
 };
