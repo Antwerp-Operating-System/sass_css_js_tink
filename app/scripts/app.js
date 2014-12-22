@@ -8,8 +8,8 @@
  *
  * Main module of the application.
  */
-angular.module('tink.controllers',[]);
-angular.module('tink', [
+angular.module('tinkFramework.controllers',[]);
+angular.module('tinkFramework', [
     'ngAnimate',
     'ngCookies',
     'ngResource',
@@ -17,11 +17,7 @@ angular.module('tink', [
     'ngSanitize',
     'ngTouch',
     'tink.controllers',
-    'tink.datepicker',
-    'tink.datepickerRange',
-    'tink.header'
-
-    // 'tink.datepicker'
+    'tink'
   ])
   	.config(function ($routeProvider) { /*, $locationProvider */
 		$routeProvider

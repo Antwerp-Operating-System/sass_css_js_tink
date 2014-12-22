@@ -7,7 +7,7 @@
  * # DocsCtrl
  * Controller of the tinkApp
  */
- angular.module('tink.controllers')
+ angular.module('tinkFramework.controllers')
  .controller('LocationCtrl',['$scope','$routeParams',function ($scope, $routeParams) {
 
   // --- Define Controller Variables. ----------------- //

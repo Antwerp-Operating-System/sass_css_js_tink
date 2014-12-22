@@ -22,7 +22,7 @@
   <![endif]-->
 
 
-  <nav nav-header class="nav-top">
+  <nav data-tink-top-header nav-header class="nav-top">
     <ul class="nav-top-branding">
       <li class="logo">
         <a href="#" title=""><img src="images/playground/tink-logo.svg" alt="" /></a>
@@ -59,7 +59,7 @@
 
 
 
-  <aside data-tink-nav-aside class="nav-left">
+  <aside data-tink-nav-aside data-accordion="false" data-accordion-first="true" class="nav-left">
     <ul class="nav-aside-list" role="sidenav">
       <li>
         <a href="#/menu1">
@@ -161,12 +161,16 @@
 
   <!-- build:js({.tmp,app}) scripts/scripts.js -->
   <script src="scripts/app.js"></script>
-  <script src="scripts/directives/tinkHeader.js"></script>
+  <script src="scripts/directives/tinkmain.js"></script>
+  <script src="scripts/directives/tinkTopNav.js"></script>
   <script src="scripts/directives/tinkDatepickerRange.js"></script>
   <script src="scripts/services/tinkDateHelper.js"></script>
   <script src="scripts/services/tinkSafeApply.js"></script>
   <script src="scripts/directives/tinkValidDate.js"></script>
   <script src="scripts/controllers/locationCtrl.js"></script>
+  <script src="scripts/directives/tinkPopover.js"></script>
+  <script src="scripts/directives/tinkTooltip.js"></script>
+  <script src="scripts/directives/tinkNavAside.js"></script>
   <!-- endbuild -->
 </body>
 </html>

@@ -1,6 +1,6 @@
   'use strict';
-  angular.module('tink.header', []);
-  angular.module('tink.header')
+  angular.module('tink.topNav', []);
+  angular.module('tink.topNav')
   .provider('tinkApi', function () {
   var _options = {};
 
@@ -12,9 +12,21 @@
       return angular.copy(_options);
     },
     $get: ['$window', function ($window) {
-      console.log($window)
-      if($window.tinkApi){
-        return $window.tinkApi;
+       var navigationOptions = {};
+
+      return {
+        sideNavigation: {
+          options:function(options){
+            navigationOptions = options;
+          },
+          init: function(options){
+            navigationOptions = options;
+            $window.tinkApi.sideNavigation(navigationOptions);
+          },
+          toggleMenu: function(){
+            $window.tinkApi.sideNavigation(navigationOptions).toggleMenu();
+          }
+        }
       }
       
     }]
@@ -25,17 +37,17 @@
     restrict:'AE',
     priority:99,
     link:function(scope,elem){
-     var changeHeight = function(){
+    var changeHeight = function(){
       var height = elem[0].clientHeight;
       angular.element($document[0].body).css({ 'padding-top': height+'px' });
     };
     var toggle = angular.element(elem[0].querySelector('li.toggle'))
-      angular.element(toggle[0].querySelector('a'))[0].href = 'javascript:void(0)';
      
       toggle.bind("click", function(){
-        tinkApi.sideNavigation().toggleMenu();
-        console.log("go go")
+       tinkApi.sideNavigation.toggleMenu();
+        return false;
       });
+
     changeHeight();
     angular.element($window).bind('resize',changeHeight);
 
