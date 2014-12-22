@@ -273,6 +273,13 @@ module.exports = function (grunt) {
         'svgmin'
       ]
     },
+    svgmin: {
+    options: {
+        plugins: {
+            removeViewBox: false
+        }
+    }
+},
     cssmin: {
       options: {
         banner: '/*! Tink v<%= yeoman.version %> */'
