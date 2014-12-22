@@ -3,7 +3,7 @@
   "version": "0.7.0",
   "main": [
     "framework/styles/tink.min.css",
-    "framework/scripts/api.min.js"
+    "framework/scripts/api.min.js",
     "framework/scripts/tink-directives.min.js"
   ],
   "ignore": [
