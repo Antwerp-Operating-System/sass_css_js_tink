@@ -4,8 +4,8 @@
  * V2.14
  * */
 
-angular.module('tink.datepicker', []);
-angular.module('tink.datepicker')
+angular.module('tink', []);
+angular.module('tink')
   .factory('dimensions', [function () {
     var fn = {};
 

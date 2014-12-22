@@ -1,8 +1,9 @@
 {
   "name": "Tink",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "main": [
     "framework/styles/tink.min.css",
+    "framework/scripts/api.min.js",
     "framework/scripts/tink-directives.min.js"
   ],
   "ignore": [

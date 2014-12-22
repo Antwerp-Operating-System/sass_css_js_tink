@@ -1,6 +1,7 @@
 {
   "node": true,
   "browser": true,
+  "scripturl": true,
   "esnext": true,
   "bitwise": true,
   "camelcase": true,
@@ -19,6 +20,8 @@
   "trailing": true,
   "smarttabs": true,
   "globals": {
-    "angular": false
+    "angular": false,
+    "$": false,
+    "jQuery": false
   }
 }

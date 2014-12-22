@@ -7,7 +7,7 @@
  * # DocsCtrl
  * Controller of the tinkApp
  */
- angular.module('tink.controllers')
+ angular.module('tinkFramework.controllers')
  .controller('LocationCtrl',['$scope','$routeParams',function ($scope, $routeParams) {
 
   // --- Define Controller Variables. ----------------- //
@@ -29,10 +29,10 @@
 
       // Check for subsubpage
       if ($routeParams.subpage !== undefined) {
-        subpage = $routeParams.subpage;
+        subpage = $routeParams.subpage;console.log("d")
         $scope.subview = 'views/' + page + '-' + subpage + '.html';
       } else {
-        $scope.subview = 'views/main.html';
+        $scope.subview = 'views/main.html';console.log("dd")
       }
     }
   }

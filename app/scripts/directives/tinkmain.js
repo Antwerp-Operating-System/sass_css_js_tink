@@ -5,5 +5,7 @@ angular.module('tink', [
 		'tink.popOver',
 		'tink.tooltip',
 		'tink.datepicker',
-		'tink.topNav'
+		'tink.topNav',
+		'tink.sideNav',
+		'tink.dropdown'
 	]);
