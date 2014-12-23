@@ -20,7 +20,6 @@ angular.module('tinkFramework', [
     'tink'
   ])
   	.config(function ($routeProvider) { /*, $locationProvider */
-  		console.log($routeProvider)
 		$routeProvider
 			.when('/', {
 				templateUrl: 'views/main.html'
