@@ -29,10 +29,10 @@
 
       // Check for subsubpage
       if ($routeParams.subpage !== undefined) {
-        subpage = $routeParams.subpage;console.log("d")
+        subpage = $routeParams.subpage;
         $scope.subview = 'views/' + page + '-' + subpage + '.html';
       } else {
-        $scope.subview = 'views/main.html';console.log("dd")
+        $scope.subview = 'views/main.html';
       }
     }
   }
