@@ -118,7 +118,7 @@ angular.module('tink.dropdown', [])
 
 .directive('tinkDropdown', function() {
   return {
-    controller: 'DropdownController',
+    controller: 'tinkDropdownController',
     link: function(scope, element, attrs, dropdownCtrl) {
       dropdownCtrl.init( element );
     }
