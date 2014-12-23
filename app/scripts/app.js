@@ -16,14 +16,15 @@ angular.module('tinkFramework', [
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'tink.controllers',
+    'tinkFramework.controllers',
     'tink'
   ])
   	.config(function ($routeProvider) { /*, $locationProvider */
+  		console.log($routeProvider)
 		$routeProvider
 			.when('/', {
-				templateUrl: 'views/main.html',
-				// controller: 'MainCtrl'
+				templateUrl: 'views/main.html'
+				//controller: 'MainCtrl'
 			})
 			.when('/datepicker', {
 				templateUrl: 'views/datepickertest.html'

@@ -7,5 +7,6 @@ angular.module('tink', [
 		'tink.datepicker',
 		'tink.topNav',
 		'tink.sideNav',
-		'tink.dropdown'
+		'tink.dropdown',
+		'tink.templates'
 	]);
