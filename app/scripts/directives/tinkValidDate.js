@@ -1,5 +1,5 @@
   'use strict';
-  angular.module('tink.datepicker',['tink.dateHelper','tink.safeApply'])
+  angular.module('tink.validDate',['tink.dateHelper','tink.safeApply'])
   .directive('tinkValidDate', ['$timeout', '$filter','dateCalculator','safeApply', function ($timeout, $filter,dateCalculator,safeApply) {
     return {
       require: 'ngModel',

@@ -59,7 +59,7 @@
 
         var options = $.extend( {}, defaults, opts );
 
-		options.menuStr = convertToElement(options.menuStr);
+		options.menuStr = $(options.menuStr);
 
 		if(options.gotoPage){
 			options.accordion = true;
@@ -148,8 +148,7 @@
 		var urlDomMap = {};
 		// map urls with elements
 		(function mapUrls(){
-			var aMap = options.menuStr.querySelectorAll('li a[href]');
-
+			var aMap = options.menuStr.find('li a[href]');
 			[].forEach.call(aMap,function (el) {
 			        urlDomMap[el.href] = el;
 			    }
@@ -202,7 +201,7 @@
 
 		var calculateTop = function(){
 
-            if($(options.topNav).length === 1){console.log($(options.topNav).outerHeight());
+            if($(options.topNav).length === 1){
 
                     $(options.menuStr).css('top',$(options.topNav).outerHeight());
                 }

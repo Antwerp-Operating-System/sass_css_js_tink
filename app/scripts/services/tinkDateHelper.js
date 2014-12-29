@@ -3,10 +3,10 @@ angular.module('tink.dateHelper', []);
 angular.module('tink.dateHelper')
 .factory('dateCalculator', function () {
   var nl = {
-    'DAY': ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
-    'MONTH': ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
-    'SHORTDAY': ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
-    'SHORTMONTH': ['jan.', 'feb.', 'mrt.', 'apr.', 'mei', 'jun.', 'jul.', 'aug.','sep.', 'okt.', 'nov.', 'dec.']
+    'DAY': ['Zondag', 'Maandag', 'DinsDag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'],
+    'MONTH': ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus', 'September', 'Oktober', 'November', 'December'],
+    'SHORTDAY': ['Zo', 'Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za'],
+    'SHORTMONTH': ['Jan', 'Feb', 'Mrt', 'Apr', 'Mei', 'Jun', 'Jul', 'Aug','Sep', 'Okt', 'Nov', 'Dec']
   },
   dateFormat = (function () {
     var token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
@@ -124,6 +124,7 @@ angular.module('tink.dateHelper')
     var month = parseInt(dateItems[monthIndex]);
     month -= 1;
     var formatedDate = new Date(dateItems[yearIndex], month, dateItems[dayIndex]);
+
     return formatedDate;
   }
 
@@ -164,7 +165,7 @@ angular.module('tink.dateHelper')
       }
     },
     getDate: function (date, format) {
-      if(!angular.isDefined(date) || !angular.isDefined(format) || date.length !== format.length){
+      if(!angular.isDefined(date) || !angular.isDefined(format) ){
         return null;
       }      
       return stringToDate(date, format);
@@ -186,10 +187,10 @@ angular.module('tink.dateHelper')
     formatDate: function (date, format) {
         return dateFormat(date, format,null,nl);
     },
-    getShortDays: function (lang) {
+    getShortDays: function (lang) { 
 
       if (lang !== angular.isDefined(lang)) {
-        lang = '';
+        lang = 'nl';
       }
       switch (lang.toLowerCase()) {
         case 'nl':
@@ -198,7 +199,7 @@ angular.module('tink.dateHelper')
     },
     getShortMonths: function (lang) {
       if (lang !== angular.isDefined(lang)) {
-        lang = '';
+        lang = 'nl';
       }
       switch (lang.toLowerCase()) {
         case 'nl':
@@ -207,7 +208,7 @@ angular.module('tink.dateHelper')
     },
     getDays: function (lang) {
       if (lang !== angular.isDefined(lang)) {
-        lang = '';
+        lang = 'nl';
       }
       switch (lang.toLowerCase()) {
         case 'nl':
@@ -216,7 +217,7 @@ angular.module('tink.dateHelper')
     },
     getMonths: function (lang) {
       if (lang !== angular.isDefined(lang)) {
-        lang = '';
+        lang = 'nl';
       }
       switch (lang.toLowerCase()) {
         case 'nl':
