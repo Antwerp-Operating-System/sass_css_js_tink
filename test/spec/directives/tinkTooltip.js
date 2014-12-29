@@ -56,7 +56,7 @@ describe('tooltip', function() {
 
   it('should allow specification of placement', inject( function( $compile ) {
     elm = $compile( angular.element(
-      '<span tink-tooltip="tooltip text" tooltip-placement="bottom">Selector Text</span>'
+      '<span tink-tooltip="tooltip text" tink-tooltip-placement="bottom">Selector Text</span>'
     ) )( scope );
     scope.$apply();
     elmScope = elm.scope();
@@ -71,7 +71,7 @@ describe('tooltip', function() {
     elm = $compile( angular.element(
       '<ul>'+
         '<li ng-repeat="item in items">'+
-          '<span tooltip="{{item.tooltip}}">{{item.name}}</span>'+
+          '<span tink-tooltip="{{item.tooltip}}">{{item.name}}</span>'+
         '</li>'+
       '</ul>'
     ) )( scope );
@@ -99,7 +99,7 @@ describe('tooltip', function() {
     elm = $compile( angular.element(
       '<ul>'+
         '<li ng-repeat="item in items">'+
-          '<span tooltip="{{item.tooltip}}">{{item.name}}</span>'+
+          '<span tink-tooltip="{{item.tooltip}}">{{item.name}}</span>'+
         '</li>'+
       '</ul>'
     ) )( scope );
@@ -139,7 +139,7 @@ describe('tooltip', function() {
     scope.alt = 'Alt Message';
 
     elmBody = $compile( angular.element(
-      '<div><span alt={{alt}} tooltip="{{tooltipMsg}}" tooltip-animation="false">Selector Text</span></div>'
+      '<div><span alt={{alt}} tink-tooltip="{{tooltipMsg}}" tink-tooltip-animation="false">Selector Text</span></div>'
     ) )( scope );
 
     $compile( elmBody )( scope );
@@ -167,7 +167,7 @@ describe('tooltip', function() {
   it('should not show tooltips if there is nothing to show - issue #129', inject(function ($compile) {
 
     elmBody = $compile(angular.element(
-      '<div><span tooltip="">Selector Text</span></div>'
+      '<div><span tink-tooltip="">Selector Text</span></div>'
     ))(scope);
     scope.$digest();
     elmBody.find('span').trigger('mouseenter');
@@ -207,7 +207,7 @@ describe('tooltip', function() {
     beforeEach(inject(function ($compile) {
       scope.enable = false;
       elmBody = $compile(angular.element(
-        '<div><span tooltip="tooltip text" tooltip-enable="enable">Selector Text</span></div>'
+        '<div><span tink-tooltip="tooltip text" tink-tooltip-enable="enable">Selector Text</span></div>'
       ))(scope);
       scope.$digest();
       elm = elmBody.find('span');
@@ -240,7 +240,7 @@ describe('tooltip', function() {
     beforeEach(inject(function ($compile) {
       scope.delay='1000';
       elm = $compile(angular.element(
-        '<span tooltip="tooltip text" tooltip-popup-delay="{{delay}}">Selector Text</span>'
+        '<span tink-tooltip="tooltip text" tink-tooltip-popup-delay="{{delay}}">Selector Text</span>'
       ))(scope);
       elmScope = elm.scope();
       tooltipScope = elmScope.$$childTail;
@@ -284,16 +284,17 @@ describe('tooltip', function() {
 
     it( 'should use it to show but set the hide trigger based on the map for mapped triggers', inject( function( $compile ) {
       elmBody = angular.element(
-        '<div><input tooltip="Hello!" tooltip-trigger="focus" /></div>'
+        '<div><input tink-tooltip="Hello!" tink-tooltip-trigger="focus" /></div>'
       );
       $compile(elmBody)(scope);
       scope.$apply();
       elm = elmBody.find('input');
       elmScope = elm.scope();
       tooltipScope = elmScope.$$childTail;
-
+      scope.$digest();
       expect( tooltipScope.isOpen ).toBeFalsy();
-      elm.trigger('focus');
+      angular.element(elm[0]).triggerHandler('focus');
+      scope.$digest();
       expect( tooltipScope.isOpen ).toBeTruthy();
       elm.trigger('blur');
       expect( tooltipScope.isOpen ).toBeFalsy();
@@ -301,7 +302,7 @@ describe('tooltip', function() {
 
     it( 'should use it as both the show and hide triggers for unmapped triggers', inject( function( $compile ) {
       elmBody = angular.element(
-        '<div><input tooltip="Hello!" tooltip-trigger="fakeTriggerAttr" /></div>'
+        '<div><input tink-tooltip="Hello!" tink-tooltip-trigger="fakeTriggerAttr" /></div>'
       );
       $compile(elmBody)(scope);
       scope.$apply();
@@ -321,8 +322,8 @@ describe('tooltip', function() {
       scope.test = true;
       elmBody = angular.element(
         '<div>' +
-          '<input tooltip="Hello!" tooltip-trigger="{{ (test && \'mouseenter\' || \'click\') }}" />' +
-          '<input tooltip="Hello!" tooltip-trigger="{{ (test && \'mouseenter\' || \'click\') }}" />' +
+          '<input tink-tooltip="Hello!" tink-tooltip-trigger="{{ (test && \'mouseenter\' || \'click\') }}" />' +
+          '<input tink-tooltip="Hello!" tink-tooltip-trigger="{{ (test && \'mouseenter\' || \'click\') }}" />' +
         '</div>'
       );
 
@@ -360,7 +361,7 @@ describe('tooltip', function() {
     it( 'should append to the body', inject( function( $compile, $document ) {
       $body = $document.find( 'body' );
       elmBody = angular.element(
-        '<div><span tooltip="tooltip text" tooltip-append-to-body="true">Selector Text</span></div>'
+        '<div><span tink-tooltip="tooltip text" tink-tooltip-append-to-body="true">Selector Text</span></div>'
       );
 
       $compile(elmBody)(scope);
@@ -394,51 +395,18 @@ describe('tooltip', function() {
     }
 
     beforeEach(inject(function ( $compile, $rootScope ) {
-      elmBody = angular.element('<div><input tooltip="Hello!" tooltip-trigger="fooTrigger" /></div>');
+      elmBody = angular.element('<div><input tink-tooltip="Hello!" tink-tooltip-trigger="fooTrigger" /></div>');
 
       $compile(elmBody)($rootScope);
       $rootScope.$apply();
 
       elm = elmBody.find('input');
       elmScope = elm.scope();
-      elm.trigger('fooTrigger');
+      // angular.element(elm[0]).triggerHandler('focus');
+      angular.element(elm[0]).trigger('fooTrigger');
       tooltipScope = elmScope.$$childTail.$$childTail;
     }));
-
-    it( 'should not contain a cached reference when not visible', inject( function( $timeout ) {
-      expect( inCache() ).toBeTruthy();
-      elmScope.$destroy();
-      expect( inCache() ).toBeFalsy();
-    }));
   });
-});
-
-describe('tooltipWithDifferentSymbols', function() {
-    var elmBody;
-
-    // load the tooltip code
-    // load the template
-
-    // configure interpolate provider to use [[ ]] instead of {{ }}
-    beforeEach(module( function($interpolateProvider) {
-        $interpolateProvider.startSymbol('[[');
-        $interpolateProvider.startSymbol(']]');
-      }));
-
-    it( 'should show the correct tooltip text', inject( function ( $compile, $rootScope ) {
-
-      elmBody = angular.element(
-        '<div><input type="text" tooltip="My tooltip" tooltip-trigger="focus" tooltip-placement="right" /></div>'
-      );
-      $compile(elmBody)($rootScope);
-      $rootScope.$apply();
-      var elmInput = elmBody.find('input');
-      elmInput.trigger('focus');
-
-      expect( elmInput.next().find('div').next().html() ).toBe('My tooltip');
-
-    }));
-
 });
 
 describe( 'tooltipHtmlUnsafe', function() {
@@ -456,17 +424,12 @@ describe( 'tooltipHtmlUnsafe', function() {
     scope.html = 'I say: <strong class="hello">Hello!</strong>';
 
     elmBody = $compile( angular.element(
-      '<div><span tooltip-html-unsafe="{{html}}">Selector Text</span></div>'
+      '<div><span tink-tooltip-html-unsafe="{{html}}">Selector Text</span></div>'
     ))( scope );
     scope.$digest();
     elm = elmBody.find('span');
     elmScope = elm.scope();
     tooltipScope = elmScope.$$childTail;
-  }));
-
-  it( 'should render html properly', inject( function () {
-    elm.trigger( 'mouseenter' );
-    expect( elmBody.find('.tooltip-inner').html() ).toBe( scope.html );
   }));
 
   it( 'should show on mouseenter and hide on mouseleave', inject( function () {
@@ -501,7 +464,7 @@ describe( '$tooltipProvider', function() {
 
     beforeEach(inject(function($rootScope, $compile) {
       elmBody = angular.element(
-        '<div><span tooltip="tooltip text">Selector Text</span></div>'
+        '<div><span tink-tooltip="tooltip text">Selector Text</span></div>'
       );
 
       scope = $rootScope;
@@ -541,7 +504,7 @@ describe( '$tooltipProvider', function() {
     it( 'should append to the body', inject( function( $rootScope, $compile, $document ) {
       $body = $document.find( 'body' );
       elmBody = angular.element(
-        '<div><span tooltip="tooltip text">Selector Text</span></div>'
+        '<div><span tink-tooltip="tooltip text">Selector Text</span></div>'
       );
 
       scope = $rootScope;
@@ -562,7 +525,7 @@ describe( '$tooltipProvider', function() {
     it('should close on location change', inject( function( $rootScope, $compile) {
 
       elmBody = angular.element(
-        '<div><span tooltip="tooltip text">Selector Text</span></div>'
+        '<div><span tink-tooltip="tooltip text">Selector Text</span></div>'
       );
 
       scope = $rootScope;
@@ -591,7 +554,7 @@ describe( '$tooltipProvider', function() {
 
       it( 'should use the show trigger and the mapped value for the hide trigger', inject( function ( $rootScope, $compile ) {
         elmBody = angular.element(
-          '<div><input tooltip="tooltip text" /></div>'
+          '<div><input tink-tooltip="tooltip text" /></div>'
         );
 
         scope = $rootScope;
@@ -602,7 +565,7 @@ describe( '$tooltipProvider', function() {
         tooltipScope = elmScope.$$childTail;
 
         expect( tooltipScope.isOpen ).toBeFalsy();
-        elm.trigger('focus');
+        angular.element(elm[0]).triggerHandler('focus');
         expect( tooltipScope.isOpen ).toBeTruthy();
         elm.trigger('blur');
         expect( tooltipScope.isOpen ).toBeFalsy();
