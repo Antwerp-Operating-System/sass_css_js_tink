@@ -36,7 +36,7 @@
                     scope.firstDate = null;
                   }
                 }
-                stopWatch();console.log(dateCalculator.format(date, config.dateFormat))
+                stopWatch();
                 scope.firstDateModel = dateCalculator.format(date, config.dateFormat);
                 startWatch();
               }else{
