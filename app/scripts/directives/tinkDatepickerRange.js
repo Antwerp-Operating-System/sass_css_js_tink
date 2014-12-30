@@ -144,6 +144,7 @@ startWatch();
                // -- Copy the viewDate ! COPY otherwhise you got problems, because of refenties and stuff ;-)  --/
                 var copyViewDate = new Date($directive.viewDate);
                // -- add a month  --/
+               copyViewDate.setDate(5);
                copyViewDate.setMonth(copyViewDate.getMonth() + 1);
 
                // -- place the right titles in the scope  --/
@@ -166,6 +167,7 @@ startWatch();
             // -- to change the month of the calender --/
             function nextMonth() {
               // -- add one month to the viewDate --/
+              $directive.viewDate.setDate(1);
               $directive.viewDate.setMonth($directive.viewDate.getMonth() + 1);
               // -- reload the viewdate :P  --/
               setViewDate($directive.viewDate);

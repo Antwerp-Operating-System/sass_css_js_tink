@@ -91,9 +91,44 @@ describe('datepicker range', function() {
       angular.element(elm.find('input')[0]).triggerHandler('change');
       angular.element(elm.find('input')[0]).triggerHandler('blur');
       scope.$digest();
-      expect(scope.dates.first).toBeUndefined();
+      expect(scope.dates.first).toBeNull();
+    });
 
-    });		
+     it('should correctly change when scope changes', function() {
+      var elm = compileDirective('default');
+      scope.dates.first = new Date(2015,0,20);
+      scope.dates.last = new Date(2015,1,20);
+      scope.$digest();
+      expect(sandboxEl.find('input:first').val()).toBe('20/01/2015');
+      expect(sandboxEl.find('input:last').val()).toBe('20/02/2015');
+    });
+
+     it('should correctly change when next month is clicked', function() {
+      var elm = compileDirective('default');
+
+     	expect(sandboxEl.find('div label')[0].innerText).toBe('December 2014');
+			expect(sandboxEl.find('div label')[1].innerText).toBe('Januari 2015');
+      elm.find('button.btn.pull-left:last').triggerHandler('click');
+      scope.$digest();
+      expect(sandboxEl.find('div label')[0].innerText).toBe('Januari 2015');
+			expect(sandboxEl.find('div label')[1].innerText).toBe('Februari 2015');
+    });
+
+
+     it('should correctly change view month when selecting next month button', function() {
+      var elm = compileDirective('default');
+      // set date to last day of January
+      scope.dates.first = new Date(2014, 0, 31);
+
+      scope.$digest();
+      angular.element(elm.find('input')[0]).triggerHandler('focus');
+      for (var nextMonth = 1; nextMonth < 24; nextMonth++) {
+        // should show next month view when selecting next month button
+        elm.find('button.btn.pull-left:last').triggerHandler('click');
+        expect(sandboxEl.find('div label')[0].innerText).toBe(dateCalculator.format(new Date(2014, nextMonth, 1), 'MMMM yyyy'));
+				expect(sandboxEl.find('div label')[1].innerText).toBe(dateCalculator.format(new Date(2014, nextMonth+1, 1), 'MMMM yyyy'));
+      }
+    });
 
 	})
 
