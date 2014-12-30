@@ -147,14 +147,29 @@ describe('datepicker range', function() {
 
     it('should correctly display today date', function() {
         var elm = compileDirective('default');
-        console.log(today)
         var daybefore = new Date(today);
         daybefore.setDate(today.getDate()-1);
         scope.dates.first = daybefore;
         scope.$digest();
         angular.element(elm.find('input')[0]).triggerHandler('focus');
-        expect(today.getDate()).toBe(sandboxEl.find('button.btn-warning span').text());
+        expect(today.getDate()+'').toBe(sandboxEl.find('button.btn-warning span').text());
       });
+
+    it('should correctly have number of days in month', function() {
+       var elm = compileDirective('default');
+      // set date to last day of January
+      scope.dates.first = new Date(2014, 0, 1);
+
+      scope.$digest();
+      angular.element(elm.find('input')[0]).triggerHandler('focus');
+      for (var nextMonth = 1; nextMonth < 24; nextMonth++) {
+        // should show next month view when selecting next month button
+        elm.find('button.btn.pull-left:last').triggerHandler('click');
+       expect(sandboxEl.find('table:first tr span:last').text()).toBe(new Date(2014, nextMonth+1, 0).getDate()+'');
+       expect(sandboxEl.find('table:last tr span:last').text()).toBe(new Date(2014, nextMonth+2, 0).getDate()+'');
+
+      }
+    });
 
 	})
 
