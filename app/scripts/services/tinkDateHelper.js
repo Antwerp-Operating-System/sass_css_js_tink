@@ -165,7 +165,7 @@ angular.module('tink.dateHelper')
       }
     },
     getDate: function (date, format) {
-      if(!angular.isDefined(date) || !angular.isDefined(format) ){
+      if(!angular.isDefined(date) || !angular.isDefined(format) || date.trim()===""){
         return null;
       }      
       return stringToDate(date, format);

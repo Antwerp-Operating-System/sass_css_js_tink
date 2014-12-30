@@ -22,7 +22,7 @@ describe('datepicker range', function() {
 	
 	var templates = {
 		'default': {
-			scope: {dates: {first:new Date(2014,12,30),last:null}},
+			scope: {dates: {first:new Date(2014,11,30),last:null}},
 			element: '<tink-datepicker-range data-first-date="dates.first" data-last-date="dates.last"></tink-datepicker-range>'
 		},
 		'no-dates': {
@@ -70,19 +70,30 @@ describe('datepicker range', function() {
 
 		 it('should correctly display active date', function() {
       var elm = compileDirective('default');
-      angular.element(elm[0]).triggerHandler('focus');
-      var date = new Date(2014,12,30);
+      angular.element(elm.find('input')[0]).triggerHandler('focus');
+      var date = new Date(2014,11,30);
       scope.$digest();
       expect(sandboxEl.find('input:first').val()).toBe(date.getDate() + '/'+("0"+(date.getMonth() + 1)).slice(-2) + '/'+ date.getFullYear() );
     });
 
 		it('should correctly select a new date', function() {
       var elm = compileDirective('default');
-      angular.element(elm[0]).triggerHandler('focus');
-      angular.element(sandboxEl.find('.dropdown-menu tbody .btn:contains(15)')[0]).triggerHandler('click');
-      expect(elm.val()).toBe('15/'+(today.getMonth() + 1) + '/' + today.getFullYear());
+      angular.element(elm.find('input')[0]).triggerHandler('focus');
+      angular.element(sandboxEl.find("tr td button:contains(18)")[0]).triggerHandler('click');
+      var date = new Date(2014,11,18);
+      expect(sandboxEl.find('input:first').val()).toBe(date.getDate() + '/'+("0"+(date.getMonth()+1)).slice(-2) + '/'+ date.getFullYear() );
     });
-		
+
+     it('should invalidate input with non-existing manually typed value', function() {
+      var elm = compileDirective('default');
+      angular.element(elm.find('input')[0]).triggerHandler('focus');
+      elm.find('input:first').val('02/31/14');
+      angular.element(elm.find('input')[0]).triggerHandler('change');
+      angular.element(elm.find('input')[0]).triggerHandler('blur');
+      scope.$digest();
+      expect(scope.dates.first).toBeUndefined();
+
+    });		
 
 	})
 

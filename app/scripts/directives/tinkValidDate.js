@@ -19,7 +19,6 @@
             if(date.length !== 10){ return false; }
 
             var dateObject = dateCalculator.getDate(date, format);
-
             if(dateObject !== 'INVALID DATE'){
               return true;
             }
@@ -31,13 +30,24 @@
         $element.bind('blur', function() {
 
           safeApply($scope,function() {
-            if(checkForValid($element.val(),format)){
+            if(validFormat($element.val(),format)){
+              checkForValid($element.val(),format)
               ctrl.$setViewValue($element.val());
             }else{
              ctrl.$setViewValue(undefined);
            }
            
          });         
+        });
+
+        $element.bind('input change', function() {
+          safeApply($scope,function() {
+            if(validFormat($element.val(),format)){
+              ctrl.$setViewValue($element.val());
+            }
+          }); 
+
+
         });
            //format text going to user (model to view)
            ctrl.$formatters.push(checkForValid);

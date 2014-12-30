@@ -23,7 +23,7 @@
 
             scope.$watch('firstDate', function (newDate, oldDate) {
               var date;
-              if (oldDate !== null && angular.isDefined(newDate) && newDate !== null) {
+              if (angular.isDefined(newDate) && newDate !== null) {
                 if (angular.isDate(newDate)) {
                   date = newDate;
                   setViewDate(newDate);
@@ -50,7 +50,7 @@
 
             // Add a watch to know when input changes from the outside //
             scope.$watch('lastDate', function (newDate, oldDate) {
-              if (oldDate !== null && angular.isDefined(newDate) && newDate !== null) {
+              if (angular.isDefined(newDate) && newDate !== null) {
                 if (angular.isDate(newDate)) {
                  setViewDate(newDate);
                } else {
@@ -79,7 +79,11 @@
             function startWatch(){
               firstDateWatch =  scope.$watch('firstDateModel',function(newDate,oldDate){
                 if(newDate !== oldDate){
-                  scope.$select(newDate,config.dateFormat,true);
+                  if(newDate === undefined){
+                    scope.firstDateModel = '';
+                  }else{
+                    scope.$select(newDate,config.dateFormat,true);
+                  }                  
                 }
               });
 
