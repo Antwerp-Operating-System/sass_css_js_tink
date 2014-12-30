@@ -130,6 +130,32 @@ describe('datepicker range', function() {
       }
     });
 
+    it('should correctly change view month when selecting previous month button', function() {
+      var elm = compileDirective('default');
+      // set date to last day of December
+      scope.dates.first = new Date(2015, 11, 31);
+      scope.$digest();
+      angular.element(elm.find('input')[0]).triggerHandler('focus');
+
+      for (var previousMonth = 10; previousMonth > -12; previousMonth--) {
+        // should show previous month view when selecting previous month button
+       elm.find('button.btn.pull-left:first').triggerHandler('click');
+        expect(sandboxEl.find('div label')[0].innerText).toBe(dateCalculator.format(new Date(2015, previousMonth, 1), 'MMMM yyyy'));
+				expect(sandboxEl.find('div label')[1].innerText).toBe(dateCalculator.format(new Date(2015, previousMonth+1, 1), 'MMMM yyyy'));
+      }
+    });
+
+    it('should correctly display today date', function() {
+        var elm = compileDirective('default');
+        console.log(today)
+        var daybefore = new Date(today);
+        daybefore.setDate(today.getDate()-1);
+        scope.dates.first = daybefore;
+        scope.$digest();
+        angular.element(elm.find('input')[0]).triggerHandler('focus');
+        expect(today.getDate()).toBe(sandboxEl.find('button.btn-warning span').text());
+      });
+
 	})
 
 	describe('with no dates', function() {

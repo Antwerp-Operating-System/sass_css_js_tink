@@ -175,6 +175,7 @@ startWatch();
             // -- to change the month of the calender --/
             function prevMonth() {
               // -- remove one month from the viewDate --/
+              $directive.viewDate.setDate(1);
               $directive.viewDate.setMonth($directive.viewDate.getMonth() - 1);
                // -- reload the viewdate woopwoop  --/
                setViewDate($directive.viewDate);
