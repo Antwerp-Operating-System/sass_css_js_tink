@@ -23,7 +23,7 @@
 
             scope.$watch('firstDate', function (newDate, oldDate) {
               var date;
-              if (newDate !== oldDate && angular.isDefined(newDate) && newDate !== null) {
+              if (oldDate !== null && angular.isDefined(newDate) && newDate !== null) {
                 if (angular.isDate(newDate)) {
                   date = newDate;
                   setViewDate(newDate);
@@ -36,7 +36,7 @@
                     scope.firstDate = null;
                   }
                 }
-                stopWatch();
+                stopWatch();console.log(dateCalculator.format(date, config.dateFormat))
                 scope.firstDateModel = dateCalculator.format(date, config.dateFormat);
                 startWatch();
               }else{
@@ -50,7 +50,7 @@
 
             // Add a watch to know when input changes from the outside //
             scope.$watch('lastDate', function (newDate, oldDate) {
-              if (newDate !== oldDate && angular.isDefined(newDate) && newDate !== null) {
+              if (oldDate !== null && angular.isDefined(newDate) && newDate !== null) {
                 if (angular.isDate(newDate)) {
                  setViewDate(newDate);
                } else {
@@ -138,13 +138,14 @@ startWatch();
                angular.element($directive.tbody.firstDateElem).replaceWith($compile( htmlFirst)( scope ));
 
                // -- Copy the viewDate ! COPY otherwhise you got problems, because of refenties and stuff ;-)  --/
-    var copyViewDate = new Date($directive.viewDate);
+                var copyViewDate = new Date($directive.viewDate);
                // -- add a month  --/
                copyViewDate.setMonth(copyViewDate.getMonth() + 1);
 
                // -- place the right titles in the scope  --/
                scope.firstTitle = dateCalculator.format($directive.viewDate, 'mmmm yyyy');
                scope.lastTitle = dateCalculator.format(copyViewDate, 'mmmm yyyy');
+
 
               // -- create the second view   --/
               var htmlLast = calView.createMonthDays(copyViewDate, scope.firstDate, scope.lastDate);
