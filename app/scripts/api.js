@@ -11,6 +11,12 @@
 
 	tinkApi.VERSION = '1.0.0';
 
+	tinkApi.util = {
+	    getCurrentURL: function () {
+	        return window.location.href;
+	    }
+	}
+
 	// Check if the element has the class
 	function elemHasClass(elem,classStr){
 		var elemHelp  = convertToElement(elem);
@@ -143,7 +149,11 @@
 			
 		};
 
-
+		var getCurrentLocation = {
+		    getHref: function () {
+		        return window.location.href;
+		    }
+		};
 
 		var urlDomMap = {};
 		// map urls with elements
@@ -162,7 +172,7 @@
 			if(el){
 				activeElem = el;
 			}else{
-				activeElem = $(urlDomMap[location.href]).parent();
+				activeElem = $(urlDomMap[tinkApi.util.getCurrentURL()]).parent();
 			}
 
 			if(activeElem && activeElem.hasClass('can-open')){
