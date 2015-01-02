@@ -220,17 +220,11 @@
 			
 		};
 		var openMenu = function(){
-			var menu = convertToElement(options.toggleMenu);
-				if(!elemHasClass(menu,options.toggleClass)){
-					menu.className  = menu.className + ' ' + options.toggleClass;
-				}
+			$(options.toggleMenu).toggleClass(options.toggleClass);
 		};
 
 		var closeMenu = function(){
-				var menu = convertToElement(options.toggleMenu);
-				if(elemHasClass(menu,options.toggleClass)){
-					menu.className = menu.className.replace(options.toggleClass,'');
-				}	
+			$(options.toggleMenu).toggleClass(options.toggleClass);
 		};
 
 		var calculateTop = function(){
@@ -257,7 +251,7 @@
 				closeMenu();
 			},
 			toggleMenu:function(){
-				if(elemHasClass(options.toggleMenu,options.toggleClass)){
+				if($(options.toggleMenu).hasClass(options.toggleClass)){
 					closeMenu();
 				}else{
 					openMenu();
