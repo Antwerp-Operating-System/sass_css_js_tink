@@ -49,6 +49,30 @@
 
 	}
 
+	tinkApi.topNavigation = function(opts){
+		var defaults = {
+			menuStr:'nav[data-tink-top-header]'
+		};
+
+		var calculateHeight = function(){
+			if($(defaults.menuStr).length === 1 ){
+				var height = $(defaults.menuStr)[0].clientHeight;
+      	$($(document)[0].body).css('padding-top',height+'px');
+			}			
+		}
+
+		var startLisener = function(){
+			$(window).bind('resize',calculateHeight);		
+		}		
+
+		return {
+			init:function(){
+				calculateHeight();
+				startLisener();
+			}
+		}
+	}
+
 	tinkApi.sideNavigation = function(opts){
 
 		var defaults = {
@@ -63,7 +87,7 @@
 			gotoPage:false
 		};
 
-        var options = $.extend( {}, defaults, opts );
+    var options = $.extend( {}, defaults, opts );
 
 		options.menuStr = $(options.menuStr);
 
