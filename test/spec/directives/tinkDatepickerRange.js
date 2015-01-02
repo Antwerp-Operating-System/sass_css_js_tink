@@ -175,7 +175,7 @@ describe('datepicker range', function() {
 
 	describe('with no dates', function() {
 			it('should open on focus', function() {
-				var elm = compileDirective('default');
+				var elm = compileDirective('no-dates');
 				expect(sandboxEl.find('.tink-datepickerrange').css("display")).toBe('none');
 				angular.element(elm.find('input')[0]).triggerHandler('focus');
 				scope.$digest();
@@ -183,7 +183,7 @@ describe('datepicker range', function() {
 			});
 
 			it('should close on blur', function() {
-				var elm = compileDirective('default');
+				var elm = compileDirective('no-dates');
 				expect(sandboxEl.find('.tink-datepickerrange').css("display")).toBe('none');
 				angular.element(elm.find('input')[0]).triggerHandler('focus');
 				scope.$digest();
@@ -193,7 +193,7 @@ describe('datepicker range', function() {
 			});
 
 			it('should open with right months', function() {
-				var elm = compileDirective('default');
+				var elm = compileDirective('no-dates');
 				angular.element(elm.find('input')[0]).triggerHandler('focus');
 				scope.$digest();
 				expect(sandboxEl.find('div label')[0].innerText).toBe(dateCalculator.format(today,"mmmm yyyy"));

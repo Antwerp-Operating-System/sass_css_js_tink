@@ -200,7 +200,7 @@ describe('first selected true',function(){
 		expect(sandboxEl.find('li.active').length).toBe(1);
 	});
 
-	it('Data accordion enabled open accordion should not change active element', function() {
+	it('Data accordion enabled open accordion should change active element to first element', function() {
 		spyOn($window.tinkApi.util, 'getCurrentURL').and.returnValue('http://localhost:8080/context.html#/menu1');
 		var elm = compileDirective('firstSelected');
 		scope.$digest();

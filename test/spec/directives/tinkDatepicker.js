@@ -234,14 +234,14 @@ describe('datepicker', function() {
       var elm = compileDirective('default');
       angular.element(elm[0]).triggerHandler('focus');
       expect(sandboxEl.find('.dropdown-menu tbody td .btn-primary').text().trim() * 1).toBe(today.getDate());
-      expect(elm.val()).toBe( today.getDate() + '/'+(today.getMonth() + 1) + '/'+ today.getFullYear() );
+      expect(elm.val()).toBe( ("0"+(today.getDate())).slice(-2) + '/'+("0"+(today.getMonth() + 1)).slice(-2) + '/'+ today.getFullYear() );
     });
 
     it('should correctly select a new date', function() {
       var elm = compileDirective('default');
       angular.element(elm[0]).triggerHandler('focus');
       angular.element(sandboxEl.find('.dropdown-menu tbody .btn:contains(15)')[0]).triggerHandler('click');
-      expect(elm.val()).toBe('15/'+(today.getMonth() + 1) + '/' + today.getFullYear());
+      expect(elm.val()).toBe('15/'+("0"+(today.getMonth() + 1)).slice(-2) + '/' + today.getFullYear());
     });
 
     it('should invalidate input with non-existing manually typed value', function() {
