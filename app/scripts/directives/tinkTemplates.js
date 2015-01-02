@@ -1,7 +1,7 @@
 'use strict';
 angular.module('tink.templates', [])
     .run(['$templateCache', function($templateCache) {
-      $templateCache.put('template/popover.html',
+      $templateCache.put('templates/popover.html',
         '<div class="popover {{placement}}" ng-class="{ in: isOpen(), fade: animation() }">'+
             '<div class="arrow"></div>'+
             '<div class="popover-inner">'+
@@ -10,7 +10,7 @@ angular.module('tink.templates', [])
            '</div>'+
         '</div>');
 
-      $templateCache.put('template/tinkDatePicker.html',
+      $templateCache.put('templates/tinkDatePicker.html',
         '<div class="dropdown-menu datepicker" ng-class="\'datepicker-mode-\' + $mode" style="max-width: 320px;">'+
         '<table style="table-layout: fixed; height: 100%; width: 100%;">'+
         '<thead>'+
@@ -45,7 +45,7 @@ angular.module('tink.templates', [])
     '</table>'+
 '</div>');
 
-$templateCache.put('template/tinkDatePickerRange.html',
+$templateCache.put('templates/tinkDatePickerRange.html',
         '<div class="tink-datepickerrange">'+
   '<div class="pull-left tink-datepickerrange-left">'+
     '<div class="tink-datepickerrange-header-left" style="line-height: 39px;">'+
@@ -92,13 +92,13 @@ $templateCache.put('template/tinkDatePickerRange.html',
 '</div>'+
   '</div>');
 
-$templateCache.put('template/tinkDatePickerRangeInputs.html',
+$templateCache.put('templates/tinkDatePickerRangeInputs.html',
     '<div>'+
   '<input type="text" id="firstDateElem" placeholder="mm/dd/yyyy"  ng-model="firstDateModel" ng-model-options="{ updateOn: \'blur\' }"  tink-valid-date data-format="dd/mm/yyyy" style="width: 200px;float: left;">'+
   '<input type="text" id="lastDateElem" placeholder="mm/dd/yyyy" ng-model="lastDateModel" ng-model-options="{ debounce: 1000 }" tink-valid-date data-format="dd/mm/yyyy" style="width: 200px;" >'+
   '</div>');
 
-$templateCache.put('template/tooltip.html',
+$templateCache.put('templates/tooltip.html',
     '<div class="tooltip {{placement}}" ng-class="{ in: isOpen(), fade: animation() }">'+
       '<div class="tooltip-arrow"></div>'+
       '<div class="tooltip-inner" ng-bind="content"></div>'+

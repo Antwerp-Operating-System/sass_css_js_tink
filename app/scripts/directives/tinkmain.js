@@ -1,6 +1,5 @@
 'use strict';
 angular.module('tink', [
-		'tink.datepicker',
 		'tink.datepickerRange',
 		'tink.popOver',
 		'tink.tooltip',
@@ -8,5 +7,6 @@ angular.module('tink', [
 		'tink.topNav',
 		'tink.sideNav',
 		'tink.dropdown',
-		'tink.templates'
+		'tink.templates',
+		'tink.validDate'
 	]);
