@@ -1,3 +1,4 @@
+'use strict';
 describe('popover', function() {
   var elm,
       elmBody,
@@ -11,7 +12,7 @@ describe('popover', function() {
   // load the template
   //beforeEach(module('tink.templates'));
 
-  beforeEach(inject(function($rootScope, $compile,dimensions) {
+  beforeEach(inject(function($rootScope, $compile) {
     elmBody = angular.element(
       '<div><span tink-popover="popover text">Selector Text</span></div>'
     );

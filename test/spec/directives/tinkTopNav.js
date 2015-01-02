@@ -1,12 +1,13 @@
+'use strict';
 describe('TopNavigation', function() {
 
   var bodyEl = $('body'), sandboxEl;
-  var $compile, $templateCache, $animate, dateFilter, $datepicker, scope, today, $timeout,dateCalculator,$window;
+  var $compile, $templateCache, $animate, dateFilter, $datepicker, scope, today, $timeout,dateCalculator,$window,tinkApi;
 
   beforeEach(module('tink'));
 
 
-  beforeEach(inject(function (_$rootScope_, _$compile_, _$templateCache_, _$animate_, _dateFilter_, _$datepicker_, _$timeout_,_dateCalculator_,_$window_) {
+  beforeEach(inject(function (_$rootScope_, _$compile_, _$templateCache_, _$animate_, _dateFilter_, _$datepicker_, _$timeout_,_dateCalculator_,_$window_,_tinkApi_) {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $templateCache = _$templateCache_;
@@ -19,6 +20,7 @@ describe('TopNavigation', function() {
     $datepicker = _$datepicker_;
     $timeout = _$timeout_;
     $window = _$window_;
+    tinkApi = _tinkApi_;
   }));
 
   afterEach(function() {
@@ -92,13 +94,22 @@ describe('TopNavigation', function() {
     }
   };
 
-  it('resize when window resizes ',function(){
+  it('resize padding when window resizes ',function(){
     var elm = compileDirective('default');
     var bodyStart = bodyEl.css('padding-top');
     bodyEl.css('width', '50px');
     $(window).trigger('resize');
     scope.$digest();
-     expect(bodyEl.css('padding-top')).toBeGreaterThan(bodyStart);
+    expect(bodyEl.css('padding-top')).toBeGreaterThan(bodyStart);
+    expect(bodyEl.css('padding-top')).toBe(elm.height()+'px');
+  });
+
+  it('when click on item expext to be called',function(){
+    var elm = compileDirective('default');
+    var spyToggle = spyOn(tinkApi.sideNavigation,'toggleMenu');
+    elm.find('li.toggle').triggerHandler('click');
+    scope.$digest();
+    expect(spyToggle).toHaveBeenCalled();
   });
 
 });

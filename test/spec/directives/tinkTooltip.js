@@ -1,3 +1,4 @@
+'use strict';
 describe('tooltip', function() {
   var elm,
       elmBody,
@@ -329,9 +330,7 @@ describe('tooltip', function() {
 
       $compile(elmBody)(scope);
       scope.$apply();
-      var elm1 = elmBody.find('input').eq(0);
       var elm2 = elmBody.find('input').eq(1);
-      var elmScope1 = elm1.scope();
       var elmScope2 = elm2.scope();
       var tooltipScope2 = elmScope2.$$childTail;
 
@@ -382,7 +381,7 @@ describe('tooltip', function() {
   describe('cleanup', function () {
     var elmBody, elm, elmScope, tooltipScope;
 
-    function inCache() {
+    /*function inCache() {
       var match = false;
 
       angular.forEach(angular.element.cache, function (item) {
@@ -392,7 +391,7 @@ describe('tooltip', function() {
       });
 
       return match;
-    }
+    }*/
 
     beforeEach(inject(function ( $compile, $rootScope ) {
       elmBody = angular.element('<div><input tink-tooltip="Hello!" tink-tooltip-trigger="fooTrigger" /></div>');
