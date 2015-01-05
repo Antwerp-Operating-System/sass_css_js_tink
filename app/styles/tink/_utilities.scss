@@ -103,16 +103,16 @@
 
 // Extra margin helpers
 // e.g. for use on rows that serve as e.g. actionbars (.actionbar extends both classes btw)
-.mb {
+.margin-bottom {
   margin-bottom: rem($padding-large-vertical * 1.5);
 }
-.mt {
+.margin-top {
   margin-top: rem($padding-large-vertical * 1.5);
 }
-.ml {
+.margin-left {
   margin-left: rem($padding-large-horizontal * 1.5);
 }
-.mr {
+.margin-right {
   margin-right: rem($padding-large-horizontal * 1.5);
 }
 
