@@ -314,7 +314,7 @@ startWatch();
               }
             };
 
-            function hide(evt) {
+            function hide(evt) { // TH comment out to inspect element
               if(!(evt.relatedTarget && evt.relatedTarget.nodeName === 'INPUT')){
                 templateElem.css({display: 'none'});
                 $directive.open = false;
