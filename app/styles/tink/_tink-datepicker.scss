@@ -3,8 +3,20 @@
 
 .tink-datepickerrange {
   // @extend .margin-top;
+  background: $white;
   box-shadow: 0 1px 2px rgba(0,0,0,.6);
   color: $gray-dark;
+  position: relative;
+
+  &:before {
+    background: $gray-light;
+    bottom: 0;
+    content: "";
+    left: 50%;
+    position: absolute;
+    top: 0;
+    width: 1px;
+  }
 
   .tink-datepickerrange-header-left,
   .tink-datepickerrange-header-right {
@@ -18,12 +30,9 @@
 
   .tink-datepickerrange-left,
   .tink-datepickerrange-right {
-    background: $white; //lighten($brand, 2);
     width: 50%;
   }
-  .tink-datepickerrange-right {
-    border-left: 1px solid $gray-light;
-  }
+
 
   button, .btn {
     @extend .no-border;
@@ -44,6 +53,7 @@
       color: $white;
     }
   }
+  table { margin-bottom: 0; }
   td, th {
     border: none;
     color: $gray;
