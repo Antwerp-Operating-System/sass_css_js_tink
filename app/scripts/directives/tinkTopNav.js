@@ -43,12 +43,15 @@
     priority:99,
     link:function(scope,elem){
     var toggle = angular.element(elem[0].querySelector('li.toggle'));
-     
       toggle.bind('click', function(){
-       tinkApi.sideNavigation.toggleMenu();
-        return false;
+        if(tinkApi){
+          tinkApi.sideNavigation.toggleMenu();
+          return false;
+        }       
       });
-      tinkApi.topNavigation.init();
+      if(tinkApi){
+        tinkApi.topNavigation.init();
+      }
   }
 };
 }]);
