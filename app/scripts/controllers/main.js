@@ -14,5 +14,5 @@ angular.module('tinkFramework.controllers')
 
   scope.go = function(){
   	console.log(scope.dates);
-  }
+  };
 }]);
