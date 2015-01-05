@@ -15,41 +15,9 @@
 	    getCurrentURL: function () {
 	        return window.location.href;
 	    }
-	}
+	};
 
-	// Check if the element has the class
-	function elemHasClass(elem,classStr){
-		var elemHelp  = convertToElement(elem);
-		if(elemHelp && elem.className){
-			if(elemHelp.className.indexOf(classStr) !== -1){
-				return true;
-			}else{
-				return false;
-			}
-		}else{
-			return false;
-		}
-	}
-	/*
-	*	If a string is given it will search for a domElement !
-	*	with the querySelector
-	*	if a domelement is given it wil return that domElement
-	*/
-	function convertToElement(str){
-		if(str === undefined || str === null){
-			return null;
-		}
-		if((typeof str === 'object') && str.nodeType===1 && (typeof str.style === 'object') && (typeof str.ownerDocument === 'object')){
-			return str;
-		}else if(typeof str === 'string'){
-			return document.querySelector(str);
-		}else{
-			return null;
-		}
-
-	}
-
-	tinkApi.topNavigation = function(opts){
+	tinkApi.topNavigation = function(){
 		var defaults = {
 			menuStr:'nav[data-tink-top-header]'
 		};
@@ -59,19 +27,19 @@
 				var height = $(defaults.menuStr)[0].clientHeight;
       	$($(document)[0].body).css('padding-top',height+'px');
 			}			
-		}
+		};
 
 		var startLisener = function(){
 			$(window).bind('resize',calculateHeight);		
-		}		
+		};		
 
 		return {
 			init:function(){
 				calculateHeight();
 				startLisener();
 			}
-		}
-	}
+		};
+	};
 
 	tinkApi.sideNavigation = function(opts){
 
@@ -173,11 +141,6 @@
 			
 		};
 
-		var getCurrentLocation = {
-		    getHref: function () {
-		        return window.location.href;
-		    }
-		};
 
 		var urlDomMap = {};
 		// map urls with elements
