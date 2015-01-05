@@ -70,11 +70,11 @@
 				$(this).on('click',function(){
 					setActiveElemnt($(this).parent());
 				});
-			});	
+			});
 		};
 
 		var calculateHeight = function(){
-			
+
 			$( '.nav-aside-list > li' ).each(function() {
 				//$(this).css( 'height',$(this).find('a').height());
 				var ulHelper = $(this).find('ul');
@@ -88,7 +88,7 @@
 					//$(this).css('height',$(this).find('a').outerHeight());
 				}
 				if(currentTogggleElem){
-					
+
 					var totalHeight = 0;
 					currentTogggleElem.find('a').each(function() {
 						totalHeight += $(this).outerHeight();
@@ -97,7 +97,7 @@
 				}
 			});
 		};
-		
+
 
 		var currentTogggleElem = null;
 
@@ -116,7 +116,7 @@
 		var toggleAccordion = function(el){
 			if(currentTogggleElem !== null){
 				currentTogggleElem.removeClass(options.openCss);
-			}	
+			}
 
 			if(el !== null){
 
@@ -134,13 +134,13 @@
 						setActiveElemnt(el.find('ul li:first'));
 					}
 
-				}				
-				
+				}
+
 			}else{
 				currentTogggleElem = null;
 			}
 
-			
+
 		};
 
 
@@ -168,11 +168,11 @@
 
 			if(activeElem && activeElem.hasClass('can-open')){
 				toggleAccordion(activeElem);
-				
+
 			}else if(activeElem.parent().parent().hasClass('can-open')){
 				if(currentTogggleElem === null || activeElem.parent().parent()[0] !== currentTogggleElem[0]){
 					toggleAccordion(activeElem.parent().parent());
-				}	
+				}
 			}else if(currentTogggleElem){
 				toggleAccordion(currentTogggleElem);
 			}
@@ -183,8 +183,8 @@
 				}
 				activeElem.addClass(options.activeCss);
 				currentActiveElement = activeElem;
-			}		
-			
+			}
+
 		};
 		var openMenu = function(){
 			var menu = convertToElement(options.toggleMenu);
@@ -197,7 +197,7 @@
 				var menu = convertToElement(options.toggleMenu);
 				if(elemHasClass(menu,options.toggleClass)){
 					menu.className = menu.className.replace(options.toggleClass,'');
-				}	
+				}
 		};
 
 		var calculateTop = function(){
@@ -234,7 +234,7 @@
 				calculateHeight();
 				setActiveElemnt();
 				registerClick();
-				watchForPadding();				
+				watchForPadding();
 				calculateTop();
 			},
 			reloadActive:function(){

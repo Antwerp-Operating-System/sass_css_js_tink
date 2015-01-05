@@ -58,12 +58,12 @@
 			if($(defaults.menuStr).length === 1 ){
 				var height = $(defaults.menuStr)[0].clientHeight;
       	$($(document)[0].body).css('padding-top',height+'px');
-			}			
+			}
 		}
 
 		var startLisener = function(){
-			$(window).bind('resize',calculateHeight);		
-		}		
+			$(window).bind('resize',calculateHeight);
+		}
 
 		return {
 			init:function(){
@@ -100,11 +100,11 @@
 				$(this).on('click',function(){
 					setActiveElemnt($(this).parent());
 				});
-			});	
+			});
 		};
 
 		var calculateHeight = function(){
-			
+
 			$( '.nav-aside-list > li' ).each(function() {
 				//$(this).css( 'height',$(this).find('a').height());
 				var ulHelper = $(this).find('ul');
@@ -118,7 +118,7 @@
 					//$(this).css('height',$(this).find('a').outerHeight());
 				}
 				if(currentTogggleElem){
-					
+
 					var totalHeight = 0;
 					currentTogggleElem.find('a').each(function() {
 						totalHeight += $(this).outerHeight();
@@ -127,18 +127,18 @@
 				}
 			});
 		};
-		
+
 
 		var currentTogggleElem = null;
 
 		var openAccordion = function(el){
-			el.find('ul').slideDown( 'slow', function() {});
+			el.find('ul').slideDown( 200, function() {});
 			el.addClass(options.openCss);
 			currentTogggleElem = el;
 		};
 
 		var closeAccordion = function(el){
-			el.find('ul').slideUp( 'slow', function() {});
+			el.find('ul').slideUp( 200, function() {});
 			el.removeClass(options.openCss);
 			currentTogggleElem = null;
 		};
@@ -146,7 +146,7 @@
 		var toggleAccordion = function(el){
 			if(currentTogggleElem !== null){
 				currentTogggleElem.removeClass(options.openCss);
-			}	
+			}
 
 			if(el !== null){
 
@@ -164,13 +164,13 @@
 						setActiveElemnt(el.find('ul li:first'));
 					}
 
-				}				
-				
+				}
+
 			}else{
 				currentTogggleElem = null;
 			}
 
-			
+
 		};
 
 		var getCurrentLocation = {
@@ -201,11 +201,11 @@
 
 			if(activeElem && activeElem.hasClass('can-open')){
 				toggleAccordion(activeElem);
-				
+
 			}else if(activeElem.parent().parent().hasClass('can-open')){
 				if(currentTogggleElem === null || activeElem.parent().parent()[0] !== currentTogggleElem[0]){
 					toggleAccordion(activeElem.parent().parent());
-				}	
+				}
 			}else if(currentTogggleElem){
 				toggleAccordion(currentTogggleElem);
 			}
@@ -216,8 +216,8 @@
 				}
 				activeElem.addClass(options.activeCss);
 				currentActiveElement = activeElem;
-			}		
-			
+			}
+
 		};
 		var openMenu = function(){
 			$(options.toggleMenu).toggleClass(options.toggleClass);
@@ -261,7 +261,7 @@
 				calculateHeight();
 				setActiveElemnt();
 				registerClick();
-				watchForPadding();				
+				watchForPadding();
 				calculateTop();
 			},
 			reloadActive:function(){
