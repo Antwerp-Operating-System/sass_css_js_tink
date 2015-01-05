@@ -23,12 +23,12 @@
 		};
 
 		var calculateHeight = function(){
-			if($(defaults.menuStr).length === 1 ){
+			if($(defaults.menuStr).length === 1){
 				var height = $(defaults.menuStr)[0].clientHeight;
-      	$($(document)[0].body).css('padding-top',height+'px');
+      			$($(document)[0].body).css('padding-top',height+'px');
 			}			
 		};
-
+		
 		var startLisener = function(){
 			$(window).bind('resize',calculateHeight);		
 		};		
