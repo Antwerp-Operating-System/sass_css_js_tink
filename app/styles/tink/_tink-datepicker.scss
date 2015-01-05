@@ -3,6 +3,7 @@
 
 .tink-datepickerrange {
   // @extend .margin-top;
+  background: $white;
   box-shadow: 0 1px 2px rgba(0,0,0,.6);
   color: $gray-dark;
 
@@ -21,8 +22,13 @@
     background: $white; //lighten($brand, 2);
     width: 50%;
   }
+  .tink-datepickerrange-left {
+    // border-right: 1px solid green; //$gray-light;
+    margin-right: 1px;
+  }
   .tink-datepickerrange-right {
     border-left: 1px solid $gray-light;
+    margin-left: -1px;
   }
 
   button, .btn {
@@ -44,6 +50,7 @@
       color: $white;
     }
   }
+  table { margin-bottom: 0; }
   td, th {
     border: none;
     color: $gray;

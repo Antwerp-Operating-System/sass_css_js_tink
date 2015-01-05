@@ -83,7 +83,7 @@
                     scope.firstDateModel = '';
                   }else{
                     scope.$select(newDate,config.dateFormat,true);
-                  }                  
+                  }
                 }
               });
 
@@ -265,7 +265,7 @@ startWatch();
                       scope.lastDate = null;
                       $directive.focused.lastDateElem.focus();
                     }
-                  }   
+                  }
 
                 } else if ($directive.focusedModel === 'lastDateElem') {
                   scope.lastDate = date;
