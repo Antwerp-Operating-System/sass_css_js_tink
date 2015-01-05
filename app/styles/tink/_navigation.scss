@@ -209,11 +209,11 @@ body {
     &.active {
       background: $nav-aside-item-open-color;
 
-      ul {
-        &:before {
-          transform: rotate(180deg);
-        }
+      &:before {
+        transform: rotate(180deg);
+      }
 
+      ul {
         li {
           a {
             border-left: rem(15) solid $nav-aside-item-open-color;
@@ -230,7 +230,6 @@ body {
 
   > li {
     display: block;
-    /*height: rem($nav-aside-item-height);*/
     overflow: hidden;
     position: relative;
     width: 100%;
@@ -253,6 +252,20 @@ body {
     }
 
     &.can-open {
+      &:before {
+        content: "\f0d7";
+        font-family: FontAwesome;
+        font-style: normal;
+        font-weight: normal;
+        pointer-events: none;
+        position: absolute;
+        right: rem(($nav-aside-item-height - ($line-height-computed)) / 2);
+        text-decoration: inherit;
+        top: rem(($nav-aside-item-height - ($line-height-computed)) / 2 + 1);
+        transition: color $animation-speed linear, transform $animation-speed linear;
+        z-index: layer('pseudo');
+      }
+
       > a {
         padding-right: rem(30);
       }
@@ -267,17 +280,6 @@ body {
   ul {
     display:none;
     &:before {
-      content: "\f0d7";
-      font-family: FontAwesome;
-      font-style: normal;
-      font-weight: normal;
-      pointer-events: none;
-      position: absolute;
-      right: rem(($nav-aside-item-height - ($line-height-computed)) / 2);
-      text-decoration: inherit;
-      top: rem(($nav-aside-item-height - ($line-height-computed)) / 2);
-      transition: color $animation-speed linear, transform $animation-speed linear;
-      z-index: layer('pseudo');
     }
 
     a {

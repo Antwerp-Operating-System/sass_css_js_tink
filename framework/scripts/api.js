@@ -11,6 +11,12 @@
 
 	tinkApi.VERSION = '1.0.0';
 
+	tinkApi.util = {
+	    getCurrentURL: function () {
+	        return window.location.href;
+	    }
+	}
+
 	// Check if the element has the class
 	function elemHasClass(elem,classStr){
 		var elemHelp  = convertToElement(elem);
@@ -43,6 +49,30 @@
 
 	}
 
+	tinkApi.topNavigation = function(opts){
+		var defaults = {
+			menuStr:'nav[data-tink-top-header]'
+		};
+
+		var calculateHeight = function(){
+			if($(defaults.menuStr).length === 1 ){
+				var height = $(defaults.menuStr)[0].clientHeight;
+      	$($(document)[0].body).css('padding-top',height+'px');
+			}
+		}
+
+		var startLisener = function(){
+			$(window).bind('resize',calculateHeight);
+		}
+
+		return {
+			init:function(){
+				calculateHeight();
+				startLisener();
+			}
+		}
+	}
+
 	tinkApi.sideNavigation = function(opts){
 
 		var defaults = {
@@ -57,9 +87,9 @@
 			gotoPage:false
 		};
 
-        var options = $.extend( {}, defaults, opts );
+    var options = $.extend( {}, defaults, opts );
 
-		options.menuStr = convertToElement(options.menuStr);
+		options.menuStr = $(options.menuStr);
 
 		if(options.gotoPage){
 			options.accordion = true;
@@ -70,11 +100,11 @@
 				$(this).on('click',function(){
 					setActiveElemnt($(this).parent());
 				});
-			});	
+			});
 		};
 
 		var calculateHeight = function(){
-			
+
 			$( '.nav-aside-list > li' ).each(function() {
 				//$(this).css( 'height',$(this).find('a').height());
 				var ulHelper = $(this).find('ul');
@@ -88,7 +118,7 @@
 					//$(this).css('height',$(this).find('a').outerHeight());
 				}
 				if(currentTogggleElem){
-					
+
 					var totalHeight = 0;
 					currentTogggleElem.find('a').each(function() {
 						totalHeight += $(this).outerHeight();
@@ -97,18 +127,18 @@
 				}
 			});
 		};
-		
+
 
 		var currentTogggleElem = null;
 
 		var openAccordion = function(el){
-			el.find('ul').slideDown( 'slow', function() {});
+			el.find('ul').slideDown( 200, function() {});
 			el.addClass(options.openCss);
 			currentTogggleElem = el;
 		};
 
 		var closeAccordion = function(el){
-			el.find('ul').slideUp( 'slow', function() {});
+			el.find('ul').slideUp( 200, function() {});
 			el.removeClass(options.openCss);
 			currentTogggleElem = null;
 		};
@@ -116,7 +146,7 @@
 		var toggleAccordion = function(el){
 			if(currentTogggleElem !== null){
 				currentTogggleElem.removeClass(options.openCss);
-			}	
+			}
 
 			if(el !== null){
 
@@ -134,22 +164,25 @@
 						setActiveElemnt(el.find('ul li:first'));
 					}
 
-				}				
-				
+				}
+
 			}else{
 				currentTogggleElem = null;
 			}
 
-			
+
 		};
 
-
+		var getCurrentLocation = {
+		    getHref: function () {
+		        return window.location.href;
+		    }
+		};
 
 		var urlDomMap = {};
 		// map urls with elements
 		(function mapUrls(){
-			var aMap = options.menuStr.querySelectorAll('li a[href]');
-
+			var aMap = options.menuStr.find('li a[href]');
 			[].forEach.call(aMap,function (el) {
 			        urlDomMap[el.href] = el;
 			    }
@@ -163,16 +196,16 @@
 			if(el){
 				activeElem = el;
 			}else{
-				activeElem = $(urlDomMap[location.href]).parent();
+				activeElem = $(urlDomMap[tinkApi.util.getCurrentURL()]).parent();
 			}
 
 			if(activeElem && activeElem.hasClass('can-open')){
 				toggleAccordion(activeElem);
-				
+
 			}else if(activeElem.parent().parent().hasClass('can-open')){
 				if(currentTogggleElem === null || activeElem.parent().parent()[0] !== currentTogggleElem[0]){
 					toggleAccordion(activeElem.parent().parent());
-				}	
+				}
 			}else if(currentTogggleElem){
 				toggleAccordion(currentTogggleElem);
 			}
@@ -183,26 +216,20 @@
 				}
 				activeElem.addClass(options.activeCss);
 				currentActiveElement = activeElem;
-			}		
-			
+			}
+
 		};
 		var openMenu = function(){
-			var menu = convertToElement(options.toggleMenu);
-				if(!elemHasClass(menu,options.toggleClass)){
-					menu.className  = menu.className + ' ' + options.toggleClass;
-				}
+			$(options.toggleMenu).toggleClass(options.toggleClass);
 		};
 
 		var closeMenu = function(){
-				var menu = convertToElement(options.toggleMenu);
-				if(elemHasClass(menu,options.toggleClass)){
-					menu.className = menu.className.replace(options.toggleClass,'');
-				}	
+			$(options.toggleMenu).toggleClass(options.toggleClass);
 		};
 
 		var calculateTop = function(){
 
-            if($(options.topNav).length === 1){console.log($(options.topNav).outerHeight());
+            if($(options.topNav).length === 1){
 
                     $(options.menuStr).css('top',$(options.topNav).outerHeight());
                 }
@@ -218,13 +245,13 @@
 
 		return {
 			openMenu:function(){
-					openMenu();
+				openMenu();
 			},
 			closeMenu : function(){
 				closeMenu();
 			},
 			toggleMenu:function(){
-				if(elemHasClass(options.toggleMenu,options.toggleClass)){
+				if($(options.toggleMenu).hasClass(options.toggleClass)){
 					closeMenu();
 				}else{
 					openMenu();
@@ -234,7 +261,7 @@
 				calculateHeight();
 				setActiveElemnt();
 				registerClick();
-				watchForPadding();				
+				watchForPadding();
 				calculateTop();
 			},
 			reloadActive:function(){
