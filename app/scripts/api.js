@@ -245,7 +245,7 @@
 
 		return {
 			openMenu:function(){
-					openMenu();
+				openMenu();
 			},
 			closeMenu : function(){
 				closeMenu();
