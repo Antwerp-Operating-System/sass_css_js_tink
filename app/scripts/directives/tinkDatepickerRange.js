@@ -21,7 +21,7 @@
              scope.dayLabels = $sce.trustAsHtml('<th>' + dayLabels.join('</th><th>') + '</th>');
             // Add a watch to know when input changes from the outside //
 
-            scope.$watch('firstDate', function (newDate, oldDate) {
+            scope.$watch('firstDate', function (newDate) {
               var date;
               if (angular.isDefined(newDate) && newDate !== null) {
                 if (angular.isDate(newDate)) {
@@ -49,7 +49,7 @@
             });
 
             // Add a watch to know when input changes from the outside //
-            scope.$watch('lastDate', function (newDate, oldDate) {
+            scope.$watch('lastDate', function (newDate) {
               if (angular.isDefined(newDate) && newDate !== null) {
                 if (angular.isDate(newDate)) {
                  setViewDate(newDate);
@@ -314,7 +314,7 @@ startWatch();
               }
             };
 
-            function hide(evt) {
+            function hide(evt) { // TH comment out to inspect element
               if(!(evt.relatedTarget && evt.relatedTarget.nodeName === 'INPUT')){
                 templateElem.css({display: 'none'});
                 $directive.open = false;

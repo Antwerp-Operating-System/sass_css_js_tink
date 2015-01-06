@@ -26,6 +26,11 @@
           toggleMenu: function(){
             $window.tinkApi.sideNavigation(navigationOptions).toggleMenu();
           }
+        },
+        topNavigation:{
+          init:function(){
+            $window.tinkApi.topNavigation().init();
+          }
         }
       };
       
@@ -37,20 +42,16 @@
     restrict:'AE',
     priority:99,
     link:function(scope,elem){
-    var changeHeight = function(){
-      var height = elem[0].clientHeight;
-      angular.element($document[0].body).css({ 'padding-top': height+'px' });
-    };
     var toggle = angular.element(elem[0].querySelector('li.toggle'));
-     
       toggle.bind('click', function(){
-       tinkApi.sideNavigation.toggleMenu();
-        return false;
+        if(tinkApi){
+          tinkApi.sideNavigation.toggleMenu();
+          return false;
+        }       
       });
-
-    changeHeight();
-    angular.element($window).bind('resize',changeHeight);
-
+      if(tinkApi){
+        tinkApi.topNavigation.init();
+      }
   }
 };
 }]);
