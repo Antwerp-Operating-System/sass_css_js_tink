@@ -33,7 +33,7 @@ angular.module('tink.dateHelper')
 
           // Passing date through Date applies Date.parse, if necessary
           date = date ? new Date(date) : new Date();
-          if (isNaN(date)) { 
+          if (isNaN(date)) {
             throw new SyntaxError('invalid date');
           }
 
@@ -167,7 +167,7 @@ angular.module('tink.dateHelper')
     getDate: function (date, format) {
       if(!angular.isDefined(date) || !angular.isDefined(format) || date.trim()===''){
         return null;
-      }      
+      }
       return stringToDate(date, format);
     },
     daysInMonth: function (month,year) {
@@ -175,10 +175,10 @@ angular.module('tink.dateHelper')
         return new Date(month.getYear(), month.getMonth() + 1, 0).getDate();
       }else{
         return new Date(year, month, 0).getDate();
-      }      
+      }
     },
     daysInMonthNodays: function (month,year) {
-  
+
       return new Date(year, month, 0).getDate();
     },
     format: function (date, format) {
@@ -187,7 +187,7 @@ angular.module('tink.dateHelper')
     formatDate: function (date, format) {
         return dateFormat(date, format,null,nl);
     },
-    getShortDays: function (lang) { 
+    getShortDays: function (lang) {
 
       if (lang !== angular.isDefined(lang)) {
         lang = 'nl';
