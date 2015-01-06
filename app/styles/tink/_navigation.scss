@@ -65,8 +65,6 @@ body {
 
 .nav-top {
   @include bar();
-
-  overflow: auto;
   position: fixed;
   top: 0;
   width: 100%;
