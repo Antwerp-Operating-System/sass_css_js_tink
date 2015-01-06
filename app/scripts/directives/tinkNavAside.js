@@ -18,7 +18,7 @@
       }
       var sideNav = tinkApi.sideNavigation(elem);
       sideNav.init(opts);
-      if(attr.toggleId){
+      if(attr.tinkToggleId){
         tinkApi.sideNavToggle.register(attr.tinkToggleId,sideNav);
       }
     }

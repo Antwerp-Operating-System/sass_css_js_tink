@@ -35,11 +35,11 @@ describe('datepicker', function() {
   var templates = {
     'default': {
       scope: {selectedDate: new Date()},
-      element: '<input type="text" ng-model="selectedDate" tink-datepicker>'
+      element: '<input type="text" ng-model="selectedDate" data-tink-datepicker>'
     },
     'value-past': {
       scope: {selectedDate: new Date(1986, 1, 22)},
-      element: '<input type="text" ng-model="selectedDate" tink-datepicker>'
+      element: '<input type="text" ng-model="selectedDate" data-tink-datepicker>'
     },
     'markup-ngRepeat': {
       element: '<ul><li ng-repeat="i in [1, 2, 3]"><input type="text" ng-model="selectedDate" tink-datepicker></li></ul>'
@@ -488,14 +488,14 @@ describe('datepicker', function() {
       });
 it('should correctly order month days in inner content', function() {
       for (var month = 0; month < 12; month++) {
-        
+
           // 6 rows (weeks) * 7 columns (days)
           for(var index = 0; index < 7 * 6; index++) {
             var indexDay = sandboxEl.find('.dropdown-menu tbody td .btn:eq(' + index + ')').text() * 1;
             expect(indexDay).toBeNextDayOrFirstDay(previousDay);
             previousDay = indexDay;
           }
-       
+
       }
  });
     });

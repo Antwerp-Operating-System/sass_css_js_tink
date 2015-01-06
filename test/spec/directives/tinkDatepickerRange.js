@@ -19,15 +19,15 @@ describe('datepicker range', function() {
 		scope.$destroy();
 		sandboxEl.remove();
 	});
-	
+
 	var templates = {
 		'default': {
 			scope: {dates: {first:new Date(2014,11,30),last:null}},
-			element: '<tink-datepicker-range data-first-date="dates.first" data-last-date="dates.last"></tink-datepicker-range>'
+			element: '<tink-datepicker-range data-tink-first-date="dates.first" data-tink-last-date="dates.last"></tink-datepicker-range>'
 		},
 		'no-dates': {
 			scope: {dates: {first:null,last:null}},
-			element: '<tink-datepicker-range data-first-date="dates.first" data-last-date="dates.last"></tink-datepicker-range>'
+			element: '<tink-datepicker-range data-tink-first-date="dates.first" data-tink-last-date="dates.last"></tink-datepicker-range>'
 		}
 	};
 
