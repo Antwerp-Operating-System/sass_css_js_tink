@@ -2,8 +2,8 @@
 // Datepicker
 
 
-.tink-datepickerrange,
-.datepicker {
+.tink-datepicker,
+.tink-datepickerrange {
   // @extend .margin-top;
   background: $white;
   box-shadow: 0 1px 2px rgba(0,0,0,.6);
@@ -21,7 +21,7 @@
       //   width: 32px;
       // }
       @include mq($screen-md) {
-        width: 40px;
+        min-width: 40px;
       }
 
     &:hover {
@@ -46,7 +46,8 @@
   }
 }
 
-.datepicker {
+.tink-datepicker {
+  position: absolute;
   max-width: 320px;
 }
 
