@@ -198,21 +198,11 @@ body {
           color: $nav-aside-badge-active-text-color;
         }
       }
-
-      ul {
-        &:before {
-          color: $nav-aside-link-active-color;
-        }
-      }
     }
 
     &.open,
     &.active {
       background: $nav-aside-item-open-color;
-
-      &:before {
-        transform: rotate(180deg);
-      }
 
       ul {
         li {
@@ -267,8 +257,20 @@ body {
         z-index: layer('pseudo');
       }
 
+      &.open {
+        &:before {
+          transform: rotate(180deg);
+        }
+      }
+
       > a {
         padding-right: rem(30);
+      }
+    }
+
+    &.active {
+      &:before {
+        color: $nav-aside-link-active-color;
       }
     }
   }
