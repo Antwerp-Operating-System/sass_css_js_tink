@@ -5,15 +5,22 @@
    return {
     restrict:'AE',
     link:function(scope,elem,attr){
-    	
-    	var opts= {};
-    	if(attr.accordion){
-    		opts.accordion = (attr.accordion === 'true');
-    	}
-    	if(attr.accordionFirst){
-    		opts.gotoPage = (attr.accordionFirst === 'true');
-    	}
-    	tinkApi.sideNavigation.init(opts);
-  	}
+      if(!tinkApi.sideNavigation || !tinkApi.sideNavToggle){
+        return;
+      }
+
+      var opts= {};
+      if(attr.tinkAccordion){
+        opts.accordion = (attr.tinkAccordion === 'true');
+      }
+      if(attr.tinkAccordionFirst){
+        opts.gotoPage = (attr.tinkAccordionFirst === 'true');
+      }
+      var sideNav = tinkApi.sideNavigation(elem);
+      sideNav.init(opts);
+      if(attr.tinkToggleId){
+        tinkApi.sideNavToggle.register(attr.tinkToggleId,sideNav);
+      }
+    }
 };
 }]);

@@ -1761,8 +1761,8 @@ angular.module('tink.datepicker', [])
         replace: true,
         templateUrl: 'templates/tinkDatePickerRangeInputs.html',
         scope: {
-          firstDate: '=',
-          lastDate: '='
+          tinkFirstDate: '=',
+          tinkLastDate: '='
         },
         link: function postLink(scope, element) {
 
@@ -1776,7 +1776,7 @@ angular.module('tink.datepicker', [])
              scope.dayLabels = $sce.trustAsHtml('<th>' + dayLabels.join('</th><th>') + '</th>');
             // Add a watch to know when input changes from the outside //
 
-            scope.$watch('firstDate', function (newDate) {
+            scope.$watch('tinkFirstDate', function (newDate) {
               var date;
               if (angular.isDefined(newDate) && newDate !== null) {
                 if (angular.isDate(newDate)) {
@@ -1785,10 +1785,10 @@ angular.module('tink.datepicker', [])
                 } else {
                   try {
                     date = dateCalculator.getDate(newDate, config.dateFormat);
-                    scope.firstDate = date;
+                    scope.tinkFirstDate = date;
                     //setViewDate(date);
                   } catch (e) {
-                    scope.firstDate = null;
+                    scope.tinkFirstDate = null;
                   }
                 }
                 stopWatch();
@@ -1804,21 +1804,21 @@ angular.module('tink.datepicker', [])
             });
 
             // Add a watch to know when input changes from the outside //
-            scope.$watch('lastDate', function (newDate) {
+            scope.$watch('tinkLastDate', function (newDate) {
               if (angular.isDefined(newDate) && newDate !== null) {
                 if (angular.isDate(newDate)) {
                  setViewDate(newDate);
                } else {
                 try {
                   var date = dateCalculator.getDate(newDate, config.dateFormat);
-                  scope.lastDate = date;
+                  scope.tinkLastDate = date;
                   setViewDate(date);
                 } catch (e) {
-                  scope.lastDate = null;
+                  scope.tinkLastDate = null;
                 }
               }
               stopWatch();
-              scope.lastDateModel = dateCalculator.format(scope.lastDate, config.dateFormat);
+              scope.lastDateModel = dateCalculator.format(scope.tinkLastDate, config.dateFormat);
               startWatch();
             }else{
               stopWatch();
@@ -1866,7 +1866,7 @@ startWatch();
       focused: {firstDateElem: element[0].children[0], lastDateElem: element[0].children[1]},
       tbody:{firstDateElem:null,lastDateElem:null},
       focusedModel: null,
-      selectedDates: {first: scope.firstDate, last: scope.lastDate},
+      selectedDates: {first: scope.tinkFirstDate, last: scope.tinkLastDate},
       valid:{firstDateElem:false,lastDateElem:false},
       mouse: 0,
       viewDate: new Date(),
@@ -1892,7 +1892,7 @@ startWatch();
                $directive.tbody.lastDateElem = element.find('tbody')[1];
 
               // -- Create the first calendar --/
-              var htmlFirst = calView.createMonthDays($directive.viewDate, scope.firstDate, scope.lastDate);
+              var htmlFirst = calView.createMonthDays($directive.viewDate, scope.tinkFirstDate, scope.tinkLastDate);
                // -- Replace and COMPILE the nieuw calendar view  --/
                angular.element($directive.tbody.firstDateElem).replaceWith($compile( htmlFirst)( scope ));
 
@@ -1908,7 +1908,7 @@ startWatch();
 
 
               // -- create the second view   --/
-              var htmlLast = calView.createMonthDays(copyViewDate, scope.firstDate, scope.lastDate);
+              var htmlLast = calView.createMonthDays(copyViewDate, scope.tinkFirstDate, scope.tinkLastDate);
                // -- compile and replace the second view   --/
                angular.element($directive.tbody.lastDateElem).replaceWith($compile( htmlLast)( scope ));
 
@@ -2012,23 +2012,23 @@ startWatch();
               var date = dateCalculator.getDate(el,format);
               if ($directive.focusedModel !== null) {
                 if ($directive.focusedModel === 'firstDateElem') {
-                  scope.firstDate = date;
-                  if(!angular.isDate(scope.lastDate)){
+                  scope.tinkFirstDate = date;
+                  if(!angular.isDate(scope.tinkLastDate)){
                     $directive.focused.lastDateElem.focus();
                   }else{
-                    if(!clear && dateCalculator.dateBeforeOther(scope.firstDate,scope.lastDate)){
-                      scope.lastDate = null;
+                    if(!clear && dateCalculator.dateBeforeOther(scope.tinkFirstDate,scope.tinkLastDate)){
+                      scope.tinkLastDate = null;
                       $directive.focused.lastDateElem.focus();
                     }
                   }
 
                 } else if ($directive.focusedModel === 'lastDateElem') {
-                  scope.lastDate = date;
-                  if(!angular.isDate(scope.firstDate)){
+                  scope.tinkLastDate = date;
+                  if(!angular.isDate(scope.tinkFirstDate)){
                     $directive.focused.firstDateElem.focus();
                   }else{
-                    if(!clear && dateCalculator.dateBeforeOther(scope.firstDate,scope.lastDate)){
-                      scope.firstDate = null;
+                    if(!clear && dateCalculator.dateBeforeOther(scope.tinkFirstDate,scope.tinkLastDate)){
+                      scope.tinkFirstDate = null;
                       $directive.focused.firstDateElem.focus();
                     }
                   }
@@ -2115,14 +2115,14 @@ startWatch();
               if ($directive.focusedModel !== null) {
 
                 // -- if firstelement is focused and we have an corret date show that date --/
-                if ($directive.focusedModel === 'firstDateElem' && angular.isDate(scope.firstDate)) {
-                 setViewDate(scope.firstDate);
-               }else if($directive.focusedModel === 'firstDateElem' && angular.isDate(scope.lastDate)){
-                 setViewDate(scope.lastDate);
-               } else if($directive.focusedModel === 'lastDateElem' && angular.isDate(scope.lastDate)){
-                 setViewDate(scope.lastDate);
-               } else if($directive.focusedModel === 'lastDateElem' && angular.isDate(scope.firstDate)){
-                 setViewDate(scope.firstDate);
+                if ($directive.focusedModel === 'firstDateElem' && angular.isDate(scope.tinkFirstDate)) {
+                 setViewDate(scope.tinkFirstDate);
+               }else if($directive.focusedModel === 'firstDateElem' && angular.isDate(scope.tinkLastDate)){
+                 setViewDate(scope.tinkLastDate);
+               } else if($directive.focusedModel === 'lastDateElem' && angular.isDate(scope.tinkLastDate)){
+                 setViewDate(scope.tinkLastDate);
+               } else if($directive.focusedModel === 'lastDateElem' && angular.isDate(scope.tinkFirstDate)){
+                 setViewDate(scope.tinkFirstDate);
                }else{
                 setViewDate(new Date());
               }
@@ -2310,16 +2310,23 @@ angular.module('tink.dropdown', [])
    return {
     restrict:'AE',
     link:function(scope,elem,attr){
-    	
-    	var opts= {};
-    	if(attr.accordion){
-    		opts.accordion = (attr.accordion === 'true');
-    	}
-    	if(attr.accordionFirst){
-    		opts.gotoPage = (attr.accordionFirst === 'true');
-    	}
-    	tinkApi.sideNavigation.init(opts);
-  	}
+      if(!tinkApi.sideNavigation || !tinkApi.sideNavToggle){
+        return;
+      }
+
+      var opts= {};
+      if(attr.tinkAccordion){
+        opts.accordion = (attr.tinkAccordion === 'true');
+      }
+      if(attr.tinkAccordionFirst){
+        opts.gotoPage = (attr.tinkAccordionFirst === 'true');
+      }
+      var sideNav = tinkApi.sideNavigation(elem);
+      sideNav.init(opts);
+      if(attr.tinkToggleId){
+        tinkApi.sideNavToggle.register(attr.tinkToggleId,sideNav);
+      }
+    }
 };
 }]);;'use strict';
 angular.module('tink.popOver', ['tink.tooltip'])
@@ -2333,6 +2340,23 @@ angular.module('tink.popOver', ['tink.tooltip'])
 })
 .directive( 'tinkPopover', [ '$tooltip', function ( $tooltip ) {
   return $tooltip( 'tinkPopover', 'tinkPopover', 'click' );
+}]);;'use strict';
+ angular.module('tink.sideNav')
+  .directive('tinkSidenavCollapse',['tinkApi',function(tinkApi){
+   return {
+    restrict:'A',
+    link:function(scope,elem,attr){
+      if(!tinkApi.sideNavigation || !tinkApi.sideNavToggle){
+        return;
+      }
+    	elem.bind('click', function(){
+        if(attr.tinkSidenavCollapse && attr.tinkSidenavCollapse.trim() !== ''){
+          tinkApi.sideNavToggle.toggleById(attr.tinkSidenavCollapse);
+          return false;
+        }
+      });
+  	}
+};
 }]);;'use strict';
 angular.module('tink.tooltip', [])
 .provider( '$tooltip', function () {
@@ -2833,57 +2857,16 @@ angular.module('tink.tooltip', [])
 }]);;  'use strict';
   angular.module('tink.topNav', []);
   angular.module('tink.topNav')
-  .provider('tinkApi', function () {
-  var _options = {};
-
-  return {
-    setOptions: function (options) {
-      angular.extend(_options, options);
-    },
-    getOptions: function () {
-      return angular.copy(_options);
-    },
-    $get: ['$window', function ($window) {
-       var navigationOptions = {};
-
-      return {
-        sideNavigation: {
-          options:function(options){
-            navigationOptions = options;
-          },
-          init: function(options){
-            navigationOptions = options;
-            $window.tinkApi.sideNavigation(navigationOptions).init();
-          },
-          toggleMenu: function(){
-            $window.tinkApi.sideNavigation(navigationOptions).toggleMenu();
-          }
-        },
-        topNavigation:{
-          init:function(){
-            $window.tinkApi.topNavigation().init();
-          }
-        }
-      };
-      
-    }]
-  };
-}).directive('navHeader',['$document','$window','tinkApi',function($document,$window,tinkApi){
+  .directive('tinkTopNav',['$document','$window','tinkApi',function($document,$window,tinkApi){
 
    return {
     restrict:'AE',
     priority:99,
     link:function(scope,elem){
-    var toggle = angular.element(elem[0].querySelector('li.toggle'));
-      toggle.bind('click', function(){
-        if(tinkApi){
-          tinkApi.sideNavigation.toggleMenu();
-          return false;
-        }       
-      });
-      if(tinkApi){
-        tinkApi.topNavigation.init();
+      if(!tinkApi.sideNavigation || !tinkApi.sideNavToggle){
+        return;
       }
+      tinkApi.topNavigation(elem).init();
   }
 };
 }]);;  'use strict';
@@ -2945,6 +2928,7 @@ angular.module('tink.tooltip', [])
        };
      }]);;'use strict';
 angular.module('tink', [
+		'tink.tinkApi',
 		'tink.datepickerRange',
 		'tink.popOver',
 		'tink.tooltip',
@@ -2954,8 +2938,43 @@ angular.module('tink', [
 		'tink.dropdown',
 		'tink.templates',
 		'tink.validDate'
+
 	]);
-;'use strict';
+; 'use strict';
+ angular.module('tink.tinkApi', []);
+ angular.module('tink.tinkApi')
+.provider('tinkApi', function () {
+  var _options = {};
+
+  return {
+    setOptions: function (options) {
+      angular.extend(_options, options);
+    },
+    getOptions: function () {
+      return angular.copy(_options);
+    },
+    $get: ['$window', function ($window) {
+       var sideToggle = {};
+
+      return {
+        sideNavigation: $window.tinkApi.sideNavigation,
+        sideNavToggle:{
+          register:function(id,sideElem){
+            sideToggle[id]=sideElem;
+          },
+          toggleById:function(id){
+            if(sideToggle[id]){
+              sideToggle[id].toggleMenu();
+            }
+          }
+        },
+        topNavigation:$window.tinkApi.topNavigation
+
+      };
+
+    }]
+  };
+});;'use strict';
 angular.module('tink.dateHelper', []);
 angular.module('tink.dateHelper')
 .factory('dateCalculator', function () {

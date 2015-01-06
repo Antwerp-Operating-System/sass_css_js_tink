@@ -2753,8 +2753,6 @@ body {
 .nav-top {
   background-color: #333;
   line-height: 3.57143rem ;
-  overflow: auto;
-  overflow: auto;
   position: fixed;
   top: 0;
   width: 100%;
@@ -2822,15 +2820,12 @@ body {
 .nav-left {
   background: #fff;
   bottom: 0;
-  overflow: auto;
   position: fixed;
   top: 3.57143rem ;
   transition: -webkit-transform 0.1s linear;
   transition: transform 0.1s linear;
   width: 15.71429rem ;
   z-index: 3;
-  -webkit-overflow-scrolling: touch;
-  -webkit-overflow-scrolling: -blackberry-touch;
   left: 0;
   -webkit-transform: translate(-15.71429rem , 0);
   -ms-transform: translate(-15.71429rem , 0);
@@ -2855,6 +2850,10 @@ body {
     right: 0; }
 
 .nav-aside-list {
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: -blackberry-touch;
   /**
    * All levels
    */
@@ -2894,14 +2893,8 @@ body {
       .nav-aside-list li.active > a .badge {
         background-color: #fff;
         color: #000; }
-    .nav-aside-list li.active ul:before {
-      color: #fff; }
     .nav-aside-list li.open, .nav-aside-list li.active {
       background: #f7f7f7; }
-      .nav-aside-list li.open:before, .nav-aside-list li.active:before {
-        -webkit-transform: rotate(180deg);
-        -ms-transform: rotate(180deg);
-        transform: rotate(180deg); }
       .nav-aside-list li.open ul li a, .nav-aside-list li.active ul li a {
         border-left: 1.07143rem  solid #f7f7f7; }
   .nav-aside-list > li {
@@ -2931,8 +2924,14 @@ body {
       transition: color 0.1s linear, -webkit-transform 0.1s linear;
       transition: color 0.1s linear, transform 0.1s linear;
       z-index: 2; }
+    .nav-aside-list > li.can-open.open:before {
+      -webkit-transform: rotate(180deg);
+      -ms-transform: rotate(180deg);
+      transform: rotate(180deg); }
     .nav-aside-list > li.can-open > a {
       padding-right: 2.14286rem ; }
+    .nav-aside-list > li.active:before {
+      color: #fff; }
   .nav-aside-list ul {
     display: none; }
     .nav-aside-list ul a {
