@@ -94,7 +94,7 @@
             });
 
             }
-startWatch();
+              startWatch();
             function stopWatch(){
               firstDateWatch();
               lastDateWatch();
@@ -250,7 +250,7 @@ startWatch();
               bindEvents();
             }
 
-            scope.$select = function (el,format,clear) {
+            scope.$select = function (el,format) {
               if(!angular.isDefined(format)){
                   format = 'yyyy/mm/dd';
               }
@@ -261,7 +261,7 @@ startWatch();
                   if(!angular.isDate(scope.tinkLastDate)){
                     $directive.focused.lastDateElem.focus();
                   }else{
-                    if(!clear && dateCalculator.dateBeforeOther(scope.tinkFirstDate,scope.tinkLastDate)){
+                    if(dateCalculator.dateBeforeOther(scope.tinkFirstDate,scope.tinkLastDate)){
                       scope.tinkLastDate = null;
                       $directive.focused.lastDateElem.focus();
                     }
@@ -272,7 +272,7 @@ startWatch();
                   if(!angular.isDate(scope.tinkFirstDate)){
                     $directive.focused.firstDateElem.focus();
                   }else{
-                    if(!clear && dateCalculator.dateBeforeOther(scope.tinkFirstDate,scope.tinkLastDate)){
+                    if(dateCalculator.dateBeforeOther(scope.tinkFirstDate,scope.tinkLastDate)){
                       scope.tinkFirstDate = null;
                       $directive.focused.firstDateElem.focus();
                     }
