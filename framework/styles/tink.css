@@ -2939,10 +2939,22 @@ body {
       font-weight: 600;
       padding: 0.71429rem 1.07143rem ; }
 
+/**
+ * Component: datepicker
+ * --------------------------------------------------
+ * - single
+ * - range
+ */
+.tink-datepickerrange-input-fields {
+  display: inline-block; }
+
 .tink-datepicker, .tink-datepickerrange {
   background: #fff;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-  color: #333; }
+  color: #333;
+  margin-top: 2px;
+  position: relative;
+  z-index: 5; }
   .tink-datepicker button, .tink-datepicker .btn, .tink-datepickerrange button, .tink-datepickerrange .btn {
     color: #888;
     min-width: 25px;
@@ -2975,16 +2987,6 @@ body {
 
 .tink-datepickerrange {
   position: relative; }
-  .tink-datepickerrange .tink-datepickerrange-header-left, .tink-datepickerrange .tink-datepickerrange-header-right {
-    padding: 0.14286rem ;
-    line-height: 2.78571rem ; }
-    .tink-datepickerrange .tink-datepickerrange-header-left button:hover, .tink-datepickerrange .tink-datepickerrange-header-left .btn:hover, .tink-datepickerrange .tink-datepickerrange-header-right button:hover, .tink-datepickerrange .tink-datepickerrange-header-right .btn:hover {
-      background: #bbb; }
-  .tink-datepickerrange .tink-datepickerrange-left, .tink-datepickerrange .tink-datepickerrange-right {
-    width: 100%; }
-    @media (min-width: 480px) {
-      .tink-datepickerrange .tink-datepickerrange-left, .tink-datepickerrange .tink-datepickerrange-right {
-        width: 50%; } }
   @media (min-width: 480px) {
     .tink-datepickerrange:before {
       background: #bbb;
@@ -2995,6 +2997,18 @@ body {
       top: 0;
       width: 1px; }
  }
+
+.tink-datepickerrange-header-left, .tink-datepickerrange-header-right {
+  line-height: 2.78571rem ;
+  padding: 0.14286rem ; }
+  .tink-datepickerrange-header-left button:hover, .tink-datepickerrange-header-left .btn:hover, .tink-datepickerrange-header-right button:hover, .tink-datepickerrange-header-right .btn:hover {
+    background: #bbb; }
+
+.tink-datepickerrange-left, .tink-datepickerrange-right {
+  width: 100%; }
+  @media (min-width: 480px) {
+    .tink-datepickerrange-left, .tink-datepickerrange-right {
+      width: 50%; } }
 
 /**
  * Utilities
