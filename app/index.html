@@ -27,7 +27,7 @@
       <li class="logo">
         <a href="#" title=""><img src="images/playground/tink-logo.svg" alt="" /></a>
       </li>
-      <li class="toggle">
+      <li class="toggle" data-tink-sidenav-collapse="firstSide">
         <a href="#" title="Open menu" data-ng-click="sidenav.open = !sidenav.open"><i class="fa fa-bars"><span class="sr-only">Open menu</span></i></a>
       </li>
       <li class="app">
@@ -59,7 +59,7 @@
 
 
 
-  <aside data-tink-nav-aside data-accordion="true" data-accordion-first="false" class="nav-left">
+  <aside data-tink-nav-aside data-accordion="false" data-accordion-first="false" data-toggle-id="firstSide" class="nav-left">
     <ul class="nav-aside-list" role="sidenav">
       <li>
         <a href="#/menu1">
@@ -162,7 +162,7 @@
 
   <!-- build:js({.tmp,app}) scripts/scripts.js -->
   <script src="scripts/directives/tinkmain.js"></script>
-
+  <script src="scripts/services/tinkApiService.js"></script>
   <script src="scripts/directives/tinkTopNav.js"></script>
   <script src="scripts/directives/tinkDatepickerRange.js"></script>
   <script src="scripts/services/tinkDateHelper.js"></script>
@@ -175,6 +175,8 @@
   <script src="scripts/directives/tinkNavAside.js"></script>
   <script src="scripts/directives/tinkDropDown.js"></script>
   <script src="scripts/directives/tinkValidDate.js"></script>
+  <script src="scripts/directives/tinkToggelSideNav.js"></script>
+
 
   <!-- endbuild -->
 </body>
