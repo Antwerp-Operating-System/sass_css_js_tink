@@ -2940,11 +2940,16 @@ body {
       font-weight: 600;
       padding: 0.71429rem 1.07143rem ; }
 
+/**
+ * Component: Datepicker
+ */
 .tink-datepickerrange {
   background: #fff;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
   color: #333;
-  position: relative; }
+  margin-top: 2px;
+  position: relative;
+  z-index: 5; }
   .tink-datepickerrange:before {
     background: #bbb;
     bottom: 0;
@@ -2953,12 +2958,6 @@ body {
     position: absolute;
     top: 0;
     width: 1px; }
-  .tink-datepickerrange .tink-datepickerrange-header-left, .tink-datepickerrange .tink-datepickerrange-header-right {
-    padding: 0.14286rem ; }
-    .tink-datepickerrange .tink-datepickerrange-header-left button:hover, .tink-datepickerrange .tink-datepickerrange-header-left .btn:hover, .tink-datepickerrange .tink-datepickerrange-header-right button:hover, .tink-datepickerrange .tink-datepickerrange-header-right .btn:hover {
-      background: #bbb; }
-  .tink-datepickerrange .tink-datepickerrange-left, .tink-datepickerrange .tink-datepickerrange-right {
-    width: 50%; }
   .tink-datepickerrange button, .tink-datepickerrange .btn {
     color: #888;
     padding: 0.42857rem 0rem ;
@@ -2978,6 +2977,14 @@ body {
     color: #888;
     padding: 0.19048rem ;
     text-align: center; }
+
+.tink-datepickerrange-header-left, .tink-datepickerrange-header-right {
+  padding: 0.14286rem ; }
+  .tink-datepickerrange-header-left button:hover, .tink-datepickerrange-header-left .btn:hover, .tink-datepickerrange-header-right button:hover, .tink-datepickerrange-header-right .btn:hover {
+    background: #bbb; }
+
+.tink-datepickerrange-left, .tink-datepickerrange-right {
+  width: 50%; }
 
 /**
  * Utilities
