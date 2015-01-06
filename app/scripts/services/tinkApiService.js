@@ -25,11 +25,8 @@
             }
           }
         },
-        topNavigation:{
-          init:function(){
-            $window.tinkApi.topNavigation().init();
-          }
-        }
+        topNavigation:$window.tinkApi.topNavigation
+        
       };
       
     }]

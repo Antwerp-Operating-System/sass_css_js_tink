@@ -7,9 +7,11 @@
     restrict:'AE',
     priority:99,
     link:function(scope,elem){
-      if(tinkApi){
-        tinkApi.topNavigation.init();
+      if(!tinkApi.sideNavigation || !tinkApi.sideNavToggle){
+        return;
       }
+
+      tinkApi.topNavigation(elem).init();
   }
 };
 }]);
