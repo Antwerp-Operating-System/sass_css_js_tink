@@ -247,7 +247,6 @@ input[type="radio"] {
 input[type="checkbox"] {
 
   + label {
-
     &:before,
     &:after {
       height: rem(22);
@@ -287,9 +286,7 @@ input[type="checkbox"] {
   }
 
   &:checked {
-
     + label {
-
       &:after {
         opacity: 1;
         transform: scale(1);
@@ -298,9 +295,7 @@ input[type="checkbox"] {
   }
 
   &:focus {
-
     + label {
-
       &:before {
         box-shadow: 0 0 0 2px rgba($brand-light, .25);
       }
@@ -309,9 +304,7 @@ input[type="checkbox"] {
 }
 
 input[type="radio"] {
-
   + label {
-
     &:before {
       background: $brand-light;
       border-radius: 50%;
@@ -332,9 +325,7 @@ input[type="radio"] {
   }
 
   &:checked {
-
     + label {
-
       &:before {
         box-shadow: 0 0 0 rem(4) #fff inset;
       }
@@ -342,9 +333,7 @@ input[type="radio"] {
   }
 
   &:focus {
-
     + label {
-
       &:before {
         box-shadow: 0 0 0 rem(4) #fff inset, 0 0 0 rem(2) rgba($brand-light, .25);
       }
@@ -418,9 +407,24 @@ output {
   color: $input-color;
 }
 
+
+
+/**
+ * Form variants
+ */
 .form-group {
   margin-bottom: rem(15);
 }
+
+.form-horizontal {
+  @include mq($screen-md) {
+    label {
+      margin-top: rem(7);
+    }
+  }
+}
+
+
 
 /**
  * Feedback states
@@ -532,16 +536,18 @@ output {
   }
 }
 .select-box-inline {
-  margin-left: 8px;
   display: inline-block;
+  margin-left: rem(8);
+
   select {
     padding-right: $padding-base-horizontal * 2;
   }
 }
 .checkbox-inline {
-  margin-left: 8px;
   display: inline-block;
+  margin-left: rem(8);
 }
+
 .btn.search-submit {
   background: none;
   border: none;
@@ -555,4 +561,3 @@ output {
     color: $gray-dark;
   }
 }
-
