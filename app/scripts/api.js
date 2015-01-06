@@ -17,9 +17,9 @@
 		}
 	};
 
-	tinkApi.topNavigation = function(){
+	tinkApi.topNavigation = function(element){
 		var defaults = {
-			menuStr:'nav[data-tink-top-header]'
+			menuStr:element
 		};
 
 		var calculateHeight = function(){
@@ -110,7 +110,7 @@
 		};
 	};
 
-	tinkApi.sideNavigation = function(opts){
+	tinkApi.sideNavigation = function(element){
 
 		var defaults = {
 			toggleClass :'nav-left-open',
@@ -121,16 +121,11 @@
 			topNav:'nav.nav-top',
 			openCss:'open',
 			accordion:false,
-			gotoPage:false
+			gotoPage:false,
+			speed:200
 		};
 
-		var options = $.extend( {}, defaults, opts );
-
-		options.menuStr = $(options.menuStr);
-
-		if(options.gotoPage){
-			options.accordion = true;
-		}
+		var options;
 
 		var registerClick = function(){
 			$( '.nav-aside-list li a' ).each(function() {
@@ -155,21 +150,21 @@
 					currentTogggleElem.find('a').each(function() {
 						totalHeight += $(this)[0].getBoundingClientRect().height;
 					});
-				}*/
-			});
+		}*/
+	});
 		};
 		
 
 		var currentTogggleElem = null;
 
 		var openAccordion = function(el){
-			el.find('ul').slideDown( 'slow', function() {});
+			el.find('ul').slideDown(options.speed, function() {});
 			el.addClass(options.openCss);
 			currentTogggleElem = el;
 		};
 
 		var closeAccordion = function(el){
-			el.find('ul').slideUp( 'slow', function() {});
+			el.find('ul').slideUp(options.speed, function() {});
 			el.removeClass(options.openCss);
 			currentTogggleElem = null;
 		};
@@ -206,14 +201,7 @@
 
 
 		var urlDomMap = {};
-		// map urls with elements
-		(function mapUrls(){
-			var aMap = options.menuStr.find('li a[href]');
-			[].forEach.call(aMap,function (el) {
-				urlDomMap[el.href] = el;
-			}
-			);
-		})();
+		
 
 		var currentActiveElement = null;
 
@@ -263,9 +251,34 @@
 
 		var watchForPadding = function(){
 			window.addEventListener('resize', function(){
-				 setTimeout(calculateTop, 150);
+				setTimeout(calculateTop, 150);
 			});
 		};
+
+		var init = function(opts){
+			options = $.extend( {}, defaults, opts );
+
+			options.menuStr = $(element);
+
+			if(options.gotoPage){
+				options.accordion = true;
+			}
+
+			// map urls with elements
+			(function mapUrls(){
+				var aMap = options.menuStr.find('li a[href]');
+				[].forEach.call(aMap,function (el) {
+					urlDomMap[el.href] = el;
+				}
+				);
+			})();
+
+			calculateHeight();
+			setActiveElemnt();
+			registerClick();
+			watchForPadding();				
+			calculateTop();
+		}
 
 
 		return {
@@ -282,12 +295,8 @@
 					openMenu();
 				}
 			},
-			init:function(){
-				calculateHeight();
-				setActiveElemnt();
-				registerClick();
-				watchForPadding();				
-				calculateTop();
+			init:function(opts){
+				init(opts);
 			},
 			reloadActive:function(){
 				setActiveElemnt();
