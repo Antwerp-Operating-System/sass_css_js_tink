@@ -56,7 +56,7 @@
 
 		var calculateHeight = function(){
 			if($(defaults.menuStr).length === 1 ){
-				var height = $(defaults.menuStr)[0].clientHeight;
+				var height = $(defaults.menuStr)[0].getBoundingClientRect();
       	$($(document)[0].body).css('padding-top',height+'px');
 			}			
 		}
@@ -121,7 +121,7 @@
 					
 					var totalHeight = 0;
 					currentTogggleElem.find('a').each(function() {
-						totalHeight += $(this).outerHeight();
+						totalHeight += $(this)[0].getBoundingClientRect();
 					});
 					//currentTogggleElem.css('height',totalHeight);
 				}
@@ -231,7 +231,7 @@
 
             if($(options.topNav).length === 1){
 
-                    $(options.menuStr).css('top',$(options.topNav).outerHeight());
+                    $(options.menuStr).css('top',$(options.topNav)[0].getBoundingClientRect());
                 }
 
         };
