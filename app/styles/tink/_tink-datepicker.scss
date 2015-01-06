@@ -1,46 +1,13 @@
 // Components
 // Datepicker
 
-.tink-datepickerrange {
+
+.tink-datepickerrange,
+.datepicker {
   // @extend .margin-top;
   background: $white;
   box-shadow: 0 1px 2px rgba(0,0,0,.6);
   color: $gray-dark;
-  position: relative;
-  // @include mq($screen-sm, "max") {
-  //   width: 85%;
-  // }
-
-  .tink-datepickerrange-header-left,
-  .tink-datepickerrange-header-right {
-    padding: rem($table-cell-padding / 4);
-    button, .btn {
-      &:hover {
-        background: $gray-light;
-      }
-    }
-  }
-
-  .tink-datepickerrange-left,
-  .tink-datepickerrange-right {
-    width: 100%;
-    @include mq($screen-xs) {
-      width: 50%;
-    }
-  }
-
-  @include mq($screen-xs) {
-    &:before {
-      background: $gray-light;
-      bottom: 0;
-      content: "";
-      left: 50%;
-      position: absolute;
-      top: 0;
-      width: 1px;
-    }
-  }
-
 
   button, .btn {
     @extend .no-border;
@@ -76,5 +43,44 @@
     color: $gray;
     padding: rem($table-cell-padding / 3);
     text-align: center;
+  }
+}
+
+.datepicker {
+  max-width: 320px;
+}
+
+.tink-datepickerrange {
+  position: relative;
+
+  .tink-datepickerrange-header-left,
+  .tink-datepickerrange-header-right {
+    padding: rem($table-cell-padding / 4);
+    line-height: 39px;
+    button, .btn {
+      &:hover {
+        background: $gray-light;
+      }
+    }
+  }
+
+  .tink-datepickerrange-left,
+  .tink-datepickerrange-right {
+    width: 100%;
+    @include mq($screen-xs) {
+      width: 50%;
+    }
+  }
+
+  @include mq($screen-xs) {
+    &:before {
+      background: $gray-light;
+      bottom: 0;
+      content: "";
+      left: 50%;
+      position: absolute;
+      top: 0;
+      width: 1px;
+    }
   }
 }
