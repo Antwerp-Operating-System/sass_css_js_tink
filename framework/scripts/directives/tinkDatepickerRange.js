@@ -21,9 +21,9 @@
              scope.dayLabels = $sce.trustAsHtml('<th>' + dayLabels.join('</th><th>') + '</th>');
             // Add a watch to know when input changes from the outside //
 
-            scope.$watch('firstDate', function (newDate, oldDate) {
+            scope.$watch('firstDate', function (newDate) {
               var date;
-              if (newDate !== oldDate && angular.isDefined(newDate) && newDate !== null) {
+              if (angular.isDefined(newDate) && newDate !== null) {
                 if (angular.isDate(newDate)) {
                   date = newDate;
                   setViewDate(newDate);
@@ -49,8 +49,8 @@
             });
 
             // Add a watch to know when input changes from the outside //
-            scope.$watch('lastDate', function (newDate, oldDate) {
-              if (newDate !== oldDate && angular.isDefined(newDate) && newDate !== null) {
+            scope.$watch('lastDate', function (newDate) {
+              if (angular.isDefined(newDate) && newDate !== null) {
                 if (angular.isDate(newDate)) {
                  setViewDate(newDate);
                } else {
@@ -79,7 +79,11 @@
             function startWatch(){
               firstDateWatch =  scope.$watch('firstDateModel',function(newDate,oldDate){
                 if(newDate !== oldDate){
-                  scope.$select(newDate,config.dateFormat,true);
+                  if(newDate === undefined){
+                    scope.firstDateModel = '';
+                  }else{
+                    scope.$select(newDate,config.dateFormat,true);
+                  }
                 }
               });
 
@@ -138,13 +142,15 @@ startWatch();
                angular.element($directive.tbody.firstDateElem).replaceWith($compile( htmlFirst)( scope ));
 
                // -- Copy the viewDate ! COPY otherwhise you got problems, because of refenties and stuff ;-)  --/
-    var copyViewDate = new Date($directive.viewDate);
+                var copyViewDate = new Date($directive.viewDate);
                // -- add a month  --/
+               copyViewDate.setDate(5);
                copyViewDate.setMonth(copyViewDate.getMonth() + 1);
 
                // -- place the right titles in the scope  --/
                scope.firstTitle = dateCalculator.format($directive.viewDate, 'mmmm yyyy');
                scope.lastTitle = dateCalculator.format(copyViewDate, 'mmmm yyyy');
+
 
               // -- create the second view   --/
               var htmlLast = calView.createMonthDays(copyViewDate, scope.firstDate, scope.lastDate);
@@ -161,6 +167,7 @@ startWatch();
             // -- to change the month of the calender --/
             function nextMonth() {
               // -- add one month to the viewDate --/
+              $directive.viewDate.setDate(1);
               $directive.viewDate.setMonth($directive.viewDate.getMonth() + 1);
               // -- reload the viewdate :P  --/
               setViewDate($directive.viewDate);
@@ -168,6 +175,7 @@ startWatch();
             // -- to change the month of the calender --/
             function prevMonth() {
               // -- remove one month from the viewDate --/
+              $directive.viewDate.setDate(1);
               $directive.viewDate.setMonth($directive.viewDate.getMonth() - 1);
                // -- reload the viewdate woopwoop  --/
                setViewDate($directive.viewDate);
@@ -257,7 +265,7 @@ startWatch();
                       scope.lastDate = null;
                       $directive.focused.lastDateElem.focus();
                     }
-                  }   
+                  }
 
                 } else if ($directive.focusedModel === 'lastDateElem') {
                   scope.lastDate = date;
@@ -306,7 +314,7 @@ startWatch();
               }
             };
 
-            function hide(evt) {
+            function hide(evt) { // TH comment out to inspect element
               if(!(evt.relatedTarget && evt.relatedTarget.nodeName === 'INPUT')){
                 templateElem.css({display: 'none'});
                 $directive.open = false;
