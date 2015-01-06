@@ -2939,51 +2939,62 @@ body {
       font-weight: 600;
       padding: 0.71429rem 1.07143rem ; }
 
-/**
- * Component: Datepicker
- */
-.tink-datepickerrange {
+.tink-datepicker, .tink-datepickerrange {
   background: #fff;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-  color: #333;
-  margin-top: 2px;
-  position: relative;
-  z-index: 5; }
-  .tink-datepickerrange:before {
-    background: #bbb;
-    bottom: 0;
-    content: "";
-    left: 50%;
-    position: absolute;
-    top: 0;
-    width: 1px; }
-  .tink-datepickerrange button, .tink-datepickerrange .btn {
+  color: #333; }
+  .tink-datepicker button, .tink-datepicker .btn, .tink-datepickerrange button, .tink-datepickerrange .btn {
     color: #888;
+    min-width: 25px;
     padding: 0.42857rem 0rem ;
-    width: 44px; }
-    .tink-datepickerrange button:hover, .tink-datepickerrange .btn:hover {
+    width: 100%; }
+    @media (min-width: 992px) {
+      .tink-datepicker button, .tink-datepicker .btn, .tink-datepickerrange button, .tink-datepickerrange .btn {
+        min-width: 40px; } }
+    .tink-datepicker button:hover, .tink-datepicker .btn:hover, .tink-datepickerrange button:hover, .tink-datepickerrange .btn:hover {
       background: #6eafd2;
       color: #fff; }
-    .tink-datepickerrange button.btn-warning, .tink-datepickerrange .btn.btn-warning {
+    .tink-datepicker button.btn-warning, .tink-datepicker .btn.btn-warning, .tink-datepickerrange button.btn-warning, .tink-datepickerrange .btn.btn-warning {
       background: #fff;
       border: 1px solid #347ea6 !important; }
-    .tink-datepickerrange button.btn-primary, .tink-datepickerrange button.btn-info, .tink-datepickerrange .btn.btn-primary, .tink-datepickerrange .btn.btn-info {
+    .tink-datepicker button.btn-primary, .tink-datepicker button.btn-info, .tink-datepicker .btn.btn-primary, .tink-datepicker .btn.btn-info, .tink-datepickerrange button.btn-primary, .tink-datepickerrange button.btn-info, .tink-datepickerrange .btn.btn-primary, .tink-datepickerrange .btn.btn-info {
       color: #fff; }
-  .tink-datepickerrange table {
+  .tink-datepicker table, .tink-datepickerrange table {
     margin-bottom: 0; }
-  .tink-datepickerrange td, .tink-datepickerrange th {
+  .tink-datepicker .table-responsive, .tink-datepickerrange .table-responsive {
+    border: none; }
+  .tink-datepicker td, .tink-datepicker th, .tink-datepickerrange td, .tink-datepickerrange th {
     border: none;
     color: #888;
     padding: 0.19048rem ;
     text-align: center; }
 
-.tink-datepickerrange-header-left, .tink-datepickerrange-header-right {
-  padding: 0.14286rem ; }
-  .tink-datepickerrange-header-left button:hover, .tink-datepickerrange-header-left .btn:hover, .tink-datepickerrange-header-right button:hover, .tink-datepickerrange-header-right .btn:hover {
-    background: #bbb; }
+.tink-datepicker {
+  max-width: 22.85714rem ;
+  position: absolute; }
 
-.tink-datepickerrange-left, .tink-datepickerrange-right {
-  width: 50%; }
+.tink-datepickerrange {
+  position: relative; }
+  .tink-datepickerrange .tink-datepickerrange-header-left, .tink-datepickerrange .tink-datepickerrange-header-right {
+    padding: 0.14286rem ;
+    line-height: 2.78571rem ; }
+    .tink-datepickerrange .tink-datepickerrange-header-left button:hover, .tink-datepickerrange .tink-datepickerrange-header-left .btn:hover, .tink-datepickerrange .tink-datepickerrange-header-right button:hover, .tink-datepickerrange .tink-datepickerrange-header-right .btn:hover {
+      background: #bbb; }
+  .tink-datepickerrange .tink-datepickerrange-left, .tink-datepickerrange .tink-datepickerrange-right {
+    width: 100%; }
+    @media (min-width: 480px) {
+      .tink-datepickerrange .tink-datepickerrange-left, .tink-datepickerrange .tink-datepickerrange-right {
+        width: 50%; } }
+  @media (min-width: 480px) {
+    .tink-datepickerrange:before {
+      background: #bbb;
+      bottom: 0;
+      content: "";
+      left: 50%;
+      position: absolute;
+      top: 0;
+      width: 1px; }
+ }
 
 /**
  * Utilities
@@ -3116,7 +3127,7 @@ a[role="tab"]:focus {
 .margin-right {
   margin-right: 1.71429rem ; }
 
-.no-border, .tink-datepickerrange button, .tink-datepickerrange .btn {
+.no-border, .tink-datepicker button, .tink-datepicker .btn, .tink-datepickerrange button, .tink-datepickerrange .btn {
   border: none !important; }
 
 @-ms-viewport {
