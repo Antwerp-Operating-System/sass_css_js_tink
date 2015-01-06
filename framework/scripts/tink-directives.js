@@ -1849,7 +1849,7 @@ angular.module('tink.datepicker', [])
             });
 
             }
-startWatch();
+              startWatch();
             function stopWatch(){
               firstDateWatch();
               lastDateWatch();
@@ -2005,7 +2005,7 @@ startWatch();
               bindEvents();
             }
 
-            scope.$select = function (el,format,clear) {
+            scope.$select = function (el,format) {
               if(!angular.isDefined(format)){
                   format = 'yyyy/mm/dd';
               }
@@ -2016,7 +2016,7 @@ startWatch();
                   if(!angular.isDate(scope.tinkLastDate)){
                     $directive.focused.lastDateElem.focus();
                   }else{
-                    if(!clear && dateCalculator.dateBeforeOther(scope.tinkFirstDate,scope.tinkLastDate)){
+                    if(dateCalculator.dateBeforeOther(scope.tinkFirstDate,scope.tinkLastDate)){
                       scope.tinkLastDate = null;
                       $directive.focused.lastDateElem.focus();
                     }
@@ -2027,7 +2027,7 @@ startWatch();
                   if(!angular.isDate(scope.tinkFirstDate)){
                     $directive.focused.firstDateElem.focus();
                   }else{
-                    if(!clear && dateCalculator.dateBeforeOther(scope.tinkFirstDate,scope.tinkLastDate)){
+                    if(dateCalculator.dateBeforeOther(scope.tinkFirstDate,scope.tinkLastDate)){
                       scope.tinkFirstDate = null;
                       $directive.focused.firstDateElem.focus();
                     }
@@ -2889,12 +2889,12 @@ angular.module('tink.tooltip', [])
 
             if(date.length !== 10){ return false; }
 
+            if(!/^(?:(?:31(\/)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/.test(date)){return false;}
+
             var dateObject = dateCalculator.getDate(date, format);
-            if(dateObject !== 'INVALID DATE'){
-              return true;
-            }
-            return false;
-          }          
+
+            return dateObject.toString()!=='Invalid Date';
+          }
         }
 
         $element.unbind('input').unbind('keydown').unbind('change');
@@ -2907,8 +2907,8 @@ angular.module('tink.tooltip', [])
             }else{
              ctrl.$setViewValue(undefined);
            }
-           
-         });         
+
+         });
         });
 
         $element.bind('input change', function() {
@@ -2916,7 +2916,7 @@ angular.module('tink.tooltip', [])
             if(validFormat($element.val(),format)){
               ctrl.$setViewValue($element.val());
             }
-          }); 
+          });
 
 
         });
@@ -3009,7 +3009,7 @@ angular.module('tink.dateHelper')
 
           // Passing date through Date applies Date.parse, if necessary
           date = date ? new Date(date) : new Date();
-          if (isNaN(date)) { 
+          if (isNaN(date)) {
             throw new SyntaxError('invalid date');
           }
 
@@ -3143,7 +3143,7 @@ angular.module('tink.dateHelper')
     getDate: function (date, format) {
       if(!angular.isDefined(date) || !angular.isDefined(format) || date.trim()===''){
         return null;
-      }      
+      }
       return stringToDate(date, format);
     },
     daysInMonth: function (month,year) {
@@ -3151,10 +3151,10 @@ angular.module('tink.dateHelper')
         return new Date(month.getYear(), month.getMonth() + 1, 0).getDate();
       }else{
         return new Date(year, month, 0).getDate();
-      }      
+      }
     },
     daysInMonthNodays: function (month,year) {
-  
+
       return new Date(year, month, 0).getDate();
     },
     format: function (date, format) {
@@ -3163,7 +3163,7 @@ angular.module('tink.dateHelper')
     formatDate: function (date, format) {
         return dateFormat(date, format,null,nl);
     },
-    getShortDays: function (lang) { 
+    getShortDays: function (lang) {
 
       if (lang !== angular.isDefined(lang)) {
         lang = 'nl';
