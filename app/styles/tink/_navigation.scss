@@ -123,7 +123,6 @@ body {
 
 .nav-left {
   @include nav-aside();
-
   left: 0;
   transform: translate(rem(-$nav-aside-width), 0);
   transition: transform $animation-speed linear;
@@ -138,6 +137,10 @@ body {
 }
 
 .nav-aside-list {
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: -blackberry-touch;
 
   .badge {
     background-color: $nav-aside-badge-background-color;
