@@ -463,7 +463,10 @@
     <div class="panel-body">
         <button ng-click='go()'></button>
       <tink-datepicker-range data-tink-first-date="dates.first" data-tink-last-date="dates.last"></tink-datepicker-range>
-      <input type="text" ng-model="selectedDate" data-date-format="dd/mm/yyyy" data-model-date-format="yyyy-mm-dd" data-date-type="string" tink-datepicker>
+      <input type="text" ng-model="selectedDate" data-tink-date-format="dd/mm/yyyy" data-tink-model-date-format="yyyy-mm-dd" data-tink-date-type="string" tink-datepicker>
+
+      <input type="text">
+
     </div>
   </section>
 

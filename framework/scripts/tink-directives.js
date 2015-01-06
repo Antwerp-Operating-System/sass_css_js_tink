@@ -140,7 +140,7 @@ angular.module('tink.datepicker', [])
                 element[0].focus();
               } else {
                 $tooltip.show();
-              } 
+              }
             });
           }
 
@@ -314,7 +314,7 @@ angular.module('tink.datepicker', [])
 
         $tooltip.$applyPlacement = function() {
           if(!tipElement) {
-            return; 
+            return;
           }
 
           // Determine if we're doing an auto or normal placement
@@ -597,7 +597,7 @@ angular.module('tink.datepicker', [])
       function fetchTemplate(template) {
         if(fetchPromises[template]){
           return fetchPromises[template];
-        } 
+        }
         return (fetchPromises[template] = $q.when($templateCache.get(template) || $http.get(template))
         .then(function(res) {
           if(angular.isObject(res)) {
@@ -980,7 +980,7 @@ angular.module('tink.datepicker', [])
           var steps = $picker.steps;
           // set targetDate to first day of month to avoid problems with
           // date values rollover. This assumes the viewDate does not
-          // depend on the day of the month 
+          // depend on the day of the month
           var targetDate = new Date(Date.UTC(viewDate.year + ((steps.year || 0) * value), viewDate.month + ((steps.month || 0) * value), 1));
           angular.extend(viewDate, {year: targetDate.getUTCFullYear(), month: targetDate.getUTCMonth(), date: targetDate.getUTCDate()});
           $datepicker.$build();
@@ -1055,8 +1055,8 @@ angular.module('tink.datepicker', [])
         var _show = $datepicker.show;
         $datepicker.show = function() {
           _show();
-          // use timeout to hookup the events to prevent 
-          // event bubbling from being processed imediately. 
+          // use timeout to hookup the events to prevent
+          // event bubbling from being processed imediately.
           $timeout(function() {
             $datepicker.$element.on(isTouch ? 'touchstart' : 'mousedown', $datepicker.$onMouseDown);
             if(options.keyboard) {
@@ -1409,7 +1409,7 @@ angular.module('tink.datepicker', [])
         var formatDate = function(date, format) {
           return dateCalculator.formatDate(date, format, lang);
         };
-    
+
         var dateParser = $dateParser({format: options.dateFormat, lang: lang, strict: options.strictFormat});
 
         // Observe attributes for changes
@@ -1466,7 +1466,7 @@ angular.module('tink.datepicker', [])
           if(!viewValue) {
             controller.$setValidity('date', true);
             // BREAKING CHANGE:
-            // return null (not undefined) when input value is empty, so angularjs 1.3 
+            // return null (not undefined) when input value is empty, so angularjs 1.3
             // ngModelController can go ahead and run validators, like ngRequired
             return null;
           }
@@ -1474,8 +1474,8 @@ angular.module('tink.datepicker', [])
 
           if(!parsedDate || isNaN(parsedDate.getTime())) {
             controller.$setValidity('date', false);
-            // return undefined, causes ngModelController to 
-            // invalidate model value 
+            // return undefined, causes ngModelController to
+            // invalidate model value
             return;
           } else {
             validateAgainstMinMaxDate(parsedDate);
@@ -3357,7 +3357,7 @@ angular.module('tink.templates', [])
         '</div>');
 
       $templateCache.put('templates/tinkDatePicker.html',
-        '<div class="dropdown-menu datepicker" ng-class="\'datepicker-mode-\' + $mode" style="max-width: 320px;">'+
+        '<div class="dropdown-menu tink-datepicker" ng-class="\'datepicker-mode-\' + $mode">'+
         '<table style="table-layout: fixed; height: 100%; width: 100%;">'+
         '<thead>'+
         '<tr class="text-center">'+
@@ -3394,7 +3394,7 @@ angular.module('tink.templates', [])
 $templateCache.put('templates/tinkDatePickerRange.html',
         '<div class="tink-datepickerrange">'+
   '<div class="pull-left tink-datepickerrange-left">'+
-    '<div class="tink-datepickerrange-header-left" style="line-height: 39px;">'+
+    '<div class="tink-datepickerrange-header-left">'+
       '<div class="pull-left">'+
         '<button tabindex="-1" type="button" class="btn pull-left" ng-click="$selectPane(0)">'+
           '<i class="fa fa-chevron-left"></i>'+
@@ -3416,7 +3416,7 @@ $templateCache.put('templates/tinkDatePickerRange.html',
     '</div>'+
   '</div>'+
   '<div class="pull-right tink-datepickerrange-right">'+
-    '<div class="tink-datepickerrange-header-right" style="line-height: 39px;">'+
+    '<div class="tink-datepickerrange-header-right">'+
      ' <div class="pull-right">'+
         '<button tabindex="-1" type="button" class="btn pull-left" ng-click="$selectPane(1)">'+
           '<i class="fa fa-chevron-right"></i>'+
