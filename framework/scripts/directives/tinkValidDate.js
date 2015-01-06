@@ -31,7 +31,7 @@
 
           safeApply($scope,function() {
             if(validFormat($element.val(),format)){
-              checkForValid($element.val(),format)
+              checkForValid($element.val(),format);
               ctrl.$setViewValue($element.val());
             }else{
              ctrl.$setViewValue(undefined);
