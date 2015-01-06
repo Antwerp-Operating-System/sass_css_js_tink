@@ -12,9 +12,9 @@
 	tinkApi.VERSION = '1.0.0';
 
 	tinkApi.util = {
-	    getCurrentURL: function () {
-	        return window.location.href;
-	    }
+		getCurrentURL: function () {
+			return window.location.href;
+		}
 	};
 
 	tinkApi.topNavigation = function(){
@@ -25,7 +25,7 @@
 		var calculateHeight = function(){
 			if($(defaults.menuStr).length === 1){
 				var height = $(defaults.menuStr)[0].clientHeight;
-      			$($(document)[0].body).css('padding-top',height+'px');
+				$($(document)[0].body).css('padding-top',height+'px');
 			}			
 		};
 		
@@ -38,6 +38,75 @@
 				calculateHeight();
 				startLisener();
 			}
+		};
+	};
+
+
+	tinkApi.accordion = function(element){
+		
+		var defaults = {
+			toggle:'accordion-toggle',
+			speed:300,
+			oneAtTime:false
+		}
+		var elements = null;
+		var items = [];
+		var openIndex = null;
+
+		var handleAccordion = function(index){
+
+			if(defaults.oneAtTime){
+				if(openIndex === index){
+					closeAccordion(openIndex);
+				}else{
+					if(openIndex !== null){
+						closeAccordion(openIndex);
+					}		
+					openIndex = index;
+					openAccordion(openIndex);			
+				}
+				
+			}else{
+				if(items[index].open){
+					closeAccordion(index);
+				}else{
+					openAccordion(index);
+				}
+			}		
+			
+		}
+
+		var init = function(){
+			elements = $(element).find('> div.accordion > div.accordion-toggle');
+			elements.each(function( index ) {
+				items[index] = {open:false};
+			});
+			elements.click(function(){
+				handleAccordion(elements.index(this));
+			})
+		}
+
+		var openAccordion = function(index){
+			if($(elements[index]) && $(elements[index]).next().hasClass('accordion-content')){
+				items[index].open = true;	
+				var content = $(elements[index]).next();
+				content.slideDown(defaults.speed);
+			}			
+		}
+
+		var closeAccordion =  function(index){
+			if($(elements[index]) && $(elements[index]).next().hasClass('accordion-content')){
+				var content = $(elements[index]).next();
+				content.slideUp(defaults.speed);
+				items[index].open = false;
+				openIndex = null;			
+			}	
+		}
+
+		return {
+			init:function(){
+				init();
+			}			
 		};
 	};
 
@@ -55,7 +124,7 @@
 			gotoPage:false
 		};
 
-    var options = $.extend( {}, defaults, opts );
+		var options = $.extend( {}, defaults, opts );
 
 		options.menuStr = $(options.menuStr);
 
@@ -76,7 +145,7 @@
 			$( '.nav-aside-list > li' ).each(function() {
 				//$(this).css( 'height',$(this).find('a').height());
 				var ulHelper = $(this).find('ul');
-			  if(ulHelper.length){
+				if(ulHelper.length){
 					$(this).addClass('can-open');
 					if(options.accordion){
 						$(this).find('a')[0].href ='javascript:void(0);';
@@ -147,8 +216,8 @@
 		(function mapUrls(){
 			var aMap = options.menuStr.find('li a[href]');
 			[].forEach.call(aMap,function (el) {
-			        urlDomMap[el.href] = el;
-			    }
+				urlDomMap[el.href] = el;
+			}
 			);
 		})();
 
@@ -192,18 +261,18 @@
 
 		var calculateTop = function(){
 
-            if($(options.topNav).length === 1){
+			if($(options.topNav).length === 1){
 
-                    $(options.menuStr).css('top',$(options.topNav).outerHeight());
-                }
+				$(options.menuStr).css('top',$(options.topNav).outerHeight());
+			}
 
-        };
+		};
 
-        var watchForPadding = function(){
-            window.addEventListener('resize', function(){
-                calculateTop();
-            });
-        };
+		var watchForPadding = function(){
+			window.addEventListener('resize', function(){
+				calculateTop();
+			});
+		};
 
 
 		return {
@@ -234,5 +303,5 @@
 	};
 
 
-root.tinkApi = tinkApi;
+	root.tinkApi = tinkApi;
 }).call(window);
