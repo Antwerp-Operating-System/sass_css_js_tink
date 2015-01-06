@@ -1,7 +1,7 @@
   'use strict';
   angular.module('tink.topNav', []);
   angular.module('tink.topNav')
-  .directive('navHeader',['$document','$window','tinkApi',function($document,$window,tinkApi){
+  .directive('tinkTopNav',['$document','$window','tinkApi',function($document,$window,tinkApi){
 
    return {
     restrict:'AE',
@@ -10,7 +10,6 @@
       if(!tinkApi.sideNavigation || !tinkApi.sideNavToggle){
         return;
       }
-
       tinkApi.topNavigation(elem).init();
   }
 };
