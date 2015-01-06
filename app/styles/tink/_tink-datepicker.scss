@@ -7,16 +7,9 @@
   box-shadow: 0 1px 2px rgba(0,0,0,.6);
   color: $gray-dark;
   position: relative;
-
-  &:before {
-    background: $gray-light;
-    bottom: 0;
-    content: "";
-    left: 50%;
-    position: absolute;
-    top: 0;
-    width: 1px;
-  }
+  // @include mq($screen-sm, "max") {
+  //   width: 85%;
+  // }
 
   .tink-datepickerrange-header-left,
   .tink-datepickerrange-header-right {
@@ -30,7 +23,22 @@
 
   .tink-datepickerrange-left,
   .tink-datepickerrange-right {
-    width: 50%;
+    width: 100%;
+    @include mq($screen-xs) {
+      width: 50%;
+    }
+  }
+
+  @include mq($screen-xs) {
+    &:before {
+      background: $gray-light;
+      bottom: 0;
+      content: "";
+      left: 50%;
+      position: absolute;
+      top: 0;
+      width: 1px;
+    }
   }
 
 
@@ -39,7 +47,15 @@
     color: $gray;
     // padding: 0;
     padding: rem($padding-base-vertical 0);
-    width: 44px;
+
+    width: 100%;
+    min-width: 25px;
+      // @include mq($screen-sm) {
+      //   width: 32px;
+      // }
+      @include mq($screen-md) {
+        width: 40px;
+      }
 
     &:hover {
       background: lighten($brand, 20);
@@ -54,6 +70,7 @@
     }
   }
   table { margin-bottom: 0; }
+  .table-responsive { border: none; }
   td, th {
     border: none;
     color: $gray;
