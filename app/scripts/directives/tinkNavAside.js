@@ -8,7 +8,7 @@
       if(!tinkApi.sideNavigation || !tinkApi.sideNavToggle){
         return;
       }
-              
+
       var opts= {};
       if(attr.accordion){
         opts.accordion = (attr.accordion === 'true');
@@ -19,7 +19,7 @@
       var sideNav = tinkApi.sideNavigation(elem);
       sideNav.init(opts);
       if(attr.toggleId){
-        tinkApi.sideNavToggle.register(attr.toggleId,sideNav)
+        tinkApi.sideNavToggle.register(attr.toggleId,sideNav);
       }
     }
 };

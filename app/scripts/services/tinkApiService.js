@@ -1,3 +1,4 @@
+ 'use strict';
  angular.module('tink.tinkApi', []);
  angular.module('tink.tinkApi')
 .provider('tinkApi', function () {
@@ -26,9 +27,9 @@
           }
         },
         topNavigation:$window.tinkApi.topNavigation
-        
+
       };
-      
+
     }]
   };
-})
+});

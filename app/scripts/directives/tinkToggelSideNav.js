@@ -1,3 +1,4 @@
+'use strict';
  angular.module('tink.sideNav')
   .directive('tinkSidenavCollapse',['tinkApi',function(tinkApi){
    return {
@@ -8,10 +9,10 @@
       }
     	elem.bind('click', function(){
         if(attr.tinkSidenavCollapse && attr.tinkSidenavCollapse.trim() !== ''){
-          tinkApi.sideNavToggle.toggleById(attr.tinkSidenavCollapse)
-          return false; 
-        }              
-      });    	
+          tinkApi.sideNavToggle.toggleById(attr.tinkSidenavCollapse);
+          return false;
+        }
+      });
   	}
 };
 }]);
