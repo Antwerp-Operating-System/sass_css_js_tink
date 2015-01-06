@@ -130,7 +130,7 @@ angular.module('tink.dateHelper')
 
   return {
     dateBeforeOther: function (first, last) {
-      if (new Date(first).getTime() > new Date(last).getTime()) {
+      if (new Date(first).getTime() > new Date(last).getTime() && last !== null) {
         return true;
       } else {
         return false;
