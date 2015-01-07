@@ -17,14 +17,15 @@
   margin-top: 2px;
   position: relative;
   z-index: layer("popover");
+  z-index: 9999;
 
   button,
   .btn {
     @extend .no-border;
     color: $gray;
-    min-width: 25px;
+    min-width: 15px;
     padding: rem($padding-base-vertical 0);
-    width: 100%;
+    // width: 100%;
 
     @include mq($screen-md) {
       min-width: 40px;
@@ -47,6 +48,7 @@
   }
 
   table {
+    background: $white;
     margin-bottom: 0;
   }
 
@@ -64,7 +66,7 @@
 }
 
 .tink-datepicker {
-  max-width: rem(320);
+  min-width: rem(260);
   position: absolute;
 }
 
