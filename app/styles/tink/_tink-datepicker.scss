@@ -23,9 +23,9 @@
   .btn {
     @extend .no-border;
     color: $gray;
-    min-width: 15px;
+    min-width: 20px;
     padding: rem($padding-base-vertical 0);
-    // width: 100%;
+    width: 100%;
 
     @include mq($screen-md) {
       min-width: 40px;
@@ -74,6 +74,7 @@
   position: relative;
 
   @include mq($screen-xs) {
+    min-width: 400px;
     &:before {
       background: $gray-light;
       bottom: 0;
@@ -84,10 +85,15 @@
       width: 1px;
     }
   }
+
+  @include mq($screen-md) {
+    min-width: 650px;
+  }
 }
 
 .tink-datepickerrange-header-left,
 .tink-datepickerrange-header-right {
+  overflow: hidden;
   line-height: rem(39);
   padding: rem($table-cell-padding / 4);
 
