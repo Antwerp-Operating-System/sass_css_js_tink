@@ -17,12 +17,13 @@
   margin-top: 2px;
   position: relative;
   z-index: layer("popover");
+  z-index: 9999;
 
   button,
   .btn {
     @extend .no-border;
     color: $gray;
-    min-width: 25px;
+    min-width: 20px;
     padding: rem($padding-base-vertical 0);
     width: 100%;
 
@@ -47,6 +48,7 @@
   }
 
   table {
+    background: $white;
     margin-bottom: 0;
   }
 
@@ -64,7 +66,7 @@
 }
 
 .tink-datepicker {
-  max-width: rem(320);
+  min-width: rem(260);
   position: absolute;
 }
 
@@ -72,6 +74,7 @@
   position: relative;
 
   @include mq($screen-xs) {
+    min-width: 400px;
     &:before {
       background: $gray-light;
       bottom: 0;
@@ -82,10 +85,15 @@
       width: 1px;
     }
   }
+
+  @include mq($screen-md) {
+    min-width: 650px;
+  }
 }
 
 .tink-datepickerrange-header-left,
 .tink-datepickerrange-header-right {
+  overflow: hidden;
   line-height: rem(39);
   padding: rem($table-cell-padding / 4);
 

@@ -1066,13 +1066,13 @@ angular.module('tink.datepicker', [])
         };
 
         var _hide = $datepicker.hide;
-        $datepicker.hide = function(blur) {
-          if(!$datepicker.$isShown) {return;}
-          $datepicker.$element.off(isTouch ? 'touchstart' : 'mousedown', $datepicker.$onMouseDown);
-          if(options.keyboard) {
-            element.off('keydown', $datepicker.$onKeyDown);
-          }
-          _hide(blur);
+        $datepicker.hide = function(blur) { // TH comment out to inspect element
+          // if(!$datepicker.$isShown) {return;}
+          // $datepicker.$element.off(isTouch ? 'touchstart' : 'mousedown', $datepicker.$onMouseDown);
+          // if(options.keyboard) {
+          //   element.off('keydown', $datepicker.$onKeyDown);
+          // }
+          // _hide(blur);
         };
 
         return $datepicker;
