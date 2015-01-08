@@ -41,8 +41,121 @@
 		};
 	};
 
-
 	tinkApi.accordion = function(element){
+		var defaults = {
+			speed:300,
+			oneAtTime:true,
+			openGroupCss:'group-open',
+			contentCss:'accordion-content'
+		};
+
+		var accordion = null;
+
+		var init = function(element){
+			accordion = element;
+		}
+
+		var groups=[];
+		var groupElems = {};
+
+		var addGroup = function(elem){
+			if(!accordion){
+				return;
+			}
+			groups.push(elem.get(0));
+			elem.find('.'+defaults.contentCss).css('display','none');
+		}
+
+		var getGroupAt = function(index){
+			return $(groups[index]);
+		}
+
+
+		var openGroup = function(elem){
+			if(!accordion){
+				return;
+			}
+			var index = groups.indexOf(elem.get(0));
+			if(index >= 0){
+				elem = getGroupAt(index);
+				if(!elem.hasClass(defaults.openGroupCss)){
+						elem.find('.'+defaults.contentCss).slideDown(defaults.speed,function(){
+							elem.addClass(defaults.openGroupCss);
+						});
+				}
+			}
+		}
+
+		var closeGroup = function(elem){
+			if(!accordion){
+				return;
+			}
+			var index = groups.indexOf(elem.get(0));
+			if(index >= 0){
+				elem = getGroupAt(index);
+				if(elem.hasClass(defaults.openGroupCss)){
+						elem.find('.'+defaults.contentCss).slideUp(defaults.speed,function(){
+							elem.removeClass(defaults.openGroupCss);
+						});
+				}
+			}
+		}
+
+		var toggleGroup = function(elem){
+			if(!accordion){
+				return;
+			}
+			var index = groups.indexOf(elem.get(0));
+			if(index >= 0){
+				if(!elem.hasClass(defaults.openGroupCss)){
+					openGroup(elem);
+				}else{
+					closeGroup(elem);
+				}
+			}
+		}
+
+		var handleAccordion = function(elem){
+			if(!accordion){
+				return;
+			}
+			var open = null;
+			if(defaults.oneAtTime){
+				open = accordion.find('.'+defaults.openGroupCss);
+				if(open.length === 1){
+					closeGroup($(open[0]));
+				}
+				openGroup(elem);
+			}else{
+				toggleGroup(elem);
+			}
+
+		}
+
+		return{
+			init:function(element){
+				init(element);
+			},
+			addGroup:function(element){
+				addGroup(element);
+			},
+			openGroup:function(element){
+				openGroup(element);
+			},
+			closeGroup:function(element){
+				closeGroup(element);
+			},
+			toggleGroup:function(element){
+				toggleGroup(element);
+			},
+			handleAccordion:function(element){
+				handleAccordion(element);
+			}
+		}
+
+	}
+
+	tinkApi.accordion1 = function(element){
 
 		var defaults = {
 			toggle:'accordion-toggle',
@@ -77,26 +190,23 @@
 		};
 
 		var init = function(){
-			elements = $(element).find('> div.accordion > div.accordion-toggle');
+			elements = $(element).find('> .tink-accordion-panel');
 			elements.each(function( index ) {
 				items[index] = {open:false};
-			});
-			elements.click(function(){
-				handleAccordion(elements.index(this));
 			});
 		};
 
 		var openAccordion = function(index){
-			if($(elements[index]) && $(elements[index]).next().hasClass('accordion-content')){
+			if($(elements[index]) && $(elements[index]).find('.accordion-content')){
 				items[index].open = true;
-				var content = $(elements[index]).next();
+				var content = $(elements[index]).find('.accordion-content');
 				content.slideDown(defaults.speed);
 			}
 		};
 
 		var closeAccordion =  function(index){
-			if($(elements[index]) && $(elements[index]).next().hasClass('accordion-content')){
-				var content = $(elements[index]).next();
+			if($(elements[index]) && $(elements[index]).find('.accordion-content')){
+				var content = $(elements[index]).find('.accordion-content');
 				content.slideUp(defaults.speed);
 				items[index].open = false;
 				openIndex = null;
