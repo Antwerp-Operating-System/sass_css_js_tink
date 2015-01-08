@@ -65,8 +65,6 @@ body {
 
 .nav-top {
   @include bar();
-
-  overflow: auto;
   position: fixed;
   top: 0;
   width: 100%;
@@ -125,7 +123,6 @@ body {
 
 .nav-left {
   @include nav-aside();
-
   left: 0;
   transform: translate(rem(-$nav-aside-width), 0);
   transition: transform $animation-speed linear;
@@ -140,6 +137,10 @@ body {
 }
 
 .nav-aside-list {
+  height: 100%;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: -blackberry-touch;
 
   .badge {
     background-color: $nav-aside-badge-background-color;
@@ -197,21 +198,11 @@ body {
           color: $nav-aside-badge-active-text-color;
         }
       }
-
-      ul {
-        &:before {
-          color: $nav-aside-link-active-color;
-        }
-      }
     }
 
     &.open,
     &.active {
       background: $nav-aside-item-open-color;
-
-      &:before {
-        transform: rotate(180deg);
-      }
 
       ul {
         li {
@@ -266,8 +257,20 @@ body {
         z-index: layer('pseudo');
       }
 
+      &.open {
+        &:before {
+          transform: rotate(180deg);
+        }
+      }
+
       > a {
         padding-right: rem(30);
+      }
+    }
+
+    &.active {
+      &:before {
+        color: $nav-aside-link-active-color;
       }
     }
   }

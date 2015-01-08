@@ -5,7 +5,6 @@
 @mixin bar($height: $bar-height, $bg-color: $bar-bg-color) {
   background-color: $bg-color;
   line-height: rem($height);
-  overflow: auto;
 
   > ul,
   &-section-left,

@@ -5,6 +5,31 @@
   <h1>Tink playground!</h1>
   <p>Thijs code</p>
 
+
+  <section class="panel">
+    <div class="panel-heading">
+      <h1 class="panel-title">Datepicker</h1>
+    </div>
+    <div class="panel-body">
+
+
+        <div class="row">
+          <div class="col-sm-12 col-md-4" style="background: yellow;">
+            <button ng-click='go()'></button>
+            <tink-datepicker-range data-tink-first-date="dates.first" data-tink-last-date="dates.last"></tink-datepicker-range>
+            <input type="text" ng-model="selectedDate" data-tink-date-format="dd/mm/yyyy" data-tink-model-date-format="yyyy-mm-dd" data-tink-date-type="string" tink-datepicker>
+          </div>
+          <div class="col-sm-12 col-md-8">
+            Some bullshit
+          </div>
+        </div>
+
+
+        <input type="text">
+
+    </div>
+  </section>
+
   <hr>
   Comments Tom / Jasper: <br>
   - form-group + .row class attached anders collapse <br>
@@ -456,15 +481,5 @@
     </div>
   </section>
 
-  <section class="panel">
-    <div class="panel-heading">
-      <h1 class="panel-title">Datepicker</h1>
-    </div>
-    <div class="panel-body">
-        <button ng-click='go()'></button>
-      <tink-datepicker-range data-first-date="dates.first" data-last-date="dates.last"></tink-datepicker-range>
-      <input type="text" ng-model="selectedDate" data-date-format="dd/mm/yyyy" data-model-date-format="yyyy-mm-dd" data-date-type="string" tink-datepicker>
-    </div>
-  </section>
 
 </div>

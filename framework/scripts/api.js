@@ -12,68 +12,105 @@
 	tinkApi.VERSION = '1.0.0';
 
 	tinkApi.util = {
-	    getCurrentURL: function () {
-	        return window.location.href;
-	    }
-	}
-
-	// Check if the element has the class
-	function elemHasClass(elem,classStr){
-		var elemHelp  = convertToElement(elem);
-		if(elemHelp && elem.className){
-			if(elemHelp.className.indexOf(classStr) !== -1){
-				return true;
-			}else{
-				return false;
-			}
-		}else{
-			return false;
+		getCurrentURL: function () {
+			return window.location.href;
 		}
-	}
-	/*
-	*	If a string is given it will search for a domElement !
-	*	with the querySelector
-	*	if a domelement is given it wil return that domElement
-	*/
-	function convertToElement(str){
-		if(str === undefined || str === null){
-			return null;
-		}
-		if((typeof str === 'object') && str.nodeType===1 && (typeof str.style === 'object') && (typeof str.ownerDocument === 'object')){
-			return str;
-		}else if(typeof str === 'string'){
-			return document.querySelector(str);
-		}else{
-			return null;
-		}
+	};
 
-	}
-
-	tinkApi.topNavigation = function(opts){
+	tinkApi.topNavigation = function(element){
 		var defaults = {
-			menuStr:'nav[data-tink-top-header]'
+			menuStr:element
 		};
 
 		var calculateHeight = function(){
-			if($(defaults.menuStr).length === 1 ){
-				var height = $(defaults.menuStr)[0].clientHeight;
-      	$($(document)[0].body).css('padding-top',height+'px');
+			if($(defaults.menuStr).length === 1){
+				var height = $(defaults.menuStr)[0].getBoundingClientRect().height;
+				$($(document)[0].body).css('padding-top',height+'px');
 			}
-		}
+		};
 
 		var startLisener = function(){
 			$(window).bind('resize',calculateHeight);
-		}
+		};
 
 		return {
 			init:function(){
 				calculateHeight();
 				startLisener();
 			}
-		}
-	}
+		};
+	};
 
-	tinkApi.sideNavigation = function(opts){
+
+	tinkApi.accordion = function(element){
+
+		var defaults = {
+			toggle:'accordion-toggle',
+			speed:300,
+			oneAtTime:true
+		};
+		var elements = null;
+		var items = [];
+		var openIndex = null;
+
+		var handleAccordion = function(index){
+
+			if(defaults.oneAtTime){
+				if(openIndex === index){
+					closeAccordion(openIndex);
+				}else{
+					if(openIndex !== null){
+						closeAccordion(openIndex);
+					}
+					openIndex = index;
+					openAccordion(openIndex);
+				}
+
+			}else{
+				if(items[index].open){
+					closeAccordion(index);
+				}else{
+					openAccordion(index);
+				}
+			}
+
+		};
+
+		var init = function(){
+			elements = $(element).find('> div.accordion > div.accordion-toggle');
+			elements.each(function( index ) {
+				items[index] = {open:false};
+			});
+			elements.click(function(){
+				handleAccordion(elements.index(this));
+			});
+		};
+
+		var openAccordion = function(index){
+			if($(elements[index]) && $(elements[index]).next().hasClass('accordion-content')){
+				items[index].open = true;
+				var content = $(elements[index]).next();
+				content.slideDown(defaults.speed);
+			}
+		};
+
+		var closeAccordion =  function(index){
+			if($(elements[index]) && $(elements[index]).next().hasClass('accordion-content')){
+				var content = $(elements[index]).next();
+				content.slideUp(defaults.speed);
+				items[index].open = false;
+				openIndex = null;
+			}
+		};
+
+		return {
+			init:function(){
+				init();
+			}
+		};
+	};
+
+	tinkApi.sideNavigation = function(element){
 
 		var defaults = {
 			toggleClass :'nav-left-open',
@@ -84,16 +121,11 @@
 			topNav:'nav.nav-top',
 			openCss:'open',
 			accordion:false,
-			gotoPage:false
+			gotoPage:false,
+			speed:200
 		};
 
-    var options = $.extend( {}, defaults, opts );
-
-		options.menuStr = $(options.menuStr);
-
-		if(options.gotoPage){
-			options.accordion = true;
-		}
+		var options;
 
 		var registerClick = function(){
 			$( '.nav-aside-list li a' ).each(function() {
@@ -106,39 +138,33 @@
 		var calculateHeight = function(){
 
 			$( '.nav-aside-list > li' ).each(function() {
-				//$(this).css( 'height',$(this).find('a').height());
 				var ulHelper = $(this).find('ul');
-			  if(ulHelper.length){
+				if(ulHelper.length){
 					$(this).addClass('can-open');
 					if(options.accordion){
 						$(this).find('a')[0].href ='javascript:void(0);';
 					}
-
-				}else{
-					//$(this).css('height',$(this).find('a').outerHeight());
 				}
-				if(currentTogggleElem){
-
+				/*if(currentTogggleElem){
 					var totalHeight = 0;
 					currentTogggleElem.find('a').each(function() {
-						totalHeight += $(this).outerHeight();
+						totalHeight += $(this)[0].getBoundingClientRect().height;
 					});
-					//currentTogggleElem.css('height',totalHeight);
-				}
-			});
+		}*/
+	});
 		};
 
 
 		var currentTogggleElem = null;
 
 		var openAccordion = function(el){
-			el.find('ul').slideDown( 200, function() {});
+			el.find('ul').slideDown(options.speed, function() {});
 			el.addClass(options.openCss);
 			currentTogggleElem = el;
 		};
 
 		var closeAccordion = function(el){
-			el.find('ul').slideUp( 200, function() {});
+			el.find('ul').slideUp(options.speed, function() {});
 			el.removeClass(options.openCss);
 			currentTogggleElem = null;
 		};
@@ -173,21 +199,9 @@
 
 		};
 
-		var getCurrentLocation = {
-		    getHref: function () {
-		        return window.location.href;
-		    }
-		};
 
 		var urlDomMap = {};
-		// map urls with elements
-		(function mapUrls(){
-			var aMap = options.menuStr.find('li a[href]');
-			[].forEach.call(aMap,function (el) {
-			        urlDomMap[el.href] = el;
-			    }
-			);
-		})();
+
 
 		var currentActiveElement = null;
 
@@ -229,18 +243,42 @@
 
 		var calculateTop = function(){
 
-            if($(options.topNav).length === 1){
+			if($(options.topNav).length === 1){
+				$(options.menuStr).css('top',$(options.topNav)[0].getBoundingClientRect().height);
+			}
 
-                    $(options.menuStr).css('top',$(options.topNav).outerHeight());
-                }
+		};
 
-        };
+		var watchForPadding = function(){
+			window.addEventListener('resize', function(){
+				setTimeout(calculateTop, 150);
+			});
+		};
 
-        var watchForPadding = function(){
-            window.addEventListener('resize', function(){
-                calculateTop();
-            });
-        };
+		var init = function(opts){
+			options = $.extend( {}, defaults, opts );
+
+			options.menuStr = $(element);
+
+			if(options.gotoPage){
+				options.accordion = true;
+			}
+
+			// map urls with elements
+			(function mapUrls(){
+				var aMap = options.menuStr.find('li a[href]');
+				[].forEach.call(aMap,function (el) {
+					urlDomMap[el.href] = el;
+				}
+				);
+			})();
+
+			calculateHeight();
+			setActiveElemnt();
+			registerClick();
+			watchForPadding();
+			calculateTop();
+		};
 
 
 		return {
@@ -257,12 +295,8 @@
 					openMenu();
 				}
 			},
-			init:function(){
-				calculateHeight();
-				setActiveElemnt();
-				registerClick();
-				watchForPadding();
-				calculateTop();
+			init:function(opts){
+				init(opts);
 			},
 			reloadActive:function(){
 				setActiveElemnt();
@@ -271,5 +305,5 @@
 	};
 
 
-root.tinkApi = tinkApi;
+	root.tinkApi = tinkApi;
 }).call(window);

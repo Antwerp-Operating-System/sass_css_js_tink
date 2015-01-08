@@ -35,11 +35,11 @@ describe('datepicker', function() {
   var templates = {
     'default': {
       scope: {selectedDate: new Date()},
-      element: '<input type="text" ng-model="selectedDate" tink-datepicker>'
+      element: '<input type="text" ng-model="selectedDate" data-tink-datepicker>'
     },
     'value-past': {
       scope: {selectedDate: new Date(1986, 1, 22)},
-      element: '<input type="text" ng-model="selectedDate" tink-datepicker>'
+      element: '<input type="text" ng-model="selectedDate" data-tink-datepicker>'
     },
     'markup-ngRepeat': {
       element: '<ul><li ng-repeat="i in [1, 2, 3]"><input type="text" ng-model="selectedDate" tink-datepicker></li></ul>'
@@ -206,17 +206,17 @@ describe('datepicker', function() {
 
     it('should open on focus', function() {
       var elm = compileDirective('default');
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(0);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(0);
       angular.element(elm[0]).triggerHandler('focus');
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(1);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(1);
     });
 
     it('should close on blur', function() {
       var elm = compileDirective('default');
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(0);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(0);
       angular.element(elm[0]).triggerHandler('focus');
       angular.element(elm[0]).triggerHandler('blur');
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(0);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(0);
     });
 
     it('should correctly compile inner content', function() {
@@ -488,14 +488,14 @@ describe('datepicker', function() {
       });
 it('should correctly order month days in inner content', function() {
       for (var month = 0; month < 12; month++) {
-        
+
           // 6 rows (weeks) * 7 columns (days)
           for(var index = 0; index < 7 * 6; index++) {
             var indexDay = sandboxEl.find('.dropdown-menu tbody td .btn:eq(' + index + ')').text() * 1;
             expect(indexDay).toBeNextDayOrFirstDay(previousDay);
             previousDay = indexDay;
           }
-       
+
       }
  });
     });
@@ -507,10 +507,10 @@ it('should correctly order month days in inner content', function() {
       var elm = compileDirective('default');
       angular.element(elm[0]).triggerHandler('focus');
       $animate.triggerCallbacks();
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(1);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(1);
       angular.element(elm[0]).triggerHandler('blur');
       $animate.triggerCallbacks();
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(0);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(0);
 
 
       for (var i = 0; i < 10; i++) {
@@ -526,7 +526,7 @@ it('should correctly order month days in inner content', function() {
       var elm = compileDirective('default');
       angular.element(elm[0]).triggerHandler('focus');
       $animate.triggerCallbacks();
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(1);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(1);
 
 
       for (var i = 0; i < 10; i++) {
@@ -556,50 +556,50 @@ it('should correctly order month days in inner content', function() {
   describe('bsShow attribute', function() {
     it('should support setting to a boolean value', function() {
       compileDirective('bsShow-attr');
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(0);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(0);
     });
 
     it('should support binding', function() {
       compileDirective('bsShow-binding');
       expect(scope.isVisible).toBeFalsy();
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(0);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(0);
       scope.isVisible = true;
       scope.$digest();
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(0);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(0);
       scope.isVisible = false;
       scope.$digest();
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(0);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(0);
     });
 
     it('should support initial value false', function() {
       compileDirective('bsShow-binding');
       expect(scope.isVisible).toBeFalsy();
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(0);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(0);
     });
 
     it('should support initial value true', function() {
       compileDirective('bsShow-binding', {isVisible: true});
       expect(scope.isVisible).toBeTruthy();
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(0);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(0);
     });
 
     it('should support undefined value', function() {
       compileDirective('bsShow-binding', {isVisible: undefined});
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(0);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(0);
     });
 
     it('should support string value', function() {
       compileDirective('bsShow-binding', {isVisible: 'a string value'});
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(0);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(0);
       scope.isVisible = 'TRUE';
       scope.$digest();
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(0);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(0);
       scope.isVisible = 'dropdown';
       scope.$digest();
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(0);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(0);
       scope.isVisible = 'datepicker,tooltip';
       scope.$digest();
-      expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(0);
+      expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(0);
     });
   });
 
@@ -657,11 +657,11 @@ it('should correctly order month days in inner content', function() {
 
       it('should close on select', function() {
         var elm = compileDirective('options-autoclose');
-        expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(0);
+        expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(0);
         angular.element(elm[0]).triggerHandler('focus');
         angular.element(sandboxEl.find('.dropdown-menu tbody .btn:first')).triggerHandler('click');
         $timeout.flush();
-        expect(sandboxEl.children('.dropdown-menu.datepicker').length).toBe(0);
+        expect(sandboxEl.children('.dropdown-menu.tink-datepicker').length).toBe(0);
       });
 
     });

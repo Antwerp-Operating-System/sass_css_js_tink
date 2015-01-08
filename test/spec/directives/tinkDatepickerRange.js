@@ -19,15 +19,15 @@ describe('datepicker range', function() {
 		scope.$destroy();
 		sandboxEl.remove();
 	});
-	
+
 	var templates = {
 		'default': {
 			scope: {dates: {first:new Date(2014,11,30),last:null}},
-			element: '<tink-datepicker-range data-first-date="dates.first" data-last-date="dates.last"></tink-datepicker-range>'
+			element: '<tink-datepicker-range data-tink-first-date="dates.first" data-tink-last-date="dates.last"></tink-datepicker-range>'
 		},
 		'no-dates': {
 			scope: {dates: {first:null,last:null}},
-			element: '<tink-datepicker-range data-first-date="dates.first" data-last-date="dates.last"></tink-datepicker-range>'
+			element: '<tink-datepicker-range data-tink-first-date="dates.first" data-tink-last-date="dates.last"></tink-datepicker-range>'
 		}
 	};
 
@@ -200,6 +200,152 @@ describe('with no dates', function() {
 		var monthLater = today.setMonth(today.getMonth()+1);
 		expect(sandboxEl.find('div label')[1].innerText).toBe(dateCalculator.format(monthLater,'mmmm yyyy'));
 	});
+
+	it('when has error on first input do noting', function() {
+		var elm = compileDirective('no-dates');
+		angular.element(elm.find('input')[0]).triggerHandler('focus');
+		elm.find('input:first').val('02/31/14');
+		angular.element(elm.find('input')[0]).triggerHandler('change');
+		scope.$digest();
+		expect(sandboxEl.find('input:first').val()).toBe('02/31/14');
+		expect(scope.dates.first).toBe(null);
+	});
+
+	it('when has error on first input blur be empty', function() {
+		var elm = compileDirective('no-dates');
+		angular.element(elm.find('input')[0]).triggerHandler('focus');
+		elm.find('input:first').val('02/31/14');
+		angular.element(elm.find('input')[0]).triggerHandler('blur');
+		scope.$digest();
+		expect(sandboxEl.find('input:first').val()).toBe('');
+		expect(scope.dates.first).toBe(null);
+	});
+
+	it('when has error on last do noting', function() {
+		var elm = compileDirective('no-dates');
+		angular.element(elm.find('input')[0]).triggerHandler('focus');
+		elm.find('input:last').val('02/31/14');
+		angular.element(elm.find('input')[0]).triggerHandler('change');
+		scope.$digest();
+		expect(sandboxEl.find('input:last').val()).toBe('02/31/14');
+		expect(scope.dates.first).toBe(null);
+	});
+
+	it('when has error on first blur be empty', function() {
+		var elm = compileDirective('no-dates');
+		elm.find('input:last').triggerHandler('focus');
+		elm.find('input:last').val('02/31/14');
+		elm.find('input:last').triggerHandler('blur');
+		scope.$digest();
+		expect(sandboxEl.find('input:last').val()).toBe('');
+		expect(scope.dates.first).toBe(null);
+	});
+
+	it('both valid should change on blur', function() {
+		var elm = compileDirective('no-dates');
+
+		expect(scope.dates.first).toBe(null);
+		expect(scope.dates.last).toBe(null);
+
+		elm.find('input:first').triggerHandler('focus');
+		elm.find('input:first').val('14/01/2014');
+		elm.find('input:first').triggerHandler('change');
+
+		elm.find('input:last').triggerHandler('focus');
+		elm.find('input:last').val('19/02/2014');
+		elm.find('input:last').triggerHandler('change');
+		scope.$digest();
+
+		expect(sandboxEl.find('input:first').val()).toBe('14/01/2014');
+		expect(sandboxEl.find('input:last').val()).toBe('19/02/2014');
+
+		expect(scope.dates.first.getDate()).toBe(new Date(2014,0,14).getDate());
+		expect(scope.dates.last.getDate()).toBe(new Date(2014,1,19).getDate());
+
+	});
+
+	it('both valid, first change badly would not change scope only on blur', function() {
+		var elm = compileDirective('no-dates');
+
+		elm.find('input:first').triggerHandler('focus');
+		elm.find('input:first').val('14/01/2014');
+		elm.find('input:first').triggerHandler('change');
+
+		elm.find('input:last').triggerHandler('focus');
+		elm.find('input:last').val('19/02/2014');
+		elm.find('input:last').triggerHandler('change');
+		scope.$digest();
+
+		elm.find('input:first').triggerHandler('focus');
+		elm.find('input:first').val('1f/01/2014');
+		elm.find('input:first').triggerHandler('change');
+		scope.$digest();
+		expect(sandboxEl.find('input:first').val()).toBe('1f/01/2014');
+		expect(sandboxEl.find('input:last').val()).toBe('19/02/2014');
+
+		expect(scope.dates.first.getDate()).toBe(new Date(2014,0,14).getDate());
+		expect(scope.dates.last.getDate()).toBe(new Date(2014,1,19).getDate());
+
+		elm.find('input:first').triggerHandler('blur');
+		expect(scope.dates.first).toBe(null);
+		expect(sandboxEl.find('input:last').val()).toBe('19/02/2014');
+		expect(scope.dates.last.getDate()).toBe(new Date(2014,1,19).getDate());
+	});
+
+it('both valid, last change badly would not change scope only on blur', function() {
+		var elm = compileDirective('no-dates');
+
+		elm.find('input:first').triggerHandler('focus');
+		elm.find('input:first').val('14/01/2014');
+		elm.find('input:first').triggerHandler('change');
+
+		elm.find('input:last').triggerHandler('focus');
+		elm.find('input:last').val('19/02/2014');
+		elm.find('input:last').triggerHandler('change');
+		scope.$digest();
+
+		elm.find('input:last').triggerHandler('focus');
+		elm.find('input:last').val('1f/02/2014');
+		elm.find('input:last').triggerHandler('change');
+		scope.$digest();
+
+		expect(sandboxEl.find('input:first').val()).toBe('14/01/2014');
+		expect(sandboxEl.find('input:last').val()).toBe('1f/02/2014');
+
+		expect(scope.dates.first.getDate()).toBe(new Date(2014,0,14).getDate());
+		expect(scope.dates.last.getDate()).toBe(new Date(2014,1,19).getDate());
+
+		elm.find('input:last').triggerHandler('blur');
+		expect(scope.dates.last).toBe(null);
+		expect(sandboxEl.find('input:first').val()).toBe('14/01/2014');
+		expect(scope.dates.first.getDate()).toBe(new Date(2014,0,14).getDate());
+	});
+
+it('both dates valid, first new correctly but later then second should clear the second one.', function() {
+		var elm = compileDirective('no-dates');
+
+		elm.find('input:first').triggerHandler('focus');
+		elm.find('input:first').val('14/01/2014');
+		elm.find('input:first').triggerHandler('change');
+
+		elm.find('input:last').triggerHandler('focus');
+		elm.find('input:last').val('19/01/2014');
+		elm.find('input:last').triggerHandler('change');
+		scope.$digest();
+
+		elm.find('input:first').triggerHandler('focus');
+		elm.find('input:first').val('20/01/2014');
+		elm.find('input:first').triggerHandler('change');
+
+		scope.$digest();
+		expect(sandboxEl.find('input:first').val()).toBe('20/01/2014');
+		expect(sandboxEl.find('input:last').val()).toBe('');
+
+		expect(scope.dates.first.getDate()).toBe(new Date(2014,0,20).getDate());
+		expect(scope.dates.last).toBe(null);
+
+	});
+
 
 });
 });

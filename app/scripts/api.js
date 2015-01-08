@@ -17,21 +17,21 @@
 		}
 	};
 
-	tinkApi.topNavigation = function(){
+	tinkApi.topNavigation = function(element){
 		var defaults = {
-			menuStr:'nav[data-tink-top-header]'
+			menuStr:element
 		};
 
 		var calculateHeight = function(){
 			if($(defaults.menuStr).length === 1){
-				var height = $(defaults.menuStr)[0].clientHeight;
+				var height = $(defaults.menuStr)[0].getBoundingClientRect().height;
 				$($(document)[0].body).css('padding-top',height+'px');
-			}			
+			}
 		};
-		
+
 		var startLisener = function(){
-			$(window).bind('resize',calculateHeight);		
-		};		
+			$(window).bind('resize',calculateHeight);
+		};
 
 		return {
 			init:function(){
@@ -43,12 +43,12 @@
 
 
 	tinkApi.accordion = function(element){
-		
+
 		var defaults = {
 			toggle:'accordion-toggle',
 			speed:300,
-			oneAtTime:false
-		}
+			oneAtTime:true
+		};
 		var elements = null;
 		var items = [];
 		var openIndex = null;
@@ -61,20 +61,20 @@
 				}else{
 					if(openIndex !== null){
 						closeAccordion(openIndex);
-					}		
+					}
 					openIndex = index;
-					openAccordion(openIndex);			
+					openAccordion(openIndex);
 				}
-				
+
 			}else{
 				if(items[index].open){
 					closeAccordion(index);
 				}else{
 					openAccordion(index);
 				}
-			}		
-			
-		}
+			}
+
+		};
 
 		var init = function(){
 			elements = $(element).find('> div.accordion > div.accordion-toggle');
@@ -83,34 +83,34 @@
 			});
 			elements.click(function(){
 				handleAccordion(elements.index(this));
-			})
-		}
+			});
+		};
 
 		var openAccordion = function(index){
 			if($(elements[index]) && $(elements[index]).next().hasClass('accordion-content')){
-				items[index].open = true;	
+				items[index].open = true;
 				var content = $(elements[index]).next();
 				content.slideDown(defaults.speed);
-			}			
-		}
+			}
+		};
 
 		var closeAccordion =  function(index){
 			if($(elements[index]) && $(elements[index]).next().hasClass('accordion-content')){
 				var content = $(elements[index]).next();
 				content.slideUp(defaults.speed);
 				items[index].open = false;
-				openIndex = null;			
-			}	
-		}
+				openIndex = null;
+			}
+		};
 
 		return {
 			init:function(){
 				init();
-			}			
+			}
 		};
 	};
 
-	tinkApi.sideNavigation = function(opts){
+	tinkApi.sideNavigation = function(element){
 
 		var defaults = {
 			toggleClass :'nav-left-open',
@@ -121,61 +121,50 @@
 			topNav:'nav.nav-top',
 			openCss:'open',
 			accordion:false,
-			gotoPage:false
+			gotoPage:false,
+			speed:200
 		};
 
-		var options = $.extend( {}, defaults, opts );
-
-		options.menuStr = $(options.menuStr);
-
-		if(options.gotoPage){
-			options.accordion = true;
-		}
+		var options;
 
 		var registerClick = function(){
 			$( '.nav-aside-list li a' ).each(function() {
 				$(this).on('click',function(){
 					setActiveElemnt($(this).parent());
 				});
-			});	
+			});
 		};
 
 		var calculateHeight = function(){
-			
+
 			$( '.nav-aside-list > li' ).each(function() {
-				//$(this).css( 'height',$(this).find('a').height());
 				var ulHelper = $(this).find('ul');
 				if(ulHelper.length){
 					$(this).addClass('can-open');
 					if(options.accordion){
 						$(this).find('a')[0].href ='javascript:void(0);';
 					}
-
-				}else{
-					//$(this).css('height',$(this).find('a').outerHeight());
 				}
-				if(currentTogggleElem){
-					
+				/*if(currentTogggleElem){
 					var totalHeight = 0;
 					currentTogggleElem.find('a').each(function() {
-						totalHeight += $(this).outerHeight();
+						totalHeight += $(this)[0].getBoundingClientRect().height;
 					});
-					//currentTogggleElem.css('height',totalHeight);
-				}
-			});
+		}*/
+	});
 		};
-		
+
 
 		var currentTogggleElem = null;
 
 		var openAccordion = function(el){
-			el.find('ul').slideDown( 'slow', function() {});
+			el.find('ul').slideDown(options.speed, function() {});
 			el.addClass(options.openCss);
 			currentTogggleElem = el;
 		};
 
 		var closeAccordion = function(el){
-			el.find('ul').slideUp( 'slow', function() {});
+			el.find('ul').slideUp(options.speed, function() {});
 			el.removeClass(options.openCss);
 			currentTogggleElem = null;
 		};
@@ -183,7 +172,7 @@
 		var toggleAccordion = function(el){
 			if(currentTogggleElem !== null){
 				currentTogggleElem.removeClass(options.openCss);
-			}	
+			}
 
 			if(el !== null){
 
@@ -201,25 +190,18 @@
 						setActiveElemnt(el.find('ul li:first'));
 					}
 
-				}				
-				
+				}
+
 			}else{
 				currentTogggleElem = null;
 			}
 
-			
+
 		};
 
 
 		var urlDomMap = {};
-		// map urls with elements
-		(function mapUrls(){
-			var aMap = options.menuStr.find('li a[href]');
-			[].forEach.call(aMap,function (el) {
-				urlDomMap[el.href] = el;
-			}
-			);
-		})();
+
 
 		var currentActiveElement = null;
 
@@ -233,11 +215,11 @@
 
 			if(activeElem && activeElem.hasClass('can-open')){
 				toggleAccordion(activeElem);
-				
+
 			}else if(activeElem.parent().parent().hasClass('can-open')){
 				if(currentTogggleElem === null || activeElem.parent().parent()[0] !== currentTogggleElem[0]){
 					toggleAccordion(activeElem.parent().parent());
-				}	
+				}
 			}else if(currentTogggleElem){
 				toggleAccordion(currentTogggleElem);
 			}
@@ -248,8 +230,8 @@
 				}
 				activeElem.addClass(options.activeCss);
 				currentActiveElement = activeElem;
-			}		
-			
+			}
+
 		};
 		var openMenu = function(){
 			$(options.toggleMenu).toggleClass(options.toggleClass);
@@ -262,16 +244,40 @@
 		var calculateTop = function(){
 
 			if($(options.topNav).length === 1){
-
-				$(options.menuStr).css('top',$(options.topNav).outerHeight());
+				$(options.menuStr).css('top',$(options.topNav)[0].getBoundingClientRect().height);
 			}
 
 		};
 
 		var watchForPadding = function(){
 			window.addEventListener('resize', function(){
-				calculateTop();
+				setTimeout(calculateTop, 150);
 			});
+		};
+
+		var init = function(opts){
+			options = $.extend( {}, defaults, opts );
+
+			options.menuStr = $(element);
+
+			if(options.gotoPage){
+				options.accordion = true;
+			}
+
+			// map urls with elements
+			(function mapUrls(){
+				var aMap = options.menuStr.find('li a[href]');
+				[].forEach.call(aMap,function (el) {
+					urlDomMap[el.href] = el;
+				}
+				);
+			})();
+
+			calculateHeight();
+			setActiveElemnt();
+			registerClick();
+			watchForPadding();
+			calculateTop();
 		};
 
 
@@ -289,12 +295,8 @@
 					openMenu();
 				}
 			},
-			init:function(){
-				calculateHeight();
-				setActiveElemnt();
-				registerClick();
-				watchForPadding();				
-				calculateTop();
+			init:function(opts){
+				init(opts);
 			},
 			reloadActive:function(){
 				setActiveElemnt();

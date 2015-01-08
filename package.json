@@ -1,6 +1,6 @@
 {
   "name": "Tink",
-  "version": "0.8.0",
+  "version": "1.0.0-beta.1",
   "repository": {
     "type": "git",
     "url": "git@github.com:Antwerp-Operating-System/sass_css_js_tink.git"
@@ -47,7 +47,9 @@
     "moment": "^2.8.3",
     "mversion": "~1.8.0",
     "semver": "~4.1.0",
-    "time-grunt": "^0.3.1"
+    "time-grunt": "^0.3.1",
+    "karma-sauce-launcher": "~0.2.10",
+    "karma-coverage": "~0.2.7"
   },
   "engines": {
     "node": ">=0.10.0"

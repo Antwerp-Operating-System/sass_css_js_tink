@@ -40,73 +40,73 @@ describe('TopNavigation', function() {
   var templates = {
     'default': {
       scope: {selectedDate: new Date()},
-      element: '<nav data-tink-top-header nav-header class="nav-top">'+
-        '<ul class="nav-top-branding">'+
-          '<li class="logo">'+
-            '<a href="#" title=""><img src="images/playground/tink-logo.svg" alt="" /></a>'+
-          '</li>'+
-          '<li class="toggle">'+
-            '<a href="#" title="Open menu" data-ng-click="sidenav.open = !sidenav.open"><i class="fa fa-bars"><span class="sr-only">Open menu</span></i></a>'+
-          '</li>'+
-          '<li class="app">'+
-           ' <h1><a href="#">My App</a></h1>'+
-          '</li>'+
-        '</ul>'+
-        '<section class="nav-top-section">'+
-          '<ul class="nav-top-section-left">'+
-           '<li>'+
-              '<a href="#">Menu L1</a>'+
-            '</li>'+
-          '</ul>'+
-          '<div class="nav-top-section-center">'+
-            '<input type="search" class="input-search" placeholder="Zoeken" />'+
-          '</div>'+
-          '<ul class="nav-top-section-right">'+
-            '<li class="active">'+
-             '<a href="#">Menu R1</a>'+
-            '</li>'+
-            '<li>'+
-              '<a href="#">Menu R2</a>'+
-            '</li>'+
-          '</ul>'+
-        '</section>'+
+      element: '<nav data-tink-top-nav class="nav-top">'+
+      '<ul class="nav-top-branding">'+
+      '<li class="logo">'+
+      '<a href="#" title=""><img src="images/playground/tink-logo.svg" alt="" /></a>'+
+      '</li>'+
+      '<li class="toggle">'+
+      '<a href="#" title="Open menu" data-ng-click="sidenav.open = !sidenav.open"><i class="fa fa-bars"><span class="sr-only">Open menu</span></i></a>'+
+      '</li>'+
+      '<li class="app">'+
+      ' <h1><a href="#">My App</a></h1>'+
+      '</li>'+
+      '</ul>'+
+      '<section class="nav-top-section">'+
+      '<ul class="nav-top-section-left">'+
+      '<li>'+
+      '<a href="#">Menu L1</a>'+
+      '</li>'+
+      '</ul>'+
+      '<div class="nav-top-section-center">'+
+      '<input type="search" class="input-search" placeholder="Zoeken" />'+
+      '</div>'+
+      '<ul class="nav-top-section-right">'+
+      '<li class="active">'+
+      '<a href="#">Menu R1</a>'+
+      '</li>'+
+      '<li>'+
+      '<a href="#">Menu R2</a>'+
+      '</li>'+
+      '</ul>'+
+      '</section>'+
       '</nav>'
     },
     'withSidenav': {
       scope: {selectedDate: new Date()},
-      element: 
-       '<nav data-tink-top-header nav-header class="nav-top">'+
-        '<ul class="nav-top-branding">'+
-          '<li class="logo">'+
-            '<a href="#" title=""><img src="images/playground/tink-logo.svg" alt="" /></a>'+
-          '</li>'+
-          '<li class="toggle">'+
-            '<a href="#" title="Open menu" data-ng-click="sidenav.open = !sidenav.open"><i class="fa fa-bars"><span class="sr-only">Open menu</span></i></a>'+
-          '</li>'+
-          '<li class="app">'+
-           ' <h1><a href="#">My App</a></h1>'+
-          '</li>'+
-        '</ul>'+
-        '<section class="nav-top-section">'+
-          '<ul class="nav-top-section-left">'+
-           '<li>'+
-              '<a href="#">Menu L1</a>'+
-            '</li>'+
-          '</ul>'+
-          '<div class="nav-top-section-center">'+
-            '<input type="search" class="input-search" placeholder="Zoeken" />'+
-          '</div>'+
-          '<ul class="nav-top-section-right">'+
-            '<li class="active">'+
-             '<a href="#">Menu R1</a>'+
-            '</li>'+
-            '<li>'+
-              '<a href="#">Menu R2</a>'+
-            '</li>'+
-          '</ul>'+
-        '</section>'+
+      element:
+      '<nav data-tink-top-nav class="nav-top">'+
+      '<ul class="nav-top-branding">'+
+      '<li class="logo">'+
+      '<a href="#" title=""><img src="images/playground/tink-logo.svg" alt="" /></a>'+
+      '</li>'+
+      '<li class="toggle" data-tink-sidenav-collapse="sidenave">'+
+      '<a href="#" title="Open menu" data-ng-click="sidenav.open = !sidenav.open"><i class="fa fa-bars"><span class="sr-only">Open menu</span></i></a>'+
+      '</li>'+
+      '<li class="app">'+
+      ' <h1><a href="#">My App</a></h1>'+
+      '</li>'+
+      '</ul>'+
+      '<section class="nav-top-section">'+
+      '<ul class="nav-top-section-left">'+
+      '<li>'+
+      '<a href="#">Menu L1</a>'+
+      '</li>'+
+      '</ul>'+
+      '<div class="nav-top-section-center">'+
+      '<input type="search" class="input-search" placeholder="Zoeken" />'+
+      '</div>'+
+      '<ul class="nav-top-section-right">'+
+      '<li class="active">'+
+      '<a href="#">Menu R1</a>'+
+      '</li>'+
+      '<li>'+
+      '<a href="#">Menu R2</a>'+
+      '</li>'+
+      '</ul>'+
+      '</section>'+
       '</nav>'+
-      '<aside data-tink-nav-aside class="nav-left">'+
+      '<aside data-tink-nav-aside data-tink-toggle-id="sidenave" class="nav-left">'+
       '<ul class="nav-aside-list" role="sidenav">'+
       '<li> <a href="#/menu1"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 1</span> <span class="badge">479</span> </a> </li>'+
       '<li class="can-open"> <a href="#/menu2"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 2</span> <span class="badge">479</span> </a> <ul>'+
@@ -127,46 +127,47 @@ describe('TopNavigation', function() {
   };
 
 
-describe('default', function() {
-  it('resize padding when window resizes ',function(){
-    var elm = compileDirective('default');
-    var bodyStart = bodyEl.css('padding-top');
-    bodyEl.css('width', '50px');
-    $(window).trigger('resize');
-    scope.$digest();
-    expect(bodyEl.css('padding-top')).toBeGreaterThan(bodyStart);
-    expect(bodyEl.css('padding-top')).toBe(elm.height()+'px');
+  describe('default', function() {
+    it('resize padding when window resizes ',function(){
+      var elm = compileDirective('default');
+      var bodyStart = bodyEl.css('padding-top');
+      bodyEl.css('width', '50px');
+      $(window).trigger('resize');
+      scope.$digest();
+      expect(bodyEl.css('padding-top')).toBeGreaterThan(bodyStart);
+      expect(bodyEl.css('padding-top')).toBe(elm[0].getBoundingClientRect().height+'px');
+    });
   });
-  it('when click on toggle expect function to be called',function(){
-    var elm = compileDirective('default');
-    var spyToggle = spyOn(tinkApi.sideNavigation,'toggleMenu');
-    elm.find('li.toggle').triggerHandler('click');
-    scope.$digest();
-    expect(spyToggle).toHaveBeenCalled();
-  });
-});
-describe('with sideNavigation', function() {
+  describe('with sideNavigation', function() {
 
-  afterEach(function() {
-    $('html').removeClass('nav-left-open');
-  });
+    afterEach(function() {
+      $('html').removeClass('nav-left-open');
+    });
 
-  it('when clicked on toggle add class to sideNavigation',function(){
-    var elm = compileDirective('withSidenav');
-    elm.find('li.toggle').triggerHandler('click');
-    scope.$digest();
-    expect($('html').hasClass('nav-left-open')).toBe(true);
-  });
+    it('when clicked on toggle add class to sideNavigation',function(){
+      var elm = compileDirective('withSidenav');
+      elm.find('li.toggle').triggerHandler('click');
+      scope.$digest();
+      expect($('html').hasClass('nav-left-open')).toBe(true);
+    });
 
-  it('when sideNave is open close it again',function(){
-    var elm = compileDirective('withSidenav');
-    elm.find('li.toggle').triggerHandler('click');
-    scope.$digest();
-    expect($('html').hasClass('nav-left-open')).toBe(true);
-    elm.find('li.toggle').triggerHandler('click');
-    scope.$digest();
-    expect($('html').hasClass('nav-left-open')).toBe(false);
+    it('when click on toggle expect function to be called',function(){
+      var elm = compileDirective('withSidenav');
+      var spyToggle = spyOn(tinkApi.sideNavToggle,'toggleById');
+      elm.find('li.toggle').triggerHandler('click');
+      scope.$digest();
+      expect(spyToggle).toHaveBeenCalled();
+    });
+
+    it('when sideNave is open close it again',function(){
+      var elm = compileDirective('withSidenav');
+      elm.find('li.toggle').triggerHandler('click');
+      scope.$digest();
+      expect($('html').hasClass('nav-left-open')).toBe(true);
+      elm.find('li.toggle').triggerHandler('click');
+      scope.$digest();
+      expect($('html').hasClass('nav-left-open')).toBe(false);
+    });
   });
-});
 
 });

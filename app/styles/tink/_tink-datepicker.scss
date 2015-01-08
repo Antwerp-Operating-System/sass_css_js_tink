@@ -1,53 +1,115 @@
-// Components
-// Datepicker
+/**
+ * Component: datepicker
+ * --------------------------------------------------
+ * - single
+ * - range
+ */
 
+.tink-datepickerrange-input-fields {
+  display: inline-block;
+}
+
+.tink-datepicker,
 .tink-datepickerrange {
-  // @extend .margin-top;
+  background: $white;
   box-shadow: 0 1px 2px rgba(0,0,0,.6);
   color: $gray-dark;
+  margin-top: 2px;
+  position: relative;
+  z-index: layer("popover");
+  z-index: 9999;
 
-  .tink-datepickerrange-header-left,
-  .tink-datepickerrange-header-right {
-    padding: rem($table-cell-padding / 4);
-    button, .btn {
-      &:hover {
-        background: $gray-light;
-      }
-    }
-  }
-
-  .tink-datepickerrange-left,
-  .tink-datepickerrange-right {
-    background: $white; //lighten($brand, 2);
-    width: 50%;
-  }
-  .tink-datepickerrange-right {
-    border-left: 1px solid $gray-light;
-  }
-
-  button, .btn {
+  button,
+  .btn {
     @extend .no-border;
     color: $gray;
-    // padding: 0;
+    min-width: 20px;
     padding: rem($padding-base-vertical 0);
-    width: 44px;
+    width: 100%;
+
+    @include mq($screen-md) {
+      min-width: 40px;
+    }
 
     &:hover {
       background: lighten($brand, 20);
       color: $white;
     }
+
     &.btn-warning {
       background: $white;
       border: 1px solid $brand !important;
     }
-    &.btn-primary, &.btn-info {
+
+    &.btn-primary,
+    &.btn-info {
       color: $white;
     }
   }
-  td, th {
+
+  table {
+    background: $white;
+    margin-bottom: 0;
+  }
+
+  .table-responsive {
+    border: none;
+  }
+
+  td,
+  th {
     border: none;
     color: $gray;
     padding: rem($table-cell-padding / 3);
     text-align: center;
+  }
+}
+
+.tink-datepicker {
+  min-width: rem(260);
+  position: absolute;
+}
+
+.tink-datepickerrange {
+  position: relative;
+
+  @include mq($screen-xs) {
+    min-width: 400px;
+    &:before {
+      background: $gray-light;
+      bottom: 0;
+      content: "";
+      left: 50%;
+      position: absolute;
+      top: 0;
+      width: 1px;
+    }
+  }
+
+  @include mq($screen-md) {
+    min-width: 650px;
+  }
+}
+
+.tink-datepickerrange-header-left,
+.tink-datepickerrange-header-right {
+  overflow: hidden;
+  line-height: rem(39);
+  padding: rem($table-cell-padding / 4);
+
+  button,
+  .btn {
+    &:hover {
+      background: $gray-light;
+    }
+  }
+}
+
+.tink-datepickerrange-left,
+.tink-datepickerrange-right {
+  width: 100%;
+
+  @include mq($screen-xs) {
+    width: 50%;
   }
 }

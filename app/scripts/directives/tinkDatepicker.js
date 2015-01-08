@@ -140,7 +140,7 @@ angular.module('tink.datepicker', [])
                 element[0].focus();
               } else {
                 $tooltip.show();
-              } 
+              }
             });
           }
 
@@ -314,7 +314,7 @@ angular.module('tink.datepicker', [])
 
         $tooltip.$applyPlacement = function() {
           if(!tipElement) {
-            return; 
+            return;
           }
 
           // Determine if we're doing an auto or normal placement
@@ -597,7 +597,7 @@ angular.module('tink.datepicker', [])
       function fetchTemplate(template) {
         if(fetchPromises[template]){
           return fetchPromises[template];
-        } 
+        }
         return (fetchPromises[template] = $q.when($templateCache.get(template) || $http.get(template))
         .then(function(res) {
           if(angular.isObject(res)) {
@@ -980,7 +980,7 @@ angular.module('tink.datepicker', [])
           var steps = $picker.steps;
           // set targetDate to first day of month to avoid problems with
           // date values rollover. This assumes the viewDate does not
-          // depend on the day of the month 
+          // depend on the day of the month
           var targetDate = new Date(Date.UTC(viewDate.year + ((steps.year || 0) * value), viewDate.month + ((steps.month || 0) * value), 1));
           angular.extend(viewDate, {year: targetDate.getUTCFullYear(), month: targetDate.getUTCMonth(), date: targetDate.getUTCDate()});
           $datepicker.$build();
@@ -1055,8 +1055,8 @@ angular.module('tink.datepicker', [])
         var _show = $datepicker.show;
         $datepicker.show = function() {
           _show();
-          // use timeout to hookup the events to prevent 
-          // event bubbling from being processed imediately. 
+          // use timeout to hookup the events to prevent
+          // event bubbling from being processed imediately.
           $timeout(function() {
             $datepicker.$element.on(isTouch ? 'touchstart' : 'mousedown', $datepicker.$onMouseDown);
             if(options.keyboard) {
@@ -1066,7 +1066,7 @@ angular.module('tink.datepicker', [])
         };
 
         var _hide = $datepicker.hide;
-        $datepicker.hide = function(blur) {
+        $datepicker.hide = function(blur) { // TH comment out to inspect element
           if(!$datepicker.$isShown) {return;}
           $datepicker.$element.off(isTouch ? 'touchstart' : 'mousedown', $datepicker.$onMouseDown);
           if(options.keyboard) {
@@ -1378,11 +1378,10 @@ angular.module('tink.datepicker', [])
     var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
 
     return {
-      restrict: 'EAC',
+      restrict: 'EA',
       require: 'ngModel',
       priority:80,
       link: function postLink(scope, element, attr, controller) {
-
         // Directive options
         var options = {scope: scope, controller: controller};
         angular.forEach(['placement', 'container', 'delay', 'trigger', 'keyboard', 'html', 'animation', 'template', 'autoclose', 'dateType', 'dateFormat', 'modelDateFormat', 'dayFormat', 'strictFormat', 'startWeek', 'startDate', 'useNative', 'lang', 'startView', 'minView', 'iconLeft', 'iconRight', 'daysOfWeekDisabled'], function(key) {
@@ -1409,7 +1408,7 @@ angular.module('tink.datepicker', [])
         var formatDate = function(date, format) {
           return dateCalculator.formatDate(date, format, lang);
         };
-    
+
         var dateParser = $dateParser({format: options.dateFormat, lang: lang, strict: options.strictFormat});
 
         // Observe attributes for changes
@@ -1466,7 +1465,7 @@ angular.module('tink.datepicker', [])
           if(!viewValue) {
             controller.$setValidity('date', true);
             // BREAKING CHANGE:
-            // return null (not undefined) when input value is empty, so angularjs 1.3 
+            // return null (not undefined) when input value is empty, so angularjs 1.3
             // ngModelController can go ahead and run validators, like ngRequired
             return null;
           }
@@ -1474,8 +1473,8 @@ angular.module('tink.datepicker', [])
 
           if(!parsedDate || isNaN(parsedDate.getTime())) {
             controller.$setValidity('date', false);
-            // return undefined, causes ngModelController to 
-            // invalidate model value 
+            // return undefined, causes ngModelController to
+            // invalidate model value
             return;
           } else {
             validateAgainstMinMaxDate(parsedDate);
