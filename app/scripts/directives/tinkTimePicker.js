@@ -7,7 +7,7 @@ angular.module('tink.timepicker')
     template:'<input value="--:--"/>',
     replace:true,
     link:function(scope,elem,attr){
-      var current ={hour:'--',min:'--'};
+      var current ={hour:{num:00,reset:true,prev:-1},min:{num:00,reset:true,prev:-1}};
 
       function SelectText(element) {
         var doc = document,
@@ -62,77 +62,74 @@ angular.module('tink.timepicker')
 
       var handleHour = function(key){
         var num = keycodeMapper[key];
+        if(current.hour.reset){
+          current.hour.num = 0;
+          current.hour.prev = -1;
+          current.hour.reset = !current.hour.reset;
+        }
         setHour(num);
       }
 
       var selectHour = function(reset){
         elem[0].setSelectionRange(0, 2);
         selected = 1;
-        if(reset){
-          current.hour = '--'
-        }
+        current.hour.reset = reset;
+        current.min.reset = false;
       }
 
       var selectMinute = function(reset){
         elem[0].setSelectionRange(3, 5);
         selected = 2;
-        if(reset){
-          current.min = '--'
-        }
-      }
-
-      var getMin = function(){
-        if(current.min.length === 0){
-          return '--';
-        }else{
-          return current.min;
-        }
-      }
-
-      var getHour = function(){
-      if(current.hour.length === 0){
-          return '--';
-        }else{
-          return current.hour;
-        }
+        current.min.reset = reset;
+        current.hour.reset = false;
       }
 
       var setHour = function(num){
         var select;
-        if(current.hour[0] === undefined || current.hour[0] === '-'){
-          current.hour = '0'+num;
-          if(num < 3){
-            select = 1;
-          }else{
+        var firstNumber = parseInt(hourString()[1]);
+        var lastNumber = parseInt(hourString()[1]);
+        if(lastNumber<2){
+          current.hour.num = (lastNumber*10)+num;
+          if(current.hour.prev === 0){
             select = 2;
-          }
-        }else if(parseInt(current.hour[1])<2){
-          current.hour = current.hour[1]+num;
-          select = 2;
-        }else if(current.hour[1] === '2'){
-          if(num < 4){
-            current.hour = '2'+num;
+          }else if(firstNumber !== 0){
+            select = 2;
           }else{
-            current.hour = '0'+num;
+            select = 1;
+          }
+        }else if(lastNumber === 2){
+          if(num < 4){
+            current.hour.num = (lastNumber*10)+num;
+          }else{
+            current.hour.num = num;
           }
           select = 2;
         }
+        current.hour.prev = num;
         setValue(select);
       }
 
+      var hourString = function(){
+        return ("0"+current.hour.num).slice(-2);
+      }
+
+      var minString = function(){
+        return ("0"+current.min.num).slice(-2);
+      }
+
       var setMinute = function(num){
-         if(current.min[0] === undefined || current.min[0] === '-'){
-            current.min = '0'+num;
-         }else if(parseInt(current.min[1])<6){
-            current.min = current.min[1]+num;
+        var lastNumber = parseInt(minString()[1]);
+         if(isNaN(lastNumber) || lastNumber === 0 || lastNumber > 5){
+            current.min.num = num;
+         }else if(lastNumber<6){
+            current.min.num = (lastNumber*10)+num;
          }
 
         setValue(2);
       }
 
       var setValue =  function(select){
-        elem.val(current.hour+':'+current.min);
-        console.log(current.hour+':'+current.min)
+        elem.val(hourString()+':'+minString());
         if(select === 1){
           selectHour();
         }else if(select === 2){
