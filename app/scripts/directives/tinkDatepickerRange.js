@@ -319,11 +319,11 @@
             };
 
             function hide(evt) { // TH comment out to inspect element
-              // if(!(evt.relatedTarget && evt.relatedTarget.nodeName === 'INPUT')){
-              //   templateElem.css({display: 'none'});
-              //   $directive.open = false;
-              //   $directive.focusedModel = null;
-              // }
+              if(!(evt.relatedTarget && evt.relatedTarget.nodeName === 'INPUT')){
+                templateElem.css({display: 'none'});
+                $directive.open = false;
+                $directive.focusedModel = null;
+              }
             }
 
             // -- event liseners to know if you are hitting the right elements --/
