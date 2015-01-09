@@ -7,12 +7,12 @@ angular.module('tink.timepicker')
     template:'<input value="--:--"/>',
     replace:true,
     link:function(scope,elem,attr){
-      var current ={hour:{num:00,reset:true,prev:-1},min:{num:00,reset:true,prev:-1}};
+      var current ={hour:{num:00,reset:true,prev:-1,start:true},min:{num:00,reset:true,start:true}};
 
       function SelectText(element) {
         var doc = document,
-          text = element,
-          range, selection;
+        text = element,
+        range, selection;
 
         if (doc.body.createTextRange) {
           range = document.body.createTextRange();
@@ -36,10 +36,24 @@ angular.module('tink.timepicker')
           }else{
             handleMinute(keycode);
           }
-          return false;
-        }else{
-          return false;
+        }else if(keycode === 39 && selected === 1){
+          selectMinute(true);
+        }else if(keycode === 37 && selected === 2){
+          selectHour(true);
+        }else if(keycode === 38){
+          if(selected === 1){
+            addHour(1);
+          }else if(selected === 2){
+            addMinute(1);
+          }
+        }else if(keycode === 40){
+          if(selected === 1){
+            addHour(-1);
+          }else if(selected === 2){
+            addMinute(-1);
+          }
         }
+        return false;
       });
 
       keycodeMapper = {}
@@ -67,6 +81,7 @@ angular.module('tink.timepicker')
           current.hour.prev = -1;
           current.hour.reset = !current.hour.reset;
         }
+        current.hour.start =false;
         setHour(num);
       }
 
@@ -110,20 +125,29 @@ angular.module('tink.timepicker')
       }
 
       var hourString = function(){
-        return ("0"+current.hour.num).slice(-2);
+        if(current.hour.start){
+          return '--';
+        }else{
+          return ('0'+current.hour.num).slice(-2);
+        }
+
       }
 
       var minString = function(){
-        return ("0"+current.min.num).slice(-2);
+        if(current.min.start){
+          return '--';
+        }else{
+          return ('0'+current.min.num).slice(-2);
+        }
       }
 
       var setMinute = function(num){
         var lastNumber = parseInt(minString()[1]);
-         if(isNaN(lastNumber) || lastNumber === 0 || lastNumber > 5){
-            current.min.num = num;
-         }else if(lastNumber<6){
-            current.min.num = (lastNumber*10)+num;
-         }
+        if(isNaN(lastNumber) || lastNumber === 0 || lastNumber > 5){
+          current.min.num = num;
+        }else if(lastNumber<6){
+          current.min.num = (lastNumber*10)+num;
+        }
 
         setValue(2);
       }
@@ -139,6 +163,7 @@ angular.module('tink.timepicker')
 
       var handleMinute = function(key){
         var num = keycodeMapper[key];
+        current.min.start =false;
         setMinute(num);
       }
 
@@ -155,55 +180,44 @@ angular.module('tink.timepicker')
         }
         elem.focus();
 
-         return false;
+        return false;
       })
 
-     /* var hour = $(elem.children()[0]);
-      var seperator = $(elem.children()[1]);
-      var minutes = $(elem.children()[2]);
-
-      function SelectText(element) {
-        var doc = document,
-          text = element,
-          range, selection;
-
-        if (doc.body.createTextRange) {
-          range = document.body.createTextRange();
-          range.moveToElementText(text);
-          range.select();
-        } else if (window.getSelection) {
-          selection = window.getSelection();
-          range = document.createRange();
-          range.selectNodeContents(text);
-          selection.removeAllRanges();
-          selection.addRange(range);
+      var addMinute = function(size){
+        current.min.start =false;
+        var newMin = current.min.num + size;
+        if(newMin > 0 && newMin < 60){
+          current.min.num = newMin;
+        }else if(newMin >= 60 || newMin < 0){
+          addHour(Math.floor(newMin/60));
+          if(newMin % 60 < 0){
+            current.min.num = 60 + (newMin % 60);
+          }else{
+            current.min.num = newMin % 60;
+          }
+        }else{
+          current.min.num = 0;
         }
+        setValue(2);
       }
 
-      var bindLisener = function(){
+      var addHour = function(size){
+        current.hour.start =false;
+        var newHour = current.hour.num + size;
+        if(newHour > 0 && newHour < 24){
+          current.hour.num = newHour;
+        }else if(newHour < 0){
+          current.hour.num = 24 + newHour;
+        }else{
+          current.hour.num = 0;
+        }
+        setValue(1);
+      }
 
-      };
-
-      var stopLisener = function(){
-
-      };
-
-      hour.bind('mousedown',function(evt,elm){
-       SelectText(hour[0]);
-       bindLisener();
-       return false;
-      })
-
-      hour.bind('select',function(){console.log("select")})
-
-      hour.bind('blur',function(){
-        console.log('blur')
-      })
-
-      minutes.bind('mousedown',function(evt,elm){
-       SelectText(minutes[0]);
-       return false;
-      })*/
+      var reset = function(){
+        current ={hour:{num:00,reset:true,prev:-1,start:true},min:{num:00,reset:true,start:true}};
+        setValue();
+      }
     }
   }
 }]);
