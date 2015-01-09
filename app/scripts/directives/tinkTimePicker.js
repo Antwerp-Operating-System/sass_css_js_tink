@@ -4,10 +4,11 @@ angular.module('tink.timepicker')
   return{
     restrict:'AE',
     //template:'<div style="background:white;"><span style="float:left;">--</span><div style="float:left;">:</div><span>--</span></div>',
-    template:'<input value="--:--"/>',
+    template:'<input type="text"/>',
+    require:'ngModel',
     replace:true,
-    link:function(scope,elem,attr){
-      var current ={hour:{num:00,reset:true,prev:-1,start:true},min:{num:00,reset:true,start:true}};
+    link:function(scope,elem,attr,ngModel){
+      var current = null;
 
       function SelectText(element) {
         var doc = document,
@@ -26,7 +27,7 @@ angular.module('tink.timepicker')
           selection.addRange(range);
         }
       }
-
+      elem.unbind('input').unbind('keydown').unbind('change').unbind('click').unbind('mousedown');
       elem.keydown(function(e){
         var keycode = e.keyCode;console.log(keycode)
         var shift = e.shiftKey;
@@ -153,11 +154,19 @@ angular.module('tink.timepicker')
       }
 
       var setValue =  function(select){
-        elem.val(hourString()+':'+minString());
+          ngModel.$setViewValue(hourString()+':'+minString());
+          ngModel.$render();
+
+
         if(select === 1){
           selectHour();
         }else if(select === 2){
           selectMinute();
+        }
+        if(!current.hour.start && !current.min.start){
+          ngModel.$setValidity('time', true);
+        }else{
+          ngModel.$setValidity('time', false);
         }
       }
 
@@ -169,9 +178,29 @@ angular.module('tink.timepicker')
 
       var selected = -1;
 
+      var getHourOffset = function(){
+        var padding = parseInt(elem.css('padding-left'), 10);
+        return padding+elem.val().substr(0,2).width(elem.css('font'),elem.css('padding'))+2
+      }
+
+      var getMinOffset = function(){
+        return getHourOffset()+elem.val().substr(3,2).width(elem.css('font'),elem.css('padding'))+2;
+      }
+
+      var pollyOffset = function(e){
+        var target = e.target || e.srcElement,
+        style = target.currentStyle || window.getComputedStyle(target, null),
+        borderLeftWidth = parseInt(style['borderLeftWidth'], 10),
+        borderTopWidth = parseInt(style['borderTopWidth'], 10),
+        rect = target.getBoundingClientRect(),
+        offsetX = e.clientX - borderLeftWidth - rect.left;
+        return offsetX;
+      }
+
       elem.bind('mousedown',function(evt){
-        var offset = evt.offsetX;
-        if(offset < 14 || offset > 24){
+
+        var offset  = pollyOffset(evt);
+        if(offset < getHourOffset() || offset > getMinOffset()){
           selectHour(true);
           selected = 1;
         }else{
@@ -183,6 +212,28 @@ angular.module('tink.timepicker')
         return false;
       })
 
+      String.prototype.width = function(font,padding) {
+        var f = font || '15px arial',
+            p = padding || '',
+            o = $('<div>' + this + '</div>')
+                  .css({'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': f,'padding':p})
+                  .appendTo($('body')),
+            w = o.width();
+
+        o.remove();
+
+        return w;
+      }
+
+      function getTextWidth(text, font,padding) {
+          // re-use canvas object for better performance
+          var canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+          canvas.style.padding = padding;
+          var context = canvas.getContext("2d");
+          context.font = font;
+          var metrics = context.measureText(text);
+          return metrics.width;
+      };
       var addMinute = function(size){
         current.min.start =false;
         var newMin = current.min.num + size;
@@ -215,9 +266,11 @@ angular.module('tink.timepicker')
       }
 
       var reset = function(){
-        current ={hour:{num:00,reset:true,prev:-1,start:true},min:{num:00,reset:true,start:true}};
+        current = {hour:{num:00,reset:true,prev:-1,start:true},min:{num:00,reset:true,start:true}};
+        ngModel.$setValidity('time', false);
         setValue();
       }
+      reset();
     }
   }
 }]);
