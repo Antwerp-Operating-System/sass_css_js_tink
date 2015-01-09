@@ -1405,7 +1405,7 @@ angular.module('tink.datepicker', [])
         var datepicker = $datepicker(element, controller, options);
         options = datepicker.$options;
         // Set expected iOS format
-        if(isNative && options.useNative) {options.dateFormat = 'yyyy-MM-dd';}
+        if(isNative && options.useNative) {options.dateFormat = 'dd/mm/yyyy';}
 
         var lang = options.lang;
 
