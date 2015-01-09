@@ -1066,7 +1066,7 @@ angular.module('tink.datepicker', [])
         };
 
         var _hide = $datepicker.hide;
-        $datepicker.hide = function(blur) {
+        $datepicker.hide = function(blur) { // TH comment out to inspect element
           if(!$datepicker.$isShown) {return;}
           $datepicker.$element.off(isTouch ? 'touchstart' : 'mousedown', $datepicker.$onMouseDown);
           if(options.keyboard) {
@@ -1378,11 +1378,10 @@ angular.module('tink.datepicker', [])
     var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
 
     return {
-      restrict: 'EAC',
+      restrict: 'EA',
       require: 'ngModel',
       priority:80,
       link: function postLink(scope, element, attr, controller) {
-
         // Directive options
         var options = {scope: scope, controller: controller};
         angular.forEach(['placement', 'container', 'delay', 'trigger', 'keyboard', 'html', 'animation', 'template', 'autoclose', 'dateType', 'dateFormat', 'modelDateFormat', 'dayFormat', 'strictFormat', 'startWeek', 'startDate', 'useNative', 'lang', 'startView', 'minView', 'iconLeft', 'iconRight', 'daysOfWeekDisabled'], function(key) {
