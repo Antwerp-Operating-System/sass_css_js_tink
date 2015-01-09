@@ -35,7 +35,7 @@ angular.module('tink.datepicker', [])
         var $tooltip = {};
 
         // Common vars
-        var nodeName = element[0].nodeName.toLowerCase();
+        var nodeName = element[0].nodeName.toLowerCase();console.log(config)
         var options = $tooltip.$options = angular.extend({}, defaults, config);
         $tooltip.$promise = fetchTemplate(options.template);
         var scope = $tooltip.$scope = options.scope && options.scope.$new() || $rootScope.$new();
@@ -869,6 +869,7 @@ angular.module('tink.datepicker', [])
       startView: 0,
       minView: 0,
       startWeek: 0,
+      weekend:false,
       daysOfWeekDisabled: '',
       iconLeft: 'glyphicon glyphicon-chevron-left',
       iconRight: 'glyphicon glyphicon-chevron-right'
@@ -903,6 +904,7 @@ angular.module('tink.datepicker', [])
 
         scope.$select = function(date) {
           $datepicker.select(date);
+          $datepicker.hide(true);
         };
         scope.$selectPane = function(value) {
           $datepicker.$selectPane(value);
@@ -1032,13 +1034,12 @@ angular.module('tink.datepicker', [])
 
         var _init = $datepicker.init;
         $datepicker.init = function() {
-          if(isNative && options.useNative) {
+          if(isNative) {
             element.prop('type', 'date');
             element.css('-webkit-appearance', 'textfield');
             return;
-          } else if(isTouch) {
+          } else {
             element.prop('type', 'text');
-            element.attr('readonly', 'true');
             element.on('click', focusElement);
           }
           _init();
@@ -1384,8 +1385,11 @@ angular.module('tink.datepicker', [])
       link: function postLink(scope, element, attr, controller) {
         // Directive options
         var options = {scope: scope, controller: controller};
-        angular.forEach(['placement', 'container', 'delay', 'trigger', 'keyboard', 'html', 'animation', 'template', 'autoclose', 'dateType', 'dateFormat', 'modelDateFormat', 'dayFormat', 'strictFormat', 'startWeek', 'startDate', 'useNative', 'lang', 'startView', 'minView', 'iconLeft', 'iconRight', 'daysOfWeekDisabled'], function(key) {
-          if(angular.isDefined(attr[key])) {options[key] = attr[key];}
+        angular.forEach(['placement', 'container', 'delay', 'trigger', 'keyboard', 'html', 'animation', 'template', 'autoclose', 'dateType', 'dateFormat', 'modelDateFormat', 'dayFormat', 'strictFormat', 'startWeek', 'startDate', 'useNative', 'lang', 'startView', 'minView', 'iconLeft', 'iconRight', 'daysOfWeekDisabled','weekend'], function(key) {
+          var cap =  'tink'+key.charAt(0).toUpperCase() + key.substring(1);
+          if(angular.isDefined(attr[cap])) {
+            options[key] = attr[cap];
+          }
         });
 
         // Visibility binding support
@@ -1615,6 +1619,10 @@ angular.module('tink.datepicker', [])
             },
             isDisabled: function(date) {
               var time = date.getTime();
+
+              if(options.weekend === "true" && (date.getDay() === 0 || date.getDay() === 6)){
+                return true;
+              }
 
               // Disabled because of min/max date.
               if (time < options.minDate || time > options.maxDate) {return true;}

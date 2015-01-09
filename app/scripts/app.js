@@ -18,8 +18,7 @@ angular.module('tinkFramework', [
     'ngSanitize',
     'ngTouch',
     'tinkFramework.controllers',
-  ])
-  	.config(function ($routeProvider) { /*, $locationProvider */
+  ]).config(function ($routeProvider) { /*, $locationProvider */
 		$routeProvider
 			.when('/', {
 				templateUrl: 'views/main.html',
@@ -39,5 +38,4 @@ angular.module('tinkFramework', [
 			.otherwise({
 				redirectTo: '/'
 			});
-
 	});
