@@ -1,15 +1,13 @@
-<div class="tink-accordion-panel">
-  <div class="tink-accordion-panel-heading">
-
-    <h4 class="panel-title">
+<section class="accordion-panel">
+  <header class="accordion-panel-heading">
+    <h4 class="accordion-panel-title">
       <a href class="accordion-toggle" ng-click="toggleOpen()"><span>{{heading}}</span></a>
     </h4>
-  </div>
-  <div class="accordion-content">
+  </header>
+  <div class="accordion-panel-body">
     <div class="accordion-spinner"><i class="fa fa-rotate-right fa-spin"></i></div>
     <div class="accordion-loaded-content" ng-transclude>
-        <p></p>New DOM content comes here
+        <p>New DOM content comes here</p>
     </div>
   </div>
-</div>
-
+</section>
