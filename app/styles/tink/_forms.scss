@@ -526,8 +526,8 @@ output {
 .actionbar {
   @include bar(auto, none, $bar-link-color);
   @include clearfix();
-  @extend .margin-top;
-  @extend .margin-bottom;
+  // @extend .margin-top;
+  // @extend .margin-bottom;
 
   // padding: rem($breadcrumb-padding-vertical 0);
 
