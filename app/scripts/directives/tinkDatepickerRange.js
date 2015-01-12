@@ -11,9 +11,15 @@
         },
         link: function postLink(scope, element) {
 
-             // -- check if we are using a touch device  --/
+            // -- check if we are using a touch device  --/
+             var isDateSupported = function() {
+                var i = document.createElement('input');
+                i.setAttribute('type', 'date');
+                return i.type !== 'text';
+              };
+
              var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
-             var isTouch = ('createTouch' in $window.document) && isNative;
+             var isTouch = ('createTouch' in $window.document) && isNative && isDateSupported();
 
             // labels for the days you can make this variable //
             var dayLabels = ['ma', 'di', 'wo', 'do', 'vr', 'za', 'zo'];
@@ -141,7 +147,7 @@
                $directive.tbody.lastDateElem = element.find('tbody')[1];
 
               // -- Create the first calendar --/
-              var htmlFirst = calView.createMonthDays($directive.viewDate, scope.tinkFirstDate, scope.tinkLastDate);
+              var htmlFirst = calView.createMonthDays($directive.viewDate, scope.tinkFirstDate, scope.tinkLastDate,'prevMonth');
                // -- Replace and COMPILE the nieuw calendar view  --/
                angular.element($directive.tbody.firstDateElem).replaceWith($compile( htmlFirst)( scope ));
 
@@ -157,7 +163,7 @@
 
 
               // -- create the second view   --/
-              var htmlLast = calView.createMonthDays(copyViewDate, scope.tinkFirstDate, scope.tinkLastDate);
+              var htmlLast = calView.createMonthDays(copyViewDate, scope.tinkFirstDate, scope.tinkLastDate,'nextMonth');
                // -- compile and replace the second view   --/
                angular.element($directive.tbody.lastDateElem).replaceWith($compile( htmlLast)( scope ));
 
@@ -193,8 +199,8 @@
                 if (angular.isDate(viewDate)) {
 
                   var hulpDate = new Date(viewDate.getTime());
+                  hulpDate.setDate(1);
                   hulpDate.setMonth(hulpDate.getMonth()-1);
-
                   if(!dateCalculator.isSameMonth(viewDate,$directive.viewDate) && !dateCalculator.isSameMonth(hulpDate,$directive.viewDate)){
                         // -- change the global variable  --/
                         $directive.viewDate = new Date(viewDate);
@@ -248,9 +254,11 @@
 
             function init() {
               if (isTouch) {
-                angular.element($directive.focused.firstDateElem).attr('readonly', 'true');
-                angular.element($directive.focused.lastDateElem).attr('readonly', 'true');
+                config.dateFormat = 'yyyy-mm-dd';
+                angular.element($directive.focused.firstDateElem).prop('type','date');
+                angular.element($directive.focused.lastDateElem).prop('type','date');
               }
+              scope.dateFormat = config.dateFormat;
               bindEvents();
             }
 
@@ -339,20 +347,24 @@
                 evt.stopPropagation();
               });
 
+              if(!isTouch){
+                element.bind('touchstart mousedown',$onMouseDown);
+              }
 
-              element.bind('touchstart mousedown',$onMouseDown);
+              angular.element($directive.focused.firstDateElem).bind('blur', hide);
+              angular.element($directive.focused.lastDateElem).bind('blur', hide);
 
-              angular.element($directive.focused.firstDateElem).on('blur', hide);
-              angular.element($directive.focused.lastDateElem).on('blur', hide);
-
-              angular.element($directive.focused.firstDateElem).on('focus', function () {
+              angular.element($directive.focused.firstDateElem).bind('focus', function () {
                 $directive.focusedModel = 'firstDateElem';
-                safeApply(scope,show);
-
+                if(!isTouch){
+                  safeApply(scope,show);
+                }
               });
-              angular.element($directive.focused.lastDateElem).on('focus', function () {
+              angular.element($directive.focused.lastDateElem).bind('focus', function () {
                 $directive.focusedModel = 'lastDateElem';
-                safeApply(scope,show);
+                if(!isTouch){
+                  safeApply(scope,show);
+                }
 
               });
             }

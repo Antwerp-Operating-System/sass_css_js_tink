@@ -35,7 +35,7 @@ angular.module('tink.datepicker', [])
         var $tooltip = {};
 
         // Common vars
-        var nodeName = element[0].nodeName.toLowerCase();console.log(config)
+        var nodeName = element[0].nodeName.toLowerCase();
         var options = $tooltip.$options = angular.extend({}, defaults, config);
         $tooltip.$promise = fetchTemplate(options.template);
         var scope = $tooltip.$scope = options.scope && options.scope.$new() || $rootScope.$new();
@@ -1620,7 +1620,7 @@ angular.module('tink.datepicker', [])
             isDisabled: function(date) {
               var time = date.getTime();
 
-              if(options.weekend === "true" && (date.getDay() === 0 || date.getDay() === 6)){
+              if(options.weekend === 'true' && (date.getDay() === 0 || date.getDay() === 6)){
                 return true;
               }
 

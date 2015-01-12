@@ -294,16 +294,31 @@ angular.module('tink.dateHelper')
     return {days: daysToDraw, firstDay: firstDayOfWeek};
   }
 
-  function createLabels(date, firstRange, lastRange) {
+  function createLabels(date, firstRange, lastRange,grayed) {
     var label = '',cssClass = '';
     if (label !== null && angular.isDate(date)) {
       label = date.getDate();
+      if(grayed){
+        cssClass = '';
+      }
       if (isSameDate(date, firstRange) || isSameDate(date, lastRange)) {
-        cssClass = 'btn-primary';
+        if(grayed){
+          cssClass = '';
+        }else{
+          cssClass = 'btn-primary';
+        }
       } else if (inRange(date, firstRange, lastRange)) {
-        cssClass = 'btn-info';
+        if(grayed){
+          cssClass = '';
+        }else{
+          cssClass = 'btn-info';
+        }
       } else if (isSameDate(date, new Date())) {
-        cssClass = 'btn-warning';
+        if(grayed){
+          cssClass = '';
+        }else{
+          cssClass = 'btn-warning';
+        }
       }
       var month = ('0' + (date.getMonth() + 1)).slice(-2);
       var day = ('0' + (date.getDate())).slice(-2);
@@ -324,15 +339,23 @@ angular.module('tink.dateHelper')
        }
 
       return {
-        createMonthDays: function (date, firstRange, lastRange) {
+        createMonthDays: function (date, firstRange, lastRange,control) {
           var domElem = '', monthCall = callCullateData(date), label;
           //var tr = createTR();
           var tr = '<tr>';
           for (var i = 0; i < monthCall.days; i++) {
             var day = new Date(monthCall.firstDay.getFullYear(), monthCall.firstDay.getMonth(), monthCall.firstDay.getDate() + i);
-            if(day.getMonth() !== date.getMonth()){
-              label = createLabels(null);
-            }else{
+            label = createLabels(null, firstRange, lastRange);
+            if(control === 'prevMonth'){
+              if(day.getMonth() !== date.getMonth() && dateCalculator.dateBeforeOther(date,day)){
+                label = createLabels(day, firstRange, lastRange,true);
+              }
+            } else if(control === 'nextMonth'){
+              if(day.getMonth() !== date.getMonth() && dateCalculator.dateBeforeOther(day,date)){
+                label = createLabels(day, firstRange, lastRange,true);
+              }
+            }
+            if(day.getMonth() === date.getMonth()){
               label = createLabels(day, firstRange, lastRange);
             }
 
