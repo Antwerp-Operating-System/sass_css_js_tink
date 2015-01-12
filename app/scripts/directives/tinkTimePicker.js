@@ -1,6 +1,6 @@
 angular.module('tink.timepicker', []);
 angular.module('tink.timepicker')
-.directive('tinkTimepicker',[function(){
+.directive('tinkTimepicker',['$window',function($window){
   return{
     restrict:'AE',
     //template:'<div style="background:white;"><span style="float:left;">--</span><div style="float:left;">:</div><span>--</span></div>',
@@ -9,6 +9,27 @@ angular.module('tink.timepicker')
     replace:true,
     link:function(scope,elem,attr,ngModel){
       var current = null;
+
+      var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent) ;
+      function isDateSupported() {
+          var i = document.createElement("input");
+          i.setAttribute("type", "date");
+          return i.type !== "text";
+      }
+      if(isNative && isDateSupported()){
+        elem.prop('type', 'time');
+      }
+
+      ngModel.$formatters.push(function(time){
+        if(time){
+          return time.substr(0,5);
+        }
+      });
+
+      if(isNative && isDateSupported()){
+        elem.val('00:00:00');
+        return;
+      }
 
       function SelectText(element) {
         var doc = document,
