@@ -34,6 +34,15 @@
       &:focus {
         box-shadow: 0 0 0 2px rgba($brand-light, .5);
       }
+      &.btn {
+        @extend %btn;
+        color: $black;
+        border: none;
+        line-height: 1;
+        margin: 0;
+        padding: 0.35714rem 0.71429rem !important;
+      }
+      &.btn-primary { color: $white; }
     }
   }
 
