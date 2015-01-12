@@ -2,7 +2,7 @@
  * Bar component
  */
 
-@mixin bar($height: $bar-height, $bg-color: $bar-bg-color) {
+@mixin bar($height: $bar-height, $bg-color: $bar-bg-color, $bar-link-color: $bar-link-color) {
   background-color: $bg-color;
   line-height: rem($height);
 
@@ -17,7 +17,6 @@
     }
 
     a {
-      color: $bar-link-color;
       outline: none;
       text-decoration: none;
       display: inline-block;
@@ -25,24 +24,23 @@
       margin: rem(($bar-padding / 2) 0);
       padding: rem(0 $bar-padding);
 
-      &:hover,
-      &:active,
-      &:focus {
-        color: $bar-link-hover-color;
-      }
-
       &:focus {
         box-shadow: 0 0 0 2px rgba($brand-light, .5);
       }
-      &.btn {
-        @extend %btn;
-        color: $black;
-        border: none;
-        line-height: 1;
-        margin: 0;
-        padding: 0.35714rem 0.71429rem !important;
+      &:not(.btn) {
+        color: $bar-link-color;
+
+        &:hover,
+        &:active,
+        &:focus {
+          color: $bar-link-hover-color;
+        }
       }
-      &.btn-primary { color: $white; }
+      &.btn {
+        @include button-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small, $border-radius-small);
+        border: none;
+        margin: rem(.15em 0);
+      }
     }
   }
 

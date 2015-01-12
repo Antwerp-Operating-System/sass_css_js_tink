@@ -524,16 +524,18 @@ output {
  * TH
 */
 .actionbar {
+  @include bar(auto, none, $bar-link-color);
   @include clearfix();
   @extend .margin-top;
   @extend .margin-bottom;
-  padding: rem($breadcrumb-padding-vertical 0);
 
-  &.padded {
-    background: lighten($gray-light, 10);
-    padding-left: $panel-heading-padding;
-    padding-right: $panel-heading-padding;
-  }
+  // padding: rem($breadcrumb-padding-vertical 0);
+
+  // &.padded {
+  //   background: lighten($gray-light, 10);
+  //   padding-left: $panel-heading-padding;
+  //   padding-right: $panel-heading-padding;
+  // }
 }
 .select-box-inline {
   display: inline-block;

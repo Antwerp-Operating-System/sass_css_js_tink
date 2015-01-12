@@ -379,8 +379,9 @@ $layers: base, pseudo, nav-aside, nav-top, popover;
  */
 $bar-height:                            50px !default;
 $bar-bg-color:                          $gray-dark !default;
-$bar-link-color:                        $body-bg !default;
-$bar-link-hover-color:                  $white !default;
+$bar-color:                             $black;
+$bar-link-color:                        $link-color !default; //$body-bg !default;
+$bar-link-hover-color:                  $link-hover-color; //$white !default;
 $bar-padding:                           $padding-base-horizontal !default;
 
 

@@ -64,7 +64,7 @@ body {
  */
 
 .nav-top {
-  @include bar();
+  @include bar(50px, $bar-bg-color, $body-bg);
   position: fixed;
   top: 0;
   width: 100%;
