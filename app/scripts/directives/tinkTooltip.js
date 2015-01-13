@@ -478,7 +478,7 @@ angular.module('tink.tooltip', [])
 })
 
 .directive( 'tinkTooltip', [ '$tooltip', function ( $tooltip ) {
-  return $tooltip( 'tinkTooltip', 'tinkTooltip', 'mouseenter' );
+  return $tooltip( 'tinkTooltip', 'tooltip', 'mouseenter' );
 }])
 
 .directive( 'tinkTooltipHtmlUnsafePopup', function ($sce) {
@@ -489,10 +489,10 @@ angular.module('tink.tooltip', [])
     templateUrl: 'templates/tooltip.html',
     link:function($scope){
       $scope.content = $sce.trustAsHtml($scope.content);
-    }  
+    }
   };
 })
 
 .directive( 'tinkTooltipHtmlUnsafe', [ '$tooltip', function ( $tooltip ) {
-  return $tooltip( 'tinkTooltipHtmlUnsafe', 'tinkTooltip', 'mouseenter' );
+  return $tooltip( 'tinkTooltipHtmlUnsafe', 'tooltip', 'mouseenter' );
 }]);
