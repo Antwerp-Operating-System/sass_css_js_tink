@@ -5,7 +5,8 @@
 @mixin bar($height: $bar-height, $bg-color: $bar-bg-color, $color: $bar-color, $link-color: $bar-link-color, $link-hover-color: $bar-link-hover-color, $padding: $bar-padding) {
   background-color: $bg-color;
   color: $color;
-  line-height: rem($height);
+  height: rem($height);
+  line-height: rem($height - 1px);
 
   > ul,
   &-section-left,
@@ -18,18 +19,20 @@
     }
 
     a {
-      outline: none;
+      border: none;
+      outline: 0;
       text-decoration: none;
       display: inline-block;
-      line-height: rem($height - $padding);
-      margin: rem(($padding / 2) 0);
-      padding: rem(0 $padding);
 
       &:focus {
         box-shadow: 0 0 0 2px rgba($brand-light, .5);
       }
-      &:not(.btn) {
+
+      &:not([role="button"]) {
         color: $link-color;
+        line-height: rem($height - $padding);
+        margin: rem(($padding / 2) 0 ($padding / 2));
+        padding: rem(0 $padding);
 
         &:hover,
         &:active,
@@ -38,10 +41,8 @@
         }
       }
 
-      &.btn {
-        @include button-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small, $border-radius-small);
-        border: none;
-        margin: rem(.15em 0);
+      &[role="button"] {
+        margin: rem(($padding / 3) 0 ($padding / 2));
       }
     }
   }
