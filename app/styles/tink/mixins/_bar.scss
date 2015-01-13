@@ -6,7 +6,6 @@
   background-color: $bg-color;
   color: $color;
   height: rem($height);
-  line-height: rem($height - 1px);
 
   > ul,
   &-section-left,
@@ -25,13 +24,13 @@
       display: inline-block;
 
       &:focus {
-        box-shadow: 0 0 0 2px rgba($brand-light, .5);
+        @include tab-focus();
       }
 
       &:not([role="button"]) {
         color: $link-color;
         line-height: rem($height - $padding);
-        margin: rem(($padding / 2) 0 ($padding / 2));
+        margin: rem(($padding / 2) 0);
         padding: rem(0 $padding);
 
         &:hover,
@@ -40,14 +39,11 @@
           color: $link-hover-color;
         }
       }
-
-      &[role="button"] {
-        margin: rem(($padding / 3) 0 ($padding / 2));
-      }
     }
   }
 
   &-section {
+    line-height: rem($height - 1px);
     position: relative;
     text-align: center;
     width: auto;
@@ -61,8 +57,13 @@
       display: inline-block;
 
       input[type="search"] {
+        border: none;
         display: inline-block;
         width: auto;
+
+        &:focus {
+          @include tab-focus();
+        }
       }
     }
 

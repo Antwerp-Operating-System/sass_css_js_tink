@@ -4,6 +4,7 @@
  * - navigation behaviour states
  * - top navigation
  * - left navigation
+ * - actionbar
  */
 
 
@@ -307,4 +308,13 @@ body {
       padding: rem((($nav-aside-subitem-height - $line-height-computed) / 2) 15);
     }
   }
+}
+
+
+
+/**
+ * Action bar
+ */
+.actionbar {
+  @include bar(30px, transparent, $bar-link-color);
 }
