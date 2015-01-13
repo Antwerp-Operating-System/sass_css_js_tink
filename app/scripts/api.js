@@ -68,11 +68,23 @@
 				return;
 			}
 			groups.push(elem.get(0));
-			elem.find('.'+defaults.contentCss).css('display','none').css('height','25px');
+
+			if(elem.hasClass(defaults.noCallBack)){
+				findEl(elem,defaults.accordionLoadedContent).css('opacity',1);
+				findEl(elem,defaults.loadingCss).css('opacity',0);
+				findEl(elem,defaults.contentCss).css('height','auto');
+			}else{
+				findEl(elem,defaults.contentCss).css('height','25px');
+			}
+			findEl(elem,defaults.contentCss).css('display','none').css('height','25px');
 		}
 
 		var getGroupAt = function(index){
 			return $(groups[index]);
+		}
+
+		var findEl = function(elem,classStr){
+			return elem.find('.'+classStr);
 		}
 
 
@@ -84,30 +96,23 @@
 			if(index >= 0){
 				elem = getGroupAt(index);
 				if(elem.hasClass(defaults.groupLoadingCss)){
-					if(elem.find('.'+defaults.loadingCss).css('opacity') === '1' ){
-						elem.find('.'+defaults.loadingCss).css('opacity',0);
-						elem.find('.'+defaults.accordionLoadedContent).css('opacity',1);
-						elem.find('.'+defaults.contentCss).animate({height: elem.find('.'+defaults.accordionLoadedContent).height()}, 300);
+					if(findEl(elem,defaults.loadingCss).css('opacity') === '1' ){
+						findEl(elem,defaults.loadingCss).css('opacity',0);
+						findEl(elem,defaults.accordionLoadedContent).css('opacity',1);
+						findEl(elem,defaults.contentCss).animate({height: findEl(elem,defaults.accordionLoadedContent).height()}, defaults.speed);
 					}
 				}else if(!elem.hasClass(defaults.openGroupCss)){
-						if(!elem.hasClass(defaults.noCallBack) && !elem.hasClass(defaults.groupLoadingCss)){
-							elem.find('.'+defaults.accordionLoadedContent).css('opacity',0);
-							elem.find('.'+defaults.loadingCss).css('opacity',1);
-							elem.find('.'+defaults.contentCss).css('height','25px');
-							elem.find('.'+defaults.contentCss).slideDown(defaults.speed,function(){
-								elem.addClass(defaults.groupLoadingCss);
-							});
-						}else{
-							if(elem.hasClass(defaults.noCallBack)){
-								elem.find('.'+defaults.accordionLoadedContent).css('opacity',1);
-								elem.find('.'+defaults.loadingCss).css('opacity',0);
-								elem.find('.'+defaults.contentCss).css('height','auto');
-							}
-							elem.find('.'+defaults.contentCss).slideDown(defaults.speed,function(){
-								elem.removeClass(defaults.groupLoadingCss);
-								elem.addClass(defaults.openGroupCss);
-							});
-						}
+					if(!elem.hasClass(defaults.noCallBack) && !elem.hasClass(defaults.groupLoadingCss)){
+						findEl(elem,defaults.accordionLoadedContent).css('opacity',0);
+						findEl(elem,defaults.loadingCss).css('opacity',1);
+						findEl(elem,defaults.contentCss).css('height','25px');
+						findEl(elem,defaults.contentCss).slideDown(defaults.speed);
+						elem.addClass(defaults.groupLoadingCss);
+					}else{
+						findEl(elem,defaults.contentCss).slideDown(defaults.speed);
+						elem.removeClass(defaults.groupLoadingCss);
+						elem.addClass(defaults.openGroupCss);
+					}
 				}
 			}
 		}
@@ -120,10 +125,9 @@
 			if(index >= 0){
 				elem = getGroupAt(index);
 				if(elem.hasClass(defaults.openGroupCss) || elem.hasClass(defaults.groupLoadingCss)){
-						elem.find('.'+defaults.contentCss).slideUp(defaults.speed,function(){
-							elem.removeClass(defaults.openGroupCss);
-							elem.removeClass(defaults.groupLoadingCss);
-						});
+					elem.find('.'+defaults.contentCss).slideUp(defaults.speed);
+					elem.removeClass(defaults.openGroupCss);
+					elem.removeClass(defaults.groupLoadingCss);
 				}
 			}
 		}
@@ -139,7 +143,7 @@
 				if(open.length === 1){
 					closeGroup($(open[0]));
 				}
-						openGroup(elem);
+				openGroup(elem);
 			}else{
 				toggleGroup(elem);
 			}
@@ -164,12 +168,6 @@
 			},
 			handleAccordion:function(element){
 				handleAccordion(element);
-			},
-			addLoader:function(element){
-				addLoader(element);
-			},
-			loadinOpen:function(element){
-				loadinOpen(element);
 			}
 		}
 
