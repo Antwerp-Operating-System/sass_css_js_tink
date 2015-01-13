@@ -10,7 +10,7 @@ angular.module('tink.accordion')
     template: '<div class="panel-group" ng-transclude></div>',
     link:function(scope,element, attrs, accordionCtrl){
       var accordionElem = tinkApi.accordion(element);
-      accordionCtrl.init(accordionElem,element);
+      accordionCtrl.init(accordionElem,element,{oneAtTime:true});
     }
   };
 }])
@@ -24,34 +24,97 @@ angular.module('tink.accordion')
     scope: {
       heading: '@',               // Interpolate the heading attribute onto this scope
       isOpen: '=?',
-      isDisabled: '=?'
+      isDisabled: '=?',
+      load:'=',
+      activated:'=?'
     },
-    link: function(scope, element, attrs, accordionCtrl) {
-      accordionCtrl.addGroup(element);
+    link: function(scope, element, attrs, accordionCtrl,transclude) {
+      var states = {closed:1,open:2,loading:0};
+      var state = states.closed;
+      accordionCtrl.addGroup(scope,element);
       scope.toggleOpen = function(){
-        accordionCtrl.toggleGroup(element);
+        if(state === states.closed){
+          if(!scope.load){
+            scope.stateLoad();
+          }else{
+            scope.stateOpen();
+          }
+        }else if(state === states.open){
+          scope.stateClose();
+        }else if(state === states.loading){
+          scope.cancelTrans();
+        }
       }
+
+      scope.stateLoad = function(){
+       scope.activated('loading',function(){
+          accordionCtrl.loadinOpen(element);
+          state = states.open;
+        });
+        accordionCtrl.addLoader(element);
+        state = states.loading;
+      }
+
+      scope.stateOpen = function(){
+        scope.activated('open');
+        state = states.open;
+        accordionCtrl.openGroup(element);
+      }
+
+      scope.stateClose = function(){
+        accordionCtrl.closeGroup(element);
+        state = states.closed;
+        scope.activated('closed');
+      }
+
+      scope.cancelTrans = function(){
+        accordionCtrl.closeGroup(element);
+        state = states.closed;
+        scope.activated('canceld');
+      }
+
     }
   };
 })
 .controller('TinkAccordionController', ['$scope', function (scope) {
   var self = this;
 
-  this.init = function(accordion,element){
+  var groups = {};
+
+  this.init = function(accordion,element,opts){
      self.$accordion = accordion;
      self.$accordion.init(element);
   }
 
-  this.addGroup = function(elem){
+  var currentOpen;
+
+  this.addGroup = function(scope,elem){
+    groups[elem] = scope;
     self.$accordion.addGroup(elem);
   }
 
+  this.addLoader = function(elem){
+    currentOpen = elem;
+    self.$accordion.addLoader(elem);
+  }
+
   this.openGroup = function(elem){
+    if(currentOpen){
+      this.closeGroup(elem);
+      groups[elem].stateClose();
+    }
+    currentOpen = elem;
     self.$accordion.openGroup(elem);
+  }
+
+  this.loadinOpen = function(elem){
+    currentOpen = elem;
+    self.$accordion.loadinOpen(elem);
   }
 
   this.closeGroup = function(elem){
     self.$accordion.closeGroup(elem);
+    //this.toggleGroup(elem);
   }
 
   this.toggleGroup = function(elem){

@@ -9,7 +9,7 @@
 		tinkApi = {};
 	}
 
-	tinkApi.VERSION = '1.0.0';
+	tinkApi.VERSION = '1.0.1';
 
 	tinkApi.util = {
 		getCurrentURL: function () {
@@ -44,9 +44,13 @@
 	tinkApi.accordion = function(element){
 		var defaults = {
 			speed:300,
+			loadingCallback:true,
 			oneAtTime:true,
 			openGroupCss:'group-open',
-			contentCss:'accordion-content'
+			groupLoadingCss:'group-loading',
+			contentCss:'accordion-content',
+			loadingCss:'accordion-spinner',
+			accordionLoadedContent:'accordion-loaded-content'
 		};
 
 		var accordion = null;
@@ -63,7 +67,7 @@
 				return;
 			}
 			groups.push(elem.get(0));
-			elem.find('.'+defaults.contentCss).css('display','none');
+			elem.find('.'+defaults.contentCss).css('display','none').css('height','25px');
 		}
 
 		var getGroupAt = function(index){
@@ -81,7 +85,14 @@
 				if(!elem.hasClass(defaults.openGroupCss)){
 						elem.find('.'+defaults.contentCss).slideDown(defaults.speed,function(){
 							elem.addClass(defaults.openGroupCss);
+							elem.removeClass(defaults.groupLoadingCss);
 						});
+				}else if(elem.hasClass(defaults.groupLoadingCss)){
+					if(elem.find('.'+defaults.loadingCss).css('opacity') === '1' ){
+						elem.find('.'+defaults.loadingCss).css('opacity',0);
+						elem.find('.'+defaults.accordionLoadedContent).css('opacity',1);
+						elem.find('.'+defaults.contentCss).animate({height: elem.find('.'+defaults.accordionLoadedContent).height()}, 300);
+					}
 				}
 			}
 		}
@@ -93,25 +104,41 @@
 			var index = groups.indexOf(elem.get(0));
 			if(index >= 0){
 				elem = getGroupAt(index);
-				if(elem.hasClass(defaults.openGroupCss)){
+				if(elem.hasClass(defaults.openGroupCss) || elem.hasClass(defaults.groupLoadingCss)){
 						elem.find('.'+defaults.contentCss).slideUp(defaults.speed,function(){
 							elem.removeClass(defaults.openGroupCss);
+							elem.removeClass(defaults.groupLoadingCss);
 						});
 				}
 			}
 		}
 
-		var toggleGroup = function(elem){
+		var addLoader = function(elem){
 			if(!accordion){
 				return;
 			}
 			var index = groups.indexOf(elem.get(0));
 			if(index >= 0){
+				var content = elem.find('.'+defaults.loadingCss);
 				if(!elem.hasClass(defaults.openGroupCss)){
+					elem.find('.'+defaults.accordionLoadedContent).css('opacity',0);
+					elem.find('.'+defaults.loadingCss).css('opacity',1);
+					elem.find('.'+defaults.contentCss).css('height','25px');
 					openGroup(elem);
 				}else{
-					closeGroup(elem);
+					elem.find('.'+defaults.contentCss).animate({height: 25}, 'slow');
+					elem.find('.'+defaults.accordionLoadedContent).fadeTo('slow', 0);
+					elem.find('.'+defaults.loadingCss).fadeTo('slow', 1);
 				}
+				elem.addClass(defaults.groupLoadingCss);
+			}
+		}
+
+		var loadinOpen = function(elem){
+			if(elem.find('.'+defaults.loadingCss).css('opacity') === '1' ){
+				elem.find('.'+defaults.loadingCss).css('opacity',0);
+				elem.find('.'+defaults.accordionLoadedContent).css('opacity',1);
+				elem.find('.'+defaults.contentCss).animate({height: elem.find('.'+defaults.accordionLoadedContent).height()}, 300);
 			}
 		}
 
@@ -125,7 +152,7 @@
 				if(open.length === 1){
 					closeGroup($(open[0]));
 				}
-				openGroup(elem);
+						openGroup(elem);
 			}else{
 				toggleGroup(elem);
 			}
@@ -150,6 +177,12 @@
 			},
 			handleAccordion:function(element){
 				handleAccordion(element);
+			},
+			addLoader:function(element){
+				addLoader(element);
+			},
+			loadinOpen:function(element){
+				loadinOpen(element);
 			}
 		}
 

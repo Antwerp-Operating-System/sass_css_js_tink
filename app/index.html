@@ -21,7 +21,28 @@
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
-
+<style>
+.accordion-content {
+    overflow: hidden;
+    position: relative;
+}
+.accordion-spinner {
+    bottom: 0;
+    height: 25px;
+    left: 0;
+    opacity: 1;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: opacity .5s linear;
+    z-index: 2;
+}
+.accordion-loaded-content {
+    min-height: 25px;
+    opacity: 0;
+    transition: opacity .4s linear;
+}
+</style>
   <nav data-tink-top-header nav-header class="nav-top">
     <ul class="nav-top-branding">
       <li class="logo">
