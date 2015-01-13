@@ -24,6 +24,18 @@ angular.module('tinkFramework.controllers')
     }
   }
 
+  scope.group2go = function(action,actie){
+    console.log(action);
+  }
+
+  scope.group3go = function(action,actie){
+    console.log(action);
+  }
+
+  scope.group4go = function(action,actie){
+    console.log(action);
+  }
+
   scope.go = function(){
   	console.log(scope.dates);
   };

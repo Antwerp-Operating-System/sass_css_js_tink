@@ -9,6 +9,8 @@ angular.module('tink.accordion')
     replace: false,
     template: '<div class="panel-group" ng-transclude></div>',
     link:function(scope,element, attrs, accordionCtrl){
+      var obj = angular.extend({}, attrs.$attr);
+      console.log(obj,attrs)
       var accordionElem = tinkApi.accordion(element);
       accordionCtrl.init(accordionElem,element,{oneAtTime:true});
     }
@@ -26,15 +28,19 @@ angular.module('tink.accordion')
       isOpen: '=?',
       isDisabled: '=?',
       load:'=',
-      activated:'=?'
+      onclick:'=?'
     },
     link: function(scope, element, attrs, accordionCtrl,transclude) {
       var states = {closed:1,open:2,loading:0};
       var state = states.closed;
+      var onFunc = typeof scope.onclick === 'function';
+      if(!onFunc){
+        element.addClass("no-call-back");
+      }
       accordionCtrl.addGroup(scope,element);
       scope.toggleOpen = function(){
         if(state === states.closed){
-          if(!scope.load){
+          if(onFunc){
             scope.stateLoad();
           }else{
             scope.stateOpen();
@@ -47,30 +53,37 @@ angular.module('tink.accordion')
       }
 
       scope.stateLoad = function(){
-       scope.activated('loading',function(){
-          accordionCtrl.loadinOpen(element);
-          state = states.open;
-        });
-        accordionCtrl.addLoader(element);
         state = states.loading;
+       scope.callback('loading',function(){
+          if(state === states.loading){
+            scope.stateOpen();
+          }
+        });
+        accordionCtrl.openGroup(element,scope);
       }
 
       scope.stateOpen = function(){
-        scope.activated('open');
         state = states.open;
-        accordionCtrl.openGroup(element);
+        accordionCtrl.openGroup(element,scope);
+        scope.callback('open');
       }
 
       scope.stateClose = function(){
-        accordionCtrl.closeGroup(element);
         state = states.closed;
-        scope.activated('closed');
+        accordionCtrl.closeGroup(element);
+        scope.callback('closed');
       }
 
       scope.cancelTrans = function(){
-        accordionCtrl.closeGroup(element);
         state = states.closed;
-        scope.activated('canceld');
+        accordionCtrl.closeGroup(element);
+        scope.callback('canceld');
+      }
+
+      scope.callback = function(type,fn){
+        if(onFunc){
+          scope.onclick(type,fn);
+        }
       }
 
     }
@@ -79,7 +92,8 @@ angular.module('tink.accordion')
 .controller('TinkAccordionController', ['$scope', function (scope) {
   var self = this;
 
-  var groups = {};
+  this.groups = {};
+  console.log("newnew")
 
   this.init = function(accordion,element,opts){
      self.$accordion = accordion;
@@ -87,9 +101,7 @@ angular.module('tink.accordion')
   }
 
   var currentOpen;
-
   this.addGroup = function(scope,elem){
-    groups[elem] = scope;
     self.$accordion.addGroup(elem);
   }
 
@@ -98,22 +110,17 @@ angular.module('tink.accordion')
     self.$accordion.addLoader(elem);
   }
 
-  this.openGroup = function(elem){
-    if(currentOpen){
-      this.closeGroup(elem);
-      groups[elem].stateClose();
+  this.openGroup = function(elem,scope){
+    if(currentOpen && currentOpen !== scope){
+      currentOpen.toggleOpen();
     }
-    currentOpen = elem;
+    currentOpen = scope;
     self.$accordion.openGroup(elem);
-  }
-
-  this.loadinOpen = function(elem){
-    currentOpen = elem;
-    self.$accordion.loadinOpen(elem);
   }
 
   this.closeGroup = function(elem){
     self.$accordion.closeGroup(elem);
+    currentOpen = null;
     //this.toggleGroup(elem);
   }
 
