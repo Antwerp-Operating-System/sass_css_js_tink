@@ -2,9 +2,11 @@
  * Bar component
  */
 
-@mixin bar($height: $bar-height, $bg-color: $bar-bg-color, $bar-link-color: $bar-link-color) {
+@mixin bar($height: $bar-height, $bg-color: $bar-bg-color, $color: $bar-color, $link-color: $bar-link-color, $link-hover-color: $bar-link-hover-color, $padding: $bar-padding) {
   background-color: $bg-color;
-  line-height: rem($height);
+  color: $color;
+  height: rem($height);
+  line-height: rem($height - 1px);
 
   > ul,
   &-section-left,
@@ -17,29 +19,30 @@
     }
 
     a {
-      outline: none;
+      border: none;
+      outline: 0;
       text-decoration: none;
       display: inline-block;
-      line-height: rem($height - $bar-padding);
-      margin: rem(($bar-padding / 2) 0);
-      padding: rem(0 $bar-padding);
 
       &:focus {
         box-shadow: 0 0 0 2px rgba($brand-light, .5);
       }
-      &:not(.btn) {
-        color: $bar-link-color;
+
+      &:not([role="button"]) {
+        color: $link-color;
+        line-height: rem($height - $padding);
+        margin: rem(($padding / 2) 0 ($padding / 2));
+        padding: rem(0 $padding);
 
         &:hover,
         &:active,
         &:focus {
-          color: $bar-link-hover-color;
+          color: $link-hover-color;
         }
       }
-      &.btn {
-        @include button-size($padding-small-vertical, $padding-small-horizontal, $font-size-small, $line-height-small, $border-radius-small);
-        border: none;
-        margin: rem(.15em 0);
+
+      &[role="button"] {
+        margin: rem(($padding / 3) 0 ($padding / 2));
       }
       &.btn-xs {
         @include button-size($padding-xs-vertical, $padding-xs-horizontal, $font-size-small, $line-height-small, $border-radius-small);
@@ -54,7 +57,7 @@
 
     &-left {
       float: left;
-      margin-left: rem($bar-padding / 2);
+      margin-left: rem($padding / 2);
     }
 
     &-center {
@@ -68,7 +71,7 @@
 
     &-right {
       float: right;
-      margin-right: rem($bar-padding / 2);
+      margin-right: rem($padding / 2);
     }
   }
 }
