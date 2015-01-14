@@ -48,7 +48,7 @@
 			oneAtTime:true,
 			openGroupCss:'group-open',
 			groupLoadingCss:'group-loading',
-			contentCss:'accordion-content',
+			contentCss:'accordion-panel-body',
 			loadingCss:'accordion-spinner',
 			startOpen:false,
 			accordionLoadedContent:'accordion-loaded-content',

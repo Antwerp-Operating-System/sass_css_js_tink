@@ -3,11 +3,24 @@
  * --------------------------------------------------
  */
 
+.accordion-panel {
+  @extend .panel;
+  margin-bottom: 0;
+}
+.accordion-panel-heading {
+  @extend .panel-heading;
+}
+.accordion-panel-body {
+  @extend .panel-body;
+  position: relative;
+}
+
 .accordion-content {
-    overflow: hidden;
-    position: relative;
+  overflow: hidden;
+  position: relative;
 }
 .accordion-spinner {
+    background: green;
     bottom: 0;
     height: 45px;
     display: block;
@@ -26,16 +39,3 @@
     // min-height: 25px;
     transition: opacity .4s linear;
 }
-
-.tink-accordion-panel {
-  @extend .panel;
-  // background: red;
-}
-
-.tink-accordion-panel-heading {
-  @extend .panel-heading ;
-  // background: green;
-}
-// .accordion-content {
-//   @extend .panel-body;
-// }
