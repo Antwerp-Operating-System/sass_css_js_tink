@@ -146,7 +146,7 @@ angular.module('tink.accordion')
       var cancelTrans = function(){
         state = states.closed;
         accordionCtrl.closeGroup(element);
-        scope.callback('canceld');
+        callback('canceld');
       }
 
       var callback = function(type,fn){

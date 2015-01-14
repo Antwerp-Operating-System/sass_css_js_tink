@@ -74,11 +74,8 @@
 			groups.push(elem.get(0));
 
 			if(elem.hasClass(defaults.noCallBack)){
-				findEl(elem,defaults.accordionLoadedContent).css('opacity',1);
 				findEl(elem,defaults.loadingCss).css('opacity',0);
 				findEl(elem,defaults.contentCss).css('height','auto');
-			}else{
-				findEl(elem,defaults.contentCss).css('height','25px');
 			}
 				findEl(elem,defaults.contentCss).css('display','none');
 		}
@@ -99,19 +96,21 @@
 			var index = groups.indexOf(elem.get(0));
 			if(index >= 0){
 				elem = getGroupAt(index);
+				//If collapse is loading, we have to stop the visual and open de div
 				if(elem.hasClass(defaults.groupLoadingCss)){
 					if(findEl(elem,defaults.loadingCss).css('opacity') === '1' ){
 						findEl(elem,defaults.loadingCss).css('opacity',0);
-						findEl(elem,defaults.accordionLoadedContent).css('opacity',1);
-						findEl(elem,defaults.contentCss).animate({height: findEl(elem,defaults.accordionLoadedContent).height()}, defaults.speed);
-					}
-				}else if(!elem.hasClass(defaults.openGroupCss)){
-					if(!elem.hasClass(defaults.noCallBack) && !elem.hasClass(defaults.groupLoadingCss)){
-						findEl(elem,defaults.accordionLoadedContent).css('opacity',0);
-						findEl(elem,defaults.loadingCss).css('opacity',1);
-						findEl(elem,defaults.contentCss).css('height','25px');
 						findEl(elem,defaults.contentCss).slideDown(defaults.speed);
+					}
+				//If accordion is not open and doesnt have loading
+				}else if(!elem.hasClass(defaults.openGroupCss)){
+					/*If the collapse has a callback and its not loading
+					* If the collapse is loading we add loading visual.
+					*/
+					if(!elem.hasClass(defaults.noCallBack) && !elem.hasClass(defaults.groupLoadingCss)){
+						findEl(elem,defaults.loadingCss).css('opacity',1);
 						elem.addClass(defaults.groupLoadingCss);
+						//In al other cases we just want to open the collapse.
 					}else{
 						findEl(elem,defaults.contentCss).css('height','auto');
 						findEl(elem,defaults.contentCss).slideDown(defaults.speed);
