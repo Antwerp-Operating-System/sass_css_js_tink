@@ -6,10 +6,43 @@
 .accordion-panel {
   @extend .panel;
   margin-bottom: 0;
+  > a {
+    text-decoration: none;
+
+    &:hover .accordion-panel-heading {
+      background-color: darken($panel-default-heading-bg, 5);
+      transition: background $animation-speed linear;
+    }
+  }
+
+  &.group-open {
+    .accordion-panel-heading:after {
+      transform: rotate(180deg);
+    }
+  }
+  &.group-loading {
+    // TODO: make loader icon spin
+  }
 }
 .accordion-panel-heading {
   @extend .panel-heading;
+
+  &:after {
+    content: "\f0d7";
+    float: right;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    pointer-events: none;
+    right: 1.07143rem;
+    text-decoration: inherit;
+    top: 1.14286rem;
+    transition: color 0.1s linear, -webkit-transform 0.1s linear;
+    transition: color 0.1s linear, transform 0.1s linear;
+    z-index: 2;
+  }
 }
+
 .accordion-panel-body {
   @extend .panel-body;
   position: relative;
