@@ -50,14 +50,18 @@
 			groupLoadingCss:'group-loading',
 			contentCss:'accordion-content',
 			loadingCss:'accordion-spinner',
+			startOpen:false,
 			accordionLoadedContent:'accordion-loaded-content',
 			noCallBack:'no-call-back'
 		};
 
 		var accordion = null;
 
-		var init = function(element){
+		var init = function(element,opts){
 			accordion = element;
+			if(opts){
+				Object.extend(defaults, opts);
+			}
 		}
 
 		var groups=[];
@@ -76,7 +80,7 @@
 			}else{
 				findEl(elem,defaults.contentCss).css('height','25px');
 			}
-			findEl(elem,defaults.contentCss).css('display','none').css('height','25px');
+				findEl(elem,defaults.contentCss).css('display','none');
 		}
 
 		var getGroupAt = function(index){
@@ -109,6 +113,7 @@
 						findEl(elem,defaults.contentCss).slideDown(defaults.speed);
 						elem.addClass(defaults.groupLoadingCss);
 					}else{
+						findEl(elem,defaults.contentCss).css('height','auto');
 						findEl(elem,defaults.contentCss).slideDown(defaults.speed);
 						elem.removeClass(defaults.groupLoadingCss);
 						elem.addClass(defaults.openGroupCss);
@@ -151,8 +156,8 @@
 		}
 
 		return{
-			init:function(element){
-				init(element);
+			init:function(element,opts){
+				init(element,opts);
 			},
 			addGroup:function(element){
 				addGroup(element);
