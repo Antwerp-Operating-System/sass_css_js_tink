@@ -1,0 +1,41 @@
+/**
+ * Accordions
+ * --------------------------------------------------
+ */
+
+.accordion-content {
+    overflow: hidden;
+    position: relative;
+}
+.accordion-spinner {
+    bottom: 0;
+    height: 45px;
+    display: block;
+    left: 0;
+    opacity: 1;
+    position: absolute;
+    right: 0;
+    top: 1px;
+    transition: opacity .5s linear;
+    z-index: 2;
+    text-align: center;
+    margin: 0 auto;
+}
+.accordion-loaded-content {
+    // min-height: 25px;
+    opacity: 0;
+    transition: opacity .4s linear;
+}
+
+.tink-accordion-panel {
+  @extend .panel;
+  // background: red;
+}
+
+.tink-accordion-panel-heading {
+  @extend .panel-heading ;
+  // background: green;
+}
+// .accordion-content {
+//   @extend .panel-body;
+// }
