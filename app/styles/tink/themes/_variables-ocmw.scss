@@ -1,0 +1,13 @@
+/**
+ * Variables
+ * ----------------------------------------------------------------
+ */
+
+$brand:                 					#416a50;
+$brand-light:           					#5f9770;
+
+$brand-info:            					#00b3dc;
+
+$nav-top-bg-color:      					#333;
+$nav-aside-link-active-background-color:    $brand-light;
+$nav-aside-link-hover-background-color:     lighten($brand-light, 42%);

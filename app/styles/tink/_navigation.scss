@@ -182,7 +182,7 @@ body {
       &:hover,
       &:active,
       &:focus {
-        background: rgba(0, 0, 0, .05);
+        background: $nav-aside-link-hover-background-color;
         color: $nav-aside-link-hover-color;
 
         .badge {
