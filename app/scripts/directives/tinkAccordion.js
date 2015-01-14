@@ -172,7 +172,7 @@ angular.module('tink.accordion')
  var currentOpen;
  this.addGroup = function(scope,elem){
   self.$accordion.addGroup(elem);
-  if(self.$options.startOpen && scope.isCollapsed !== false){
+  if(self.$options.startOpen && scope.isCollapsed !== true){
     scope.open();
   }
 }

@@ -14,7 +14,7 @@ angular.module('tinkFramework.controllers')
   scope.group1 = false;
   scope.group2 = true;
 
-  scope.togle= {group1:false};
+  scope.togle= {group1:true};
 
   var timeout;
   scope.group1go = function(action,actie){
