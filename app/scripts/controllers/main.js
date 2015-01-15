@@ -13,8 +13,8 @@ angular.module('tinkFramework.controllers')
   scope.dates= {last:null,first:new Date(2014, 0, 31)};
   scope.group1 = false;
   scope.group2 = true;
-
-  scope.togle= {group1:true};
+  scope.startopen = false;
+  scope.togle= {group1:false};
 
   var timeout;
   scope.group1go = function(action,actie){
@@ -28,6 +28,7 @@ angular.module('tinkFramework.controllers')
 
   scope.call = function(){
     scope.togle.group1 = !scope.togle.group1;
+    scope.startopen = !scope.startopen;
   }
 
   scope.group2go = function(action,actie){

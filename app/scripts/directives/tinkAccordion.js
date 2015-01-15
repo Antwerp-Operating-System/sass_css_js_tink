@@ -7,13 +7,17 @@ angular.module('tink.accordion')
     controller:'TinkAccordionController',
     transclude: true,
     replace: false,
+    scope:{
+      startOpen:'=',
+      oneAtATime:'='
+    },
     template: '<div class="panel-group" ng-transclude></div>',
     link:function(scope,element, attrs, accordionCtrl){
       var options = {};
       angular.forEach(['oneAtATime','startOpen'], function(key) {
         if(angular.isDefined(attrs[key])) {
-          if(typeof attrs[key] === 'boolean'){
-            options[key] = attrs[key];
+          if(typeof scope[key] === 'boolean'){
+            options[key] = scope[key];
           }else{
             options[key] = attrs[key] === 'true';
           }
@@ -146,7 +150,7 @@ angular.module('tink.accordion')
       var cancelTrans = function(){
         state = states.closed;
         accordionCtrl.closeGroup(element);
-        callback('canceld');
+         callback('canceld');
       }
 
       var callback = function(type,fn){
@@ -173,6 +177,8 @@ angular.module('tink.accordion')
  this.addGroup = function(scope,elem){
   self.$accordion.addGroup(elem);
   if(self.$options.startOpen && scope.isCollapsed !== true){
+    scope.open();
+  }else if(scope.isCollapsed === false){
     scope.open();
   }
 }
