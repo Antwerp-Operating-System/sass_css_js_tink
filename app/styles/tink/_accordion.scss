@@ -9,40 +9,88 @@
   > a {
     text-decoration: none;
 
-    &:hover .accordion-panel-heading {
+    &:hover .accordion-toggle {
       background-color: darken($panel-default-heading-bg, 5);
       transition: background $animation-speed linear;
     }
   }
 
   &.group-open {
-    .accordion-panel-heading:after {
+    .accordion-toggle:before {
       transform: rotate(180deg);
+      top:6px;
     }
   }
   &.group-loading {
     // TODO: make loader icon spin
+    .accordion-toggle:after {
+      background-color: #444;
+      border: 2px dashed #fff;
+      -webkit-animation: spinAround 1s linear infinite;
+      -moz-animation: spinAround 1s linear infinite;
+      animation: spinAround 1s linear infinite;
+
+
+    }
   }
 }
 .accordion-panel-heading {
   @extend .panel-heading;
+}
 
-  &:after {
+.accordion-toggle {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+
+  &:before {
+    // background: red;
     content: "\f0d7";
-    float: right;
+    color: $white;
     font-family: FontAwesome;
     font-style: normal;
     font-weight: normal;
     pointer-events: none;
-    right: 1.07143rem;
+    position: absolute;
+    right: 10px;
     text-decoration: inherit;
-    top: 1.14286rem;
+    top: 15px;
     transition: color 0.1s linear, -webkit-transform 0.1s linear;
     transition: color 0.1s linear, transform 0.1s linear;
     z-index: 2;
+
+    height: 28px;
+    width: 28px;
+    text-align: center;
+
+  }
+
+  &:after {
+    pointer-events: none;
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    content: '';
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+
+    right: 6px;
+    top: 6px;
+
+    padding: 0;
+    z-index: 1;
+    // border: 2px solid #fff; //3px dashed #fff;
+
+    // -webkit-animation: spinAround 1s linear infinite;
+    // -moz-animation: spinAround 1s linear infinite;
+    // animation: spinAround 1s linear infinite;
   }
 }
 
+//
 .accordion-panel-body {
   @extend .panel-body;
   position: relative;
@@ -53,22 +101,53 @@
   position: relative;
 }
 .accordion-spinner {
-    background: green;
-    bottom: 0;
-    height: 45px;
-    display: block;
-    left: 0;
-    opacity: 1;
-    position: absolute;
-    right: 0;
-    color:$white;
-    top: 1px;
-    transition: opacity .5s linear;
-    z-index: 2;
-    text-align: center;
-    margin: 0 auto;
+  background: green;
+  bottom: 0;
+  height: 45px;
+  display: block;
+  left: 0;
+  opacity: 1;
+  position: absolute;
+  right: 0;
+  color:$white;
+  top: 1px;
+  transition: opacity .5s linear;
+  z-index: 2;
+  text-align: center;
+  margin: 0 auto;
 }
 .accordion-loaded-content {
     // min-height: 25px;
     transition: opacity .4s linear;
+}
+
+//
+@-webkit-keyframes spinAround {
+    from {
+        -webkit-transform: rotate(0deg)
+    }
+
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes spinAround {
+    from {
+        -moz-transform: rotate(0deg)
+    }
+
+    to {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@keyframes spinAround {
+    from {
+        transform: rotate(0deg)
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
