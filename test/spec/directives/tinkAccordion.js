@@ -3,7 +3,7 @@
 describe('tinkaccordion', function() {
   beforeEach(module('tink'));
 
-  var bodyEl = $('body'), sandboxEl,today,scope,$compile,$templateCache;
+  var bodyEl = $('body'), sandboxEl,today,scope,$compile,$templateCache,countCall;
 
   beforeEach(inject(function (_$rootScope_, _$compile_, _$templateCache_) {
     scope = _$rootScope_.$new();
@@ -12,10 +12,12 @@ describe('tinkaccordion', function() {
     today = new Date();
     bodyEl.html('');
     sandboxEl = $('<div>').attr('id', 'sandbox').appendTo(bodyEl);
+    countCall=0;
   }));
 
   afterEach(function() {
     scope.$destroy();
+    countCall = 0;
     sandboxEl.remove();
   });
 
@@ -264,6 +266,55 @@ describe('tinkaccordion', function() {
       '</table>'+
       '</tink-accordion-group>'+
       '</tink-accordion>'
+    },
+    'loading-func': {
+      scope: {openStart:false},
+      element: '<tink-accordion data-one-at-a-time="false" data-start-open="openStart">'+
+      '<tink-accordion-group data-is-collapsed="true" heading="head 1">hier is wat content</tink-accordion-group>'+
+      '<tink-accordion-group heading="head 2">hier is wat content</tink-accordion-group>'+
+      '<tink-accordion-group heading="head 3">hier is wat content</tink-accordion-group>'+
+      '<tink-accordion-group data-onclick="group1go" heading="head 4">'+
+      'nu gaan we effe heel veel content plaatsen<br/>'+
+      'hier komt dus super veel<br/>'+
+      'om dit goed te kunnen testen<br/>'+
+      '<table>'+
+        '<thead>'+
+          '<tr>'+
+            '<th># </th>'+
+            '<th>First Name </th>'+
+            '<th>Last Name </th>'+
+            '<th>Username </th>'+
+          '</tr>'+
+        '</thead>'+
+        '<tbody>'+
+          '<tr>'+
+            '<td>1 </td>'+
+            '<td>Mark </td>'+
+            '<td>Otto </td>'+
+            '<td>@mdo </td>'+
+          '</tr>'+
+          '<tr>'+
+            '<td>2 </td>'+
+            '<td>Jacob </td>'+
+            '<td>Thornton </td>'+
+            '<td>@fat </td>'+
+          '</tr>'+
+          '<tr>'+
+            '<td>3 </td>'+
+            '<td>Larry </td>'+
+            '<td>the Bird </td>'+
+            '<td>@twitter </td>'+
+          '</tr>'+
+        '</tbody>'+
+        '<tfoot>'+
+          '<tr>'+
+            '<th> </th>'+
+            '<th colspan="3">Footer info can be put here </th>'+
+          '</tr>'+
+        '</tfoot>'+
+      '</table>'+
+      '</tink-accordion-group>'+
+      '</tink-accordion>'
     }
   };
 
@@ -316,6 +367,45 @@ describe('tinkaccordion', function() {
     it('first accordion open because of data-is-collapsed with sting', function() {
       var elm = compileDirective('group1-collapsed-true',{openStart:false});
         expect(sandboxEl.find('section.accordion-panel:first').hasClass('group-open')).toBe(false);
+    });
+
+    it('when loading and function next is called the action will be open', function() {
+      var counts = [];
+      var newS = {group1go:function(action,next){
+        if(action == 'loading'){
+          next();
+        }
+        counts.push(action);
+        countCall++;
+      },openStart:false};
+      var elm = compileDirective('loading-func',newS);
+      sandboxEl.find('section.accordion-panel:last .accordion-toggle').click();
+      expect(counts).toEqual(['open','loading']);
+    });
+
+    it('when loading and the user clicks it will cancel', function() {
+      var counts = [];
+      var newS = {group1go:function(action){
+        counts.push(action)
+      },openStart:true};
+      var elm = compileDirective('loading-func',newS);
+        sandboxEl.find('section.accordion-panel:last .accordion-toggle').click();
+    });
+
+    it('first accordion open because of data-is-collapsed with sting', function() {
+      var first = 0;
+      var newS = {group1go:function(action){
+        if(first === 0){
+          expect(action).toBe("loading");
+        }else if(first === 1){
+          expect(action).toBe("canceld");
+        }
+        expect(first).toBeLessThan(2);
+        first++;
+      }};
+      var elm = compileDirective('loading-func',newS);
+        sandboxEl.find('section.accordion-panel:last .accordion-toggle').click();
+        sandboxEl.find('section.accordion-panel:last .accordion-toggle').click();
     });
 
   });
