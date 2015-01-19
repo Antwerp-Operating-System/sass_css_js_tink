@@ -294,6 +294,10 @@ angular.module('tink.dateHelper')
     return {days: daysToDraw, firstDay: firstDayOfWeek};
   }
 
+  function daysInRows(date){
+
+  }
+
   function createLabels(date, firstRange, lastRange,grayed) {
     var label = '',cssClass = '';
     if (label !== null && angular.isDate(date)) {
@@ -372,6 +376,9 @@ angular.module('tink.dateHelper')
           return domElem;
 
 
+        },
+        daysInRows: function(date){
+          daysInRows(date);
         }
       };
     }]);

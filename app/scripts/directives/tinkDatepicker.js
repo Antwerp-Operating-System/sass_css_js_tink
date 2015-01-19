@@ -937,7 +937,6 @@ angular.module('tink.datepicker', [])
           if(!angular.isDate(controller.$dateValue)) {controller.$dateValue = new Date(date);}
           if(!scope.$mode || keep) {
             controller.$setViewValue(angular.copy(date));
-            controller.$render();
             if(options.autoclose && !keep) {
               $timeout(function() { $datepicker.hide(true); });
             }
@@ -1382,6 +1381,11 @@ angular.module('tink.datepicker', [])
       restrict: 'EA',
       require: 'ngModel',
       priority:80,
+      scope:{
+        ngModel:'&'
+      },
+      replace:true,
+      templateUrl:'templates/tinkDatePickerElement.html',
       link: function postLink(scope, element, attr, controller) {
         // Directive options
         var options = {scope: scope, controller: controller};
@@ -1407,6 +1411,16 @@ angular.module('tink.datepicker', [])
         // Set expected iOS format
         if(isNative && options.useNative) {options.dateFormat = 'dd/mm/yyyy';}
 
+        element.find('span').bind('click',function(){
+          datepicker.show();
+          element.find('input')[0].focus();
+        })
+
+        element.find('input').bind('change',function(ev,va){
+          validateAgainstMinMaxDate(element.find('input').val());
+        })
+
+
         var lang = options.lang;
 
         var formatDate = function(date, format) {
@@ -1428,9 +1442,11 @@ angular.module('tink.datepicker', [])
         });
 
         // Watch model for changes
-        scope.$watch(attr.ngModel, function() {
+        scope.$watch(scope.ngModel, function() {console.log("value",controller.$dateValue)
           datepicker.update(controller.$dateValue);
+          controller.$render();
         }, true);
+
 
         // Normalize undefined/null/empty array,
         // so that we don't treat changing from undefined->null as a change.
@@ -1522,8 +1538,7 @@ angular.module('tink.datepicker', [])
 
         // viewValue -> element
         controller.$render = function() {
-          // console.warn('$render("%s"): viewValue=%o', element.attr('ng-model'), controller.$viewValue);
-          element.val(getDateFormattedString());
+          element.find('input').val(getDateFormattedString());
         };
 
         function getDateFormattedString() {
