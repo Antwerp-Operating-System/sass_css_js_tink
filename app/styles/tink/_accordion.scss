@@ -18,14 +18,14 @@
   &.group-open {
     .accordion-toggle:before {
       transform: rotate(180deg);
-      top:6px;
+      top: rem(9px);
     }
   }
   &.group-loading {
     // TODO: make loader icon spin
     .accordion-toggle:after {
-      background-color: #444;
-      border: 2px dashed #fff;
+      // background-color: #444;
+      border: 2px dashed $gray-light;
       -webkit-animation: spinAround 1s linear infinite;
       -moz-animation: spinAround 1s linear infinite;
       animation: spinAround 1s linear infinite;
@@ -55,7 +55,7 @@
     position: absolute;
     right: 10px;
     text-decoration: inherit;
-    top: 15px;
+    top: rem(12px);
     transition: color 0.1s linear, -webkit-transform 0.1s linear;
     transition: color 0.1s linear, transform 0.1s linear;
     z-index: 2;
