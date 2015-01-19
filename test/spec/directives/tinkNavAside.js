@@ -45,7 +45,7 @@ describe('navAside', function() {
 		},
 		'accordion': {
 			scope: {},
-			element: '<aside data-tink-nav-aside data-tink-accordion="true" data-tink-accordion-first="false" class="nav-left">'+
+			element: '<aside data-tink-nav-aside data-accordion="true" data-accordion-first="false" class="nav-left">'+
 			'<ul class="nav-aside-list" role="sidenav">'+
 			'<li> <a href="#/menu1"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 1</span> <span class="badge">479</span> </a> </li>'+
 			'<li class="can-open"> <a href="#/menu2"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 2</span> <span class="badge">479</span> </a> <ul>'+
@@ -65,7 +65,7 @@ describe('navAside', function() {
 		},
 		'firstSelected': {
 			scope: {},
-			element: '<aside data-tink-nav-aside data-tink-accordion="false" data-tink-accordion-first="true" class="nav-left">'+
+			element: '<aside data-tink-nav-aside data-accordion="false" data-accordion-first="true" class="nav-left">'+
 			'<ul class="nav-aside-list" role="sidenav">'+
 			'<li> <a href="#/menu1"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 1</span> <span class="badge">479</span> </a> </li>'+
 			'<li class="can-open"> <a href="#/menu2"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 2</span> <span class="badge">479</span> </a> <ul>'+
@@ -85,7 +85,7 @@ describe('navAside', function() {
 		},
 		'AccordionfirstSelected': {
 			scope: {},
-			element: '<aside data-tink-nav-aside data-tink-accordion="true" data-tink-accordion-first="true" class="nav-left">'+
+			element: '<aside data-tink-nav-aside data-accordion="true" data-accordion-first="true" class="nav-left">'+
 			'<ul class="nav-aside-list" role="sidenav">'+
 			'<li> <a href="#/menu1"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 1</span> <span class="badge">479</span> </a> </li>'+
 			'<li class="can-open"> <a href="#/menu2"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 2</span> <span class="badge">479</span> </a> <ul>'+

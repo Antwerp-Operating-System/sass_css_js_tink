@@ -10,16 +10,16 @@
       }
 
       var opts= {};
-      if(attr.tinkAccordion){
-        opts.accordion = (attr.tinkAccordion === 'true');
+      if(attr.accordion){
+        opts.accordion = (attr.accordion === 'true');
       }
-      if(attr.tinkAccordionFirst){
-        opts.gotoPage = (attr.tinkAccordionFirst === 'true');
+      if(attr.accordionFirst){
+        opts.gotoPage = (attr.accordionFirst === 'true');
       }
       var sideNav = tinkApi.sideNavigation(elem);
       sideNav.init(opts);
-      if(attr.tinkToggleId){
-        tinkApi.sideNavToggle.register(attr.tinkToggleId,sideNav);
+      if(attr.toggleId){
+        tinkApi.sideNavToggle.register(attr.toggleId,sideNav);
       }
     }
 };
