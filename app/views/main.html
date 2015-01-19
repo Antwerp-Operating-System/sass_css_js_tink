@@ -1,13 +1,22 @@
 <!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"> -->
 
 
-<tink-timepicker ng-model="time"></tink-timepicker>
-<button ng-click="go()"></button>
+<!-- <button ng-click="go()"></button> -->
 
 <div class="container">
-
-  <h1>Tink playground!</h1>
-  <p>Thijs code</p>
+  <h1>Tink playground</h1>
+  <section class="panel">
+    <div class="panel-heading">
+      <h1 class="panel-title">Timepicker</h1>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-3">
+          <tink-timepicker ng-model="time"></tink-timepicker>
+        </div>
+      </div>
+    </div>
+  </section>
 
 
   <section class="panel">
@@ -41,6 +50,7 @@
   - .container-fluid is gewoon .container in Tink<br>
 
   <hr>
+  <p>Thijs code</p>
   <!-- THIJS CODE -->
 <div id="page-content-wrapper">
                     <div class="page-content">

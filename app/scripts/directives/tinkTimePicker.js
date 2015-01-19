@@ -5,11 +5,15 @@ angular.module('tink.timepicker')
   return{
     restrict:'AE',
     //template:'<div style="background:white;"><span style="float:left;">--</span><div style="float:left;">:</div><span>--</span></div>',
-    template:'<input type="text" />',
+    template:'<div class="timepicker"><input type="text" /><span class="timepicker-more"></span><span class="timepicker-less"></span></div>',
     require:'ngModel',
     replace:true,
     link:function(scope,elem,attr,ngModel){
       var current = null;
+
+      console.log(elem);
+      var elem = elem.find('input');
+      console.log(elem);
 
       var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent) ;
       function isDateSupported() {

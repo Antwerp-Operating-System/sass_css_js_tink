@@ -1,0 +1,73 @@
+/**
+ * Component: timepicker
+ * --------------------------------------------------
+ */
+
+.timepicker {
+  position: relative;
+
+  .timepicker-more,
+  .timepicker-less {
+    border-left: 1px solid $input-border;
+    display: block;
+    height: 50%;
+    position: absolute;
+    right: 0;
+    transition: border-color linear $animation-speed;
+    width: rem(20);
+    z-index: layer('pseudo');
+
+    &:before {
+      border-style: solid;
+      content: "";
+      height: 0;
+      position: absolute;
+      right: rem(6);
+      width: 0;
+    }
+  }
+
+  .timepicker-more {
+    top: 0;
+
+    &:before {
+      border-color: transparent transparent $gray-light;
+      border-width: rem(4 4 6 4);
+      top: 1px;
+    }
+  }
+
+  .timepicker-less {
+    bottom: 0;
+
+    &:before {
+      border-color: $gray-light transparent transparent;
+      border-width: rem(6 4 4 4);
+      bottom: 1px;
+    }
+  }
+
+  input {
+    padding-right: rem(32);
+
+    &:focus {
+
+      ~ .timepicker-more,
+      ~ .timepicker-less {
+        border-left-color: $brand-light;
+      }
+
+      ~ .timepicker-more {
+        &:before {
+          border-color: transparent transparent $brand-light;
+        }
+      }
+
+      ~ .timepicker-less {
+        &:before {
+          border-color: $brand-light transparent transparent;
+        }
+      }
+    }
+  }
+}
