@@ -101,6 +101,8 @@
 					if(findEl(elem,defaults.loadingCss).css('opacity') === '1' ){
 						findEl(elem,defaults.loadingCss).css('opacity',0);
 						findEl(elem,defaults.contentCss).slideDown(defaults.speed);
+						elem.removeClass(defaults.groupLoadingCss);
+						elem.addClass(defaults.openGroupCss);
 					}
 				//If accordion is not open and doesnt have loading
 				}else if(!elem.hasClass(defaults.openGroupCss)){
