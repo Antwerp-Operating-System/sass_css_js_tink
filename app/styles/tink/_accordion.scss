@@ -18,20 +18,21 @@
   &.group-open {
     .accordion-toggle:before {
       transform: rotate(180deg);
-      top: rem(9px);
+      // top: rem(4px);
     }
   }
   &.group-loading {
     // TODO: make loader icon spin
     .accordion-toggle:before{
-      color: $gray;
+      opacity: 0;
     }
     .accordion-toggle:after {
       // background-color: #444;
-      border: 2px dashed $gray-light;
-      -webkit-animation: spinAround 2s linear infinite;
-      -moz-animation: spinAround 2s linear infinite;
-      animation: spinAround 2s linear infinite;
+      // border: 2px dashed $gray-light;
+      content: "\f021";
+      -webkit-animation: spinAround 1s linear infinite;
+      -moz-animation: spinAround 1s linear infinite;
+      animation: spinAround 1s linear infinite;
     }
   }
 }
@@ -46,13 +47,13 @@
   width: 100%;
 
   &:before {
-    // background: red;
+    // background: rgba(200,200,200,.5);
     content: "\f0d7";
     color: $white;
     font-family: FontAwesome;
     font-style: normal;
     font-weight: normal;
-    height: 28px;
+    // height: 28px;
     pointer-events: none;
     position: absolute;
     right: 10px;
@@ -70,15 +71,21 @@
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
-    border-radius: 50%;
+    // background: blue;
     content: '';
-    height: 24px;
-    padding: 0;
+    color: $white;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-size: 14px;
+    font-weight: normal;
+    // border-radius: 50%;
+    // height: 24px;
+    // padding: 0;
     pointer-events: none;
     position: absolute;
-    right: rem(8px);
-    top: rem(10px);
-    width: 24px;
+    right: rem(15px);
+    top: rem(13px);
+    // width: 19px;
     z-index: 1;
   }
 }
