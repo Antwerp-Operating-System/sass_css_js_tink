@@ -392,20 +392,15 @@ describe('tinkaccordion', function() {
         sandboxEl.find('section.accordion-panel:last .accordion-toggle').click();
     });
 
-    it('first accordion open because of data-is-collapsed with sting', function() {
-      var first = 0;
+    it('2 clicks in a row cancels the load', function() {
+      var counts = [];
       var newS = {group1go:function(action){
-        if(first === 0){
-          expect(action).toBe("loading");
-        }else if(first === 1){
-          expect(action).toBe("canceld");
-        }
-        expect(first).toBeLessThan(2);
-        first++;
+        counts.push(action);
       }};
       var elm = compileDirective('loading-func',newS);
         sandboxEl.find('section.accordion-panel:last .accordion-toggle').click();
         sandboxEl.find('section.accordion-panel:last .accordion-toggle').click();
+        expect(counts).toEqual(['loading','canceld']);
     });
 
   });
