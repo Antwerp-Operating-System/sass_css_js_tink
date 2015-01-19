@@ -6,8 +6,8 @@
 .timepicker {
   position: relative;
 
-  .timepicker-more,
-  .timepicker-less {
+  .timepicker-later,
+  .timepicker-earlier {
     border-left: 1px solid $input-border;
     display: block;
     height: 50%;
@@ -27,7 +27,7 @@
     }
   }
 
-  .timepicker-more {
+  .timepicker-later {
     top: 0;
 
     &:before {
@@ -37,7 +37,7 @@
     }
   }
 
-  .timepicker-less {
+  .timepicker-earlier {
     bottom: 0;
 
     &:before {
@@ -52,18 +52,18 @@
 
     &:focus {
 
-      ~ .timepicker-more,
-      ~ .timepicker-less {
+      ~ .timepicker-later,
+      ~ .timepicker-earlier {
         border-left-color: $brand-light;
       }
 
-      ~ .timepicker-more {
+      ~ .timepicker-later {
         &:before {
           border-color: transparent transparent $brand-light;
         }
       }
 
-      ~ .timepicker-less {
+      ~ .timepicker-earlier {
         &:before {
           border-color: $brand-light transparent transparent;
         }
