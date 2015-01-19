@@ -23,14 +23,15 @@
   }
   &.group-loading {
     // TODO: make loader icon spin
+    .accordion-toggle:before{
+      color: $gray;
+    }
     .accordion-toggle:after {
       // background-color: #444;
       border: 2px dashed $gray-light;
-      -webkit-animation: spinAround 1s linear infinite;
-      -moz-animation: spinAround 1s linear infinite;
-      animation: spinAround 1s linear infinite;
-
-
+      -webkit-animation: spinAround 2s linear infinite;
+      -moz-animation: spinAround 2s linear infinite;
+      animation: spinAround 2s linear infinite;
     }
   }
 }
@@ -51,42 +52,34 @@
     font-family: FontAwesome;
     font-style: normal;
     font-weight: normal;
+    height: 28px;
     pointer-events: none;
     position: absolute;
     right: 10px;
+    text-align: center;
     text-decoration: inherit;
     top: rem(12px);
     transition: color 0.1s linear, -webkit-transform 0.1s linear;
     transition: color 0.1s linear, transform 0.1s linear;
-    z-index: 2;
-
-    height: 28px;
     width: 28px;
-    text-align: center;
+    z-index: 2;
 
   }
 
   &:after {
-    pointer-events: none;
-    position: absolute;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    content: '';
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
-
-    right: 6px;
-    top: 6px;
-
+    border-radius: 50%;
+    content: '';
+    height: 24px;
     padding: 0;
+    pointer-events: none;
+    position: absolute;
+    right: rem(8px);
+    top: rem(10px);
+    width: 24px;
     z-index: 1;
-    // border: 2px solid #fff; //3px dashed #fff;
-
-    // -webkit-animation: spinAround 1s linear infinite;
-    // -moz-animation: spinAround 1s linear infinite;
-    // animation: spinAround 1s linear infinite;
   }
 }
 
@@ -103,7 +96,7 @@
 .accordion-spinner {
   background: green;
   bottom: 0;
-  height: 45px;
+  height: rem(45px);
   display: block;
   left: 0;
   opacity: 1;
@@ -126,7 +119,6 @@
     from {
         -webkit-transform: rotate(0deg)
     }
-
     to {
         -webkit-transform: rotate(360deg);
     }
@@ -136,7 +128,6 @@
     from {
         -moz-transform: rotate(0deg)
     }
-
     to {
         -moz-transform: rotate(360deg);
     }
@@ -146,7 +137,6 @@
     from {
         transform: rotate(0deg)
     }
-
     to {
         transform: rotate(360deg);
     }
