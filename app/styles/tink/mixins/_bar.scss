@@ -27,7 +27,7 @@
         @include tab-focus();
       }
 
-      &:not([role="button"]) {
+      &.link {
         color: $link-color;
         line-height: rem($height - $padding);
         margin: rem(($padding / 2) 0);

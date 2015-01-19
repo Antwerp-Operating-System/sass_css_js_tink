@@ -313,8 +313,8 @@ body {
 
 
 /**
- * Action bar
+ * Bar
  */
-.actionbar {
-  @include bar(30px, transparent, $bar-link-color);
+.bar {
+  @include bar($nav-top-height, transparent, $bar-link-color);
 }
