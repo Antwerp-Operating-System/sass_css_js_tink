@@ -103,4 +103,23 @@ $templateCache.put('templates/tooltip.html',
       '<div class="tooltip-arrow"></div>'+
       '<div class="tooltip-inner" ng-bind="content"></div>'+
     '</div>');
+
+$templateCache.put('templates/tinkAccordionGroup.html',
+  '<section class="accordion-panel">'+
+  '<a href class="accordion-toggle" ng-click="toggleOpen()">'+
+    '<div class="accordion-panel-heading">'+
+      '<i class="fa fa-th-large"></i>'+
+      '<h4 class="panel-title">'+
+        '<span>{{heading}}</span>'+
+      '</h4>'+
+    '</div>'+
+  '</a>'+
+  '<div class="accordion-panel-body">'+
+    '<div class="accordion-spinner"><i class="fa fa-rotate-right fa-spin"></i></div>'+
+    '<div class="accordion-loaded-content" ng-transclude>'+
+        '<p>New DOM content comes here</p>'+
+    '</div>'+
+  '</div>'+
+'</section>');
 }]);
+
