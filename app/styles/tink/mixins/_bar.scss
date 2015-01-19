@@ -7,6 +7,19 @@
   color: $color;
   height: rem($height);
 
+  .link {
+    color: $link-color;
+    line-height: rem($height - $padding);
+    margin: rem(($padding / 2) 0);
+    padding: rem(0 $padding);
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: $link-hover-color;
+    }
+  }
+
   > ul,
   &-section-left,
   &-section-right {
@@ -25,19 +38,6 @@
 
       &:focus {
         @include tab-focus();
-      }
-
-      &.link {
-        color: $link-color;
-        line-height: rem($height - $padding);
-        margin: rem(($padding / 2) 0);
-        padding: rem(0 $padding);
-
-        &:hover,
-        &:active,
-        &:focus {
-          color: $link-hover-color;
-        }
       }
     }
   }

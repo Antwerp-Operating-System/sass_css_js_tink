@@ -2764,6 +2764,13 @@ body {
   top: 0;
   width: 100%;
   z-index: 4; }
+  .nav-top .link, .nav-top .nav-top-branding a, .nav-top-branding .nav-top a {
+    color: #fff;
+    line-height: 2.71429rem ;
+    margin: 0.42857rem 0rem ;
+    padding: 0rem 0.85714rem ; }
+    .nav-top .link:hover, .nav-top .nav-top-branding a:hover, .nav-top-branding .nav-top a:hover, .nav-top .link:active, .nav-top .nav-top-branding a:active, .nav-top-branding .nav-top a:active, .nav-top .link:focus, .nav-top .nav-top-branding a:focus, .nav-top-branding .nav-top a:focus {
+      color: #eaeaea; }
   .nav-top > ul, .nav-top-section-left, .nav-top-section-right {
     margin: 0; }
     .nav-top > ul li, .nav-top-section-left li, .nav-top-section-right li {
@@ -2776,13 +2783,6 @@ body {
       .nav-top > ul a:focus, .nav-top-section-left a:focus, .nav-top-section-right a:focus {
         outline: 0;
         box-shadow: 0 0 0 2px rgba(95, 177, 214, 0.5); }
-      .nav-top > ul a.link, .nav-top-section-left a.link, .nav-top-section-right a.link {
-        color: #fff;
-        line-height: 2.71429rem ;
-        margin: 0.42857rem 0rem ;
-        padding: 0rem 0.85714rem ; }
-        .nav-top > ul a.link:hover, .nav-top > ul a.link:active, .nav-top > ul a.link:focus, .nav-top-section-left a.link:hover, .nav-top-section-left a.link:active, .nav-top-section-left a.link:focus, .nav-top-section-right a.link:hover, .nav-top-section-right a.link:active, .nav-top-section-right a.link:focus {
-          color: #eaeaea; }
   .nav-top-section {
     line-height: 3.5rem ;
     position: relative;
@@ -2961,6 +2961,13 @@ body {
   background-color: transparent;
   color: #5fb1d6;
   height: 3.57143rem ; }
+  .bar .link, .bar .nav-top-branding a, .nav-top-branding .bar a {
+    color: #5fb1d6;
+    line-height: 2.71429rem ;
+    margin: 0.42857rem 0rem ;
+    padding: 0rem 0.85714rem ; }
+    .bar .link:hover, .bar .nav-top-branding a:hover, .nav-top-branding .bar a:hover, .bar .link:active, .bar .nav-top-branding a:active, .nav-top-branding .bar a:active, .bar .link:focus, .bar .nav-top-branding a:focus, .nav-top-branding .bar a:focus {
+      color: #369dcc; }
   .bar > ul, .bar-section-left, .bar-section-right {
     margin: 0; }
     .bar > ul li, .bar-section-left li, .bar-section-right li {
@@ -2973,13 +2980,6 @@ body {
       .bar > ul a:focus, .bar-section-left a:focus, .bar-section-right a:focus {
         outline: 0;
         box-shadow: 0 0 0 2px rgba(95, 177, 214, 0.5); }
-      .bar > ul a.link, .bar-section-left a.link, .bar-section-right a.link {
-        color: #5fb1d6;
-        line-height: 2.71429rem ;
-        margin: 0.42857rem 0rem ;
-        padding: 0rem 0.85714rem ; }
-        .bar > ul a.link:hover, .bar > ul a.link:active, .bar > ul a.link:focus, .bar-section-left a.link:hover, .bar-section-left a.link:active, .bar-section-left a.link:focus, .bar-section-right a.link:hover, .bar-section-right a.link:active, .bar-section-right a.link:focus {
-          color: #369dcc; }
   .bar-section {
     line-height: 3.5rem ;
     position: relative;

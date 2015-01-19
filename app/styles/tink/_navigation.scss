@@ -92,6 +92,10 @@ body {
     position: relative;
     z-index: layer('base');
 
+    a {
+      @extend .link;
+    }
+
     li {
       float: left;
 
