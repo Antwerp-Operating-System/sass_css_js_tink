@@ -2,9 +2,10 @@
  * Bar component
  */
 
-@mixin bar($height: $bar-height, $bg-color: $bar-bg-color) {
+@mixin bar($height: $bar-height, $bg-color: $bar-bg-color, $color: $bar-color, $link-color: $bar-link-color, $link-hover-color: $bar-link-hover-color, $padding: $bar-padding) {
   background-color: $bg-color;
-  line-height: rem($height);
+  color: $color;
+  height: rem($height);
 
   > ul,
   &-section-left,
@@ -17,48 +18,58 @@
     }
 
     a {
-      color: $bar-link-color;
-      outline: none;
+      border: none;
+      outline: 0;
       text-decoration: none;
       display: inline-block;
-      line-height: rem($height - $bar-padding);
-      margin: rem(($bar-padding / 2) 0);
-      padding: rem(0 $bar-padding);
 
-      &:hover,
-      &:active,
       &:focus {
-        color: $bar-link-hover-color;
+        @include tab-focus();
       }
 
-      &:focus {
-        box-shadow: 0 0 0 2px rgba($brand-light, .5);
+      &:not([role="button"]) {
+        color: $link-color;
+        line-height: rem($height - $padding);
+        margin: rem(($padding / 2) 0);
+        padding: rem(0 $padding);
+
+        &:hover,
+        &:active,
+        &:focus {
+          color: $link-hover-color;
+        }
       }
     }
   }
 
   &-section {
+    line-height: rem($height - 1px);
     position: relative;
     text-align: center;
     width: auto;
 
     &-left {
       float: left;
-      margin-left: rem($bar-padding / 2);
+      margin-left: rem($padding / 2);
     }
 
     &-center {
       display: inline-block;
 
       input[type="search"] {
+        border: none;
         display: inline-block;
         width: auto;
+
+        &:focus {
+          @include tab-focus();
+        }
       }
     }
 
     &-right {
       float: right;
-      margin-right: rem($bar-padding / 2);
+      margin-right: rem($padding / 2);
     }
   }
 }

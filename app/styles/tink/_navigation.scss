@@ -4,6 +4,7 @@
  * - navigation behaviour states
  * - top navigation
  * - left navigation
+ * - actionbar
  */
 
 
@@ -49,10 +50,26 @@ body {
 }
 
 .main {
-  transition: padding $animation-speed linear, transform $animation-speed linear;
+  transition: opacity ($animation-speed * 2) linear, padding $animation-speed linear, transform $animation-speed linear;
 
   @include mq($screen-sm) {
     padding-left: rem($nav-aside-width);
+  }
+
+  /**
+   * ng-animate classes
+   */
+  &.ng-enter {
+    opacity: 0;
+  }
+  &.ng-leave {
+    opacity: 1;
+  }
+  &.ng-enter.ng-enter-active {
+    opacity: 1;
+  }
+  &.ng-leave.ng-leave-active {
+    opacity: 0;
   }
 }
 
@@ -64,7 +81,7 @@ body {
  */
 
 .nav-top {
-  @include bar();
+  @include bar($nav-top-height, $nav-top-bg-color, $nav-top-color, $nav-top-link-color, $nav-top-link-hover-color, $nav-top-padding);
   position: fixed;
   top: 0;
   width: 100%;
@@ -101,7 +118,7 @@ body {
 
     img {
       float: left;
-      height: rem($bar-height);
+      height: rem($nav-top-height);
       width: auto;
     }
 
@@ -291,4 +308,13 @@ body {
       padding: rem((($nav-aside-subitem-height - $line-height-computed) / 2) 15);
     }
   }
+}
+
+
+
+/**
+ * Action bar
+ */
+.actionbar {
+  @include bar(30px, transparent, $bar-link-color);
 }

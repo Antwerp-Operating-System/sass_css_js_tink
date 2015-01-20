@@ -51,6 +51,8 @@ module.exports = function (grunt) {
       },
       sass: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+        // TH comment out - grunt/sass subdirs
+        // files: ['<%= yeoman.app %>/styles/**/*.{scss,sass}'],
         tasks: ['sass:server', 'autoprefixer']
       },
       gruntfile: {
@@ -167,30 +169,30 @@ module.exports = function (grunt) {
       }
     },
     sass: {
-        options: {
-          imagePath:'../images',
-            includePaths: [
-                'bower_components'
-            ]
-        },
-        dist: {
-            files: [{
-                expand: true,
-                cwd: '<%= yeoman.app %>/styles',
-                src: ['*.scss'],
-                dest: '.tmp/styles',
-                ext: '.css'
-            }]
-        },
-        server: {
-            files: [{
-                expand: true,
-                cwd: '<%= yeoman.app %>/styles',
-                src: ['*.scss'],
-                dest: '.tmp/styles',
-                ext: '.css'
-            }]
-        }
+      options: {
+        imagePath:'../images',
+        includePaths: [
+            'bower_components'
+        ]
+      },
+      dist: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>/styles',
+          src: ['*.scss'],
+          dest: '.tmp/styles',
+          ext: '.css'
+        }]
+      },
+      server: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>/styles',
+          src: ['*.scss'],
+          dest: '.tmp/styles',
+          ext: '.css'
+        }]
+      }
     },
     copy: {
       dist: {
@@ -221,15 +223,16 @@ module.exports = function (grunt) {
             src: [
               '{,*/}*'
             ]
-          },
-          {
-            expand: true,
-            cwd: '<%= yeoman.app %>/images/gui',
-            dest: '<%= yeoman.dist %>/images/gui',
-            src: [
-              '{,*/}*'
-            ]
           }
+          // Not necessary anymore, since images are now automatically embedded via the cssUrlEmbed task
+          //, {
+          //   expand: true,
+          //   cwd: '<%= yeoman.app %>/images/gui',
+          //   dest: '<%= yeoman.dist %>/images/gui',
+          //   src: [
+          //     '{,*/}*'
+          //   ]
+          // }
         ]
       },
       styles: {
@@ -261,13 +264,13 @@ module.exports = function (grunt) {
       }
     },
     usemin: {
-        html: ['<%= yeoman.dist %>/{,*/}*.html'],
-        css: ['.tmp/styles/{,*/}*.css'],
-        options: {
-            dirs: ['<%= yeoman.dist %>/images'],
-            basedir: ['<%= yeoman.dist %>/images'],
-            assetsDirs: ['<%= yeoman.dist %>', '<%= yeoman.dist %>/images']
-        }
+      html: ['<%= yeoman.dist %>/{,*/}*.html'],
+      css: ['.tmp/styles/{,*/}*.css'],
+      options: {
+        dirs: ['<%= yeoman.dist %>/images'],
+        basedir: ['<%= yeoman.dist %>/images'],
+        assetsDirs: ['<%= yeoman.dist %>', '<%= yeoman.dist %>/images']
+      }
     },
     concurrent: {
       server: [
@@ -279,17 +282,16 @@ module.exports = function (grunt) {
       ],
       dist: [
         'sass',
-        // 'imagemin',
         'svgmin'
       ]
     },
     svgmin: {
-    options: {
+      options: {
         plugins: {
-            removeViewBox: false
+          removeViewBox: false
         }
-    }
-},
+      }
+    },
     cssmin: {
       options: {
         banner: '/*! Tink v<%= yeoman.version %> */'
@@ -307,7 +309,7 @@ module.exports = function (grunt) {
         options: {
           patterns: [
             {
-              match: /v(\d+)\.(\d+)\.(\d+)/g,
+              match: /v(\d+)\.(\d+)\.(.+)/g,
               replacement: 'v<%= yeoman.version %>'
             }
           ]
@@ -317,8 +319,18 @@ module.exports = function (grunt) {
         ]
       }
     },
-    // Automatically inject Bower components into the app
-
+    cssUrlEmbed: {
+      encode: {
+        expand: true,
+        cwd: '.tmp/styles',
+        src: '{,*/}*.css',
+        dest: '.tmp/styles',
+        options: {
+          baseDir: 'app/styles',
+          failOnMissingUrl: false
+        }
+      }
+    },
     karma: {
       unit: {
         configFile: 'test/karma.conf.js',
@@ -366,6 +378,7 @@ module.exports = function (grunt) {
     'uglify:dist',
     'concurrent:dist',
     'autoprefixer:dist',
+    'cssUrlEmbed',
     'usemin',
     'cssmin',
     'copy:styles',
