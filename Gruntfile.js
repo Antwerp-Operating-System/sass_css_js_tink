@@ -51,7 +51,6 @@ module.exports = function (grunt) {
       },
       sass: {
         // files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-        // TH comment out - grunt/sass subdirs
         files: ['<%= yeoman.app %>/styles/**/*.{scss,sass}'],
         tasks: ['sass:server', 'autoprefixer']
       },
@@ -298,11 +297,28 @@ module.exports = function (grunt) {
       },
       dist: {
         files: {
-          '<%= yeoman.dist %>/styles/tink.min.css': [
-            '.tmp/styles/{,*/}*.css'
-          ]
+          '<%= yeoman.dist %>/styles/tink-ocmw.min.css': ['.tmp/styles/tink-ocmw.css'],
+          '<%= yeoman.dist %>/styles/tink.min.css': ['.tmp/styles/tink.css']
         }
       }
+      // dist: {
+      //   files: [
+      //     {
+      //       src: '.tmp/styles/tink-ocmw.css',
+      //       dest: '<%= yeoman.dist %>/styles/tink-ocmw.min.css',
+      //       options: {
+      //         banner: '/*! Tink (OCMW) v<%= yeoman.version %> */>'
+      //       }
+      //     },
+      //     {
+      //       src: '.tmp/styles/tink.css',
+      //       dest: '<%= yeoman.dist %>/styles/tink.min.css',
+      //       options: {
+      //         banner: '/*! Tink v<%= yeoman.version %> */>'
+      //       }
+      //     }
+      //   ]
+      // }
     },
     replace: {
       dist: {

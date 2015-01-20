@@ -3,9 +3,22 @@
  */
 @mixin bar($height: $bar-height, $bg-color: $bar-bg-color, $color: $bar-color, $link-color: $bar-link-color, $link-hover-color: $bar-link-hover-color, $padding: $bar-padding) {
   background-color: $bg-color;
-  // height: rem($height);
+  color: $color;
   line-height: rem($height);
   position: relative;
+
+  .link {
+    color: $link-color;
+    line-height: rem($height - $padding);
+    margin: rem(($padding / 2) 0);
+    padding: rem(0 $padding);
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: $link-hover-color;
+    }
+  }
 
   &-branding {
     float: left;
@@ -93,6 +106,7 @@
 
   &-branding,
   &-section-left,
+  &-section-center,
   &-section-right {
     @extend .list-inline;
     height: 100%;
@@ -106,11 +120,11 @@
       margin: 0;
       padding: 0 $padding;
 
-      a.link {
+      .link {
         color: $link-color;
       }
 
-      a.btn, button {
+      a.btn, button, input {
         margin-top: rem(-2px);
       }
     }
