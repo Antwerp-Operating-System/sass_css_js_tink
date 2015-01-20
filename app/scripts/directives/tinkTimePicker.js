@@ -12,93 +12,94 @@ angular.module('tink.timepicker')
       ngModel:'&'
     },
     link:function(scope,elem,attr,ngModel){
-      var current = null;
+      var current = {hour:{num:0,reset:true,prev:-1,start:true},min:{num:0,reset:true,start:true}};
       var inputField = elem.find('input');
       // Needs to be fixed
       // elem = elem.find('input');
 
       var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent) ;
       function isDateSupported() {
-          var i = document.createElement('input');
-          i.setAttribute('type', 'date');
-          return i.type !== 'text';
+        var i = document.createElement('input');
+        i.setAttribute('type', 'date');
+        return i.type !== 'text';
       }
       if(isNative && isDateSupported()){
         inputField.prop('type', 'time');
       }
 
-      ngModel.$formatters.push(function(time){
-        inputField.val('--:--');
-        //setValue()
-        return time;
+      var dateToTime = function(date){
+        if(angular.isDate(date)){
+          var hour = date.getHours();
+          var minute = date.getMinutes();
+          if(hour && minute){
+            return hour+':'+minute;
+          }else{
+            return '--:--';
+          }
+        }else{
+          return '--;--';
+        }
+      };
+
+      elem.bind('mousedown',function(){
+        return false;
       });
 
-      ngModel.$parsers.push(function(time) {
-        inputField.val(time);
-        var hour = parseInt(time.substr(0,2));
-        var minute = parseInt(time.substr(3,2));
-      if(hour && minute){
-          var date = new Date();
-          date.setHours(hour);
-          date.setMinutes(minute);
-        return date;
-      }else {
-        return null;
+      elem.find('.timepicker-later').bind('click',function(){
+        if(selected === 1){
+          addHour(1);
+        }else if(selected === 2){
+          addMinute(1);
+        }
+        return false;
+      });
+
+      var bindEvent = function(){
+        inputField.unbind('input').unbind('keydown').unbind('change').unbind('click').unbind('mousedown');
+        inputField.keydown(function(e){
+          var keycode = e.keyCode;
+          var shift = e.shiftKey;
+          if((shift && keycode > 47 && keycode <58) || (keycode >95 && keycode <106)){
+            if(selected === 1){
+              handleHour(keycode);
+            }else{
+              handleMinute(keycode);
+            }
+          }else if(keycode === 39 && selected === 1){
+            selectMinute(true);
+          }else if(keycode === 37 && selected === 2){
+            selectHour(true);
+          }else if(keycode === 38){
+            if(selected === 1){
+              addHour(1);
+            }else if(selected === 2){
+              addMinute(1);
+            }
+          }else if(keycode === 40){
+            if(selected === 1){
+              addHour(-1);
+            }else if(selected === 2){
+              addMinute(-1);
+            }
+          }
+          return false;
+        });
       }
 
+      elem.find('.timepicker-earlier').bind('click',function(){
+        if(selected === 1){
+          addHour(-1);
+        }else if(selected === 2){
+          addMinute(-1);
+        }
+        return false;
       });
 
       if(isNative && isDateSupported()){
         inputField.val('00:00:00');
-        return;
+      }else{
+        bindEvent();
       }
-
-      // function SelectText(element) {
-      //   var doc = document,
-      //   text = element,
-      //   range, selection;
-
-      //   if (doc.body.createTextRange) {
-      //     range = document.body.createTextRange();
-      //     range.moveToElementText(text);
-      //     range.select();
-      //   } else if (window.getSelection) {
-      //     selection = window.getSelection();
-      //     range = document.createRange();
-      //     range.selectNodeContents(text);
-      //     selection.removeAllRanges();
-      //     selection.addRange(range);
-      //   }
-      // }
-      inputField.unbind('input').unbind('keydown').unbind('change').unbind('click').unbind('mousedown');
-      inputField.keydown(function(e){
-        var keycode = e.keyCode;console.log(keycode);
-        var shift = e.shiftKey;
-        if((shift && keycode > 47 && keycode <58) || (keycode >95 && keycode <106)){
-          if(selected === 1){
-            handleHour(keycode);
-          }else{
-            handleMinute(keycode);
-          }
-        }else if(keycode === 39 && selected === 1){
-          selectMinute(true);
-        }else if(keycode === 37 && selected === 2){
-          selectHour(true);
-        }else if(keycode === 38){
-          if(selected === 1){
-            addHour(1);
-          }else if(selected === 2){
-            addMinute(1);
-          }
-        }else if(keycode === 40){
-          if(selected === 1){
-            addHour(-1);
-          }else if(selected === 2){
-            addMinute(-1);
-          }
-        }
-        return false;
-      });
 
       var keycodeMapper = {};
 
@@ -126,24 +127,28 @@ angular.module('tink.timepicker')
           current.hour.reset = !current.hour.reset;
         }
         current.hour.start =false;
-        setHour(num);
+        scope.setHour(num);
       };
 
       var selectHour = function(reset){
-        inputField[0].setSelectionRange(0, 2);
+        if(!(isNative && isDateSupported())){
+          inputField[0].setSelectionRange(0, 2);
+        }
         selected = 1;
         current.hour.reset = reset;
         current.min.reset = false;
       };
 
       var selectMinute = function(reset){
-        inputField[0].setSelectionRange(3, 5);
+        if(!(isNative && isDateSupported())){
+          inputField[0].setSelectionRange(3, 5);
+        }
         selected = 2;
         current.min.reset = reset;
         current.hour.reset = false;
       };
 
-      var setHour = function(num){
+      scope.setHour = function(num){
         var select;
         var firstNumber = parseInt(hourString()[1]);
         var lastNumber = parseInt(hourString()[1]);
@@ -168,7 +173,12 @@ angular.module('tink.timepicker')
         setValue(select);
       };
 
+      var isMobile = function(){
+        return isNative && isDateSupported();
+      }
+
       var hourString = function(){
+
         if(current.hour.start){
           return '--';
         }else{
@@ -185,7 +195,7 @@ angular.module('tink.timepicker')
         }
       };
 
-      var setMinute = function(num){
+      scope.setMinute = function(num){
         var lastNumber = parseInt(minString()[1]);
         if(isNaN(lastNumber) || lastNumber === 0 || lastNumber > 5){
           current.min.num = num;
@@ -197,14 +207,21 @@ angular.module('tink.timepicker')
       };
 
       var setValue =  function(select){
+        if(isNative && isDateSupported()){
+          var timeStr = hourString()+':'+minString()+':00';
+          timeStr.replace('-','0');
+          ngModel.$setViewValue(timeStr);
+        }else{
           ngModel.$setViewValue(hourString()+':'+minString());
-          ngModel.$render();
-
-        if(select === 1){
-          selectHour();
-        }else if(select === 2){
-          selectMinute();
         }
+
+        ngModel.$render();
+          if(select === 1){
+            selectHour();
+          }else if(select === 2){
+            selectMinute();
+          }
+
         if(!current.hour.start && !current.min.start){
           ngModel.$setValidity('time', true);
         }else{
@@ -215,7 +232,7 @@ angular.module('tink.timepicker')
       var handleMinute = function(key){
         var num = keycodeMapper[key];
         current.min.start =false;
-        setMinute(num);
+        scope.setMinute(num);
       };
 
       var selected = -1;
@@ -256,11 +273,11 @@ angular.module('tink.timepicker')
 
       String.prototype.width = function(font,padding) {
         var f = font || '15px arial',
-            p = padding || '',
-            o = $('<div>' + this + '</div>')
-                  .css({'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': f,'padding':p})
-                  .appendTo($('body')),
-            w = o.width();
+        p = padding || '',
+        o = $('<div>' + this + '</div>')
+        .css({'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': f,'padding':p})
+        .appendTo($('body')),
+        w = o.width();
 
         o.remove();
 
@@ -294,6 +311,12 @@ angular.module('tink.timepicker')
         setValue(2);
       };
 
+      var clearSelection = function(){
+        if(!(isNative && isDateSupported())){
+          inputField[0].setSelectionRange(0, 0);
+        }
+      }
+
       var addHour = function(size){
         current.hour.start =false;
         var newHour = current.hour.num + size;
@@ -312,7 +335,71 @@ angular.module('tink.timepicker')
         ngModel.$setValidity('time', false);
         setValue();
       };
-      reset();
+      //reset();
+
+      scope.$watch('ngModel',function(newVal){
+        var date=null;
+        var hour = null;
+        var minute = null;
+        if(typeof newVal === 'function'){
+          date = newVal();
+        }else {
+          date = newVal;
+        }
+
+        if(angular.isDate(date)){
+          var hour = date.getHours();
+          var minute = date.getMinutes();
+        }else if(typeof date === 'string'  && date.length >= 5){
+          if(/^([01]\d|2[0-3]):?([0-5]\d)$/.test(date.substr(0,5))){
+            var hour = parseInt(date.substr(0,2));
+            var minute = parseInt(date.substr(3,2));
+          }
+        }else{
+          reset();
+        }
+        if(hour && minute){
+          current.hour.start = false;
+          current.hour.num = hour;
+          current.min.start =false;
+          current.min.num = minute;
+          setValue();
+         }
+      });
+
+      ngModel.$formatters.unshift(function(modelValue) {console.log(modelValue)
+
+        var date = modelValue;
+        console.log(date);
+        if(angular.isDate(date)){
+          var hour = date.getHours();
+          var minute = date.getMinutes();
+          if(hour && minute){
+            current.hour.start =false;
+            scope.setHour(hour);
+            current.min.start =false;
+            scope.setMinute(minute);
+            clearSelection();
+          }
+        }else{
+          reset();
+        }
+       });
+
+      ngModel.$parsers.push(function(time) {
+        inputField.val(time);
+        console.log(time)
+        var hour = parseInt(time.substr(0,2));
+        var minute = parseInt(time.substr(3,2));
+        if(hour && minute){
+          var date = new Date();
+          date.setHours(hour);
+          date.setMinutes(minute);
+          return date;
+        }
+
+      });
+
     }
   };
 }]);

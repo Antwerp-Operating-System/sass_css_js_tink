@@ -11,7 +11,7 @@ angular.module('tinkFramework.controllers')
   .controller('MainCtrl',['$scope',function (scope) {
   scope.selectedDate = '2014-12-01';
   scope.dates= {last:null,first:new Date(2014, 0, 31)};
-  scope.time = null;
+  scope.time = new Date();
 
   scope.go = function(){
   	console.log(scope.time);
