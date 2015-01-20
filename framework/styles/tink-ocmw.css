@@ -2316,65 +2316,65 @@ button[type="submit"], input[type="submit"], .btn-primary {
  * Panels
  * --------------------------------------------------
  */
-.panel {
+.panel, .accordion-panel {
   background-color: #fff;
   border: 1px solid transparent;
   border-radius: 2px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
   margin-bottom: 1.42857rem ;
   border-color: #eaeaea; }
-  .panel > .panel-heading {
+  .panel .panel-heading, .accordion-panel .panel-heading, .panel .accordion-panel-heading, .accordion-panel .accordion-panel-heading {
     color: #fff;
     background-color: #525252;
     border-color: #eaeaea; }
-    .panel > .panel-heading + .panel-collapse > .panel-body {
+    .panel .panel-heading + .panel-collapse > .panel-body, .accordion-panel .panel-heading + .panel-collapse > .panel-body, .panel .accordion-panel-heading + .panel-collapse > .panel-body, .accordion-panel .accordion-panel-heading + .panel-collapse > .panel-body, .panel .panel-heading + .panel-collapse > .accordion-panel-body, .accordion-panel .panel-heading + .panel-collapse > .accordion-panel-body, .panel .accordion-panel-heading + .panel-collapse > .accordion-panel-body, .accordion-panel .accordion-panel-heading + .panel-collapse > .accordion-panel-body {
       border-top-color: #eaeaea; }
-    .panel > .panel-heading .badge {
+    .panel .panel-heading .badge, .accordion-panel .panel-heading .badge, .panel .accordion-panel-heading .badge, .accordion-panel .accordion-panel-heading .badge {
       color: #525252;
       background-color: #fff; }
-  .panel > .panel-footer + .panel-collapse > .panel-body {
+  .panel .panel-footer + .panel-collapse > .panel-body, .accordion-panel .panel-footer + .panel-collapse > .panel-body, .panel .panel-footer + .panel-collapse > .accordion-panel-body, .accordion-panel .panel-footer + .panel-collapse > .accordion-panel-body {
     border-bottom-color: #eaeaea; }
-  .panel.colored {
+  .panel.colored, .colored.accordion-panel {
     background: #cbdfd2;
     border: none; }
 
-.panel-body {
+.panel-body, .accordion-panel-body {
   padding: 1.14286rem 2.28571rem ; }
-  .panel-body:before, .panel-body:after {
+  .panel-body:before, .accordion-panel-body:before, .panel-body:after, .accordion-panel-body:after {
     content: " ";
     display: table; }
-  .panel-body:after {
+  .panel-body:after, .accordion-panel-body:after {
     clear: both; }
-  .panel-body:not(:last-child) {
+  .panel-body:not(:last-child), .accordion-panel-body:not(:last-child) {
     border-bottom: 1px solid #eaeaea; }
-  .panel-body .panel-body-title {
+  .panel-body .panel-body-title, .accordion-panel-body .panel-body-title {
     margin-top: 0;
     margin-bottom: 1rem;
     font-weight: 600; }
-    .panel-body .panel-body-title span {
+    .panel-body .panel-body-title span, .accordion-panel-body .panel-body-title span {
       font-size: 70%;
       color: #888; }
-  .panel-body .panel-body-section-title {
+  .panel-body .panel-body-section-title, .accordion-panel-body .panel-body-section-title {
     border-bottom: 1px solid #eaeaea;
     font-weight: 300;
     margin-top: 0;
     margin-bottom: 1rem;
     padding-bottom: 1rem; }
-    .panel-body .panel-body-section-title span {
+    .panel-body .panel-body-section-title span, .accordion-panel-body .panel-body-section-title span {
       font-size: 70%; }
-  .panel-body .panel-body {
+  .panel-body .panel-body, .accordion-panel-body .panel-body, .panel-body .accordion-panel-body, .accordion-panel-body .accordion-panel-body {
     padding: 1.14286rem ; }
 
-.panel-heading {
+.panel-heading, .accordion-panel-heading {
   background-color: #f6f6f6;
   font-size: 1.14286rem ;
   font-weight: 700;
   padding: 12px; }
-  .panel-heading > .dropdown .dropdown-toggle {
+  .panel-heading > .dropdown .dropdown-toggle, .accordion-panel-heading > .dropdown .dropdown-toggle {
     color: inherit; }
-  .panel-heading .fa {
+  .panel-heading .fa, .accordion-panel-heading .fa {
     color: #888; }
-  .panel-heading .panel-title {
+  .panel-heading .panel-title, .accordion-panel-heading .panel-title {
     background: none;
     color: #fff;
     display: inline-block;
@@ -2382,7 +2382,7 @@ button[type="submit"], input[type="submit"], .btn-primary {
     font-weight: 700;
     margin: 0 0 0 1.71429rem ;
     padding: 0; }
-  .panel-heading .fa + .panel-title {
+  .panel-heading .fa + .panel-title, .accordion-panel-heading .fa + .panel-title {
     margin-left: 0.64286rem ; }
 
 .panel-footer {
@@ -2510,6 +2510,105 @@ a.badge:hover, a.badge:focus {
     margin-right: -1px; }
   .input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group {
     margin-left: -1px; }
+
+/**
+ * Accordions
+ * --------------------------------------------------
+ */
+.accordion-panel {
+  margin-bottom: 0; }
+  .accordion-panel > a {
+    text-decoration: none; }
+    .accordion-panel > a:hover .accordion-toggle {
+      background-color: #454545;
+      transition: background 0.1s linear; }
+  .accordion-panel.group-open .accordion-toggle:before {
+    -webkit-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg); }
+  .accordion-panel.group-loading .accordion-toggle:before {
+    opacity: 0; }
+  .accordion-panel.group-loading .accordion-toggle:after {
+    content: "\f021";
+    -webkit-animation: spinAround 1s linear infinite;
+    animation: spinAround 1s linear infinite; }
+
+.accordion-toggle {
+  display: block;
+  overflow: hidden;
+  position: relative;
+  width: 100%; }
+  .accordion-toggle:before {
+    content: "\f0d7";
+    color: #fff;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    pointer-events: none;
+    position: absolute;
+    right: 10px;
+    text-align: center;
+    text-decoration: inherit;
+    top: 0.85714rem ;
+    transition: color 0.1s linear, -webkit-transform 0.1s linear;
+    transition: color 0.1s linear, transform 0.1s linear;
+    width: 28px;
+    z-index: 2; }
+  .accordion-toggle:after {
+    box-sizing: content-box;
+    content: '';
+    color: #fff;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-size: 14px;
+    font-weight: normal;
+    pointer-events: none;
+    position: absolute;
+    right: 1.07143rem ;
+    top: 0.92857rem ;
+    z-index: 1; }
+
+.accordion-panel-body {
+  position: relative; }
+
+.accordion-content {
+  overflow: hidden;
+  position: relative; }
+
+.accordion-spinner {
+  background: green;
+  bottom: 0;
+  height: 3.21429rem ;
+  display: block;
+  left: 0;
+  opacity: 1;
+  position: absolute;
+  right: 0;
+  color: #fff;
+  top: 1px;
+  transition: opacity 0.5s linear;
+  z-index: 2;
+  text-align: center;
+  margin: 0 auto; }
+
+.accordion-loaded-content {
+  transition: opacity 0.4s linear; }
+
+@-webkit-keyframes spinAround {
+  from {
+    -webkit-transform: rotate(0deg); }
+
+  to {
+    -webkit-transform: rotate(360deg); } }
+
+@keyframes spinAround {
+  from {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg); } }
 
 /**
  * Angular related components
@@ -2904,6 +3003,7 @@ body {
       width: 100%; }
       .nav-aside-list li a:hover, .nav-aside-list li a:active, .nav-aside-list li a:focus {
         background: #e0ece4;
+        box-shadow: none;
         color: #141414; }
         .nav-aside-list li a:hover .badge, .nav-aside-list li a:active .badge, .nav-aside-list li a:focus .badge {
           background-color: #888;

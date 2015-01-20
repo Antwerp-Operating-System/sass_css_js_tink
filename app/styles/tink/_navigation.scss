@@ -180,7 +180,6 @@ body {
     a {
       color: $nav-aside-link-color;
       display: table;
-      outline: none;
       text-decoration: none;
       width: 100%;
 
@@ -188,6 +187,7 @@ body {
       &:active,
       &:focus {
         background: $nav-aside-link-hover-background-color;
+        box-shadow: none;
         color: $nav-aside-link-hover-color;
 
         .badge {

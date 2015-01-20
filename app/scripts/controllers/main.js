@@ -19,29 +19,29 @@ angular.module('tinkFramework.controllers')
   var timeout;
   scope.group1go = function(action,actie){
     console.log(action,timeout);
-    if(action ==="loading"){
+    if(action ==='loading'){
       timeout = $timeout(actie,3000);
-    }else if(action === "canceld"){
+    }else if(action === 'canceld'){
       $timeout.cancel(timeout);
     }
-  }
+  };
 
   scope.call = function(){
     scope.togle.group1 = !scope.togle.group1;
     scope.startopen = !scope.startopen;
-  }
+  };
 
-  scope.group2go = function(action,actie){
+  scope.group2go = function(action){
     console.log(action);
-  }
+  };
 
-  scope.group3go = function(action,actie){
+  scope.group3go = function(action){
     console.log(action);
-  }
+  };
 
-  scope.group4go = function(action,actie){
+  scope.group4go = function(action){
     console.log(action);
-  }
+  };
 
   scope.go = function(){
   	console.log(scope.dates);

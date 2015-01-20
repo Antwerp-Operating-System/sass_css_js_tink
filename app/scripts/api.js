@@ -41,9 +41,9 @@
 		};
 	};
 
-	tinkApi.accordion = function(element){
+	tinkApi.accordion = function(){
 		var defaults = {
-			speed:300,
+			speed:200,
 			loadingCallback:true,
 			oneAtTime:true,
 			openGroupCss:'group-open',
@@ -62,10 +62,9 @@
 			if(opts){
 				Object.extend(defaults, opts);
 			}
-		}
+		};
 
 		var groups=[];
-		var groupElems = {};
 
 		var addGroup = function(elem){
 			if(!accordion){
@@ -78,15 +77,15 @@
 				findEl(elem,defaults.contentCss).css('height','auto');
 			}
 				findEl(elem,defaults.contentCss).css('display','none');
-		}
+		};
 
 		var getGroupAt = function(index){
 			return $(groups[index]);
-		}
+		};
 
 		var findEl = function(elem,classStr){
 			return elem.find('.'+classStr);
-		}
+		};
 
 
 		var openGroup = function(elem){
@@ -121,7 +120,7 @@
 					}
 				}
 			}
-		}
+		};
 
 		var closeGroup = function(elem){
 			if(!accordion){
@@ -136,7 +135,7 @@
 					elem.removeClass(defaults.groupLoadingCss);
 				}
 			}
-		}
+		};
 
 
 		var handleAccordion = function(elem){
@@ -154,7 +153,7 @@
 				toggleGroup(elem);
 			}
 
-		}
+		};
 
 		return{
 			init:function(element,opts){
@@ -175,9 +174,9 @@
 			handleAccordion:function(element){
 				handleAccordion(element);
 			}
-		}
+		};
 
-	}
+	};
 
 	tinkApi.accordion1 = function(element){
 
