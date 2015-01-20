@@ -316,5 +316,5 @@ body {
  * Action bar
  */
 .bar {
-  @include bar($nav-top-height, yellow, $bar-link-color);
+  @include bar($nav-top-height, transparent, $bar-link-color);
 }
