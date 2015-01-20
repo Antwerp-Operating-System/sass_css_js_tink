@@ -92,6 +92,10 @@ body {
     position: relative;
     z-index: layer('base');
 
+    a {
+      @extend .link;
+    }
+
     li {
       float: left;
 
@@ -182,7 +186,8 @@ body {
       &:hover,
       &:active,
       &:focus {
-        background: rgba(0, 0, 0, .05);
+        background: $nav-aside-link-hover-background-color;
+        box-shadow: none;
         color: $nav-aside-link-hover-color;
 
         .badge {
@@ -313,8 +318,8 @@ body {
 
 
 /**
- * Action bar
+ * Bar
  */
-.actionbar {
-  @include bar(30px, transparent, $bar-link-color);
+.bar {
+  @include bar($nav-top-height, transparent, $bar-link-color);
 }

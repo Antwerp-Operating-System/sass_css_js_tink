@@ -9,6 +9,7 @@
   .timepicker-later,
   .timepicker-earlier {
     border-left: 1px solid $input-border;
+    cursor: pointer;
     display: block;
     height: 50%;
     position: absolute;
@@ -23,6 +24,7 @@
       height: 0;
       position: absolute;
       right: rem(6);
+      transition: border-color $animation-speed linear;
       width: 0;
     }
   }
@@ -61,11 +63,25 @@
         &:before {
           border-color: transparent transparent $brand-light;
         }
+
+        &:hover,
+        &:active {
+          &:before {
+            border-color: transparent transparent darken($brand-light, 12%);
+          }
+        }
       }
 
       ~ .timepicker-earlier {
         &:before {
           border-color: $brand-light transparent transparent;
+        }
+
+        &:hover,
+        &:active {
+          &:before {
+            border-color: darken($brand-light, 12%) transparent transparent;
+          }
         }
       }
     }

@@ -9,6 +9,8 @@ angular.module('tink', [
 		'tink.sideNav',
 		'tink.dropdown',
 		'tink.templates',
-		'tink.validDate'
+		'tink.validDate',
+		'tink.timepicker',
+		'tink.accordion'
 
 	]);
