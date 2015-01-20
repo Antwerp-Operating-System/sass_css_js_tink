@@ -2608,7 +2608,7 @@ angular.module('tink.timepicker')
         inputField.keydown(function(e){
           var keycode = e.keyCode;
           var shift = e.shiftKey;
-          if((shift && keycode > 47 && keycode <58) || (keycode >95 && keycode <106)){
+          if((keycode > 47 && keycode <58) || (keycode >95 && keycode <106)){
             if(selected === 1){
               handleHour(keycode);
             }else{
@@ -2698,12 +2698,12 @@ angular.module('tink.timepicker')
       };
 
       scope.setHour = function(num){
-        var select;
-        var firstNumber = parseInt(hourString()[1]);
+        var select = 2;
+        var firstNumber = parseInt(hourString()[0]);
         var lastNumber = parseInt(hourString()[1]);
         if(lastNumber<2){
           current.hour.num = (lastNumber*10)+num;
-          if(current.hour.prev === 0){
+          if(current.hour.prev !== -1){
             select = 2;
           }else if(firstNumber !== 0){
             select = 2;
@@ -2716,6 +2716,9 @@ angular.module('tink.timepicker')
           }else{
             current.hour.num = num;
           }
+          select = 2;
+        }else{
+          current.hour.num = num;
           select = 2;
         }
         current.hour.prev = num;
@@ -2877,6 +2880,7 @@ angular.module('tink.timepicker')
           current.hour.num = 0;
         }
         setValue(1);
+        current.hour.reset = true;
       };
 
       var reset = function(){
