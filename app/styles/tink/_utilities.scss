@@ -116,5 +116,12 @@
   margin-right: rem($padding-large-horizontal * 1.5);
 }
 
+.no-margin {
+  margin: 0 !important;
+}
+
+
 // Remove borders
-.no-border { border: none !important; }
+.no-border {
+  border: none !important;
+}

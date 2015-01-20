@@ -11,7 +11,7 @@ angular.module('tink.templates', [])
         '</div>');
 
       $templateCache.put('templates/tinkDatePicker.html',
-        '<div class="dropdown-menu tink-datepicker" ng-class="\'datepicker-mode-\' + $mode">'+
+        '<div class="dropdown-menu datepicker" ng-class="\'datepicker-mode-\' + $mode">'+
         '<table style="table-layout: fixed; height: 100%; width: 100%;">'+
         '<thead>'+
         '<tr class="text-center">'+
@@ -46,9 +46,9 @@ angular.module('tink.templates', [])
 '</div>');
 
 $templateCache.put('templates/tinkDatePickerRange.html',
-        '<div class="tink-datepickerrange">'+
-  '<div class="pull-left tink-datepickerrange-left">'+
-    '<div class="tink-datepickerrange-header-left">'+
+        '<div class="datepickerrange">'+
+  '<div class="pull-left datepickerrange-left">'+
+    '<div class="datepickerrange-header-left">'+
       '<div class="pull-left">'+
         '<button tabindex="-1" type="button" class="btn pull-left" ng-click="$selectPane(0)">'+
           '<i class="fa fa-chevron-left"></i>'+
@@ -69,8 +69,8 @@ $templateCache.put('templates/tinkDatePickerRange.html',
       '</table>'+
     '</div>'+
   '</div>'+
-  '<div class="pull-right tink-datepickerrange-right">'+
-    '<div class="tink-datepickerrange-header-right">'+
+  '<div class="pull-right datepickerrange-right">'+
+    '<div class="datepickerrange-header-right">'+
      ' <div class="pull-right">'+
         '<button tabindex="-1" type="button" class="btn pull-left" ng-click="$selectPane(1)">'+
           '<i class="fa fa-chevron-right"></i>'+

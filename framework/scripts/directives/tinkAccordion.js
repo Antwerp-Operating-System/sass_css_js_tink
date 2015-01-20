@@ -162,7 +162,7 @@ angular.module('tink.accordion')
     }
   };
 })
-.controller('TinkAccordionController', ['$scope', function (scope) {
+.controller('TinkAccordionController', [function () {
   var self = this;
 
   this.groups = {};
@@ -199,10 +199,6 @@ this.openGroup = function(elem,scope){
 this.closeGroup = function(elem){
   self.$accordion.closeGroup(elem);
   currentOpen = null;
-};
-
-this.toggleGroup = function(elem){
-  self.$accordion.handleAccordion(elem);
 };
 
 }]);

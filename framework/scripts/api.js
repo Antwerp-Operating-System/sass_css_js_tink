@@ -137,24 +137,6 @@
 			}
 		};
 
-
-		var handleAccordion = function(elem){
-			if(!accordion){
-				return;
-			}
-			var open = null;
-			if(defaults.oneAtTime){
-				open = accordion.find('.'+defaults.openGroupCss);
-				if(open.length === 1){
-					closeGroup($(open[0]));
-				}
-				openGroup(elem);
-			}else{
-				toggleGroup(elem);
-			}
-
-		};
-
 		return{
 			init:function(element,opts){
 				init(element,opts);
@@ -167,80 +149,9 @@
 			},
 			closeGroup:function(element){
 				closeGroup(element);
-			},
-			toggleGroup:function(element){
-				toggleGroup(element);
-			},
-			handleAccordion:function(element){
-				handleAccordion(element);
 			}
 		};
 
-	};
-
-	tinkApi.accordion1 = function(element){
-
-		var defaults = {
-			toggle:'accordion-toggle',
-			speed:300,
-			oneAtTime:true
-		};
-		var elements = null;
-		var items = [];
-		var openIndex = null;
-
-		var handleAccordion = function(index){
-
-			if(defaults.oneAtTime){
-				if(openIndex === index){
-					closeAccordion(openIndex);
-				}else{
-					if(openIndex !== null){
-						closeAccordion(openIndex);
-					}
-					openIndex = index;
-					openAccordion(openIndex);
-				}
-
-			}else{
-				if(items[index].open){
-					closeAccordion(index);
-				}else{
-					openAccordion(index);
-				}
-			}
-
-		};
-
-		var init = function(){
-			elements = $(element).find('> .tink-accordion-panel');
-			elements.each(function( index ) {
-				items[index] = {open:false};
-			});
-		};
-
-		var openAccordion = function(index){
-			if($(elements[index]) && $(elements[index]).find('.accordion-content')){
-				items[index].open = true;
-				var content = $(elements[index]).find('.accordion-content');
-				content.slideDown(defaults.speed);
-			}
-		};
-
-		var closeAccordion =  function(index){
-			if($(elements[index]) && $(elements[index]).find('.accordion-content')){
-				var content = $(elements[index]).find('.accordion-content');
-				content.slideUp(defaults.speed);
-				items[index].open = false;
-				openIndex = null;
-			}
-		};
-
-		return {
-			init:function(){
-				init();
-			}
-		};
 	};
 
 	tinkApi.sideNavigation = function(element){

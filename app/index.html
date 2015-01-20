@@ -21,32 +21,8 @@
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
-<!--
-<style>
-.accordion-content {
-    overflow: hidden;
-    position: relative;
-}
-.accordion-spinner {
-    bottom: 0;
-    height: 25px;
-    left: 0;
-    opacity: 1;
-    position: absolute;
-    right: 0;
-    top: 0;
-    transition: opacity .5s linear;
-    z-index: 2;
-}
-.accordion-loaded-content {
-    min-height: 25px;
-    opacity: 0;
-    transition: opacity .4s linear;
-}
-</style>
--->
 
-  <nav data-tink-top-nav class="nav-top">
+  <nav data-tink-top-header nav-header class="nav-top">
     <ul class="nav-top-branding">
       <li class="logo">
         <a href="#" title=""><img src="images/playground/tink-logo.svg" alt="" /></a>
@@ -64,9 +40,6 @@
         <li>
           <a href="#" class="link">Menu L1</a>
         </li>
-        <li>
-          <a href="#" class="link">Menu L2</a>
-        </li>
       </ul>
 
       <div class="nav-top-section-center">
@@ -74,18 +47,12 @@
       </div>
 
       <ul class="nav-top-section-right">
-        <li>
-          <a class="btn btn-xs btn-primary" href="#" role="button">Menu R1</a>
+        <li class="active">
+          <a href="#" class="btn-primary btn-xs">Menu R1</a>
         </li>
         <li>
-          <a href="#" class="link">Menu R2</a>
+          <a href="#" class="btn btn-xs">Menu R2</a>
         </li>
-        <!-- <li>
-          <a class="btn btn-sm btn-primary" href="#" role="button">Menu R1</a>
-        </li>
-        <li>
-          <a class="btn btn-primary" href="#" role="button">Menu R1</a>
-        </li> -->
       </ul>
     </section>
   </nav>
@@ -209,6 +176,7 @@
   <script src="scripts/directives/tinkDropDown.js"></script>
   <script src="scripts/directives/tinkValidDate.js"></script>
   <script src="scripts/directives/tinkToggelSideNav.js"></script>
+  <script src="scripts/directives/tinkTimePicker.js"></script>
   <script src="scripts/directives/tinkAccordion.js"></script>
 
   <!-- endbuild -->

@@ -5,12 +5,12 @@
  * - range
  */
 
-.tink-datepickerrange-input-fields {
+.datepickerrange-input-fields {
   display: inline-block;
 }
 
-.tink-datepicker,
-.tink-datepickerrange {
+.datepicker,
+.datepickerrange {
   background: $white;
   box-shadow: 0 1px 2px rgba(0,0,0,.6);
   color: $gray-dark;
@@ -65,12 +65,12 @@
   }
 }
 
-.tink-datepicker {
+.datepicker {
   min-width: rem(260);
   position: absolute;
 }
 
-.tink-datepickerrange {
+.datepickerrange {
   position: relative;
 
   @include mq($screen-xs) {
@@ -91,8 +91,8 @@
   }
 }
 
-.tink-datepickerrange-header-left,
-.tink-datepickerrange-header-right {
+.datepickerrange-header-left,
+.datepickerrange-header-right {
   overflow: hidden;
   line-height: rem(39);
   padding: rem($table-cell-padding / 4);
@@ -105,8 +105,8 @@
   }
 }
 
-.tink-datepickerrange-left,
-.tink-datepickerrange-right {
+.datepickerrange-left,
+.datepickerrange-right {
   width: 100%;
 
   @include mq($screen-xs) {
