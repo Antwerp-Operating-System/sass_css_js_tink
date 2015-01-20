@@ -1,60 +1,77 @@
 /**
  * Bar component
  */
-
 @mixin bar($height: $bar-height, $bg-color: $bar-bg-color, $color: $bar-color, $link-color: $bar-link-color, $link-hover-color: $bar-link-hover-color, $padding: $bar-padding) {
   background-color: $bg-color;
-  color: $color;
-  height: rem($height);
+  // height: rem($height);
+  line-height: rem($height);
+  position: relative;
 
-  > ul,
-  &-section-left,
-  &-section-right {
-    @extend .list-inline;
-    margin: 0;
+  &-branding {
+    float: left;
+    height: rem($height);
+    line-height: rem($height);
+    position: relative;
+    z-index: layer('base');
 
     li {
-      padding: 0;
-    }
+      float: left;
+      height: rem($height);
+      line-height: rem($height);
 
-    a {
-      border: none;
-      outline: 0;
-      text-decoration: none;
-      display: inline-block;
-
-      &:focus {
-        @include tab-focus();
-      }
-
-      &:not([role="button"]) {
-        color: $link-color;
-        line-height: rem($height - $padding);
-        margin: rem(($padding / 2) 0);
-        padding: rem(0 $padding);
-
-        &:hover,
-        &:active,
-        &:focus {
-          color: $link-hover-color;
+      &.logo {
+        padding-left: 0;
+        a {
+          float: left ;
+          margin: rem(0 $bar-padding 0 0);
+          padding: 0;
         }
       }
+
+      &.toggle {
+        @include mq($screen-sm) {
+          display: none;
+        }
+      }
+
+      &.app {
+        @include mq($screen-sm, "max") {
+          display: none;
+        }
+      }
+    }
+
+    img {
+      float: left;
+      height: rem($height);
+      width: auto;
+    }
+
+    h1 {
+      font-size: rem($font-size-base);
+      font-weight: 700;
+      line-height: rem($height);
+      margin: 0;
     }
   }
 
   &-section {
-    line-height: rem($height - 1px);
+    height: 100%;
+    line-height: rem($height);
     position: relative;
     text-align: center;
     width: auto;
 
     &-left {
+      height: 100%;
       float: left;
       margin-left: rem($padding / 2);
     }
 
     &-center {
       display: inline-block;
+      height: 100%;
+      line-height: rem($height);
 
       input[type="search"] {
         border: none;
@@ -68,8 +85,35 @@
     }
 
     &-right {
+      height: 100%;
       float: right;
       margin-right: rem($padding / 2);
     }
   }
+
+  &-branding,
+  &-section-left,
+  &-section-right {
+    @extend .list-inline;
+    height: 100%;
+    line-height: rem($height);
+    margin: 0;
+
+    li {
+      // background-color: red;
+      height: 100%;
+      line-height: rem($height);
+      margin: 0;
+      padding: 0 $padding;
+
+      a.link {
+        color: $link-color;
+      }
+
+      a.btn, button {
+        margin-top: rem(-2px);
+      }
+    }
+  }
+
 }

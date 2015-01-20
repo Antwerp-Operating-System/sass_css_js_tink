@@ -3,14 +3,114 @@
 <div class="container">
 
   <h1>Tink playground!</h1>
+  <p>New navbar playground</p>
+  <nav class="bar">
+    <ul class="bar-branding">
+      <li class="logo">
+        <a href="#" title=""><img src="images/playground/tink-logo.svg" alt=""></a>
+      </li>
+      <li class="toggle" data-tink-sidenav-collapse="firstSide">
+        <a href="#" title="Open menu" data-ng-click="sidenav.open = !sidenav.open"><i class="fa fa-bars"><span class="sr-only">Open menu</span></i></a>
+      </li>
+      <li class="app">
+        <h1><a href="#">My App</a></h1>
+      </li>
+    </ul>
+    <section class="bar-section">
+      <ul class="bar-section-left">
+        <li>
+          <button><i class="fa fa-group"></i> </button>
+
+        </li>
+      </ul>
+      <ul class="bar-section-left">
+        <li>
+          <a href="#">Menu L1</a>
+        </li>
+        <li>
+          <button><i class="fa fa-group"></i> </button>
+          <button><i class="fa fa-calendar"></i> </button>
+          <button><i class="fa fa-envelope-o"></i> </button>
+        </li>
+      </ul>
+
+      <div class="bar-section-center">
+        <input type="search" class="input-search" placeholder="Zoeken" />
+      </div>
+
+      <ul class="bar-section-right">
+        <li class="active">
+          <a class="btn btn-xs btn-primary" href="#">Menu R1</a>
+        </li>
+        <li>
+          <a class="btn btn-xs" href="#">Menu R2</a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+
+
+  <hr>
+<!--
+  <nav class="new-top-bar">
+    <ul class="new-top-branding">
+      <li class="logo">
+        <a href="#" title=""><img src="images/playground/tink-logo.svg" alt=""></a>
+      </li>
+      <li class="toggle" data-tink-sidenav-collapse="firstSide">
+        <a href="#" title="Open menu" data-ng-click="sidenav.open = !sidenav.open"><i class="fa fa-bars"><span class="sr-only">Open menu</span></i></a>
+      </li>
+      <li class="app">
+        <h1><a href="#">My App</a></h1>
+      </li>
+    </ul>
+    <section class="new-top-section">
+      <ul class="new-top-section-left">
+        <li>
+          <button><i class="fa fa-group"></i> </button>
+          <button><i class="fa fa-calendar"></i> </button>
+          <button><i class="fa fa-envelope-o"></i> </button>
+        </li>
+      </ul>
+      <ul class="new-top-section-left">
+        <li>
+          <a href="#">Menu L1</a>
+        </li>
+        <li>
+          <button><i class="fa fa-group"></i> </button>
+          <button><i class="fa fa-calendar"></i> </button>
+          <button><i class="fa fa-envelope-o"></i> </button>
+        </li>
+      </ul>
+
+      <div class="new-top-section-center">
+        <input type="search" class="input-search" placeholder="Zoeken" />
+      </div>
+
+      <ul class="new-top-section-right">
+        <li class="active">
+          <a class="btn btn-xs btn-primary" href="#">Menu R1</a>
+        </li>
+        <li>
+          <a class="btn btn-xs" href="#">Menu R2</a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+ -->
+
+  <hr>
+  <hr>
+  <hr>
+  <hr>
   <p>Thijs code</p>
   <a href="#">Some Link text</a>
 
   <section class="panel">
     <div class="panel-heading">
-      <nav class="actionbar">
-        <section class="actionbar-section">
-          <ul class="actionbar-section-left">
+      <nav class="bar">
+        <section class="bar-section">
+          <ul class="bar-section-left">
             <li>
               <button><i class="fa fa-group"></i> </button>
               <button><i class="fa fa-calendar"></i> </button>
@@ -18,11 +118,11 @@
             </li>
           </ul>
 
-          <div class="actionbar-section-center">
+          <div class="bar-section-center">
             <input type="search" class="input-search" placeholder="Zoeken" />
           </div>
 
-          <ul class="actionbar-section-right">
+          <ul class="bar-section-right">
             <li class="active">
               <a class="btn btn-xs btn-primary" href="#">Menu R1</a>
             </li>
@@ -35,9 +135,9 @@
     </div>
     <div class="panel-body">
 
-      <nav class="actionbar">
-        <section class="actionbar-section">
-          <ul class="actionbar-section-left">
+      <nav class="bar">
+        <section class="bar-section">
+          <ul class="bar-section-left">
             <li>
               <button><i class="fa fa-group"></i> </button>
               <button><i class="fa fa-calendar"></i> </button>
@@ -45,11 +145,11 @@
             </li>
           </ul>
 
-          <div class="actionbar-section-center">
+          <div class="bar-section-center">
             <input type="search" class="input-search" placeholder="Zoeken" />
           </div>
 
-          <ul class="actionbar-section-right">
+          <ul class="bar-section-right">
             <li class="active">
               <a class="btn btn-sm btn-primary" href="#">Menu R1</a>
             </li>
@@ -62,19 +162,19 @@
 
       <hr>
 
-      <nav class="actionbar">
-        <section class="actionbar-section">
-          <ul class="actionbar-section-left">
+      <nav class="bar">
+        <section class="bar-section">
+          <ul class="bar-section-left">
             <li>
               <a href="#">Menu L1</a>
             </li>
           </ul>
 
-          <div class="actionbar-section-center">
+          <div class="bar-section-center">
             <input type="search" class="input-search" placeholder="Zoeken" />
           </div>
 
-          <ul class="actionbar-section-right">
+          <ul class="bar-section-right">
             <li class="active">
               <a class="btn btn-sm btn-primary" href="#">Menu R1</a>
             </li>
@@ -85,7 +185,7 @@
         </section>
       </nav>
       <hr>
-      <section class="actionbar">
+      <section class="bar">
         <div class="row">
           <div class="col-xs-12 col-sm-6">
             <button><i class="fa fa-group"></i> </button>
