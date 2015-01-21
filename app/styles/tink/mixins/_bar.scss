@@ -1,7 +1,7 @@
 /**
  * Bar component
  */
-@mixin bar($height: $bar-height, $bg-color: $bar-bg-color, $color: $bar-color, $link-color: $bar-link-color, $link-hover-color: $bar-link-hover-color, $padding: $bar-padding) {
+@mixin bar($height: $bar-height, $bg-color: $bar-bg-color, $color: $bar-color, $link-color: $bar-link-color, $link-hover-color: $bar-link-hover-color, $link-bg-hover-color: $bar-link-bg-hover-color,$padding: $bar-padding) {
   background-color: $bg-color;
   color: $color;
   line-height: rem($height);
@@ -9,14 +9,48 @@
 
   .link {
     color: $link-color;
-    line-height: rem($height - $padding);
+    background-color: $bg-color;
+    border-radius: $border-radius-base * 2;
+    height: 100%;
+    line-height: rem($height);
     margin: rem(($padding / 2) 0);
-    padding: rem(0 $padding);
+    // padding: rem(0 $padding);
+    padding: rem($padding-xs-vertical $padding-xs-horizontal);
 
     &:hover,
     &:active,
     &:focus {
       color: $link-hover-color;
+      background-color: $link-bg-hover-color;
+      text-decoration: none;
+    }
+  }
+
+  &-branding,
+  &-section-left,
+  &-section-center,
+  &-section-right {
+    @extend .list-inline;
+    height: 100%;
+    line-height: rem($height);
+    margin: 0;
+
+    li {
+      height: 100%;
+      line-height: rem($height);
+      margin: 0;
+      padding: 0 $padding / 2;
+
+      a, a:hover {
+        text-decoration: none;
+      }
+      .link {
+        color: $link-color;
+      }
+
+      a.btn, button, input {
+        margin-top: rem(-2px);
+      }
     }
   }
 
@@ -105,30 +139,6 @@
     }
   }
 
-  &-branding,
-  &-section-left,
-  &-section-center,
-  &-section-right {
-    @extend .list-inline;
-    height: 100%;
-    line-height: rem($height);
-    margin: 0;
 
-    li {
-      // background-color: red;
-      height: 100%;
-      line-height: rem($height);
-      margin: 0;
-      padding: 0 $padding;
-
-      .link {
-        color: $link-color;
-      }
-
-      a.btn, button, input {
-        margin-top: rem(-2px);
-      }
-    }
-  }
 
 }

@@ -81,54 +81,56 @@ body {
  */
 
 .nav-top {
-  @include bar($nav-top-height, $nav-top-bg-color, $nav-top-color, $nav-top-link-color, $nav-top-link-hover-color, $nav-top-padding);
+  @include bar($nav-top-height, $nav-top-bg-color, $nav-top-color, $nav-top-link-color, $nav-top-link-hover-color, $nav-top-link-bg-hover-color, $nav-top-padding);
   position: fixed;
   top: 0;
   width: 100%;
   z-index: layer('nav-top');
 
-  // &-branding {
-  //   float: left;
-  //   position: relative;
-  //   z-index: layer('base');
+  &-branding {
+    float: left;
+    position: relative;
+    z-index: layer('base');
 
-  //   li {
-  //     float: left;
+    li {
+      float: left;
 
-  //     &.logo {
-  //       a {
-  //         float: left ;
-  //         margin: rem(0 $bar-padding 0 0);
-  //         padding: 0;
-  //       }
-  //     }
+      &.logo {
+        a {
+          float: left ;
+          margin: rem(0 $bar-padding 0 0);
+          padding: 0;
+        }
+      }
 
-  //     &.toggle {
-  //       @include mq($screen-sm) {
-  //         display: none;
-  //       }
-  //     }
+      &.toggle {
+        a { color: $white; }
+        @include mq($screen-sm) {
+          display: none;
+        }
+      }
 
-  //     &.app {
-  //       @include mq($screen-sm, "max") {
-  //         display: none;
-  //       }
-  //     }
-  //   }
+      &.app {
+        a { color: $white; }
+        @include mq($screen-sm, "max") {
+          display: none;
+        }
+      }
+    }
 
-  //   img {
-  //     float: left;
-  //     height: rem($nav-top-height);
-  //     width: auto;
-  //   }
+    img {
+      float: left;
+      height: rem($nav-top-height);
+      width: auto;
+    }
 
-  //   h1 {
-  //     font-size: rem($font-size-base);
-  //     font-weight: 700;
-  //     line-height: rem($nav-top-height);
-  //     margin: 0;
-  //   }
-  // }
+    h1 {
+      font-size: rem($font-size-base);
+      font-weight: 700;
+      line-height: rem($nav-top-height);
+      margin: 0;
+    }
+  }
 }
 
 

@@ -382,6 +382,7 @@ $bar-bg-color:                          transparent !default;
 $bar-color:                             $gray-darker !default;
 $bar-link-color:                        $link-color !default;
 $bar-link-hover-color:                  $link-hover-color !default;
+$bar-link-bg-hover-color:               $gray-lighter;
 $bar-padding:                           $padding-base-horizontal !default;
 
 
@@ -397,6 +398,7 @@ $nav-top-bg-color:                       $gray-darker !default;
 $nav-top-color:                          $white !default;
 $nav-top-link-color:                     $white !default;
 $nav-top-link-hover-color:               $gray-lighter !default;
+$nav-top-link-bg-hover-color:            lighten($nav-top-bg-color, 10);
 $nav-top-padding:                        $bar-padding !default;
 
 
