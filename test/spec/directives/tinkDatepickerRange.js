@@ -44,20 +44,20 @@ describe('datepicker range', function() {
 
 		it('should open on focus', function() {
 			var elm = compileDirective('default');
-			expect(sandboxEl.find('.tink-datepickerrange').css('display')).toBe('none');
+			expect(sandboxEl.find('.datepickerrange').css('display')).toBe('none');
 			angular.element(elm.find('input')[0]).triggerHandler('focus');
 			scope.$digest();
-			expect(sandboxEl.find('.tink-datepickerrange').css('display')).toBe('block');
+			expect(sandboxEl.find('.datepickerrange').css('display')).toBe('block');
 		});
 
 		it('should close on blur', function() {
 			var elm = compileDirective('default');
-			expect(sandboxEl.find('.tink-datepickerrange').css('display')).toBe('none');
+			expect(sandboxEl.find('.datepickerrange').css('display')).toBe('none');
 			angular.element(elm.find('input')[0]).triggerHandler('focus');
 			scope.$digest();
 			angular.element(elm.find('input')[0]).triggerHandler('blur');
 			scope.$digest();
-			expect(sandboxEl.find('.tink-datepickerrange').css('display')).toBe('none');
+			expect(sandboxEl.find('.datepickerrange').css('display')).toBe('none');
 		});
 
 		it('should open with right months', function() {
@@ -176,20 +176,20 @@ describe('datepicker range', function() {
 describe('with no dates', function() {
 	it('should open on focus', function() {
 		var elm = compileDirective('no-dates');
-		expect(sandboxEl.find('.tink-datepickerrange').css('display')).toBe('none');
+		expect(sandboxEl.find('.datepickerrange').css('display')).toBe('none');
 		angular.element(elm.find('input')[0]).triggerHandler('focus');
 		scope.$digest();
-		expect(sandboxEl.find('.tink-datepickerrange').css('display')).toBe('block');
+		expect(sandboxEl.find('.datepickerrange').css('display')).toBe('block');
 	});
 
 	it('should close on blur', function() {
 		var elm = compileDirective('no-dates');
-		expect(sandboxEl.find('.tink-datepickerrange').css('display')).toBe('none');
+		expect(sandboxEl.find('.datepickerrange').css('display')).toBe('none');
 		angular.element(elm.find('input')[0]).triggerHandler('focus');
 		scope.$digest();
 		angular.element(elm.find('input')[0]).triggerHandler('blur');
 		scope.$digest();
-		expect(sandboxEl.find('.tink-datepickerrange').css('display')).toBe('none');
+		expect(sandboxEl.find('.datepickerrange').css('display')).toBe('none');
 	});
 
 	it('should open with right months', function() {
