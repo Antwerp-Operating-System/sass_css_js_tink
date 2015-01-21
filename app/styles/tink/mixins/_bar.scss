@@ -15,7 +15,7 @@
     line-height: rem($height);
     margin: rem(($padding / 2) 0);
     // padding: rem(0 $padding);
-    padding: rem($padding-xs-vertical $padding-xs-horizontal);
+    padding: rem($padding-xs-vertical * 3 $padding-xs-horizontal);
 
     &:hover,
     &:active,
@@ -39,7 +39,7 @@
       height: 100%;
       line-height: rem($height);
       margin: 0;
-      padding: 0 $padding / 2;
+      padding: rem(0 $padding / 2);
 
       a, a:hover {
         text-decoration: none;
@@ -48,8 +48,18 @@
         color: $link-color;
       }
 
-      a.btn, button, input {
-        margin-top: rem(-2px);
+    }
+    a.btn, button, input {
+      margin-top: rem(-2px);
+    }
+    input[type="search"] {
+      border: none;
+      display: inline-block;
+      width: auto;
+      margin-top: rem(-5px);
+
+      &:focus {
+        @include tab-focus();
       }
     }
   }
@@ -83,6 +93,7 @@
       }
 
       &.app {
+        padding: rem(0 $padding);
         @include mq($screen-sm, "max") {
           display: none;
         }
@@ -121,15 +132,7 @@
       height: 100%;
       line-height: rem($height);
 
-      input[type="search"] {
-        border: none;
-        display: inline-block;
-        width: auto;
 
-        &:focus {
-          @include tab-focus();
-        }
-      }
     }
 
     &-right {
