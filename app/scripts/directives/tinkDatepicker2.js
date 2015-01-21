@@ -1,6 +1,6 @@
 'use strict';
 angular.module('tink.datepicker', [])
-.directive('tinkDatepickerNew',['$q','$templateCache','$http','$compile','dateCalculator',function($q,$templateCache,$http,$compile,dateCalculator) {
+.directive('tinkDatepickerNew',['$q','$templateCache','$http','$compile','dateCalculator','calView',function($q,$templateCache,$http,$compile,dateCalculator,calView) {
   return {
     restrict:'EA',
     require:'ngModel',
@@ -12,14 +12,14 @@ angular.module('tink.datepicker', [])
     link:function(scope,element,attr,ctrl){
       var input = element.find('input');
       var clickable = element.find('span');
-
+      var copyEl;
       scope.$show = function(){
-        templateElem.css({position: 'absolute', display: 'block'});
-        element.append(templateElem);
-        var date = dateCal($directive.viewDate);
-        if(date !== null){
-          ctrl.$setViewValue(dateCalculator.formatDate(date, options.dateFormat));
-        }
+        copyEl = templateElem;
+        copyEl.css({position: 'absolute', display: 'block'});
+        element.append(copyEl);
+        bindLiseners();
+        $directive.pane.month = 1;
+        scope.build();
       };
 
       var dateCal = function(date){
@@ -39,39 +39,146 @@ angular.module('tink.datepicker', [])
         }
       }
 
-      scope.$destroy = function(){
-        templateElem.remove();
+      function bindLiseners(){
+
+        copyEl.bind('mousedown',function(){
+          input.focus();
+          return false;
+        })
+
+      }
+
+      scope.destroy = function(){
+        console.log("destr")
+        //copyEl.remove();
       }
 
       ctrl.$parsers.unshift(function(viewValue) {console.log(viewValue)
-        input.val(viewValue);
-        return new Date();
+        if(viewValue.length === 10){
+          var date = dateCalculator.getDate(viewValue,'dd/mm/yyyy');
+          $directive.selectedDate = date;
+          $directive.viewDate = date;
+          input.val(viewValue);
+        }else if(angular.isDate(viewValue)){
+          date = viewValue;
+        }else if(date === undefined){
+          return;
+        }
+        console.log(date)
+        return date;
       });
 
-      ctrl.$formatters.push(function(modelValue) {
-        var date = dateCal($directive.viewDate);
+      input.bind('blur',function(){
+        scope.hide();
+      });
+
+      scope.$watch('ngModel',function(newVal){
+        var date;
+        if(typeof newVal === 'function'){
+          date = newVal();
+        }else {
+          date = newVal;
+        }
+        console.log(date)
+        var setString = '';
+        if(angular.isDate(date)){
+          $directive.selectedDate = date;
+          setString = dateCalculator.formatDate(date, options.dateFormat);
+        }else if(typeof date === 'string'  && date.length === 10){
+          $directive.selectedDate = dateCalculator.getDate(date,options.dateFormat);
+          setString = date;
+        }else if(date === undefined){
+          setString = dateCalculator.formatDate($directive.viewDate, options.dateFormat);
+          scope.ngModel= setString;
+        }
+        ctrl.$setViewValue(setString);
+        scope.build();
+      })
+
+      ctrl.$formatters.push(function(modelValue) {console.log(modelValue)
+        var date = dateCal(modelValue);
         if(date !== null){
           ctrl.$setViewValue(dateCalculator.formatDate(date, options.dateFormat));
+          $directive.viewDate = date;
         }
         return modelValue;
       });
 
-      clickable.bind('click touch',function(){
-        scope.$show();
+      clickable.bind('mousedown touch',function(){
+        scope.$apply(function(){
+          scope.$show();
+        });
+        input.focus();
+        return false;
       })
 
       var options = {
-        yearTitleFormat:'yyyy',
+        yearTitleFormat:'mmmm yyyy',
         dateFormat:'dd/mm/yyyy'
       }
 
       var $directive = {
-        viewDate: new Date()
+        viewDate: new Date(),
+        pane:{},
+        mode:0,
+        selectedDate:null
       }
 
-      scope.$build = function() {
-        scope.title = dateCalculator.format($directive.viewDate, options.yearTitleFormat);
-        scope.rows =  dateCalculator.daysInRows($directive.viewDate);
+      scope.$selectPane = function(value) {
+        $directive.viewDate = new Date(Date.UTC($directive.viewDate.getFullYear()+( ($directive.pane.year|| 0) * value), $directive.viewDate.getMonth() + ( ($directive.pane.month || 0) * value), 1));
+        scope.build();
+      };
+
+      scope.toggleMode = function(){
+
+        if($directive.mode >= 0 && $directive.mode <=1){
+          $directive.mode += 1;
+        }else{
+          $directive.mode = 0;
+        }
+        $directive.pane = {};
+        switch($directive.mode){
+          case 0: $directive.pane.month = 1; break;
+          case 1: $directive.pane.month = 12; break;
+          case 2: $directive.pane.year = 12; break;
+        }
+        scope.build();
+      }
+
+      scope.hide = function(){
+        if(copyEl){
+         copyEl.css({display: 'none'});
+         copyEl = null;
+        }
+      }
+
+      scope.$select = function(date){
+      $directive.viewDate = date;
+        if($directive.mode === 0){
+          //ctrl.$setViewValue(dateCalculator.formatDate(date, options.dateFormat));
+          input.val(dateCalculator.formatDate(date, options.dateFormat))
+          scope.hide();
+          input.blur();
+        }else if($directive.mode >0){
+          $directive.mode -= 1;
+          scope.build();
+        }
+      }
+
+      scope.build = function() {
+        if($directive.mode === 1){
+          scope.title = dateCalculator.format($directive.viewDate, 'yyyy');
+          scope.rows =  calView.monthInRows($directive.viewDate);
+        }
+        if($directive.mode === 0){
+          scope.title = dateCalculator.format($directive.viewDate, options.yearTitleFormat);
+          scope.rows =  calView.daysInRows($directive.viewDate,$directive.selectedDate);
+        }
+        if($directive.mode === 2){
+          var currentYear = parseInt(dateCalculator.format($directive.viewDate, 'yyyy'));
+          scope.title = (currentYear-11) +'-'+ currentYear;
+          scope.rows =  calView.yearInRows($directive.viewDate);
+        }
       }
 
       var fetchPromises =[];

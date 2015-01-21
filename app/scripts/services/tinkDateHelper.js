@@ -294,8 +294,55 @@ angular.module('tink.dateHelper')
     return {days: daysToDraw, firstDay: firstDayOfWeek};
   }
 
-  function daysInRows(date){
+  function split(arr, size) {
+    var arrays = [];
+    while(arr.length > 0) {
+      arrays.push(arr.splice(0, size));
+    }
+    return arrays;
+  }
 
+  function daysInRows(date,selectedDate){
+    var monthCall = callCullateData(date);
+    var today = new Date();
+    var days = [], day;
+      for(var i = 0; i < monthCall.days; i++) { // < 7 * 6
+
+        day = new Date(monthCall.firstDay.getFullYear(), monthCall.firstDay.getMonth(), monthCall.firstDay.getDate() + i);
+        var isMuted = false;
+        if(day.getMonth() !== date.getMonth()){
+          isMuted = true;
+        }
+        if(angular.isDate(selectedDate)){
+          var isSelected = selectedDate.toDateString() === day.toDateString();
+        }
+        days.push({date: day,selected:isSelected, isToday: day.toDateString() === today, label: dateCalculator.formatDate(day, 'dd'),isMuted:isMuted});
+    }
+    var arrays = split(days, 7);
+     return arrays;
+
+  }
+
+  function monthInRows(date){
+    var months = [];
+    var monthDate;
+     for(var i = 0; i < 12; i++) {
+      monthDate = new Date(date.getFullYear(),i,1);
+      months.push({date: monthDate,label: dateCalculator.formatDate(monthDate, 'mmm')});
+     }
+    var arrays = split(months, 4);
+    return arrays;
+  }
+
+  function yearInRows(date){
+    var years = [];
+    var yearDate;
+     for(var i = 11; i > -1; i--) {
+      yearDate = new Date(date.getFullYear()-i,date.getMonth(),1);
+      years.push({date: yearDate,label: dateCalculator.formatDate(yearDate, 'yyyy')});
+     }
+    var arrays = split(years, 4);
+    return arrays;
   }
 
   function createLabels(date, firstRange, lastRange,grayed) {
@@ -377,8 +424,14 @@ angular.module('tink.dateHelper')
 
 
         },
-        daysInRows: function(date){
-          daysInRows(date);
+        daysInRows: function(date,model){
+         return daysInRows(date,model);
+        },
+        monthInRows:function(date){
+          return monthInRows(date);
+        },
+        yearInRows:function(date){
+          return yearInRows(date);
         }
       };
     }]);
