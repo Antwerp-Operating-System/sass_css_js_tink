@@ -1,11 +1,18 @@
 /**
  * Bar component
  */
-@mixin bar($height: $bar-height, $bg-color: $bar-bg-color, $color: $bar-color, $link-color: $bar-link-color, $link-hover-color: $bar-link-hover-color, $link-bg-hover-color: $bar-link-bg-hover-color,$padding: $bar-padding) {
+@mixin bar($height: $bar-height, $bg-color: $bar-bg-color, $color: $bar-color, $link-color: $bar-link-color, $link-hover-color: $bar-link-hover-color, $link-bg-hover-color: $bar-link-bg-hover-color, $padding: $bar-padding, $fix-overflow: true) {
   background-color: $bg-color;
   color: $color;
   line-height: rem($height);
+  @if $fix-overflow {
+    overflow: auto;
+  }
   position: relative;
+
+  a.btn, a.btn-primary, button, input {
+    margin-top: rem(-3);
+  }
 
   .link {
     color: $link-color;
@@ -14,7 +21,6 @@
     height: 100%;
     line-height: rem($height);
     margin: rem(($padding / 2) 0);
-    // padding: rem(0 $padding);
     padding: rem($padding-xs-vertical * 3 $padding-xs-horizontal);
 
     &:hover,
@@ -41,76 +47,19 @@
       margin: 0;
       padding: rem(0 $padding / 2);
 
-      a, a:hover {
-        text-decoration: none;
-      }
       .link {
         color: $link-color;
       }
+    }
 
-    }
-    a.btn, button, input {
-      margin-top: rem(-2px);
-    }
     input[type="search"] {
-      border: none;
       display: inline-block;
       width: auto;
-      margin-top: rem(-5px);
+      margin-top: rem(-5);
 
       &:focus {
         @include tab-focus();
       }
-    }
-  }
-
-  &-branding {
-    float: left;
-    height: rem($height);
-    line-height: rem($height);
-    position: relative;
-    z-index: layer('base');
-
-    li {
-      float: left;
-      height: rem($height);
-      line-height: rem($height);
-
-      &.logo {
-        padding-left: 0;
-        padding-right: 0;
-        a {
-          float: left ;
-          margin: rem(0 $bar-padding 0 0);
-          padding: 0;
-        }
-      }
-
-      &.toggle {
-        @include mq($screen-sm) {
-          display: none;
-        }
-      }
-
-      &.app {
-        padding: rem(0 $padding);
-        @include mq($screen-sm, "max") {
-          display: none;
-        }
-      }
-    }
-
-    img {
-      float: left;
-      height: rem($height);
-      width: auto;
-    }
-
-    h1 {
-      font-size: rem($font-size-base);
-      font-weight: 700;
-      line-height: rem($height);
-      margin: 0;
     }
   }
 
@@ -131,8 +80,6 @@
       display: inline-block;
       height: 100%;
       line-height: rem($height);
-
-
     }
 
     &-right {
@@ -141,7 +88,4 @@
       margin-right: rem($padding / 2);
     }
   }
-
-
-
 }
