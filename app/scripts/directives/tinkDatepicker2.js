@@ -11,7 +11,7 @@ angular.module('tink.datepicker', [])
     },
     link:function(scope,element,attr,ctrl){
       var input = element.find('input');
-      var clickable = element.find('span');
+      var clickable = element.find('.fa fa-calendar');
       var copyEl;
       scope.$show = function(){
         copyEl = templateElem;
@@ -79,7 +79,6 @@ angular.module('tink.datepicker', [])
         }else {
           date = newVal;
         }
-        console.log(date)
         var setString = '';
         if(angular.isDate(date)){
           $directive.selectedDate = date;
