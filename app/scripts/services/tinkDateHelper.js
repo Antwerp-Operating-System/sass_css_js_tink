@@ -350,23 +350,23 @@ angular.module('tink.dateHelper')
     if (label !== null && angular.isDate(date)) {
       label = date.getDate();
       if(grayed){
-        cssClass = '';
+        cssClass = 'btn-grayed';
       }
       if (isSameDate(date, firstRange) || isSameDate(date, lastRange)) {
         if(grayed){
-          cssClass = '';
+          cssClass = 'btn-grayed-selected';
         }else{
           cssClass = 'btn-primary';
         }
       } else if (inRange(date, firstRange, lastRange)) {
         if(grayed){
-          cssClass = '';
+          cssClass = 'btn-grayed-selected';
         }else{
           cssClass = 'btn-info';
         }
       } else if (isSameDate(date, new Date())) {
         if(grayed){
-          cssClass = '';
+          cssClass = 'btn-grayed';
         }else{
           cssClass = 'btn-warning';
         }

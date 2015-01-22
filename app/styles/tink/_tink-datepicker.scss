@@ -45,6 +45,15 @@
     &.btn-info {
       color: $white;
     }
+    &.btn-grayed {
+      color: lighten($gray-light, 10);
+      &-selected {
+        background-color: $gray-light; //$btn-info-bg;
+        border-color: $gray; //$btn-info-border;
+        color: $white; //$gray;
+      }
+    }
+
   }
 
   table {
