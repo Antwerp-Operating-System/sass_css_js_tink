@@ -21,45 +21,10 @@
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
   <![endif]-->
 
+  <nav data-tink-top-nav data-ng-include=" 'views/top-nav.html' " class="nav-top"></nav>
 
-  <nav data-tink-top-header nav-header class="nav-top">
-    <ul class="nav-top-branding">
-      <li class="logo">
-        <a href="#" title=""><img src="images/playground/tink-logo.svg" alt="" /></a>
-      </li>
-      <li class="toggle" data-tink-sidenav-collapse="firstSide">
-        <a href="#" title="Open menu" data-ng-click="sidenav.open = !sidenav.open"><i class="fa fa-bars"><span class="sr-only">Open menu</span></i></a>
-      </li>
-      <li class="app">
-        <h1><a href="#">My App</a></h1>
-      </li>
-    </ul>
-
-    <section class="nav-top-section">
-      <ul class="nav-top-section-left">
-        <li>
-          <a href="#" class="link">Menu L1</a>
-        </li>
-      </ul>
-
-      <div class="nav-top-section-center">
-        <input type="search" class="input-search" placeholder="Zoeken" />
-      </div>
-
-      <ul class="nav-top-section-right">
-        <li class="active">
-          <a href="#" class="btn-primary btn-xs">Menu R1</a>
-        </li>
-        <li>
-          <a href="#" class="btn btn-xs">Menu R2</a>
-        </li>
-      </ul>
-    </section>
-  </nav>
-
-
-
-  <aside data-tink-nav-aside data-accordion="false" data-accordion-first="false" data-toggle-id="firstSide" class="nav-left">
+  <aside data-tink-nav-aside data-accordion="false" data-accordion-first="false" data-toggle-id="firstSide" data-ng-include=" 'views/sidenav.html' " class="nav-left" role="sidenav"></aside>
+  <!-- <aside data-tink-nav-aside data-accordion="false" data-accordion-first="false" data-toggle-id="firstSide" class="nav-left">
     <ul class="nav-aside-list" role="sidenav">
       <li>
         <a href="#/menu1">
@@ -96,7 +61,7 @@
       </li>
       <li>
         <a href="#/menu4">
-          <!-- <i class="fa fa-fw fa-dashboard"></i> -->
+          <i class="fa fa-fw fa-dashboard"></i>
           <span>Menu item 4<span class="badge">479</span></span>
 
         </a>
@@ -135,7 +100,7 @@
         </a>
       </li>
     </ul>
-  </aside>
+  </aside> -->
 
   <div>
     <div class="main" role="main" ng-view="" ></div>
