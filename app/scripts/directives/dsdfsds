@@ -14,21 +14,16 @@
       var notyped = format;
 
       if (elem.find("#input")[0].addEventListener) {
-        elem.find("#input")[0].addEventListener("DOMCharacterDataModified", function(evt){console.log(evt)
+        elem.find("#input")[0].addEventListener("DOMCharacterDataModified", function(evt){
           if(evt.prevValue && evt.prevValue!== '{{format}}'){
-            var add = 0;
-            console.log(evt.timeStamp)
-            if(evt.timeStamp ===0){
-              add = 1;
-            }
-            handleInput(evt.newValue,evt.prevValue,add);
+            handleInput(evt.newValue,evt.prevValue);
           }
         }, false);
       }
 
 
-      elem.bind('onchange',function(evt,changed){
-       // handleInput();
+      elem.bind('onchange',function(evt,changed){console.log("onchange")
+        handleInput();
       })
 
       /*function handleInput(newv,oldv){
@@ -93,16 +88,16 @@
       String.prototype.replaceAt=function(index, character) {
         return this.substr(0, index) + character + this.substr(index+character.length);
       }
-      function handleInput(newv,oldv,add){
-        elem.find("#input").focus();
-        var cursor = getCaretCharacterOffsetWithin()-1+add;
+      function handleInput(newv,oldv){
+
+        var cursor = getCaretCharacterOffsetWithin()-1;
         console.log(cursor,newv,oldv);
         if(cursor > -1 && cursor < format.length+1){
           var key = newv.substr(cursor,1);
           if(format[cursor]==='0'){
             if(charIs(key,'0')){
               newVa = newVa.replaceAt(cursor,key);
-              cursor +=1;
+              cursor +=0;
             }else{
               //wrong enterd
             }
@@ -121,10 +116,6 @@
           cursor = 0;
         }
         if(cursor > -1){
-          setCursor(cursor);
-          setCursor(cursor);
-          setCursor(cursor);
-          setCursor(cursor);
           setCursor(cursor);
         }
       }
@@ -147,13 +138,10 @@
 
       function getCaretCharacterOffsetWithin() {
         var caretOffset = 0;
-        var element = elem.get(0);
-        element.focus();
-        elem.find("#input").focus();
+        var element = elem.find('#input')[0];
         var doc = element.ownerDocument || element.document;
         var win = doc.defaultView || doc.parentWindow;
         var sel;
-
         if (typeof win.getSelection != "undefined") {
             sel = win.getSelection();
             if (sel.rangeCount > 0) {
@@ -170,9 +158,10 @@
             preCaretTextRange.setEndPoint("EndToEnd", textRange);
             caretOffset = preCaretTextRange.text.length;
         }
-        console.log(caretOffset)
         return caretOffset;
       }
+
+
 
 
       // function setCursor(cur){
@@ -188,18 +177,18 @@
       //   sel.addRange(range);
       // }
 
-      function setCursor(cur) {console.log(cur)
+      function setCursor(cur) {
         var el = elem.find('#input')[0];
         var range = document.createRange();
         var sel = window.getSelection();
-        range.setStart(el.childNodes[0],cur);
+        range.setStart(el.childNodes[0],cur+1);
         range.collapse(true);
         sel.removeAllRanges();
         sel.addRange(range);
         el.focus();
       }
 
-document.body.onmouseup = getCaretCharacterOffsetWithin;
+elem.unbind('focus');
 
         /*elem.bind('onchange DOMCharacterDataModified',function(evt,changed){console.log("fo")
           var typed = '1';
@@ -217,19 +206,6 @@ document.body.onmouseup = getCaretCharacterOffsetWithin;
           sel.addRange(range);
         })*/
 
-         elem.bind('mousedown',function(evt){
-           // elem.find("#input").trigger('focus');
-           // return false;
-           if(typed === ''){console.log("s")
-            setInterval(function () {
-            //  setCursor(0)
-            }, 1);
-           }
-         })
-
-         elem.find("#input").bind('focus',function(){
-          //console.log("d")
-        })
 
       }
     }
