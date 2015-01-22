@@ -4,7 +4,7 @@
  * - navigation behaviour states
  * - top navigation
  * - left navigation
- * - actionbar
+ * - bar
  */
 
 
@@ -81,28 +81,46 @@ body {
  */
 
 .nav-top {
-  @include bar($nav-top-height, $nav-top-bg-color, $nav-top-color, $nav-top-link-color, $nav-top-link-hover-color, $nav-top-padding);
+  @include bar($nav-top-height, $nav-top-bg-color, $nav-top-color, $nav-top-link-color, $nav-top-link-hover-color, $nav-top-link-bg-hover-color, $nav-top-padding, false);
   position: fixed;
   top: 0;
   width: 100%;
   z-index: layer('nav-top');
 
+  a.btn, a.btn-primary, button, input {
+    border: none;
+  }
+
   &-branding {
     float: left;
+    height: rem($nav-top-height);
+    line-height: rem($nav-top-height);
     position: relative;
     z-index: layer('base');
 
     a {
-      @extend .link;
+      color: $nav-top-link-color;
+      text-decoration: none;
+
+      &:hover,
+      &:active,
+      &:focus {
+        color: $nav-top-link-hover-color;
+      }
     }
 
     li {
       float: left;
+      height: rem($nav-top-height);
+      line-height: rem($nav-top-height);
 
       &.logo {
+        padding-left: 0;
+        padding-right: 0;
+
         a {
           float: left ;
-          margin: rem(0 $bar-padding 0 0);
+          margin: rem(0 $nav-top-padding 0 0);
           padding: 0;
         }
       }
@@ -114,6 +132,7 @@ body {
       }
 
       &.app {
+        padding: rem(0 $nav-top-padding);
         @include mq($screen-sm, "max") {
           display: none;
         }
@@ -134,8 +153,6 @@ body {
     }
   }
 }
-
-
 
 
 /**
@@ -186,8 +203,7 @@ body {
       &:hover,
       &:active,
       &:focus {
-        background: $nav-aside-link-hover-background-color;
-        box-shadow: none;
+        background: rgba(0, 0, 0, .05);
         color: $nav-aside-link-hover-color;
 
         .badge {
@@ -304,8 +320,6 @@ body {
 
   ul {
     display:none;
-    &:before {
-    }
 
     a {
       border-left: rem(15) solid $nav-aside-bg-color;
