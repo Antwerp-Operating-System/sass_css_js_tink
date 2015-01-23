@@ -5,15 +5,17 @@
       require: 'ngModel',
       priority:999,
       replace:true,
-      template:'<div><div id="input" contenteditable="true">{{format}}</div></div>',
+      template:'<div><div id="input" contenteditable="true">{{placeholder}}</div></div>',
       link:function(scope,elem,attr){
-      var format = '00/00.0000';
+      var format = 'BE 0000 0000';
+      var placeholder = 'BE xxxx xxxx';
       scope.format = format;
+      scope.placeholder = placeholder;
       var prevValue;
       var typed = '';
-      var notyped = format;
+      var notyped = placeholder;
 
-      if (elem.find("#input")[0].addEventListener) {
+      /*if (elem.find("#input")[0].addEventListener) {
         elem.find("#input")[0].addEventListener("DOMCharacterDataModified", function(evt){
           if(evt.prevValue && evt.prevValue!== '{{format}}'){
             var add = 0;
@@ -24,17 +26,21 @@
             }
           }
         }, false);
-      }
+      }*/
 
-      var newVa =format;
+      var newVa = placeholder;
 
       String.prototype.replaceAt=function(index, character) {
         return this.substr(0, index) + character + this.substr(index+character.length);
       }
+      String.prototype.replaceRange=function(start,stop, value) {
+        console.log(this.substr(0, start) + value.substr(start,stop-start) + this.substr(stop))
+        return this.substr(0, start) + value.substr(start,stop-start) + this.substr(stop);
+      }
 
       function handleInput(key){
-        var cursor = getCaretCharacterOffsetWithin();
-        if(cursor > -1 && cursor < format.length+1){
+        var cursor = getCaretSelection().start;
+        if(cursor > -1 && cursor < format.length){
            if(format[cursor]==='0'){
              if(charIs(key,'0')){
                newVa = newVa.replaceAt(cursor,key);
@@ -44,25 +50,45 @@
              }
            }else{
              if(charIs(key,'0')){
-               newVa = newVa.replaceAt(cursor+1,key);
-               cursor +=2;
+//cursor +=1;
+              setCursor(cursor+1);
+              handleInput(key);
+              return;
              }else{
                cursor +=1;
              }
            }
          }
+         deleteVal = -1;
          setValue(cursor);
+       }
+
+       function handleBackspace(){
+        var cursor = getCaretSelection();
+        if(cursor.start === cursor.end){
+          newVa = newVa.replaceAt(cursor.start-1,placeholder[cursor.start-1]);
+          setValue(cursor.start-1);
+        }else{
+          newVa = newVa.replaceRange(cursor.start,cursor.end,placeholder);
+          setValue(cursor.start);
+        }
+
+       }
+       var deleteVal=-1;
+
+       function handleDelete(){
+        var cursor = getCaretSelection();
+        if(cursor.start === cursor.end){
+
+        }
        }
 
 
       var setValue = function(cur){
         elem.find("#input").html(newVa);
 
-        if(cur >= format.length){
-          cur = 0;
-        }
-        if(cur > -1){
-          setCursor(cur);
+        if(cur > -1 && cur <= format.length){
+           setCursor(cur);
         }
       }
 
@@ -104,6 +130,39 @@
         return caretOffset;
       }
 
+     var getCaretSelection = function()
+      {
+         var caretOffset = 0;
+        var element = elem.get(0);
+        element.focus();
+        var doc = element.ownerDocument || element.document;
+        var win = doc.defaultView || doc.parentWindow;
+        var sel;
+        var startOffset;
+
+        if (typeof win.getSelection != "undefined") {
+            sel = win.getSelection();
+            if (sel.rangeCount > 0) {
+                var range = win.getSelection().getRangeAt(0);
+                var preCaretRange = range.cloneRange();
+                preCaretRange.selectNodeContents(element);
+                preCaretRange.setEnd(range.endContainer, range.endOffset);
+                caretOffset = preCaretRange.toString().length;
+                startOffset = caretOffset - window.getSelection().toString().length;
+            }
+        } else if ( (sel = doc.selection) && sel.type != "Control") {
+            var textRange = sel.createRange();
+            var preCaretTextRange = doc.body.createTextRange();
+            preCaretTextRange.moveToElementText(element);
+            preCaretTextRange.setEndPoint("EndToEnd", textRange);
+            console.log(preCaretTextRange.text)
+            caretOffset = preCaretTextRange.text.length;
+            startOffset = caretOffset - document.selection.createRange().text.length;
+
+        }
+        return  {start:startOffset,end:caretOffset};
+      }
+
       function setCursor(cur) {
         var el = elem.find('#input')[0];
         var range = document.createRange();
@@ -115,8 +174,19 @@
         el.focus();
       }
 
+      elem.find("#input").bind('keydown',function(event){
+        if(event.which === 8){
+          handleBackspace();
+          return false;
+        }else if(event.which === 46){
+          handleDelete();
+          return false;
+        }
+      })
+
       elem.find("#input").keypress(function(event){console.log('go')
         var key = String.fromCharCode(event.which);
+        console.log(key)
         setTimeout(function(){
           handleInput(key);
         }, 1);
