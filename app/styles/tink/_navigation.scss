@@ -87,7 +87,10 @@ body {
   width: 100%;
   z-index: layer('nav-top');
 
-  a.btn, a.btn-primary, button, input {
+  a.btn,
+  a.btn-primary,
+  button,
+  input {
     border: none;
   }
 
