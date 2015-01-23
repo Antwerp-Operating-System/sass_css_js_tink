@@ -10,9 +10,15 @@
 angular.module('tinkFramework.controllers')
   .controller('MainCtrl',['$scope',function (scope) {
   scope.selectedDate = '2014-12-01';
-  scope.dates= {last:null,first:new Date(2014, 0, 31)};
-
+  scope.dates= {last:null,first:null};
+scope.signup={};
   scope.go = function(){
-  	console.log(scope.dates);
+    console.log(signup_form.name.$valid)
+  	console.log(scope.dates,scope.signup);
   };
+
+  scope.submitForm = function() {
+console.log(scope.userForm.name)
+
+    };
 }]);

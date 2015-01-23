@@ -1,5 +1,17 @@
 'use strict';
 angular.module('tink.datepicker', [])
+.directive("dynamicName",function($compile){
+  return {
+      restrict:"A",
+      terminal:true,
+      priority:1000,
+      link:function(scope,element,attrs){console.log("")
+          element.attr('name', scope.$eval(attrs.dynamicName));
+          element.removeAttr("dynamic-name");
+          $compile(element)(scope);
+      }
+   };
+})
 .directive('tinkDatepickerNew',['$q','$templateCache','$http','$compile','dateCalculator','calView',function($q,$templateCache,$http,$compile,dateCalculator,calView) {
   return {
     restrict:'EA',
@@ -7,11 +19,12 @@ angular.module('tink.datepicker', [])
     replace:true,
     templateUrl:'templates/tinkDatePicker2.html',
     scope:{
-      ngModel:'&'
+      ngModel:'='
     },
     link:function(scope,element,attr,ctrl){
+      scope.opts = attr;
       var input = element.find('input');
-      var clickable = element.find('.fa fa-calendar');
+      var clickable = element.find('.input-group-addon');
       var copyEl;
       scope.$show = function(){
         copyEl = templateElem;
@@ -53,7 +66,7 @@ angular.module('tink.datepicker', [])
         //copyEl.remove();
       }
 
-      ctrl.$parsers.unshift(function(viewValue) {console.log(viewValue)
+    /*  ctrl.$parsers.unshift(function(viewValue) {console.log(viewValue)
         if(viewValue.length === 10){
           var date = dateCalculator.getDate(viewValue,'dd/mm/yyyy');
           $directive.selectedDate = date;
@@ -66,10 +79,6 @@ angular.module('tink.datepicker', [])
         }
         console.log(date)
         return date;
-      });
-
-      input.bind('blur',function(){
-        scope.hide();
       });
 
       scope.$watch('ngModel',function(newVal){
@@ -102,14 +111,22 @@ angular.module('tink.datepicker', [])
         }
         return modelValue;
       });
+*/
+      scope.$watch('ngModel',function(newVal){
+        console.log(newVal)
+        $directive.selectedDate =  newVal;
+        $directive.viewDate = newVal;
+      });
+
 
       clickable.bind('mousedown touch',function(){
         scope.$apply(function(){
           scope.$show();
+          input.focus();
         });
-        input.focus();
         return false;
       })
+
 
       var options = {
         yearTitleFormat:'mmmm yyyy',
@@ -154,8 +171,9 @@ angular.module('tink.datepicker', [])
       scope.$select = function(date){
       $directive.viewDate = date;
         if($directive.mode === 0){
-          //ctrl.$setViewValue(dateCalculator.formatDate(date, options.dateFormat));
-          input.val(dateCalculator.formatDate(date, options.dateFormat))
+          ctrl.$setViewValue(date);
+          //input.val(dateCalculator.formatDate(date, options.dateFormat))
+          //ngModel =
           scope.hide();
           input.blur();
         }else if($directive.mode >0){
@@ -165,19 +183,22 @@ angular.module('tink.datepicker', [])
       }
 
       scope.build = function() {
-        if($directive.mode === 1){
-          scope.title = dateCalculator.format($directive.viewDate, 'yyyy');
-          scope.rows =  calView.monthInRows($directive.viewDate);
+        if($directive.viewDate === null || $directive.viewDate === undefined){
+          $directive.viewDate = new Date();
         }
-        if($directive.mode === 0){
-          scope.title = dateCalculator.format($directive.viewDate, options.yearTitleFormat);
-          scope.rows =  calView.daysInRows($directive.viewDate,$directive.selectedDate);
-        }
-        if($directive.mode === 2){
-          var currentYear = parseInt(dateCalculator.format($directive.viewDate, 'yyyy'));
-          scope.title = (currentYear-11) +'-'+ currentYear;
-          scope.rows =  calView.yearInRows($directive.viewDate);
-        }
+          if($directive.mode === 1){
+            scope.title = dateCalculator.format($directive.viewDate, 'yyyy');
+            scope.rows =  calView.monthInRows($directive.viewDate);
+          }
+          if($directive.mode === 0){
+            scope.title = dateCalculator.format($directive.viewDate, options.yearTitleFormat);
+            scope.rows =  calView.daysInRows($directive.viewDate,$directive.selectedDate);
+          }
+          if($directive.mode === 2){
+            var currentYear = parseInt(dateCalculator.format($directive.viewDate, 'yyyy'));
+            scope.title = (currentYear-11) +'-'+ currentYear;
+            scope.rows =  calView.yearInRows($directive.viewDate);
+          }
       }
 
       var fetchPromises =[];
