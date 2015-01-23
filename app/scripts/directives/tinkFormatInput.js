@@ -38,21 +38,31 @@
         return this.substr(0, start) + value.substr(start,stop-start) + this.substr(stop);
       }
 
-      function handleInput(key){
-        var cursor = getCaretSelection().start;
+      function handleInput(key,cur){
+        var cursor;
+        var selection;
+        if(!cur){
+          cursor = getCaretSelection().start;
+          selection = getCaretSelection().end;
+        }else{
+          cursor = cur.start;
+          selection = cur.end;
+        }
+
         if(cursor > -1 && cursor < format.length){
            if(format[cursor]==='0'){
              if(charIs(key,'0')){
+              if(cursor !== selection){
+                newVa = newVa.replaceRange(cursor,selection,placeholder);
+              }
                newVa = newVa.replaceAt(cursor,key);
                cursor +=1;
              }else{
-               //wrong enterd
+               newVa = newVa.replaceRange(cursor,selection,placeholder);
              }
            }else{
              if(charIs(key,'0')){
-//cursor +=1;
-              setCursor(cursor+1);
-              handleInput(key);
+                handleInput(key,{start:cursor+1,end:selection+1});
               return;
              }else{
                cursor +=1;
@@ -79,7 +89,16 @@
        function handleDelete(){
         var cursor = getCaretSelection();
         if(cursor.start === cursor.end){
+          var pos=cursor.start;
+          while(placeholder[cursor.start]===newVa[cursor.start] && cursor.start < placeholder.length-1){
+            cursor.start++;
+          }
+           newVa = newVa.replaceAt(cursor.start,placeholder[cursor.start]);
+          setValue(pos);
 
+        }else{
+          newVa = newVa.replaceRange(cursor.start,cursor.end,placeholder);
+          setValue(cursor.start);
         }
        }
 
