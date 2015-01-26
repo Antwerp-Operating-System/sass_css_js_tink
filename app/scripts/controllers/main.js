@@ -14,15 +14,17 @@ angular.module('tinkFramework.controllers')
 scope.signup={};
   scope.go = function(){
     console.log(signup_form.name.$valid)
-  	console.log(scope.dates,scope.signup);
+  	console.log(scope.dates,scope.userForm);
   };
 
   scope.getDate = function(){
     console.log(scope.dates)
+    console.log(scope.userForm.dubbel.$error)
   }
 
   scope.submitForm = function() {
-console.log(scope.userForm.name)
+    console.log(signup_form)
+console.log(scope.userForm.dubbel)
 
     };
 }]);

@@ -5,7 +5,6 @@
       replace:true,
       require:['ngModel','^form'],
       template:'<div><div id="input" class="divinput" contenteditable="true">{{placeholder}}</div></div>',
-      controller:'TinkFormatController',
       link:function(scope,elem,attr,ctrl){
       //var ctrl = elem.data('$ngModelController');
       ctrl[1].$addControl(ctrl[0]);
@@ -20,7 +19,7 @@
       var type = 'date';
       var typed = '';
       var notyped = placeholder;
-      ctrl.$setValidity('date', false);
+
       var newVa = placeholder;
 
       String.prototype.replaceAt=function(index, character) {
@@ -28,6 +27,12 @@
       }
       String.prototype.replaceRange=function(start,stop, value) {
         return this.substr(0, start) + value.substr(start,stop-start) + this.substr(stop);
+      }
+      var ctrlForm;
+      if(attr.ctrlModel){
+        ctrlForm = forms[attr.ctrlModel];
+      }else{
+        ctrlForm = ctrl;
       }
 
       function handleInput(key,cur){
@@ -273,22 +278,32 @@
 
         return false;
       })
-
+//hnb314
       ctrl.$parsers.unshift(function(viewValue) {
+        console.log(viewValue)
+        handleFormat(viewValue)
         return viewValue;
       });
 
-      scope.$watch('ngModel',function(newVal){
-        handleFormat(newVal);
+      scope.$watch('ngModel',function(newVal,oldVal){
+        if(newVal !== oldVal){
+          handleFormat(newVal);
+
+        }
+        console.log(newVal)
       })
 
       elem.find("#input").on('blur', function() {
+        var pre = '';
+        if(attr.validName){
+          pre = attr.validName;
+        }
         safeApply(scope,function(){
           if(type === 'date' && validFormat(newVa,'dd/mm/yyyy')){
-            ctrl.$setValidity('date', true);
+            ctrlForm.$setValidity(pre+'date', true);
             ctrl.$setViewValue(dateCalculator.getDate(newVa,'dd/mm/yyyy'));
           }else if(type === 'date' ){
-            ctrl.$setValidity('date', false);
+            ctrlForm.$setValidity(pre+'date', false);
             ctrl.$setViewValue(null);
           }
         })
@@ -319,6 +334,7 @@
         }
 
       ctrl.$formatters.push(function(modelValue) {
+        console.log(modelValue)
          if(modelValue === null){
           newVa = placeholder;
           setValue();
@@ -332,6 +348,10 @@
           modelValue = modelValue();
         }
         if(type === 'date'){
+        var pre = '';
+        if(attr.validName){
+          pre = attr.validName;
+        }
           var date;
           if(angular.isDate(modelValue)){
             date = dateCalculator.formatDate(modelValue, dateFormat);
@@ -341,10 +361,10 @@
 
           if(validValue(date) && validFormat(date,'dd/mm/yyyy')){
             newVa =  date;
-             ctrl.$setValidity('date', true);
+             ctrlForm.$setValidity(pre+'date', true);
             setValue();
           }else{
-             ctrl.$setValidity('date', false);
+             ctrlForm.$setValidity(pre+'date', false);
           }
         }
         return modelValue;

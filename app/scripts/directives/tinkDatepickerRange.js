@@ -5,12 +5,15 @@
         restrict: 'E',
         replace: true,
         priority:999999,
+        require:['^form'],
         templateUrl: 'templates/tinkDatePickerRangeInputs.html',
         scope: {
           firstDate: '=',
-          lastDate: '='
+          lastDate: '=',
         },
-        link: function postLink(scope, element) {
+        link: function postLink(scope, element,attrs,form) {
+          scope.lol='dubbel'
+          console.log(form)
           var $directive = {
             open: false,
             focused: {firstDateElem: element.find('div[tink-format-input] div:first'), lastDateElem: element.find('div[tink-format-input] div:last')},
@@ -23,6 +26,10 @@
             viewDate:new Date(),
             hardCodeFocus: false
           };
+          console.log(element.find('#firstDateElem').data('$ngModelController'))
+          console.log(element.find('#lastDateElem').data('$ngModelController'))
+          scope.ctrlconst = form[0].dubbel;
+         // form[0].$removeControl(form[0].dubbel);
 
           $directive.calendar.first.on('click',function(){
             $directive.focused.firstDateElem.focus();
@@ -68,7 +75,7 @@
               }*/
               if(scope.firstDate !== null){
                 $directive.focusedModel = 'firstDateElem';
-               scope.$select(scope.firstDate)
+               scope.$select(scope.firstDate,null,true)
                buildView();
              }
 
@@ -94,7 +101,7 @@
             // }
             if(scope.lastDate !== null){
               $directive.focusedModel = 'lastDateElem';
-              scope.$select(scope.lastDate)
+              scope.$select(scope.lastDate,null,true)
               buildView();
             }
           });
@@ -271,7 +278,7 @@
               bindEvents();
             }
 
-            scope.$select = function (el,format) {
+            scope.$select = function (el,format,hardcoded) {
               if(!angular.isDefined(format)){
                   format = 'yyyy/mm/dd';
               }
@@ -286,24 +293,30 @@
                 if ($directive.focusedModel === 'firstDateElem') {
                   scope.firstDate = date;
                   if(!angular.isDate(scope.lastDate)){
-                    //$directive.focused.lastDateElem.focus();
-                    setTimeout(function(){ $directive.focused.lastDateElem.focus(); }, 1);
+                    if(!hardcoded){
+                      setTimeout(function(){ $directive.focused.lastDateElem.focus(); }, 1);
+                    }
                   }else{
                     if(dateCalculator.dateBeforeOther(scope.firstDate,scope.lastDate)){
                       scope.lastDate = null;
-                      $directive.focused.lastDateElem.focus();
+                      if(!hardcoded){
+                        $directive.focused.lastDateElem.focus();
+                      }
                     }
                   }
 
                 } else if ($directive.focusedModel === 'lastDateElem') {
                   scope.lastDate = date;
                   if(!angular.isDate(scope.firstDate)){
-                    setTimeout(function(){ $directive.focused.firstDateElem.focus(); }, 1);
-                    //$directive.focused.firstDateElem.focus();
+                    if(!hardcoded){
+                      setTimeout(function(){ $directive.focused.firstDateElem.focus(); }, 1);
+                    }
                   }else{
                     if(dateCalculator.dateBeforeOther(scope.firstDate,scope.lastDate)){
                       scope.firstDate = null;
-                      $directive.focused.firstDateElem.focus();
+                      if(!hardcoded){
+                        $directive.focused.firstDateElem.focus();
+                      }
                     }
                   }
 

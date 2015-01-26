@@ -1,12 +1,12 @@
 <div class="tink-datepickerrange-input-fields">
   <div class="input-group">
-    <input type="text" id="firstDateElem" tink-format-input ng-model="firstDate" style="width: 200px;float: left;">
+    <input type="text" id="firstDateElem" name="dubbel" tink-format-input ng-model="firstDate" valid-name='first' style="width: 200px;float: left;">
     <span class="input-group-addon">
       <i class="fa fa-calendar"></i>
     </span>
   </div>
   <div class="input-group">
-    <input type="text" id="lastDateElem" tink-format-input  ng-model="lastDate"  style="width: 200px;" >
+    <input type="text" id="lastDateElem" tink-format-input ctrl-model='dubbel' valid-name='last'  ng-model="lastDate"  style="width: 200px;" >
     <span class="input-group-addon">
       <i class="fa fa-calendar"></i>
     </span>
