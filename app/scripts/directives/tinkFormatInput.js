@@ -2,12 +2,14 @@
   angular.module('tink.format',[])
   .directive('tinkFormatInput', ['dateCalculator','$window',function (dateCalculator,$window) {
     return {
-
       replace:true,
-      priority:98,
+      require:['ngModel','^form'],
       template:'<div><div id="input" class="divinput" contenteditable="true">{{placeholder}}</div></div>',
       link:function(scope,elem,attr,ctrl){
-        var ctrl = elem.data('$ngModelController');
+      //var ctrl = elem.data('$ngModelController');
+      ctrl[1].$addControl(ctrl[0]);
+      var forms = ctrl[1];
+      ctrl = ctrl[0];
       var format = '00/00/0000';
       var placeholder = 'dd/mm/jjjj';
       var dateFormat ='dd/mm/yyyy';
@@ -346,6 +348,9 @@
       }
 
       setValue(newVa);
+
+
+
 
       }
     }

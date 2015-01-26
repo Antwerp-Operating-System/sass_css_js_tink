@@ -4,7 +4,6 @@ angular.module('tink.datepicker', [])
   return {
       restrict:"A",
       terminal:true,
-      priority:1000,
       link:function(scope,element,attrs){console.log("")
           element.attr('name', scope.$eval(attrs.dynamicName));
           element.removeAttr("dynamic-name");
@@ -15,13 +14,18 @@ angular.module('tink.datepicker', [])
 .directive('tinkDatepickerNew',['$q','$templateCache','$http','$compile','dateCalculator','calView',function($q,$templateCache,$http,$compile,dateCalculator,calView) {
   return {
     restrict:'EA',
-    require:'ngModel',
+    require:['ngModel','^form'],
     replace:true,
     templateUrl:'templates/tinkDatePicker2.html',
+    priority:999999999,
     scope:{
       ngModel:'='
     },
     link:function(scope,element,attr,ctrl){
+      ctrl[1].$removeControl(ctrl[0]);
+      var forms = ctrl[1];
+      ctrl = ctrl[0];
+
       scope.opts = attr;
       var input = element.find('input');
       var clickable = element.find('.input-group-addon');
@@ -231,6 +235,11 @@ angular.module('tink.datepicker', [])
         templateElem = $compile(template);
         templateElem = templateElem(scope, function () {});
       });
+
+      var content = angular.element('<input tink-format-input name="'+attr.name+'"  ng-model="ngModel" />');
+      $(content).insertBefore($('span.input-group-addon'))
+      $compile(content)(scope);
+
 
     }
   }
