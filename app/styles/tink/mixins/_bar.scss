@@ -10,13 +10,15 @@
   }
   position: relative;
 
-  a.btn, a.btn-primary, button, input {
+  a.btn,
+  a.btn-primary,
+  button,
+  input {
     margin-top: rem(-3);
   }
 
   .link {
     color: $link-color;
-    background-color: $bg-color;
     border-radius: $border-radius-base * 2;
     height: 100%;
     line-height: rem($height);
@@ -53,9 +55,9 @@
     }
 
     input[type="search"] {
-      display: inline-block;
+      float: left;
+      margin-bottom: rem(-12);
       width: auto;
-      margin-top: rem(-5);
 
       &:focus {
         @include tab-focus();
@@ -78,8 +80,7 @@
 
     &-center {
       display: inline-block;
-      height: 100%;
-      line-height: rem($height);
+      // height: rem($height);
     }
 
     &-right {
