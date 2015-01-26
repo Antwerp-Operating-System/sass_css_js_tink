@@ -1,8 +1,16 @@
 /**
- * Side navigation mixins
+ * Side navigation
  */
 
-@mixin nav-aside() {
+$nav-aside-padding: 15px;
+$nav-aside-section-border-color: $gray-light;
+$nav-aside-title-color: $gray;
+$nav-aside-width: 220px;
+
+$nav-aside-link-color: lighten($gray-dark, 12%) !default;
+
+
+.nav-aside {
   background: $nav-aside-bg-color;
   bottom: 0;
   position: fixed;
@@ -23,7 +31,84 @@
     z-index: layer("pseudo");
   }
 
+  > aside {
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: -blackberry-touch;
+  }
+
   ul {
     @extend .list-unstyled;
+  }
+
+  &-section {
+    padding: rem($nav-aside-padding);
+    position: relative;
+
+    &:not(:last-child) {
+      &:after {
+        background: $nav-aside-section-border-color;
+        bottom: 0;
+        content: '';
+        height: 1px;
+        left: rem($nav-aside-padding);
+        position: absolute;
+        right: rem($nav-aside-padding);
+      }
+    }
+
+    /**
+     * All levels
+     */
+    li {
+      a {
+        color: $nav-aside-link-color;
+        display: table;
+        text-decoration: none;
+        width: 100%;
+
+        &:hover,
+        &:active,
+        &:focus {
+          background: rgba(0, 0, 0, .05);
+          color: $nav-aside-link-hover-color;
+        }
+
+        > *, {
+          display: table-cell;
+          vertical-align: top;
+        }
+      }
+    }
+
+    /**
+     * First level
+     */
+  }
+
+  &-title {
+    color: $nav-aside-title-color;
+    text-transform: uppercase;
+  }
+}
+
+
+
+/**
+ * Left navigation specific
+ */
+
+.nav-left {
+  left: 0;
+  transform: translate(rem(-$nav-aside-width), 0);
+  transition: transform $animation-speed linear;
+
+  @include mq($screen-sm) {
+    transform: translate(0, 0);
+  }
+
+  &:before {
+    right: 0;
   }
 }
