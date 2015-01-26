@@ -388,6 +388,15 @@ $bar-padding:                           $padding-base-horizontal !default;
 
 
 /**
+ * Logo
+ */
+$logo: "theme/tink-logo.svg" !default;
+$logo-width: $bar-height !default;
+$logo-height: $bar-height !default;
+
+
+
+/**
  * Navigation
  *
  * Settings for the top navigation and the off-canvas navigation
