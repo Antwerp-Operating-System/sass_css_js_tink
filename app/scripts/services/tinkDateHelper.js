@@ -313,8 +313,9 @@ angular.module('tink.dateHelper')
         if(day.getMonth() !== date.getMonth()){
           isMuted = true;
         }
+        var isSelected = false;
         if(angular.isDate(selectedDate)){
-          var isSelected = selectedDate.toDateString() === day.toDateString();
+          isSelected = selectedDate.toDateString() === day.toDateString();
         }
         days.push({date: day,selected:isSelected, isToday: day.toDateString() === today.toDateString(), label: dateCalculator.formatDate(day, 'dd'),isMuted:isMuted});
     }

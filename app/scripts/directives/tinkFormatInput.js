@@ -15,19 +15,15 @@
       var dateFormat ='dd/mm/yyyy';
       scope.format = format;
       scope.placeholder = placeholder;
-      var prevValue;
       var type = 'date';
-      var typed = '';
-      var notyped = placeholder;
-
       var newVa = placeholder;
 
       String.prototype.replaceAt=function(index, character) {
         return this.substr(0, index) + character + this.substr(index+character.length);
-      }
+      };
       String.prototype.replaceRange=function(start,stop, value) {
         return this.substr(0, start) + value.substr(start,stop-start) + this.substr(stop);
-      }
+      };
       var ctrlForm;
       if(attr.ctrlModel){
         ctrlForm = forms[scope[attr.ctrlModel]];
@@ -140,56 +136,29 @@
             }
           }
         }
-        if(open == 1){
+        if(open === 1){
           html += plEHtml;
         }
         return html;
-      }
+      };
 
       var setValue = function(cur){
-        elem.find("#input").html(valueToHtml(newVa));
+        elem.find('#input').html(valueToHtml(newVa));
 
         if(cur > -1 && cur <= format.length){
            setCursor(cur);
         }
-      }
+      };
 
       var charIs = function(char,base){
         char = char.trim();
-        if(base === '0' && char !== ""){
+        if(base === '0' && char !== ''){
           if(char > -1 && char < 10){
-            return true
+            return true;
           }
         }
         return false;
-      }
-
-      function getCaretCharacterOffsetWithin() {
-        var caretOffset = 0;
-        var element = elem.get(0);
-        element.focus();
-        var doc = element.ownerDocument || element.document;
-        var win = doc.defaultView || doc.parentWindow;
-        var sel;
-
-        if (typeof win.getSelection != "undefined") {
-            sel = win.getSelection();
-            if (sel.rangeCount > 0) {
-                var range = win.getSelection().getRangeAt(0);
-                var preCaretRange = range.cloneRange();
-                preCaretRange.selectNodeContents(element);
-                preCaretRange.setEnd(range.endContainer, range.endOffset);
-                caretOffset = preCaretRange.toString().length;
-            }
-        } else if ( (sel = doc.selection) && sel.type != "Control") {
-            var textRange = sel.createRange();
-            var preCaretTextRange = doc.body.createTextRange();
-            preCaretTextRange.moveToElementText(element);
-            preCaretTextRange.setEndPoint("EndToEnd", textRange);
-            caretOffset = preCaretTextRange.text.length;
-        }
-        return caretOffset;
-      }
+      };
 
      var getCaretSelection = function()
       {
@@ -201,7 +170,7 @@
         var sel;
         var startOffset;
 
-        if (typeof win.getSelection != "undefined") {
+        if (typeof win.getSelection !== 'undefined') {
             sel = win.getSelection();
             if (sel.rangeCount > 0) {
                 var range = win.getSelection().getRangeAt(0);
@@ -211,17 +180,17 @@
                 caretOffset = preCaretRange.toString().length;
                 startOffset = caretOffset - window.getSelection().toString().length;
             }
-        } else if ( (sel = doc.selection) && sel.type != "Control") {
+        } else if ( (sel = doc.selection) && sel.type !== 'Control') {
             var textRange = sel.createRange();
             var preCaretTextRange = doc.body.createTextRange();
             preCaretTextRange.moveToElementText(element);
-            preCaretTextRange.setEndPoint("EndToEnd", textRange);
+            preCaretTextRange.setEndPoint('EndToEnd', textRange);
             caretOffset = preCaretTextRange.text.length;
             startOffset = caretOffset - document.selection.createRange().text.length;
 
         }
         return  {start:startOffset,end:caretOffset};
-      }
+      };
 
       function setCursor(cur) {
         var el = elem.find('#input')[0];
@@ -231,7 +200,7 @@
         var chosenChild = 0;
         for(var i = 0; i< elem.find('#input')[0].childNodes.length;i++){
           var node = elem.find('#input')[0].childNodes[i];
-          if(node.nodeName === "#text"){
+          if(node.nodeName === '#text'){
             lengths += node.length;
             chosenChild = node;
           }else{
@@ -251,7 +220,7 @@
       }
 
 
-      elem.find("#input").bind('keydown',function(event){
+      elem.find('#input').bind('keydown',function(event){
         if(event.which === 8){
           handleBackspace();
           return false;
@@ -259,28 +228,28 @@
           handleDelete();
           return false;
         }
-      })
-      var firstclick = 1;
-      elem.find("#input").bind('mousedown',function(event){
+      });
+      var firstclick = 0;
+      elem.find('#input').bind('mousedown',function(){
         setTimeout(function(){
           if(placeholder === newVa && firstclick !== 1){
             setCursor(0);
             firstclick = 1;
           }
         }, 1);
-      })
+      });
 
-      elem.find("#input").keypress(function(event){
+      elem.find('#input').keypress(function(event){
         var key = String.fromCharCode(event.which);
         setTimeout(function(){
           handleInput(key);
         }, 1);
 
         return false;
-      })
+      });
 //hnb314
       ctrl.$parsers.unshift(function(viewValue) {
-        handleFormat(viewValue)
+        handleFormat(viewValue);
         return viewValue;
       });
 
@@ -288,9 +257,9 @@
         if(newVal !== oldVal){
           handleFormat(newVal);
         }
-      })
+      });
 
-      elem.find("#input").on('blur', function() {
+      elem.find('#input').on('blur', function() {
         var pre = '';
         if(attr.validName){
           pre = attr.validName;
@@ -303,13 +272,14 @@
             ctrlForm.$setValidity(pre+'date', false);
             ctrl.$setViewValue(null);
           }
-        })
+        });
       });
 
       //has to change
       var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
       var isTouch = ('createTouch' in $window.document) && isNative;
       function validFormat(date,format){
+        var dateObject;
           if(angular.isDefined(date) && date !== null){
 
             if(typeof date === 'string'){
@@ -317,7 +287,7 @@
 
               if(!isTouch && !/^(?:(?:31(\/)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/.test(date)){return false;}
 
-              var dateObject = dateCalculator.getDate(date, format);
+              dateObject = dateCalculator.getDate(date, format);
             }else if(angular.isDate(date)){
               dateObject = date;
             }else if(typeof date === 'function'){
@@ -364,15 +334,11 @@
           }
         }
         return modelValue;
-      }
+      };
 
       setValue(newVa);
-
-
-
-
       }
-    }
+    };
   }])
   .controller('TinkFormatController', [function () {
   var self = this;

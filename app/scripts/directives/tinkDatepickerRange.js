@@ -1,12 +1,12 @@
 'use strict';
     angular.module('tink.datepickerRange', ['tink.dateHelper','tink.safeApply'])
-    .directive('tinkDatepickerRange',['$q', '$templateCache', '$http', 'calView', '$sce','$compile','dateCalculator','$window','safeApply', function ($q, $templateCache, $http, calView, $sce,$compile,dateCalculator,$window,safeApply) {
+    .directive('tinkDatepickerRange',['$q', '$templateCache', '$http', 'calView', '$sce','$compile','dateCalculator','$window', function ($q, $templateCache, $http, calView, $sce,$compile,dateCalculator,$window) {
       return {
         restrict: 'E',
         replace: true,
         require:['^form'],
         templateUrl: 'templates/tinkDatePickerRangeInputs.html',
-        controller:function($scope,$attrs,$element){
+        controller:function($scope,$attrs){
           $scope.dynamicName = $attrs.name;
         },
         scope: {
@@ -54,26 +54,10 @@
              scope.dayLabels = $sce.trustAsHtml('<th>' + dayLabels.join('</th><th>') + '</th>');
             // Add a watch to know when input changes from the outside //
 
-            scope.$watch('firstDate', function (newDate) {
-              /*var date;
-              if (angular.isDefined(newDate) && newDate !== null) {
-                if (angular.isDate(newDate)) {
-                  setViewDate(newDate);
-                } else {
-                  try {
-                    date = dateCalculator.getDate(newDate, config.dateFormat);
-                    scope.firstDate = date;
-                    setViewDate(date);
-                  } catch (e) {
-                    scope.firstDate = null;
-                  }
-                }
-              }else{
-                buildView();
-              }*/
+            scope.$watch('firstDate', function () {
               if(scope.firstDate !== null){
                 $directive.focusedModel = 'firstDateElem';
-               scope.$select(scope.firstDate,null,true)
+               scope.$select(scope.firstDate,null,true);
                buildView();
              }
 
@@ -81,59 +65,13 @@
             });
 
             // Add a watch to know when input changes from the outside //
-            scope.$watch('lastDate', function (newDate) {
-            //   if (angular.isDefined(newDate) && newDate !== null) {
-            //     if (angular.isDate(newDate)) {
-            //      setViewDate(newDate);
-            //    } else {
-            //     try {
-            //       var date = dateCalculator.getDate(newDate, config.dateFormat);
-            //       scope.lastDate = date;
-            //       setViewDate(date);
-            //     } catch (e) {
-            //       scope.lastDate = null;
-            //     }
-            //   }
-            // }else{
-            //   buildView();
-            // }
+            scope.$watch('lastDate', function () {
             if(scope.lastDate !== null){
               $directive.focusedModel = 'lastDateElem';
-              scope.$select(scope.lastDate,null,true)
+              scope.$select(scope.lastDate,null,true);
               buildView();
             }
           });
-
-            var firstDateWatch=null,lastDateWatch = null;
-
-
-            /*function startWatch(){
-              firstDateWatch =  scope.$watch('firstDateModel',function(newDate,oldDate){
-                if(newDate !== oldDate){
-                  if(newDate === undefined){
-                    scope.firstDateModel = '';
-                  }else{
-                    scope.$select(newDate,config.dateFormat,true);
-                  }
-                }
-              });
-
-              lastDateWatch = scope.$watch('lastDateModel',function(newDate,oldDate){
-               if(newDate !== oldDate){
-                  if(newDate === undefined){
-                    scope.lastDateModel = '';
-                  }else{
-                    scope.$select(newDate,config.dateFormat,true);
-                  }
-                }
-            });
-
-            }
-              startWatch();
-            function stopWatch(){
-              firstDateWatch();
-              lastDateWatch();
-            }*/
 
               // -- the config is for the devolopers to change ! for in the future  --/
               // -- the $directive is four the directive hehehe ;) to keep track of stuff --/
@@ -142,16 +80,6 @@
       dateFormat: 'dd/mm/yyyy'
     },
     fetchPromises = {};
-          /*angular.element($directive.focused.firstDateElem).bind('input',function(){
-            scope.$apply(function(date){
-              scope.firstDate = date.firstDateModel;
-            });
-          });
-          angular.element($directive.focused.lastDateElem).bind('input',function(){
-            scope.$apply(function(date){
-              scope.lastDate = date.lastDateModel;
-            });
-          });*/
 
             // -- This builds the view --/
             function buildView() {
@@ -182,11 +110,6 @@
                angular.element($directive.tbody.lastDateElem).replaceWith($compile( htmlLast)( scope ));
 
              }
-
-            // -- refresh the view --/
-            function refreshView() {
-              buildView();
-            }
 
             // -- to change the month of the calender --/
             function nextMonth() {
@@ -371,10 +294,6 @@
             });
 
             function bindEvents() {
-              element.bind('click', function (evt) {
-              //  evt.stopPropagation();
-              });
-
               if(!isTouch){
                 element.bind('touchstart mousedown',$onMouseDown);
               }
