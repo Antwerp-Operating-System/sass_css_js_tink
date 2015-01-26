@@ -4,16 +4,16 @@
       return {
         restrict: 'E',
         replace: true,
-        priority:999999,
         require:['^form'],
         templateUrl: 'templates/tinkDatePickerRangeInputs.html',
+        controller:function($scope,$attrs,$element){
+          $scope.dynamicName = $attrs.name;
+        },
         scope: {
           firstDate: '=',
           lastDate: '=',
         },
         link: function postLink(scope, element,attrs,form) {
-          scope.lol='dubbel'
-          console.log(form)
           var $directive = {
             open: false,
             focused: {firstDateElem: element.find('div[tink-format-input] div:first'), lastDateElem: element.find('div[tink-format-input] div:last')},
@@ -26,8 +26,6 @@
             viewDate:new Date(),
             hardCodeFocus: false
           };
-          console.log(element.find('#firstDateElem').data('$ngModelController'))
-          console.log(element.find('#lastDateElem').data('$ngModelController'))
           scope.ctrlconst = form[0].dubbel;
          // form[0].$removeControl(form[0].dubbel);
 
@@ -326,7 +324,6 @@
             };
 
             function $onMouseDown (evt) {
-              console.log(evt.target.nodeName)
               if (evt.target.isContentEditable) {
                 evt.target.focus();
                 if(isTouch){
@@ -385,7 +382,7 @@
               angular.element($directive.focused.firstDateElem).bind('blur', hide);
               angular.element($directive.focused.lastDateElem).bind('blur', hide);
 
-              angular.element($directive.focused.firstDateElem).bind('focus', function () {console.log('focus')
+              angular.element($directive.focused.firstDateElem).bind('focus', function () {
                 $directive.focusedModel = 'firstDateElem';
               });
               angular.element($directive.focused.lastDateElem).bind('focus', function () {
@@ -428,4 +425,17 @@
 
         }
       };
-    }]);
+    }])
+.directive('dynamicName', function($compile, $parse) {
+  return {
+    restrict: 'A',
+    terminal: true,
+    priority: 100000,
+    link: function(scope, elem) {
+      var name = $parse(elem.attr('dynamic-name'))(scope);
+      elem.removeAttr('dynamic-name');
+      elem.attr('name', name);
+      $compile(elem)(scope);
+    }
+  };
+});

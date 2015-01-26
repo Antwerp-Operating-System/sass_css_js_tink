@@ -30,7 +30,7 @@
       }
       var ctrlForm;
       if(attr.ctrlModel){
-        ctrlForm = forms[attr.ctrlModel];
+        ctrlForm = forms[scope[attr.ctrlModel]];
       }else{
         ctrlForm = ctrl;
       }
@@ -280,7 +280,6 @@
       })
 //hnb314
       ctrl.$parsers.unshift(function(viewValue) {
-        console.log(viewValue)
         handleFormat(viewValue)
         return viewValue;
       });
@@ -288,9 +287,7 @@
       scope.$watch('ngModel',function(newVal,oldVal){
         if(newVal !== oldVal){
           handleFormat(newVal);
-
         }
-        console.log(newVal)
       })
 
       elem.find("#input").on('blur', function() {
@@ -334,7 +331,6 @@
         }
 
       ctrl.$formatters.push(function(modelValue) {
-        console.log(modelValue)
          if(modelValue === null){
           newVa = placeholder;
           setValue();
