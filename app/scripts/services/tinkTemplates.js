@@ -92,7 +92,7 @@ $templateCache.put('templates/tinkDatePickerRange.html',
 '</div>'+
   '</div>');
 
-$templateCache.put('templates/tinkDatePickerRangeInputs.html',
+$templateCache.put('templates/tinkDatePickerRangeInputs0.html',
     '<div>'+
   '<input type="text" id="firstDateElem" placeholder="dd/mm/jjjj"  ng-model="firstDateModel" ng-model-options="{ updateOn: \'blur\' }"  tink-valid-date data-format="dd/mm/yyyy" style="width: 200px;float: left;">'+
   '<input type="text" id="lastDateElem" placeholder="dd/mm/jjjj" ng-model="lastDateModel" ng-model-options="{ debounce: 1000 }" tink-valid-date data-format="dd/mm/yyyy" style="width: 200px;" >'+

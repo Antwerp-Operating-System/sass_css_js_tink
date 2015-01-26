@@ -1,4 +1,14 @@
 <div class="tink-datepickerrange-input-fields">
-  <input type="text" id="firstDateElem" placeholder="mm/dd/yyyy"  ng-model="firstDateModel" ng-model-options="{ updateOn: 'blur' }"  tink-valid-date data-format="dd/mm/yyyy" style="width: 200px;float: left;">
-  <input type="text" id="lastDateElem" placeholder="mm/dd/yyyy" ng-model="lastDateModel" ng-model-options="{ debounce: 1000 }" tink-valid-date data-format="dd/mm/yyyy" style="width: 200px;" >
+  <div class="input-group">
+    <input type="text" id="firstDateElem" tink-format-input ng-model="firstDate" style="width: 200px;float: left;">
+    <span class="input-group-addon">
+      <i class="fa fa-calendar"></i>
+    </span>
+  </div>
+  <div class="input-group">
+    <input type="text" id="lastDateElem" tink-format-input  ng-model="lastDate"  style="width: 200px;" >
+    <span class="input-group-addon">
+      <i class="fa fa-calendar"></i>
+    </span>
+  </div>
 </div>

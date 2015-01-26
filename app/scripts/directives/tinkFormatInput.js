@@ -1,10 +1,11 @@
   'use strict';
   angular.module('tink.format',[])
-  .directive('tinkFormatInput', ['dateCalculator','$window',function (dateCalculator,$window) {
+  .directive('tinkFormatInput', ['dateCalculator','$window','safeApply',function (dateCalculator,$window,safeApply) {
     return {
       replace:true,
       require:['ngModel','^form'],
       template:'<div><div id="input" class="divinput" contenteditable="true">{{placeholder}}</div></div>',
+      controller:'TinkFormatController',
       link:function(scope,elem,attr,ctrl){
       //var ctrl = elem.data('$ngModelController');
       ctrl[1].$addControl(ctrl[0]);
@@ -217,7 +218,7 @@
         return  {start:startOffset,end:caretOffset};
       }
 
-      function setCursor(cur) {console.log(elem.find('#input'))
+      function setCursor(cur) {
         var el = elem.find('#input')[0];
         var range = document.createRange();
         var sel = window.getSelection();
@@ -274,7 +275,6 @@
       })
 
       ctrl.$parsers.unshift(function(viewValue) {
-        console.log(viewValue);
         return viewValue;
       });
 
@@ -282,8 +282,8 @@
         handleFormat(newVal);
       })
 
-      elem.find("#input").bind('blur', function() {
-        scope.$apply(function(){
+      elem.find("#input").on('blur', function() {
+        safeApply(scope,function(){
           if(type === 'date' && validFormat(newVa,'dd/mm/yyyy')){
             ctrl.$setValidity('date', true);
             ctrl.$setViewValue(dateCalculator.getDate(newVa,'dd/mm/yyyy'));
@@ -319,7 +319,10 @@
         }
 
       ctrl.$formatters.push(function(modelValue) {
-         console.log(modelValue)
+         if(modelValue === null){
+          newVa = placeholder;
+          setValue();
+         }
         handleFormat(modelValue);
       });
 
@@ -354,4 +357,16 @@
 
       }
     }
+  }])
+  .controller('TinkFormatController', [function () {
+  var self = this;
+
+    this.groups = {};
+
+    this.init = function(accordion,element,opts){
+     self.$accordion = accordion;
+     self.$options = opts;
+     self.$accordion.init(element);
+   };
+
   }]);
