@@ -5,15 +5,25 @@
  * - range
  */
 
+$datepicker-bgcolor            : $white;
+$datepicker-btn-bgcolor        : $white;
+$datepicker-btn-bgcolor-hover  : lighten($brand, 20);
+$datepicker-btn-color          : $gray;
+$datepicker-btn-color-hover    : $white;
+$datepicker-neutral            : $gray;
+$datepicker-neutral-light      : $gray-light;
+$datepicker-neutral-dark       : $gray-dark;
+
+
 .tink-datepickerrange-input-fields {
   display: inline-block;
 }
 
 .tink-datepicker,
 .tink-datepickerrange {
-  background: $white;
+  background: $datepicker-bgcolor;
   box-shadow: 0 1px 2px rgba(0,0,0,.6);
-  color: $gray-dark;
+  color: $datepicker-neutral-dark;
   margin-top: 2px;
   position: relative;
   z-index: layer("popover");
@@ -22,34 +32,36 @@
   button,
   .btn {
     @extend .no-border;
-    color: $gray;
+    color: $datepicker-btn-color;
     min-width: 20px;
     padding: rem($padding-base-vertical 0);
     width: 100%;
+    background: $datepicker-btn-bgcolor;
 
     @include mq($screen-md) {
       min-width: 40px;
     }
 
     &:hover {
-      background: lighten($brand, 20);
-      color: $white;
+      background: $datepicker-btn-bgcolor-hover;
+      color: $datepicker-btn-color-hover;
     }
 
     &.btn-warning {
-      background: $white;
+      background: $datepicker-btn-bgcolor;
       border: 1px solid $brand !important;
     }
 
     &.btn-primary,
     &.btn-info {
+      background: $brand;
       color: $white;
     }
     &.btn-grayed {
-      color: lighten($gray-light, 10);
+      color: lighten($datepicker-neutral-light, 10);
       &-selected {
-        background-color: $gray-light; //$btn-info-bg;
-        border-color: $gray; //$btn-info-border;
+        background-color: $datepicker-neutral-light; //$btn-info-bg;
+        border-color: $datepicker-neutral; //$btn-info-border;
         color: $white; //$gray;
       }
     }
@@ -57,7 +69,7 @@
   }
 
   table {
-    background: $white;
+    background: $datepicker-bgcolor;
     margin-bottom: 0;
   }
 
@@ -68,7 +80,7 @@
   td,
   th {
     border: none;
-    color: $gray;
+    color: $datepicker-neutral;
     padding: rem($table-cell-padding / 3);
     text-align: center;
   }
@@ -85,7 +97,7 @@
   @include mq($screen-xs) {
     min-width: 400px;
     &:before {
-      background: $gray-light;
+      background: lighten($datepicker-neutral-light, 10);
       bottom: 0;
       content: "";
       left: 50%;
@@ -109,7 +121,7 @@
   button,
   .btn {
     &:hover {
-      background: $gray-light;
+      background: $datepicker-neutral-light;
     }
   }
 }
