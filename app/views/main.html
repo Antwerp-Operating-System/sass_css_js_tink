@@ -11,7 +11,7 @@
         <!-- NAME -->
         <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
             <label>Name</label>
-            <input type="text" name="name" tink-datepicker-new class="form-control" ng-model="user.name">
+            <input type="text" name="name" tink-datepicker class="form-control" ng-model="user.name">
             <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">You name is required.</p>
         </div>
 

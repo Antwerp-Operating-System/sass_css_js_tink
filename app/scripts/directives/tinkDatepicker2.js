@@ -11,13 +11,13 @@ angular.module('tink.datepicker', [])
       }
    };
 })
-.directive('tinkDatepickerNew',['$q','$templateCache','$http','$compile','dateCalculator','calView',function($q,$templateCache,$http,$compile,dateCalculator,calView) {
+.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView',function($q,$templateCache,$http,$compile,dateCalculator,calView) {
   return {
     restrict:'EA',
     require:['ngModel','^form'],
     replace:true,
+    priority:999,
     templateUrl:'templates/tinkDatePicker2.html',
-    priority:999999999,
     scope:{
       ngModel:'='
     },
