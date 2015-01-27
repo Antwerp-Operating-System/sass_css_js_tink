@@ -255,8 +255,6 @@
         setTimeout(function(){
           handleInput(key);
         }, 1);
-        console.log(event)
-
         return false;
       });
 //hnb314
@@ -279,7 +277,7 @@
             ctrlForm.$setValidity('required', false);
           }
         }
-      }
+      };
 
       elem.find('#input').on('blur', function() {
         var pre = '';

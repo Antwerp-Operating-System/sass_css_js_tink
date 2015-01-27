@@ -58,7 +58,6 @@ angular.module('tink.timepicker')
         inputField.unbind('input').unbind('keydown').unbind('change').unbind('click').unbind('mousedown');
         inputField.keydown(function(e){
           var keycode = e.keyCode;
-          var shift = e.shiftKey;
           if((keycode > 47 && keycode <58) || (keycode >95 && keycode <106)){
             if(selected === 1){
               handleHour(keycode);
@@ -82,7 +81,7 @@ angular.module('tink.timepicker')
               addMinute(-1);
             }
           }
-          if(keyCode !== 9){
+          if(keycode !== 9){
             return false;
           }
         });
