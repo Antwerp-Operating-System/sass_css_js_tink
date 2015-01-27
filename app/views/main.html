@@ -2,12 +2,23 @@
 <div class="row">
 
 <div class="col-sm-6">
+
+    <h1>playground</h1>
     <!-- =================================================================== -->
     <!-- FORM ============================================================== -->
     <!-- =================================================================== -->
+    <form class="form-inline ng-pristine ng-valid">
+      <div class="form-group">
+        <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
+          <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Transfer cash</button>
+    </form>
 
     <form name="userForm" ng-submit="submitForm()" novalidate>
-
         <!-- NAME -->
         <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
             <label>Name</label>
