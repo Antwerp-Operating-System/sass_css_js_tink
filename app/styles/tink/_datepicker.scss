@@ -107,7 +107,7 @@ $datepicker-default-neutral-dark       : $gray-dark;
   @include mq($screen-xs) {
     min-width: 400px;
     &:before {
-      background: lighten($datepicker-default-neutral-light, 10);
+      background: lighten($datepicker-default-neutral-light, 20);
       bottom: 0;
       content: "";
       left: 50%;
@@ -128,12 +128,12 @@ $datepicker-default-neutral-dark       : $gray-dark;
   line-height: rem(39);
   padding: rem($table-cell-padding / 4);
 
-  button,
-  .btn {
-    &:hover {
-      background: $datepicker-default-neutral-light;
-    }
-  }
+  // button,
+  // .btn {
+  //   &:hover {
+  //     background: $datepicker-default-neutral-light;
+  //   }
+  // }
 }
 
 .datepickerrange-left,
