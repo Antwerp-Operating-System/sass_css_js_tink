@@ -10,7 +10,7 @@ angular.module('tink.templates', [])
            '</div>'+
         '</div>');
 
-      $templateCache.put('templates/tinkDatePicker.html',
+      $templateCache.put('templates/tinkDatePicker0.html',
         '<div class="dropdown-menu datepicker" ng-class="\'datepicker-mode-\' + $mode">'+
         '<table style="table-layout: fixed; height: 100%; width: 100%;">'+
         '<thead>'+
@@ -45,7 +45,7 @@ angular.module('tink.templates', [])
     '</table>'+
 '</div>');
 
-$templateCache.put('templates/tinkDatePickerRange.html',
+$templateCache.put('templates/tinkDatePickerRange0.html',
         '<div class="datepickerrange">'+
   '<div class="pull-left datepickerrange-left">'+
     '<div class="datepickerrange-header-left">'+
@@ -92,10 +92,10 @@ $templateCache.put('templates/tinkDatePickerRange.html',
 '</div>'+
   '</div>');
 
-$templateCache.put('templates/tinkDatePickerRangeInputs.html',
+$templateCache.put('templates/tinkDatePickerRangeInputs0.html',
     '<div>'+
-  '<input type="text" id="firstDateElem" placeholder="mm/dd/yyyy"  ng-model="firstDateModel" ng-model-options="{ updateOn: \'blur\' }"  tink-valid-date data-format="dd/mm/yyyy" style="width: 200px;float: left;">'+
-  '<input type="text" id="lastDateElem" placeholder="mm/dd/yyyy" ng-model="lastDateModel" ng-model-options="{ debounce: 1000 }" tink-valid-date data-format="dd/mm/yyyy" style="width: 200px;" >'+
+  '<input type="text" id="firstDateElem" placeholder="dd/mm/jjjj"  ng-model="firstDateModel" ng-model-options="{ updateOn: \'blur\' }"  tink-valid-date data-format="dd/mm/yyyy" style="width: 200px;float: left;">'+
+  '<input type="text" id="lastDateElem" placeholder="dd/mm/jjjj" ng-model="lastDateModel" ng-model-options="{ debounce: 1000 }" tink-valid-date data-format="dd/mm/yyyy" style="width: 200px;" >'+
   '</div>');
 
 $templateCache.put('templates/tooltip.html',
