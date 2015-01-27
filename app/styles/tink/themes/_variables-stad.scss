@@ -1,0 +1,44 @@
+/**
+ * Variables
+ * ----------------------------------------------------------------
+ */
+
+/**
+ * Main
+ */
+$primary:                                #219dc8;
+
+$logo:                                   "theme/stad-logo.svg";
+
+$brand:                 					       #CF0039;
+$brand-light:           					       #F28B00;
+
+$nav-top-bg-color:      					       #333;
+$nav-aside-link-active-background-color: $brand-light;
+$nav-aside-link-hover-background-color:  lighten($brand-light, 42%);
+
+
+/**
+ * Colors
+ */
+$brand-success:                          #0b0;
+
+$link-color:                             $primary !default;
+$link-hover-color:                       lighten($link-color, 8%) !default;
+
+/**
+ * Code
+ */
+$code-bg:                                lighten($brand, 58%);
+$pre-bg:                                 lighten($brand, 58%);
+
+
+/**
+ * Focus
+ */
+$input-border-focus:                     $primary !default;
+
+/**
+ * Buttons
+ */
+$btn-primary-bg:                         $primary;

@@ -372,7 +372,7 @@ describe('tinkaccordion', function() {
     it('when loading and function next is called the action will be open', function() {
       var counts = [];
       var newS = {group1go:function(action,next){
-        if(action == 'loading'){
+        if(action === 'loading'){
           next();
         }
         counts.push(action);
@@ -386,7 +386,7 @@ describe('tinkaccordion', function() {
     it('when loading and the user clicks it will cancel', function() {
       var counts = [];
       var newS = {group1go:function(action){
-        counts.push(action)
+        counts.push(action);
       },openStart:true};
       var elm = compileDirective('loading-func',newS);
         sandboxEl.find('section.accordion-panel:last .accordion-toggle').click();
