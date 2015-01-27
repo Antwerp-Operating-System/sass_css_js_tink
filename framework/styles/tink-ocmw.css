@@ -3227,7 +3227,7 @@ body {
     .datepickerrange {
       min-width: 400px; }
       .datepickerrange:before {
-        background: #d4d4d4;
+        background: #eeeeee;
         bottom: 0;
         content: "";
         left: 50%;
@@ -3242,8 +3242,6 @@ body {
   overflow: hidden;
   line-height: 2.78571rem ;
   padding: 0.14286rem ; }
-  .datepickerrange-header-left button:hover, .datepickerrange-header-left .btn:hover, .datepickerrange-header-right button:hover, .datepickerrange-header-right .btn:hover {
-    background: #bbb; }
 
 .datepickerrange-left, .datepickerrange-right {
   width: 100%; }
