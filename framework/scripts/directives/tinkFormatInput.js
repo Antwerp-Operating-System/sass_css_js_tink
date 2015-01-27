@@ -270,6 +270,16 @@
         }
       });
 
+      var isRequired=function(){
+        if(attr.required){
+          if(placeholder !== newVa){
+            ctrlForm.$setValidity('required', true);
+          }else{
+            ctrlForm.$setValidity('required', false);
+          }
+        }
+      }
+
       elem.find('#input').on('blur', function() {
         var pre = '';
         if(attr.validName){
@@ -287,8 +297,9 @@
             ctrlForm.$setValidity(pre+'format', true);
           }else{
             ctrl.$setViewValue(null);
-            ctrlForm.$setValidity(pre+'format', true);
+            ctrlForm.$setValidity(pre+'format', false);
           }
+          isRequired();
         });
       });
 
@@ -361,7 +372,7 @@
           }
         }
 
-       console.log(ctrl)
+       isRequired();
         return modelValue;
       };
 
