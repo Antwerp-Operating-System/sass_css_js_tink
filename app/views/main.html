@@ -1,30 +1,24 @@
+
 <div class="container">
-<div class="row">
+<div class="row">hgghghg
 
 <div class="col-sm-6">
-
-    <h1>playground</h1>
     <!-- =================================================================== -->
     <!-- FORM ============================================================== -->
     <!-- =================================================================== -->
-    <form class="form-inline ng-pristine ng-valid">
-      <div class="form-group">
-        <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
-        <div class="input-group">
-          <input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
-          <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-        </div>
-      </div>
-      <button type="submit" class="btn btn-primary">Transfer cash</button>
-    </form>
 
     <form name="userForm" ng-submit="submitForm()" novalidate>
+
+        <input tink-format-input name="format" data-placeholder="xx.xx.xx-xxx.xx" data-format="00.00.00-000.00" ng-model="signup.username" type="text" id="input-text" placeholder="Vul uw AD-gebruikersnaam in" required>
+
         <!-- NAME -->
         <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
             <label>Name</label>
             <input type="text" name="name" tink-datepicker class="form-control" ng-model="dates.first">
             <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">You name is required.</p>
         </div>
+
+        <input type="text" name="normal" ng-model="signup.normal"/>
 
          <div class="form-group" ng-class="{ 'has-error' : userForm.dubbel.$invalid && !userForm.dubbel.$pristine }">
             <label>Name</label>
@@ -132,6 +126,36 @@
                     </tr>
                     <tr>
                         <td ng-class="{ success: userForm.dubbel.$dirty }">Dirty</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div><div class="col-xs-3">
+            <h3>format</h3>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td ng-class="{ success: userForm.format.$valid, danger: userForm.format.$invalid }">Valid</td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{ success: userForm.format.$pristine, danger: !userForm.format.$pristine }">Pristine</td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{ success: userForm.format.$dirty }">Dirty</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div><div class="col-xs-3">
+            <h3>normal</h3>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td ng-class="{ success: userForm.normal.$valid, danger: userForm.normal.$invalid }">Valid</td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{ success: userForm.normal.$pristine, danger: !userForm.normal.$pristine }">Pristine</td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{ success: userForm.normal.$dirty }">Dirty</td>
                     </tr>
                 </tbody>
             </table>

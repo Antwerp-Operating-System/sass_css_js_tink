@@ -12,7 +12,6 @@
         forms.$addControl(ctrl[0]);
       }
       ctrl = ctrl[0];
-      console.log(attr)
       if(!attr.format || !attr.placeholder){
         return;
       }
@@ -158,6 +157,8 @@
         if(cur > -1 && cur <= format.length){
            setCursor(cur);
         }
+        ctrl.$dirty = true;
+        ctrl.$pristine = false;
       };
 
       var charIs = function(char,base){
@@ -281,6 +282,12 @@
           }else if(type === 'date' ){
             ctrlForm.$setValidity(pre+'date', false);
             ctrl.$setViewValue(null);
+          }else if(validValue(newVa)){
+            ctrl.$setViewValue(newVa);
+            ctrlForm.$setValidity(pre+'format', true);
+          }else{
+            ctrl.$setViewValue(null);
+            ctrlForm.$setValidity(pre+'format', true);
           }
         });
       });
@@ -311,11 +318,14 @@
         }
 
       ctrl.$formatters.push(function(modelValue) {
-         if(modelValue === null){
+
+         if(modelValue === null || modelValue === undefined){
           newVa = placeholder;
           setValue();
+          modelValue = null;
          }
         handleFormat(modelValue);
+        ctrl.$setPristine();
       });
 
       var handleFormat = function(modelValue){
@@ -342,11 +352,20 @@
           }else{
              ctrlForm.$setValidity(pre+'date', false);
           }
+        }else if(typeof modelValue === 'string'){
+          if(validValue(modelValue)){
+             newVa =  modelValue;
+             setValue();
+          }else{
+            ctrl.$setViewValue(null);
+          }
         }
+
+       console.log(ctrl)
         return modelValue;
       };
 
-      setValue(newVa);
+
       }
     };
   }])
