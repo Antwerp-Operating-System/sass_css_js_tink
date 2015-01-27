@@ -6,7 +6,7 @@ angular.module('tink.datepicker', [])
     require:['ngModel','^form'],
     replace:true,
     priority:999,
-    templateUrl:'templates/tinkDatePicker2.html',
+    templateUrl:'templates/tinkDatePickerInput.html',
     scope:{
       ngModel:'='
     },

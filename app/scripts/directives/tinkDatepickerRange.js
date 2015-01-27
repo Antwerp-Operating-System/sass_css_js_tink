@@ -4,14 +4,14 @@
       return {
         restrict: 'E',
         replace: true,
-        require:['^form'],
+        require:['?^form'],
         templateUrl: 'templates/tinkDatePickerRangeInputs.html',
         controller:function($scope,$attrs){
           $scope.dynamicName = $attrs.name;
         },
         scope: {
-          tinkFirstDate: '=',
-          tinkLastDate: '='
+          firstDate: '=',
+          lastDate: '=',
         },
         link: function postLink(scope, element,attrs,form) {
           var $directive = {
@@ -89,7 +89,7 @@
                $directive.tbody.lastDateElem = element.find('tbody')[1];
 
               // -- Create the first calendar --/
-              var htmlFirst = calView.createMonthDays($directive.viewDate, scope.tinkFirstDate, scope.tinkLastDate);
+              var htmlFirst = calView.createMonthDays($directive.viewDate, scope.firstDate, scope.lastDate,'prevMonth');
                // -- Replace and COMPILE the nieuw calendar view  --/
                angular.element($directive.tbody.firstDateElem).replaceWith($compile( htmlFirst)( scope ));
 
@@ -105,7 +105,7 @@
 
 
               // -- create the second view   --/
-              var htmlLast = calView.createMonthDays(copyViewDate, scope.tinkFirstDate, scope.tinkLastDate);
+              var htmlLast = calView.createMonthDays(copyViewDate, scope.firstDate, scope.lastDate,'nextMonth');
                // -- compile and replace the second view   --/
                angular.element($directive.tbody.lastDateElem).replaceWith($compile( htmlLast)( scope ));
 
