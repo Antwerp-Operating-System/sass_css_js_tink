@@ -1147,6 +1147,7 @@ angular.module('tink.dropdown', [])
         setTimeout(function(){
           handleInput(key);
         }, 1);
+        console.log(event)
 
         return false;
       });
@@ -1189,7 +1190,11 @@ angular.module('tink.dropdown', [])
             ctrlForm.$setValidity(pre+'format', true);
           }else{
             ctrl.$setViewValue(null);
-            ctrlForm.$setValidity(pre+'format', false);
+            if(placeholder === newVa){
+              ctrlForm.$setValidity(pre+'format', true);
+            }else{
+              ctrlForm.$setValidity(pre+'format', false);
+            }
           }
           isRequired();
         });
@@ -1404,7 +1409,9 @@ angular.module('tink.timepicker')
               addMinute(-1);
             }
           }
-          return false;
+          if(keyCode !== 9){
+            return false;
+          }
         });
       };
 

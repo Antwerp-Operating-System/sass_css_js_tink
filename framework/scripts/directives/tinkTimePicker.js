@@ -82,7 +82,9 @@ angular.module('tink.timepicker')
               addMinute(-1);
             }
           }
-          return false;
+          if(keyCode !== 9){
+            return false;
+          }
         });
       };
 

@@ -255,6 +255,7 @@
         setTimeout(function(){
           handleInput(key);
         }, 1);
+        console.log(event)
 
         return false;
       });
@@ -297,7 +298,11 @@
             ctrlForm.$setValidity(pre+'format', true);
           }else{
             ctrl.$setViewValue(null);
-            ctrlForm.$setValidity(pre+'format', false);
+            if(placeholder === newVa){
+              ctrlForm.$setValidity(pre+'format', true);
+            }else{
+              ctrlForm.$setValidity(pre+'format', false);
+            }
           }
           isRequired();
         });
