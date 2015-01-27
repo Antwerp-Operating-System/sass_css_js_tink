@@ -3,7 +3,7 @@ angular.module('tink.datepicker', [])
 .directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView',function($q,$templateCache,$http,$compile,dateCalculator,calView) {
   return {
     restrict:'EA',
-    require:['ngModel','^form'],
+    require:['ngModel','?^form'],
     replace:true,
     priority:999,
     templateUrl:'templates/tinkDatePickerInput.html',
@@ -11,7 +11,9 @@ angular.module('tink.datepicker', [])
       ngModel:'='
     },
     link:function(scope,element,attr,ctrl){
-      ctrl[1].$removeControl(ctrl[0]);
+      if(ctrl[1]){
+        ctrl[1].$removeControl(ctrl[0]);
+      }
       ctrl = ctrl[0];
 
       scope.opts = attr;
@@ -29,7 +31,7 @@ angular.module('tink.datepicker', [])
       };
 
         content = angular.element('<input tink-format-input data-format="00/00/0000" data-placeholder="mm/dd/jjjj" data-date name="'+attr.name+'"  ng-model="ngModel" />');
-      $(content).insertBefore($('span.input-group-addon'));
+      $(content).insertBefore(element.find('span.input-group-addon'));
       $compile(content)(scope);
 
       function bindLiseners(){
