@@ -2081,7 +2081,7 @@ button, input[type="button"], .btn, button[type="submit"], input[type="submit"],
     outline: 0;
     box-shadow: 0 0 0 2px rgba(95, 151, 112, 0.5); }
   button:hover, input[type="button"]:hover, .btn:hover, input[type="submit"]:hover, .btn-primary:hover, button:focus, input[type="button"]:focus, .btn:focus, input[type="submit"]:focus, .btn-primary:focus {
-    color: #fff;
+    color: #333;
     text-decoration: none; }
   button:active, input[type="button"]:active, .btn:active, input[type="submit"]:active, .btn-primary:active, button.active, input.active[type="button"], .active.btn, input.active[type="submit"], .active.btn-primary {
     background-image: none;
@@ -2099,17 +2099,17 @@ button, input[type="button"], .btn, button[type="submit"], input[type="submit"],
  * Default buttons
  */
 button, input[type="button"], .btn {
-  color: #fff;
-  background-color: #416a50;
-  border-color: #395d46; }
+  color: #333;
+  background-color: #fff;
+  border-color: #bbb; }
   button:hover, button:focus, button:active, button.active, .open > button.dropdown-toggle, input[type="button"]:hover, input[type="button"]:focus, input[type="button"]:active, input[type="button"].active, .open > input[type="button"].dropdown-toggle, .btn:hover, .btn:focus, .btn:active, .btn.active, .open > .btn.dropdown-toggle {
-    color: #fff;
-    background-color: #375a44; }
+    color: #333;
+    background-color: #f2f2f2; }
   button:active, button.active, .open > button.dropdown-toggle, input[type="button"]:active, input[type="button"].active, .open > input[type="button"].dropdown-toggle, .btn:active, .btn.active, .open > .btn.dropdown-toggle {
     background-image: none; }
   button.disabled, button.disabled:hover, button.disabled:focus, button.disabled:active, button.disabled.active, button[disabled], button[disabled]:hover, button[disabled]:focus, button[disabled]:active, button[disabled].active, fieldset[disabled] button, fieldset[disabled] button:hover, fieldset[disabled] button:focus, fieldset[disabled] button:active, fieldset[disabled] button.active, input[type="button"].disabled, input[type="button"].disabled:hover, input[type="button"].disabled:focus, input[type="button"].disabled:active, input[type="button"].disabled.active, input[type="button"][disabled], input[type="button"][disabled]:hover, input[type="button"][disabled]:focus, input[type="button"][disabled]:active, input[type="button"][disabled].active, fieldset[disabled] input[type="button"], fieldset[disabled] input[type="button"]:hover, fieldset[disabled] input[type="button"]:focus, fieldset[disabled] input[type="button"]:active, fieldset[disabled] input[type="button"].active, .btn.disabled, .btn.disabled:hover, .btn.disabled:focus, .btn.disabled:active, .btn.disabled.active, .btn[disabled], .btn[disabled]:hover, .btn[disabled]:focus, .btn[disabled]:active, .btn[disabled].active, fieldset[disabled] .btn, fieldset[disabled] .btn:hover, fieldset[disabled] .btn:focus, fieldset[disabled] .btn:active, fieldset[disabled] .btn.active {
-    background-color: #416a50;
-    border-color: #395d46; }
+    background-color: #fff;
+    border-color: #bbb; }
 
 button[type="submit"], input[type="submit"], .btn-primary {
   color: #fff;
@@ -2959,7 +2959,7 @@ body {
       .nav-top-branding li.logo {
         padding: 0; }
         .nav-top-branding li.logo a {
-          background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxOC4xLjEsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IlRpbmsiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgMTAyNCAxMDI0IiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCAxMDI0IDEwMjQiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHJlY3QgeD0iMCIgZmlsbD0iIzUwNjk1MiIgd2lkdGg9IjEwMjQiIGhlaWdodD0iMTAyNCIvPg0KPGNpcmNsZSBmaWxsPSIjRkZGRkZGIiBjeD0iODMxLjUiIGN5PSIzMTgiIHI9IjExMy4yIi8+DQo8cGF0aCBmaWxsPSIjRkZGRkZGIiBkPSJNNzY1LjQsNDI5LjFjLTExLjMsNDcuMS01My44LDgyLjQtMTAzLjksODIuNGMtNTkuNCwwLTEwNy00OC4xLTEwNy0xMDdjMC01OS40LDQ4LjEtMTA3LDEwNy0xMDcNCgljMTMuOCwwLDI2LjYsMi42LDM4LjQsNy4yYy02Mi41LTc0LjgtMTU2LjItMTIyLjktMjYxLjEtMTIyLjljLTE4Ny40LDAtMzM5LjUsMTUyLjEtMzM5LjUsMzM5LjVzMTUyLjEsMzM5LjUsMzM5LjUsMzM5LjUNCglzMzM5LjUtMTUyLjEsMzM5LjUtMzM5LjVDNzc4LjIsNDg5LjUsNzczLjYsNDU4LjIsNzY1LjQsNDI5LjF6Ii8+DQo8L3N2Zz4NCg==") no-repeat center center;
+          background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE4LjEuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IlRpbmsiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDEwMjQgMTAyNCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CjxyZWN0IHg9IjAiIGZpbGw9IiM1MDY5NTIiIHdpZHRoPSIxMDI0IiBoZWlnaHQ9IjEwMjQiLz4KPGNpcmNsZSBmaWxsPSIjRkZGRkZGIiBjeD0iODMxLjUiIGN5PSIzMTgiIHI9IjExMy4yIi8+CjxwYXRoIGZpbGw9IiNGRkZGRkYiIGQ9Ik03NjUuNCw0MjkuMWMtMTEuMyw0Ny4xLTUzLjgsODIuNC0xMDMuOSw4Mi40Yy01OS40LDAtMTA3LTQ4LjEtMTA3LTEwN2MwLTU5LjQsNDguMS0xMDcsMTA3LTEwNwoJYzEzLjgsMCwyNi42LDIuNiwzOC40LDcuMmMtNjIuNS03NC44LTE1Ni4yLTEyMi45LTI2MS4xLTEyMi45Yy0xODcuNCwwLTMzOS41LDE1Mi4xLTMzOS41LDMzOS41czE1Mi4xLDMzOS41LDMzOS41LDMzOS41CglzMzM5LjUtMTUyLjEsMzM5LjUtMzM5LjVDNzc4LjIsNDg5LjUsNzczLjYsNDU4LjIsNzY1LjQsNDI5LjF6Ii8+Cjwvc3ZnPgo=") no-repeat center center;
           background-size: cover;
           display: block;
           height: 3.57143rem ;
