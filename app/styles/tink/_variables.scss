@@ -435,6 +435,24 @@ $nav-aside-badge-active-text-color:      $black !default;
 
 
 
+/**
+ * Datepicker
+ *
+ * Settings for both the single as the range datepicker
+ */
+
+$datepicker-bgcolor            : $white !default;
+$datepicker-btn-bgcolor        : $white !default;
+$datepicker-btn-bgcolor-hover  : lighten($brand, 20) !default;
+$datepicker-btn-color          : $gray !default;
+$datepicker-btn-color-hover    : $white !default;
+$datepicker-neutral            : $gray !default;
+$datepicker-neutral-light      : $gray-light !default;
+$datepicker-neutral-dark       : $gray-dark !default;
+
+
+
+
 //== Navbar
 //
 //##
