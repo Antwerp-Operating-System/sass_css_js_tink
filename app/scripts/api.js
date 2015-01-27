@@ -170,11 +170,12 @@
 		};
 
 		var options;
-
+		var clickCheck = 0;
 		var registerClick = function(){
 			$( '.nav-aside-list li a' ).each(function() {
 				$(this).on('click',function(){
 					setActiveElemnt($(this).parent());
+					clickCheck = 1;
 				});
 			});
 		};
@@ -198,6 +199,13 @@
 	});
 		};
 
+		$(window).bind('hashchange', function() {
+			if(!clickCheck){
+				toggleAccordion(currentTogggleElem);
+				currentActiveElement.removeClass(options.activeCss);
+			}
+			clickCheck = 0;
+		});
 
 		var currentTogggleElem = null;
 
