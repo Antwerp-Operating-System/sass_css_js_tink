@@ -16,10 +16,11 @@ $datepicker-default-neutral-dark       : $gray-dark;
 
 .tink-datepickerrange-input-fields {
   display: inline-block;
+  position: relative;
 
   .input-group,
   .input-group[class*="col-"] {
-    // float: left;
+    float: left;
 
     div .faux-input {
       border-bottom-right-radius: 0;
@@ -35,6 +36,7 @@ $datepicker-default-neutral-dark       : $gray-dark;
   color: $datepicker-default-neutral-dark;
   margin-top: 2px;
   position: relative;
+  top: rem($input-height-base);
   z-index: layer("popover");
 
   button,
