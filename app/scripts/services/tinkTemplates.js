@@ -10,9 +10,9 @@ angular.module('tink.templates', [])
            '</div>'+
         '</div>');
 
-      $templateCache.put('templates/tinkDatePicker.html',
-        '<div class="dropdown-menu datepicker" ng-class="\'datepicker-mode-\' + $mode">'+
-        '<table style="table-layout: fixed; height: 100%; width: 100%;">'+
+      $templateCache.put('templates/tinkDatePickerField.html',
+        '<div class="dropdown-menu tink-datepicker" ng-class="\'datepicker-mode-\' + $mode" style="max-width: 320px;">'+
+    '<table style="table-layout: fixed; height: 100%; width: 100%;">'+
         '<thead>'+
         '<tr class="text-center">'+
             '<th>'+
@@ -21,7 +21,7 @@ angular.module('tink.templates', [])
                 '</button>'+
             '</th>'+
             '<th colspan="{{ rows[0].length - 2 }}">'+
-                '<button tabindex="-1" type="button" class="btn btn-default btn-block text-strong"  ng-click="$toggleMode()">'+
+                '<button tabindex="-1" type="button" class="btn btn-default btn-block text-strong"  ng-click="toggleMode()">'+
                     '<strong style="text-transform: capitalize;" ng-bind="title"></strong>'+
                 '</button>'+
             '</th>'+
@@ -37,7 +37,7 @@ angular.module('tink.templates', [])
         '<tr ng-repeat="(i, row) in rows" height="{{ 100 / rows.length }}%">'+
             '<td class="text-center" ng-repeat="(j, el) in row">'+
                 '<button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{\'btn-primary\': el.selected, \'btn-info btn-today\': el.isToday && !el.selected}" ng-click="$select(el.date)" ng-disabled="el.disabled">'+
-                                    '<span ng-class="{\'text-muted\': el.muted}" ng-bind="el.label"></span>'+
+                    '<span ng-class="{\'text-muted\': el.isMuted}" ng-bind="el.label"></span>'+
                 '</button>'+
             '</td>'+
         '</tr>'+
@@ -45,10 +45,36 @@ angular.module('tink.templates', [])
     '</table>'+
 '</div>');
 
+$templateCache.put('templates/tinkDatePickerinput.html',
+     '<div class="tink-datepickerrange-input-fields">'+
+  '<div class="input-group">'+
+    '<span class="input-group-addon">'+
+      '<i class="fa fa-calendar"></i>'+
+    '</span>'+
+  '</div>'+
+'</div>');
+
+$templateCache.put('templates/tinkDatePickerRangeInputs.html',
+  '<div class="tink-datepickerrange-input-fields">'+
+  '<div class="input-group col-sm-6">'+
+    '<input type="text" id="firstDateElem" data-date data-format="00/00/0000" data-placeholder="mm/dd/jjjj" dynamic-name="dynamicName" tink-format-input ng-model="firstDate" valid-name="first" style="">'+
+    '<span class="input-group-addon">'+
+      '<i class="fa fa-calendar"></i>'+
+    '</span>'+
+  '</div>'+
+  '<div class="input-group col-sm-6">'+
+    '<input type="text" id="lastDateElem" data-date data-format="00/00/0000" data-placeholder="mm/dd/jjjj" tink-format-input ctrl-model="dynamicName" valid-name="last"  ng-model="lastDate"  style="" >'+
+    '<span class="input-group-addon">'+
+      '<i class="fa fa-calendar"></i>'+
+    '</span>'+
+  '</div>'+
+'</div>');
+
+
 $templateCache.put('templates/tinkDatePickerRange.html',
-        '<div class="datepickerrange">'+
+'<div class="datepickerrange">'+
   '<div class="pull-left datepickerrange-left">'+
-    '<div class="datepickerrange-header-left">'+
+    '<div class="datepickerrange-header-left" style="line-height: 39px;">'+
       '<div class="pull-left">'+
         '<button tabindex="-1" type="button" class="btn pull-left" ng-click="$selectPane(0)">'+
           '<i class="fa fa-chevron-left"></i>'+
@@ -70,8 +96,8 @@ $templateCache.put('templates/tinkDatePickerRange.html',
     '</div>'+
   '</div>'+
   '<div class="pull-right datepickerrange-right">'+
-    '<div class="datepickerrange-header-right">'+
-     ' <div class="pull-right">'+
+    '<div class="datepickerrange-header-right" style="line-height: 39px;">'+
+      '<div class="pull-right">'+
         '<button tabindex="-1" type="button" class="btn pull-left" ng-click="$selectPane(1)">'+
           '<i class="fa fa-chevron-right"></i>'+
         '</button>'+
@@ -89,14 +115,8 @@ $templateCache.put('templates/tinkDatePickerRange.html',
         '</tbody>'+
       '</table>'+
     '</div>'+
-'</div>'+
-  '</div>');
-
-$templateCache.put('templates/tinkDatePickerRangeInputs0.html',
-    '<div>'+
-  '<input type="text" id="firstDateElem" placeholder="dd/mm/jjjj"  ng-model="firstDateModel" ng-model-options="{ updateOn: \'blur\' }"  tink-valid-date data-format="dd/mm/yyyy" style="width: 200px;float: left;">'+
-  '<input type="text" id="lastDateElem" placeholder="dd/mm/jjjj" ng-model="lastDateModel" ng-model-options="{ debounce: 1000 }" tink-valid-date data-format="dd/mm/yyyy" style="width: 200px;" >'+
-  '</div>');
+  '</div>'+
+'</div>');
 
 $templateCache.put('templates/tooltip.html',
     '<div class="tooltip {{placement}}" ng-class="{ in: isOpen(), fade: animation() }">'+
