@@ -294,16 +294,83 @@ angular.module('tink.dateHelper')
     return {days: daysToDraw, firstDay: firstDayOfWeek};
   }
 
-  function createLabels(date, firstRange, lastRange) {
+  function split(arr, size) {
+    var arrays = [];
+    while(arr.length > 0) {
+      arrays.push(arr.splice(0, size));
+    }
+    return arrays;
+  }
+
+  function daysInRows(date,selectedDate){
+    var monthCall = callCullateData(date);
+    var today = new Date();
+    var days = [], day;
+      for(var i = 0; i < monthCall.days; i++) { // < 7 * 6
+
+        day = new Date(monthCall.firstDay.getFullYear(), monthCall.firstDay.getMonth(), monthCall.firstDay.getDate() + i);
+        var isMuted = false;
+        if(day.getMonth() !== date.getMonth()){
+          isMuted = true;
+        }
+        var isSelected = false;
+        if(angular.isDate(selectedDate)){
+          isSelected = selectedDate.toDateString() === day.toDateString();
+        }
+        days.push({date: day,selected:isSelected, isToday: day.toDateString() === today.toDateString(), label: dateCalculator.formatDate(day, 'dd'),isMuted:isMuted});
+    }
+    var arrays = split(days, 7);
+     return arrays;
+
+  }
+
+  function monthInRows(date){
+    var months = [];
+    var monthDate;
+     for(var i = 0; i < 12; i++) {
+      monthDate = new Date(date.getFullYear(),i,1);
+      months.push({date: monthDate,label: dateCalculator.formatDate(monthDate, 'mmm')});
+     }
+    var arrays = split(months, 4);
+    return arrays;
+  }
+
+  function yearInRows(date){
+    var years = [];
+    var yearDate;
+     for(var i = 11; i > -1; i--) {
+      yearDate = new Date(date.getFullYear()-i,date.getMonth(),1);
+      years.push({date: yearDate,label: dateCalculator.formatDate(yearDate, 'yyyy')});
+     }
+    var arrays = split(years, 4);
+    return arrays;
+  }
+
+  function createLabels(date, firstRange, lastRange,grayed) {
     var label = '',cssClass = '';
     if (label !== null && angular.isDate(date)) {
       label = date.getDate();
+      if(grayed){
+        cssClass = 'btn-grayed';
+      }
       if (isSameDate(date, firstRange) || isSameDate(date, lastRange)) {
-        cssClass = 'btn-primary';
+        if(grayed){
+          cssClass = 'btn-grayed-selected';
+        }else{
+          cssClass = 'btn-primary';
+        }
       } else if (inRange(date, firstRange, lastRange)) {
-        cssClass = 'btn-info';
+        if(grayed){
+          cssClass = 'btn-grayed-selected';
+        }else{
+          cssClass = 'btn-info';
+        }
       } else if (isSameDate(date, new Date())) {
-        cssClass = 'btn-warning';
+        if(grayed){
+          cssClass = 'btn-grayed';
+        }else{
+          cssClass = 'btn-warning';
+        }
       }
       var month = ('0' + (date.getMonth() + 1)).slice(-2);
       var day = ('0' + (date.getDate())).slice(-2);
@@ -324,15 +391,23 @@ angular.module('tink.dateHelper')
        }
 
       return {
-        createMonthDays: function (date, firstRange, lastRange) {
+        createMonthDays: function (date, firstRange, lastRange,control) {
           var domElem = '', monthCall = callCullateData(date), label;
           //var tr = createTR();
           var tr = '<tr>';
           for (var i = 0; i < monthCall.days; i++) {
             var day = new Date(monthCall.firstDay.getFullYear(), monthCall.firstDay.getMonth(), monthCall.firstDay.getDate() + i);
-            if(day.getMonth() !== date.getMonth()){
-              label = createLabels(null);
-            }else{
+            label = createLabels(null, firstRange, lastRange);
+            if(control === 'prevMonth'){
+              if(day.getMonth() !== date.getMonth() && dateCalculator.dateBeforeOther(date,day)){
+                label = createLabels(day, firstRange, lastRange,true);
+              }
+            } else if(control === 'nextMonth'){
+              if(day.getMonth() !== date.getMonth() && dateCalculator.dateBeforeOther(day,date)){
+                label = createLabels(day, firstRange, lastRange,true);
+              }
+            }
+            if(day.getMonth() === date.getMonth()){
               label = createLabels(day, firstRange, lastRange);
             }
 
@@ -349,6 +424,15 @@ angular.module('tink.dateHelper')
           return domElem;
 
 
+        },
+        daysInRows: function(date,model){
+         return daysInRows(date,model);
+        },
+        monthInRows:function(date){
+          return monthInRows(date);
+        },
+        yearInRows:function(date){
+          return yearInRows(date);
         }
       };
     }]);

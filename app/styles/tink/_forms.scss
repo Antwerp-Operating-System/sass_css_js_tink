@@ -3,6 +3,39 @@
  * --------------------------------------------------
  */
 
+@mixin form-control-validation($text-color: #555, $border-color: #ccc, $background-color: #f5f5f5) {
+
+  > label {
+    color: $text-color;
+  }
+
+  /* Check appendix A */
+  // input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]),
+  input[type="color"],
+  input[type="date"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="email"],
+  input[type="month"],
+  input[type="number"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="time"],
+  input[type="text"],
+  .faux-input,
+  input[type="url"],
+  input[type="week"],
+  select,
+  textarea {
+    border-color: $border-color;
+
+    @include form-control-focus($border-color);
+  }
+
+}
+
+
 
 fieldset {
   border: 0;
@@ -45,6 +78,7 @@ input[type="search"],
 input[type="tel"],
 input[type="time"],
 input[type="text"],
+.faux-input,
 input[type="url"],
 input[type="week"],
 select,
@@ -167,11 +201,11 @@ input[type="time"] {
       border-left: 1px solid $input-border-focus;
 
       &:before {
-        border-color: transparent transparent $input-border-focus;
+        border-color: transparent transparent $brand-light;
       }
 
       &:after {
-        border-color: $input-border-focus transparent transparent;
+        border-color: $brand-light transparent transparent;
       }
     }
   }
@@ -235,7 +269,7 @@ input[type="checkbox"] {
     }
 
     &:after {
-      color: $input-border-focus;
+      color: $brand-light;
       content: '\f00c';
       font-family: 'FontAwesome';
       font-size: rem(16);
@@ -265,7 +299,7 @@ input[type="checkbox"] {
   &:focus {
     + label {
       &:before {
-        box-shadow: 0 0 0 2px rgba($input-border-focus, .25);
+        box-shadow: 0 0 0 2px rgba($brand-light, .25);
       }
     }
   }
@@ -274,7 +308,7 @@ input[type="checkbox"] {
 input[type="radio"] {
   + label {
     &:before {
-      background: $input-border-focus;
+      background: $brand-light;
       border-radius: 50%;
       box-shadow: 0 0 0 40px #fff inset;
       content: "";
@@ -303,7 +337,7 @@ input[type="radio"] {
   &:focus {
     + label {
       &:before {
-        box-shadow: 0 0 0 rem(4) #fff inset, 0 0 0 rem(2) rgba($input-border-focus, .25);
+        box-shadow: 0 0 0 rem(4) #fff inset, 0 0 0 rem(2) rgba($brand-light, .25);
       }
     }
   }
@@ -382,7 +416,6 @@ output {
  */
 .form-group {
   margin-bottom: rem(15);
-  // transition: padding $animation-speed linear;
 }
 
 .form-horizontal {
@@ -399,13 +432,13 @@ output {
  * Feedback states
  */
 .has-success {
-  @include form-control-validation($text-color, $state-success-text, $state-success-bg, "\f00c");
+  @include form-control-validation($state-success-text, $state-success-text, $state-success-bg);
 }
 // .has-warning {
 //   @include form-control-validation($state-warning-text, $state-warning-text, $state-warning-bg);
 // }
 .has-error {
-  @include form-control-validation($text-color, $state-danger-text, $state-danger-bg, "\f00d");
+  @include form-control-validation($state-danger-text, $state-danger-text, $state-danger-bg);
 }
 
 
