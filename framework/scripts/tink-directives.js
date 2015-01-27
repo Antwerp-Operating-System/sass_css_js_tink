@@ -2963,6 +2963,15 @@ $templateCache.put('templates/tooltip.html',
       '<div class="tooltip-inner" ng-bind="content"></div>'+
     '</div>');
 
+$templateCache.put('templates/tinkDatePickerInput.html',
+  '<div class="tink-datepickerrange-input-fields">'+
+  '<div class="input-group">'+
+  '<span class="input-group-addon">'+
+  '<i class="fa fa-calendar"></i>'+
+  '</span>'+
+  '</div>'+
+  '</div>');
+
 $templateCache.put('templates/tinkAccordionGroup.html',
   '<section class="accordion-panel">'+
   '<a href class="accordion-toggle" ng-click="toggleOpen()">'+
