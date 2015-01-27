@@ -86,12 +86,12 @@ $datepicker-neutral-dark       : $gray-dark;
   }
 }
 
-.tink-datepicker {
+.datepicker {
   min-width: rem(260);
   position: absolute;
 }
 
-.tink-datepickerrange {
+.datepickerrange {
   position: relative;
 
   @include mq($screen-xs) {
@@ -112,8 +112,8 @@ $datepicker-neutral-dark       : $gray-dark;
   }
 }
 
-.tink-datepickerrange-header-left,
-.tink-datepickerrange-header-right {
+.datepickerrange-header-left,
+.datepickerrange-header-right {
   overflow: hidden;
   line-height: rem(39);
   padding: rem($table-cell-padding / 4);
@@ -126,8 +126,8 @@ $datepicker-neutral-dark       : $gray-dark;
   }
 }
 
-.tink-datepickerrange-left,
-.tink-datepickerrange-right {
+.datepickerrange-left,
+.datepickerrange-right {
   width: 100%;
 
   @include mq($screen-xs) {

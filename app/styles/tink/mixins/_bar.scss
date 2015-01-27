@@ -1,64 +1,91 @@
 /**
  * Bar component
  */
-
-@mixin bar($height: $bar-height, $bg-color: $bar-bg-color) {
+@mixin bar($height: $bar-height, $bg-color: $bar-bg-color, $color: $bar-color, $link-color: $bar-link-color, $link-hover-color: $bar-link-hover-color, $link-bg-hover-color: $bar-link-bg-hover-color, $padding: $bar-padding, $fix-overflow: true) {
   background-color: $bg-color;
+  color: $color;
   line-height: rem($height);
+  @if $fix-overflow {
+    overflow: auto;
+  }
+  position: relative;
 
-  > ul,
+  a.btn, a.btn-primary, button, input {
+    margin-top: rem(-3);
+  }
+
+  .link {
+    color: $link-color;
+    background-color: $bg-color;
+    border-radius: $border-radius-base * 2;
+    height: 100%;
+    line-height: rem($height);
+    margin: rem(($padding / 2) 0);
+    padding: rem($padding-xs-vertical * 3 $padding-xs-horizontal);
+
+    &:hover,
+    &:active,
+    &:focus {
+      color: $link-hover-color;
+      background-color: $link-bg-hover-color;
+      text-decoration: none;
+    }
+  }
+
+  &-branding,
   &-section-left,
+  &-section-center,
   &-section-right {
     @extend .list-inline;
+    height: 100%;
+    line-height: rem($height);
     margin: 0;
 
     li {
-      padding: 0;
+      height: 100%;
+      line-height: rem($height);
+      margin: 0;
+      padding: rem(0 $padding / 2);
+
+      .link {
+        color: $link-color;
+      }
     }
 
-    a {
-      color: $bar-link-color;
-      outline: none;
-      text-decoration: none;
+    input[type="search"] {
       display: inline-block;
-      line-height: rem($height - $bar-padding);
-      margin: rem(($bar-padding / 2) 0);
-      padding: rem(0 $bar-padding);
-
-      &:hover,
-      &:active,
-      &:focus {
-        color: $bar-link-hover-color;
-      }
+      width: auto;
+      margin-top: rem(-5);
 
       &:focus {
-        box-shadow: 0 0 0 2px rgba($brand-light, .5);
+        @include tab-focus();
       }
     }
   }
 
   &-section {
+    height: 100%;
+    line-height: rem($height);
     position: relative;
     text-align: center;
     width: auto;
 
     &-left {
+      height: 100%;
       float: left;
-      margin-left: rem($bar-padding / 2);
+      margin-left: rem($padding / 2);
     }
 
     &-center {
       display: inline-block;
-
-      input[type="search"] {
-        display: inline-block;
-        width: auto;
-      }
+      height: 100%;
+      line-height: rem($height);
     }
 
     &-right {
+      height: 100%;
       float: right;
-      margin-right: rem($bar-padding / 2);
+      margin-right: rem($padding / 2);
     }
   }
 }

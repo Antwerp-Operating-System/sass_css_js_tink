@@ -12,42 +12,6 @@
   <!-- endbuild -->
   <!-- build:css(.tmp) styles/tink.css -->
   <link rel="stylesheet" href="styles/tink.css">
-  <style>
-  .placeholder{
-    color:gray;
-  }
-  .divinput {
-    -moz-appearance: textfield;
-    -webkit-appearance: textfield;
-    background-color: white;
-    background-color: -moz-field;
-    border: 1px solid darkgray;
-    box-shadow: 1px 1px 1px 0 lightgray inset;
-    font: -moz-field;
-    font: -webkit-small-control;
-    margin-top: 5px;
-    padding: 2px 3px;
-    -webkit-appearance: none;
--moz-appearance: none;
-background-color: #fff;
-background-image: none;
-border: 1px solid #bbb;
-border-radius: 0.14286rem;
-color: #5c5c5c;
-display: block;
-font-size: 1rem;
-height: 2.42857rem;
-line-height: 1.428571429;
-padding: 0.42857rem 0.85714rem;
-transition: border-color linear 0.1s, box-shadow linear 0.1s;
-width: 100%;
-
-font-family: inherit;
-font-size: inherit;
-line-height: inherit;
--webkit-font-smoothing: antialiased;
-}
-  </style>
   <!-- endbuild -->
   <script src="scripts/api.js"></script>
 
@@ -74,7 +38,7 @@ line-height: inherit;
     <section class="nav-top-section">
       <ul class="nav-top-section-left">
         <li>
-          <a href="#">Menu L1</a>
+          <a href="#" class="link">Menu L1</a>
         </li>
       </ul>
 
@@ -84,10 +48,10 @@ line-height: inherit;
 
       <ul class="nav-top-section-right">
         <li class="active">
-          <a href="#">Menu R1</a>
+          <a href="#" class="btn-primary btn-xs">Menu R1</a>
         </li>
         <li>
-          <a href="#">Menu R2</a>
+          <a href="#" class="btn btn-xs">Menu R2</a>
         </li>
       </ul>
     </section>
@@ -212,9 +176,8 @@ line-height: inherit;
   <script src="scripts/directives/tinkDropDown.js"></script>
   <script src="scripts/directives/tinkValidDate.js"></script>
   <script src="scripts/directives/tinkToggelSideNav.js"></script>
-  <script src="scripts/directives/tinkDatepicker2.js"></script>
-  <script src="scripts/directives/tinkFormatInput.js"></script>
-
+  <script src="scripts/directives/tinkTimePicker.js"></script>
+  <script src="scripts/directives/tinkAccordion.js"></script>
 
   <!-- endbuild -->
 </body>

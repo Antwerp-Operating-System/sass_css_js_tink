@@ -10,8 +10,8 @@
           $scope.dynamicName = $attrs.name;
         },
         scope: {
-          firstDate: '=',
-          lastDate: '=',
+          tinkFirstDate: '=',
+          tinkLastDate: '='
         },
         link: function postLink(scope, element,attrs,form) {
           var $directive = {
@@ -89,7 +89,7 @@
                $directive.tbody.lastDateElem = element.find('tbody')[1];
 
               // -- Create the first calendar --/
-              var htmlFirst = calView.createMonthDays($directive.viewDate, scope.firstDate, scope.lastDate,'prevMonth');
+              var htmlFirst = calView.createMonthDays($directive.viewDate, scope.tinkFirstDate, scope.tinkLastDate);
                // -- Replace and COMPILE the nieuw calendar view  --/
                angular.element($directive.tbody.firstDateElem).replaceWith($compile( htmlFirst)( scope ));
 
@@ -105,7 +105,7 @@
 
 
               // -- create the second view   --/
-              var htmlLast = calView.createMonthDays(copyViewDate, scope.firstDate, scope.lastDate,'nextMonth');
+              var htmlLast = calView.createMonthDays(copyViewDate, scope.tinkFirstDate, scope.tinkLastDate);
                // -- compile and replace the second view   --/
                angular.element($directive.tbody.lastDateElem).replaceWith($compile( htmlLast)( scope ));
 

@@ -9,7 +9,7 @@
 		tinkApi = {};
 	}
 
-	tinkApi.VERSION = '1.0.0';
+	tinkApi.VERSION = '1.0.1';
 
 	tinkApi.util = {
 		getCurrentURL: function () {
@@ -41,73 +41,117 @@
 		};
 	};
 
-
-	tinkApi.accordion = function(element){
-
+	tinkApi.accordion = function(){
 		var defaults = {
-			toggle:'accordion-toggle',
-			speed:300,
-			oneAtTime:true
+			speed:200,
+			loadingCallback:true,
+			oneAtTime:true,
+			openGroupCss:'group-open',
+			groupLoadingCss:'group-loading',
+			contentCss:'accordion-panel-body',
+			loadingCss:'accordion-spinner',
+			startOpen:false,
+			accordionLoadedContent:'accordion-loaded-content',
+			noCallBack:'no-call-back'
 		};
-		var elements = null;
-		var items = [];
-		var openIndex = null;
 
-		var handleAccordion = function(index){
+		var accordion = null;
 
-			if(defaults.oneAtTime){
-				if(openIndex === index){
-					closeAccordion(openIndex);
-				}else{
-					if(openIndex !== null){
-						closeAccordion(openIndex);
+		var init = function(element,opts){
+			accordion = element;
+			if(opts){
+				Object.extend(defaults, opts);
+			}
+		};
+
+		var groups=[];
+
+		var addGroup = function(elem){
+			if(!accordion){
+				return;
+			}
+			groups.push(elem.get(0));
+
+			if(elem.hasClass(defaults.noCallBack)){
+				findEl(elem,defaults.loadingCss).css('opacity',0);
+				findEl(elem,defaults.contentCss).css('height','auto');
+			}
+				findEl(elem,defaults.contentCss).css('display','none');
+		};
+
+		var getGroupAt = function(index){
+			return $(groups[index]);
+		};
+
+		var findEl = function(elem,classStr){
+			return elem.find('.'+classStr);
+		};
+
+
+		var openGroup = function(elem){
+			if(!accordion){
+				return;
+			}
+			var index = groups.indexOf(elem.get(0));
+			if(index >= 0){
+				elem = getGroupAt(index);
+				//If collapse is loading, we have to stop the visual and open de div
+				if(elem.hasClass(defaults.groupLoadingCss)){
+					if(findEl(elem,defaults.loadingCss).css('opacity') === '1' ){
+						findEl(elem,defaults.loadingCss).css('opacity',0);
+						findEl(elem,defaults.contentCss).slideDown(defaults.speed);
+						elem.removeClass(defaults.groupLoadingCss);
+						elem.addClass(defaults.openGroupCss);
 					}
-					openIndex = index;
-					openAccordion(openIndex);
+				//If accordion is not open and doesnt have loading
+				}else if(!elem.hasClass(defaults.openGroupCss)){
+					/*If the collapse has a callback and its not loading
+					* If the collapse is loading we add loading visual.
+					*/
+					if(!elem.hasClass(defaults.noCallBack) && !elem.hasClass(defaults.groupLoadingCss)){
+						findEl(elem,defaults.loadingCss).css('opacity',1);
+						elem.addClass(defaults.groupLoadingCss);
+						//In al other cases we just want to open the collapse.
+					}else{
+						findEl(elem,defaults.contentCss).css('height','auto');
+						findEl(elem,defaults.contentCss).slideDown(defaults.speed);
+						elem.removeClass(defaults.groupLoadingCss);
+						elem.addClass(defaults.openGroupCss);
+					}
 				}
+			}
+		};
 
-			}else{
-				if(items[index].open){
-					closeAccordion(index);
-				}else{
-					openAccordion(index);
+		var closeGroup = function(elem){
+			if(!accordion){
+				return;
+			}
+			var index = groups.indexOf(elem.get(0));
+			if(index >= 0){
+				elem = getGroupAt(index);
+				if(elem.hasClass(defaults.openGroupCss) || elem.hasClass(defaults.groupLoadingCss)){
+					elem.find('.'+defaults.contentCss).slideUp(defaults.speed);
+					elem.removeClass(defaults.openGroupCss);
+					elem.removeClass(defaults.groupLoadingCss);
 				}
 			}
-
 		};
 
-		var init = function(){
-			elements = $(element).find('> div.accordion > div.accordion-toggle');
-			elements.each(function( index ) {
-				items[index] = {open:false};
-			});
-			elements.click(function(){
-				handleAccordion(elements.index(this));
-			});
-		};
-
-		var openAccordion = function(index){
-			if($(elements[index]) && $(elements[index]).next().hasClass('accordion-content')){
-				items[index].open = true;
-				var content = $(elements[index]).next();
-				content.slideDown(defaults.speed);
+		return{
+			init:function(element,opts){
+				init(element,opts);
+			},
+			addGroup:function(element){
+				addGroup(element);
+			},
+			openGroup:function(element){
+				openGroup(element);
+			},
+			closeGroup:function(element){
+				closeGroup(element);
 			}
 		};
 
-		var closeAccordion =  function(index){
-			if($(elements[index]) && $(elements[index]).next().hasClass('accordion-content')){
-				var content = $(elements[index]).next();
-				content.slideUp(defaults.speed);
-				items[index].open = false;
-				openIndex = null;
-			}
-		};
-
-		return {
-			init:function(){
-				init();
-			}
-		};
 	};
 
 	tinkApi.sideNavigation = function(element){

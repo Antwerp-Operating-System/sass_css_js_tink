@@ -1,0 +1,151 @@
+/**
+ * Accordions
+ * --------------------------------------------------
+ */
+
+.accordion-panel {
+  @extend .panel;
+  margin-bottom: 0;
+  > a {
+    text-decoration: none;
+
+    &:hover .accordion-toggle {
+      background-color: darken($panel-default-heading-bg, 5);
+      transition: background $animation-speed linear;
+    }
+  }
+
+  &.group-open {
+    .accordion-toggle:before {
+      transform: rotate(180deg);
+      // top: rem(4px);
+    }
+  }
+  &.group-loading {
+    // TODO: make loader icon spin
+    .accordion-toggle:before{
+      opacity: 0;
+    }
+    .accordion-toggle:after {
+      // background-color: #444;
+      // border: 2px dashed $gray-light;
+      content: "\f021";
+      -webkit-animation: spinAround 1s linear infinite;
+      -moz-animation: spinAround 1s linear infinite;
+      animation: spinAround 1s linear infinite;
+    }
+  }
+}
+.accordion-panel-heading {
+  @extend .panel-heading;
+}
+
+.accordion-toggle {
+  cursor: pointer;
+  display: block;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+
+  &:before {
+    // background: rgba(200,200,200,.5);
+    content: "\f0d7";
+    color: $white;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    // height: 28px;
+    pointer-events: none;
+    position: absolute;
+    right: 10px;
+    text-align: center;
+    text-decoration: inherit;
+    top: rem(12px);
+    transition: color 0.1s linear, -webkit-transform 0.1s linear;
+    transition: color 0.1s linear, transform 0.1s linear;
+    width: 28px;
+    z-index: 2;
+
+  }
+
+  &:after {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    // background: blue;
+    content: '';
+    color: $white;
+    font-family: FontAwesome;
+    font-style: normal;
+    font-size: 14px;
+    font-weight: normal;
+    // border-radius: 50%;
+    // height: 24px;
+    // padding: 0;
+    pointer-events: none;
+    position: absolute;
+    right: rem(15px);
+    top: rem(13px);
+    // width: 19px;
+    z-index: 1;
+  }
+}
+
+//
+.accordion-panel-body {
+  @extend .panel-body;
+  position: relative;
+}
+
+.accordion-content {
+  overflow: hidden;
+  position: relative;
+}
+.accordion-spinner {
+  background: green;
+  bottom: 0;
+  height: rem(45px);
+  display: block;
+  left: 0;
+  opacity: 1;
+  position: absolute;
+  right: 0;
+  color:$white;
+  top: 1px;
+  transition: opacity .5s linear;
+  z-index: 2;
+  text-align: center;
+  margin: 0 auto;
+}
+.accordion-loaded-content {
+    // min-height: 25px;
+    transition: opacity .4s linear;
+}
+
+//
+@-webkit-keyframes spinAround {
+    from {
+        -webkit-transform: rotate(0deg)
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes spinAround {
+    from {
+        -moz-transform: rotate(0deg)
+    }
+    to {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@keyframes spinAround {
+    from {
+        transform: rotate(0deg)
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

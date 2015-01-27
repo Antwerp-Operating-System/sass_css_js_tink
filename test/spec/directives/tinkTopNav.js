@@ -80,7 +80,7 @@ describe('TopNavigation', function() {
       '<li class="logo">'+
       '<a href="#" title=""><img src="images/playground/tink-logo.svg" alt="" /></a>'+
       '</li>'+
-      '<li class="toggle" data-tink-sidenav-collapse="sidenave">'+
+      '<li class="toggle" data-tink-sidenav-collapse="sidenav">'+
       '<a href="#" title="Open menu" data-ng-click="sidenav.open = !sidenav.open"><i class="fa fa-bars"><span class="sr-only">Open menu</span></i></a>'+
       '</li>'+
       '<li class="app">'+
@@ -106,7 +106,7 @@ describe('TopNavigation', function() {
       '</ul>'+
       '</section>'+
       '</nav>'+
-      '<aside data-tink-nav-aside data-tink-toggle-id="sidenave" class="nav-left">'+
+      '<aside data-tink-nav-aside data-toggle-id="sidenav" class="nav-left">'+
       '<ul class="nav-aside-list" role="sidenav">'+
       '<li> <a href="#/menu1"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 1</span> <span class="badge">479</span> </a> </li>'+
       '<li class="can-open"> <a href="#/menu2"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 2</span> <span class="badge">479</span> </a> <ul>'+
@@ -159,7 +159,7 @@ describe('TopNavigation', function() {
       expect(spyToggle).toHaveBeenCalled();
     });
 
-    it('when sideNave is open close it again',function(){
+    it('when sidenav is open close it again',function(){
       var elm = compileDirective('withSidenav');
       elm.find('li.toggle').triggerHandler('click');
       scope.$digest();

@@ -9,5 +9,5 @@ angular.module('tink.popOver', ['tink.tooltip'])
   };
 })
 .directive( 'tinkPopover', [ '$tooltip', function ( $tooltip ) {
-  return $tooltip( 'tinkPopover', 'tinkPopover', 'click' );
+  return $tooltip( 'tinkPopover', 'popover', 'click' );
 }]);

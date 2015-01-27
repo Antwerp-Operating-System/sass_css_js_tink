@@ -78,6 +78,11 @@ figure {
   margin: 0;
 }
 
+figcaption {
+  color: $gray;
+  font-style: italic;
+}
+
 
 // Images
 
@@ -86,7 +91,6 @@ img {
   @include img-responsive();
   vertical-align: middle;
 }
-
 
 // Horizontal rules
 

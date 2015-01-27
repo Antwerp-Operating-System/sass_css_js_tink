@@ -60,8 +60,8 @@ $container-lg:                 $container-large-desktop !default; // For `$scree
  */
 
 // Colors
-$white:                 #fff;
-$black:                 #000;
+$white:                 #fff !default;
+$black:                 #000 !default;
 
 $gray-darker:           #141414 !default;
 $gray-dark:             #333 !default;
@@ -285,7 +285,7 @@ $btn-danger-bg:                  $brand-danger !default;
 $btn-danger-border:              darken($btn-danger-bg, 4%) !default;
 
 $btn-link-disabled-color:        $gray-light !default;
-$btn-icon-margin:                8px; // right margin when icon inside button
+$btn-icon-margin:                8px !default; // right margin when icon inside button
 
 
 
@@ -368,7 +368,7 @@ $dropdown-header-color:          $gray-light !default;
  * Complete layer list (for reference, add these to $layers only if needed)
  * $layers: base, navbar, dropdown, tooltip, navbar-sticky, navbar-fixed, modal-background, modal, popover;
  */
-$layers: base, pseudo, nav-aside, nav-top, popover;
+$layers: base, pseudo, nav-aside, nav-top, popover !default;
 
 
 
@@ -378,9 +378,11 @@ $layers: base, pseudo, nav-aside, nav-top, popover;
  * Settings for a standard bar
  */
 $bar-height:                            50px !default;
-$bar-bg-color:                          $gray-dark !default;
-$bar-link-color:                        $body-bg !default;
-$bar-link-hover-color:                  $white !default;
+$bar-bg-color:                          transparent !default;
+$bar-color:                             $gray-darker !default;
+$bar-link-color:                        $link-color !default;
+$bar-link-hover-color:                  $link-hover-color !default;
+$bar-link-bg-hover-color:               $gray-lighter;
 $bar-padding:                           $padding-base-horizontal !default;
 
 
@@ -391,11 +393,13 @@ $bar-padding:                           $padding-base-horizontal !default;
  * Settings for the top navigation and the off-canvas navigation
  */
 
-$nav-top-height:                         $bar-height;
-$nav-top-bg-color:                       $bar-bg-color;
-$nav-top-link-color:                     $bar-link-color;
-$nav-top-link-hover-color:               $bar-link-hover-color;
-$nav-top-padding:                        $bar-padding;
+$nav-top-height:                         $bar-height !default;
+$nav-top-bg-color:                       $gray-darker !default;
+$nav-top-color:                          $white !default;
+$nav-top-link-color:                     $white !default;
+$nav-top-link-hover-color:               $gray-lighter !default;
+$nav-top-link-bg-hover-color:            lighten($nav-top-bg-color, 10);
+$nav-top-padding:                        $bar-padding !default;
 
 
 $nav-aside-width:                        220px !default;
@@ -407,15 +411,16 @@ $nav-aside-item-border-color:            $gray-lighter !default;
 $nav-aside-item-open-color:              $body-bg !default;
 $nav-aside-link-color:                   lighten($gray-dark, 12%) !default;
 $nav-aside-link-hover-color:             $gray-darker !default;
+$nav-aside-link-hover-background-color:  rgba(0, 0, 0, .05) !default;
 $nav-aside-link-active-color:            $white !default;
 $nav-aside-link-active-background-color: $brand !default;
 
-$nav-aside-badge-color:                  $white;
-$nav-aside-badge-background-color:       $gray;
-$nav-aside-badge-hover-color:            $gray;
-$nav-aside-badge-hover-text-color:       $white;
-$nav-aside-badge-active-color:           $white;
-$nav-aside-badge-active-text-color:      $black;
+$nav-aside-badge-color:                  $white !default;
+$nav-aside-badge-background-color:       $gray !default;
+$nav-aside-badge-hover-color:            $gray !default;
+$nav-aside-badge-hover-text-color:       $white !default;
+$nav-aside-badge-active-color:           $white !default;
+$nav-aside-badge-active-text-color:      $black !default;
 
 
 
@@ -853,7 +858,7 @@ $breadcrumb-active-color:       $gray-light !default;
 $breadcrumb-separator:          "/" !default;
 
 
-//== Carousel
+//== Carousel - yeah, right!
 //
 //##
 
@@ -877,5 +882,3 @@ $breadcrumb-separator:          "/" !default;
     // $close-font-weight:           bold !default;
     // $close-color:                 $black !default;
     // $close-text-shadow:           0 1px 0 $white !default;
-
-

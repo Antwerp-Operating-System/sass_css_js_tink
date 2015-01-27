@@ -26,7 +26,8 @@
             }
           }
         },
-        topNavigation:$window.tinkApi.topNavigation
+        topNavigation:$window.tinkApi.topNavigation,
+        accordion:$window.tinkApi.accordion
 
       };
 

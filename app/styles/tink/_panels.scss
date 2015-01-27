@@ -12,7 +12,6 @@
   margin-bottom: rem($line-height-computed);
   @include panel-variant($panel-default-border, $panel-default-text, $panel-default-heading-bg, $panel-default-border);
 
-
   &.colored {
     background: lighten($brand, 50);
     border: none;
