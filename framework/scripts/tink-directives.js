@@ -904,7 +904,6 @@ angular.module('tink.dropdown', [])
         forms.$addControl(ctrl[0]);
       }
       ctrl = ctrl[0];
-      console.log(attr)
       if(!attr.format || !attr.placeholder){
         return;
       }
@@ -1050,6 +1049,8 @@ angular.module('tink.dropdown', [])
         if(cur > -1 && cur <= format.length){
            setCursor(cur);
         }
+        ctrl.$dirty = true;
+        ctrl.$pristine = false;
       };
 
       var charIs = function(char,base){
@@ -1173,6 +1174,12 @@ angular.module('tink.dropdown', [])
           }else if(type === 'date' ){
             ctrlForm.$setValidity(pre+'date', false);
             ctrl.$setViewValue(null);
+          }else if(validValue(newVa)){
+            ctrl.$setViewValue(newVa);
+            ctrlForm.$setValidity(pre+'format', true);
+          }else{
+            ctrl.$setViewValue(null);
+            ctrlForm.$setValidity(pre+'format', true);
           }
         });
       });
@@ -1203,11 +1210,14 @@ angular.module('tink.dropdown', [])
         }
 
       ctrl.$formatters.push(function(modelValue) {
-         if(modelValue === null){
+
+         if(modelValue === null || modelValue === undefined){
           newVa = placeholder;
           setValue();
+          modelValue = null;
          }
         handleFormat(modelValue);
+        ctrl.$setPristine();
       });
 
       var handleFormat = function(modelValue){
@@ -1234,11 +1244,20 @@ angular.module('tink.dropdown', [])
           }else{
              ctrlForm.$setValidity(pre+'date', false);
           }
+        }else if(typeof modelValue === 'string'){
+          if(validValue(modelValue)){
+             newVa =  modelValue;
+             setValue();
+          }else{
+            ctrl.$setViewValue(null);
+          }
         }
+
+       console.log(ctrl)
         return modelValue;
       };
 
-      setValue(newVa);
+
       }
     };
   }])
@@ -2818,7 +2837,7 @@ angular.module('tink.templates', [])
            '</div>'+
         '</div>');
 
-      $templateCache.put('templates/tinkDatePicker0.html',
+      $templateCache.put('templates/tinkDatePicker.html',
         '<div class="dropdown-menu datepicker" ng-class="\'datepicker-mode-\' + $mode">'+
         '<table style="table-layout: fixed; height: 100%; width: 100%;">'+
         '<thead>'+
@@ -2853,7 +2872,7 @@ angular.module('tink.templates', [])
     '</table>'+
 '</div>');
 
-$templateCache.put('templates/tinkDatePickerRange0.html',
+$templateCache.put('templates/tinkDatePickerRange.html',
         '<div class="datepickerrange">'+
   '<div class="pull-left datepickerrange-left">'+
     '<div class="datepickerrange-header-left">'+

@@ -10,7 +10,7 @@ angular.module('tink.templates', [])
            '</div>'+
         '</div>');
 
-      $templateCache.put('templates/tinkDatePicker0.html',
+      $templateCache.put('templates/tinkDatePicker.html',
         '<div class="dropdown-menu datepicker" ng-class="\'datepicker-mode-\' + $mode">'+
         '<table style="table-layout: fixed; height: 100%; width: 100%;">'+
         '<thead>'+
@@ -45,7 +45,7 @@ angular.module('tink.templates', [])
     '</table>'+
 '</div>');
 
-$templateCache.put('templates/tinkDatePickerRange0.html',
+$templateCache.put('templates/tinkDatePickerRange.html',
         '<div class="datepickerrange">'+
   '<div class="pull-left datepickerrange-left">'+
     '<div class="datepickerrange-header-left">'+
