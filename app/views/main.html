@@ -6,6 +6,16 @@
     <!-- =================================================================== -->
     <!-- FORM ============================================================== -->
     <!-- =================================================================== -->
+    <form class="form-inline ng-pristine ng-valid">
+      <div class="form-group">
+        <label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
+          <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Some button</button>
+    </form>
 
     <form name="userForm" ng-submit="submitForm()" novalidate>
 
@@ -13,7 +23,7 @@
 
         <!-- NAME -->
         <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
-            <label>Name</label>
+            <label>Single</label>
             <input type="text" name="name" tink-datepicker class="form-control" ng-model="dates.first">
             <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">You name is required.</p>
         </div>
@@ -21,7 +31,7 @@
         <input type="text" name="normal" ng-model="signup.normal"/>
 
          <div class="form-group" ng-class="{ 'has-error' : userForm.dubbel.$invalid && !userForm.dubbel.$pristine }">
-            <label>Name</label>
+            <label>Range</label>
             <tink-datepicker-range type="text" name="dubbel" class="form-control" data-first-date="dates.first" data-last-date="dates.last">
             <p ng-show="userForm.dubbel.$invalid && !userForm.dubbel.$pristine" class="help-block">You name is required.</p>
         </div>
