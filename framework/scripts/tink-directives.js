@@ -232,7 +232,7 @@ angular.module('tink.datepicker', [])
         scope.build();
       };
 
-        content = angular.element('<input tink-format-input name="'+attr.name+'"  ng-model="ngModel" />');
+        content = angular.element('<input tink-format-input data-format="00/00/0000" data-placeholder="mm/dd/jjjj" data-date name="'+attr.name+'"  ng-model="ngModel" />');
       $(content).insertBefore($('span.input-group-addon'));
       $compile(content)(scope);
 
@@ -904,12 +904,19 @@ angular.module('tink.dropdown', [])
         forms.$addControl(ctrl[0]);
       }
       ctrl = ctrl[0];
-      var format = '00/00/0000';
-      var placeholder = 'dd/mm/jjjj';
+      console.log(attr)
+      if(!attr.format || !attr.placeholder){
+        return;
+      }
+      var format = attr.format;
+      var placeholder = attr.placeholder;
       var dateFormat ='dd/mm/yyyy';
       scope.format = format;
       scope.placeholder = placeholder;
-      var type = 'date';
+      var type ='';
+      if(angular.isDefined(attr.date)){
+        type = 'date';
+      }
       var newVa = placeholder;
 
       String.prototype.replaceAt=function(index, character) {

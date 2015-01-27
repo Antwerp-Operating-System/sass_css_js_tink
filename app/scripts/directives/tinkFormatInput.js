@@ -12,12 +12,19 @@
         forms.$addControl(ctrl[0]);
       }
       ctrl = ctrl[0];
-      var format = '00/00/0000';
-      var placeholder = 'dd/mm/jjjj';
+      console.log(attr)
+      if(!attr.format || !attr.placeholder){
+        return;
+      }
+      var format = attr.format;
+      var placeholder = attr.placeholder;
       var dateFormat ='dd/mm/yyyy';
       scope.format = format;
       scope.placeholder = placeholder;
-      var type = 'date';
+      var type ='';
+      if(angular.isDefined(attr.date)){
+        type = 'date';
+      }
       var newVa = placeholder;
 
       String.prototype.replaceAt=function(index, character) {

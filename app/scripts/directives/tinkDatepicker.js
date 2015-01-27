@@ -28,7 +28,7 @@ angular.module('tink.datepicker', [])
         scope.build();
       };
 
-        content = angular.element('<input tink-format-input name="'+attr.name+'"  ng-model="ngModel" />');
+        content = angular.element('<input tink-format-input data-format="00/00/0000" data-placeholder="mm/dd/jjjj" data-date name="'+attr.name+'"  ng-model="ngModel" />');
       $(content).insertBefore($('span.input-group-addon'));
       $compile(content)(scope);
 

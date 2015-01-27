@@ -1,12 +1,12 @@
 <div class="tink-datepickerrange-input-fields">
   <div class="input-group">
-    <input type="text" id="firstDateElem" dynamic-name="dynamicName" tink-format-input ng-model="firstDate" valid-name='first' style="width: 200px;float: left;">
+    <input type="text" id="firstDateElem" data-date data-format='00/00/0000' data-placeholder='mm/dd/jjjj' dynamic-name="dynamicName" tink-format-input ng-model="firstDate" valid-name='first' style="width: 200px;float: left;">
     <span class="input-group-addon">
       <i class="fa fa-calendar"></i>
     </span>
   </div>
   <div class="input-group">
-    <input type="text" id="lastDateElem" tink-format-input ctrl-model='dynamicName' valid-name='last'  ng-model="lastDate"  style="width: 200px;" >
+    <input type="text" id="lastDateElem" data-date data-format='00/00/0000' data-placeholder='mm/dd/jjjj' tink-format-input ctrl-model='dynamicName' valid-name='last'  ng-model="lastDate"  style="width: 200px;" >
     <span class="input-group-addon">
       <i class="fa fa-calendar"></i>
     </span>
