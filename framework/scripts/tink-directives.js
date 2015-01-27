@@ -896,7 +896,7 @@ angular.module('tink.dropdown', [])
     return {
       replace:true,
       require:['ngModel','?^form'],
-      template:'<div><div id="input" class="divinput" contenteditable="true">{{placeholder}}</div></div>',
+      template:'<div><div id="input" class="faux-input" contenteditable="true">{{placeholder}}</div></div>',
       link:function(scope,elem,attr,ctrl){
       //var ctrl = elem.data('$ngModelController');
       var forms = ctrl[1];
