@@ -167,11 +167,11 @@ input[type="time"] {
       border-left: 1px solid $input-border-focus;
 
       &:before {
-        border-color: transparent transparent $brand-light;
+        border-color: transparent transparent $input-border-focus;
       }
 
       &:after {
-        border-color: $brand-light transparent transparent;
+        border-color: $input-border-focus transparent transparent;
       }
     }
   }
@@ -235,7 +235,7 @@ input[type="checkbox"] {
     }
 
     &:after {
-      color: $brand-light;
+      color: $input-border-focus;
       content: '\f00c';
       font-family: 'FontAwesome';
       font-size: rem(16);
@@ -265,7 +265,7 @@ input[type="checkbox"] {
   &:focus {
     + label {
       &:before {
-        box-shadow: 0 0 0 2px rgba($brand-light, .25);
+        box-shadow: 0 0 0 2px rgba($input-border-focus, .25);
       }
     }
   }
@@ -274,7 +274,7 @@ input[type="checkbox"] {
 input[type="radio"] {
   + label {
     &:before {
-      background: $brand-light;
+      background: $input-border-focus;
       border-radius: 50%;
       box-shadow: 0 0 0 40px #fff inset;
       content: "";
@@ -303,7 +303,7 @@ input[type="radio"] {
   &:focus {
     + label {
       &:before {
-        box-shadow: 0 0 0 rem(4) #fff inset, 0 0 0 rem(2) rgba($brand-light, .25);
+        box-shadow: 0 0 0 rem(4) #fff inset, 0 0 0 rem(2) rgba($input-border-focus, .25);
       }
     }
   }
@@ -382,6 +382,7 @@ output {
  */
 .form-group {
   margin-bottom: rem(15);
+  // transition: padding $animation-speed linear;
 }
 
 .form-horizontal {
@@ -398,13 +399,13 @@ output {
  * Feedback states
  */
 .has-success {
-  @include form-control-validation($text-color, $state-success-text, $state-success-bg);
+  @include form-control-validation($text-color, $state-success-text, $state-success-bg, "\f00c");
 }
 // .has-warning {
 //   @include form-control-validation($state-warning-text, $state-warning-text, $state-warning-bg);
 // }
 .has-error {
-  @include form-control-validation($text-color, $state-danger-text, $state-danger-bg);
+  @include form-control-validation($text-color, $state-danger-text, $state-danger-bg, "\f00d");
 }
 
 

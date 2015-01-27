@@ -56,31 +56,31 @@
 
       ~ .timepicker-later,
       ~ .timepicker-earlier {
-        border-left-color: $brand-light;
+        border-left-color: $input-border-focus;
       }
 
       ~ .timepicker-later {
         &:before {
-          border-color: transparent transparent $brand-light;
+          border-color: transparent transparent $input-border-focus;
         }
 
         &:hover,
         &:active {
           &:before {
-            border-color: transparent transparent darken($brand-light, 12%);
+            border-color: transparent transparent darken($input-border-focus, 12%);
           }
         }
       }
 
       ~ .timepicker-earlier {
         &:before {
-          border-color: $brand-light transparent transparent;
+          border-color: $input-border-focus transparent transparent;
         }
 
         &:hover,
         &:active {
           &:before {
-            border-color: darken($brand-light, 12%) transparent transparent;
+            border-color: darken($input-border-focus, 12%) transparent transparent;
           }
         }
       }

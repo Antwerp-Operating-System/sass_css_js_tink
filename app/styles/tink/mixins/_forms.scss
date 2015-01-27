@@ -4,7 +4,26 @@
  */
 
 
-@mixin form-control-validation($text-color: #555, $border-color: #ccc, $background-color: #f5f5f5) {
+@mixin form-control-validation($text-color: #555, $border-color: #ccc, $background-color: #f5f5f5, $font-icon: "\f00c") {
+  padding-right: rem(28);
+  position: relative;
+
+  &:before {
+    color: $border-color;
+    content: $font-icon;
+    font-family: FontAwesome;
+    font-size: rem(21);
+    font-style: normal;
+    font-weight: normal;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    text-decoration: inherit;
+    top: rem($input-height-base - ($line-height-computed / 2) + 1);
+    width: rem(28);
+    z-index: layer('pseudo');
+  }
 
   > label {
     color: $text-color;
