@@ -131,7 +131,7 @@ body {
         padding: 0;
 
         a {
-          background: image-url($logo) no-repeat center center;
+          background: $logo-bg-color image-url($logo) no-repeat center center;
           background-size: cover;
           display: block;
           height: rem($logo-height);

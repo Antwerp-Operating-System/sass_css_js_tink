@@ -20,6 +20,19 @@ $nav-top-bg-color:      					#333;
 $nav-aside-link-active-background-color:    $brand-light;
 $nav-aside-link-hover-background-color:     lighten($brand-light, 42%);
 
+
+/**
+ * Colors
+ */
+$brand-success:         #0b0;
+
+
+/**
+ * Code
+ */
+$pre-bg: lighten($brand, 60%);
+
+
 /**
  * Buttons
  */
