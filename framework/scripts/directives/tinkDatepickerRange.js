@@ -26,7 +26,9 @@
             viewDate:new Date(),
             hardCodeFocus: false
           };
-          scope.ctrlconst = form[0].dubbel;
+          if(attrs.name){
+            scope.ctrlconst = form[0][attrs.name];
+          }
          // form[0].$removeControl(form[0].dubbel);
 
           $directive.calendar.first.on('click',function(){
