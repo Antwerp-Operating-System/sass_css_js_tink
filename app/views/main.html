@@ -9,7 +9,7 @@
 
     <form name="userForm" ng-submit="submitForm()" novalidate>
 
-        <input tink-format-input name="format" data-placeholder="xx.xx.xx-xxx.xx" data-format="00.00.00-000.00" ng-model="signup.username" type="text" id="input-text" placeholder="Vul uw AD-gebruikersnaam in" required>
+        <input tink-format-input name="format" data-placeholder="xx.xx.xx-xxx.xx" data-format="00.00.00-000.00" ng-model="signup.username" type="text" id="input-text" placeholder="Vul uw AD-gebruikersnaam in">
 
         <!-- NAME -->
         <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
