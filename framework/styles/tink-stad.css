@@ -1448,7 +1448,7 @@ code, kbd, pre, samp {
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace; }
 
 code {
-  background-color: #ffeef2;
+  background-color: #fff8fa;
   border-radius: 0.14286rem ;
   color: #CF0039;
   font-size: 90%;
@@ -1467,7 +1467,7 @@ kbd {
     padding: 0; }
 
 pre {
-  background-color: #ffeef2;
+  background-color: #fff8fa;
   border: 1px solid #ffc5d5;
   border-radius: 0.14286rem ;
   color: #CF0039;
@@ -2014,9 +2014,11 @@ output {
     font-weight: normal;
     pointer-events: none;
     position: absolute;
-    right: 0.28571rem ;
+    right: 0;
+    text-align: center;
     text-decoration: inherit;
     top: 1.78571rem ;
+    width: 2rem ;
     z-index: 2; }
   .has-success > label {
     color: #333; }
@@ -2040,9 +2042,11 @@ output {
     font-weight: normal;
     pointer-events: none;
     position: absolute;
-    right: 0.28571rem ;
+    right: 0;
+    text-align: center;
     text-decoration: inherit;
     top: 1.78571rem ;
+    width: 2rem ;
     z-index: 2; }
   .has-error > label {
     color: #333; }
