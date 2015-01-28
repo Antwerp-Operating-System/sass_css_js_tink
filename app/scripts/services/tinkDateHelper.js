@@ -369,7 +369,7 @@ angular.module('tink.dateHelper')
         if(grayed){
           cssClass = 'btn-grayed';
         }else{
-          cssClass = 'btn-warning';
+          cssClass = 'btn-today';
         }
       }
       var month = ('0' + (date.getMonth() + 1)).slice(-2);

@@ -49,9 +49,16 @@
       color: $datepicker-btn-color-hover;
     }
 
-    &.btn-warning {
+    &.btn-warning,
+    &.btn-today {
       background: $datepicker-btn-bgcolor;
       border: 1px solid $brand !important;
+
+      &:hover {
+        background: $datepicker-btn-bgcolor-hover;
+        border-color: transparent !important;
+        color: $datepicker-btn-color-hover;
+      }
     }
 
     &.btn-primary,
