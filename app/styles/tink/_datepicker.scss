@@ -123,6 +123,9 @@
   }
 
   @include mq($screen-sm) {
+    min-width: 520px;
+  }
+  @include mq($screen-md) {
     min-width: 640px;
   }
 }
