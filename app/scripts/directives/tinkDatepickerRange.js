@@ -10,8 +10,8 @@
           $scope.dynamicName = $attrs.name;
         },
         scope: {
-          firstDate: '=',
-          lastDate: '=',
+          firstDate: '=?',
+          lastDate: '=?',
         },
         link: function postLink(scope, element,attrs,form) {
           var $directive = {
@@ -33,11 +33,9 @@
 
           $directive.calendar.first.on('click',function(){
             $directive.focused.firstDateElem.focus();
-            show();
           });
           $directive.calendar.last.on('click',function(){
             $directive.focused.lastDateElem.focus();
-            show();
           });
 
             // -- check if we are using a touch device  --/
@@ -305,9 +303,11 @@
 
               angular.element($directive.focused.firstDateElem).bind('focus', function () {
                 $directive.focusedModel = 'firstDateElem';
+                show();
               });
               angular.element($directive.focused.lastDateElem).bind('focus', function () {
                 $directive.focusedModel = 'lastDateElem';
+                show();
               });
             }
 
