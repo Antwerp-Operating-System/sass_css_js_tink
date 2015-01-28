@@ -21,6 +21,7 @@
     .input-group-addon {
       cursor: pointer;
       background-color: $white;
+      transition: background $animation-speed linear, border $animation-speed linear;
       &:hover {
         background-color: $bar-link-bg-hover-color;
       }
