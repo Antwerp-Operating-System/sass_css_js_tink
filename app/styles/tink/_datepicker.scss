@@ -101,12 +101,9 @@
 }
 
 .datepicker {
-  min-width: rem(260);
+  width: rem(260); // removed min-width
   position: absolute;
   padding: 3%;
-  @include mq($screen-sm) {
-    padding: 5%;
-  }
 }
 
 .datepickerrange {
