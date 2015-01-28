@@ -240,12 +240,10 @@
           return false;
         }
       });
-      var firstclick = 0;
       elem.find('#input').bind('mousedown',function(){
         setTimeout(function(){
-          if(placeholder === newVa && firstclick !== 1){
+          if(placeholder === newVa){
             setCursor(0);
-            firstclick = 1;
           }
         }, 1);
       });
