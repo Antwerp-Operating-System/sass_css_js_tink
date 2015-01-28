@@ -1,0 +1,187 @@
+<div class="container">
+  <h1>Form playground</h1>
+  <hr>
+  <section class="panel">
+    <header class="panel-heading">
+      <i class="fa fa-th-large"></i>
+      <h1 class="panel-title">Input fields</h1>
+    </header>
+    <div class="panel-body">
+
+      <form role="form">
+
+        <fieldset>
+          <legend>This is the legend</legend>
+          <div class="row">
+            <div class="col-xs-12 col-md-6 form-group">
+              <label for="input-text">Input text</label>
+              <div class="validation"><input type="text" id="input-text" placeholder="input[type=&quot;text&quot;]" /></div>
+              <span class="help-block">A block of help text that breaks onto a new line and may extend beyond one line. Tip: use <code>.help-block</code>.</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-6 form-group">
+              <label for="input-text-disabled">Input text disabled or readonly</label>
+              <div class="validation"><input type="text" id="input-text-disabled" placeholder="input[type=&quot;text&quot;][disabled]" disabled /></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-6 form-group">
+              <label for="input-email">Input email</label>
+              <div class="validation"><input type="email" id="input-email" placeholder="input[type=&quot;email&quot;]" /></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-6 form-group">
+              <label for="input-password">Input password</label>
+              <div class="validation"><input type="password" id="input-password" placeholder="input[type=&quot;password&quot;]" /></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-6 form-group">
+              <label for="input-tel">Input tel</label>
+              <div class="validation"><input type="tel" id="input-tel" placeholder="input[type=&quot;tel&quot;]" /></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-6 form-group">
+              <label for="input-url">Input url</label>
+              <div class="validation"><input type="url" id="input-url" placeholder="input[type=&quot;url&quot;]" /></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-6 form-group">
+              <label for="input-number">Input number</label>
+              <div class="validation"><input type="number" id="input-number" placeholder="input[type=&quot;number&quot;]" /></div>
+            </div>
+          </div>
+        </fieldset>
+
+
+        <fieldset>
+          <legend>Other inputs</legend>
+          <div class="row">
+            <div class="col-xs-12 col-md-6 form-group">
+              <label>Checkboxes</label>
+              <div class="checkbox">
+                <input type="checkbox" id="checkbox1" name="checkbox1" value="" checked>
+                <label for="checkbox1">Option one</label>
+              </div>
+              <div class="checkbox">
+                <input type="checkbox" id="checkbox2" name="checkbox2" value="">
+                <label for="checkbox2">Option two is a very long option, so we can see its behaviour when too much text is used for the label.</label>
+              </div>
+              <div class="checkbox">
+                <input type="checkbox" id="checkbox3" name="checkbox3" value="" disabled>
+                <label for="checkbox3">Option three is disabled</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-6 form-group">
+              <label>Radio buttons</label>
+              <div class="radio">
+                <input type="radio" id="radio11" name="radio11" value="" checked>
+                <label for="radio11">Option one</label>
+              </div>
+              <div class="radio">
+                <input type="radio" id="radio2" name="radio11" value="">
+                <label for="radio2">Option two is a very long option, so we can see its behaviour when too much text is used for the label.</label>
+              </div>
+              <div class="radio">
+                <input type="radio" id="radio33" name="radio11" value="" disabled>
+                <label for="radio33">Option three is disabled</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-6 form-group">
+              <label for="textarea">Textarea</label>
+              <div class="validation"><textarea id="textarea" placeholder="textarea" rows="5"></textarea></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-6 form-group">
+              <label for="input-file">File input</label>
+              <div class="validation"><input type="file" id="input-file"></div>
+              <p class="help-block">Help-block for input file.</p>
+            </div>
+          </div>
+          <!-- <div class="row">
+            <div class="col-xs-12 col-md-6 form-group"></div>
+            <div class="col-xs-12 col-md-6">
+              <hljs data-format="html">
+              </hljs>
+            </fieldset>
+          </div> -->
+        </fieldset>
+
+
+        <fieldset>
+          <legend>Select</legend>
+          <div class="row">
+            <div class="col-xs-12 col-md-6 form-group">
+              <label for="select">Select</label>
+              <div class="validation">
+                <div class="select">
+                  <select id="select">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-6 form-group">
+              <label for="select-multiple">Select multiple</label>
+              <div class="validation">
+                <select id="select-multiple" multiple>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </section>
+
+  <section class="panel">
+    <header class="panel-heading">
+      <i class="fa fa-th-large"></i>
+      <h1 class="panel-title">Validation states</h1>
+    </header>
+    <div class="panel-body">
+      <form role="form">
+        <div class="row has-success">
+          <div class="col-xs-12 col-md-6 form-group">
+            <label for="has-success">Success</label>
+            <div class="validation"><input type="text" id="has-success"></div>
+            <span class="help-block">Dit is wat tekst die verduidelijkende uitleg geeft bij het form element hierboven.</span>
+          </div>
+        </div>
+        <div class="row has-error">
+          <div class="col-xs-12">
+            <label for="has-error">Error</label>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <div class="validation"><input type="text" id="has-error"></div>
+          </div>
+          <div class="col-xs-12 col-md-6">
+            <div class="text-danger">Dit veld heeft een error</div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </section>
+
+</div>

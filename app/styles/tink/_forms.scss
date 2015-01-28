@@ -398,6 +398,30 @@ output {
 /**
  * Feedback states
  */
+.validation {
+  padding-right: rem($font-size-base * 2);
+  position: relative;
+
+  &:before {
+    bottom: 50%;
+    display: inline-block;
+    font-family: FontAwesome;
+    font-size: rem($font-size-base * 1.5);
+    font-style: normal;
+    font-weight: normal;
+    line-height: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    text-decoration: inherit;
+    top: 50%;
+    vertical-align: middle;
+    width: rem($font-size-base * 2);
+    z-index: layer('pseudo');
+  }
+}
+
 .has-success {
   @include form-control-validation($text-color, $state-success-text, $state-success-bg, "\f00c");
 }

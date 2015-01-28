@@ -27,6 +27,9 @@ angular.module('tinkFramework', [
 			.when('/datepicker', {
 				templateUrl: 'views/datepickertest.html'
 			})
+      .when('/forms', {
+        templateUrl: 'views/forms.html'
+      })
 			.when('/:page', {
 			    templateUrl: 'views/home.html',
 			    controller: 'LocationCtrl'
