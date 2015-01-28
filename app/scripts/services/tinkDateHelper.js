@@ -317,7 +317,7 @@ angular.module('tink.dateHelper')
         if(angular.isDate(selectedDate)){
           isSelected = selectedDate.toDateString() === day.toDateString();
         }
-        days.push({date: day,selected:isSelected, isToday: day.toDateString() === today.toDateString(), label: dateCalculator.formatDate(day, 'dd'),isMuted:isMuted});
+        days.push({date: day,selected:isSelected, isToday: day.toDateString() === today.toDateString(), label: dateCalculator.formatDate(day, 'd'),isMuted:isMuted});
     }
     var arrays = split(days, 7);
      return arrays;
