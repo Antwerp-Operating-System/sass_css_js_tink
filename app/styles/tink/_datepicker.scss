@@ -18,6 +18,13 @@
       border-bottom-right-radius: 0;
       border-top-right-radius: 0;
     }
+    .input-group-addon {
+      cursor: pointer;
+      background-color: $white;
+      &:hover {
+        background-color: $bar-link-bg-hover-color;
+      }
+    }
   }
 }
 
@@ -76,6 +83,8 @@
     }
 
   }
+
+
 
   table {
     background: $datepicker-bgcolor;
