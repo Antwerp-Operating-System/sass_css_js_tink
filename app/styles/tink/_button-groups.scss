@@ -40,13 +40,11 @@
   margin-left: -5px; // Offset the first child's margin
   @include clearfix();
 
-  .btn-group,
-  .input-group {
+  .btn-group {
     float: left;
   }
   > .btn,
-  > .btn-group,
-  > .input-group {
+  > .btn-group {
     margin-left: 5px;
   }
 }

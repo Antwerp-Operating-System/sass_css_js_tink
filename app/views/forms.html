@@ -161,22 +161,34 @@
     </header>
     <div class="panel-body">
       <form role="form">
-        <div class="row has-success">
-          <div class="col-xs-12 col-md-6 form-group">
+        <div class="row has-success form-group">
+          <div class="col-xs-12 col-sm-6">
             <label for="has-success">Success</label>
             <div class="validation"><input type="text" id="has-success"></div>
             <span class="help-block">Dit is wat tekst die verduidelijkende uitleg geeft bij het form element hierboven.</span>
           </div>
         </div>
-        <div class="row has-error">
+        <div class="row has-error form-group">
           <div class="col-xs-12">
             <label for="has-error">Error</label>
           </div>
-          <div class="col-xs-12 col-md-6">
+          <div class="col-xs-12 col-sm-6">
             <div class="validation"><input type="text" id="has-error"></div>
           </div>
-          <div class="col-xs-12 col-md-6">
+          <div class="col-xs-12 col-sm-6">
             <div class="text-danger">Dit veld heeft een error</div>
+          </div>
+        </div>
+
+        <div class="row has-error form-group">
+          <div class="col-xs-12">
+            <label for="has-error">Error</label>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <div class="validation"><input type="text" placeholder="dd/mm/yyyy" ng-model="selectedDate1" data-tink-datepicker /></div>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <div class="text-danger">Dit is geen geldige datum</div>
           </div>
         </div>
 

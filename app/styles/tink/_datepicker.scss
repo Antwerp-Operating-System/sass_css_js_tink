@@ -6,23 +6,36 @@
  */
 
 
-.tink-datepickerrange-input-fields {
-  display: inline-block;
+.datepicker-input-fields {
   position: relative;
 
-  .input-group,
-  .input-group[class*="col-"] {
-    float: left;
-
-    div .faux-input {
-      border-bottom-right-radius: 0;
-      border-top-right-radius: 0;
+  > div[class*="col-"] {
+    .datepicker-icon {
+      margin-right: $grid-gutter-width / 2;
+      right: 1px;
     }
   }
 }
 
-.tink-datepicker, .datepicker,
-.tink-datepickerrange, .datepickerrange {
+.datepicker-icon {
+  bottom: 1px;
+  color: $datepicker-icon-color;
+  cursor: pointer;
+  padding: rem($padding-base-vertical ($padding-base-horizontal / 1.5));
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  transition: color $animation-speed linear;
+
+  &:hover,
+  &:active {
+    color: $datepicker-icon-hover-color;
+  }
+}
+
+
+.datepicker,
+.datepickerrange {
   background: $datepicker-bgcolor;
   box-shadow: 0 1px 2px rgba(0,0,0,.6);
   color: $datepicker-neutral-dark;
@@ -33,7 +46,8 @@
 
   button,
   .btn {
-    @extend .no-border;
+    // @extend .no-border;
+    border: 1px solid transparent; // With this trick TJ fixed the irregular button sizes
     color: $datepicker-btn-color;
     min-width: 20px;
     padding: rem($padding-base-vertical 0);

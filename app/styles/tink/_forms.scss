@@ -403,22 +403,26 @@ output {
   position: relative;
 
   &:before {
-    bottom: 50%;
+    // border-top: 1px solid transparent; // alignment fix
     display: inline-block;
     font-family: FontAwesome;
     font-size: rem($font-size-base * 1.5);
     font-style: normal;
     font-weight: normal;
-    line-height: 0;
+    line-height: 1;
     pointer-events: none;
     position: absolute;
     right: 0;
     text-align: center;
     text-decoration: inherit;
-    top: 50%;
+    top: rem($padding-base-vertical);
     vertical-align: middle;
     width: rem($font-size-base * 2);
     z-index: layer('pseudo');
+  }
+
+  .input-group {
+    margin-bottom: rem(-3);
   }
 }
 
@@ -485,7 +489,7 @@ output {
   color: lighten($text-color, 25%); // lighten the text some for contrast
   display: block; // account for any element using help-block
   font-size: rem($font-size-base * .85);
-  margin: rem(5 0 10 1);
+  margin: rem(5 0 5 1);
   // padding: rem(0 $padding-base-horizontal);
 }
 
