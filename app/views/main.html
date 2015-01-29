@@ -1,8 +1,9 @@
 <!-- <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"> -->
 
-
+<br/><br/><br/>
 <!-- <button ng-click="go()"></button> -->
-<tink-datepicker-range data-tink-first-date="dates.first" data-tink-last-date="dates.last"></tink-datepicker-range>
+<tink-datepicker-range data-first-date="dates.first" data-last-date="dates.last"></tink-datepicker-range>
+<!--<div data-ng-model="dates.last" data-date data-format='00/00/0000' data-placeholder='mm/dd/jjjj' tink-format-input ></div>-->
 <div class="container">
   <h1>Tink playground</h1>
   <section class="panel">
@@ -50,9 +51,9 @@ Your code here!
       </div>
     </div>
   </section>
-
+<input type="date" ng-model="dates.first" tink-datepicker>
   <tink-accordion data-one-at-a-time="false" data-start-open="false">
-
+<button ng-click='go()'>click here doop</button>
 <tink-accordion-group data-is-collapsed="togle.group1" heading="Accordion 1"><h1>Maecenas Fringilla</h1>
 
 <h2>Nunc Viverra Cum Curabitur Neque</h2>
@@ -252,7 +253,7 @@ om dit goed te kunnen testen<br/>
           <div class="col-sm-12 col-md-4" style="background: yellow;">
             <button ng-click='go()'></button>
 
-            <input type="text" ng-model="selectedDate" data-tink-date-format="dd/mm/yyyy" data-tink-model-date-format="yyyy-mm-dd" data-tink-date-type="string" tink-datepicker>
+            <input type="text" ng-model="dates.first" data-tink-date-format="dd/mm/yyyy" data-tink-model-date-format="yyyy-mm-dd" data-tink-date-type="string" tink-datepicker>
           </div>
           <div class="col-sm-12 col-md-8">
             Some bullshit

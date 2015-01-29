@@ -1,6 +1,6 @@
 'use strict';
     angular.module('tink.datepickerRange', ['tink.dateHelper','tink.safeApply'])
-    .directive('tinkDatepickerRange',['$q', '$templateCache', '$http', 'calView', '$sce','$compile','dateCalculator','$window', function ($q, $templateCache, $http, calView, $sce,$compile,dateCalculator,$window) {
+    .directive('tinkDatepickerRange',['$q', '$templateCache', '$http', 'calView', '$sce','$compile','dateCalculator','$window','safeApply', function ($q, $templateCache, $http, calView, $sce,$compile,dateCalculator,$window,safeApply) {
       return {
         restrict: 'E',
         replace: true,
@@ -200,6 +200,7 @@
             }
 
             scope.$select = function (el,format,hardcoded) {
+              console.log($directive.focusedModel)
               if(!angular.isDefined(format)){
                   format = 'yyyy/mm/dd';
               }
@@ -221,7 +222,7 @@
                     if(dateCalculator.dateBeforeOther(scope.firstDate,scope.lastDate)){
                       scope.lastDate = null;
                       if(!hardcoded){
-                        $directive.focused.lastDateElem.focus();
+                        setTimeout(function(){ $directive.focused.lastDateElem.focus(); }, 1);
                       }
                     }
                   }
@@ -236,7 +237,7 @@
                     if(dateCalculator.dateBeforeOther(scope.firstDate,scope.lastDate)){
                       scope.firstDate = null;
                       if(!hardcoded){
-                        $directive.focused.firstDateElem.focus();
+                        setTimeout(function(){ $directive.focused.firstDateElem.focus(); }, 1);
                       }
                     }
                   }
@@ -302,11 +303,15 @@
               angular.element($directive.focused.lastDateElem).bind('blur', hide);
 
               angular.element($directive.focused.firstDateElem).bind('focus', function () {
-                $directive.focusedModel = 'firstDateElem';
+                //safeApply(scope,function(){
+                  $directive.focusedModel = 'firstDateElem';
+                //})
                 show();
               });
               angular.element($directive.focused.lastDateElem).bind('focus', function () {
-                $directive.focusedModel = 'lastDateElem';
+                //safeApply(scope,function(){
+                  $directive.focusedModel = 'lastDateElem';
+                //})
                 show();
               });
             }

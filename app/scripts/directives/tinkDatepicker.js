@@ -1,6 +1,35 @@
 'use strict';
 angular.module('tink.datepicker', [])
-.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView',function($q,$templateCache,$http,$compile,dateCalculator,calView) {
+.directive('tinkTest',['$q','$templateCache','$http','$compile','dateCalculator','calView','$window',function($q,$templateCache,$http,$compile,dateCalculator,calView,$window) {
+ return {
+    restrict:'EA',
+    require:'ngModel',
+    replace:true,
+    template:'<input type="date"  />',
+    controller:function($scope,$attrs){
+      $scope.dynamicName = $attrs.name;
+    },
+    priority:999,
+    link:function(scope,element,attr,ctrl){
+      var content = angular.element('<input type="date" ng-model="ngModel" />');
+      $compile(content)(scope);
+      $(content).insertBefore(element.find('span.input-group-addon'));
+      ctrl.$render();
+      ctrl.$parsers.push(function(modelValue) {
+        if(modelValue !== null && modelValue !== undefined ){
+          return new Date(modelValue);
+        }
+      });
+      ctrl.$formatters.push(function(value){
+        if(value !== null && value !== undefined){
+          return dateCalculator.format(value,'yyyy-mm-dd');
+        }
+      });
+
+    }
+  }
+}])
+.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','$window',function($q,$templateCache,$http,$compile,dateCalculator,calView,$window) {
   return {
     restrict:'EA',
     require:['ngModel','?^form'],
@@ -30,7 +59,34 @@ angular.module('tink.datepicker', [])
         scope.build();
       };
 
+      var isDateSupported = function() {
+                var i = document.createElement('input');
+                i.setAttribute('type', 'date');
+                return i.type !== 'text';
+      };
+      var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
+      var isTouch = ('createTouch' in $window.document) && isNative && isDateSupported();
+
+      if(isTouch){
+        content = angular.element('<input type="date" name="'+attr.name+'"  ng-model="ngDate" />');
+        scope.$watch('ngModel',function(value,old){
+          if(value !== old){
+            var parsed = dateCalculator.format(value,'yyyy-mm-dd');
+            var cr=content.data('$ngModelController');
+            if(cr.$viewValue !== parsed){
+             content.val(parsed);
+            }
+          }
+        })
+        scope.$watch('ngDate',function(value,old){
+          if(value !== old){
+            scope.ngModel = new Date(value)
+        }
+
+        })
+      }else{
         content = angular.element('<input tink-format-input data-format="00/00/0000" data-placeholder="mm/dd/jjjj" data-date name="'+attr.name+'"  ng-model="ngModel" />');
+      }
       $(content).insertBefore(element.find('span.input-group-addon'));
       $compile(content)(scope);
 
@@ -42,6 +98,11 @@ angular.module('tink.datepicker', [])
         });
 
       }
+
+      // ctrl.$formatters.push(function(modelValue) {
+      //   console.log(modelValue)
+      // });
+
 
       scope.$watch('ngModel',function(newVal){
         $directive.selectedDate =  newVal;
