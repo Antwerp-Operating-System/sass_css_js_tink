@@ -167,7 +167,7 @@ var valueToHtml = function(value){
 };
 
 var setValue = function(cur){
-  if(isTouch){
+  if(isTouch && type === 'date'){
     elem.val(newVa);
   }else{
     elem.find('#input').html(valueToHtml(newVa));
@@ -278,7 +278,7 @@ elem.find('#input').keypress(function(event){
 ctrl.$render();
 ctrl.$parsers.push(function(viewValue) {
   handleFormat(viewValue);
-  if(isTouch){
+  if(isTouch && type === 'date'){
    if(viewValue !== null && viewValue !== undefined && viewValue !== '' ){
     ctrlForm.$dirty = true;
     return new Date(viewValue);
@@ -322,7 +322,11 @@ elem.find('#input').on('blur', function() {
     }else if(type === 'date' ){
       ctrlForm.$setValidity(pre+'date', false);
       ctrl.$setViewValue(null);
-      setDirty();
+      if(placeholder !== newVa){
+        setDirty();
+      }else{
+        ctrlForm.$setPristine();
+      }
     }else if(validValue(newVa)){
       ctrl.$setViewValue(newVa);
       ctrlForm.$setValidity(pre+'format', true);
@@ -364,7 +368,7 @@ elem.find('#input').on('blur', function() {
 
       ctrl.$formatters.push(function(modelValue) {
 
-        if(isTouch){
+        if(isTouch && type === 'date'){
           if(modelValue !== null && modelValue !== undefined){
            return  handleFormat(dateCalculator.format(modelValue,'yyyy-mm-dd'));
             //return dateCalculator.format(modelValue,'yyyy-mm-dd');
@@ -393,7 +397,7 @@ elem.find('#input').on('blur', function() {
             pre = attr.validName;
           }
           var date;
-          if(isTouch){
+          if(isTouch && type == 'date'){
             if(modelValue === null || !angular.isDefined(modelValue) || modelValue === ''){
               ctrlForm.$setValidity(pre+'date', false);
             }else{
@@ -408,7 +412,7 @@ elem.find('#input').on('blur', function() {
           }
 
           if(validValue(date) && validFormat(date,'dd/mm/yyyy')){
-            if(isTouch){
+            if(isTouch && type === 'date'){
               newVa =  dateCalculator.formatDate(nativ, 'yyyy-mm-dd');
             }else{
               newVa =  date;
