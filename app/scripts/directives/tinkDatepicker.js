@@ -67,7 +67,7 @@ angular.module('tink.datepicker', [])
       var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
       var isTouch = ('createTouch' in $window.document) && isNative && isDateSupported();
 
-      if(isTouch){
+      if(false){
         content = angular.element('<input type="date" name="'+attr.name+'"  ng-model="ngDate" />');
         scope.$watch('ngModel',function(value,old){
           if(value !== old){

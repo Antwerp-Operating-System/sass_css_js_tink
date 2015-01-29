@@ -8,6 +8,7 @@
         templateUrl: 'templates/tinkDatePickerRangeInputs.html',
         controller:function($scope,$attrs){
           $scope.dynamicName = $attrs.name;
+          console.log($scope)
         },
         scope: {
           firstDate: '=?',
