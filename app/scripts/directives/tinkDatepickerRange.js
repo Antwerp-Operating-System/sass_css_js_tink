@@ -17,7 +17,7 @@
           var $directive = {
             open: false,
             focused: {firstDateElem: element.find('div[tink-format-input] div:first'), lastDateElem: element.find('div[tink-format-input] div:last')},
-            calendar: {first:element.find('span.input-group-addon:first'),last:element.find('span.input-group-addon:last')},
+            calendar: {first:element.find('span.datepicker-icon:first'),last:element.find('span.datepicker-icon:last')},
             tbody:{firstDateElem:null,lastDateElem:null},
             focusedModel: null,
             selectedDates: {first: scope.firstDate, last: scope.lastDate},
