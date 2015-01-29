@@ -136,7 +136,7 @@ angular.module('tink.datepicker', [])
         scope.build();
       };
 
-      scope.toggleMode = function(){
+      scope.$toggleMode = function(){
 
         if($directive.mode >= 0 && $directive.mode <=1){
           $directive.mode += 1;

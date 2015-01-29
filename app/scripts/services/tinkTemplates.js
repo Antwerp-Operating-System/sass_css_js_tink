@@ -21,7 +21,7 @@ angular.module('tink.templates', [])
                 '</button>'+
             '</th>'+
             '<th colspan="{{ rows[0].length - 2 }}">'+
-                '<button tabindex="-1" type="button" class="btn btn-default btn-block text-strong"  ng-click="$toggleMode()">'+
+                '<button tabindex="-1" type="button" class="btn btn-default btn-block text-strong"  ng-click="toggleMode()">'+
                     '<strong style="text-transform: capitalize;" ng-bind="title"></strong>'+
                 '</button>'+
             '</th>'+
