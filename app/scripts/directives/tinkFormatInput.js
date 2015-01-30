@@ -1,6 +1,6 @@
   'use strict';
   angular.module('tink.format',[])
-  .directive('tinkFormatInput', ['dateCalculator','$window','safeApply','$compile',function (dateCalculator,$window,safeApply,$compile) {
+  .directive('tinkFormatInput', ['dateCalculator','$window','safeApply',function (dateCalculator,$window,safeApply) {
     return {
       replace:true,
       require:['ngModel','?^form'],
@@ -13,7 +13,7 @@
           return '<div><div id="input" class="faux-input" contenteditable="true">{{placeholder}}</div></div>';
         }
       },
-      compile:function(template,attr){
+      compile:function(template){
         template.prop('type','date');
         return {
          pre: function() { },
@@ -299,7 +299,7 @@ var isRequired=function(){
     pre = attr.validName+'-';
   }
   if(angular.isDefined(scope.required)){
-    if(placeholder !== newVa){
+    if(placeholder !== newVa && newVa !== ''){
       ctrlForm.$setValidity(pre+'required', true);
     }else{
       ctrlForm.$setValidity(pre+'required', false);
@@ -307,10 +307,6 @@ var isRequired=function(){
   }
 };
 
-function setDirty(){
-  ctrlForm.$dirty = true;
-  ctrlForm.$pristine = false;
-}
 elem.find('#input').on('blur', function() {
   var pre = '';
   if(attr.validName){
@@ -343,7 +339,7 @@ elem.find('#input').on('blur', function() {
     isRequired();
   });
 });
-
+isRequired();
 var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
 var isTouch = ('createTouch' in $window.document) && isNative;
 function validFormat(date,format){
@@ -372,10 +368,15 @@ controlNg.$formatters.push(function(modelValue) {
 
   if(isTouch && type === 'date'){
     if(modelValue !== null && modelValue !== undefined){
-     return  handleFormat(dateCalculator.format(modelValue,'yyyy-mm-dd'));
-            //return dateCalculator.format(modelValue,'yyyy-mm-dd');
+       var format =  handleFormat(dateCalculator.format(modelValue,'yyyy-mm-dd'));
+           ctrlForm.$setPristine();
+           return format;
           }else{
-           return handleFormat(null);
+         //  var format =  handleFormat(null);
+           //ctrlForm.$setPristine();
+            newVa = '';
+            setValue();
+           return null;
          }
        }else{
         if(modelValue === null || modelValue === undefined){
@@ -399,7 +400,7 @@ var handleFormat = function(modelValue){
       pre = attr.validName;
     }
     var date;
-    if(isTouch && type == 'date'){
+    if(isTouch && type === 'date'){
       if(modelValue === null || !angular.isDefined(modelValue) || modelValue === ''){
         ctrlForm.$setValidity(pre+'date', false);
       }else{
@@ -440,13 +441,13 @@ var handleFormat = function(modelValue){
 isRequired();
 return modelValue;
 };
-
+handleFormat(null);
 
 }
 };
 
 }
-}
+};
 }])
   .controller('TinkFormatController', [function () {
     var self = this;

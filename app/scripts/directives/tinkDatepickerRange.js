@@ -1,6 +1,6 @@
 'use strict';
     angular.module('tink.datepickerRange', ['tink.dateHelper','tink.safeApply'])
-    .directive('tinkDatepickerRange',['$q', '$templateCache', '$http', 'calView', '$sce','$compile','dateCalculator','$window','safeApply', function ($q, $templateCache, $http, calView, $sce,$compile,dateCalculator,$window,safeApply) {
+    .directive('tinkDatepickerRange',['$q', '$templateCache', '$http', 'calView', '$sce','$compile','dateCalculator','$window', function ($q, $templateCache, $http, calView, $sce,$compile,dateCalculator,$window) {
       return {
         restrict: 'E',
         replace: true,
@@ -60,6 +60,8 @@
                 $directive.focusedModel = 'firstDateElem';
                scope.$select(scope.firstDate,null,true);
                buildView();
+             }else{
+              checkValidity();
              }
 
 
@@ -71,6 +73,8 @@
               $directive.focusedModel = 'lastDateElem';
               scope.$select(scope.lastDate,null,true);
               buildView();
+            }else{
+              checkValidity();
             }
           });
 
@@ -245,25 +249,20 @@
                 }
 
               }
-             // checkValidity();
+              checkValidity();
             };
 
-            /*function checkValidity(){
-              if(angular.isDefined(attrs.required)){
-                scope.ctrlconst.$setValidity('required',true);
-                if(scope.firstDate === null){
-                  scope.ctrlconst.$setValidity('firstdate-required',false);
-                }else{
-                  scope.ctrlconst.$setValidity('firstdate-required',true);
+            function checkValidity(){
+                //scope.ctrlconst.$setValidity('required',true);
+                if(scope.firstDate === null && scope.lastDate !== null){
+                  scope.ctrlconst.$setValidity('firstdate',false);
+                }else if(scope.firstDate !== null && scope.lastDate === null){
+                  scope.ctrlconst.$setValidity('lastdate',false);
+                }else if(scope.firstDate === null && scope.lastDate === null){
+                  scope.ctrlconst.$setValidity('firstdate',true);
+                  scope.ctrlconst.$setValidity('lastdate',true);
                 }
-
-                if(scope.lastDate === null){
-                  scope.ctrlconst.$setValidity('lastdate-required',false);
-                }else{
-                  scope.ctrlconst.$setValidity('lastdate-required',true);
-                }
-              }
-            }*/
+            }
 
             function $onMouseDown (evt) {
               if (evt.target.isContentEditable) {

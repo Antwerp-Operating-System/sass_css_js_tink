@@ -1,6 +1,6 @@
 'use strict';
 angular.module('tink.datepicker', [])
-.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','$window',function($q,$templateCache,$http,$compile,dateCalculator,calView,$window) {
+.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView',function($q,$templateCache,$http,$compile,dateCalculator,calView) {
   return {
     restrict:'EA',
     require:['ngModel','?^form'],
@@ -32,13 +32,6 @@ angular.module('tink.datepicker', [])
         $directive.pane.month = 1;
         scope.build();
       };
-      var isDateSupported = function() {
-                var i = document.createElement('input');
-                i.setAttribute('type', 'date');
-                return i.type !== 'text';
-      };
-      var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
-      var isTouch = ('createTouch' in $window.document) && isNative && isDateSupported();
 
       //content = angular.element('<input tink-format-input data-format="00/00/0000" data-placeholder="mm/dd/jjjj" data-date name="'+attr.name+'"  ng-model="ngModel" />');
       //$(content).insertBefore(element.find('span.datepicker-icon'));
