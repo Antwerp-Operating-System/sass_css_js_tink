@@ -41,7 +41,8 @@
 
   .text-success,
   .text-danger {
-    border-top: 1px solid transparent; // alignment fix
+    margin-top: 1px; // alignment fix
+    display: block;
     padding: rem($padding-base-vertical) 0;
   }
 }
