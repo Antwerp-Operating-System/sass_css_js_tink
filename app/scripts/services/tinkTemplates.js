@@ -116,6 +116,7 @@ $templateCache.put('templates/tooltip.html',
 
 $templateCache.put('templates/tinkDatePickerInput.html',
   '<div class="datepicker-input-fields">'+
+  '<input tink-format-input data-format="00/00/0000" data-placeholder="mm/dd/jjjj" data-date dynamic-name="dynamicName"  ng-model="ngModel" />'+
   '<span class="datepicker-icon">'+
   '<i class="fa fa-calendar"></i>'+
   '</span>'+

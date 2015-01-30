@@ -13,13 +13,13 @@ angular.module('tinkFramework.controllers')
   scope.dates= {last:new Date(2015,11,11),first:null};
 scope.signup={username:'11.11.11-111.1'};
   scope.go = function(){
-  	console.log(scope.dates,scope.userForm);
+  	console.log(scope.dates);
   };
 
   scope.getDate = function(){
     console.log(scope.signup.username);
-    console.log(scope.userForm.format);
-    console.log(scope.userForm);
+    console.log(scope.userForm.single);
+    console.log(scope.userForm.dubbel);
   };
 
   scope.submitForm = function() {

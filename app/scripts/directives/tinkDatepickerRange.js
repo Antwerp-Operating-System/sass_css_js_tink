@@ -8,10 +8,12 @@
         templateUrl: 'templates/tinkDatePickerRangeInputs.html',
         controller:function($scope,$attrs){
           $scope.dynamicName = $attrs.name;
+          $scope.required = $attrs.required;
         },
         scope: {
           firstDate: '=?',
           lastDate: '=?',
+          required:'@?'
         },
         link: function postLink(scope, element,attrs,form) {
           var $directive = {
@@ -29,7 +31,6 @@
           if(attrs.name){
             scope.ctrlconst = form[0][attrs.name];
           }
-         // form[0].$removeControl(form[0].dubbel);
 
           $directive.calendar.first.on('click',function(){
             $directive.focused.firstDateElem.focus();
@@ -59,6 +60,8 @@
                 $directive.focusedModel = 'firstDateElem';
                scope.$select(scope.firstDate,null,true);
                buildView();
+             }else{
+              checkValidity();
              }
 
 
@@ -70,6 +73,8 @@
               $directive.focusedModel = 'lastDateElem';
               scope.$select(scope.lastDate,null,true);
               buildView();
+            }else{
+              checkValidity();
             }
           });
 
@@ -221,7 +226,7 @@
                     if(dateCalculator.dateBeforeOther(scope.firstDate,scope.lastDate)){
                       scope.lastDate = null;
                       if(!hardcoded){
-                        $directive.focused.lastDateElem.focus();
+                        setTimeout(function(){ $directive.focused.lastDateElem.focus(); }, 1);
                       }
                     }
                   }
@@ -236,7 +241,7 @@
                     if(dateCalculator.dateBeforeOther(scope.firstDate,scope.lastDate)){
                       scope.firstDate = null;
                       if(!hardcoded){
-                        $directive.focused.firstDateElem.focus();
+                        setTimeout(function(){ $directive.focused.firstDateElem.focus(); }, 1);
                       }
                     }
                   }
@@ -244,7 +249,20 @@
                 }
 
               }
+              checkValidity();
             };
+
+            function checkValidity(){
+                //scope.ctrlconst.$setValidity('required',true);
+                if(scope.firstDate === null && scope.lastDate !== null){
+                  scope.ctrlconst.$setValidity('firstdate',false);
+                }else if(scope.firstDate !== null && scope.lastDate === null){
+                  scope.ctrlconst.$setValidity('lastdate',false);
+                }else if(scope.firstDate === null && scope.lastDate === null){
+                  scope.ctrlconst.$setValidity('firstdate',true);
+                  scope.ctrlconst.$setValidity('lastdate',true);
+                }
+            }
 
             function $onMouseDown (evt) {
               if (evt.target.isContentEditable) {
@@ -302,11 +320,15 @@
               angular.element($directive.focused.lastDateElem).bind('blur', hide);
 
               angular.element($directive.focused.firstDateElem).bind('focus', function () {
-                $directive.focusedModel = 'firstDateElem';
+                //safeApply(scope,function(){
+                  $directive.focusedModel = 'firstDateElem';
+                //})
                 show();
               });
               angular.element($directive.focused.lastDateElem).bind('focus', function () {
-                $directive.focusedModel = 'lastDateElem';
+                //safeApply(scope,function(){
+                  $directive.focusedModel = 'lastDateElem';
+                //})
                 show();
               });
             }
