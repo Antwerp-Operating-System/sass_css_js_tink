@@ -42,7 +42,7 @@
   .text-success,
   .text-danger {
     border-top: 1px solid transparent; // alignment fix
-    padding-top: rem($padding-base-vertical);
+    padding: rem($padding-base-vertical) 0;
   }
 }
 
