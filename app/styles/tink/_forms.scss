@@ -547,3 +547,10 @@ output {
     color: $gray-dark;
   }
 }
+
+// Faux Input field (for when another element is used to mimick an input element)
+.faux-input {
+  .placeholder {
+    color: $input-color-placeholder;
+  }
+}
