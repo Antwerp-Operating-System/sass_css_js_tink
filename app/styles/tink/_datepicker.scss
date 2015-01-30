@@ -6,23 +6,36 @@
  */
 
 
-.tink-datepickerrange-input-fields {
-  display: inline-block;
+.datepicker-input-fields {
   position: relative;
 
-  .input-group,
-  .input-group[class*="col-"] {
-    float: left;
-
-    div .faux-input {
-      border-bottom-right-radius: 0;
-      border-top-right-radius: 0;
+  > div[class*="col-"] {
+    .datepicker-icon {
+      margin-right: $grid-gutter-width / 2;
+      right: 1px;
     }
   }
 }
 
-.tink-datepicker, .datepicker,
-.tink-datepickerrange, .datepickerrange {
+.datepicker-icon {
+  bottom: 1px;
+  color: $datepicker-icon-color;
+  cursor: pointer;
+  padding: rem($padding-base-vertical ($padding-base-horizontal / 1.5));
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  transition: color $animation-speed linear;
+
+  &:hover,
+  &:active {
+    color: $datepicker-icon-hover-color;
+  }
+}
+
+
+.datepicker,
+.datepickerrange {
   background: $datepicker-bgcolor;
   box-shadow: 0 1px 2px rgba(0,0,0,.6);
   color: $datepicker-neutral-dark;
@@ -33,7 +46,8 @@
 
   button,
   .btn {
-    @extend .no-border;
+    // @extend .no-border;
+    border: 1px solid transparent; // With this trick TJ fixed the irregular button sizes
     color: $datepicker-btn-color;
     min-width: 20px;
     padding: rem($padding-base-vertical 0);
@@ -41,7 +55,7 @@
     background: $datepicker-btn-bgcolor;
 
     @include mq($screen-md) {
-      min-width: 40px;
+      min-width: 38px;
     }
 
     &:hover {
@@ -49,9 +63,16 @@
       color: $datepicker-btn-color-hover;
     }
 
-    &.btn-warning {
+    &.btn-warning,
+    &.btn-today {
       background: $datepicker-btn-bgcolor;
       border: 1px solid $brand !important;
+
+      &:hover {
+        background: $datepicker-btn-bgcolor-hover;
+        border-color: transparent !important;
+        color: $datepicker-btn-color-hover;
+      }
     }
 
     &.btn-primary,
@@ -83,14 +104,20 @@
   th {
     border: none;
     color: $datepicker-neutral;
-    padding: rem($table-cell-padding / 3);
+    font-size: rem(13);
+    padding: rem($table-cell-padding / 6);
     text-align: center;
+
+    button {
+      font-size: rem(13) !important;
+    }
   }
 }
 
 .datepicker {
-  min-width: rem(260);
+  width: rem(260); // removed min-width
   position: absolute;
+  padding: 3%;
 }
 
 .datepickerrange {
@@ -98,15 +125,15 @@
 
   @include mq($screen-xs) {
     min-width: 400px;
-    &:before {
-      background: lighten($datepicker-neutral-light, 20);
-      bottom: 0;
-      content: "";
-      left: 50%;
-      position: absolute;
-      top: 0;
-      width: 1px;
-    }
+    // &:before { // vertical divider line
+    //   background: lighten($datepicker-neutral-light, 20);
+    //   bottom: 0;
+    //   content: "";
+    //   left: 50%;
+    //   position: absolute;
+    //   top: 0;
+    //   width: 1px;
+    // }
   }
 
   @include mq($screen-sm) {
@@ -117,7 +144,7 @@
 .datepickerrange-header-left,
 .datepickerrange-header-right {
   overflow: hidden;
-  line-height: rem(39);
+  line-height: rem(30);
   padding: rem($table-cell-padding / 4);
 
   // button,
@@ -131,8 +158,9 @@
 .datepickerrange-left,
 .datepickerrange-right {
   width: 100%;
-
+  padding: 1.5%;
   @include mq($screen-xs) {
     width: 50%;
+    padding: 2.5%;
   }
 }
