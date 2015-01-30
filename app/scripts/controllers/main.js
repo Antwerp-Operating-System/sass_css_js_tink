@@ -18,8 +18,8 @@ scope.signup={username:'11.11.11-111.1'};
 
   scope.getDate = function(){
     console.log(scope.signup.username);
-    console.log(scope.userForm.format);
-    console.log(scope.userForm);
+    console.log(scope.userForm.single);
+    console.log(scope.userForm.dubbel);
   };
 
   scope.submitForm = function() {

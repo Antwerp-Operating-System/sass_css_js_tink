@@ -21,7 +21,7 @@ angular.module('tink.templates', [])
                 '</button>'+
             '</th>'+
             '<th colspan="{{ rows[0].length - 2 }}">'+
-                '<button tabindex="-1" type="button" class="btn btn-default btn-block text-strong"  ng-click="toggleMode()">'+
+                '<button tabindex="-1" type="button" class="btn btn-default btn-block text-strong"  ng-click="$toggleMode()">'+
                     '<strong style="text-transform: capitalize;" ng-bind="title"></strong>'+
                 '</button>'+
             '</th>'+
@@ -116,6 +116,7 @@ $templateCache.put('templates/tooltip.html',
 
 $templateCache.put('templates/tinkDatePickerInput.html',
   '<div class="datepicker-input-fields">'+
+  '<input tink-format-input data-format="00/00/0000" data-placeholder="mm/dd/jjjj" data-date dynamic-name="dynamicName"  ng-model="ngModel" />'+
   '<span class="datepicker-icon">'+
   '<i class="fa fa-calendar"></i>'+
   '</span>'+

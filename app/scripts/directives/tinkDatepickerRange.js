@@ -8,11 +8,12 @@
         templateUrl: 'templates/tinkDatePickerRangeInputs.html',
         controller:function($scope,$attrs){
           $scope.dynamicName = $attrs.name;
-          console.log($scope)
+          $scope.required = $attrs.required;
         },
         scope: {
           firstDate: '=?',
           lastDate: '=?',
+          required:'@?'
         },
         link: function postLink(scope, element,attrs,form) {
           var $directive = {
@@ -30,7 +31,6 @@
           if(attrs.name){
             scope.ctrlconst = form[0][attrs.name];
           }
-         // form[0].$removeControl(form[0].dubbel);
 
           $directive.calendar.first.on('click',function(){
             $directive.focused.firstDateElem.focus();
@@ -201,7 +201,6 @@
             }
 
             scope.$select = function (el,format,hardcoded) {
-              console.log($directive.focusedModel)
               if(!angular.isDefined(format)){
                   format = 'yyyy/mm/dd';
               }
@@ -246,7 +245,25 @@
                 }
 
               }
+             // checkValidity();
             };
+
+            /*function checkValidity(){
+              if(angular.isDefined(attrs.required)){
+                scope.ctrlconst.$setValidity('required',true);
+                if(scope.firstDate === null){
+                  scope.ctrlconst.$setValidity('firstdate-required',false);
+                }else{
+                  scope.ctrlconst.$setValidity('firstdate-required',true);
+                }
+
+                if(scope.lastDate === null){
+                  scope.ctrlconst.$setValidity('lastdate-required',false);
+                }else{
+                  scope.ctrlconst.$setValidity('lastdate-required',true);
+                }
+              }
+            }*/
 
             function $onMouseDown (evt) {
               if (evt.target.isContentEditable) {

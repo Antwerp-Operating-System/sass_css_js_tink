@@ -18,14 +18,13 @@
         return {
          pre: function() { },
          post: function(scope,elem,attr,ctrl){
-          console.log(scope)
       //var ctrl = elem.data('$ngModelController');
       var forms = ctrl[1];
       if(forms){
-        forms.$addControl(ctrl[0]);
+        setTimeout(function(){ forms.$addControl(ctrl[0]); }, 1);
       }
       //elem.val('2015-01-11');
-      ctrl = ctrl[0];
+      var controlNg = ctrl[0];
       if(!attr.format || !attr.placeholder){
         return;
       }
@@ -49,10 +48,9 @@
       var ctrlForm;
 
       if(attr.ctrlModel && forms){
-        console.log(scope,attr,forms)
         ctrlForm = forms[scope[attr.ctrlModel]];
       }else{
-        ctrlForm = ctrl;
+        ctrlForm = controlNg;
       }
 
       function handleInput(key,cur){
@@ -176,8 +174,8 @@ var setValue = function(cur){
   if(cur > -1 && cur <= format.length){
    setCursor(cur);
  }
- ctrl.$dirty = true;
- ctrl.$pristine = false;
+ ctrlForm.$dirty = true;
+ ctrlForm.$pristine = false;
 };
 
 var charIs = function(char,base){
@@ -275,8 +273,8 @@ elem.find('#input').keypress(function(event){
   return false;
 });
 //hnb314
-ctrl.$render();
-ctrl.$parsers.push(function(viewValue) {
+controlNg.$render();
+controlNg.$parsers.push(function(viewValue) {
   handleFormat(viewValue);
   if(isTouch && type === 'date'){
    if(viewValue !== null && viewValue !== undefined && viewValue !== '' ){
@@ -296,11 +294,15 @@ scope.$watch('ngModel',function(newVal,oldVal){
 });
 
 var isRequired=function(){
-  if(attr.required){
+  var pre = '';
+  if(attr.validName){
+    pre = attr.validName+'-';
+  }
+  if(angular.isDefined(scope.required)){
     if(placeholder !== newVa){
-      ctrlForm.$setValidity('required', true);
+      ctrlForm.$setValidity(pre+'required', true);
     }else{
-      ctrlForm.$setValidity('required', false);
+      ctrlForm.$setValidity(pre+'required', false);
     }
   }
 };
@@ -318,20 +320,20 @@ elem.find('#input').on('blur', function() {
     console.log(newVa);
     if(type === 'date' && validFormat(newVa,'dd/mm/yyyy')){
       ctrlForm.$setValidity(pre+'date', true);
-      ctrl.$setViewValue(dateCalculator.getDate(newVa,'dd/mm/yyyy'));
+      controlNg.$setViewValue(dateCalculator.getDate(newVa,'dd/mm/yyyy'));
     }else if(type === 'date' ){
       ctrlForm.$setValidity(pre+'date', false);
-      ctrl.$setViewValue(null);
+      controlNg.$setViewValue(null);
       if(placeholder !== newVa){
-        setDirty();
+        //setDirty();
       }else{
-        ctrlForm.$setPristine();
+        ctrlForm.$setValidity(pre+'date', true);
       }
     }else if(validValue(newVa)){
-      ctrl.$setViewValue(newVa);
+      controlNg.$setViewValue(newVa);
       ctrlForm.$setValidity(pre+'format', true);
     }else{
-      ctrl.$setViewValue(null);
+      controlNg.$setViewValue(null);
       if(placeholder === newVa){
         ctrlForm.$setValidity(pre+'format', true);
       }else{
@@ -342,35 +344,35 @@ elem.find('#input').on('blur', function() {
   });
 });
 
-      var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
-      var isTouch = ('createTouch' in $window.document) && isNative;
-      function validFormat(date,format){
-        var dateObject;
-        if(angular.isDefined(date) && date !== null){
+var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
+var isTouch = ('createTouch' in $window.document) && isNative;
+function validFormat(date,format){
+  var dateObject;
+  if(angular.isDefined(date) && date !== null){
 
-          if(typeof date === 'string'){
-            if(date.length !== 10){ return false; }
+    if(typeof date === 'string'){
+      if(date.length !== 10){ return false; }
 
-            if(!isTouch && !/^(?:(?:31(\/)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/.test(date)){return false;}
+      if(!isTouch && !/^(?:(?:31(\/)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/.test(date)){return false;}
 
-            dateObject = dateCalculator.getDate(date, format);
-          }else if(angular.isDate(date)){
-            dateObject = date;
-          }else if(typeof date === 'function'){
-            return validFormat(date(),format);
-          }else {
-            return false;
-          }
+      dateObject = dateCalculator.getDate(date, format);
+    }else if(angular.isDate(date)){
+      dateObject = date;
+    }else if(typeof date === 'function'){
+      return validFormat(date(),format);
+    }else {
+      return false;
+    }
 
-          return dateObject.toString()!=='Invalid Date';
-        }
-      }
+    return dateObject.toString()!=='Invalid Date';
+  }
+}
 
-      ctrl.$formatters.push(function(modelValue) {
+controlNg.$formatters.push(function(modelValue) {
 
-        if(isTouch && type === 'date'){
-          if(modelValue !== null && modelValue !== undefined){
-           return  handleFormat(dateCalculator.format(modelValue,'yyyy-mm-dd'));
+  if(isTouch && type === 'date'){
+    if(modelValue !== null && modelValue !== undefined){
+     return  handleFormat(dateCalculator.format(modelValue,'yyyy-mm-dd'));
             //return dateCalculator.format(modelValue,'yyyy-mm-dd');
           }else{
            return handleFormat(null);
@@ -383,57 +385,61 @@ elem.find('#input').on('blur', function() {
         }
         handleFormat(modelValue);
       }
-      ctrl.$setPristine();
+      ctrlForm.$setPristine();
     });
 
-      var handleFormat = function(modelValue){
-        var nativ;
-        if(typeof modelValue ==='function'){
-          modelValue = modelValue();
-        }
-        if(type === 'date'){
-          var pre = '';
-          if(attr.validName){
-            pre = attr.validName;
-          }
-          var date;
-          if(isTouch && type == 'date'){
-            if(modelValue === null || !angular.isDefined(modelValue) || modelValue === ''){
-              ctrlForm.$setValidity(pre+'date', false);
-            }else{
-              nativ = new Date(modelValue);
-              date = dateCalculator.formatDate(modelValue, dateFormat);
-            }
-
-          }else if(angular.isDate(modelValue)){
-            date = dateCalculator.formatDate(modelValue, dateFormat);
-          }else{
-            date = modelValue;
-          }
-
-          if(validValue(date) && validFormat(date,'dd/mm/yyyy')){
-            if(isTouch && type === 'date'){
-              newVa =  dateCalculator.formatDate(nativ, 'yyyy-mm-dd');
-            }else{
-              newVa =  date;
-            }
-            ctrlForm.$setValidity(pre+'date', true);
-            setValue();
-          }else{
-           ctrlForm.$setValidity(pre+'date', false);
-         }
-       }else if(typeof modelValue === 'string'){
-        if(validValue(modelValue)){
-         newVa =  modelValue;
-         setValue();
-       }else{
-        ctrl.$setViewValue(null);
+var handleFormat = function(modelValue){
+  var nativ;
+  if(typeof modelValue ==='function'){
+    modelValue = modelValue();
+  }
+  if(type === 'date'){
+    var pre = '';
+    if(attr.validName){
+      pre = attr.validName;
+    }
+    var date;
+    if(isTouch && type == 'date'){
+      if(modelValue === null || !angular.isDefined(modelValue) || modelValue === ''){
+        ctrlForm.$setValidity(pre+'date', false);
+      }else{
+        nativ = new Date(modelValue);
+        date = dateCalculator.formatDate(modelValue, dateFormat);
       }
+
+    }else if(angular.isDate(modelValue)){
+      date = dateCalculator.formatDate(modelValue, dateFormat);
+    }else{
+      date = modelValue;
     }
 
-    isRequired();
-    return modelValue;
-  };
+    if(validValue(date) && validFormat(date,'dd/mm/yyyy')){
+      if(isTouch && type === 'date'){
+        newVa =  dateCalculator.formatDate(nativ, 'yyyy-mm-dd');
+      }else{
+        newVa =  date;
+      }
+      ctrlForm.$setValidity(pre+'date', true);
+      setValue();
+    }else{
+      if(placeholder === newVa){
+        ctrlForm.$setValidity(pre+'date', true);
+      }else{
+        ctrlForm.$setValidity(pre+'date', false);
+      }
+   }
+ }else if(typeof modelValue === 'string'){
+  if(validValue(modelValue)){
+   newVa =  modelValue;
+   setValue();
+ }else{
+  controlNg.$setViewValue(null);
+}
+}
+
+isRequired();
+return modelValue;
+};
 
 
 }
