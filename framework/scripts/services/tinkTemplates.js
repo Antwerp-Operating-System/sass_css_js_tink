@@ -36,7 +36,7 @@ angular.module('tink.templates', [])
         '<tbody>'+
         '<tr ng-repeat="(i, row) in rows" height="{{ 100 / rows.length }}%">'+
             '<td class="text-center" ng-repeat="(j, el) in row">'+
-                '<button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{\'btn-primary\': el.selected, \'btn-info btn-today\': el.isToday && !el.selected}" ng-click="$select(el.date)" ng-disabled="el.disabled">'+
+                '<button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{\'btn-primary\': el.selected, \'btn-today\': el.isToday && !el.selected}" ng-click="$select(el.date)" ng-disabled="el.disabled">'+
                                     '<span ng-class="{\'text-muted\': el.muted}" ng-bind="el.label"></span>'+
                 '</button>'+
             '</td>'+
@@ -93,16 +93,16 @@ $templateCache.put('templates/tinkDatePickerRange.html',
   '</div>');
 
 $templateCache.put('templates/tinkDatePickerRangeInputs.html',
-  '<div class="tink-datepickerrange-input-fields">'+
-  '<div class="input-group col-sm-6">'+
+  '<div class="datepicker-input-fields">'+
+  '<div class="col-sm-6">'+
     '<input type="text" id="firstDateElem" data-date data-format="00/00/0000" data-placeholder="mm/dd/jjjj" dynamic-name="dynamicName" tink-format-input ng-model="firstDate" valid-name="first">'+
-    '<span class="input-group-addon">'+
+    '<span class="datepicker-icon">'+
       '<i class="fa fa-calendar"></i>'+
     '</span>'+
   '</div>'+
-  '<div class="input-group col-sm-6">'+
+  '<div class="col-sm-6">'+
     '<input type="text" id="lastDateElem" data-date data-format="00/00/0000" data-placeholder="mm/dd/jjjj" tink-format-input ctrl-model="dynamicName" valid-name="last"  ng-model="lastDate">'+
-    '<span class="input-group-addon">'+
+    '<span class="datepicker-icon">'+
       '<i class="fa fa-calendar"></i>'+
     '</span>'+
   '</div>'+
@@ -115,12 +115,10 @@ $templateCache.put('templates/tooltip.html',
     '</div>');
 
 $templateCache.put('templates/tinkDatePickerInput.html',
-  '<div class="tink-datepickerrange-input-fields">'+
-  '<div class="input-group">'+
-  '<span class="input-group-addon">'+
+  '<div class="datepicker-input-fields">'+
+  '<span class="datepicker-icon">'+
   '<i class="fa fa-calendar"></i>'+
   '</span>'+
-  '</div>'+
   '</div>');
 
 
@@ -151,7 +149,7 @@ $templateCache.put('templates/tinkDatePickerField.html',
         '<tbody>'+
         '<tr ng-repeat="(i, row) in rows" height="{{ 100 / rows.length }}%">'+
             '<td class="text-center" ng-repeat="(j, el) in row">'+
-                '<button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{\'btn-primary\': el.selected, \'btn-info btn-today\': el.isToday && !el.selected}" ng-click="$select(el.date)" ng-disabled="el.disabled">'+
+                '<button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{\'btn-primary\': el.selected, \'btn-today\': el.isToday && !el.selected}" ng-click="$select(el.date)" ng-disabled="el.disabled">'+
                                     '<span ng-class="{\'text-muted\': el.muted}" ng-bind="el.label"></span>'+
                 '</button>'+
             '</td>'+

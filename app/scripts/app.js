@@ -30,6 +30,9 @@ angular.module('tinkFramework', [
       .when('/forms', {
         templateUrl: 'views/forms.html'
       })
+      .when('/work-agile-tool', {
+        templateUrl: 'views/work-agile-tool.html'
+      })
 			.when('/:page', {
 			    templateUrl: 'views/home.html',
 			    controller: 'LocationCtrl'

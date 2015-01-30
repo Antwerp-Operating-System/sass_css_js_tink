@@ -147,6 +147,7 @@ body {
       }
 
       &.toggle {
+        cursor: pointer;
         @include mq($screen-sm) {
           display: none;
         }

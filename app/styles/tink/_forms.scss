@@ -347,12 +347,14 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   background: $white image-url("gui/select-arrow.svg") no-repeat right center;
+  background: none\9;
   background-size: contain;
   text-indent: 0.01px;
   text-overflow: '';
 
   &:focus {
     background-image: image-url("gui/select-arrow-focus.svg");
+    background-image: none\9;
   }
 }
 

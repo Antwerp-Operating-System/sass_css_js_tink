@@ -59,7 +59,7 @@
 
 
 
-  <aside data-tink-nav-aside data-accordion="false" data-accordion-first="false" data-toggle-id="firstSide" class="nav-left">
+  <aside data-tink-nav-aside data-accordion="false" data-accordion-first="true" data-toggle-id="firstSide" class="nav-left">
     <ul class="nav-aside-list" role="sidenav">
       <li>
         <a href="#/forms">
@@ -69,75 +69,24 @@
       </li>
       <li class="can-open">
         <a href="#/menu2">
-          <i class="fa fa-fw fa-dashboard"></i>
-          <span>Menu item 2</span>
-          <span class="badge">479</span>
+          <i class="fa fa-fw fa-recycle"></i>
+          <span>Deprecated</span>
+          <span class="badge">1</span>
         </a>
         <ul>
           <li>
-            <a href="#/menu2/menu1">
-              <span>Sub menu item 1</span>
-              <span class="badge">479</span>
-            </a>
-          </li>
-          <li>
-            <a href="#/menu2/menu2">
-              <span>Sub menu item 2</span>
-            </a>
-          </li>
-          <li>
-            <a href="#/menu2/menu3">
-              <span>Sub menu item 3 als dat geen probleem is</span>
-              <span class="badge">479</span>
+            <a href="#/work-agile-tool">
+              <i class="fa fa-fw fa-refresh"></i>
+              <span>Work Agile Tool</span>
             </a>
           </li>
         </ul>
-      </li>
-      <li>
-        <a href="#/menu4">
-          <!-- <i class="fa fa-fw fa-dashboard"></i> -->
-          <span>Menu item 4<span class="badge">479</span></span>
-
-        </a>
-        <ul>
-          <li>
-            <a href="#/menu4/menu1">
-              <span>Sub menu item 14<span class="badge">479</span></span>
-
-            </a>
-          </li>
-          <li>
-            <a href="#/menu4/menu2">
-              <span>Sub menu item14</span>
-            </a>
-          </li>
-          <li>
-            <a href="#/menu4/menu3">
-              <span>
-                Sub menu item 54
-                <span class="badge">479</span>
-              </span>
-            </a>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a href="#/menu3">
-          <i class="fa fa-fw fa-dashboard"></i>
-          <span>Menu item 3</span>
-        </a>
-      </li>
-      <li>
-        <a href="#/menu3/menu4">
-          <i class="fa fa-fw fa-dashboard"></i>
-          <span>Menu item 4</span>
-        </a>
       </li>
     </ul>
   </aside>
 
   <div>
-    <div class="main" role="main" data-ng-view="" ></div>
+    <div class="main" role="main" data-ng-view="" data-autoscroll="true"></div>
   </div>
 
 

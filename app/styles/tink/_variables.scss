@@ -442,10 +442,10 @@ $nav-aside-badge-active-text-color:      $black !default;
  */
 
 $datepicker-bgcolor            : $white !default;
-$datepicker-icon-color         : lighten($gray-dark, 10%) !default;
+$datepicker-icon-color         : lighten($gray-dark, 16%) !default;
 $datepicker-icon-hover-color   : $gray-dark !default;
 $datepicker-btn-bgcolor        : $white !default;
-$datepicker-btn-bgcolor-hover  : lighten($brand, 20) !default;
+$datepicker-btn-bgcolor-hover  : lighten($brand, 16%) !default;
 $datepicker-btn-color          : $gray !default;
 $datepicker-btn-color-hover    : $white !default;
 $datepicker-neutral            : $gray !default;

@@ -18,7 +18,7 @@ angular.module('tink.datepicker', [])
 
       scope.opts = attr;
       var input = element.find('input');
-      var clickable = element.find('.input-group-addon');
+      var clickable = element.find('.datepicker-icon');
       var copyEl;
       var content;
       scope.$show = function(){
@@ -31,7 +31,7 @@ angular.module('tink.datepicker', [])
       };
 
         content = angular.element('<input tink-format-input data-format="00/00/0000" data-placeholder="mm/dd/jjjj" data-date name="'+attr.name+'"  ng-model="ngModel" />');
-      $(content).insertBefore(element.find('span.input-group-addon'));
+      $(content).insertBefore(element.find('span.datepicker-icon'));
       $compile(content)(scope);
 
       function bindLiseners(){
