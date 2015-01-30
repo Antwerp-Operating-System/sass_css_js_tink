@@ -222,7 +222,7 @@ angular.module('tink.datepicker', [])
 
       scope.opts = attr;
       var input = element.find('input');
-      var clickable = element.find('.input-group-addon');
+      var clickable = element.find('.datepicker-icon');
       var copyEl;
       var content;
       scope.$show = function(){
@@ -235,7 +235,7 @@ angular.module('tink.datepicker', [])
       };
 
         content = angular.element('<input tink-format-input data-format="00/00/0000" data-placeholder="mm/dd/jjjj" data-date name="'+attr.name+'"  ng-model="ngModel" />');
-      $(content).insertBefore(element.find('span.input-group-addon'));
+      $(content).insertBefore(element.find('span.datepicker-icon'));
       $compile(content)(scope);
 
       function bindLiseners(){
@@ -385,14 +385,14 @@ angular.module('tink.datepicker', [])
           $scope.dynamicName = $attrs.name;
         },
         scope: {
-          firstDate: '=',
-          lastDate: '=',
+          firstDate: '=?',
+          lastDate: '=?',
         },
         link: function postLink(scope, element,attrs,form) {
           var $directive = {
             open: false,
             focused: {firstDateElem: element.find('div[tink-format-input] div:first'), lastDateElem: element.find('div[tink-format-input] div:last')},
-            calendar: {first:element.find('span.input-group-addon:first'),last:element.find('span.input-group-addon:last')},
+            calendar: {first:element.find('span.datepicker-icon:first'),last:element.find('span.datepicker-icon:last')},
             tbody:{firstDateElem:null,lastDateElem:null},
             focusedModel: null,
             selectedDates: {first: scope.firstDate, last: scope.lastDate},
@@ -408,11 +408,9 @@ angular.module('tink.datepicker', [])
 
           $directive.calendar.first.on('click',function(){
             $directive.focused.firstDateElem.focus();
-            show();
           });
           $directive.calendar.last.on('click',function(){
             $directive.focused.lastDateElem.focus();
-            show();
           });
 
             // -- check if we are using a touch device  --/
@@ -680,9 +678,11 @@ angular.module('tink.datepicker', [])
 
               angular.element($directive.focused.firstDateElem).bind('focus', function () {
                 $directive.focusedModel = 'firstDateElem';
+                show();
               });
               angular.element($directive.focused.lastDateElem).bind('focus', function () {
                 $directive.focusedModel = 'lastDateElem';
+                show();
               });
             }
 
@@ -1136,12 +1136,10 @@ angular.module('tink.dropdown', [])
           return false;
         }
       });
-      var firstclick = 0;
       elem.find('#input').bind('mousedown',function(){
         setTimeout(function(){
-          if(placeholder === newVa && firstclick !== 1){
+          if(placeholder === newVa){
             setCursor(0);
-            firstclick = 1;
           }
         }, 1);
       });
@@ -2353,7 +2351,8 @@ angular.module('tink', [
 		'tink.dropdown',
 		'tink.templates',
 		'tink.validDate',
-		'tink.format'
+		'tink.format',
+		'tink.timepicker'
 	]);
 ; 'use strict';
  angular.module('tink.tinkApi', []);
@@ -2709,7 +2708,7 @@ angular.module('tink.dateHelper')
         if(angular.isDate(selectedDate)){
           isSelected = selectedDate.toDateString() === day.toDateString();
         }
-        days.push({date: day,selected:isSelected, isToday: day.toDateString() === today.toDateString(), label: dateCalculator.formatDate(day, 'dd'),isMuted:isMuted});
+        days.push({date: day,selected:isSelected, isToday: day.toDateString() === today.toDateString(), label: dateCalculator.formatDate(day, 'd'),isMuted:isMuted});
     }
     var arrays = split(days, 7);
      return arrays;
@@ -2761,7 +2760,7 @@ angular.module('tink.dateHelper')
         if(grayed){
           cssClass = 'btn-grayed';
         }else{
-          cssClass = 'btn-warning';
+          cssClass = 'btn-today';
         }
       }
       var month = ('0' + (date.getMonth() + 1)).slice(-2);
@@ -2882,7 +2881,7 @@ angular.module('tink.templates', [])
         '<tbody>'+
         '<tr ng-repeat="(i, row) in rows" height="{{ 100 / rows.length }}%">'+
             '<td class="text-center" ng-repeat="(j, el) in row">'+
-                '<button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{\'btn-primary\': el.selected, \'btn-info btn-today\': el.isToday && !el.selected}" ng-click="$select(el.date)" ng-disabled="el.disabled">'+
+                '<button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{\'btn-primary\': el.selected, \'btn-today\': el.isToday && !el.selected}" ng-click="$select(el.date)" ng-disabled="el.disabled">'+
                                     '<span ng-class="{\'text-muted\': el.muted}" ng-bind="el.label"></span>'+
                 '</button>'+
             '</td>'+
@@ -2939,16 +2938,16 @@ $templateCache.put('templates/tinkDatePickerRange.html',
   '</div>');
 
 $templateCache.put('templates/tinkDatePickerRangeInputs.html',
-  '<div class="tink-datepickerrange-input-fields">'+
-  '<div class="input-group col-sm-6">'+
+  '<div class="datepicker-input-fields">'+
+  '<div class="col-sm-6">'+
     '<input type="text" id="firstDateElem" data-date data-format="00/00/0000" data-placeholder="mm/dd/jjjj" dynamic-name="dynamicName" tink-format-input ng-model="firstDate" valid-name="first">'+
-    '<span class="input-group-addon">'+
+    '<span class="datepicker-icon">'+
       '<i class="fa fa-calendar"></i>'+
     '</span>'+
   '</div>'+
-  '<div class="input-group col-sm-6">'+
+  '<div class="col-sm-6">'+
     '<input type="text" id="lastDateElem" data-date data-format="00/00/0000" data-placeholder="mm/dd/jjjj" tink-format-input ctrl-model="dynamicName" valid-name="last"  ng-model="lastDate">'+
-    '<span class="input-group-addon">'+
+    '<span class="datepicker-icon">'+
       '<i class="fa fa-calendar"></i>'+
     '</span>'+
   '</div>'+
@@ -2961,12 +2960,10 @@ $templateCache.put('templates/tooltip.html',
     '</div>');
 
 $templateCache.put('templates/tinkDatePickerInput.html',
-  '<div class="tink-datepickerrange-input-fields">'+
-  '<div class="input-group">'+
-  '<span class="input-group-addon">'+
+  '<div class="datepicker-input-fields">'+
+  '<span class="datepicker-icon">'+
   '<i class="fa fa-calendar"></i>'+
   '</span>'+
-  '</div>'+
   '</div>');
 
 
@@ -2997,7 +2994,7 @@ $templateCache.put('templates/tinkDatePickerField.html',
         '<tbody>'+
         '<tr ng-repeat="(i, row) in rows" height="{{ 100 / rows.length }}%">'+
             '<td class="text-center" ng-repeat="(j, el) in row">'+
-                '<button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{\'btn-primary\': el.selected, \'btn-info btn-today\': el.isToday && !el.selected}" ng-click="$select(el.date)" ng-disabled="el.disabled">'+
+                '<button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{\'btn-primary\': el.selected, \'btn-today\': el.isToday && !el.selected}" ng-click="$select(el.date)" ng-disabled="el.disabled">'+
                                     '<span ng-class="{\'text-muted\': el.muted}" ng-bind="el.label"></span>'+
                 '</button>'+
             '</td>'+
