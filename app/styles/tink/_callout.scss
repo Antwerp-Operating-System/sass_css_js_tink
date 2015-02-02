@@ -2,7 +2,6 @@
 // Callout
 // --------------------------------------------------
 
-
 .callout {
   margin: 20px 0;
   padding: 15px 30px 15px 15px;
@@ -29,49 +28,49 @@
 }
 
 .callout-success {
-background-color: #e7fadf;
-  border-color: #b9ceab;
+  background-color: $white;
+  border-color: $brand-success;
 
   hr {
-      border-top-color: #c9e2b3;
+    border-top-color: #c9e2b3;
   }
   .callout-link {
-      color: #356635;
+    color: $link-color;
   }
 }
 
 .callout-info {
-background-color: #e7fadf;
-  border-color: #b9ceab;
+  background-color: $white;
+  border-color: $brand-info;
 
   hr {
-      border-top-color: #c9e2b3;
+    border-top-color: #c9e2b3;
   }
   .callout-link {
-      color: #356635;
+    color: $link-color;
   }
 }
 
 .callout-warning {
-background-color: #e7fadf;
-  border-color: #b9ceab;
+  background-color: $white;
+  border-color: $brand-warning;
 
   hr {
-      border-top-color: #c9e2b3;
+    border-top-color: #c9e2b3;
   }
   .callout-link {
-      color: #356635;
+      color: $link-color;
   }
 }
 
 .callout-danger {
-  background-color: #e7fadf;
-  border-color: #b9ceab;
+  background-color: $white;
+  border-color: $brand-danger;
 
   hr {
-      border-top-color: #c9e2b3;
+    border-top-color: #c9e2b3;
   }
   .callout-link {
-      color: #356635;
+    color: $link-color;
   }
 }
