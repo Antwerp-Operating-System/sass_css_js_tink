@@ -1,6 +1,6 @@
 'use strict';
 angular.module('tink.datepicker', [])
-.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView',function($q,$templateCache,$http,$compile,dateCalculator,calView) {
+.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply) {
   return {
     restrict:'EA',
     require:['ngModel','?^form'],
@@ -19,7 +19,7 @@ angular.module('tink.datepicker', [])
       ctrl = ctrl[0];
 
       scope.opts = attr;
-      var input = element.find('input');
+      var input = element.find('div.faux-input');
       var clickable = element.find('.datepicker-icon');
       var copyEl;
       var content = element.find('div.faux-input');
@@ -40,7 +40,7 @@ angular.module('tink.datepicker', [])
       function bindLiseners(){
 
         copyEl.bind('mousedown',function(){
-          input.focus();
+          //input.focus();
           return false;
         });
 
@@ -50,6 +50,13 @@ angular.module('tink.datepicker', [])
       //   console.log(modelValue)
       // });
 
+      if(attr.trigger && attr.trigger === 'focus'){
+        input.bind('focus',function(){
+         safeApply(scope,function(){
+          scope.$show();
+         });
+        });
+      }
 
       scope.$watch('ngModel',function(newVal){
         $directive.selectedDate =  newVal;
@@ -58,7 +65,7 @@ angular.module('tink.datepicker', [])
 
 
       clickable.bind('mousedown touch',function(){
-        scope.$apply(function(){
+        safeApply(scope,function(){
           scope.$show();
           content.focus();
         });
