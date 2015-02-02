@@ -197,7 +197,7 @@
 		    return (angle < 0) ? angle +=360 : angle;
 		}
 
-		function whichTransitionEvent(){console.log('dd')
+		function whichTransitionEvent(){
 		    var t;
 		    var el = document.createElement('fakeelement');
 		    var transitions = {

@@ -253,6 +253,7 @@
             };
 
             function checkValidity(){
+              if(scope.ctrlconst){
                 //scope.ctrlconst.$setValidity('required',true);
                 if(scope.firstDate === null && scope.lastDate !== null){
                   scope.ctrlconst.$setValidity('firstdate',false);
@@ -262,6 +263,7 @@
                   scope.ctrlconst.$setValidity('firstdate',true);
                   scope.ctrlconst.$setValidity('lastdate',true);
                 }
+              }
             }
 
             function $onMouseDown (evt) {

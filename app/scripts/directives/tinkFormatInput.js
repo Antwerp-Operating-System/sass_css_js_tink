@@ -313,7 +313,6 @@ elem.find('#input').on('blur', function() {
     pre = attr.validName;
   }
   safeApply(scope,function(){
-    console.log(newVa);
     if(type === 'date' && validFormat(newVa,'dd/mm/yyyy')){
       ctrlForm.$setValidity(pre+'date', true);
       controlNg.$setViewValue(dateCalculator.getDate(newVa,'dd/mm/yyyy'));
