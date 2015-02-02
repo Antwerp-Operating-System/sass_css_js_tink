@@ -30,6 +30,7 @@ angular.module('tink.datepicker', [])
         element.append(copyEl);
         bindLiseners();
         $directive.pane.month = 1;
+        $directive.open = 1;
         scope.build();
       };
 
@@ -66,8 +67,12 @@ angular.module('tink.datepicker', [])
 
       clickable.bind('mousedown touch',function(){
         safeApply(scope,function(){
-          scope.$show();
-          content.focus();
+          if($directive.open){
+            scope.hide();
+          }else{
+            scope.$show();
+            content.focus();
+          }
         });
         return false;
       });
@@ -81,6 +86,7 @@ angular.module('tink.datepicker', [])
       var $directive = {
         viewDate: new Date(),
         pane:{},
+        open:0,
         mode:0,
         selectedDate:null
       };
@@ -109,6 +115,7 @@ angular.module('tink.datepicker', [])
       scope.hide = function(){
         if(copyEl){
          copyEl.css({display: 'none'});
+         $directive.open = 0;
          copyEl = null;
         }
       };
