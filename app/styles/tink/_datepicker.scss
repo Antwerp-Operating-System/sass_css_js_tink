@@ -83,7 +83,7 @@
 
       &:hover {
         background: $datepicker-btn-bgcolor-hover;
-        border-color: $datepicker-border-color !important;
+        border-color: $datepicker-btn-border-color !important;
         color: $datepicker-btn-color-hover;
       }
     }
@@ -97,7 +97,7 @@
       color: lighten($datepicker-neutral-light, 10);
       &-selected {
         background-color: $datepicker-neutral-light;
-        border-color: $datepicker-border-color;
+        border-color: $datepicker-btn-border-color;
         color: $white;
       }
     }
