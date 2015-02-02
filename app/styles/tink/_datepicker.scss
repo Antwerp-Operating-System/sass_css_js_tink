@@ -8,11 +8,24 @@
 
 .datepicker-input-fields {
   position: relative;
+  max-width: rem(260);
+
 
   > div[class*="col-"] {
     .datepicker-icon {
-      margin-right: $grid-gutter-width / 2;
+      // margin-right: $grid-gutter-width / 2;
       right: 1px;
+    }
+  }
+  @include mq($screen-sm) {
+    #firstDateElem .faux-input {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    #lastDateElem .faux-input {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-left: none;
     }
   }
 }
@@ -37,7 +50,8 @@
 .datepicker,
 .datepickerrange {
   background: $datepicker-bgcolor;
-  box-shadow: 0 1px 2px rgba(0,0,0,.6);
+  border-radius: rem($input-border-radius);
+  box-shadow: 0 0 2px rgba(0,0,0,.6);
   color: $datepicker-neutral-dark;
   margin-top: 2px;
   position: relative;
@@ -84,7 +98,7 @@
       color: lighten($datepicker-neutral-light, 10);
       &-selected {
         background-color: $datepicker-neutral-light; //$btn-info-bg;
-        border-color: $datepicker-neutral; //$btn-info-border;
+        border-color: transparent; //$btn-info-border;
         color: $white; //$gray;
       }
     }
@@ -112,13 +126,16 @@
     button {
       font-size: rem(13) !important;
     }
+    .text-strong {
+      color: $black;
+    }
   }
 }
 
 .datepicker {
   width: rem(260); // removed min-width
   position: absolute;
-  padding: 3%;
+  padding: 1.5%;
 }
 
 .datepickerrange {
@@ -126,17 +143,7 @@
 
   @include mq($screen-xs) {
     min-width: 400px;
-    // &:before { // vertical divider line
-    //   background: lighten($datepicker-neutral-light, 20);
-    //   bottom: 0;
-    //   content: "";
-    //   left: 50%;
-    //   position: absolute;
-    //   top: 0;
-    //   width: 1px;
-    // }
   }
-
   @include mq($screen-sm) {
     min-width: 520px;
   }
@@ -165,6 +172,6 @@
   padding: 1.5%;
   @include mq($screen-xs) {
     width: 50%;
-    padding: 2.5%;
+    padding: 1.5% 2.5%;
   }
 }
