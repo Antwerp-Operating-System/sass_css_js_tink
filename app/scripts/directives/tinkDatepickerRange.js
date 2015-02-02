@@ -33,10 +33,26 @@
           }
 
           $directive.calendar.first.on('click',function(){
-            $directive.focused.firstDateElem.focus();
+            if($directive.open){
+              if($directive.focusedModel ==='firstDateElem'){
+                hide();
+              }else{
+                $directive.focused.firstDateElem.focus();
+              }
+            }else{
+              $directive.focused.firstDateElem.focus();
+            }
           });
           $directive.calendar.last.on('click',function(){
-            $directive.focused.lastDateElem.focus();
+            if($directive.open){
+               if($directive.focusedModel ==='lastDateElem'){
+                hide();
+              }else{
+                $directive.focused.lastDateElem.focus();
+              }
+            }else{
+              $directive.focused.lastDateElem.focus();
+            }
           });
 
             // -- check if we are using a touch device  --/
@@ -298,11 +314,11 @@
             };
 
             function hide(evt) { // TH comment out to inspect element
-              if(!(evt.relatedTarget && evt.relatedTarget.nodeName === 'INPUT')){
+              //if(!(evt.relatedTarget && evt.relatedTarget.nodeName === 'INPUT')){
                 templateElem.css({display: 'none'});
                 $directive.open = false;
                 $directive.focusedModel = null;
-              }
+              //}
             }
 
             // -- event liseners to know if you are hitting the right elements --/
