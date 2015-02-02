@@ -2,23 +2,23 @@
 // Callout
 // --------------------------------------------------
 
-// callout from documentation
 // .callout {
-//   background: #f3faf9;
-//   border: 1px solid #47b19d;
+//   background: lighten($tink-green, 48%);
+//   border: 1px solid $tink-green;
 //   border-left-width: 5px;
-//   border-radius: .14286rem;
-//   color: #388d7d;
-//   padding: .71429rem;
+//   border-radius: rem($border-radius-base);
+//   color: darken($tink-green, 10%);
+//   padding: rem(10);
 // }
 
 .callout {
+  background: lighten($brand, 48%);
   margin: rem($line-height-computed) 0;
   padding: rem($padding-large-vertical $padding-large-horizontal);
-  border: none;
+  border: 1px solid $brand;
+  border-radius: rem($border-radius-base);
   border-left: 4px solid transparent;
   box-shadow: 0 1px 1px rgba(0,0,0,.05);
-
 
   hr {
     margin: rem($line-height-computed / 2) 0;
