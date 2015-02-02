@@ -1,0 +1,77 @@
+//
+// Callout
+// --------------------------------------------------
+
+
+.callout {
+  margin: 20px 0;
+  padding: 15px 30px 15px 15px;
+  border: none;
+  border-left: 4px solid transparent;
+
+  h4 {
+      margin-top: 0;
+      color: inherit;
+  }
+
+  .callout-link {
+      font-weight: bold;
+  }
+
+  > p,
+  > ul {
+      margin-bottom: 0;
+  }
+
+  > p + p {
+      margin-top: 5px;
+  }
+}
+
+.callout-success {
+background-color: #e7fadf;
+  border-color: #b9ceab;
+
+  hr {
+      border-top-color: #c9e2b3;
+  }
+  .callout-link {
+      color: #356635;
+  }
+}
+
+.callout-info {
+background-color: #e7fadf;
+  border-color: #b9ceab;
+
+  hr {
+      border-top-color: #c9e2b3;
+  }
+  .callout-link {
+      color: #356635;
+  }
+}
+
+.callout-warning {
+background-color: #e7fadf;
+  border-color: #b9ceab;
+
+  hr {
+      border-top-color: #c9e2b3;
+  }
+  .callout-link {
+      color: #356635;
+  }
+}
+
+.callout-danger {
+  background-color: #e7fadf;
+  border-color: #b9ceab;
+
+  hr {
+      border-top-color: #c9e2b3;
+  }
+  .callout-link {
+      color: #356635;
+  }
+}
