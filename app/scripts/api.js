@@ -181,23 +181,24 @@
 		};
 
 		function getRotationDegrees(obj) {
-		    var matrix = obj.css("-webkit-transform") ||
-		    obj.css("-moz-transform")    ||
-		    obj.css("-ms-transform")     ||
-		    obj.css("-o-transform")      ||
-		    obj.css("transform");
+				var angle;
+		    var matrix = obj.css('-webkit-transform') ||
+		    obj.css('-moz-transform')    ||
+		    obj.css('-ms-transform')     ||
+		    obj.css('-o-transform')      ||
+		    obj.css('transform');
 		    if(matrix !== 'none') {
 		        var values = matrix.split('(')[1].split(')')[0].split(',');
 		        var a = values[3];
 		        var b = values[4];
-		        var angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+		        angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
 		    }else {
-		    	var angle = 0;
+		    	angle = 0;
 		    }
 		    return (angle < 0) ? angle +=360 : angle;
 		}
 
-		function whichTransitionEvent(){console.log('dd')
+		function whichTransitionEvent(){
 		    var t;
 		    var el = document.createElement('fakeelement');
 		    var transitions = {
@@ -205,7 +206,7 @@
 		      'OTransition':'oTransitionEnd',
 		      'MozTransition':'transitionend',
 		      'WebkitTransition':'webkitTransitionEnd'
-		    }
+		    };
 
 		    for(t in transitions){
 		        if( el.style[t] !== undefined ){
@@ -227,7 +228,9 @@
 
 		var fallback=-1;
 		var transitionEvent = whichTransitionEvent();
-		transitionEvent && element[0].addEventListener(transitionEvent,checkTabIndex);
+		if(transitionEvent){
+			element[0].addEventListener(transitionEvent,checkTabIndex);
+		}
 
 		var calculateHeight = function(){
 
