@@ -1,289 +1,132 @@
-<!-- <button ng-click="go()"></button> -->
-<tink-datepicker ng-model="dates.first"></tink-datepicker>
 <div class="container">
-  <h1>Tink playground</h1>
-  <section class="panel">
-    <div class="panel-heading">
-      <h1 class="panel-title">Timepicker</h1>
-    </div>
-    <div class="panel-body">
-      <div class="row">
-        <div class="col-xs-6 col-sm-4 col-md-3">
-          <tink-timepicker ng-model="time"></tink-timepicker>
-        </div>
-        <div class="col-xs-6 col-sm-4 col-md-3">
-          <p class="text-success">This is success text</p>
-          <p>
-            <button type="button" class="btn-success">Success</button>
-          </p>
-        </div>
-        <div class="col-xs-6 col-sm-4 col-md-3">
-          <div class="checkbox">
-            <input type="checkbox" id="checkbox1" name="checkbox1" value="" checked="">
-            <label for="checkbox1">Option one</label>
-          </div>
-        </div>
-        <div class="col-xs-6 col-sm-4 col-md-3">
-          <pre>
-Your code here!
-Your code here!
-Your code here!
-</pre>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-6">
-          <div class="form-group has-success">
-            <label for="has-success">Success</label>
-            <input type="text" id="has-success">
-          </div>
-        </div>
-        <div class="col-xs-6">
-          <div class="form-group has-error">
-            <label for="has-error">Error</label>
-            <input type="text" id="has-error">
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<div class="row">
 
-  <tink-accordion data-one-at-a-time="false" data-start-open="false">
+<div class="col-sm-6">
+    <!-- =================================================================== -->
+    <!-- FORM ============================================================== -->
+    <!-- =================================================================== -->
 
-<tink-accordion-group data-is-collapsed="togle.group1" heading="Accordion 1"><h1>Maecenas Fringilla</h1>
+    <form name="userForm" ng-submit="submitForm()" novalidate>
 
-<h2>Nunc Viverra Cum Curabitur Neque</h2>
-<p>Gravida lectus risus fames vel tempor tincidunt ante nullam tempus neque. Curae; augue metus diam cras vulputate tempor feugiat at porta. Lacinia Proin nullam nullam tellus <em>justo</em> cubilia magnis faucibus. <em>Malesuada</em> consectetuer risus congue id, ultrices diam.</p>
-
-<h2>Dolor Sem Habitasse Mi Class</h2>
-<p>Ornare felis venenatis hendrerit. Litora quam. Potenti <strong>potenti</strong> netus leo pede porttitor ultrices turpis porta natoque congue sagittis aptent massa non eu magna.</p>
-</tink-accordion-group>
-
-<tink-accordion-group  heading="Jefke Peeters"><h1>Neque Habitasse Ornare Augue Natoque Orci Ut</h1>
-
-<h2>Sodales Diam Mus</h2>
-<p>Et varius feugiat. Hac convallis torquent Hac lobortis eget feugiat scelerisque porta congue adipiscing ligula neque. Malesuada sagittis dui potenti turpis.</p>
-
-<h2>Tempus</h2>
-<p>Cum ultricies. Fringilla integer lectus dictum vitae, <strong>nisi</strong> natoque eleifend semper maecenas eget. Sagittis fermentum. Lacinia ligula nulla mauris, mauris. Netus. Dictumst sagittis sociosqu malesuada lobortis Congue consequat.</p>
-
-<p>Vehicula mus. Maecenas Sapien sem donec aliquet molestie, posuere hendrerit duis <em>vivamus</em> consectetuer convallis <strong>velit</strong> lacinia dignissim. Vulputate, consectetuer phasellus. Vivamus.</p>
-
-<p><strong>Torquent</strong> metus porttitor semper nonummy et bibendum. Urna magna vulputate A nunc nisi id posuere tempus.</p>
-
-<p>Risus porttitor. Scelerisque aliquam integer ut nonummy habitasse nisi porttitor luctus aptent curabitur class.</p>
-</tink-accordion-group>
-
-<tink-accordion-group heading="Identiteitsgegevens bewerken">
-<h1>Magna Sollicitudin Eget Cum Vehicula Amet Maecenas Fusce</h1>
-
-<h2>Lectus Cum Duis Donec Curabitur Mi Eu</h2>
-<p>Nam ante ultrices eros tempor sodales. Congue, aliquam sapien ullamcorper elit id, rhoncus hac. Ultricies eleifend pharetra bibendum dictum velit fames rutrum et aenean mus urna nec, rhoncus. Consectetuer cum accumsan sit platea sociosqu aptent in nunc phasellus. Ipsum ligula taciti nam eros sapien eros lectus nunc erat mauris commodo, maecenas sit natoque faucibus placerat eros morbi nostra congue aliquam.</p>
-</tink-accordion-group>
-<tink-accordion-group data-onclick="group1go" heading="Accordion with callback">
-nu gaan we effe heel veel content plaatsen<br/>
-hier komt dus super veel<br/>
-om dit goed te kunnen testen<br/>
-<table>
-  <thead>
-    <tr>
-      <th># </th>
-      <th>First Name </th>
-      <th>Last Name </th>
-      <th>Username </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1 </td>
-      <td>Mark </td>
-      <td>Otto </td>
-      <td>@mdo </td>
-    </tr>
-    <tr>
-      <td>2 </td>
-      <td>Jacob </td>
-      <td>Thornton </td>
-      <td>@fat </td>
-    </tr>
-    <tr>
-      <td>3 </td>
-      <td>Larry </td>
-      <td>the Bird </td>
-      <td>@twitter </td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <th> </th>
-      <th colspan="3">Footer info can be put here </th>
-    </tr>
-  </tfoot>
-</table>
-</tink-accordion-group>
-</tink-accordion>
-
-<button ng-click='call()'></button>
-
-
-  <hr>
-  <hr>
-
-  <h1>Tink playground!</h1>
-  <p>New navbar playground</p>
-  <nav class="bar">
-    <section class="bar-section">
-      <ul class="bar-section-left">
-        <li>
-          <button><i class="fa fa-group"></i> </button>
-
-        </li>
-      </ul>
-      <ul class="bar-section-left">
-        <li>
-          <a class="link" href="#">Menu L1</a>
-        </li>
-        <li>
-          <a class="link link-no-line" href="#">Menu L1</a>
-        </li>
-        <li>
-          <button><i class="fa fa-group"></i> </button>
-          <button><i class="fa fa-calendar"></i> </button>
-          <button><i class="fa fa-envelope-o"></i> </button>
-        </li>
-      </ul>
-
-      <div class="bar-section-center">
-        <input type="search" class="input-search" placeholder="Zoeken" />
-      </div>
-
-      <ul class="bar-section-right">
-        <li class="active">
-          <a class="btn btn-xs btn-primary" href="#">Menu R1</a>
-        </li>
-        <li>
-          <a class="btn btn-xs" href="#">Menu R2</a>
-        </li>
-      </ul>
-    </section>
-  </nav>
-
-
-  <a href="#">Some Link text</a>
-
-  <section class="panel">
-    <div class="panel-heading">
-      just the panel heading
-    </div>
-    <div class="panel-body">
-
-      <nav class="bar">
-        <section class="bar-section">
-          <ul class="bar-section-left">
-            <li>
-              <button><i class="fa fa-group"></i> </button>
-              <button><i class="fa fa-calendar"></i> </button>
-              <button><i class="fa fa-envelope-o"></i> </button>
-            </li>
-          </ul>
-
-          <div class="bar-section-center">
-            <input type="search" class="input-search" placeholder="Zoeken" />
-          </div>
-
-          <ul class="bar-section-right">
-            <li class="active">
-              <a class="btn btn-sm btn-primary" href="#">Menu R1</a>
-            </li>
-            <li>
-              <a class="btn btn-sm" href="#">Menu R2</a>
-            </li>
-          </ul>
-        </section>
-      </nav>
-
-  <br>
-
-      <nav class="bar">
-        <section class="bar-section">
-          <ul class="bar-section-left">
-            <li>
-              <a href="#" class="link">Menu L1</a>
-            </li>
-          </ul>
-
-          <div class="bar-section-center">
-            <input type="search" class="input-search" placeholder="Zoeken" />
-          </div>
-
-          <ul class="bar-section-right">
-            <li class="active">
-              <a class="btn btn-sm btn-primary" href="#">Menu R1</a>
-            </li>
-            <li>
-              <a class="btn btn-sm" href="#">Menu R2</a>
-            </li>
-          </ul>
-        </section>
-      </nav>
-      <hr>
-
-    </div>
-  </section>
-
-  <section class="panel">
-    <div class="panel-heading">
-      <h1 class="panel-title">Datepicker</h1>
-    </div>
-    <div class="panel-body">
-<timepicker ng-model="time" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
-
-        <div class="row">
-          <div class="col-sm-12 col-md-4" style="background: yellow;">
-            <button ng-click='go()'></button>
-
-            <input type="text" ng-model="dates.first" data-tink-date-format="dd/mm/yyyy" data-tink-model-date-format="yyyy-mm-dd" data-tink-date-type="string" tink-datepicker>
-          </div>
-          <div class="col-sm-12 col-md-8">
-            Some bullshit
-          </div>
+        <!-- NAME-->
+        <div class="form-group" ng-class="{ 'has-error' : userForm.single.$invalid && !userForm.single.$pristine }">
+            <label>Name</label>
+            <input type="text" name="single" tink-datepicker class="form-control" ng-model="dates.first">
+            <p ng-show="userForm.single.$invalid && !userForm.single.$pristine" class="help-block">You name is required.</p>
         </div>
 
+         <div class="form-group" ng-class="{ 'has-error' : userForm.dubbel.$invalid && !userForm.dubbel.$pristine }">
+            <label>Name</label>
+            <tink-datepicker-range type="text" name="dubbel" class="form-control" data-first-date="dates.first" data-last-date="dates.last">
+            <p ng-show="userForm.dubbel.$invalid && !userForm.dubbel.$pristine" class="help-block">You name is required.</p>
+        </div>
 
-        <input type="text">
+      <!-- USERNAME -->
+<div class="form-group" ng-class="{ 'has-error' : userForm.username.$invalid && !userForm.username.$pristine }">
+    <label>Username</label>
+    <input type="text" name="username" class="form-control" ng-model="user.username" ng-minlength="3" ng-maxlength="8">
+    <p ng-show="userForm.username.$error.minlength" class="help-block">Username is too short.</p>
+    <p ng-show="userForm.username.$error.maxlength" class="help-block">Username is too long.</p>
+</div>
 
+        <!-- EMAIL -->
+        <div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" ng-model="user.email">
+            <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+    </form>
+  </div>
+  <div class="col-sm-6">
+    <!-- =================================================================== -->
+    <!-- VALIDATION TABLES ================================================= -->
+    <!-- =================================================================== -->
+    <div class="row">
+        <div class="col-xs-3">
+            <h3>Form</h3>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td ng-class="{ success: userForm.$valid, danger: userForm.$invalid }">Valid</td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{ success: userForm.$pristine, danger: !userForm.$pristine }">Pristine</td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{ success: userForm.$dirty }">Dirty</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-3">
+            <h3>single</h3>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td ng-class="{ success: userForm.single.$valid, danger: userForm.single.$invalid }">Valid</td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{ success: userForm.single.$pristine, danger: !userForm.single.$pristine }">Pristine</td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{ success: userForm.single.$dirty }">Dirty</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-3">
+            <h3>Username</h3>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td ng-class="{ success: userForm.username.$valid, danger: userForm.username.$invalid }">Valid</td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{ success: userForm.username.$pristine, danger: !userForm.username.$pristine }">Pristine</td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{ success: userForm.username.$dirty }">Dirty</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-3">
+            <h3>Email</h3>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td ng-class="{ success: userForm.email.$valid, danger: userForm.email.$invalid }">Valid</td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{ success: userForm.email.$pristine, danger: !userForm.email.$pristine }">Pristine</td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{ success: userForm.email.$dirty }">Dirty</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-3">
+            <h3>dubbel</h3>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td ng-class="{ success: userForm.dubbel.$valid, danger: userForm.dubbel.$invalid }">Valid</td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{ success: userForm.dubbel.$pristine, danger: !userForm.dubbel.$pristine }">Pristine</td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{ success: userForm.dubbel.$dirty }">Dirty</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-  </section>
-
-
-  <section class="panel">
-    <div class="panel-heading">
-      <p class="panel-title">Some panel</p>
-    </div>
-    <div class="panel-body">
-      <table>
-        <thead>
-          <tr>
-            <th>Lorem</th>
-            <th>Lorem</th>
-            <th>Lorem</th>
-          </tr>
-        </thead>
-        <tr>
-          <td>Ipsum</td>
-          <td>Ipsum</td>
-          <td>Ipsum</td>
-        </tr>
-        <tfoot>
-        <tr>
-          <td>Dolorem</td>
-          <td>Dolorem</td>
-          <td>Dolorem</td>
-        </tr>
-        </tfoot>
-      </table>
-    </div>
-  </section>
-
 
 </div>
+</div>
+<button ng-click="getDate()">

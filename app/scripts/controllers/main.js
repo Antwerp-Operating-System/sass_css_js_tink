@@ -10,7 +10,7 @@
 angular.module('tinkFramework.controllers')
   .controller('MainCtrl',['$scope',function (scope) {
 
-  scope.dates= {last:new Date(2015,11,11),first:new Date()};
+  scope.dates= {last:new Date(2015,0,2),first:new Date()};
 scope.signup={username:'11.11.11-111.1'};
   scope.go = function(){
   	console.log(scope.dates);
