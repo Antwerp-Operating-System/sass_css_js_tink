@@ -18,6 +18,10 @@
 
   a {
     color: darken($link-color, 10);
+    &:hover,
+    &:focus {
+      color: darken($link-color, 20);
+    }
   }
 
   > p:last-child,
@@ -31,7 +35,11 @@
   background-color: $callout-bgcolor-success;
   border-color: $callout-color-success;
   a {
-    color: $callout-color-success;
+    color: darken($callout-color-success, 10);
+    &:hover,
+    &:focus {
+      color: darken($callout-color-success, 20);
+    }
   }
 }
 
@@ -41,6 +49,10 @@
   border-color: $callout-color-warning;
   a {
     color: darken($callout-color-warning, 10);
+    &:hover,
+    &:focus {
+      color: darken($callout-color-warning, 20);
+    }
   }
 }
 
@@ -50,5 +62,9 @@
   border-color: $callout-color-danger;
   a {
     color: darken($callout-color-danger, 10);
+    &:hover,
+    &:focus {
+      color: darken($callout-color-danger, 20);
+    }
   }
 }
