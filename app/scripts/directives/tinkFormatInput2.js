@@ -5,11 +5,27 @@
       restrict: 'EA',
       replace: true,
       controller:function($scope){
+      // -- check if we are using a touch device  --/
+       var isDateSupported = function() {
+          var i = document.createElement('input');
+          i.setAttribute('type', 'date');
+          return i.type !== 'text';
+        };
+
+       var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
+       var isTouch = ('createTouch' in $window.document) && isNative && isDateSupported();
+
         //variable
         var self = this;
         var config = {
           format: '00/00/0000',
           placeholder: 'dd/mm/jjjj'
+        }
+        var dateformat;
+        if(isTouch){
+          dateformat = 'yyyy-mm-dd'
+        }else{
+          dateformat = 'dd/mm/yyyy';
         }
         self.controller = null;
         //the init function to get the controller.
@@ -23,11 +39,13 @@
         function loadFunction(){
           //format text going to user (model to view)
           self.controller.$formatters.push(function(modelValue) {
-            if(angular.isDate(modelValue)){
-              var date = dateCalculator.format(modelValue,'dd/mm/yyyy');
-              $scope.setValue(date);
-            }else{
-              $scope.setValue();
+            if(isTouch && modelValue !== ''){
+              if(angular.isDate(modelValue)){
+                var date = dateCalculator.format(modelValue,dateformat);
+                $scope.setValue(date,null,isTouch);
+              }else{
+                $scope.setValue(null,null,isTouch);
+              }
             }
           });
 
@@ -36,14 +54,19 @@
             if(value === null){
               return value;
             }else if(typeof value === 'string'){
-              return dateCalculator.getDate(value,'dd/mm/yyyy');
+              return dateCalculator.getDate(value,dateformat);
             }
           });
 
           //on blur update the model.
-          self.element.on('blur', function() {
+         self.element.on('blur', function() {
             safeApply($scope,function(){
-              var value = $scope.getValue();
+              var value;
+              if(isTouch){
+                value = self.element.val();
+              }else{
+                value = $scope.getValue();
+              }
               //var date = dateCalculator.getDate(value,'dd/mm/yyyy');
               var modelString = dateCalculator.format(self.controller.$modelValue,'dd/mm/yyyy');
               if(value !== modelString){
@@ -61,7 +84,7 @@
         var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
         var isTouch = ('createTouch' in $window.document) && isNative;
         if (isTouch) {
-          return '<input type="date"/>';
+          return '<div><input id="input" type="date"/><div>';
         } else {
           return '<div><div id="input" class="faux-input" contenteditable="true">{{placeholder}}</div></div>';
         }
@@ -70,7 +93,32 @@
         template.prop('type', 'date');
         return {
           pre: function() {},
-          post: function(scope, elem, attr, ctrl,ct) {
+          post: function(scope, elem, attr, ctrl) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             var config = ctrl[0].init(ctrl[1],elem.find('#input'));
             var format = config.format;
             var placeholder = config.placeholder;
@@ -152,8 +200,7 @@
             }
 
             var valueToHtml = function(value) {
-              var html = '';
-                              // weekDaysLabels.join('</th><th class="dow text-center">') + '</th>')
+              var html = '';                // weekDaysLabels.join('</th><th class="dow text-center">') + '</th>')
   var plHtml = '<span class="placeholder">';
   var plEHtml = '</span>';
   var open = 0;
@@ -179,17 +226,27 @@
   }
   return html;
 };
-scope.setValue = function(value,cur) {
-  if(value && value.length !== placeholder.length){
-    newVa = placeholder;
-  }else if(!value){
-    newVa = placeholder;
+
+scope.setValue = function(value,cur,force) {
+
+  if(!force){
+    if(value && value.length !== placeholder.length){
+      newVa = placeholder;
+    }else if(!value){
+      newVa = placeholder;
+    }else{
+      newVa = value;
+    }
   }else{
     newVa = value;
   }
 
-  elem.find('#input').html(valueToHtml(newVa));
-  if (cur > -1 && cur <= format.length) {
+  if(elem.find('#input')[0].nodeName === 'DIV'){
+    elem.find('#input').html(valueToHtml(newVa));
+  }else{
+    elem.find('#input').val(newVa);
+  }
+  if (cur && cur > -1 && cur <= format.length) {
     setCursor(cur);
   }
 };
@@ -288,7 +345,7 @@ elem.find('#input').bind('mousedown', function() {
 
 elem.find('#input').keypress(function(event) {
   var key = String.fromCharCode(event.which);
-    handleInput(key);
+  handleInput(key);
   return false;
 });
 
