@@ -1,5 +1,5 @@
 <!-- <button ng-click="go()"></button> -->
-<tink-datepicker-range data-tink-first-date="dates.first" data-tink-last-date="dates.last"></tink-datepicker-range>
+<tink-datepicker ng-model="dates.first"></tink-datepicker>
 <div class="container">
   <h1>Tink playground</h1>
   <section class="panel">
@@ -242,7 +242,7 @@ om dit goed te kunnen testen<br/>
           <div class="col-sm-12 col-md-4" style="background: yellow;">
             <button ng-click='go()'></button>
 
-            <input type="text" ng-model="selectedDate" data-tink-date-format="dd/mm/yyyy" data-tink-model-date-format="yyyy-mm-dd" data-tink-date-type="string" tink-datepicker>
+            <input type="text" ng-model="dates.first" data-tink-date-format="dd/mm/yyyy" data-tink-model-date-format="yyyy-mm-dd" data-tink-date-type="string" tink-datepicker>
           </div>
           <div class="col-sm-12 col-md-8">
             Some bullshit

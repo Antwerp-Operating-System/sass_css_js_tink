@@ -168,7 +168,13 @@ angular.module('tink.dateHelper')
       if(!angular.isDefined(date) || !angular.isDefined(format) || date.trim()===''){
         return null;
       }
-      return stringToDate(date, format);
+      var date = stringToDate(date, format);
+
+      if(date.toString()!=='Invalid Date'){
+        return date;
+      }else{
+        return null;
+      }
     },
     daysInMonth: function (month,year) {
       if(angular.isDate(month)){
@@ -182,7 +188,11 @@ angular.module('tink.dateHelper')
       return new Date(year, month, 0).getDate();
     },
     format: function (date, format) {
-      return dateFormat(date, format, null, nl);
+      if(date === null || date === undefined || date === ''){
+        return null;
+      }else{
+        return dateFormat(date, format, null, nl);
+      }
     },
     formatDate: function (date, format) {
         return dateFormat(date, format,null,nl);
