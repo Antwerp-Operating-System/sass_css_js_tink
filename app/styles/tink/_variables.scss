@@ -454,7 +454,18 @@ $datepicker-neutral-light      : $gray-light !default;
 $datepicker-neutral-dark       : $gray-dark !default;
 
 
+/**
+ * Callout
+ */
+$callout-color                 : $brand !default;
+$callout-bgcolor               : lighten($brand, 50%);
 
+$callout-color-success         : $brand-success !default;
+$callout-bgcolor-success       : lighten($brand-success, 60%);
+$callout-color-warning         : $brand-warning !default;
+$callout-bgcolor-warning       : lighten($brand-warning, 45%);
+$callout-color-danger          : $brand-danger !default;
+$callout-bgcolor-danger        : lighten($brand-danger, 45%);
 
 //== Navbar
 //

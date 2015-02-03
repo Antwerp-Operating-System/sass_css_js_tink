@@ -2,33 +2,22 @@
 // Callout
 // --------------------------------------------------
 
-// .callout {
-//   background: lighten($tink-green, 48%);
-//   border: 1px solid $tink-green;
-//   border-left-width: 5px;
-//   border-radius: rem($border-radius-base);
-//   color: darken($tink-green, 10%);
-//   padding: rem(10);
-// }
-
 .callout {
-  background: lighten($brand, 48%);
+  background: $callout-bgcolor;
   margin: rem($line-height-computed) 0;
   padding: rem($padding-large-vertical $padding-large-horizontal);
-  border: 1px solid $brand;
+  border: 1px solid $callout-color;
   border-radius: rem($border-radius-base);
-  border-left: 4px solid transparent;
+  border-left: 5px solid $callout-color;
   box-shadow: 0 1px 1px rgba(0,0,0,.05);
 
   hr {
+    border-top-color: $gray;
     margin: rem($line-height-computed / 2) 0;
   }
-  h4 {
-    margin-top: 0;
-    color: inherit;
-  }
 
-  .callout-link {
+  a {
+    color: darken($link-color, 10);
     font-weight: bold;
   }
 
@@ -43,49 +32,28 @@
 }
 
 .callout-success {
-  background-color: $white;
-  border-color: $brand-success;
-
-  hr {
-    border-top-color: $gray-light;
-  }
-  .callout-link {
-    color: $link-color;
-  }
-}
-
-.callout-info {
-  background-color: $white;
-  border-color: $brand-info;
-
-  hr {
-    border-top-color: $gray-light;
-  }
-  .callout-link {
-    color: $link-color;
+  @extend .callout;
+  background-color: $callout-bgcolor-success;
+  border-color: $callout-color-success;
+  a {
+    color: $callout-color-success;
   }
 }
 
 .callout-warning {
-  background-color: $white;
-  border-color: $brand-warning;
-
-  hr {
-    border-top-color: $gray-light;
-  }
-  .callout-link {
-      color: $link-color;
+  @extend .callout;
+  background-color: $callout-bgcolor-warning;
+  border-color: $callout-color-warning;
+  a {
+    color: darken($callout-color-warning, 10);
   }
 }
 
 .callout-danger {
-  background-color: $white;
-  border-color: $brand-danger;
-
-  hr {
-    border-top-color: $gray-light;
-  }
-  .callout-link {
-    color: $link-color;
+  @extend .callout;
+  background-color: $callout-bgcolor-danger;
+  border-color: $callout-color-danger;
+  a {
+    color: darken($callout-color-danger, 10);
   }
 }
