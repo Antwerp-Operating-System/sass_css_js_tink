@@ -375,7 +375,6 @@ angular.module('tink.timepicker')
       ngModel.$formatters.unshift(function(modelValue) {
 
         var date = modelValue;
-        console.log(date);
         if(angular.isDate(date)){
           var hour = date.getHours();
           var minute = date.getMinutes();

@@ -204,7 +204,7 @@ this.closeGroup = function(elem){
 }]);
 ;'use strict';
 angular.module('tink.datepicker', [])
-.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView',function($q,$templateCache,$http,$compile,dateCalculator,calView) {
+.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply) {
   return {
     restrict:'EA',
     require:['ngModel','?^form'],
@@ -223,7 +223,7 @@ angular.module('tink.datepicker', [])
       ctrl = ctrl[0];
 
       scope.opts = attr;
-      var input = element.find('input');
+      var input = element.find('div.faux-input');
       var clickable = element.find('.datepicker-icon');
       var copyEl;
       var content = element.find('div.faux-input');
@@ -234,6 +234,7 @@ angular.module('tink.datepicker', [])
         element.append(copyEl);
         bindLiseners();
         $directive.pane.month = 1;
+        $directive.open = 1;
         scope.build();
       };
 
@@ -244,7 +245,7 @@ angular.module('tink.datepicker', [])
       function bindLiseners(){
 
         copyEl.bind('mousedown',function(){
-          input.focus();
+          //input.focus();
           return false;
         });
 
@@ -254,6 +255,13 @@ angular.module('tink.datepicker', [])
       //   console.log(modelValue)
       // });
 
+      if(attr.trigger && attr.trigger === 'focus'){
+        input.bind('focus',function(){
+         safeApply(scope,function(){
+          scope.$show();
+         });
+        });
+      }
 
       scope.$watch('ngModel',function(newVal){
         $directive.selectedDate =  newVal;
@@ -262,9 +270,13 @@ angular.module('tink.datepicker', [])
 
 
       clickable.bind('mousedown touch',function(){
-        scope.$apply(function(){
-          scope.$show();
-          content.focus();
+        safeApply(scope,function(){
+          if($directive.open){
+            scope.hide();
+          }else{
+            scope.$show();
+            content.focus();
+          }
         });
         return false;
       });
@@ -278,6 +290,7 @@ angular.module('tink.datepicker', [])
       var $directive = {
         viewDate: new Date(),
         pane:{},
+        open:0,
         mode:0,
         selectedDate:null
       };
@@ -306,6 +319,7 @@ angular.module('tink.datepicker', [])
       scope.hide = function(){
         if(copyEl){
          copyEl.css({display: 'none'});
+         $directive.open = 0;
          copyEl = null;
         }
       };
@@ -416,10 +430,26 @@ angular.module('tink.datepicker', [])
           }
 
           $directive.calendar.first.on('click',function(){
-            $directive.focused.firstDateElem.focus();
+            if($directive.open){
+              if($directive.focusedModel ==='firstDateElem'){
+                hide();
+              }else{
+                $directive.focused.firstDateElem.focus();
+              }
+            }else{
+              $directive.focused.firstDateElem.focus();
+            }
           });
           $directive.calendar.last.on('click',function(){
-            $directive.focused.lastDateElem.focus();
+            if($directive.open){
+               if($directive.focusedModel ==='lastDateElem'){
+                hide();
+              }else{
+                $directive.focused.lastDateElem.focus();
+              }
+            }else{
+              $directive.focused.lastDateElem.focus();
+            }
           });
 
             // -- check if we are using a touch device  --/
@@ -636,6 +666,7 @@ angular.module('tink.datepicker', [])
             };
 
             function checkValidity(){
+              if(scope.ctrlconst){
                 //scope.ctrlconst.$setValidity('required',true);
                 if(scope.firstDate === null && scope.lastDate !== null){
                   scope.ctrlconst.$setValidity('firstdate',false);
@@ -645,6 +676,7 @@ angular.module('tink.datepicker', [])
                   scope.ctrlconst.$setValidity('firstdate',true);
                   scope.ctrlconst.$setValidity('lastdate',true);
                 }
+              }
             }
 
             function $onMouseDown (evt) {
@@ -678,12 +710,12 @@ angular.module('tink.datepicker', [])
               }
             };
 
-            function hide(evt) { // TH comment out to inspect element
-              if(!(evt.relatedTarget && evt.relatedTarget.nodeName === 'INPUT')){
+            function hide() { // TH comment out to inspect element
+              //if(!(evt.relatedTarget && evt.relatedTarget.nodeName === 'INPUT')){
                 templateElem.css({display: 'none'});
                 $directive.open = false;
                 $directive.focusedModel = null;
-              }
+              //}
             }
 
             // -- event liseners to know if you are hitting the right elements --/
@@ -1239,7 +1271,6 @@ elem.find('#input').on('blur', function() {
     pre = attr.validName;
   }
   safeApply(scope,function(){
-    console.log(newVa);
     if(type === 'date' && validFormat(newVa,'dd/mm/yyyy')){
       ctrlForm.$setValidity(pre+'date', true);
       controlNg.$setViewValue(dateCalculator.getDate(newVa,'dd/mm/yyyy'));
@@ -1800,7 +1831,6 @@ angular.module('tink.timepicker')
       ngModel.$formatters.unshift(function(modelValue) {
 
         var date = modelValue;
-        console.log(date);
         if(angular.isDate(date)){
           var hour = date.getHours();
           var minute = date.getMinutes();
@@ -2450,7 +2480,8 @@ angular.module('tink', [
 		'tink.templates',
 		'tink.validDate',
 		'tink.format',
-		'tink.timepicker'
+		'tink.timepicker',
+		'tink.accordion'
 	]);
 ; 'use strict';
  angular.module('tink.tinkApi', []);
@@ -3036,15 +3067,15 @@ $templateCache.put('templates/tinkDatePickerRange.html',
   '</div>');
 
 $templateCache.put('templates/tinkDatePickerRangeInputs.html',
-  '<div class="datepicker-input-fields">'+
+  '<div class="datepicker-input-fields row no-gutter">'+
   '<div class="col-sm-6">'+
-    '<input type="text" id="firstDateElem" data-date data-format="00/00/0000" data-placeholder="mm/dd/jjjj" dynamic-name="dynamicName" tink-format-input ng-model="firstDate" valid-name="first">'+
+    '<input type="text" id="firstDateElem" data-date data-format="00/00/0000" data-placeholder="dd/mm/jjjj" dynamic-name="dynamicName" tink-format-input ng-model="firstDate" valid-name="first">'+
     '<span class="datepicker-icon">'+
       '<i class="fa fa-calendar"></i>'+
     '</span>'+
   '</div>'+
   '<div class="col-sm-6">'+
-    '<input type="text" id="lastDateElem" data-date data-format="00/00/0000" data-placeholder="mm/dd/jjjj" tink-format-input ctrl-model="dynamicName" valid-name="last"  ng-model="lastDate">'+
+    '<input type="text" id="lastDateElem" data-date data-format="00/00/0000" data-placeholder="dd/mm/jjjj" tink-format-input ctrl-model="dynamicName" valid-name="last"  ng-model="lastDate">'+
     '<span class="datepicker-icon">'+
       '<i class="fa fa-calendar"></i>'+
     '</span>'+
@@ -3059,7 +3090,7 @@ $templateCache.put('templates/tooltip.html',
 
 $templateCache.put('templates/tinkDatePickerInput.html',
   '<div class="datepicker-input-fields">'+
-  '<input tink-format-input data-format="00/00/0000" data-placeholder="mm/dd/jjjj" data-date dynamic-name="dynamicName"  ng-model="ngModel" />'+
+  '<input tink-format-input data-format="00/00/0000" data-placeholder="dd/mm/jjjj" data-date dynamic-name="dynamicName"  ng-model="ngModel" />'+
   '<span class="datepicker-icon">'+
   '<i class="fa fa-calendar"></i>'+
   '</span>'+
