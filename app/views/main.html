@@ -11,13 +11,13 @@
         <!-- NAME-->
         <div class="form-group" ng-class="{ 'has-error' : userForm.single.$invalid && !userForm.single.$pristine }">
             <label>Name</label>
-            <input type="text" name="single" tink-datepicker class="form-control" ng-model="dates.first">
+            <input type="text" data-min-date='mindate' data-max-date='maxdate' name="single" tink-datepicker required class="form-control" ng-model="dates.first">
             <p ng-show="userForm.single.$invalid && !userForm.single.$pristine" class="help-block">You name is required.</p>
         </div>
 
          <div class="form-group" ng-class="{ 'has-error' : userForm.dubbel.$invalid && !userForm.dubbel.$pristine }">
             <label>Name</label>
-            <tink-datepicker-range type="text" name="dubbel" class="form-control" data-first-date="dates.first" data-last-date="dates.last">
+            <tink-datepicker-range  type="text" name="dubbel" class="form-control" data-first-date="dates.first" data-last-date="dates.last">
             <p ng-show="userForm.dubbel.$invalid && !userForm.dubbel.$pristine" class="help-block">You name is required.</p>
         </div>
 
@@ -110,17 +110,33 @@
             </table>
         </div>
         <div class="col-xs-3">
-            <h3>dubbel</h3>
+            <h3>first dubbel</h3>
             <table class="table table-bordered">
                 <tbody>
                     <tr>
-                        <td ng-class="{ success: userForm.dubbel.$valid, danger: userForm.dubbel.$invalid }">Valid</td>
+                        <td ng-class="{ success: userForm.firstdubbel.$valid, danger: userForm.firstdubbel.$invalid }">Valid</td>
                     </tr>
                     <tr>
-                        <td ng-class="{ success: userForm.dubbel.$pristine, danger: !userForm.dubbel.$pristine }">Pristine</td>
+                        <td ng-class="{ success: userForm.firstdubbel.$pristine, danger: !userForm.firstdubbel.$pristine }">Pristine</td>
                     </tr>
                     <tr>
-                        <td ng-class="{ success: userForm.dubbel.$dirty }">Dirty</td>
+                        <td ng-class="{ success: userForm.firstdubbel.$dirty }">Dirty</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-3">
+            <h3>last dubbel</h3>
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td ng-class="{ success: userForm.lastdubbel.$valid, danger: userForm.lastdubbel.$invalid }">Valid</td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{ success: userForm.lastdubbel.$pristine, danger: !userForm.lastdubbel.$pristine }">Pristine</td>
+                    </tr>
+                    <tr>
+                        <td ng-class="{ success: userForm.lastdubbel.$dirty }">Dirty</td>
                     </tr>
                 </tbody>
             </table>

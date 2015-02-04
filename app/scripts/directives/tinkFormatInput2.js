@@ -6,6 +6,10 @@
       replace: true,
       priority:99,
       controller:'tinkFormatController',
+      scope:{
+        minDate:'=?',
+        maxDate:'=?'
+      },
       require:['tinkFormatInput','ngModel','?^form'],
       template: function() {
         var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
@@ -19,7 +23,8 @@
       compile: function(template) {
         template.prop('type', 'date');
         return {
-          pre: function() {},
+          pre: function(scope, elem, attr, ctrl) {
+          },
           post: function(scope, elem, attr, ctrl) {
 
             // -- check if we are using a touch device  --/
@@ -50,7 +55,13 @@
         var controller = ctrl[0];
         var form = ctrl[2];
 
-        if(form){
+        var prefix = '';
+        if(angular.isDefined(attr.validName)){
+          prefix = attr.validName;
+          form.$removeControl(ngControl);
+          ngControl.$name = prefix+ngControl.$name;
+          form.$addControl(ngControl);
+        }else{
           setTimeout(function(){ form.$addControl(ngControl); }, 1);
         }
 
@@ -75,15 +86,54 @@
             return dateObject.toString()!=='Invalid Date';
           }
         }
+console.log(attr)
 
         function checkValidity(value){
-          if(validFormat(value,dateformat)){
-            ngControl.$setValidity('date',true)
-          }else if(value !== config.placeholder){
-            ngControl.$setValidity('date',false);
+
+          var stringValue;
+          if(angular.isDate(value)){
+            stringValue = dateCalculator.format(value,dateformat);
+          }else if(typeof value === 'sting'){
+            stringValue = value;
           }else{
-            ngControl.$setValidity('date',true)
+            return false;
           }
+
+          safeApply(scope,function(){console.log(scope.required)
+            if(validFormat(stringValue,dateformat)){
+              ngControl.$setValidity('date',true)
+              if(angular.isDefined(scope.required)){
+                ngControl.$setValidity('date-required',true);
+              }
+            }else if(stringValue !== config.placeholder && stringValue !== null){
+              ngControl.$setValidity('date',false);
+              if(angular.isDefined(scope.required)){
+                ngControl.$setValidity('date-required',true);
+              }
+            }else{
+              ngControl.$setValidity('date',true)
+              if(angular.isDefined(scope.required)){
+                ngControl.$setValidity('date-required',false);
+              }
+            }
+
+            if(angular.isDate(scope.minDate)){
+              if(dateCalculator.dateBeforeOther(value,scope.minDate)){
+                ngControl.$setValidity('date-min',true);
+              }else{
+                ngControl.$setValidity('date-min',false);
+              }
+
+            }
+            if(angular.isDate(scope.maxDate)){
+              if(dateCalculator.dateBeforeOther(scope.maxDate,value)){
+                ngControl.$setValidity('date-max',true);
+              }else{
+                ngControl.$setValidity('date-max',false);
+              }
+            }
+
+          })
         }
 
         controller.init(element,config,form,ngControl);
@@ -98,6 +148,7 @@
                 controller.setValue(null,null,isTouch);
               }
             }
+            checkValidity(modelValue);
           });
 
           //format text from the user (view to model)
@@ -112,6 +163,7 @@
 
           //on blur update the model.
           element.on('blur', function() {
+            console.log('blur')
             safeApply(scope,function(){
               var value;
               if(isTouch){
@@ -119,12 +171,13 @@
               }else{
                 value = controller.getValue();
               }
-              //var date = dateCalculator.getDate(value,'dd/mm/yyyy');
+              var date = dateCalculator.getDate(value,'dd/mm/yyyy');
               var modelString = dateCalculator.format(ngControl.$modelValue,'dd/mm/yyyy');
-              checkValidity(value);
-              if(value !== modelString){
+              checkValidity(date);
+              //if(value !== modelString){
                 ngControl.$setViewValue(value);
-              }
+                ngControl.$render();
+              //}
             })
           });
       }

@@ -130,7 +130,11 @@ angular.module('tink.dateHelper')
 
   return {
     dateBeforeOther: function (first, last) {
-      if (new Date(first).getTime() > new Date(last).getTime() && last !== null) {
+      var firstDate = new Date(first);
+      var lastDate = new Date(last);
+      firstDate.setHours(0, 0, 0, 0);
+      lastDate.setHours(0, 0, 0, 0);
+      if (firstDate >= lastDate && lastDate !== null) {
         return true;
       } else {
         return false;
@@ -312,7 +316,7 @@ angular.module('tink.dateHelper')
     return arrays;
   }
 
-  function daysInRows(date,selectedDate){
+  function daysInRows(date,selectedDate,before,after){
     var monthCall = callCullateData(date);
     var today = new Date();
     var days = [], day;
@@ -327,19 +331,36 @@ angular.module('tink.dateHelper')
         if(angular.isDate(selectedDate)){
           isSelected = selectedDate.toDateString() === day.toDateString();
         }
-        days.push({date: day,selected:isSelected, isToday: day.toDateString() === today.toDateString(), label: dateCalculator.formatDate(day, 'd'),isMuted:isMuted});
+        var disable = false;
+        if(dateCalculator.dateBeforeOther(day,before)){
+          if(!dateCalculator.dateBeforeOther(after,day)){
+            disable = true;
+          }
+        }else{
+          disable = true;
+        }
+        days.push({date: day,selected:isSelected, isToday: day.toDateString() === today.toDateString(), label: dateCalculator.formatDate(day, 'd'),isMuted:isMuted,disabled:disable});
     }
     var arrays = split(days, 7);
      return arrays;
 
   }
 
-  function monthInRows(date){
+  function monthInRows(date,before,after){
     var months = [];
     var monthDate;
      for(var i = 0; i < 12; i++) {
       monthDate = new Date(date.getFullYear(),i,1);
-      months.push({date: monthDate,label: dateCalculator.formatDate(monthDate, 'mmm')});
+      var copy = new Date(date);
+      var disable = false;
+      if(monthDate.getMonth()>= before.getMonth() && monthDate.getFullYear() === before.getFullYear()){
+        if(monthDate.getMonth() > after.getMonth()){
+            disable = true;
+        }
+      }else{
+        disable = true;
+      }
+      months.push({date: monthDate,label: dateCalculator.formatDate(monthDate, 'mmm'),disabled:disable});
      }
     var arrays = split(months, 4);
     return arrays;
@@ -435,11 +456,11 @@ angular.module('tink.dateHelper')
 
 
         },
-        daysInRows: function(date,model){
-         return daysInRows(date,model);
+        daysInRows: function(date,model,before,last){
+         return daysInRows(date,model,before,last);
         },
-        monthInRows:function(date){
-          return monthInRows(date);
+        monthInRows:function(date,before,last){
+          return monthInRows(date,before,last);
         },
         yearInRows:function(date){
           return yearInRows(date);
