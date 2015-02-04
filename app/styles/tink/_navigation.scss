@@ -108,6 +108,7 @@ body {
     float: left;
     height: rem($nav-top-height);
     line-height: rem($nav-top-height);
+    overflow: auto;
     position: relative;
     z-index: layer('base');
 
@@ -185,6 +186,8 @@ body {
   @include nav-aside();
   left: 0;
   transform: translate(rem(-$nav-aside-width), 0);
+
+  transition: -webkit-transform $animation-speed linear; // There's a bug in the autoprefixer which prevents it from
   transition: transform $animation-speed linear;
 
   @include mq($screen-sm) {

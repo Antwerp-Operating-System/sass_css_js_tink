@@ -4,24 +4,27 @@
 
 .callout {
   background: $callout-bgcolor;
+  border: 1px solid $callout-color;
+  border-left: 5px solid $callout-color;
+  border-radius: rem($border-radius-base);
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+  color: $callout-color;
   margin: rem($line-height-computed) 0;
   padding: rem($padding-large-vertical $padding-large-horizontal);
-  border: 1px solid $callout-color;
-  border-radius: rem($border-radius-base);
-  border-left: 5px solid $callout-color;
-  box-shadow: 0 1px 1px rgba(0,0,0,.05);
-
-  hr {
-    border-top-color: $gray;
-    margin: rem($line-height-computed / 2) 0;
-  }
 
   a {
-    color: darken($link-color, 10);
+    color: darken($callout-color, 8%);
+    text-decoration: underline;
+
     &:hover,
     &:focus {
-      color: darken($link-color, 20);
+      color: darken($callout-color, 18%);
     }
+  }
+
+  hr {
+    border-top-color: $callout-color;
+    margin: rem($line-height-computed / 2) 0;
   }
 
   > p:last-child,
@@ -34,12 +37,19 @@
   @extend .callout;
   background-color: $callout-bgcolor-success;
   border-color: $callout-color-success;
+  color: $callout-color-success;
+
   a {
-    color: darken($callout-color-success, 10);
+    color: darken($callout-color-success, 8%);
+
     &:hover,
     &:focus {
-      color: darken($callout-color-success, 20);
+      color: darken($callout-color-success, 18%);
     }
+  }
+
+  hr {
+    border-top-color: $callout-color-success;
   }
 }
 
@@ -47,12 +57,19 @@
   @extend .callout;
   background-color: $callout-bgcolor-warning;
   border-color: $callout-color-warning;
+  color: $callout-color-warning;
+
   a {
-    color: darken($callout-color-warning, 10);
+    color: darken($callout-color-warning, 8%);
+
     &:hover,
     &:focus {
-      color: darken($callout-color-warning, 20);
+      color: darken($callout-color-warning, 18%);
     }
+  }
+
+  hr {
+    border-top-color: $callout-color-warning;
   }
 }
 
@@ -60,11 +77,18 @@
   @extend .callout;
   background-color: $callout-bgcolor-danger;
   border-color: $callout-color-danger;
+  color: $callout-color-danger;
+
   a {
-    color: darken($callout-color-danger, 10);
+    color: darken($callout-color-danger, 8%);
+
     &:hover,
     &:focus {
-      color: darken($callout-color-danger, 20);
+      color: darken($callout-color-danger, 18%);
     }
+  }
+
+  hr {
+    border-top-color: $callout-color-danger;
   }
 }
