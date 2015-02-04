@@ -12,11 +12,12 @@
 
 
   > div[class*="col-"] {
-    .datepicker-icon {
-      // margin-right: $grid-gutter-width / 2;
-      z-index: layer("nav-aside");
-      right: 1px;
-    }
+
+  }
+  .datepicker-icon {
+    // margin-right: $grid-gutter-width / 2;
+    z-index: layer("nav-aside");
+    right: 1px;
   }
   .faux-input {
     position: relative;
