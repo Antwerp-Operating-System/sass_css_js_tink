@@ -105,6 +105,7 @@
     border-color: $color;
     box-shadow: 0 0 0 2px rgba($color-rgba, .25);
     outline: 0;
+    position: relative;
     z-index: layer("base");
   }
 }
