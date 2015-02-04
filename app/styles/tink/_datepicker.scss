@@ -14,9 +14,17 @@
   > div[class*="col-"] {
     .datepicker-icon {
       // margin-right: $grid-gutter-width / 2;
+      z-index: layer("nav-aside");
       right: 1px;
     }
   }
+  .faux-input {
+    position: relative;
+    &:focus {
+      z-index: layer("pseudo");
+    }
+  }
+
   @include mq($screen-sm) {
     #firstDateElem .faux-input {
       border-top-right-radius: 0;
@@ -25,7 +33,7 @@
     #lastDateElem .faux-input {
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
-      border-left: none;
+      // border-left: none;
     }
   }
 }
