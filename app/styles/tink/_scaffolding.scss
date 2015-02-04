@@ -67,6 +67,18 @@ a {
   &:focus {
     @include tab-focus();
   }
+
+  &[href^="http://"],
+  &[href^="https://"] {
+    &:after {
+      content: ' \f08e';
+      font-family: FontAwesome;
+      font-size: rem($font-size-base - 2);
+      font-style: normal;
+      font-weight: normal;
+      text-decoration: inherit;
+    }
+  }
 }
 
 
