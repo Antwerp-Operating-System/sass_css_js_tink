@@ -68,15 +68,25 @@ a {
     @include tab-focus();
   }
 
-  &[href^="http://"],
-  &[href^="https://"] {
+  //&[href^="http://"],
+  //&[href^="https://"],
+  &[rel="external"] {
     &:after {
       content: ' \f08e';
+      display: inline-block;
       font-family: FontAwesome;
       font-size: rem($font-size-base - 2);
+      font-size: rem($font-size-base * .75);
       font-style: normal;
-      font-weight: normal;
-      text-decoration: inherit;
+      font-weight: 400;
+      opacity: .5;
+      padding: rem(0 2 0 4);
+      text-decoration: none;
+    }
+    &:hover {
+      &:after {
+        opacity: 1;
+      }
     }
   }
 }
