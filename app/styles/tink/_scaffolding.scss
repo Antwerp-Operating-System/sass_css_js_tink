@@ -68,8 +68,6 @@ a {
     @include tab-focus();
   }
 
-  //&[href^="http://"],
-  //&[href^="https://"],
   &[rel="external"] {
     &:after {
       content: ' \f08e';
@@ -82,6 +80,7 @@ a {
       opacity: .5;
       padding: rem(0 2 0 4);
       text-decoration: none;
+      transition: color $animation-speed linear;
     }
     &:hover {
       &:after {
