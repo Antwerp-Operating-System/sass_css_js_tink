@@ -1,10 +1,11 @@
-//
-// Utility classes
-// --------------------------------------------------
+/**
+ * Utility classes
+ * ----------------------------------------------------------------
+ */
 
-
-// Floats
-// -------------------------
+/**
+ * Floats
+ */
 
 .clearfix {
   @include clearfix();
@@ -19,10 +20,16 @@
   float: left !important;
 }
 
+/**
+ * Positioning
+ */
+.relative {
+  position: relative !important;
+}
 
-// Toggling content
-// -------------------------
-
+/**
+ * Toggling content
+ */
 // Note: Deprecated .hide in favor of .hidden or .sr-only (as appropriate) in v3.0.1
 .hide {
   display: none !important;
@@ -38,8 +45,9 @@
 // }
 
 
-// Only display content to screen readers
-//
+/**
+ * Only display content to screen readers
+ */
 // See: http://a11yproject.com/posts/how-to-hide-content/
 
 .sr-only {
@@ -70,8 +78,9 @@
 }
 
 
-// Hide from screenreaders and browsers
-//
+/**
+ * Hide from screenreaders and browsers
+ */
 // Credit: HTML5 Boilerplate
 
 .hidden {
@@ -80,7 +89,9 @@
 }
 
 
-// For Affix plugin
+/**
+ * For Affix plugin
+ */
 // -------------------------
 
 .affix {
@@ -88,8 +99,9 @@
   transform: translate3d(0, 0, 0);
 }
 
-// Divider
-// -------------------------
+/**
+ * Divider
+ */
 
 .divider {
   display: block;
@@ -101,7 +113,9 @@
   padding: 5px;
 }
 
-// Extra margin helpers
+/**
+ * Extra margin helpers
+ */
 // e.g. for use on rows that serve as e.g. bars (.bar extends both classes btw)
 .margin-bottom {
   margin-bottom: rem($padding-large-vertical * 1.5);
@@ -115,13 +129,14 @@
 .margin-right {
   margin-right: rem($padding-large-horizontal * 1.5);
 }
-
 .no-margin {
   margin: 0 !important;
 }
 
 
-// Remove borders
+/**
+ * Remove borders
+ */
 .no-border {
   border: none !important;
 }
