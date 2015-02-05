@@ -88,6 +88,9 @@ a {
       }
     }
   }
+  &.has-no-external-icon:after {
+    content: none;
+  }
 }
 
 
