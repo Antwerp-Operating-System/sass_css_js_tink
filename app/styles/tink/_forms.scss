@@ -347,8 +347,9 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   background: $white image-url("gui/select-arrow.svg") no-repeat right center;
-  background: none\9;
   background-size: contain;
+  background: none \9;
+  padding: rem($padding-base-vertical 8px $padding-base-vertical $padding-base-horizontal) \9;
   text-indent: 0.01px;
   text-overflow: '';
 
@@ -357,6 +358,7 @@ select {
     background-image: none\9;
   }
 }
+
 
 select[multiple],
 select[size],
