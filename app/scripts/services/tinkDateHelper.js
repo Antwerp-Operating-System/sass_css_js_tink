@@ -339,6 +339,7 @@ angular.module('tink.dateHelper')
         }else{
           disable = true;
         }
+        console.log(isMuted)
         days.push({date: day,selected:isSelected, isToday: day.toDateString() === today.toDateString(), label: dateCalculator.formatDate(day, 'd'),isMuted:isMuted,disabled:disable});
     }
     var arrays = split(days, 7);

@@ -56,12 +56,20 @@
 
         var prefix = '';
         if(angular.isDefined(attr.validName)){
-          prefix = attr.validName;
-          form.$removeControl(ngControl);
-          ngControl.$name = prefix+ngControl.$name;
-          form.$addControl(ngControl);
+          setTimeout(function(){
+            safeApply(scope,function(){
+              prefix = attr.validName;
+              form.$removeControl(ngControl);
+              ngControl.$name = prefix+ngControl.$name;
+              form.$addControl(ngControl);
+            });
+          }, 1);
         }else{
-          setTimeout(function(){ form.$addControl(ngControl); }, 1);
+          setTimeout(function(){
+            safeApply(scope,function(){
+              form.$addControl(ngControl);
+            });
+          }, 1);
         }
 
         function validFormat(date,format){
@@ -95,7 +103,6 @@
         })();
 
         function checkValidity(value){
-
           var stringValue;
           if(angular.isDate(value)){
             stringValue = dateCalculator.format(value,dateformat);
@@ -147,7 +154,6 @@
         }
 
         controller.init(element,config,form,ngControl);
-
           //format text going to user (model to view)
           ngControl.$formatters.push(function(modelValue) {
             if(!isTouch || isTouch && modelValue !== ''){
@@ -157,23 +163,31 @@
               }else{
                 controller.setValue(null,null,isTouch);
               }
+            }else{
+               controller.setValue("",null,isTouch);
             }
             checkValidity(modelValue);
           });
 
           //format text from the user (view to model)
-          ngControl.$parsers.push(function(value) {
-            if(value === null){
+          ngControl.$parsers.unshift(function(value) {
+
+              if(isTouch && value === ""){
+                value = element.val();
+              }
+
+            if(value === null || value ===""){
               return value;
             }else if(typeof value === 'string'){
               controller.setValue(value,null,isTouch);
               return dateCalculator.getDate(value,dateformat);
+            }else{
+              return null;
             }
           });
 
           //on blur update the model.
           element.on('blur', function() {
-            console.log('blur')
             safeApply(scope,function(){
               var value;
               if(isTouch){
@@ -184,14 +198,14 @@
               if(value === config.placeholder){
                 checkValidity(value);
               }else{
-                var date = dateCalculator.getDate(value,'dd/mm/yyyy');
+                var date = dateCalculator.getDate(value,dateformat);
                 if(date === null){
                   checkValidity(value);
                 }else{
                   checkValidity(date);
                 }
               }
-              var modelString = dateCalculator.format(ngControl.$modelValue,'dd/mm/yyyy');
+              var modelString = dateCalculator.format(ngControl.$modelValue,dateformat);
               //if(value !== modelString){
                 ngControl.$setViewValue(value);
                 ngControl.$render();

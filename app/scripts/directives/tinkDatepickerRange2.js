@@ -20,7 +20,9 @@
           lastDate: '=?'
         },
         compile: function(template,$attr){
-          if($attr.required){
+          console.log($attr)
+          if($attr.required === ""){
+            console.log( template.find('input:first'))
             template.find('input:first').attr('data-require',true);
             template.find('input:last').attr('data-require',true);
           }
@@ -44,6 +46,9 @@
           }
 
           $directive.calendar.first.on('click',function(){
+             if(isTouch){
+              element.find('input[type=date]:first').click();
+            }else{
             if($directive.open){
               if($directive.focusedModel ==='firstDateElem'){
                 hide();
@@ -51,18 +56,24 @@
                 $directive.focused.firstDateElem.focus();
               }
             }else{
-              $directive.focused.firstDateElem.focus();
+              $directive.focused.firstDateElem.click();
             }
+          }
           });
           $directive.calendar.last.on('click',function(){
-            if($directive.open){
-               if($directive.focusedModel ==='lastDateElem'){
-                hide();
+
+            if(isTouch){
+              element.find('input[type=date]:last').click();
+            }else{
+              if($directive.open){
+                 if($directive.focusedModel ==='lastDateElem'){
+                  hide();
+                }else{
+                  $directive.focused.lastDateElem.focus();
+                }
               }else{
                 $directive.focused.lastDateElem.focus();
               }
-            }else{
-              $directive.focused.lastDateElem.focus();
             }
           });
 
@@ -246,6 +257,7 @@ console.log(first,last);
               if ($directive.focusedModel !== null) {
                 if ($directive.focusedModel === 'firstDateElem') {
                   scope.firstDate = date;
+                  //first.$setViewValue(new Date())
                   if(!angular.isDate(scope.lastDate)){
                     if(!hardcoded){
                       setTimeout(function(){ $directive.focused.lastDateElem.focus(); }, 1);
@@ -266,8 +278,8 @@ console.log(first,last);
                       setTimeout(function(){ $directive.focused.firstDateElem.focus(); }, 1);
                     }
                   }else{
-                    if(dateCalculator.dateBeforeOther(scope.firstDate,scope.lastDate)){
-                      scope.firstDate = null;
+                    if(!dateCalculator.dateBeforeOther(scope.lastDate,scope.firstDate)){
+                     scope.firstDate = null;
                       if(!hardcoded){
                         setTimeout(function(){ $directive.focused.firstDateElem.focus(); }, 1);
                       }
@@ -277,7 +289,7 @@ console.log(first,last);
                 }
 
               }
-              //checkValidity();
+              checkValidity();
             };
 
             function checkValidity(){
@@ -294,6 +306,9 @@ console.log(first,last);
                     first.$setValidity('date-required',true);
                     last.$setValidity('date-required',true);
                   }
+                }else if(scope.firstDate !== null && scope.lastDate !== null){
+                  first.$setValidity('date-required',true);
+                  last.$setValidity('date-required',true);
                 }
 
                 if(first.$error.date){

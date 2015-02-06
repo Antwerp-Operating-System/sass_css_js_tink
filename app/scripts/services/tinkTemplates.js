@@ -36,7 +36,7 @@ angular.module('tink.templates', [])
         '<tbody>'+
         '<tr ng-repeat="(i, row) in rows" height="{{ 100 / rows.length }}%">'+
             '<td class="text-center" ng-repeat="(j, el) in row">'+
-                '<button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{\'btn-primary\': el.selected, \'btn-today\': el.isToday && !el.selected}" ng-click="$select(el.date)" ng-disabled="el.disabled">'+
+                '<button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{\'btn-primary\': el.selected, \'btn-today\': el.isToday && !el.selected,\'btn-grayed\':el.isMuted}" ng-click="$select(el.date)" ng-disabled="el.disabled">'+
                                     '<span ng-class="{\'text-muted\': el.muted}" ng-bind="el.label"></span>'+
                 '</button>'+
             '</td>'+
@@ -116,7 +116,7 @@ $templateCache.put('templates/tooltip.html',
 
 $templateCache.put('templates/tinkDatePickerInput.html',
   '<div class="datepicker-input-fields">'+
-  '<input tink-format-input data-format="00/00/0000" data-min-date="minDate" data-max-date="maxDate" data-placeholder="dd/mm/jjjj" data-date dynamic-name="dynamicName" ng-model="ngModel" />'+
+  '<input type="text" tink-format-input data-format="00/00/0000" data-min-date="minDate" data-max-date="maxDate" data-placeholder="dd/mm/jjjj" data-date dynamic-name="dynamicName" ng-model="ngModel" />'+
   '<span class="datepicker-icon">'+
   '<i class="fa fa-calendar"></i>'+
   '</span>'+
@@ -150,7 +150,7 @@ $templateCache.put('templates/tinkDatePickerField.html',
         '<tbody>'+
         '<tr ng-repeat="(i, row) in rows" height="{{ 100 / rows.length }}%">'+
             '<td class="text-center" ng-repeat="(j, el) in row">'+
-                '<button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{\'btn-primary\': el.selected, \'btn-today\': el.isToday && !el.selected}" ng-click="$select(el.date)" ng-disabled="el.disabled">'+
+                '<button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{\'btn-primary\': el.selected, \'btn-today\': el.isToday && !el.selected,\'btn-grayed\':el.isMuted}" ng-click="$select(el.date)" ng-disabled="el.disabled">'+
                                     '<span ng-class="{\'text-muted\': el.muted}" ng-bind="el.label"></span>'+
                 '</button>'+
             '</td>'+

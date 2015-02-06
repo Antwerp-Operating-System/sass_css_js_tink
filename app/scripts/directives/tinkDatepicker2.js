@@ -1,11 +1,10 @@
 'use strict';
 angular.module('tink.datepicker', [])
-.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply) {
+.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply','$window',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply,$window) {
   return {
     restrict:'EA',
     require:['ngModel','?^form'],
     replace:true,
-    priority:0,
     templateUrl:'templates/tinkDatePickerInput.html',
     scope:{
       ngModel:'=?',
@@ -19,13 +18,16 @@ angular.module('tink.datepicker', [])
     },
     compile: function(template,$attr) {
       if($attr.required){
+        $attr.required = false;
         template.find('input').attr('data-require',true);
       }
       return {
         pre:function(){},
         post:function(scope,element,attr,ctrls){
 
-      var ctrl = ctrls[0];
+      var ctrl = element.controller('ngModel')
+      //ctrls[1].$removeControl(ctrls[1]['single']);
+      //ctrls[1].$removeControl(ctrls[0])
       scope.opts = attr;
       console.log(attr,scope.minDate)
       var input = element.find('div.faux-input');
@@ -73,16 +75,29 @@ angular.module('tink.datepicker', [])
         $directive.viewDate = newVal;
       });
 
+      // -- check if we are using a touch device  --/
+     var isDateSupported = function() {
+        var i = document.createElement('input');
+        i.setAttribute('type', 'date');
+        return i.type !== 'text';
+      };
 
-      clickable.bind('mousedown touch',function(){
-        safeApply(scope,function(){
-          if($directive.open){
-            scope.hide();
-          }else{
-            scope.$show();
-            content.focus();
-          }
-        });
+     var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
+     var isTouch = ('createTouch' in $window.document) && isNative && isDateSupported();
+
+      clickable.bind('mousedown touch click',function(){
+        if(isTouch){
+          element.find('input[type=date]:first').click();
+        }else{
+          safeApply(scope,function(){
+            if($directive.open){
+              scope.hide();
+            }else{
+              scope.$show();
+              content.focus();
+            }
+          });
+        }
         return false;
       });
 
