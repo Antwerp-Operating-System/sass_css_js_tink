@@ -556,3 +556,156 @@ output {
     color: $input-color-placeholder;
   }
 }
+
+
+
+/**
+ * Hit area box by lievenvg
+ * --------------------------------------------------
+ */
+// INFO: the div area-box is behind the label since it has no dimensions defined.
+
+
+//++ styling a checkbox defined in an area-box ++//
+
+
+
+
+
+
+.area-box input[type="checkbox"] {
+// creating size for visible checkbox square
+// Q: how come  this mentions before and after but with the radiobutton, its only the before?
+  + label {
+      display: block;
+      background-color: $brand;
+      color: #fff;
+      // vertical-align: middle; // Q: doesn't work?
+      padding: rem(5 5 5 50);
+      cursor: pointer;
+    &:before,
+    &:after {
+      height: rem(22);
+      left: rem(15.5); // Q: 1.1 in inspector?
+      top: rem(1); // Q: 0.45 in inspector?
+      width: rem(22);
+
+// media query  for a min-width of 768
+      @media screen and (min-width: $screen-sm) {
+        height: rem(16);
+        top: rem(6.3);
+        width: rem(16);
+      }
+    }
+
+// defining a border-radius for square Q: why is this in before?
+    &:before {
+      border-radius: rem($input-border-radius);
+      content: '';
+    }
+
+// defining a invisible check mark that's a bit larger Q: why is this in after?
+    &:after {
+      color: $brand-light;
+      content: '\f00c';
+      font-family: 'FontAwesome';
+      font-size: rem(16);
+      line-height: 1.4;
+      opacity: 0;
+      position: absolute;
+      text-align: center;
+      transform: scale(2);
+      transition: opacity linear $animation-speed, transform linear $animation-speed;
+
+      @media screen and (min-width: $screen-sm) {
+        font-size: rem(13);
+        line-height: 1.25;
+      }
+    }
+  }
+
+// making the check mark visible and resize it
+  &:checked {
+    + label {
+      &:after {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+
+// Q: doesn't seem to do much
+  &:focus {
+    + label {
+      &:before {
+        box-shadow: 0 0 0 2px rgba($brand-light, .25);
+      }
+    }
+  }
+
+  &[disabled] {
+    + label {
+      background-color: #bbbbbb; // grey light
+      color: #000;
+      opacity: 0.6;
+    }
+  }
+}
+
+//++ styling a radio button defined in an area-box ++//
+
+.area-box input[type="radio"] {
+  + label {
+    // styles the label block
+      display: block;
+      background-color: $brand;
+      color: #fff;
+      padding: rem(5 5 5 50);
+      cursor: pointer;
+
+    &:before { // Q: only before and no after like in checked?
+
+    // styles the visual radiobutton
+      background: $brand-light; // color of the marked radio circle
+      border-radius: 50%; // creating circle shape
+      box-shadow: 0 0 0 40px #fff inset;
+      content: "";
+      height: rem(24); // lievenvg Q: is overruled by @media screen
+      left: rem(15.5);
+      top: rem(1); // lievenvg Q: is overruled by @media screen
+      transition: box-shadow linear $animation-speed;
+      width: rem(24); // lievenvg Q: is overruled by @media screen
+
+      @media screen and (min-width: $screen-sm) {
+        // styles the visual radiobutton at 768px and larger
+        height: rem(18);
+        top: rem(6.3);
+        width: rem(18);
+      }
+    }
+  }
+
+  &:checked {
+    + label {
+      &:before {
+        box-shadow: 0 0 0 rem(4) #fff inset;
+      }
+    }
+  }
+
+  &:focus {
+    + label {
+      &:before {
+        box-shadow: 0 0 0 rem(4) #fff inset, 0 0 0 rem(2) rgba($brand-light, .25);
+      }
+    }
+  }
+
+  &[disabled] {
+    + label {
+      background-color: #bbbbbb; // grey light
+      color: #000;
+      opacity: 0.6;
+    }
+  }
+}
