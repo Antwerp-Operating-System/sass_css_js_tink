@@ -10,8 +10,8 @@ $primary:                                #219dc8;
 
 $logo:                                   "theme/stad-logo.svg";
 
-$brand:                 					       #CF0039;
-$brand-light:           					       #F28B00;
+$brand:                 					       #cf0039;
+$brand-light:           					       #f28b00;
 
 $nav-top-bg-color:      					       #333;
 $nav-aside-link-active-background-color: $brand-light;
@@ -23,20 +23,22 @@ $nav-aside-link-hover-background-color:  lighten($brand-light, 42%);
  */
 $brand-success:                          #0b0;
 
-$link-color:                             $primary !default;
-$link-hover-color:                       lighten($link-color, 8%) !default;
+$link-color:                             $primary;
+$link-hover-color:                       lighten($link-color, 8%);
+
 
 /**
  * Code
  */
-$code-bg:                                lighten($brand, 58%);
-$pre-bg:                                 lighten($brand, 58%);
+$code-color:                             $primary;
+$code-bg:                                lighten($primary, 48%);
 
 
 /**
  * Focus
  */
-$input-border-focus:                     $primary !default;
+$input-border-focus:                     $primary;
+
 
 /**
  * Buttons
