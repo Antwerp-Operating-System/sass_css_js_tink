@@ -211,6 +211,19 @@ input[type="radio"] {
       opacity: .4;
     }
   }
+
+  &[areabox] {
+// styling on the LABEL with areabox attribute by lievenvg
+    + label {
+      display: block;
+      background-color: green;
+      color: #fff;
+      padding: rem(7 7 7 40);
+      position: relative;
+      cursor: pointer;
+    }
+  }
+
 }
 
 input[type="checkbox"] {
