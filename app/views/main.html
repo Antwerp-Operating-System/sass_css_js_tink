@@ -17,7 +17,7 @@
 
          <div class="form-group" ng-class="{ 'has-error' : userForm.dubbel.$invalid && !userForm.dubbel.$pristine }">
             <label>Name</label>
-            <tink-datepicker-range  type="text" name="dubbel" class="form-control" data-first-date="dates.first" data-last-date="dates.last">
+            <tink-datepicker-range required type="text" name="dubbel" class="form-control" data-first-date="dates.first" data-last-date="dates.last">
             <p ng-show="userForm.dubbel.$invalid && !userForm.dubbel.$pristine" class="help-block">You name is required.</p>
         </div>
 

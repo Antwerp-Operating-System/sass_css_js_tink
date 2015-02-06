@@ -36,7 +36,6 @@
 
             var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
             var isTouch = ('createTouch' in $window.document) && isNative && isDateSupported();
-
         //variable
         var self = this;
         var config = {
@@ -86,36 +85,26 @@
             return dateObject.toString()!=='Invalid Date';
           }
         }
-console.log(attr)
+
+        var isRequired = (function(){
+          if(attr.require === 'true'){
+            return true;
+          }else{
+            return false;
+          }
+        })();
 
         function checkValidity(value){
 
           var stringValue;
           if(angular.isDate(value)){
             stringValue = dateCalculator.format(value,dateformat);
-          }else if(typeof value === 'sting'){
-            stringValue = value;
           }else{
-            return false;
+            stringValue = value;
           }
 
-          safeApply(scope,function(){console.log(scope.required)
-            if(validFormat(stringValue,dateformat)){
-              ngControl.$setValidity('date',true)
-              if(angular.isDefined(scope.required)){
-                ngControl.$setValidity('date-required',true);
-              }
-            }else if(stringValue !== config.placeholder && stringValue !== null){
-              ngControl.$setValidity('date',false);
-              if(angular.isDefined(scope.required)){
-                ngControl.$setValidity('date-required',true);
-              }
-            }else{
-              ngControl.$setValidity('date',true)
-              if(angular.isDefined(scope.required)){
-                ngControl.$setValidity('date-required',false);
-              }
-            }
+
+          safeApply(scope,function(){
 
             if(angular.isDate(scope.minDate)){
               if(dateCalculator.dateBeforeOther(value,scope.minDate)){
@@ -130,6 +119,27 @@ console.log(attr)
                 ngControl.$setValidity('date-max',true);
               }else{
                 ngControl.$setValidity('date-max',false);
+              }
+            }
+
+            if(validFormat(stringValue,dateformat)){
+              ngControl.$setValidity('date',true)
+              if(isRequired){
+                ngControl.$setValidity('date-required',true);
+              }
+            }else if(stringValue !== config.placeholder && stringValue !== null){
+              ngControl.$setValidity('date',false);
+              ngControl.$setValidity('date-min',true)
+              ngControl.$setValidity('date-max',true)
+              if(isRequired){
+                ngControl.$setValidity('date-required',true);
+              }
+            }else{
+              ngControl.$setValidity('date',true);
+              ngControl.$setValidity('date-min',true)
+              ngControl.$setValidity('date-max',true)
+              if(isRequired){
+                ngControl.$setValidity('date-required',false);
               }
             }
 
@@ -171,9 +181,17 @@ console.log(attr)
               }else{
                 value = controller.getValue();
               }
-              var date = dateCalculator.getDate(value,'dd/mm/yyyy');
+              if(value === config.placeholder){
+                checkValidity(value);
+              }else{
+                var date = dateCalculator.getDate(value,'dd/mm/yyyy');
+                if(date === null){
+                  checkValidity(value);
+                }else{
+                  checkValidity(date);
+                }
+              }
               var modelString = dateCalculator.format(ngControl.$modelValue,'dd/mm/yyyy');
-              checkValidity(date);
               //if(value !== modelString){
                 ngControl.$setViewValue(value);
                 ngControl.$render();

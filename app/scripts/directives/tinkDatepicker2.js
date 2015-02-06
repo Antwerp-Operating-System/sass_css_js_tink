@@ -9,7 +9,6 @@ angular.module('tink.datepicker', [])
     templateUrl:'templates/tinkDatePickerInput.html',
     scope:{
       ngModel:'=?',
-      required:'@?',
       minDate:'=?',
       maxDate:'=?',
     },
@@ -18,8 +17,10 @@ angular.module('tink.datepicker', [])
       $scope.requiredVal = false;
       //$scope.mindate = new Date();
     },
-    compile: function(template) {
-      console.log(template)
+    compile: function(template,$attr) {
+      if($attr.required){
+        template.find('input').attr('data-require',true);
+      }
       return {
         pre:function(){},
         post:function(scope,element,attr,ctrls){
@@ -111,14 +112,24 @@ angular.module('tink.datepicker', [])
         }else{
           $directive.mode = 0;
         }
+        setMode($directive.mode);
+        scope.build();
+      };
+
+      function setMode(mode){
+        if(mode >= 0 && mode <=2){
+          $directive.mode = mode;
+        }else{
+          $directive.mode = 0;
+        }
         $directive.pane = {};
         switch($directive.mode){
           case 0: $directive.pane.month = 1; break;
           case 1: $directive.pane.month = 12; break;
           case 2: $directive.pane.year = 12; break;
         }
-        scope.build();
-      };
+
+      }
 
       scope.hide = function(){
         if(copyEl){
@@ -145,6 +156,7 @@ angular.module('tink.datepicker', [])
           setTimeout(function(){ content.blur(); }, 0);
         }else if($directive.mode >0){
           $directive.mode -= 1;
+          setMode($directive.mode);
           scope.build();
         }
       };
@@ -160,8 +172,6 @@ angular.module('tink.datepicker', [])
           if($directive.mode === 1){
             scope.title = dateCalculator.format($directive.viewDate, 'yyyy');
             scope.rows =  calView.monthInRows($directive.viewDate,scope.minDate,scope.maxDate);
-
-            console.log(scope.rows)
           }
           if($directive.mode === 0){
             scope.title = dateCalculator.format($directive.viewDate, options.yearTitleFormat);
@@ -170,7 +180,8 @@ angular.module('tink.datepicker', [])
           if($directive.mode === 2){
             var currentYear = parseInt(dateCalculator.format($directive.viewDate, 'yyyy'));
             scope.title = (currentYear-11) +'-'+ currentYear;
-            scope.rows =  calView.yearInRows($directive.viewDate);
+            scope.rows = calView.yearInRows($directive.viewDate,scope.minDate,scope.maxDate);
+            //setMode(1);
           }
       };
 

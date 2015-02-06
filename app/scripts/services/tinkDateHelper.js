@@ -349,13 +349,19 @@ angular.module('tink.dateHelper')
   function monthInRows(date,before,after){
     var months = [];
     var monthDate;
+    if(angular.isDefined(before) && before !== null){
+      before = new Date(before.getFullYear(),before.getMonth(),1);
+    }
+    if(angular.isDefined(after) && after !== null){
+      after = new Date(after.getFullYear(),after.getMonth(),1);
+    }
      for(var i = 0; i < 12; i++) {
       monthDate = new Date(date.getFullYear(),i,1);
-      var copy = new Date(date);
+
       var disable = false;
-      if(monthDate.getMonth()>= before.getMonth() && monthDate.getFullYear() === before.getFullYear()){
-        if(monthDate.getMonth() > after.getMonth()){
-            disable = true;
+      if(dateCalculator.dateBeforeOther(monthDate,before)){
+        if(angular.isDefined(after) && after !== null && !dateCalculator.dateBeforeOther(after,monthDate)){
+          disable = true;
         }
       }else{
         disable = true;
@@ -366,13 +372,31 @@ angular.module('tink.dateHelper')
     return arrays;
   }
 
-  function yearInRows(date){
+  function yearInRows(date,before,after){
     var years = [];
     var yearDate;
-     for(var i = 11; i > -1; i--) {
-      yearDate = new Date(date.getFullYear()-i,date.getMonth(),1);
-      years.push({date: yearDate,label: dateCalculator.formatDate(yearDate, 'yyyy')});
-     }
+
+    if(angular.isDefined(before) && before !== null){
+      before = new Date(before.getFullYear(),date.getMonth(),1);
+    }
+    if(angular.isDefined(after) && after !== null){
+      after = new Date(after.getFullYear(),date.getMonth(),1);
+    }
+
+   for(var i = 11; i > -1; i--) {
+    yearDate = new Date(date.getFullYear()-i,date.getMonth(),1);
+
+    var disable = false;
+    if(dateCalculator.dateBeforeOther(yearDate,before)){
+      if(angular.isDefined(after) && after !== null && !dateCalculator.dateBeforeOther(after,yearDate)){
+        disable = true;
+      }
+    }else{
+      disable = true;
+    }
+
+    years.push({date: yearDate,label: dateCalculator.formatDate(yearDate, 'yyyy'),disabled:disable});
+   }
     var arrays = split(years, 4);
     return arrays;
   }
@@ -462,8 +486,8 @@ angular.module('tink.dateHelper')
         monthInRows:function(date,before,last){
           return monthInRows(date,before,last);
         },
-        yearInRows:function(date){
-          return yearInRows(date);
+        yearInRows:function(date,before,last){
+          return yearInRows(date,before,last);
         }
       };
     }]);

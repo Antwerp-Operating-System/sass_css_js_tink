@@ -19,7 +19,14 @@
           firstDate: '=?',
           lastDate: '=?'
         },
-        link: function postLink(scope, element,attrs,form) {
+        compile: function(template,$attr){
+          if($attr.required){
+            template.find('input:first').attr('data-require',true);
+            template.find('input:last').attr('data-require',true);
+          }
+          return{
+            pre:function(){},
+            post:function postLink(scope, element,attrs,form) {
           var $directive = {
             open: false,
             focused: {firstDateElem: element.find('div[tink-format-input] div:first'), lastDateElem: element.find('div[tink-format-input] div:last')},
@@ -275,7 +282,6 @@ console.log(first,last);
 
             function checkValidity(){
                 //scope.ctrlconst.$setValidity('required',true);
-              if(scope.required){
                 if(scope.firstDate === null && scope.lastDate !== null){
                   first.$setValidity('date-required',false);
                 }else if(scope.firstDate !== null && scope.lastDate === null){
@@ -296,7 +302,6 @@ console.log(first,last);
                 if(last.$error.date){
                   last.$setValidity('date-required',true);
                 }
-              }
             }
 
             function $onMouseDown (evt) {
@@ -402,6 +407,10 @@ console.log(first,last);
               $directive.open = true;
               templateElem.css({display: 'block'});
             }
+
+          }
+
+        }
 
           }
 
