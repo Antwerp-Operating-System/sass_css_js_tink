@@ -85,7 +85,7 @@ angular.module('tink.datepicker', [])
      var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
      var isTouch = ('createTouch' in $window.document) && isNative && isDateSupported();
 
-      clickable.bind('mousedown touch click',function(){
+      clickable.bind('mousedown touch',function(){
         if(isTouch){
           element.find('input[type=date]:first').click();
         }else{
@@ -184,6 +184,20 @@ angular.module('tink.datepicker', [])
         if($directive.viewDate === null || $directive.viewDate === undefined){
           $directive.viewDate = new Date();
         }
+
+        if(checkBefore($directive.viewDate,scope.minDate)){
+          scope.pane.prev = 1;
+          $directive.viewDate = new Date(scope.minDate);
+        }else{
+          scope.pane.prev = 0;
+        }
+        if(checkAfter($directive.viewDate,scope.maxDate)){
+          scope.pane.next = 1;
+          $directive.viewDate = new Date(scope.maxDate);
+        }else{
+          scope.pane.next = 0;
+        }
+
           if($directive.mode === 1){
             scope.title = dateCalculator.format($directive.viewDate, 'yyyy');
             scope.rows =  calView.monthInRows($directive.viewDate,scope.minDate,scope.maxDate);
@@ -199,6 +213,38 @@ angular.module('tink.datepicker', [])
             //setMode(1);
           }
       };
+
+      function checkBefore(date,before){
+        if(!angular.isDate(date)){
+          return false;
+        }
+        if(!angular.isDate(before)){
+          return false;
+        }
+        var copyDate = new Date(date.getFullYear(),date.getMonth(),1);
+        var copyBefore = new Date(before.getFullYear(),before.getMonth(),1);
+
+        if(dateCalculator.dateBeforeOther(copyBefore,copyDate)){
+          return true;
+        }
+        return false;
+
+      }
+      function checkAfter(date,after){
+        if(!angular.isDate(date)){
+          return false;
+        }
+        if(!angular.isDate(after)){
+          return false;
+        }
+        var copyDate = new Date(date.getFullYear(),date.getMonth(),1);
+        var copyafter = new Date(after.getFullYear(),after.getMonth(),1);
+
+        if(!dateCalculator.dateBeforeOther(copyafter,copyDate)){
+          return true;
+        }
+        return false;
+      }
 
       var fetchPromises =[];
       // -- To load the template for the popup but we can change this ! no html file is better

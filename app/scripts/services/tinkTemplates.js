@@ -50,7 +50,7 @@ $templateCache.put('templates/tinkDatePickerRange.html',
   '<div class="pull-left datepickerrange-left">'+
     '<div class="datepickerrange-header-left">'+
       '<div class="pull-left">'+
-        '<button tabindex="-1" type="button" class="btn pull-left" ng-click="$selectPane(0)">'+
+        '<button tabindex="-1" type="button" ng-disabled="pane.prev" class="btn pull-left" ng-click="$selectPane(0)">'+
           '<i class="fa fa-chevron-left"></i>'+
         '</button>'+
       '</div>'+
@@ -72,7 +72,7 @@ $templateCache.put('templates/tinkDatePickerRange.html',
   '<div class="pull-right datepickerrange-right">'+
     '<div class="datepickerrange-header-right">'+
      ' <div class="pull-right">'+
-        '<button tabindex="-1" type="button" class="btn pull-left" ng-click="$selectPane(1)">'+
+        '<button tabindex="-1" type="button" ng-disabled="pane.next" class="btn pull-left" ng-click="$selectPane(1)">'+
           '<i class="fa fa-chevron-right"></i>'+
         '</button>'+
       '</div>'+

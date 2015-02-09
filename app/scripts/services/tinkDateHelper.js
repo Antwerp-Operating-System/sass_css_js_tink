@@ -331,15 +331,15 @@ angular.module('tink.dateHelper')
         if(angular.isDate(selectedDate)){
           isSelected = selectedDate.toDateString() === day.toDateString();
         }
+
         var disable = false;
-        if(dateCalculator.dateBeforeOther(day,before)){
-          if(!dateCalculator.dateBeforeOther(after,day)){
-            disable = true;
-          }
-        }else{
+        if(angular.isDate(before) && !dateCalculator.dateBeforeOther(day,before)){
           disable = true;
         }
-        console.log(isMuted)
+        if(angular.isDate(after) && !dateCalculator.dateBeforeOther(after,day)){
+          disable = true;
+        }
+
         days.push({date: day,selected:isSelected, isToday: day.toDateString() === today.toDateString(), label: dateCalculator.formatDate(day, 'd'),isMuted:isMuted,disabled:disable});
     }
     var arrays = split(days, 7);
@@ -359,14 +359,14 @@ angular.module('tink.dateHelper')
      for(var i = 0; i < 12; i++) {
       monthDate = new Date(date.getFullYear(),i,1);
 
-      var disable = false;
-      if(dateCalculator.dateBeforeOther(monthDate,before)){
-        if(angular.isDefined(after) && after !== null && !dateCalculator.dateBeforeOther(after,monthDate)){
-          disable = true;
-        }
-      }else{
-        disable = true;
-      }
+    var disable = false;
+    if(angular.isDate(before) && !dateCalculator.dateBeforeOther(monthDate,before)){
+      disable = true;
+    }
+    if(angular.isDate(after) && !dateCalculator.dateBeforeOther(after,monthDate)){
+      disable = true;
+    }
+
       months.push({date: monthDate,label: dateCalculator.formatDate(monthDate, 'mmm'),disabled:disable});
      }
     var arrays = split(months, 4);
@@ -388,11 +388,10 @@ angular.module('tink.dateHelper')
     yearDate = new Date(date.getFullYear()-i,date.getMonth(),1);
 
     var disable = false;
-    if(dateCalculator.dateBeforeOther(yearDate,before)){
-      if(angular.isDefined(after) && after !== null && !dateCalculator.dateBeforeOther(after,yearDate)){
-        disable = true;
-      }
-    }else{
+    if(angular.isDate(before) && !dateCalculator.dateBeforeOther(yearDate,before)){
+      disable = true;
+    }
+    if(angular.isDate(after) && !dateCalculator.dateBeforeOther(after,yearDate)){
       disable = true;
     }
 
@@ -402,7 +401,7 @@ angular.module('tink.dateHelper')
     return arrays;
   }
 
-  function createLabels(date, firstRange, lastRange,grayed) {
+  function createLabels(date, firstRange, lastRange,grayed,before,after) {
     var label = '',cssClass = '';
     if (label !== null && angular.isDate(date)) {
       label = date.getDate();
@@ -428,9 +427,18 @@ angular.module('tink.dateHelper')
           cssClass = 'btn-today';
         }
       }
+
+      var disable = '';
+      if(angular.isDate(before) && !dateCalculator.dateBeforeOther(date,before)){
+        disable = 'disabled';
+      }
+      if(angular.isDate(after) && !dateCalculator.dateBeforeOther(after,date)){
+        disable = 'disabled';
+      }
+
       var month = ('0' + (date.getMonth() + 1)).slice(-2);
       var day = ('0' + (date.getDate())).slice(-2);
-      return '<td><button ng-click="$select(\''+date.getFullYear()+'/'+month+'/'+day+'\')" class="' + cssClass + '"><span>' + label + '</span></button></td>';
+      return '<td><button '+disable+' ng-click="$select(\''+date.getFullYear()+'/'+month+'/'+day+'\')" class="' + cssClass + '"><span>' + label + '</span></button></td>';
     } else{
       return '<td></td>';
     }
@@ -447,24 +455,24 @@ angular.module('tink.dateHelper')
        }
 
       return {
-        createMonthDays: function (date, firstRange, lastRange,control) {
+        createMonthDays: function (date, firstRange, lastRange,control,before,after) {
           var domElem = '', monthCall = callCullateData(date), label;
           //var tr = createTR();
           var tr = '<tr>';
           for (var i = 0; i < monthCall.days; i++) {
             var day = new Date(monthCall.firstDay.getFullYear(), monthCall.firstDay.getMonth(), monthCall.firstDay.getDate() + i);
-            label = createLabels(null, firstRange, lastRange);
+            label = createLabels(null, firstRange, lastRange,false,before,after);
             if(control === 'prevMonth'){
               if(day.getMonth() !== date.getMonth() && dateCalculator.dateBeforeOther(date,day)){
-                label = createLabels(day, firstRange, lastRange,true);
+                label = createLabels(day, firstRange, lastRange,true,before,after);
               }
             } else if(control === 'nextMonth'){
               if(day.getMonth() !== date.getMonth() && dateCalculator.dateBeforeOther(day,date)){
-                label = createLabels(day, firstRange, lastRange,true);
+                label = createLabels(day, firstRange, lastRange,true,before,after);
               }
             }
             if(day.getMonth() === date.getMonth()){
-              label = createLabels(day, firstRange, lastRange);
+              label = createLabels(day, firstRange, lastRange,false,before,after);
             }
 
             //tr.appendChild(label);
