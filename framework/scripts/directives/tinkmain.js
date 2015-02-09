@@ -11,5 +11,6 @@ angular.module('tink', [
 		'tink.templates',
 		'tink.validDate',
 		'tink.format',
-		'tink.timepicker'
+		'tink.timepicker',
+		'tink.accordion'
 	]);

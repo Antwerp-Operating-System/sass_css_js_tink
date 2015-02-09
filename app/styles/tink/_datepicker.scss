@@ -8,24 +8,38 @@
 
 .datepicker-input-fields {
   position: relative;
-  max-width: rem(260);
-
+  // max-width: rem(260);
 
   > div[class*="col-"] {
-    .datepicker-icon {
-      // margin-right: $grid-gutter-width / 2;
-      right: 1px;
+
+  }
+  .datepicker-icon {
+    // margin-right: $grid-gutter-width / 2;
+    z-index: layer("pseudo");
+    right: 1px;
+  }
+  .faux-input {
+    position: relative;
+
+    &:focus {
+      z-index: layer("base");
     }
   }
+
   @include mq($screen-sm) {
-    #firstDateElem .faux-input {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
+    #firstDateElem {
+      .faux-input {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
     }
-    #lastDateElem .faux-input {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-      border-left: none;
+
+    #lastDateElem {
+      .faux-input {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        // border-left: none;
+      }
     }
   }
 }
@@ -93,6 +107,7 @@
       background: $brand;
       color: $white;
     }
+
     &.btn-grayed {
       color: lighten($datepicker-neutral-light, 10);
       &-selected {
@@ -101,7 +116,6 @@
         color: $white;
       }
     }
-
   }
 
 
@@ -169,6 +183,7 @@
 .datepickerrange-right {
   width: 100%;
   padding: 1.5%;
+
   @include mq($screen-xs) {
     width: 50%;
     padding: 1.5% 2.5%;

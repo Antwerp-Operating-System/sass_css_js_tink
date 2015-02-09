@@ -149,9 +149,9 @@ $code-bg:                     lighten($brand, 54%) !default;
 $kbd-color:                   $white !default;
 $kbd-bg:                      $gray-darker !default;
 
-$pre-bg:                      lighten($brand, 54%) !default;
-$pre-color:                   $brand !default;
-$pre-border-color:            lighten($brand, 48%) !default;
+$pre-bg:                      $code-bg !default;
+$pre-color:                   $code-color !default;
+$pre-border-color:            darken($code-bg, 6%) !default;
 $pre-scrollable-max-height:   340px !default;
 
 
@@ -454,7 +454,17 @@ $datepicker-neutral-light      : $gray-light !default;
 $datepicker-neutral-dark       : $gray-dark !default;
 
 
-
+/**
+ * Callout
+ */
+$callout-color                 : $brand !default;
+$callout-bgcolor               : lighten($brand, 50%);
+$callout-color-success         : $brand-success !default;
+$callout-bgcolor-success       : lighten($brand-success, 60%);
+$callout-color-warning         : $brand-warning !default;
+$callout-bgcolor-warning       : lighten($brand-warning, 45%);
+$callout-color-danger          : $brand-danger !default;
+$callout-bgcolor-danger        : lighten($brand-danger, 45%);
 
 //== Navbar
 //

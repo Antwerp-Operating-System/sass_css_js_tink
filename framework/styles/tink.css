@@ -88,6 +88,9 @@
  * Settings for both the single as the range datepicker
  */
 /**
+ * Callout
+ */
+/**
  * Navs
  */
 /**
@@ -2578,6 +2581,48 @@ a.badge:hover, a.badge:focus {
 .accordion-loaded-content {
   transition: opacity 0.4s linear; }
 
+.callout, .callout-success, .callout-warning, .callout-danger {
+  background: #e3eff6;
+  margin: 1.42857rem  0;
+  padding: 0.71429rem 1.14286rem ;
+  border: 1px solid #347ea6;
+  border-radius: 0.14286rem ;
+  border-left: 5px solid #347ea6;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); }
+  .callout hr, .callout-success hr, .callout-warning hr, .callout-danger hr {
+    border-top-color: #888;
+    margin: 0.71429rem  0; }
+  .callout a, .callout-success a, .callout-warning a, .callout-danger a {
+    color: #369dcc; }
+    .callout a:hover, .callout-success a:hover, .callout-warning a:hover, .callout-danger a:hover, .callout a:focus, .callout-success a:focus, .callout-warning a:focus, .callout-danger a:focus {
+      color: #2a7fa5; }
+  .callout > p:last-child, .callout-success > p:last-child, .callout-warning > p:last-child, .callout-danger > p:last-child, .callout > ul, .callout-success > ul, .callout-warning > ul, .callout-danger > ul {
+    margin-bottom: 0; }
+
+.callout-success {
+  background-color: #effae9;
+  border-color: #4a921f; }
+  .callout-success a {
+    color: #356816; }
+    .callout-success a:hover, .callout-success a:focus {
+      color: #1f3e0d; }
+
+.callout-warning {
+  background-color: #fff4e5;
+  border-color: #ff8d00; }
+  .callout-warning a {
+    color: #cc7100; }
+    .callout-warning a:hover, .callout-warning a:focus {
+      color: #995500; }
+
+.callout-danger {
+  background-color: #ffccd9;
+  border-color: #e60038; }
+  .callout-danger a {
+    color: #b3002c; }
+    .callout-danger a:hover, .callout-danger a:focus {
+      color: #80001f; }
+
 /**
  * Angular related components
  */
@@ -3134,10 +3179,20 @@ body {
  * - range
  */
 .datepicker-input-fields {
-  position: relative; }
+  position: relative;
+  max-width: 18.57143rem ; }
   .datepicker-input-fields > div[class*="col-"] .datepicker-icon {
-    margin-right: 0.9375rem;
     right: 1px; }
+  @media (min-width: 768px) {
+    .datepicker-input-fields #firstDateElem .faux-input {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0; }
+
+    .datepicker-input-fields #lastDateElem .faux-input {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+      border-left: none; }
+ }
 
 .datepicker-icon {
   bottom: 1px;
@@ -3153,7 +3208,8 @@ body {
 
 .datepicker, .datepickerrange {
   background: #fff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  border-radius: 0.14286rem ;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
   color: #333;
   margin-top: 2px;
   position: relative;
@@ -3186,7 +3242,7 @@ body {
       color: #d4d4d4; }
       .datepicker button.btn-grayed-selected, .datepicker .btn.btn-grayed-selected, .datepickerrange button.btn-grayed-selected, .datepickerrange .btn.btn-grayed-selected {
         background-color: #bbb;
-        border-color: #888;
+        border-color: transparent;
         color: #fff; }
   .datepicker table, .datepickerrange table {
     background: #fff;
@@ -3201,11 +3257,13 @@ body {
     text-align: center; }
     .datepicker td button, .datepicker th button, .datepickerrange td button, .datepickerrange th button {
       font-size: 0.92857rem  !important; }
+    .datepicker td .text-strong, .datepicker th .text-strong, .datepickerrange td .text-strong, .datepickerrange th .text-strong {
+      color: #000; }
 
 .datepicker {
   width: 18.57143rem ;
   position: absolute;
-  padding: 3%; }
+  padding: 1.5%; }
 
 .datepickerrange {
   position: relative; }
@@ -3230,7 +3288,7 @@ body {
   @media (min-width: 480px) {
     .datepickerrange-left, .datepickerrange-right {
       width: 50%;
-      padding: 2.5%; } }
+      padding: 1.5% 2.5%; } }
 
 /**
  * Component: timepicker
