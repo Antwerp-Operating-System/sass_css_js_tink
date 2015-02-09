@@ -56,12 +56,14 @@
         var prefix = '';
         if(angular.isDefined(attr.validName)){
           setTimeout(function(){
+            if(form){
             safeApply(scope,function(){
               prefix = attr.validName;
               form.$removeControl(ngControl);
               ngControl.$name = prefix+ngControl.$name;
               form.$addControl(ngControl);
             });
+          }
           }, 1);
         }else{
           setTimeout(function(){

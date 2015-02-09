@@ -11,13 +11,13 @@
         <!-- NAME-->
         <div class="form-group" ng-class="{ 'has-error' : userForm.single.$invalid && !userForm.single.$pristine }">
             <label>Name</label>
-            <input type="text" data-min-date='mindate' data-max-date='mindate' name="single" tink-datepicker required class="form-control" ng-model="dates.first">
+            <input type="text" name="single" tink-datepicker required class="form-control" ng-model="dates.first">
             <p ng-show="userForm.single.$invalid && !userForm.single.$pristine" class="help-block">You name is required.</p>
         </div>
 
          <div class="form-group" ng-class="{ 'has-error' : userForm.dubbel.$invalid && !userForm.dubbel.$pristine }">
             <label>Name</label>
-            <tink-datepicker-range data-min-date='mindate' data-maxc-date='mindate'  type="text" name="dubbel" required class="form-control" data-first-date="dates.first" data-last-date="dates.last">
+            <tink-datepicker-range  type="text" name="dubbel" required class="form-control" data-first-date="dates.first" data-last-date="dates.last">
             <p ng-show="userForm.dubbel.$invalid && !userForm.dubbel.$pristine" class="help-block">You name is required.</p>
         </div>
 

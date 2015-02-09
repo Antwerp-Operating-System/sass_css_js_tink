@@ -426,16 +426,16 @@
               angular.element($directive.focused.lastDateElem).bind('blur', hide);
 
               angular.element($directive.focused.firstDateElem).bind('focus', function () {
-                //safeApply(scope,function(){
+                safeApply(scope,function(){
                   $directive.focusedModel = 'firstDateElem';
-                //})
-                show();
+                  show();
+                })
               });
               angular.element($directive.focused.lastDateElem).bind('focus', function () {
-                //safeApply(scope,function(){
+                safeApply(scope,function(){
                   $directive.focusedModel = 'lastDateElem';
-                //})
-                show();
+                  show();
+                })
               });
             }
 
