@@ -72,7 +72,19 @@ module.exports = function (grunt) {
       app:        {
         options: {
           module: 'tink.templates',
-          standalone:true
+          standalone:true,
+          htmlmin: {
+            collapseBooleanAttributes:      true,
+            collapseWhitespace:             true,
+            removeAttributeQuotes:          true,
+            removeComments:                 true, // Only if you don't use comment directives!
+            removeEmptyAttributes:          true,
+            removeRedundantAttributes:      true,
+            removeScriptTypeAttributes:     true,
+            removeStyleLinkTypeAttributes:  true,
+            conservativeCollapse:true,
+            preserveLineBreaks:true
+          }
         },
         cwd:      'app',
         src:      'templates/**.html',
