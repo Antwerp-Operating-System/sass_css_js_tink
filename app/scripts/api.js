@@ -242,13 +242,14 @@
 						$(this).find('a')[0].href ='javascript:void(0);';
 					}
 				}
-				/*if(currentTogggleElem){
+
+				/* if(currentTogggleElem){
 					var totalHeight = 0;
 					currentTogggleElem.find('a').each(function() {
 						totalHeight += $(this)[0].getBoundingClientRect().height;
 					});
-		}*/
-	});
+				} */
+			});
 		};
 
 		$(window).bind('hashchange', function() {
