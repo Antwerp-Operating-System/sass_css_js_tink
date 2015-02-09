@@ -66,7 +66,9 @@
         }else{
           setTimeout(function(){
             safeApply(scope,function(){
-              form.$addControl(ngControl);
+              if(form){
+                form.$addControl(ngControl);
+              }
             });
           }, 1);
         }
