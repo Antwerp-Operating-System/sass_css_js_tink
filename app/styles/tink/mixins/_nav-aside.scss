@@ -1,18 +1,8 @@
 /**
  * Side navigation
+ * ----------------------------------------------------------------
  */
 
-$nav-aside-horizontal-padding: 15px !default;
-$nav-aside-vertical-padding: 8px !default;
-$nav-aside-section-border-color: $gray-lighter !default;
-$nav-aside-title-color: $gray-light !default;
-$nav-aside-width: 220px !default;
-
-$nav-aside-link-color: lighten($gray-dark, 12%) !default;
-
-/**
- * Sidenav styling
- */
 .nav-aside {
   background: $nav-aside-bg-color;
   bottom: 0;
@@ -55,11 +45,16 @@ $nav-aside-link-color: lighten($gray-dark, 12%) !default;
     color: $nav-aside-title-color;
     font-size: 90%;
     font-weight: 600;
-    padding: rem($nav-aside-vertical-padding $nav-aside-horizontal-padding 0);
+    margin-top: rem($nav-aside-vertical-padding / 2);
+    padding: rem(0 $nav-aside-horizontal-padding);
     text-transform: uppercase;
 
     &:first-letter {
       font-size: 110%;
+    }
+
+    + ul {
+      margin-top: rem(-$nav-aside-vertical-padding);
     }
   }
 
@@ -96,8 +91,13 @@ $nav-aside-link-color: lighten($gray-dark, 12%) !default;
         &:hover,
         &:active,
         &:focus {
-          background: rgba(0, 0, 0, .05);
+          background-color: $nav-aside-link-hover-background-color;
           color: $nav-aside-link-hover-color;
+
+          .badge {
+            background-color: $nav-aside-badge-hover-background-color;
+            color: $nav-aside-badge-hover-color;
+          }
         }
 
         > *, {
@@ -106,8 +106,28 @@ $nav-aside-link-color: lighten($gray-dark, 12%) !default;
         }
 
         > i {
-          // display: inline;
           padding: rem(1 10 0 0);
+        }
+      }
+
+      &.active {
+        a {
+          color: $nav-aside-link-active-color;
+          font-weight: 700;
+
+          &:hover,
+          &:active,
+          &:focus {
+            .badge {
+              background: $nav-aside-badge-active-background-hover-color;
+              color: $nav-aside-badge-active-hover-color;
+            }
+          }
+        }
+
+        .badge {
+          background: $nav-aside-badge-active-background-color;
+          color: $nav-aside-badge-active-color;
         }
       }
     }
@@ -116,32 +136,60 @@ $nav-aside-link-color: lighten($gray-dark, 12%) !default;
      * First level
      */
     > ul {
-      margin-top: rem(-$nav-aside-vertical-padding);
+      > li {
+        height: auto;
+        overflow: hidden;
+        position: relative;
+
+        &.can-open {
+          &:before {
+            content: "\f0d7";
+            font-family: FontAwesome;
+            font-style: normal;
+            font-weight: normal;
+            pointer-events: none;
+            position: absolute;
+            right: rem($nav-aside-horizontal-padding);
+            text-decoration: inherit;
+            top: rem($nav-aside-vertical-padding);
+            transition: color $animation-speed linear, transform $animation-speed linear;
+            z-index: layer('pseudo');
+          }
+
+          &.open {
+            background: $nav-aside-item-open-color;
+
+            &:before {
+              transform: rotate(180deg);
+            }
+          }
+
+          > a {
+            padding-right: rem(30);
+          }
+        }
+      }
+
+
+      /**
+       * Second level
+       */
+
+      ul {
+        li {
+          a {
+            padding: rem($nav-aside-item-vertical-padding $nav-aside-horizontal-padding $nav-aside-item-vertical-padding (2 * $nav-aside-horizontal-padding));
+          }
+        }
+      }
     }
-
-    /**
-     * Second level
-     */
-  }
-}
-
-
-
-
-/**
- * Left navigation specific
- */
-
-.nav-left {
-  left: 0;
-  transform: translate(rem(-$nav-aside-width), 0);
-  transition: transform $animation-speed linear;
-
-  @include mq($screen-sm) {
-    transform: translate(0, 0);
   }
 
-  &:before {
-    right: 0;
+  .badge {
+    background-color: $nav-aside-badge-background-color;
+    color: $nav-aside-badge-color;
+    float: right;
+    margin-top: rem(5.5 - $badge-padding-vertical);
+    transition: background $animation-speed linear, color $animation-speed linear;
   }
 }

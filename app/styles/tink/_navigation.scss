@@ -178,9 +178,26 @@ body {
 }
 
 
+
+
 /**
- * New sidenav
+ * Left navigation
  */
+
+.nav-left {
+  left: 0;
+  transform: translate(rem(-$nav-aside-width), 0);
+  transition: transform $animation-speed linear;
+
+  @include mq($screen-sm) {
+    transform: translate(0, 0);
+  }
+
+  &:before {
+    right: 0;
+  }
+}
+
 
 
 
