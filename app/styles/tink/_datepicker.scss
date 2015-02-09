@@ -8,8 +8,7 @@
 
 .datepicker-input-fields {
   position: relative;
-  max-width: rem(260);
-
+  // max-width: rem(260);
 
   > div[class*="col-"] {
 
@@ -21,7 +20,7 @@
   }
   .faux-input {
     position: relative;
-    
+
     &:focus {
       z-index: layer("base");
     }
@@ -34,7 +33,7 @@
         border-bottom-right-radius: 0;
       }
     }
-    
+
     #lastDateElem {
       .faux-input {
         border-top-left-radius: 0;
@@ -108,7 +107,7 @@
       background: $brand;
       color: $white;
     }
-    
+
     &.btn-grayed {
       color: lighten($datepicker-neutral-light, 10);
       &-selected {
@@ -184,7 +183,7 @@
 .datepickerrange-right {
   width: 100%;
   padding: 1.5%;
-  
+
   @include mq($screen-xs) {
     width: 50%;
     padding: 1.5% 2.5%;
