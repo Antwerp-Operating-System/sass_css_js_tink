@@ -40,13 +40,13 @@ angular.module('tinkFramework', [
         templateUrl: 'views/work-agile-tool.html'
       })
 			.when('/:page', {
-			    templateUrl: 'views/home.html',
-			    controller: 'LocationCtrl'
-			  })
+		    templateUrl: 'views/home.html',
+		    controller: 'LocationCtrl'
+		  })
 			.when('/:page/:subpage', {
-			    templateUrl: 'views/home.html',
-			    controller: 'LocationCtrl'
-			  })
+		    templateUrl: 'views/home.html',
+		    controller: 'LocationCtrl'
+		  })
 			.otherwise({
 				redirectTo: '/'
 			});
