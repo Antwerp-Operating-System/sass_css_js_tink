@@ -429,13 +429,13 @@
                 safeApply(scope,function(){
                   $directive.focusedModel = 'firstDateElem';
                   show();
-                })
+                });
               });
               angular.element($directive.focused.lastDateElem).bind('focus', function () {
                 safeApply(scope,function(){
                   $directive.focusedModel = 'lastDateElem';
                   show();
-                })
+                });
               });
             }
 
