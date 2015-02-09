@@ -68,6 +68,29 @@ module.exports = function (grunt) {
         ]
       }
     },
+    ngtemplates:  {
+      app:        {
+        options: {
+          module: 'tink.templates',
+          standalone:true,
+          htmlmin: {
+            collapseBooleanAttributes:      true,
+            collapseWhitespace:             true,
+            removeAttributeQuotes:          true,
+            removeComments:                 true, // Only if you don't use comment directives!
+            removeEmptyAttributes:          true,
+            removeRedundantAttributes:      true,
+            removeScriptTypeAttributes:     true,
+            removeStyleLinkTypeAttributes:  true,
+            conservativeCollapse:true,
+            preserveLineBreaks:true
+          }
+        },
+        cwd:      'app',
+        src:      'templates/**.html',
+        dest:     '<%= yeoman.app %>/scripts/services/tinkTemplates.js'
+      }
+    },
     jshint: {
       options: {
         jshintrc: '.jshintrc',
@@ -354,6 +377,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'wiredep',
+      'ngtemplates',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
@@ -371,6 +395,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean',
+    'ngtemplates',
     'replace',
     'concat',
     'copy:dist',
