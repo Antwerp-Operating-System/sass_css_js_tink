@@ -47,6 +47,16 @@ body {
       position: relative;
     }
   }
+
+  &.reset-padding {
+    padding-top: 0;
+
+    .main {
+      @include mq($screen-sm) {
+        padding-left: 0;
+      }
+    }
+  }
 }
 
 .main {
@@ -98,6 +108,7 @@ body {
     float: left;
     height: rem($nav-top-height);
     line-height: rem($nav-top-height);
+    overflow: auto;
     position: relative;
     z-index: layer('base');
 
@@ -118,17 +129,26 @@ body {
       line-height: rem($nav-top-height);
 
       &.logo {
-        padding-left: 0;
-        padding-right: 0;
+        padding: 0;
 
         a {
-          float: left ;
+          background: $logo-bg-color image-url($logo) no-repeat center center;
+          background-size: cover;
+          display: block;
+          height: rem($logo-height);
           margin: rem(0 $nav-top-padding 0 0);
           padding: 0;
+          // transition: height $animation-speed linear;
+          width: rem($logo-width);
+
+          span {
+            @extend .sr-only;
+          }
         }
       }
 
       &.toggle {
+        cursor: pointer;
         @include mq($screen-sm) {
           display: none;
         }

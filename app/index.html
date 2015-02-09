@@ -5,14 +5,9 @@
   <title>Tink framework</title>
   <meta name="description" content="">
   <meta name="viewport" content="initial-scale=1.0,user-scalable=no,minimum-scale=1.0">
-  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-  <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
   <!-- endbower -->
-  <!-- endbuild -->
-  <!-- build:css(.tmp) styles/tink.css -->
   <link rel="stylesheet" href="styles/tink.css">
-  <!-- endbuild -->
   <script src="scripts/api.js"></script>
 
 </head>
@@ -25,12 +20,72 @@
 
   <div data-tink-nav-aside data-accordion="false" data-accordion-first="false" data-toggle-id="firstSide" data-ng-include=" 'views/sidenav.html' " class="nav-aside nav-left" role="sidenav"></div>
 
+    <section class="nav-top-section">
+      <ul class="nav-top-section-left">
+        <li>
+          <a href="#/" class="link">Menu L1</a>
+        </li>
+      </ul>
+
+      <div class="nav-top-section-center">
+        <input type="search" class="input-search" placeholder="Zoeken" />
+      </div>
+
+      <ul class="nav-top-section-right">
+        <li class="active">
+          <a href="#/" class="btn-primary btn-xs">Menu R1</a>
+        </li>
+        <li>
+          <a href="#/" class="btn btn-xs">Menu R2</a>
+        </li>
+      </ul>
+    </section>
+  </nav>
+
+
+
+  <aside data-tink-nav-aside data-accordion="false" data-accordion-first="true" data-toggle-id="firstSide" class="nav-left">
+    <ul class="nav-aside-list" role="sidenav">
+      <li>
+        <a href="#/forms">
+          <i class="fa fa-fw fa-edit"></i>
+          <span>Forms</span>
+        </a>
+      </li>
+      <li>
+        <a href="#/callouts">
+          <i class="fa fa-fw fa-twitch"></i>
+          <span>Callouts</span>
+        </a>
+      </li>
+      <li>
+        <a href="#/code">
+          <i class="fa fa-fw fa-code"></i>
+          <span>Code</span>
+        </a>
+      </li>
+      <li class="can-open">
+        <a href="#/menu2">
+          <i class="fa fa-fw fa-recycle"></i>
+          <span>Deprecated</span>
+          <span class="badge">1</span>
+        </a>
+        <ul>
+          <li>
+            <a href="#/work-agile-tool">
+              <i class="fa fa-fw fa-refresh"></i>
+              <span>Work Agile Tool</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </aside>
+
   <div>
-    <div class="main" role="main" ng-view="" ></div>
+    <div class="main" role="main" data-ng-view="" data-autoscroll="true"></div>
   </div>
 
-
-  <!-- build:js(.) scripts/vendor.js -->
   <!-- bower:js -->
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/angular/angular.js"></script>
@@ -41,14 +96,12 @@
   <script src="bower_components/angular-touch/angular-touch.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
   <!-- endbower -->
-  <!-- endbuild -->
+
   <script src="scripts/app.js"></script>
   <script src="scripts/services/tinkSafeApply.js"></script>
   <script src="scripts/services/tinkDateHelper.js"></script>
   <script src="scripts/directives/tinkDatepicker.js"></script>
   <script src="scripts/controllers/main.js"></script>
-
-  <!-- build:js({.tmp,app}) scripts/scripts.js -->
   <script src="scripts/directives/tinkmain.js"></script>
   <script src="scripts/services/tinkApiService.js"></script>
   <script src="scripts/directives/tinkTopNav.js"></script>
@@ -66,7 +119,7 @@
   <script src="scripts/directives/tinkToggelSideNav.js"></script>
   <script src="scripts/directives/tinkTimePicker.js"></script>
   <script src="scripts/directives/tinkAccordion.js"></script>
+  <script src="scripts/directives/tinkFormatInput.js"></script>
 
-  <!-- endbuild -->
 </body>
 </html>

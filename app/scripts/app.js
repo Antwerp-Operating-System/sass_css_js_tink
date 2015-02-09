@@ -18,8 +18,7 @@ angular.module('tinkFramework', [
     'ngSanitize',
     'ngTouch',
     'tinkFramework.controllers',
-  ])
-  	.config(function ($routeProvider) { /*, $locationProvider */
+  ]).config(function ($routeProvider) { /*, $locationProvider */
 		$routeProvider
 			.when('/', {
 				templateUrl: 'views/main.html',
@@ -28,6 +27,18 @@ angular.module('tinkFramework', [
 			.when('/datepicker', {
 				templateUrl: 'views/datepickertest.html'
 			})
+      .when('/forms', {
+        templateUrl: 'views/forms.html'
+      })
+      .when('/callouts', {
+        templateUrl: 'views/callouts.html'
+      })
+      .when('/code', {
+        templateUrl: 'views/code.html'
+      })
+      .when('/work-agile-tool', {
+        templateUrl: 'views/work-agile-tool.html'
+      })
 			.when('/:page', {
 			    templateUrl: 'views/home.html',
 			    controller: 'LocationCtrl'
@@ -39,5 +50,4 @@ angular.module('tinkFramework', [
 			.otherwise({
 				redirectTo: '/'
 			});
-
 	});

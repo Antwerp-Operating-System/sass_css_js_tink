@@ -43,7 +43,7 @@ describe('TopNavigation', function() {
       element: '<nav data-tink-top-nav class="nav-top">'+
       '<ul class="nav-top-branding">'+
       '<li class="logo">'+
-      '<a href="#" title=""><img src="images/playground/tink-logo.svg" alt="" /></a>'+
+      '<a href="#" title=""><span>My App</span></a>'+
       '</li>'+
       '<li class="toggle">'+
       '<a href="#" title="Open menu" data-ng-click="sidenav.open = !sidenav.open"><i class="fa fa-bars"><span class="sr-only">Open menu</span></i></a>'+
@@ -78,7 +78,7 @@ describe('TopNavigation', function() {
       '<nav data-tink-top-nav class="nav-top">'+
       '<ul class="nav-top-branding">'+
       '<li class="logo">'+
-      '<a href="#" title=""><img src="images/playground/tink-logo.svg" alt="" /></a>'+
+      '<a href="#" title=""><span>My App</span></a>'+
       '</li>'+
       '<li class="toggle" data-tink-sidenav-collapse="sidenav">'+
       '<a href="#" title="Open menu" data-ng-click="sidenav.open = !sidenav.open"><i class="fa fa-bars"><span class="sr-only">Open menu</span></i></a>'+

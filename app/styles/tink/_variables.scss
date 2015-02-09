@@ -149,9 +149,9 @@ $code-bg:                     lighten($brand, 54%) !default;
 $kbd-color:                   $white !default;
 $kbd-bg:                      $gray-darker !default;
 
-$pre-bg:                      lighten($brand, 54%) !default;
-$pre-color:                   $brand !default;
-$pre-border-color:            lighten($brand, 48%) !default;
+$pre-bg:                      $code-bg !default;
+$pre-color:                   $code-color !default;
+$pre-border-color:            darken($code-bg, 6%) !default;
 $pre-scrollable-max-height:   340px !default;
 
 
@@ -388,6 +388,16 @@ $bar-padding:                           $padding-base-horizontal !default;
 
 
 /**
+ * Logo
+ */
+$logo: "theme/digipolis-logo.svg" !default;
+$logo-bg-color: transparent !default;
+$logo-width: $bar-height !default;
+$logo-height: $bar-height !default;
+
+
+
+/**
  * Navigation
  *
  * Settings for the top navigation and the off-canvas navigation
@@ -424,6 +434,37 @@ $nav-aside-badge-active-text-color:      $black !default;
 
 
 
+
+/**
+ * Datepicker
+ *
+ * Settings for both the single as the range datepicker
+ */
+
+$datepicker-bgcolor            : $white !default;
+$datepicker-icon-color         : lighten($gray-dark, 16%) !default;
+$datepicker-icon-hover-color   : $gray-dark !default;
+$datepicker-btn-bgcolor        : $white !default;
+$datepicker-btn-bgcolor-hover  : lighten($brand, 16%) !default;
+$datepicker-btn-color          : $gray !default;
+$datepicker-btn-color-hover    : $white !default;
+$datepicker-btn-border-color   : transparent;
+$datepicker-neutral            : $gray !default;
+$datepicker-neutral-light      : $gray-light !default;
+$datepicker-neutral-dark       : $gray-dark !default;
+
+
+/**
+ * Callout
+ */
+$callout-color                 : $brand !default;
+$callout-bgcolor               : lighten($brand, 50%);
+$callout-color-success         : $brand-success !default;
+$callout-bgcolor-success       : lighten($brand-success, 60%);
+$callout-color-warning         : $brand-warning !default;
+$callout-bgcolor-warning       : lighten($brand-warning, 45%);
+$callout-color-danger          : $brand-danger !default;
+$callout-bgcolor-danger        : lighten($brand-danger, 45%);
 
 //== Navbar
 //

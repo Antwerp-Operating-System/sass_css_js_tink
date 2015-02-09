@@ -10,7 +10,7 @@ angular.module('tink', [
 		'tink.dropdown',
 		'tink.templates',
 		'tink.validDate',
+		'tink.format',
 		'tink.timepicker',
 		'tink.accordion'
-
 	]);

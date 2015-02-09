@@ -3,38 +3,6 @@
  * --------------------------------------------------
  */
 
-@mixin form-control-validation($text-color: #555, $border-color: #ccc, $background-color: #f5f5f5) {
-
-  > label {
-    color: $text-color;
-  }
-
-  /* Check appendix A */
-  // input:not([type="file"]):not([type="checkbox"]):not([type="radio"]):not([type="button"]):not([type="submit"]):not([type="image"]),
-  input[type="color"],
-  input[type="date"],
-  input[type="datetime"],
-  input[type="datetime-local"],
-  input[type="email"],
-  input[type="month"],
-  input[type="number"],
-  input[type="password"],
-  input[type="search"],
-  input[type="tel"],
-  input[type="time"],
-  input[type="text"],
-  input[type="url"],
-  input[type="week"],
-  select,
-  textarea {
-    border-color: $border-color;
-
-    @include form-control-focus($border-color);
-  }
-
-}
-
-
 
 fieldset {
   border: 0;
@@ -77,6 +45,7 @@ input[type="search"],
 input[type="tel"],
 input[type="time"],
 input[type="text"],
+.faux-input,
 input[type="url"],
 input[type="week"],
 select,
@@ -378,12 +347,14 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   background: $white image-url("gui/select-arrow.svg") no-repeat right center;
+  background: none\9;
   background-size: contain;
   text-indent: 0.01px;
   text-overflow: '';
 
   &:focus {
     background-image: image-url("gui/select-arrow-focus.svg");
+    background-image: none\9;
   }
 }
 
@@ -429,14 +400,42 @@ output {
 /**
  * Feedback states
  */
+.validation {
+  padding-right: rem($font-size-base * 2);
+  position: relative;
+
+  &:before {
+    // border-top: 1px solid transparent; // alignment fix
+    display: inline-block;
+    font-family: FontAwesome;
+    font-size: rem($font-size-base * 1.5);
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    text-decoration: inherit;
+    top: rem($padding-base-vertical);
+    vertical-align: middle;
+    width: rem($font-size-base * 2);
+    z-index: layer('pseudo');
+  }
+
+  .input-group {
+    margin-bottom: rem(-3);
+  }
+}
+
 .has-success {
-  @include form-control-validation($state-success-text, $state-success-text, $state-success-bg);
+  @include form-control-validation($text-color, $state-success-text, $state-success-bg, "\f00c");
 }
 // .has-warning {
 //   @include form-control-validation($state-warning-text, $state-warning-text, $state-warning-bg);
 // }
 .has-error {
-  @include form-control-validation($state-danger-text, $state-danger-text, $state-danger-bg);
+  @include form-control-validation($text-color, $state-danger-text, $state-danger-bg, "\f00d");
 }
 
 
@@ -492,7 +491,7 @@ output {
   color: lighten($text-color, 25%); // lighten the text some for contrast
   display: block; // account for any element using help-block
   font-size: rem($font-size-base * .85);
-  margin: rem(5 0 10 1);
+  margin: rem(5 0 5 1);
   // padding: rem(0 $padding-base-horizontal);
 }
 
@@ -548,5 +547,12 @@ output {
     background: none;
     border: none;
     color: $gray-dark;
+  }
+}
+
+// Faux Input field (for when another element is used to mimick an input element)
+.faux-input {
+  .placeholder {
+    color: $input-color-placeholder;
   }
 }

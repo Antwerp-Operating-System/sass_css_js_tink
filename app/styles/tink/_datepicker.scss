@@ -5,50 +5,123 @@
  * - range
  */
 
-.datepickerrange-input-fields {
-  display: inline-block;
+
+.datepicker-input-fields {
+  position: relative;
+  max-width: rem(260);
+
+
+  > div[class*="col-"] {
+
+  }
+  .datepicker-icon {
+    // margin-right: $grid-gutter-width / 2;
+    z-index: layer("pseudo");
+    right: 1px;
+  }
+  .faux-input {
+    position: relative;
+    
+    &:focus {
+      z-index: layer("base");
+    }
+  }
+
+  @include mq($screen-sm) {
+    #firstDateElem {
+      .faux-input {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+    
+    #lastDateElem {
+      .faux-input {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        // border-left: none;
+      }
+    }
+  }
 }
+
+.datepicker-icon {
+  bottom: 1px;
+  color: $datepicker-icon-color;
+  cursor: pointer;
+  padding: rem($padding-base-vertical ($padding-base-horizontal / 1.5));
+  position: absolute;
+  right: 1px;
+  top: 1px;
+  transition: color $animation-speed linear;
+
+  &:hover,
+  &:active {
+    color: $datepicker-icon-hover-color;
+  }
+}
+
 
 .datepicker,
 .datepickerrange {
-  background: $white;
-  box-shadow: 0 1px 2px rgba(0,0,0,.6);
-  color: $gray-dark;
+  background: $datepicker-bgcolor;
+  border-radius: rem($input-border-radius);
+  box-shadow: 0 0 2px rgba(0,0,0,.6);
+  color: $datepicker-neutral-dark;
   margin-top: 2px;
   position: relative;
+  top: rem($input-height-base);
   z-index: layer("popover");
-  z-index: 9999;
 
   button,
   .btn {
-    @extend .no-border;
-    color: $gray;
+    border: 1px solid transparent;
+    color: $datepicker-btn-color;
     min-width: 20px;
     padding: rem($padding-base-vertical 0);
     width: 100%;
+    background: $datepicker-btn-bgcolor;
 
     @include mq($screen-md) {
-      min-width: 40px;
+      min-width: 38px;
     }
 
     &:hover {
-      background: lighten($brand, 20);
-      color: $white;
+      background: $datepicker-btn-bgcolor-hover;
+      color: $datepicker-btn-color-hover;
     }
 
-    &.btn-warning {
-      background: $white;
+    &.btn-warning,
+    &.btn-today {
+      background: $datepicker-btn-bgcolor;
       border: 1px solid $brand !important;
+
+      &:hover {
+        background: $datepicker-btn-bgcolor-hover;
+        border-color: $datepicker-btn-border-color !important;
+        color: $datepicker-btn-color-hover;
+      }
     }
 
     &.btn-primary,
     &.btn-info {
+      background: $brand;
       color: $white;
+    }
+    
+    &.btn-grayed {
+      color: lighten($datepicker-neutral-light, 10);
+      &-selected {
+        background-color: $datepicker-neutral-light;
+        border-color: $datepicker-btn-border-color;
+        color: $white;
+      }
     }
   }
 
+
   table {
-    background: $white;
+    background: $datepicker-bgcolor;
     margin-bottom: 0;
   }
 
@@ -59,15 +132,24 @@
   td,
   th {
     border: none;
-    color: $gray;
-    padding: rem($table-cell-padding / 3);
+    color: $datepicker-neutral;
+    font-size: rem(13);
+    padding: rem($table-cell-padding / 6);
     text-align: center;
+
+    button {
+      font-size: rem(13) !important;
+    }
+    .text-strong {
+      color: $black;
+    }
   }
 }
 
 .datepicker {
-  min-width: rem(260);
+  width: rem(260); // removed min-width
   position: absolute;
+  padding: 1.5%;
 }
 
 .datepickerrange {
@@ -75,41 +157,36 @@
 
   @include mq($screen-xs) {
     min-width: 400px;
-    &:before {
-      background: $gray-light;
-      bottom: 0;
-      content: "";
-      left: 50%;
-      position: absolute;
-      top: 0;
-      width: 1px;
-    }
   }
-
+  @include mq($screen-sm) {
+    min-width: 520px;
+  }
   @include mq($screen-md) {
-    min-width: 650px;
+    min-width: 640px;
   }
 }
 
 .datepickerrange-header-left,
 .datepickerrange-header-right {
   overflow: hidden;
-  line-height: rem(39);
+  line-height: rem(30);
   padding: rem($table-cell-padding / 4);
 
-  button,
-  .btn {
-    &:hover {
-      background: $gray-light;
-    }
-  }
+  // button,
+  // .btn {
+  //   &:hover {
+  //     background: $datepicker-neutral-light;
+  //   }
+  // }
 }
 
 .datepickerrange-left,
 .datepickerrange-right {
   width: 100%;
-
+  padding: 1.5%;
+  
   @include mq($screen-xs) {
     width: 50%;
+    padding: 1.5% 2.5%;
   }
 }
