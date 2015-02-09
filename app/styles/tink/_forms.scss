@@ -601,7 +601,8 @@ output {
 
           @media screen and (min-width: $screen-sm) {
         font-size: rem(13);
-        line-height: 1.25;
+        left: rem(15);
+        top: rem(10);
           }
 
     }
