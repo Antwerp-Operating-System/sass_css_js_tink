@@ -563,13 +563,14 @@ output {
 
  > li {
   // direct li after hit-area-box
+ input[type="checkbox"],
  input[type="radio"] {
   + label {
       background-color: rgba(237, 236, 236, 1); // light grey
       display: block;
       padding: rem(7 5 7 45);
+      margin: rem(6 0);
       cursor: pointer;
-
     &:before {
       left: rem(9);
       top: rem(4);
@@ -582,6 +583,7 @@ output {
           }
     }
   }
+
     &:checked {
        + label {
             background-color: rgba(0, 179, 220, 1); // active blue
@@ -589,5 +591,29 @@ output {
         }
     }
   }
+
+ input[type="checkbox"]
+   + label {
+
+    &:after {
+      left: rem(10);
+      top: rem(6);
+
+          @media screen and (min-width: $screen-sm) {
+        font-size: rem(13);
+        line-height: 1.25;
+          }
+
+    }
+
+    &:before {
+      // square defined
+      // height: rem(66); //3 times the size
+      // left: rem(3);
+      // top: rem(3);
+      // width: rem(66);
+    }
+  }
+
  }
 }
