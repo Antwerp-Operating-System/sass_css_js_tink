@@ -118,8 +118,30 @@
 
 <!-- Start Hit area box testing by lievenvg -->
 
+<!-- new code -->
+<fieldset>
+ <legend>New semantic code for hit area box</legend>
+  <ul class="hit-area-box">
+    <li>
+      <input type="radio" id="radio21" name="radio21" value="" checked>
+      <label for="radio21">Ja, Kristien Verschoten is aanwezig</label>
+    </li>
+    <li>
+      <input type="radio" id="radio22" name="radio21" value="">
+      <label for="radio22">Nee, Kristien Verschoten is niet aanwezig</label>
+    </li>
+    <li>
+      <input type="radio" id="radio23" name="radio21" value="" disabled="">
+      <label for="radio23">This little fella can't play because he's disabled. But it's got a lot more text... I mean a lot more... This could go on and on. And on... And on...</label>
+    </li>
+  </ul>
+</fieldset>
+
+<!-- end of new code -->
+
+<!-- old code -->
           <fieldset>
-          <legend>Hit area checkbox with div</legend>
+          <legend>Hit area checkbox with div without after??</legend>
             <div class="area-box"> <!-- Keeps input type and label together -->
               <input type="checkbox" id="area-box11" name="boxx11"/>
               <label for="area-box11" spread>Allright, let's make it a checkbox DIV.</label>
@@ -135,7 +157,7 @@
         </fieldset>
 
         <fieldset>
-          <legend>Hit area radiobutton with div</legend>
+          <legend>Hit area radiobutton with div with after???</legend>
             <div class="area-box"> <!-- Keeps input type and label together -->
               <input type="radio" id="area-box21" name="boxx13"/>
               <label for="area-box21" spread>Coolness, this is a radio button within a area-box DIV.</label>
@@ -150,15 +172,7 @@
             </div>
         </fieldset>
 
-        <fieldset>
-          <legend>Hit area radiobutton test on an attribute instead of a div</legend>
-              <input type="radio" id="area-box14" name="boxx12" areabox/>
-              <label for="area-box14">Ok, so this looks ths same as above, but is constructed with an attribute instead of a div container.</label>
-              <input type="radio" id="area-box15" name="boxx12" areabox/>
-              <label for="area-box15">This is a second one.</label>
-              <input type="radio" id="area-box16" name="boxx12" areabox disabled/>
-              <label for="area-box16">Hey this is a disabled using the attribute areabox and disabled.</label>
-        </fieldset>
+<!-- end of old code -->
 
 <!-- Why doesn't this basic Tink checkbox work? -->
 <div class="form-group">

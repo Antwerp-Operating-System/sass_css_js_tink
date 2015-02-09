@@ -556,3 +556,38 @@ output {
     color: $input-color-placeholder;
   }
 }
+
+
+.hit-area-box {
+  @extend .list-unstyled;
+
+ > li {
+  // direct li after hit-area-box
+ input[type="radio"] {
+  + label {
+      background-color: rgba(237, 236, 236, 1); // light grey
+      display: block;
+      padding: rem(7 5 7 45);
+      cursor: pointer;
+
+    &:before {
+      left: rem(9);
+      top: rem(4);
+
+          @media screen and (min-width: $screen-sm) {
+            height: rem(18);
+            left: rem(13);
+            top: rem(8);
+            width: rem(18);
+          }
+    }
+  }
+    &:checked {
+       + label {
+            background-color: rgba(0, 179, 220, 1); // active blue
+            color: #fff;
+        }
+    }
+  }
+ }
+}
