@@ -147,7 +147,7 @@ describe('datepicker range', function() {
 			scope.dates.first = daybefore;
 			scope.$digest();
 			angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
-			console.log(sandboxEl.find('button.btn-primary span')[0])
+			// console.log(sandboxEl.find('button.btn-primary span')[0]);
 			expect(today.getDate()+'').toBe(sandboxEl.find('button.btn-warning span').text());
 		});
 
