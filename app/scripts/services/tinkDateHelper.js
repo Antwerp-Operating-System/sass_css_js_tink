@@ -172,7 +172,7 @@ angular.module('tink.dateHelper')
       if(!angular.isDefined(date) || !angular.isDefined(format) || date.trim()===''){
         return null;
       }
-      var date = stringToDate(date, format);
+      date = stringToDate(date, format);
 
       if(date.toString()!=='Invalid Date'){
         return date;

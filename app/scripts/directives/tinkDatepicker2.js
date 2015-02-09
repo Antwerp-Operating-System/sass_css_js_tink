@@ -23,13 +23,12 @@ angular.module('tink.datepicker', [])
       }
       return {
         pre:function(){},
-        post:function(scope,element,attr,ctrls){
+        post:function(scope,element,attr){
 
-      var ctrl = element.controller('ngModel')
+      //var ctrl = element.controller('ngModel');
       //ctrls[1].$removeControl(ctrls[1]['single']);
       //ctrls[1].$removeControl(ctrls[0])
       scope.opts = attr;
-      console.log(attr,scope.minDate)
       var input = element.find('div.faux-input');
       var clickable = element.find('.datepicker-icon');
       var copyEl;
@@ -154,10 +153,10 @@ angular.module('tink.datepicker', [])
         }
       };
 
-      function setDirty(ctrl){
-        ctrl.$dirty = true;
-        ctrl.$pristine = false;
-      }
+      // function setDirty(ctrl){
+      //   ctrl.$dirty = true;
+      //   ctrl.$pristine = false;
+      // }
 
       scope.$select = function(date){
       $directive.viewDate = date;

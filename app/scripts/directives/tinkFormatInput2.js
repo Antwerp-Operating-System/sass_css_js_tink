@@ -23,7 +23,7 @@
       compile: function(template) {
         template.prop('type', 'date');
         return {
-          pre: function(scope, elem, attr, ctrl) {
+          pre: function() {
           },
           post: function(scope, elem, attr, ctrl) {
 
@@ -37,14 +37,13 @@
             var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
             var isTouch = ('createTouch' in $window.document) && isNative && isDateSupported();
         //variable
-        var self = this;
         var config = {
           format: '00/00/0000',
           placeholder: 'dd/mm/jjjj'
-        }
+        };
         var dateformat;
         if(isTouch){
-          dateformat = 'yyyy-mm-dd'
+          dateformat = 'yyyy-mm-dd';
         }else{
           dateformat = 'dd/mm/yyyy';
         }
@@ -130,27 +129,27 @@
             }
 
             if(validFormat(stringValue,dateformat)){
-              ngControl.$setValidity('date',true)
+              ngControl.$setValidity('date',true);
               if(isRequired){
                 ngControl.$setValidity('date-required',true);
               }
             }else if(stringValue !== config.placeholder && stringValue !== null){
               ngControl.$setValidity('date',false);
-              ngControl.$setValidity('date-min',true)
-              ngControl.$setValidity('date-max',true)
+              ngControl.$setValidity('date-min',true);
+              ngControl.$setValidity('date-max',true);
               if(isRequired){
                 ngControl.$setValidity('date-required',true);
               }
             }else{
               ngControl.$setValidity('date',true);
-              ngControl.$setValidity('date-min',true)
-              ngControl.$setValidity('date-max',true)
+              ngControl.$setValidity('date-min',true);
+              ngControl.$setValidity('date-max',true);
               if(isRequired){
                 ngControl.$setValidity('date-required',false);
               }
             }
 
-          })
+          });
         }
 
         controller.init(element,config,form,ngControl);
@@ -164,7 +163,7 @@
                 controller.setValue(null,null,isTouch);
               }
             }else{
-               controller.setValue("",null,isTouch);
+               controller.setValue('',null,isTouch);
             }
             checkValidity(modelValue);
           });
@@ -172,11 +171,11 @@
           //format text from the user (view to model)
           ngControl.$parsers.unshift(function(value) {
 
-              if(isTouch && value === ""){
+              if(isTouch && value === ''){
                 value = element.val();
               }
 
-            if(value === null || value ===""){
+            if(value === null || value === ''){
               return value;
             }else if(typeof value === 'string'){
               controller.setValue(value,null,isTouch);
@@ -205,12 +204,12 @@
                   checkValidity(date);
                 }
               }
-              var modelString = dateCalculator.format(ngControl.$modelValue,dateformat);
+              //var modelString = dateCalculator.format(ngControl.$modelValue,dateformat);
               //if(value !== modelString){
                 ngControl.$setViewValue(value);
                 ngControl.$render();
               //}
-            })
+            });
           });
       }
     };
@@ -233,7 +232,7 @@
       self.form = form;
       self.ngControl = ngControl;
       loadAll();
-    }
+    };
 
     function loadAll(){
       config = self.config;
@@ -368,7 +367,7 @@
         html += plEHtml;
       }
       return html;
-  };
+  }
 
   self.setValue = function(value,cur,force) {
 
@@ -396,7 +395,7 @@
 
   self.getValue = function(){
     return newVa;
-  }
+  };
 
   function charIs(char, base) {
     char = char.trim();
@@ -406,7 +405,7 @@
       }
     }
     return false;
-  };
+  }
 
   function getCaretSelection() {
     var caretOffset = 0;
@@ -440,7 +439,7 @@
       start: startOffset,
       end: caretOffset
     };
-  };
+  }
 
 function setCursor(cur) {
   var el = self.element[0];

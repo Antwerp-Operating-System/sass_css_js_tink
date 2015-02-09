@@ -22,9 +22,7 @@
           maxDate:'=?',
         },
         compile: function(template,$attr){
-          console.log($attr)
-          if($attr.required === ""){
-            console.log( template.find('input:first'))
+          if($attr.required === ''){
             template.find('input:first').attr('data-require',true);
             template.find('input:last').attr('data-require',true);
           }
@@ -406,7 +404,7 @@
                 $directive.focusedModel = null;
                 safeApply(scope,function(){
                  // checkValidity();
-                })
+                });
 
               //}
             }
@@ -476,7 +474,7 @@
 
         }
 
-          }
+          };
 
         }
       };
@@ -488,7 +486,6 @@
     priority: 100000,
     link: function(scope, elem) {
       var name = $parse(elem.attr('dynamic-name'))(scope);
-      console.log(name)
       elem.removeAttr('dynamic-name');
       elem.attr('name', name);
       $compile(elem)(scope);
