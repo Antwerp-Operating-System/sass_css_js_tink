@@ -2944,6 +2944,7 @@ body {
   position: relative;
   position: fixed;
   top: 0;
+  transition: height 0.1s linear;
   width: 100%;
   z-index: 4; }
   .nav-top a.btn, .nav-top a.btn-primary, .nav-top button, .nav-top input {
@@ -3040,6 +3041,8 @@ body {
       font-weight: 700;
       line-height: 3.57143rem ;
       margin: 0; }
+      .nav-top-branding h1 span {
+        font-weight: 400; }
 
 /**
  * Side navigation
