@@ -2,12 +2,12 @@
 describe('TopNavigation', function() {
 
   var bodyEl = $('body'), sandboxEl;
-  var $compile, $templateCache, $animate, dateFilter, $datepicker, scope, today, $timeout,dateCalculator,$window,tinkApi;
+  var $compile, $templateCache, $animate, dateFilter, scope, today, $timeout,dateCalculator,$window,tinkApi;
 
   beforeEach(module('tink'));
 
 
-  beforeEach(inject(function (_$rootScope_, _$compile_, _$templateCache_, _$animate_, _dateFilter_, _$datepicker_, _$timeout_,_dateCalculator_,_$window_,_tinkApi_) {
+  beforeEach(inject(function (_$rootScope_, _$compile_, _$templateCache_, _$animate_, _dateFilter_, _$timeout_,_dateCalculator_,_$window_,_tinkApi_) {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $templateCache = _$templateCache_;
@@ -17,7 +17,6 @@ describe('TopNavigation', function() {
     bodyEl.html('');
     dateCalculator = _dateCalculator_;
     sandboxEl = $('<div>').attr('id', 'sandbox').appendTo(bodyEl);
-    $datepicker = _$datepicker_;
     $timeout = _$timeout_;
     $window = _$window_;
     tinkApi = _tinkApi_;
