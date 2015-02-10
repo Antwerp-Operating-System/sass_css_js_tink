@@ -205,31 +205,49 @@ describe('with no dates', function() {
 	it('both valid should change on blur', function() {
 		var elm = compileDirective('no-dates');
 
-		expect(scope.dates.first).toBe(null);
-		expect(scope.dates.last).toBe(null);
-
-
+		triggerInput(elm.find('div.faux-input:first'),'20/01/1992');
+		angular.element(elm.find('div.faux-input')[0]).triggerHandler('blur');
+		triggerInput(elm.find('div.faux-input:last'),'22/01/1992');
+		angular.element(elm.find('div.faux-input')[1]).triggerHandler('blur');
+		expect(scope.dates.first.getTime()).toBe(new Date(1992,0,20).getTime());
+		expect(scope.dates.last.getTime()).toBe(new Date(1992,0,22).getTime());
 	});
 
 	it('both valid, first change badly would not change scope only on blur', function() {
 		var elm = compileDirective('no-dates');
 		var trigger = angular.element(elm.find('div.faux-input')[0]);
 
+		triggerInput(elm.find('div.faux-input:first'),'20/01/1992');
+		angular.element(elm.find('div.faux-input')[0]).triggerHandler('blur');
+		triggerInput(elm.find('div.faux-input:last'),'22/01/1992');
+		angular.element(elm.find('div.faux-input')[1]).triggerHandler('blur');
+		expect(scope.dates.first.getTime()).toBe(new Date(1992,0,20).getTime());
+		expect(scope.dates.last.getTime()).toBe(new Date(1992,0,22).getTime());
 
-
-
+		triggerInput(elm.find('div.faux-input:first'),'21/01/1992');
+		expect(scope.dates.first.getTime()).toBe(new Date(1992,0,20).getTime());
+		triggerInput(elm.find('div.faux-input:last'),'23/01/1992');
+		expect(scope.dates.last.getTime()).toBe(new Date(1992,0,22).getTime());
 	});
 
 it('both valid, last change badly would not change scope only on blur', function() {
 		var elm = compileDirective('no-dates');
-
-	});
+		triggerInput(elm.find('div.faux-input:first'),'20/01/1992');
+		angular.element(elm.find('div.faux-input')[0]).triggerHandler('blur');
+		triggerInput(elm.find('div.faux-input:last'),'2p/01/1992');
+		angular.element(elm.find('div.faux-input')[1]).triggerHandler('blur');
+		expect(scope.dates.first.getTime()).toBe(new Date(1992,0,20).getTime());
+		expect(scope.dates.last).toBe(null);
+});
 
 it('both dates valid, first new correctly but later then second should clear the second one.', function() {
 		var elm = compileDirective('no-dates');
-
-
-	});
+		triggerInput(elm.find('div.faux-input:first'),'20/01/1992');
+		angular.element(elm.find('div.faux-input')[0]).triggerHandler('blur');
+		triggerInput(elm.find('div.faux-input:last'),'19/01/1992');
+		angular.element(elm.find('div.faux-input')[1]).triggerHandler('blur');
+		expect(scope.dates.first).toBe(null);
+});
 
 
 });
