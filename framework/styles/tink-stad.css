@@ -23,6 +23,9 @@
  * Buttons
  */
 /**
+ * Callouts
+ */
+/**
  * Tabula rasa
  */
 /**
@@ -146,147 +149,6 @@
 /**
  * Bar component
  */
-/**
- * Side navigation
- * ----------------------------------------------------------------
- */
-.nav-aside {
-  background: #fff;
-  bottom: 0;
-  position: fixed;
-  top: 3.57143rem ;
-  transition: -webkit-transform 0.1s linear;
-  transition: transform 0.1s linear;
-  width: 15.71429rem ;
-  z-index: 3;
-  /**
-   * Styling for emi-transparent line
-   */
-  /**
-   * For semantics & correct scrolling behaviour
-   */ }
-  .nav-aside:before {
-    background: rgba(0, 0, 0, 0.12);
-    bottom: 0;
-    content: '';
-    height: 100%;
-    pointer-events: none;
-    position: absolute;
-    top: 0;
-    width: 2px;
-    z-index: 2; }
-  .nav-aside > aside {
-    height: 100%;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
-    -webkit-overflow-scrolling: -blackberry-touch; }
-  .nav-aside-title {
-    color: #bbb;
-    font-size: 90%;
-    font-weight: 600;
-    margin-top: 0.35714rem ;
-    padding: 0rem 1.07143rem ;
-    text-transform: uppercase; }
-    .nav-aside-title:first-letter {
-      font-size: 110%; }
-    .nav-aside-title + ul {
-      margin-top: -0.71429rem ; }
-  .nav-aside-section {
-    padding: 0.71429rem 0rem ;
-    position: relative;
-    /**
-     * section bottom border
-     */
-    /**
-     * All levels
-     */
-    /**
-     * First level
-     */ }
-    .nav-aside-section:not(:last-child):after {
-      background: #eaeaea;
-      bottom: 0;
-      content: '';
-      height: 1px;
-      left: 1.07143rem ;
-      position: absolute;
-      right: 1.07143rem ; }
-    .nav-aside-section li a {
-      color: #525252;
-      display: table;
-      padding: 0.71429rem 1.07143rem ;
-      text-decoration: none;
-      width: 100%; }
-      .nav-aside-section li a:hover, .nav-aside-section li a:active, .nav-aside-section li a:focus {
-        background-color: #ffe8c9;
-        color: #cf0039; }
-        .nav-aside-section li a:hover .badge, .nav-aside-section li a:active .badge, .nav-aside-section li a:focus .badge {
-          background-color: #fff;
-          color: #cf0039; }
-      .nav-aside-section li a > * {
-        display: table-cell;
-        vertical-align: middle; }
-      .nav-aside-section li a > i {
-        padding: 0.07143rem 0.71429rem 0rem 0rem ; }
-    .nav-aside-section li.active a {
-      color: #cf0039;
-      font-weight: 700; }
-      .nav-aside-section li.active a + ul a {
-        color: #525252;
-        font-weight: normal; }
-        .nav-aside-section li.active a + ul a:hover, .nav-aside-section li.active a + ul a:active, .nav-aside-section li.active a + ul a:focus {
-          background-color: #ffe8c9;
-          color: #cf0039; }
-    .nav-aside-section > ul {
-      /**
-       * Second level
-       */ }
-      .nav-aside-section > ul > li {
-        border-bottom: 1px solid transparent;
-        height: auto;
-        overflow: hidden;
-        position: relative; }
-        .nav-aside-section > ul > li.can-open:before {
-          content: "\f0d7";
-          font-family: FontAwesome;
-          font-style: normal;
-          font-weight: normal;
-          pointer-events: none;
-          position: absolute;
-          right: 1.07143rem ;
-          text-decoration: inherit;
-          top: 0.71429rem ;
-          transition: color 0.1s linear, -webkit-transform 0.1s linear;
-          transition: color 0.1s linear, transform 0.1s linear;
-          z-index: 2; }
-        .nav-aside-section > ul > li.can-open.open {
-          border-bottom: 1px solid #fff;
-          background: #f7f7f7; }
-          .nav-aside-section > ul > li.can-open.open:before {
-            -webkit-transform: rotate(180deg);
-            -ms-transform: rotate(180deg);
-            transform: rotate(180deg); }
-          .nav-aside-section > ul > li.can-open.open > a {
-            font-weight: 700; }
-        .nav-aside-section > ul > li.can-open > a {
-          padding-right: 2.14286rem ; }
-      .nav-aside-section > ul ul {
-        display: none; }
-        .nav-aside-section > ul ul li a {
-          padding: 0.5rem 1.07143rem 0.5rem 2.14286rem ; }
-        .nav-aside-section > ul ul li.active a:hover .badge, .nav-aside-section > ul ul li.active a:active .badge, .nav-aside-section > ul ul li.active a:focus .badge {
-          background: #cf0039;
-          color: #fff; }
-        .nav-aside-section > ul ul li.active .badge {
-          background: #cf0039;
-          color: #fff; }
-  .nav-aside .badge {
-    background-color: #eaeaea;
-    color: #333;
-    float: right;
-    margin-top: 0.10714rem ;
-    transition: background 0.1s linear, color 0.1s linear; }
-
 /**
  * Animations
  * ----------------------------------------------------------------
@@ -1524,7 +1386,7 @@ ul, ol {
   margin-bottom: 0.71429rem ;
   margin-top: 0; }
 
-.list-unstyled, .nav-aside ul, .list-inline, .nav-top-branding, .nav-top-section-left, .nav-top-section-center, .nav-top-section-right, .bar-branding, .bar-section-left, .bar-section-center, .bar-section-right {
+.list-unstyled, .list-inline, .nav-top-branding, .nav-top-section-left, .nav-top-section-center, .nav-top-section-right, .bar-branding, .bar-section-left, .bar-section-center, .bar-section-right, .nav-aside ul {
   list-style: none;
   margin-bottom: 0;
   padding-left: 0; }
@@ -1610,7 +1472,7 @@ code, kbd, pre, samp {
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace; }
 
 code {
-  background-color: #e3f4fa;
+  background-color: #f0f9fd;
   border-radius: 0.14286rem ;
   color: #219dc8;
   font-size: 90%;
@@ -1629,8 +1491,8 @@ kbd {
     padding: 0; }
 
 pre {
-  background-color: #e3f4fa;
-  border: 1px solid #c9ebf6;
+  background-color: #f0f9fd;
+  border: 1px solid #d6f0f8;
   border-radius: 0.14286rem ;
   color: #219dc8;
   display: block;
@@ -2762,21 +2624,21 @@ a.badge:hover, a.badge:focus {
   transition: opacity 0.4s linear; }
 
 .callout, .callout-success, .callout-warning, .callout-danger {
-  background: #ffcfdc;
-  border: 1px solid #cf0039;
-  border-left: 5px solid #cf0039;
+  background: #ecf8fc;
+  border: 1px solid #219dc8;
+  border-left: 5px solid #219dc8;
   border-radius: 0.14286rem ;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
-  color: #cf0039;
+  color: #219dc8;
   margin: 1.42857rem  0;
   padding: 0.71429rem 1.14286rem ; }
   .callout a, .callout-success a, .callout-warning a, .callout-danger a {
-    color: #a6002e;
+    color: #1b82a5;
     text-decoration: underline; }
     .callout a:hover, .callout-success a:hover, .callout-warning a:hover, .callout-danger a:hover, .callout a:focus, .callout-success a:focus, .callout-warning a:focus, .callout-danger a:focus {
-      color: #730020; }
+      color: #145f79; }
   .callout hr, .callout-success hr, .callout-warning hr, .callout-danger hr {
-    border-top-color: #cf0039;
+    border-top-color: #219dc8;
     margin: 0.71429rem  0; }
   .callout > p:last-child, .callout-success > p:last-child, .callout-warning > p:last-child, .callout-danger > p:last-child, .callout > ul, .callout-success > ul, .callout-warning > ul, .callout-danger > ul {
     margin-bottom: 0; }
@@ -3020,7 +2882,8 @@ a.badge:hover, a.badge:focus {
  * --------------------------------------------------
  * - navigation behaviour states
  * - top navigation
- * - left navigation
+ * - side navigation:
+ *   - left navigation
  * - bar
  */
 /**
@@ -3139,7 +3002,7 @@ body {
     float: left;
     height: 3.57143rem ;
     line-height: 3.57143rem ;
-    overflow: auto;
+    overflow: hidden;
     position: relative;
     z-index: 1; }
     .nav-top-branding a {
@@ -3182,7 +3045,150 @@ body {
       margin: 0; }
 
 /**
+ * Side navigation
+ */
+.nav-aside {
+  background: #fff;
+  bottom: 0;
+  position: fixed;
+  top: 3.57143rem ;
+  transition: -webkit-transform 0.1s linear;
+  transition: transform 0.1s linear;
+  width: 15.71429rem ;
+  z-index: 3;
+  /**
+   * Styling for semi-transparent line
+   */
+  /**
+   * For semantics & correct scrolling behaviour
+   */ }
+  .nav-aside:before {
+    background: rgba(0, 0, 0, 0.12);
+    bottom: 0;
+    content: '';
+    height: 100%;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    width: 2px;
+    z-index: 2; }
+  .nav-aside > aside {
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: -blackberry-touch; }
+  .nav-aside-title {
+    color: #bbb;
+    font-size: 90%;
+    font-weight: 600;
+    margin-top: 0.35714rem ;
+    padding: 0rem 1.07143rem ;
+    text-transform: uppercase; }
+    .nav-aside-title:first-letter {
+      font-size: 110%; }
+    .nav-aside-title + ul {
+      margin-top: -0.71429rem ; }
+  .nav-aside-section {
+    padding: 0.71429rem 0rem ;
+    position: relative;
+    /**
+     * section bottom border
+     */
+    /**
+     * Menu: all levels
+     */
+    /**
+     * Menu first level
+     */ }
+    .nav-aside-section:not(:last-child):after {
+      background: #eaeaea;
+      bottom: 0;
+      content: '';
+      height: 1px;
+      left: 1.07143rem ;
+      position: absolute;
+      right: 1.07143rem ; }
+    .nav-aside-section li a {
+      color: #525252;
+      display: table;
+      padding: 0.71429rem 1.07143rem ;
+      text-decoration: none;
+      width: 100%; }
+      .nav-aside-section li a:hover, .nav-aside-section li a:active, .nav-aside-section li a:focus {
+        background-color: rgba(0, 0, 0, 0.05);
+        color: #219dc8; }
+        .nav-aside-section li a:hover .badge, .nav-aside-section li a:active .badge, .nav-aside-section li a:focus .badge {
+          background-color: #fff;
+          color: #219dc8; }
+      .nav-aside-section li a:focus {
+        box-shadow: none; }
+      .nav-aside-section li a > * {
+        display: table-cell;
+        vertical-align: middle; }
+      .nav-aside-section li a > i {
+        padding: 0.07143rem 0.71429rem 0rem 0rem ; }
+    .nav-aside-section li.active a {
+      color: #219dc8;
+      font-weight: 700; }
+      .nav-aside-section li.active a + ul a {
+        color: #525252;
+        font-weight: normal; }
+        .nav-aside-section li.active a + ul a:hover, .nav-aside-section li.active a + ul a:active, .nav-aside-section li.active a + ul a:focus {
+          background-color: rgba(0, 0, 0, 0.05);
+          color: #219dc8; }
+    .nav-aside-section > ul {
+      /**
+       * Menu second level
+       */ }
+      .nav-aside-section > ul > li {
+        border-bottom: 1px solid transparent;
+        height: auto;
+        overflow: hidden;
+        position: relative; }
+        .nav-aside-section > ul > li.can-open:before {
+          content: "\f0d7";
+          font-family: FontAwesome;
+          font-style: normal;
+          font-weight: normal;
+          pointer-events: none;
+          position: absolute;
+          right: 1.07143rem ;
+          text-decoration: inherit;
+          top: 0.71429rem ;
+          transition: color 0.1s linear, -webkit-transform 0.1s linear;
+          transition: color 0.1s linear, transform 0.1s linear;
+          z-index: 2; }
+        .nav-aside-section > ul > li.can-open.open {
+          border-bottom: 1px solid #fff;
+          background: #f7f7f7; }
+          .nav-aside-section > ul > li.can-open.open:before {
+            -webkit-transform: rotate(180deg);
+            -ms-transform: rotate(180deg);
+            transform: rotate(180deg); }
+          .nav-aside-section > ul > li.can-open.open > a {
+            font-weight: 700; }
+        .nav-aside-section > ul > li.can-open > a {
+          padding-right: 2.14286rem ; }
+      .nav-aside-section > ul ul {
+        display: none; }
+        .nav-aside-section > ul ul li a {
+          padding: 0.5rem 1.07143rem 0.5rem 2.14286rem ; }
+        .nav-aside-section > ul ul li.active a:hover .badge, .nav-aside-section > ul ul li.active a:active .badge, .nav-aside-section > ul ul li.active a:focus .badge {
+          background: #219dc8;
+          color: #fff; }
+        .nav-aside-section > ul ul li.active .badge {
+          background: #219dc8;
+          color: #fff; }
+  .nav-aside .badge {
+    background-color: #eaeaea;
+    color: #333;
+    float: right;
+    margin-top: 0.10714rem ;
+    transition: background 0.1s linear, color 0.1s linear; }
+
+/**
  * Left navigation
+ * (add-on for .nav-aside)
  */
 .nav-left {
   left: 0;

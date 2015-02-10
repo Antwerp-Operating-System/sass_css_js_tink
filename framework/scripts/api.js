@@ -24,8 +24,10 @@
 
 		var calculateHeight = function(){
 			if($(defaults.menuStr).length === 1){
-				var height = $(defaults.menuStr)[0].getBoundingClientRect().height;
-				$($(document)[0].body).css('padding-top',height+'px');
+				setTimeout(function(){
+					var height = $(defaults.menuStr)[0].getBoundingClientRect().height;
+					$($(document)[0].body).css('padding-top',height+'px');
+				},10)
 			}
 		};
 
@@ -164,8 +166,8 @@
 			activeCss:'active',
 			topNav:'nav.nav-top',
 			openCss:'open',
-			accordion:false,
-			gotoPage:false,
+			accordion:true,
+			gotoPage:true,
 			speed:200
 		};
 
@@ -254,8 +256,9 @@
 
 		$(window).bind('hashchange', function() {
 			if(!clickCheck){
-				toggleAccordion(currentTogggleElem);
-				currentActiveElement.removeClass(options.activeCss);
+				setActiveElemnt();
+				//toggleAccordion(currentTogggleElem);
+				//currentActiveElement.removeClass(options.activeCss);
 			}
 			clickCheck = 0;
 		});
@@ -365,8 +368,10 @@
 
 			options.menuStr = $(element);
 
-			if(options.gotoPage){
-				options.accordion = true;
+			if(options.autoSelect){
+				options.gotoPage = true;
+			}else{
+				options.gotoPage = false;
 			}
 
 			// map urls with elements

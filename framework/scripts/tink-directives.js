@@ -1625,11 +1625,8 @@ function setCursor(cur) {
       }
 
       var opts= {};
-      if(attr.accordion){
-        opts.accordion = (attr.accordion === 'true');
-      }
-      if(attr.accordionFirst){
-        opts.gotoPage = (attr.accordionFirst === 'true');
+      if(attr.autoSelect){
+        opts.autoSelect = (attr.autoSelect === 'true');
       }
       var sideNav = tinkApi.sideNavigation(elem);
       sideNav.init(opts);
