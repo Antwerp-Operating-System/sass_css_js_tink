@@ -27,7 +27,7 @@
 				setTimeout(function(){
 					var height = $(defaults.menuStr)[0].getBoundingClientRect().height;
 					$($(document)[0].body).css('padding-top',height+'px');
-				},10)
+				}, 100);
 			}
 		};
 
