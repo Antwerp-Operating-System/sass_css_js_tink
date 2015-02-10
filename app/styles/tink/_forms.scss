@@ -572,21 +572,20 @@ output {
       margin: rem(6 0);
       cursor: pointer;
     &:before {
-      left: rem(9);
-      top: rem(4);
+       left: rem(9);
+       top: rem(4);
+       border: none; // removing border like defined in 'Focus' design
 
           @media screen and (min-width: $screen-sm) {
-            height: rem(18);
             left: rem(13);
             top: rem(8);
-            width: rem(18);
-          }
+           }
     }
   }
 
     &:checked {
        + label {
-            background-color: rgba(0, 179, 220, 1); // active blue
+            background-color:  $brand;//rgba(0, 179, 220, 1); // active blue defined in 'Focus' design
             color: #fff;
         }
     }
@@ -596,25 +595,22 @@ output {
    + label {
 
     &:after {
-      left: rem(10);
-      top: rem(6);
-
-          @media screen and (min-width: $screen-sm) {
-        font-size: rem(13);
-        left: rem(15);
-        top: rem(10);
-          }
-
-    }
-
-    &:before {
-      // square defined
-      // height: rem(66); //3 times the size
-      // left: rem(3);
-      // top: rem(3);
-      // width: rem(66);
+     left: rem(13);
+      top: rem(8);
     }
   }
-
  }
 }
+
+
+
+/*
+
+to add:
+ hover state
+ active state
+ focus state
+ transition
+ no drop cursor on disabled
+
+*/
