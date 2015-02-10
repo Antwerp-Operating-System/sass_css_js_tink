@@ -172,7 +172,7 @@
 		var options;
 		var clickCheck = 0;
 		var registerClick = function(){
-			$( '.nav-aside-list li a' ).each(function() {
+			$( '.nav-aside-section li a' ).each(function() {
 				$(this).on('click',function(){
 					setActiveElemnt($(this).parent());
 					clickCheck = 1;
@@ -234,7 +234,7 @@
 
 		var calculateHeight = function(){
 
-			$( '.nav-aside-list > li' ).each(function() {
+			$( '.nav-aside-section ul > li' ).each(function() {
 				var ulHelper = $(this).find('ul');
 				if(ulHelper.length){
 					$(this).addClass('can-open');
@@ -242,13 +242,14 @@
 						$(this).find('a')[0].href ='javascript:void(0);';
 					}
 				}
-				/*if(currentTogggleElem){
+
+				/* if(currentTogggleElem){
 					var totalHeight = 0;
 					currentTogggleElem.find('a').each(function() {
 						totalHeight += $(this)[0].getBoundingClientRect().height;
 					});
-		}*/
-	});
+				} */
+			});
 		};
 
 		$(window).bind('hashchange', function() {
