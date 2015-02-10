@@ -9,19 +9,12 @@
         return;
       }
 
-      var options = {};
-      angular.forEach(['autoSelect'], function(key) {
-        if(angular.isDefined(attr[key])) {
-          if(typeof scope[key] === 'boolean'){
-            options[key] = scope[key];
-          }else{
-            options[key] = attr[key] === 'true';
-          }
-        }
-      });
-
+      var opts= {};
+      if(attr.autoSelect){
+        opts.autoSelect = (attr.autoSelect === 'true');
+      }
       var sideNav = tinkApi.sideNavigation(elem);
-      sideNav.init(options);
+      sideNav.init(opts);
       if(attr.toggleId){
         tinkApi.sideNavToggle.register(attr.toggleId,sideNav);
       }

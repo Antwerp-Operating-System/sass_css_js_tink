@@ -164,7 +164,7 @@
 			activeCss:'active',
 			topNav:'nav.nav-top',
 			openCss:'open',
-			accordion:false,
+			accordion:true,
 			gotoPage:true,
 			speed:200
 		};
@@ -361,14 +361,14 @@
 		};
 
 		var init = function(opts){
-			options = $.extend( {}, opts );
+			options = $.extend( {}, defaults, opts );
 
 			options.menuStr = $(element);
 
-			if(opts.autoSelect){
+			if(options.autoSelect){
 				options.gotoPage = true;
 			}else{
-				options.accordion = true;
+				options.gotoPage = false;
 			}
 
 			// map urls with elements
