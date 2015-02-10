@@ -165,7 +165,7 @@
 			topNav:'nav.nav-top',
 			openCss:'open',
 			accordion:false,
-			gotoPage:false,
+			gotoPage:true,
 			speed:200
 		};
 
@@ -361,11 +361,13 @@
 		};
 
 		var init = function(opts){
-			options = $.extend( {}, defaults, opts );
+			options = $.extend( {}, opts );
 
 			options.menuStr = $(element);
 
-			if(options.gotoPage){
+			if(opts.autoSelect){
+				options.gotoPage = true;
+			}else{
 				options.accordion = true;
 			}
 

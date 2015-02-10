@@ -9,15 +9,19 @@
         return;
       }
 
-      var opts= {};
-      if(attr.accordion){
-        opts.accordion = (attr.accordion === 'true');
-      }
-      if(attr.accordionFirst){
-        opts.gotoPage = (attr.accordionFirst === 'true');
-      }
+      var options = {};
+      angular.forEach(['autoSelect'], function(key) {
+        if(angular.isDefined(attr[key])) {
+          if(typeof scope[key] === 'boolean'){
+            options[key] = scope[key];
+          }else{
+            options[key] = attr[key] === 'true';
+          }
+        }
+      });
+
       var sideNav = tinkApi.sideNavigation(elem);
-      sideNav.init(opts);
+      sideNav.init(options);
       if(attr.toggleId){
         tinkApi.sideNavToggle.register(attr.toggleId,sideNav);
       }
