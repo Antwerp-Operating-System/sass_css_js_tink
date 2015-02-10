@@ -97,6 +97,7 @@ body {
   @include bar($nav-top-height, $nav-top-bg-color, $nav-top-color, $nav-top-link-color, $nav-top-link-hover-color, $nav-top-link-bg-hover-color, $nav-top-padding, false);
   position: fixed;
   top: 0;
+  transition: height $animation-speed linear;
   width: 100%;
   z-index: layer('nav-top');
 
@@ -152,6 +153,7 @@ body {
 
       &.toggle {
         cursor: pointer;
+
         @include mq($screen-sm) {
           display: none;
         }
@@ -176,6 +178,10 @@ body {
       font-weight: 700;
       line-height: rem($nav-top-height);
       margin: 0;
+
+      span {
+        font-weight: 400;
+      }
     }
   }
 }
