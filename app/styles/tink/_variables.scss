@@ -149,9 +149,9 @@ $code-bg:                     lighten($brand, 54%) !default;
 $kbd-color:                   $white !default;
 $kbd-bg:                      $gray-darker !default;
 
-$pre-bg:                      lighten($brand, 54%) !default;
-$pre-color:                   $brand !default;
-$pre-border-color:            lighten($brand, 48%) !default;
+$pre-bg:                      $code-bg !default;
+$pre-color:                   $code-color !default;
+$pre-border-color:            darken($code-bg, 6%) !default;
 $pre-scrollable-max-height:   340px !default;
 
 

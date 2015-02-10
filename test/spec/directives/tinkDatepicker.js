@@ -1,9 +1,9 @@
-'use strict';
+/*'use strict';
 
 describe('datepicker', function() {
 
   var bodyEl = $('body'), sandboxEl;
-  var $compile, $templateCache, $animate, dateFilter, $datepicker, scope, today, $timeout,dateCalculator;
+  var $compile, $templateCache, $animate, dateFilter, scope, today, $timeout,dateCalculator;
 
   beforeEach(module('ngAnimate'));
   beforeEach(module('ngAnimateMock'));
@@ -11,7 +11,7 @@ describe('datepicker', function() {
   beforeEach(module('tink'));
   beforeEach(module('tink.dateHelper'));
 
-  beforeEach(inject(function (_$rootScope_, _$compile_, _$templateCache_, _$animate_, _dateFilter_, _$datepicker_, _$timeout_,_dateCalculator_) {
+  beforeEach(inject(function (_$rootScope_, _$compile_, _$templateCache_, _$animate_, _dateFilter_,_$timeout_,_dateCalculator_) {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $templateCache = _$templateCache_;
@@ -21,7 +21,6 @@ describe('datepicker', function() {
     bodyEl.html('');
     dateCalculator = _dateCalculator_;
     sandboxEl = $('<div>').attr('id', 'sandbox').appendTo(bodyEl);
-    $datepicker = _$datepicker_;
     $timeout = _$timeout_;
   }));
 
@@ -36,158 +35,6 @@ describe('datepicker', function() {
     'default': {
       scope: {selectedDate: new Date()},
       element: '<input type="text" ng-model="selectedDate" data-tink-datepicker>'
-    },
-    'value-past': {
-      scope: {selectedDate: new Date(1986, 1, 22)},
-      element: '<input type="text" ng-model="selectedDate" data-tink-datepicker>'
-    },
-    'markup-ngRepeat': {
-      element: '<ul><li ng-repeat="i in [1, 2, 3]"><input type="text" ng-model="selectedDate" tink-datepicker></li></ul>'
-    },
-    'markup-ngChange': {
-      scope: {selectedDate: new Date(1986, 1, 22), onChange: function() {}},
-      element: '<input type="text" ng-model="selectedDate" ng-change="onChange()" tink-datepicker>'
-    },
-    'markup-ngRequired': {
-      scope: {selectedDate: new Date(2010, 1, 22)},
-      element: '<input type="text" ng-model="selectedDate" ng-required="true" tink-datepicker>'
-    },
-    'options-animation': {
-      element: '<div class="btn" data-animation="am-flip-x" ng-model="datepickeredIcon" ng-options="icon.value as icon.label for icon in icons" tink-datepicker></div>'
-    },
-    'options-placement': {
-      element: '<div class="btn" data-placement="bottom" ng-model="datepickeredIcon" ng-options="icon.value as icon.label for icon in icons" tink-datepicker></div>'
-    },
-    'options-placement-exotic': {
-      element: '<div class="btn" data-placement="bottom-right" ng-model="datepickeredIcon" ng-options="icon.value as icon.label for icon in icons" tink-datepicker></div>'
-    },
-    'options-trigger': {
-      element: '<div class="btn" data-trigger="hover" ng-model="datepickeredIcon" ng-options="icon.value as icon.label for icon in icons" tink-datepicker></div>'
-    },
-    'options-template': {
-      element: '<input type="text" data-template="custom" ng-model="selectedDate" tink-datepicker>'
-    },
-    'options-typeStringDateFormat': {
-      scope: {selectedDate: '22/02/1986'},
-      element: '<input type="text" ng-model="selectedDate" data-date-type="string" data-date-format="dd/MM/yyyy" tink-datepicker>'
-    },
-    'options-typeStringDateFormatAlternative': {
-      scope: {selectedDate: '2014-04-11'},
-      element: '<input type="text" ng-model="selectedDate" data-date-type="string" data-date-format="yyyy-MM-dd" tink-datepicker>'
-    },
-    'options-typeNumberDateFormat': {
-      scope: {selectedDate: +new Date(1986, 2, 22)},
-      element: '<input type="text" ng-model="selectedDate" data-date-type="number" tink-datepicker>'
-    },
-    'options-typeUnixDateFormat': {
-      scope: {selectedDate: new Date(1986, 2, 22) / 1000},
-      element: '<input type="text" ng-model="selectedDate" data-date-type="unix" tink-datepicker>'
-    },
-    'options-typeIsoDateFormat': {
-      scope: {selectedDate: '2014-12-26T13:03:08.631Z'},
-      element: '<input type="text" ng-model="selectedDate" data-date-type="iso" tink-datepicker>'
-    },
-    'options-dateFormat': {
-      scope: {selectedDate: new Date(1986, 1, 22)},
-      element: '<input type="text" ng-model="selectedDate" data-date-format="yyyy-MM-dd" tink-datepicker>'
-    },
-    'options-dateFormat-alt': {
-      scope: {selectedDate: new Date(1986, 1, 22)},
-      element: '<input type="text" ng-model="selectedDate" data-date-format="dddd MMMM d, yyyy" tink-datepicker>'
-    },
-    'options-strictFormat': {
-      scope: {selectedDate: new Date(1986, 1, 4)},
-      element: '<input type="text" ng-model="selectedDate" data-date-format="yyyy-M-d" data-strict-format="1" tink-datepicker>'
-    },
-    'options-named-dateFormat': {
-      scope: {selectedDate: new Date(1986, 1, 22)},
-      element: '<input type="text" ng-model="selectedDate" data-date-format="mediumDate" tink-datepicker>'
-    },
-    'options-minDate': {
-      scope: {selectedDate: new Date(1986, 1, 22), minDate: '02/20/86'},
-      element: '<input type="text" ng-model="selectedDate" data-min-date="{{minDate}}" tink-datepicker>'
-    },
-    'options-minDate-today': {
-      scope: {selectedDate: new Date()},
-      element: '<input type="text" ng-model="selectedDate" data-min-date="today" tink-datepicker>'
-    },
-    'options-minDate-date': {
-      scope: {selectedDate: new Date(1986, 1, 22), minDate: new Date(1986, 1, 20)},
-      element: '<input type="text" ng-model="selectedDate" data-min-date="{{minDate}}" tink-datepicker>'
-    },
-    'options-minDate-number': {
-      scope: {selectedDate: new Date(1986, 1, 22), minDate: +new Date(1986, 1, 20)},
-      element: '<input type="text" ng-model="selectedDate" data-min-date="{{minDate}}" tink-datepicker>'
-    },
-    'options-maxDate': {
-      scope: {selectedDate: new Date(1986, 1, 22), maxDate: '02/24/86'},
-      element: '<input type="text" ng-model="selectedDate" data-max-date="{{maxDate}}" tink-datepicker>'
-    },
-    'options-maxDate-today': {
-      scope: {selectedDate: new Date()},
-      element: '<input type="text" ng-model="selectedDate" data-max-date="today" tink-datepicker>'
-    },
-    'options-maxDate-date': {
-      scope: {selectedDate: new Date(1986, 1, 22), maxDate: new Date(1986, 1, 24)},
-      element: '<input type="text" ng-model="selectedDate" data-max-date="{{maxDate}}" tink-datepicker>'
-    },
-    'options-maxDate-number': {
-      scope: {selectedDate: new Date(1986, 1, 22), maxDate: +new Date(1986, 1, 24)},
-      element: '<input type="text" ng-model="selectedDate" data-max-date="{{maxDate}}" tink-datepicker>'
-    },
-    'options-startWeek': {
-      scope: {selectedDate: new Date(2014, 1, 22), startWeek: 1},
-      element: '<input type="text" ng-model="selectedDate" data-start-week="{{startWeek}}" tink-datepicker>'
-    },
-    'options-startWeek-bis': {
-      scope: {selectedDate: new Date(2014, 6, 15), startWeek: 6},
-      element: '<input type="text" ng-model="selectedDate" data-start-week="{{startWeek}}" tink-datepicker>'
-    },
-    'options-startDate': {
-      scope: {startDate: '02/03/04'},
-      element: '<input type="text" ng-model="selectedDate" data-start-date="{{startDate}}" tink-datepicker>'
-    },
-    'options-autoclose': {
-      element: '<input type="text" ng-model="selectedDate" data-autoclose="1" tink-datepicker>'
-    },
-    'options-useNative': {
-      element: '<input type="text" ng-model="selectedDate" data-use-native="1" tink-datepicker>'
-    },
-    'options-modelDateFormat': {
-      scope: {selectedDate: '2014-12-01' },
-      element: '<input type="text" ng-model="selectedDate" data-date-format="dd/mm/yyyy" data-model-date-format="yyyy-mm-dd" data-date-type="string" tink-datepicker>'
-    },
-    'options-modelDateFormat-longDate': {
-      scope: {selectedDate: 'December 1, 2014' },
-      element: '<input type="text" ng-model="selectedDate" data-date-format="shortDate" data-model-date-format="longDate" data-date-type="string" tink-datepicker>'
-    },
-    'options-daysOfWeekDisabled': {
-      scope: {selectedDate: new Date(2014, 6, 27)},
-      element: '<input type="text" ng-model="selectedDate" data-days-of-week-disabled="{{daysOfWeekDisabled}}" tink-datepicker>'
-    },
-    'options-daysOfWeekDisabled-bis': {
-      scope: {selectedDate: new Date(2014, 6, 27), daysOfWeekDisabled: '0246'},
-      element: '<input type="text" ng-model="selectedDate" data-days-of-week-disabled="{{daysOfWeekDisabled}}" tink-datepicker>'
-    },
-    'options-disabledDates': {
-      scope: {selectedDate: new Date(2014, 6, 27)},
-      element: '<input type="text" ng-model="selectedDate" data-disabled-dates="disabledDates" tink-datepicker>'
-    },
-    'options-disabledDates-minmax': {
-      scope: {selectedDate: new Date(2014, 6, 27), minDate: new Date(2014, 6, 21), maxDate: new Date(2014, 6, 25)},
-      element: '<input type="text" ng-model="selectedDate" data-disabled-dates="disabledDates" data-min-date="{{minDate}}" data-max-date="{{maxDate}}" tink-datepicker>'
-    },
-    'options-disabledDates-daysOfWeek': {
-      scope: {selectedDate: new Date(2014, 6, 27), daysOfWeekDisabled: '0'},
-      element: '<input type="text" ng-model="selectedDate" data-disabled-dates="disabledDates" data-days-of-week-disabled="{{daysOfWeekDisabled}}" tink-datepicker>'
-    },
-    'bsShow-attr': {
-      scope: {selectedDate: new Date()},
-      element: '<input type="text" ng-model="selectedDate" tink-datepicker tink-show="true">'
-    },
-    'bsShow-binding': {
-      scope: {isVisible: false, selectedDate: new Date()},
-      element: '<input type="text" ng-model="selectedDate" tink-datepicker tink-show="isVisible">'
     }
   };
 
@@ -1276,3 +1123,4 @@ it('should correctly order month days in inner content', function() {
     }));
   });
 });
+*/

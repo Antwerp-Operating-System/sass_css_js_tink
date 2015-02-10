@@ -68,6 +68,29 @@ module.exports = function (grunt) {
         ]
       }
     },
+    ngtemplates:  {
+      app:        {
+        options: {
+          module: 'tink.templates',
+          standalone:true,
+          htmlmin: {
+            collapseBooleanAttributes:      true,
+            collapseWhitespace:             true,
+            removeAttributeQuotes:          true,
+            removeComments:                 true, // Only if you don't use comment directives!
+            removeEmptyAttributes:          true,
+            removeRedundantAttributes:      true,
+            removeScriptTypeAttributes:     true,
+            removeStyleLinkTypeAttributes:  true,
+            conservativeCollapse:true,
+            preserveLineBreaks:true
+          }
+        },
+        cwd:      'app',
+        src:      'templates/**.html',
+        dest:     '<%= yeoman.app %>/scripts/services/tinkTemplates.js'
+      }
+    },
     jshint: {
       options: {
         jshintrc: '.jshintrc',
@@ -302,24 +325,6 @@ module.exports = function (grunt) {
           '<%= yeoman.dist %>/styles/tink.min.css': ['.tmp/styles/tink.css']
         }
       }
-      // dist: {
-      //   files: [
-      //     {
-      //       src: '.tmp/styles/tink-ocmw.css',
-      //       dest: '<%= yeoman.dist %>/styles/tink-ocmw.min.css',
-      //       options: {
-      //         banner: '/*! Tink (OCMW) v<%= yeoman.version %> */>'
-      //       }
-      //     },
-      //     {
-      //       src: '.tmp/styles/tink.css',
-      //       dest: '<%= yeoman.dist %>/styles/tink.min.css',
-      //       options: {
-      //         banner: '/*! Tink v<%= yeoman.version %> */>'
-      //       }
-      //     }
-      //   ]
-      // }
     },
     replace: {
       dist: {
@@ -372,6 +377,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'wiredep',
+      'ngtemplates',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
@@ -389,6 +395,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean',
+    'ngtemplates',
     'replace',
     'concat',
     'copy:dist',

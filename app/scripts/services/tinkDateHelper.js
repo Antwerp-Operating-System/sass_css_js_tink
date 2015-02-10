@@ -130,7 +130,11 @@ angular.module('tink.dateHelper')
 
   return {
     dateBeforeOther: function (first, last) {
-      if (new Date(first).getTime() > new Date(last).getTime() && last !== null) {
+      var firstDate = new Date(first);
+      var lastDate = new Date(last);
+      firstDate.setHours(0, 0, 0, 0);
+      lastDate.setHours(0, 0, 0, 0);
+      if (firstDate >= lastDate && lastDate !== null) {
         return true;
       } else {
         return false;
@@ -168,7 +172,13 @@ angular.module('tink.dateHelper')
       if(!angular.isDefined(date) || !angular.isDefined(format) || date.trim()===''){
         return null;
       }
-      return stringToDate(date, format);
+      date = stringToDate(date, format);
+
+      if(date.toString()!=='Invalid Date'){
+        return date;
+      }else{
+        return null;
+      }
     },
     daysInMonth: function (month,year) {
       if(angular.isDate(month)){
@@ -182,7 +192,11 @@ angular.module('tink.dateHelper')
       return new Date(year, month, 0).getDate();
     },
     format: function (date, format) {
-      return dateFormat(date, format, null, nl);
+      if(date === null || date === undefined || date === ''){
+        return null;
+      }else{
+        return dateFormat(date, format, null, nl);
+      }
     },
     formatDate: function (date, format) {
         return dateFormat(date, format,null,nl);
@@ -302,7 +316,7 @@ angular.module('tink.dateHelper')
     return arrays;
   }
 
-  function daysInRows(date,selectedDate){
+  function daysInRows(date,selectedDate,before,after){
     var monthCall = callCullateData(date);
     var today = new Date();
     var days = [], day;
@@ -317,36 +331,77 @@ angular.module('tink.dateHelper')
         if(angular.isDate(selectedDate)){
           isSelected = selectedDate.toDateString() === day.toDateString();
         }
-        days.push({date: day,selected:isSelected, isToday: day.toDateString() === today.toDateString(), label: dateCalculator.formatDate(day, 'd'),isMuted:isMuted});
+
+        var disable = false;
+        if(angular.isDate(before) && !dateCalculator.dateBeforeOther(day,before)){
+          disable = true;
+        }
+        if(angular.isDate(after) && !dateCalculator.dateBeforeOther(after,day)){
+          disable = true;
+        }
+
+        days.push({date: day,selected:isSelected, isToday: day.toDateString() === today.toDateString(), label: dateCalculator.formatDate(day, 'd'),isMuted:isMuted,disabled:disable});
     }
     var arrays = split(days, 7);
      return arrays;
 
   }
 
-  function monthInRows(date){
+  function monthInRows(date,before,after){
     var months = [];
     var monthDate;
+    if(angular.isDefined(before) && before !== null){
+      before = new Date(before.getFullYear(),before.getMonth(),1);
+    }
+    if(angular.isDefined(after) && after !== null){
+      after = new Date(after.getFullYear(),after.getMonth(),1);
+    }
      for(var i = 0; i < 12; i++) {
       monthDate = new Date(date.getFullYear(),i,1);
-      months.push({date: monthDate,label: dateCalculator.formatDate(monthDate, 'mmm')});
+
+    var disable = false;
+    if(angular.isDate(before) && !dateCalculator.dateBeforeOther(monthDate,before)){
+      disable = true;
+    }
+    if(angular.isDate(after) && !dateCalculator.dateBeforeOther(after,monthDate)){
+      disable = true;
+    }
+
+      months.push({date: monthDate,label: dateCalculator.formatDate(monthDate, 'mmm'),disabled:disable});
      }
     var arrays = split(months, 4);
     return arrays;
   }
 
-  function yearInRows(date){
+  function yearInRows(date,before,after){
     var years = [];
     var yearDate;
-     for(var i = 11; i > -1; i--) {
-      yearDate = new Date(date.getFullYear()-i,date.getMonth(),1);
-      years.push({date: yearDate,label: dateCalculator.formatDate(yearDate, 'yyyy')});
-     }
+
+    if(angular.isDefined(before) && before !== null){
+      before = new Date(before.getFullYear(),date.getMonth(),1);
+    }
+    if(angular.isDefined(after) && after !== null){
+      after = new Date(after.getFullYear(),date.getMonth(),1);
+    }
+
+   for(var i = 11; i > -1; i--) {
+    yearDate = new Date(date.getFullYear()-i,date.getMonth(),1);
+
+    var disable = false;
+    if(angular.isDate(before) && !dateCalculator.dateBeforeOther(yearDate,before)){
+      disable = true;
+    }
+    if(angular.isDate(after) && !dateCalculator.dateBeforeOther(after,yearDate)){
+      disable = true;
+    }
+
+    years.push({date: yearDate,label: dateCalculator.formatDate(yearDate, 'yyyy'),disabled:disable});
+   }
     var arrays = split(years, 4);
     return arrays;
   }
 
-  function createLabels(date, firstRange, lastRange,grayed) {
+  function createLabels(date, firstRange, lastRange,grayed,before,after) {
     var label = '',cssClass = '';
     if (label !== null && angular.isDate(date)) {
       label = date.getDate();
@@ -372,9 +427,18 @@ angular.module('tink.dateHelper')
           cssClass = 'btn-today';
         }
       }
+
+      var disable = '';
+      if(angular.isDate(before) && !dateCalculator.dateBeforeOther(date,before)){
+        disable = 'disabled';
+      }
+      if(angular.isDate(after) && !dateCalculator.dateBeforeOther(after,date)){
+        disable = 'disabled';
+      }
+
       var month = ('0' + (date.getMonth() + 1)).slice(-2);
       var day = ('0' + (date.getDate())).slice(-2);
-      return '<td><button ng-click="$select(\''+date.getFullYear()+'/'+month+'/'+day+'\')" class="' + cssClass + '"><span>' + label + '</span></button></td>';
+      return '<td><button '+disable+' ng-click="$select(\''+date.getFullYear()+'/'+month+'/'+day+'\')" class="' + cssClass + '"><span>' + label + '</span></button></td>';
     } else{
       return '<td></td>';
     }
@@ -391,24 +455,24 @@ angular.module('tink.dateHelper')
        }
 
       return {
-        createMonthDays: function (date, firstRange, lastRange,control) {
+        createMonthDays: function (date, firstRange, lastRange,control,before,after) {
           var domElem = '', monthCall = callCullateData(date), label;
           //var tr = createTR();
           var tr = '<tr>';
           for (var i = 0; i < monthCall.days; i++) {
             var day = new Date(monthCall.firstDay.getFullYear(), monthCall.firstDay.getMonth(), monthCall.firstDay.getDate() + i);
-            label = createLabels(null, firstRange, lastRange);
+            label = createLabels(null, firstRange, lastRange,false,before,after);
             if(control === 'prevMonth'){
               if(day.getMonth() !== date.getMonth() && dateCalculator.dateBeforeOther(date,day)){
-                label = createLabels(day, firstRange, lastRange,true);
+                label = createLabels(day, firstRange, lastRange,true,before,after);
               }
             } else if(control === 'nextMonth'){
               if(day.getMonth() !== date.getMonth() && dateCalculator.dateBeforeOther(day,date)){
-                label = createLabels(day, firstRange, lastRange,true);
+                label = createLabels(day, firstRange, lastRange,true,before,after);
               }
             }
             if(day.getMonth() === date.getMonth()){
-              label = createLabels(day, firstRange, lastRange);
+              label = createLabels(day, firstRange, lastRange,false,before,after);
             }
 
             //tr.appendChild(label);
@@ -425,14 +489,14 @@ angular.module('tink.dateHelper')
 
 
         },
-        daysInRows: function(date,model){
-         return daysInRows(date,model);
+        daysInRows: function(date,model,before,last){
+         return daysInRows(date,model,before,last);
         },
-        monthInRows:function(date){
-          return monthInRows(date);
+        monthInRows:function(date,before,last){
+          return monthInRows(date,before,last);
         },
-        yearInRows:function(date){
-          return yearInRows(date);
+        yearInRows:function(date,before,last){
+          return yearInRows(date,before,last);
         }
       };
     }]);
