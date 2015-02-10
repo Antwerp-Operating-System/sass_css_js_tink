@@ -415,6 +415,8 @@ Comments Tom / Jasper:
       <div class="row">
         <div class="col-md-12">
 
+
+
           <div class="row pagetitle-row">
             <div class="col-xs-12">
               <h1>
@@ -423,26 +425,6 @@ Comments Tom / Jasper:
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-xs-12">
-              <input type="text" placeholder="dd/mm/yyyy" ng-model="selectedDate" data-trigger="focus" data-tink-datepicker="">
-            </div>
-
-            <hr>
-
-            <div class="col-xs-12">
-              <tink-datepicker-range data-first-date="firstSelectedDate" data-last-date="lastSelectedDate"></tink-datepicker-range>
-            </div>
-
-            <hr>
-
-          </div>
-
-          <a href="http://www.google.com" rel="external">The Googles</a>
-          <br>
-          <a href="https://www.apple.com" rel="external">The Apples</a>
-
-          <hr/>
 
           <div class="row">
             <div class="col-lg-9">
@@ -458,6 +440,27 @@ Comments Tom / Jasper:
 
                     <input data-val="true" data-val-number="The field Id must be a number." data-val-required="The Id field is required." id="Resultaat_Id" name="Resultaat.Id" type="hidden" value="1" />
                     <input data-val="true" data-val-number="The field FilterStatusId must be a number." data-val-required="The FilterStatusId field is required." id="FilterStatusId" name="FilterStatusId" type="hidden" value="-1" />
+                  </div>
+
+                  <div class="form-group row">
+                    <div class="col-md-3">
+                      <label class="control-label" for="Status">Status</label>
+                    </div>
+                    <div class="col-md-9">
+
+                      <div class="select-hack">
+                      <select class="form-control" data-val="true" data-val-number="The field GeselecteerdeStatus must be a number." id="GeselecteerdeStatus" name="GeselecteerdeStatus"><option value=""></option>
+                        <option selected="selected" value="1">Aangevraagd</option>
+                        <option value="2">Gedefinieerd</option>
+                        <option value="3">Gepokerd</option>
+                        <option value="4">VAM Prio</option>
+                        <option value="5">Toegewezen</option>
+                        <option value="6">Verwijderd</option>
+                        <option value="7">Gerealiseerd</option>
+                        <option value="8">Afgewezen</option>
+                      </select>
+                      </div>
+                    </div>
                   </div>
 
                   <div class="col-xs-12"><h2 id="algemeen" class="anchor">Algemeen</h2></div>
@@ -515,23 +518,7 @@ Comments Tom / Jasper:
                     </div>
                   </div>
 
-                  <div class="form-group row">
-                    <div class="col-md-3">
-                      <label class="control-label" for="Status">Status</label>
-                    </div>
-                    <div class="col-md-9">
-                      <select class="form-control" data-val="true" data-val-number="The field GeselecteerdeStatus must be a number." id="GeselecteerdeStatus" name="GeselecteerdeStatus"><option value=""></option>
-                        <option selected="selected" value="1">Aangevraagd</option>
-                        <option value="2">Gedefinieerd</option>
-                        <option value="3">Gepokerd</option>
-                        <option value="4">VAM Prio</option>
-                        <option value="5">Toegewezen</option>
-                        <option value="6">Verwijderd</option>
-                        <option value="7">Gerealiseerd</option>
-                        <option value="8">Afgewezen</option>
-                      </select>
-                    </div>
-                  </div>
+
 
                   <div class="form-group row">
                     <div class="col-md-3">
@@ -801,6 +788,28 @@ Comments Tom / Jasper:
               </div>
             </div>
           </div>
+
+
+          <div class="row">
+            <div class="col-xs-12">
+              <input type="text" placeholder="dd/mm/yyyy" ng-model="selectedDate" data-trigger="focus" data-tink-datepicker="">
+            </div>
+
+            <hr>
+
+            <div class="col-xs-12">
+              <tink-datepicker-range data-first-date="firstSelectedDate" data-last-date="lastSelectedDate"></tink-datepicker-range>
+            </div>
+
+            <hr>
+
+          </div>
+
+          <a href="http://www.google.com" rel="external">The Googles</a>
+          <br>
+          <a href="https://www.apple.com" rel="external">The Apples</a>
+
+          <hr/>
 
         </div>
       </div>

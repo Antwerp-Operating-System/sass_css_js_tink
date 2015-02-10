@@ -1,23 +1,33 @@
 'use strict';
 angular.module('tink.datepicker', [])
-.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply) {
+.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply','$window',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply,$window) {
   return {
     restrict:'EA',
     require:['ngModel','?^form'],
     replace:true,
-    priority:99,
     templateUrl:'templates/tinkDatePickerInput.html',
     scope:{
       ngModel:'=?',
-      required:'@?'
+      minDate:'=?',
+      maxDate:'=?',
     },
     controller:function($scope,$attrs){
       $scope.dynamicName = $attrs.name;
-      $scope.required = $attrs.required;
+      $scope.requiredVal = false;
+      //$scope.mindate = new Date();
     },
-    link:function(scope,element,attr,ctrl){
-      ctrl = ctrl[0];
+    compile: function(template,$attr) {
+      if($attr.required){
+        $attr.required = false;
+        template.find('input').attr('data-require',true);
+      }
+      return {
+        pre:function(){},
+        post:function(scope,element,attr){
 
+      //var ctrl = element.controller('ngModel');
+      //ctrls[1].$removeControl(ctrls[1]['single']);
+      //ctrls[1].$removeControl(ctrls[0])
       scope.opts = attr;
       var input = element.find('div.faux-input');
       var clickable = element.find('.datepicker-icon');
@@ -64,16 +74,29 @@ angular.module('tink.datepicker', [])
         $directive.viewDate = newVal;
       });
 
+      // -- check if we are using a touch device  --/
+     var isDateSupported = function() {
+        var i = document.createElement('input');
+        i.setAttribute('type', 'date');
+        return i.type !== 'text';
+      };
+
+     var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
+     var isTouch = ('createTouch' in $window.document) && isNative && isDateSupported();
 
       clickable.bind('mousedown touch',function(){
-        safeApply(scope,function(){
-          if($directive.open){
-            scope.hide();
-          }else{
-            scope.$show();
-            content.focus();
-          }
-        });
+        if(isTouch){
+          element.find('input[type=date]:first').click();
+        }else{
+          safeApply(scope,function(){
+            if($directive.open){
+              scope.hide();
+            }else{
+              scope.$show();
+              content.focus();
+            }
+          });
+        }
         return false;
       });
 
@@ -103,14 +126,24 @@ angular.module('tink.datepicker', [])
         }else{
           $directive.mode = 0;
         }
+        setMode($directive.mode);
+        scope.build();
+      };
+
+      function setMode(mode){
+        if(mode >= 0 && mode <=2){
+          $directive.mode = mode;
+        }else{
+          $directive.mode = 0;
+        }
         $directive.pane = {};
         switch($directive.mode){
           case 0: $directive.pane.month = 1; break;
           case 1: $directive.pane.month = 12; break;
           case 2: $directive.pane.year = 12; break;
         }
-        scope.build();
-      };
+
+      }
 
       scope.hide = function(){
         if(copyEl){
@@ -120,16 +153,24 @@ angular.module('tink.datepicker', [])
         }
       };
 
+      // function setDirty(ctrl){
+      //   ctrl.$dirty = true;
+      //   ctrl.$pristine = false;
+      // }
+
       scope.$select = function(date){
       $directive.viewDate = date;
         if($directive.mode === 0){
-          ctrl.$setViewValue(date);
+          //ctrls[1]['single'].$setViewValue('20/01/1992');
+          scope.ngModel = date;
+          //console.log(ctrls[1]['single'])
           //input.val(dateCalculator.formatDate(date, options.dateFormat))
           //ngModel =
           scope.hide();
-          content.blur();
+          setTimeout(function(){ content.blur(); }, 0);
         }else if($directive.mode >0){
           $directive.mode -= 1;
+          setMode($directive.mode);
           scope.build();
         }
       };
@@ -137,24 +178,72 @@ angular.module('tink.datepicker', [])
       content.blur(function(){
         scope.hide();
       });
+      scope.pane={prev:0,next:0};
       scope.build = function() {
         if($directive.viewDate === null || $directive.viewDate === undefined){
           $directive.viewDate = new Date();
         }
+
+        if(checkBefore($directive.viewDate,scope.minDate)){
+          scope.pane.prev = 1;
+          $directive.viewDate = new Date(scope.minDate);
+        }else{
+          scope.pane.prev = 0;
+        }
+        if(checkAfter($directive.viewDate,scope.maxDate)){
+          scope.pane.next = 1;
+          $directive.viewDate = new Date(scope.maxDate);
+        }else{
+          scope.pane.next = 0;
+        }
+
           if($directive.mode === 1){
             scope.title = dateCalculator.format($directive.viewDate, 'yyyy');
-            scope.rows =  calView.monthInRows($directive.viewDate);
+            scope.rows =  calView.monthInRows($directive.viewDate,scope.minDate,scope.maxDate);
           }
           if($directive.mode === 0){
             scope.title = dateCalculator.format($directive.viewDate, options.yearTitleFormat);
-            scope.rows =  calView.daysInRows($directive.viewDate,$directive.selectedDate);
+            scope.rows =  calView.daysInRows($directive.viewDate,$directive.selectedDate,scope.minDate,scope.maxDate);
           }
           if($directive.mode === 2){
             var currentYear = parseInt(dateCalculator.format($directive.viewDate, 'yyyy'));
             scope.title = (currentYear-11) +'-'+ currentYear;
-            scope.rows =  calView.yearInRows($directive.viewDate);
+            scope.rows = calView.yearInRows($directive.viewDate,scope.minDate,scope.maxDate);
+            //setMode(1);
           }
       };
+
+      function checkBefore(date,before){
+        if(!angular.isDate(date)){
+          return false;
+        }
+        if(!angular.isDate(before)){
+          return false;
+        }
+        var copyDate = new Date(date.getFullYear(),date.getMonth(),1);
+        var copyBefore = new Date(before.getFullYear(),before.getMonth(),1);
+
+        if(dateCalculator.dateBeforeOther(copyBefore,copyDate)){
+          return true;
+        }
+        return false;
+
+      }
+      function checkAfter(date,after){
+        if(!angular.isDate(date)){
+          return false;
+        }
+        if(!angular.isDate(after)){
+          return false;
+        }
+        var copyDate = new Date(date.getFullYear(),date.getMonth(),1);
+        var copyafter = new Date(after.getFullYear(),after.getMonth(),1);
+
+        if(!dateCalculator.dateBeforeOther(copyafter,copyDate)){
+          return true;
+        }
+        return false;
+      }
 
       var fetchPromises =[];
       // -- To load the template for the popup but we can change this ! no html file is better
@@ -189,6 +278,8 @@ angular.module('tink.datepicker', [])
 
 
 
+    }
+      };
     }
   };
 }]);

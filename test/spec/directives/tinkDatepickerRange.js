@@ -45,7 +45,7 @@ describe('datepicker range', function() {
 		it('should open on focus', function() {
 			var elm = compileDirective('default');
 			expect(sandboxEl.find('.datepickerrange').css('display')).toBe('none');
-			angular.element(elm.find('input')[0]).triggerHandler('focus');
+			angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
 			scope.$digest();
 			expect(sandboxEl.find('.datepickerrange').css('display')).toBe('block');
 		});
@@ -53,45 +53,39 @@ describe('datepicker range', function() {
 		it('should close on blur', function() {
 			var elm = compileDirective('default');
 			expect(sandboxEl.find('.datepickerrange').css('display')).toBe('none');
-			angular.element(elm.find('input')[0]).triggerHandler('focus');
+			angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
 			scope.$digest();
-			angular.element(elm.find('input')[0]).triggerHandler('blur');
+			angular.element(elm.find('div.faux-input')[0]).triggerHandler('blur');
 			scope.$digest();
 			expect(sandboxEl.find('.datepickerrange').css('display')).toBe('none');
 		});
 
 		it('should open with right months', function() {
 			var elm = compileDirective('default');
-			angular.element(elm.find('input')[0]).triggerHandler('focus');
+			angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
 			scope.$digest();
 			expect(sandboxEl.find('div label')[0].innerText).toBe('December 2014');
 			expect(sandboxEl.find('div label')[1].innerText).toBe('Januari 2015');
 		});
 
+		function getDatehtml(va){
+			return va.html().replace(/<span class="placeholder">/g,'').replace(/<\/span>/g,'');
+		}
+
 		it('should correctly display active date', function() {
 			var elm = compileDirective('default');
-			angular.element(elm.find('input')[0]).triggerHandler('focus');
+			angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
 			var date = new Date(2014,11,30);
 			scope.$digest();
-			expect(sandboxEl.find('input:first').val()).toBe(date.getDate() + '/'+('0'+(date.getMonth() + 1)).slice(-2) + '/'+ date.getFullYear() );
+			expect(getDatehtml(sandboxEl.find('div.faux-input:first'))).toBe(date.getDate() + '/'+('0'+(date.getMonth() + 1)).slice(-2) + '/'+ date.getFullYear() );
 		});
 
 		it('should correctly select a new date', function() {
 			var elm = compileDirective('default');
-			angular.element(elm.find('input')[0]).triggerHandler('focus');
+			angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
 			angular.element(sandboxEl.find('tr td button:contains(18)')[0]).triggerHandler('click');
 			var date = new Date(2014,11,18);
-			expect(sandboxEl.find('input:first').val()).toBe(date.getDate() + '/'+('0'+(date.getMonth()+1)).slice(-2) + '/'+ date.getFullYear() );
-		});
-
-		it('should invalidate input with non-existing manually typed value', function() {
-			var elm = compileDirective('default');
-			angular.element(elm.find('input')[0]).triggerHandler('focus');
-			elm.find('input:first').val('02/31/14');
-			angular.element(elm.find('input')[0]).triggerHandler('change');
-			angular.element(elm.find('input')[0]).triggerHandler('blur');
-			scope.$digest();
-			expect(scope.dates.first).toBeNull();
+			expect(getDatehtml(sandboxEl.find('div.faux-input:first'))).toBe(date.getDate() + '/'+('0'+(date.getMonth()+1)).slice(-2) + '/'+ date.getFullYear() );
 		});
 
 		it('should correctly change when scope changes', function() {
@@ -99,13 +93,14 @@ describe('datepicker range', function() {
 			scope.dates.first = new Date(2015,0,20);
 			scope.dates.last = new Date(2015,1,20);
 			scope.$digest();
-			expect(sandboxEl.find('input:first').val()).toBe('20/01/2015');
-			expect(sandboxEl.find('input:last').val()).toBe('20/02/2015');
+			expect(getDatehtml(sandboxEl.find('div.faux-input:first'))).toBe('20/01/2015');
+			expect(getDatehtml(sandboxEl.find('div.faux-input:last'))).toBe('20/02/2015');
 		});
 
 		it('should correctly change when next month is clicked', function() {
 			var elm = compileDirective('default');
-
+			angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
+			scope.$digest();
 			expect(sandboxEl.find('div label')[0].innerText).toBe('December 2014');
 			expect(sandboxEl.find('div label')[1].innerText).toBe('Januari 2015');
 			elm.find('button.btn.pull-left:last').triggerHandler('click');
@@ -121,27 +116,27 @@ describe('datepicker range', function() {
       scope.dates.first = new Date(2014, 0, 31);
 
       scope.$digest();
-      angular.element(elm.find('input')[0]).triggerHandler('focus');
+      angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
       for (var nextMonth = 1; nextMonth < 24; nextMonth++) {
         // should show next month view when selecting next month button
         elm.find('button.btn.pull-left:last').triggerHandler('click');
         expect(sandboxEl.find('div label')[0].innerText).toBe(dateCalculator.format(new Date(2014, nextMonth, 1), 'MMMM yyyy'));
         expect(sandboxEl.find('div label')[1].innerText).toBe(dateCalculator.format(new Date(2014, nextMonth+1, 1), 'MMMM yyyy'));
-      }
+     }
     });
 
 		it('should correctly change view month when selecting previous month button', function() {
 			var elm = compileDirective('default');
       // set date to last day of December
-      scope.dates.first = new Date(2015, 11, 31);
+      scope.dates.first = new Date(2016, 11, 31);
       scope.$digest();
-      angular.element(elm.find('input')[0]).triggerHandler('focus');
-
+      angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
+			angular.element(elm.find('div.faux-input')[0]).triggerHandler('click');
       for (var previousMonth = 10; previousMonth > -12; previousMonth--) {
         // should show previous month view when selecting previous month button
         elm.find('button.btn.pull-left:first').triggerHandler('click');
-        expect(sandboxEl.find('div label')[0].innerText).toBe(dateCalculator.format(new Date(2015, previousMonth, 1), 'MMMM yyyy'));
-        expect(sandboxEl.find('div label')[1].innerText).toBe(dateCalculator.format(new Date(2015, previousMonth+1, 1), 'MMMM yyyy'));
+        expect(sandboxEl.find('div label')[0].innerText).toBe(dateCalculator.format(new Date(2016, previousMonth, 1), 'MMMM yyyy'));
+        expect(sandboxEl.find('div label')[1].innerText).toBe(dateCalculator.format(new Date(2016, previousMonth+1, 1), 'MMMM yyyy'));
       }
     });
 
@@ -151,25 +146,10 @@ describe('datepicker range', function() {
 			daybefore.setDate(today.getDate()-1);
 			scope.dates.first = daybefore;
 			scope.$digest();
-			angular.element(elm.find('input')[0]).triggerHandler('focus');
+			angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
+			console.log(sandboxEl.find('button.btn-primary span')[0])
 			expect(today.getDate()+'').toBe(sandboxEl.find('button.btn-warning span').text());
 		});
-
-		it('should correctly have number of days in month', function() {
-			var elm = compileDirective('default');
-      // set date to last day of January
-      scope.dates.first = new Date(2014, 0, 1);
-
-      scope.$digest();
-      angular.element(elm.find('input')[0]).triggerHandler('focus');
-      for (var nextMonth = 1; nextMonth < 24; nextMonth++) {
-        // should show next month view when selecting next month button
-        elm.find('button.btn.pull-left:last').triggerHandler('click');
-        expect(sandboxEl.find('table:first tr span:last').text()).toBe(new Date(2014, nextMonth+1, 0).getDate()+'');
-        expect(sandboxEl.find('table:last tr span:last').text()).toBe(new Date(2014, nextMonth+2, 0).getDate()+'');
-
-      }
-    });
 
 	});
 
@@ -177,7 +157,7 @@ describe('with no dates', function() {
 	it('should open on focus', function() {
 		var elm = compileDirective('no-dates');
 		expect(sandboxEl.find('.datepickerrange').css('display')).toBe('none');
-		angular.element(elm.find('input')[0]).triggerHandler('focus');
+		angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
 		scope.$digest();
 		expect(sandboxEl.find('.datepickerrange').css('display')).toBe('block');
 	});
@@ -185,16 +165,16 @@ describe('with no dates', function() {
 	it('should close on blur', function() {
 		var elm = compileDirective('no-dates');
 		expect(sandboxEl.find('.datepickerrange').css('display')).toBe('none');
-		angular.element(elm.find('input')[0]).triggerHandler('focus');
+		angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
 		scope.$digest();
-		angular.element(elm.find('input')[0]).triggerHandler('blur');
+		angular.element(elm.find('div.faux-input')[0]).triggerHandler('blur');
 		scope.$digest();
 		expect(sandboxEl.find('.datepickerrange').css('display')).toBe('none');
 	});
 
 	it('should open with right months', function() {
 		var elm = compileDirective('no-dates');
-		angular.element(elm.find('input')[0]).triggerHandler('focus');
+		angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
 		scope.$digest();
 		expect(sandboxEl.find('div label')[0].innerText).toBe(dateCalculator.format(today,'mmmm yyyy'));
 		var monthLater = today.setMonth(today.getMonth()+1);
@@ -203,9 +183,9 @@ describe('with no dates', function() {
 
 	it('when has error on first input do noting', function() {
 		var elm = compileDirective('no-dates');
-		angular.element(elm.find('input')[0]).triggerHandler('focus');
+		angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
 		elm.find('input:first').val('02/31/14');
-		angular.element(elm.find('input')[0]).triggerHandler('change');
+		angular.element(elm.find('div.faux-input')[0]).triggerHandler('change');
 		scope.$digest();
 		expect(sandboxEl.find('input:first').val()).toBe('02/31/14');
 		expect(scope.dates.first).toBe(null);
@@ -213,9 +193,9 @@ describe('with no dates', function() {
 
 	it('when has error on first input blur be empty', function() {
 		var elm = compileDirective('no-dates');
-		angular.element(elm.find('input')[0]).triggerHandler('focus');
+		angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
 		elm.find('input:first').val('02/31/14');
-		angular.element(elm.find('input')[0]).triggerHandler('blur');
+		angular.element(elm.find('div.faux-input')[0]).triggerHandler('blur');
 		scope.$digest();
 		expect(sandboxEl.find('input:first').val()).toBe('');
 		expect(scope.dates.first).toBe(null);
@@ -223,9 +203,9 @@ describe('with no dates', function() {
 
 	it('when has error on last do noting', function() {
 		var elm = compileDirective('no-dates');
-		angular.element(elm.find('input')[0]).triggerHandler('focus');
+		angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
 		elm.find('input:last').val('02/31/14');
-		angular.element(elm.find('input')[0]).triggerHandler('change');
+		angular.element(elm.find('div.faux-input')[0]).triggerHandler('change');
 		scope.$digest();
 		expect(sandboxEl.find('input:last').val()).toBe('02/31/14');
 		expect(scope.dates.first).toBe(null);
