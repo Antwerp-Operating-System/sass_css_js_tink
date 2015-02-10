@@ -254,8 +254,9 @@
 
 		$(window).bind('hashchange', function() {
 			if(!clickCheck){
-				toggleAccordion(currentTogggleElem);
-				currentActiveElement.removeClass(options.activeCss);
+				setActiveElemnt();
+				//toggleAccordion(currentTogggleElem);
+				//currentActiveElement.removeClass(options.activeCss);
 			}
 			clickCheck = 0;
 		});
