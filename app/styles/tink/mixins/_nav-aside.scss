@@ -100,6 +100,10 @@
           }
         }
 
+        &:focus {
+          box-shadow: none;
+        }
+
         > *, {
           display: table-cell;
           vertical-align: middle;
