@@ -144,7 +144,7 @@ $hr-border:                   $gray-lighter !default; // Horizontal line color.
  */
 
 $code-color:                  $brand !default;
-$code-bg:                     lighten($brand, 54%) !default;
+$code-bg:                     lighten($code-color, 54%) !default;
 
 $kbd-color:                   $white !default;
 $kbd-bg:                      $gray-darker !default;
@@ -186,7 +186,7 @@ $state-success-text:             $brand-success !default;
 $state-success-bg:               lighten($brand-success, 48%) !default;
 $state-success-border:           darken(adjust-hue($state-success-bg, -10), 5%) !default;
 
-$state-info-text:                $brand !default;
+$state-info-text:                $brand-info !default;
 $state-info-bg:                  lighten($brand-info, 24%) !default;
 $state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%) !default;
 
@@ -422,16 +422,16 @@ $nav-aside-title-color:                         $gray-light !default;
 $nav-aside-link-color:                          lighten($gray-dark, 12%) !default;
 $nav-aside-link-hover-color:                    $brand !default;
 $nav-aside-link-hover-background-color:         rgba(0, 0, 0, .05) !default;
-$nav-aside-link-active-color:                   $brand !default;
+$nav-aside-link-active-color:                   $nav-aside-link-hover-color !default;
 $nav-aside-item-open-color:                     $body-bg !default;
 $nav-aside-badge-color:                         $gray-dark !default;
 $nav-aside-badge-background-color:              $gray-lighter !default;
-$nav-aside-badge-hover-color:                   $brand !default;
+$nav-aside-badge-hover-color:                   $nav-aside-link-hover-color !default;
 $nav-aside-badge-hover-background-color:        $white !default;
 $nav-aside-badge-active-color:                  $white !default;
-$nav-aside-badge-active-background-color:       $brand !default;
+$nav-aside-badge-active-background-color:       $nav-aside-link-hover-color !default;
 $nav-aside-badge-active-hover-color:            $white !default;
-$nav-aside-badge-active-background-hover-color: $brand !default;
+$nav-aside-badge-active-background-hover-color: $nav-aside-link-hover-color !default;
 
 
 
@@ -459,13 +459,13 @@ $datepicker-neutral-dark       : $gray-dark !default;
  * Callout
  */
 $callout-color                 : $brand !default;
-$callout-bgcolor               : lighten($brand, 50%);
+$callout-bgcolor               : lighten($callout-color, 50%);
 $callout-color-success         : $brand-success !default;
-$callout-bgcolor-success       : lighten($brand-success, 60%);
+$callout-bgcolor-success       : lighten($callout-color-success, 60%);
 $callout-color-warning         : $brand-warning !default;
-$callout-bgcolor-warning       : lighten($brand-warning, 45%);
+$callout-bgcolor-warning       : lighten($callout-color-warning, 45%);
 $callout-color-danger          : $brand-danger !default;
-$callout-bgcolor-danger        : lighten($brand-danger, 45%);
+$callout-bgcolor-danger        : lighten($callout-color-danger, 45%);
 
 //== Navbar
 //

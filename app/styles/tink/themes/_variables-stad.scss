@@ -14,8 +14,8 @@ $brand:                 					       #cf0039;
 $brand-light:           					       #f28b00;
 
 $nav-top-bg-color:      					       #333;
-$nav-aside-link-active-background-color: $brand-light;
-$nav-aside-link-hover-background-color:  lighten($brand-light, 42%);
+$nav-aside-link-hover-color:             $primary;
+// $nav-aside-link-hover-background-color:  lighten($nav-aside-link-hover-color, 48%);
 
 
 /**
@@ -31,7 +31,7 @@ $link-hover-color:                       lighten($link-color, 8%);
  * Code
  */
 $code-color:                             $primary;
-$code-bg:                                lighten($primary, 48%);
+$code-bg:                                lighten($primary, 51%);
 
 
 /**
@@ -44,3 +44,10 @@ $input-border-focus:                     $primary;
  * Buttons
  */
 $btn-primary-bg:                         $primary;
+
+
+
+/**
+ * Callouts
+ */
+$callout-color                 : $primary;
