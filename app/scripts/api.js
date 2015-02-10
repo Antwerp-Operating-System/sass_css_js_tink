@@ -24,8 +24,10 @@
 
 		var calculateHeight = function(){
 			if($(defaults.menuStr).length === 1){
-				var height = $(defaults.menuStr)[0].getBoundingClientRect().height;
-				$($(document)[0].body).css('padding-top',height+'px');
+				setTimeout(function(){
+					var height = $(defaults.menuStr)[0].getBoundingClientRect().height;
+					$($(document)[0].body).css('padding-top',height+'px');
+				},10)
 			}
 		};
 
