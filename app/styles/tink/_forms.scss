@@ -568,14 +568,16 @@ output {
  input[type="checkbox"],
  input[type="radio"] {
   + label {
-      background-color: rgba(237, 236, 236, 1); // light grey
+      background-color: rgba(237, 236, 236, .7); // light grey
+      color: rgba(0, 0, 0, .7);
       display: block;
       padding: rem(7 5 7 45);
       margin: rem(6 0);
       cursor: pointer;
+      transition: background-color linear $animation-speed;
     &:before {
        left: rem(9);
-       top: rem(4);
+       top: rem(5.8);
        border: none; // removing border like defined in 'Focus' design
 
           @media screen and (min-width: $screen-sm) {
@@ -585,34 +587,48 @@ output {
     }
   }
 
+    &:hover:enabled:not(:checked) {
+       + label {
+            background-color: rgba(237, 236, 236, 1); // light grey
+            color: rgba(0, 0, 0, 1);
+        }
+    }
+
+    &:disabled {
+       + label {
+            cursor: not-allowed;
+            background-color: rgba(237, 236, 236, 1); // light grey
+            color: rgba(0, 0, 0, 1);
+        }
+    }
+
     &:checked {
        + label {
-            background-color:  $brand;//rgba(0, 179, 220, 1); // active blue defined in 'Focus' design
+            background-color:  $brand;
             color: #fff;
         }
     }
+
+    &:focus,
+    &:active:not(:disabled) {
+       + label {
+            box-shadow: 0 0 4px 1px rgba($brand-light, .75  );
+        }
+    }
+
   }
 
  input[type="checkbox"]
    + label {
 
     &:after {
-     left: rem(13);
-      top: rem(8);
+     left: rem(10);
+      top: rem(6);
+        @media screen and (min-width: $screen-sm) {
+            left: rem(13);
+            top: rem(8);
+           }
     }
   }
  }
 }
-
-
-
-/*
-
-to add:
- hover state
- active state
- focus state
- transition
- no drop cursor on disabled
-
-*/
