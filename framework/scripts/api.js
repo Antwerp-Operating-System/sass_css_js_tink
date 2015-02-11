@@ -24,8 +24,10 @@
 
 		var calculateHeight = function(){
 			if($(defaults.menuStr).length === 1){
-				var height = $(defaults.menuStr)[0].getBoundingClientRect().height;
-				$($(document)[0].body).css('padding-top',height+'px');
+				setTimeout(function(){
+					var height = $(defaults.menuStr)[0].getBoundingClientRect().height;
+					$($(document)[0].body).css('padding-top',height+'px');
+				}, 100);
 			}
 		};
 
@@ -164,15 +166,15 @@
 			activeCss:'active',
 			topNav:'nav.nav-top',
 			openCss:'open',
-			accordion:false,
-			gotoPage:false,
+			accordion:true,
+			gotoPage:true,
 			speed:200
 		};
 
 		var options;
 		var clickCheck = 0;
 		var registerClick = function(){
-			$( '.nav-aside-list li a' ).each(function() {
+			$( '.nav-aside-section li a' ).each(function() {
 				$(this).on('click',function(){
 					setActiveElemnt($(this).parent());
 					clickCheck = 1;
@@ -234,7 +236,7 @@
 
 		var calculateHeight = function(){
 
-			$( '.nav-aside-list > li' ).each(function() {
+			$( '.nav-aside-section ul > li' ).each(function() {
 				var ulHelper = $(this).find('ul');
 				if(ulHelper.length){
 					$(this).addClass('can-open');
@@ -242,19 +244,21 @@
 						$(this).find('a')[0].href ='javascript:void(0);';
 					}
 				}
-				/*if(currentTogggleElem){
+
+				/* if(currentTogggleElem){
 					var totalHeight = 0;
 					currentTogggleElem.find('a').each(function() {
 						totalHeight += $(this)[0].getBoundingClientRect().height;
 					});
-		}*/
-	});
+				} */
+			});
 		};
 
 		$(window).bind('hashchange', function() {
 			if(!clickCheck){
-				toggleAccordion(currentTogggleElem);
-				currentActiveElement.removeClass(options.activeCss);
+				setActiveElemnt();
+				//toggleAccordion(currentTogggleElem);
+				//currentActiveElement.removeClass(options.activeCss);
 			}
 			clickCheck = 0;
 		});
@@ -364,8 +368,10 @@
 
 			options.menuStr = $(element);
 
-			if(options.gotoPage){
-				options.accordion = true;
+			if(options.autoSelect){
+				options.gotoPage = true;
+			}else{
+				options.gotoPage = false;
 			}
 
 			// map urls with elements

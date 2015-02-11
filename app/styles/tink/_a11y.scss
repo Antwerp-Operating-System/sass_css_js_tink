@@ -1,66 +1,60 @@
-/* A11Y 
+/* A11Y
 *  Accessibility
 *  refers to the accessibility of a computer system to all people, regardless of disability or severity of impairment.
 */
 
 /* set up hidden tooltip */
 [role="tooltip"] {
-    display: none;
-    padding: 0.25em;
-    margin: 0;
-    color: #fff;
-    background: #EF8100;
-    width: 100%;
-    z-index: 2;
+
 }
 
 /* reveal associated tooltip on focus of preceeding input */
 input:focus + [role="tooltip"] {
-    display: block;
-    position: absolute;
-    top: 100%;
+  display: block;
+  position: absolute;
+  top: 100%;
 }
 
 
 /* 4. Simple tab interface */
 
 a[role="tab"] {
-    background: #1928CF;
-    color: #fff;
-    padding: 0.75em 0.33em;
-    display: inline-block;
-    margin-right: 0.25em;
+  background: #1928CF;
+  color: #fff;
+  padding: 0.75em 0.33em;
+  display: inline-block;
+  margin-right: 0.25em;
 }
 
 a[aria-selected], a[role="tab"]:focus {
-    background: #fff;
-    color: #222;
-    border: 2px solid #222;
-    border-bottom: 0;
-    position: relative;
-    top: 2px;
+  background: #fff;
+  color: #222;
+  border: 2px solid #222;
+  border-bottom: 0;
+  position: relative;
+  top: 2px;
 }
 
 a[role="tab"]:focus {
-    background: #eee;
+  background: #eee;
 }
 
 [role="tablist"] li {
-    display: inline-block;
-    list-style: none;
+  display: inline-block;
+  list-style: none;
 }
 
 [role="tabpanel"] {
-    margin-top: 0;
-    padding: 1.5em;
-    border: 2px solid #222;
+  margin-top: 0;
+  padding: 1.5em;
+  border: 2px solid #222;
 }
 
 [role="tabpanel"][aria-hidden="true"] {
-    display: none;
+  display: none;
 }
 
 [role="tabpanel"]:focus {
-    background: #eee;
-    outline: thin dotted;
+  background: #eee;
+  outline: thin dotted;
 }

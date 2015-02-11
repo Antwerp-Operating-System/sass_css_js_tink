@@ -3,7 +3,8 @@
  * --------------------------------------------------
  * - navigation behaviour states
  * - top navigation
- * - left navigation
+ * - side navigation:
+ *   - left navigation
  * - bar
  */
 
@@ -13,6 +14,7 @@
 /**
  * HTML behaviour when side navigation is open
  */
+
 html.nav-left-open {
 
   body {
@@ -36,6 +38,7 @@ html.nav-left-open {
  * Default behaviour is that there is a fixed nav-top,
  * so we need to 'fix' the body's padding
  */
+
 body {
   padding-top: rem($nav-top-height);
 
@@ -94,6 +97,7 @@ body {
   @include bar($nav-top-height, $nav-top-bg-color, $nav-top-color, $nav-top-link-color, $nav-top-link-hover-color, $nav-top-link-bg-hover-color, $nav-top-padding, false);
   position: fixed;
   top: 0;
+  transition: height $animation-speed linear;
   width: 100%;
   z-index: layer('nav-top');
 
@@ -108,7 +112,7 @@ body {
     float: left;
     height: rem($nav-top-height);
     line-height: rem($nav-top-height);
-    overflow: auto;
+    overflow: hidden;
     position: relative;
     z-index: layer('base');
 
@@ -149,6 +153,7 @@ body {
 
       &.toggle {
         cursor: pointer;
+
         @include mq($screen-sm) {
           display: none;
         }
@@ -173,21 +178,253 @@ body {
       font-weight: 700;
       line-height: rem($nav-top-height);
       margin: 0;
+
+      span {
+        font-weight: 400;
+      }
     }
   }
 }
 
 
+
+
+/**
+ * Side navigation
+ */
+
+.nav-aside {
+  background: $nav-aside-bg-color;
+  bottom: 0;
+  position: fixed;
+  top: rem($nav-top-height);
+  transition: transform $animation-speed linear;
+  width: rem($nav-aside-width);
+  z-index: layer('nav-aside');
+
+  /**
+   * Styling for semi-transparent line
+   */
+  &:before {
+    background: rgba(0, 0, 0, .12);
+    bottom: 0;
+    content: '';
+    height: 100%;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    width: 2px;
+    z-index: layer("pseudo");
+  }
+
+  /**
+   * For semantics & correct scrolling behaviour
+   */
+  > aside {
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: -blackberry-touch;
+  }
+
+  ul {
+    @extend .list-unstyled;
+  }
+
+  &-title {
+    color: $nav-aside-title-color;
+    font-size: 90%;
+    font-weight: 600;
+    margin-top: rem($nav-aside-vertical-padding / 2);
+    padding: rem(0 $nav-aside-horizontal-padding);
+    text-transform: uppercase;
+
+    &:first-letter {
+      font-size: 110%;
+    }
+
+    + ul {
+      margin-top: rem(-$nav-aside-vertical-padding);
+    }
+  }
+
+  &-section {
+    padding: rem($nav-aside-vertical-padding 0);
+    position: relative;
+
+    /**
+     * section bottom border
+     */
+    &:not(:last-child) {
+      &:after {
+        background: $nav-aside-section-border-color;
+        bottom: 0;
+        content: '';
+        height: 1px;
+        left: rem($nav-aside-horizontal-padding);
+        position: absolute;
+        right: rem($nav-aside-horizontal-padding);
+      }
+    }
+
+    /**
+     * Menu: all levels
+     */
+    li {
+      a {
+        color: $nav-aside-link-color;
+        display: table;
+        padding: rem($nav-aside-vertical-padding $nav-aside-horizontal-padding);
+        text-decoration: none;
+        width: 100%;
+
+        &:hover,
+        &:active,
+        &:focus {
+          background-color: $nav-aside-link-hover-background-color;
+          color: $nav-aside-link-hover-color;
+
+          .badge {
+            background-color: $nav-aside-badge-hover-background-color;
+            color: $nav-aside-badge-hover-color;
+          }
+        }
+
+        &:focus {
+          box-shadow: none;
+        }
+
+        > *, {
+          display: table-cell;
+          vertical-align: middle;
+        }
+
+        > i {
+          padding: rem(1 10 0 0);
+        }
+      }
+
+      &.active {
+        a {
+          color: $nav-aside-link-active-color;
+          font-weight: 700;
+
+          + ul {
+            a {
+              color: $nav-aside-link-color;
+              font-weight: normal;
+
+              &:hover,
+              &:active,
+              &:focus {
+                background-color: $nav-aside-link-hover-background-color;
+                color: $nav-aside-link-hover-color;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    /**
+     * Menu first level
+     */
+    > ul {
+      > li {
+        border-bottom: 1px solid transparent;
+        height: auto;
+        overflow: hidden;
+        position: relative;
+
+        &.can-open {
+          &:before {
+            content: "\f0d7";
+            font-family: FontAwesome;
+            font-style: normal;
+            font-weight: normal;
+            pointer-events: none;
+            position: absolute;
+            right: rem($nav-aside-horizontal-padding);
+            text-decoration: inherit;
+            top: rem($nav-aside-vertical-padding);
+            transition: color $animation-speed linear, transform $animation-speed linear;
+            z-index: layer('pseudo');
+          }
+
+          &.open {
+            border-bottom: 1px solid $nav-aside-bg-color;
+            background: $nav-aside-item-open-color;
+
+            &:before {
+              transform: rotate(180deg);
+            }
+
+            > a {
+              font-weight: 700;
+            }
+          }
+
+          > a {
+            padding-right: rem(30);
+          }
+        }
+      }
+
+
+      /**
+       * Menu second level
+       */
+
+      ul {
+        display: none;
+
+        li {
+          a {
+            padding: rem($nav-aside-item-vertical-padding $nav-aside-horizontal-padding $nav-aside-item-vertical-padding (2 * $nav-aside-horizontal-padding));
+          }
+
+          &.active {
+            a {
+              &:hover,
+              &:active,
+              &:focus {
+                .badge {
+                  background: $nav-aside-badge-active-background-hover-color;
+                  color: $nav-aside-badge-active-hover-color;
+                }
+              }
+            }
+
+            .badge {
+              background: $nav-aside-badge-active-background-color;
+              color: $nav-aside-badge-active-color;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .badge {
+    background-color: $nav-aside-badge-background-color;
+    color: $nav-aside-badge-color;
+    float: right;
+    margin-top: rem(5.5 - $badge-padding-vertical);
+    transition: background $animation-speed linear, color $animation-speed linear;
+  }
+}
+
+
+
+
 /**
  * Left navigation
+ * (add-on for .nav-aside)
  */
 
 .nav-left {
-  @include nav-aside();
   left: 0;
   transform: translate(rem(-$nav-aside-width), 0);
-
-  transition: -webkit-transform $animation-speed linear; // There's a bug in the autoprefixer which prevents it from
   transition: transform $animation-speed linear;
 
   @include mq($screen-sm) {
@@ -199,161 +436,6 @@ body {
   }
 }
 
-.nav-aside-list {
-  height: 100%;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-  -webkit-overflow-scrolling: -blackberry-touch;
-
-  .badge {
-    background-color: $nav-aside-badge-background-color;
-    color: $nav-aside-badge-color;
-    float: right;
-  }
-
-
-  /**
-   * All levels
-   */
-
-  li {
-    transition: height $animation-speed linear;
-
-    a {
-      color: $nav-aside-link-color;
-      display: table;
-      text-decoration: none;
-      width: 100%;
-
-      &:hover,
-      &:active,
-      &:focus {
-        background: rgba(0, 0, 0, .05);
-        box-shadow: none;
-        color: $nav-aside-link-hover-color;
-
-        .badge {
-          background-color: $nav-aside-badge-hover-color;
-          color: $nav-aside-badge-hover-text-color;
-        }
-      }
-
-      > *, {
-        display: table-cell;
-        vertical-align: top;
-      }
-    }
-
-    i {
-      padding: rem(4 10 0 0);
-    }
-
-    &.open {
-      height: auto;
-    }
-
-    &.active {
-      > a {
-        background-color: $nav-aside-link-active-background-color;
-        color: $nav-aside-link-active-color;
-
-        .badge {
-          background-color: $nav-aside-badge-active-color;
-          color: $nav-aside-badge-active-text-color;
-        }
-      }
-    }
-
-    &.open,
-    &.active {
-      background: $nav-aside-item-open-color;
-
-      ul {
-        li {
-          a {
-            border-left: rem(15) solid $nav-aside-item-open-color;
-          }
-        }
-      }
-    }
-  }
-
-
-  /**
-   * One level deep
-   */
-
-  > li {
-    display: block;
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-
-    > a {
-      border-top: 1px solid $nav-aside-item-border-color;
-      font-weight: 700;
-      padding: rem(($nav-aside-item-height - ($line-height-computed)) / 2);
-      width: 100%;
-    }
-
-    &:first-child {
-      > a {
-        border-top-color: rgba(0, 0, 0, .1);
-      }
-    }
-
-    &:last-child {
-      border-bottom: 1px solid $nav-aside-item-border-color;
-    }
-
-    &.can-open {
-      &:before {
-        content: "\f0d7";
-        font-family: FontAwesome;
-        font-style: normal;
-        font-weight: normal;
-        pointer-events: none;
-        position: absolute;
-        right: rem(($nav-aside-item-height - ($line-height-computed)) / 2);
-        text-decoration: inherit;
-        top: rem(($nav-aside-item-height - ($line-height-computed)) / 2 + 1);
-        transition: color $animation-speed linear, transform $animation-speed linear;
-        z-index: layer('pseudo');
-      }
-
-      &.open {
-        &:before {
-          transform: rotate(180deg);
-        }
-      }
-
-      > a {
-        padding-right: rem(30);
-      }
-    }
-
-    &.active {
-      &:before {
-        color: $nav-aside-link-active-color;
-      }
-    }
-  }
-
-
-  /**
-   * Two levels deep
-   */
-
-  ul {
-    display:none;
-
-    a {
-      border-left: rem(15) solid $nav-aside-bg-color;
-      font-weight: 600;
-      padding: rem((($nav-aside-subitem-height - $line-height-computed) / 2) 15);
-    }
-  }
-}
 
 
 
