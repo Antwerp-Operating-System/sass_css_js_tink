@@ -204,24 +204,34 @@ this.closeGroup = function(elem){
 }]);
 ;'use strict';
 angular.module('tink.datepicker', [])
-.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply) {
+.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply','$window',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply,$window) {
   return {
     restrict:'EA',
     require:['ngModel','?^form'],
     replace:true,
-    priority:99,
     templateUrl:'templates/tinkDatePickerInput.html',
     scope:{
       ngModel:'=?',
-      required:'@?'
+      minDate:'=?',
+      maxDate:'=?',
     },
     controller:function($scope,$attrs){
       $scope.dynamicName = $attrs.name;
-      $scope.required = $attrs.required;
+      $scope.requiredVal = false;
+      //$scope.mindate = new Date();
     },
-    link:function(scope,element,attr,ctrl){
-      ctrl = ctrl[0];
+    compile: function(template,$attr) {
+      if($attr.required){
+        $attr.required = false;
+        template.find('input').attr('data-require',true);
+      }
+      return {
+        pre:function(){},
+        post:function(scope,element,attr){
 
+      //var ctrl = element.controller('ngModel');
+      //ctrls[1].$removeControl(ctrls[1]['single']);
+      //ctrls[1].$removeControl(ctrls[0])
       scope.opts = attr;
       var input = element.find('div.faux-input');
       var clickable = element.find('.datepicker-icon');
@@ -268,16 +278,29 @@ angular.module('tink.datepicker', [])
         $directive.viewDate = newVal;
       });
 
+      // -- check if we are using a touch device  --/
+     var isDateSupported = function() {
+        var i = document.createElement('input');
+        i.setAttribute('type', 'date');
+        return i.type !== 'text';
+      };
+
+     var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
+     var isTouch = ('createTouch' in $window.document) && isNative && isDateSupported();
 
       clickable.bind('mousedown touch',function(){
-        safeApply(scope,function(){
-          if($directive.open){
-            scope.hide();
-          }else{
-            scope.$show();
-            content.focus();
-          }
-        });
+        if(isTouch){
+          element.find('input[type=date]:first').click();
+        }else{
+          safeApply(scope,function(){
+            if($directive.open){
+              scope.hide();
+            }else{
+              scope.$show();
+              content.focus();
+            }
+          });
+        }
         return false;
       });
 
@@ -307,14 +330,24 @@ angular.module('tink.datepicker', [])
         }else{
           $directive.mode = 0;
         }
+        setMode($directive.mode);
+        scope.build();
+      };
+
+      function setMode(mode){
+        if(mode >= 0 && mode <=2){
+          $directive.mode = mode;
+        }else{
+          $directive.mode = 0;
+        }
         $directive.pane = {};
         switch($directive.mode){
           case 0: $directive.pane.month = 1; break;
           case 1: $directive.pane.month = 12; break;
           case 2: $directive.pane.year = 12; break;
         }
-        scope.build();
-      };
+
+      }
 
       scope.hide = function(){
         if(copyEl){
@@ -324,16 +357,24 @@ angular.module('tink.datepicker', [])
         }
       };
 
+      // function setDirty(ctrl){
+      //   ctrl.$dirty = true;
+      //   ctrl.$pristine = false;
+      // }
+
       scope.$select = function(date){
       $directive.viewDate = date;
         if($directive.mode === 0){
-          ctrl.$setViewValue(date);
+          //ctrls[1]['single'].$setViewValue('20/01/1992');
+          scope.ngModel = date;
+          //console.log(ctrls[1]['single'])
           //input.val(dateCalculator.formatDate(date, options.dateFormat))
           //ngModel =
           scope.hide();
-          content.blur();
+          setTimeout(function(){ content.blur(); }, 0);
         }else if($directive.mode >0){
           $directive.mode -= 1;
+          setMode($directive.mode);
           scope.build();
         }
       };
@@ -341,24 +382,72 @@ angular.module('tink.datepicker', [])
       content.blur(function(){
         scope.hide();
       });
+      scope.pane={prev:0,next:0};
       scope.build = function() {
         if($directive.viewDate === null || $directive.viewDate === undefined){
           $directive.viewDate = new Date();
         }
+
+        if(checkBefore($directive.viewDate,scope.minDate)){
+          scope.pane.prev = 1;
+          $directive.viewDate = new Date(scope.minDate);
+        }else{
+          scope.pane.prev = 0;
+        }
+        if(checkAfter($directive.viewDate,scope.maxDate)){
+          scope.pane.next = 1;
+          $directive.viewDate = new Date(scope.maxDate);
+        }else{
+          scope.pane.next = 0;
+        }
+
           if($directive.mode === 1){
             scope.title = dateCalculator.format($directive.viewDate, 'yyyy');
-            scope.rows =  calView.monthInRows($directive.viewDate);
+            scope.rows =  calView.monthInRows($directive.viewDate,scope.minDate,scope.maxDate);
           }
           if($directive.mode === 0){
             scope.title = dateCalculator.format($directive.viewDate, options.yearTitleFormat);
-            scope.rows =  calView.daysInRows($directive.viewDate,$directive.selectedDate);
+            scope.rows =  calView.daysInRows($directive.viewDate,$directive.selectedDate,scope.minDate,scope.maxDate);
           }
           if($directive.mode === 2){
             var currentYear = parseInt(dateCalculator.format($directive.viewDate, 'yyyy'));
             scope.title = (currentYear-11) +'-'+ currentYear;
-            scope.rows =  calView.yearInRows($directive.viewDate);
+            scope.rows = calView.yearInRows($directive.viewDate,scope.minDate,scope.maxDate);
+            //setMode(1);
           }
       };
+
+      function checkBefore(date,before){
+        if(!angular.isDate(date)){
+          return false;
+        }
+        if(!angular.isDate(before)){
+          return false;
+        }
+        var copyDate = new Date(date.getFullYear(),date.getMonth(),1);
+        var copyBefore = new Date(before.getFullYear(),before.getMonth(),1);
+
+        if(dateCalculator.dateBeforeOther(copyBefore,copyDate)){
+          return true;
+        }
+        return false;
+
+      }
+      function checkAfter(date,after){
+        if(!angular.isDate(date)){
+          return false;
+        }
+        if(!angular.isDate(after)){
+          return false;
+        }
+        var copyDate = new Date(date.getFullYear(),date.getMonth(),1);
+        var copyafter = new Date(after.getFullYear(),after.getMonth(),1);
+
+        if(!dateCalculator.dateBeforeOther(copyafter,copyDate)){
+          return true;
+        }
+        return false;
+      }
 
       var fetchPromises =[];
       // -- To load the template for the popup but we can change this ! no html file is better
@@ -394,25 +483,40 @@ angular.module('tink.datepicker', [])
 
 
     }
+      };
+    }
   };
 }]);;'use strict';
     angular.module('tink.datepickerRange', ['tink.dateHelper','tink.safeApply'])
-    .directive('tinkDatepickerRange',['$q', '$templateCache', '$http', 'calView', '$sce','$compile','dateCalculator','$window', function ($q, $templateCache, $http, calView, $sce,$compile,dateCalculator,$window) {
+    .directive('tinkDatepickerRange',['$q', '$templateCache', '$http', 'calView', '$sce','$compile','dateCalculator','$window','safeApply', function ($q, $templateCache, $http, calView, $sce,$compile,dateCalculator,$window,safeApply) {
       return {
         restrict: 'E',
         replace: true,
+        priority:0,
         require:['?^form'],
         templateUrl: 'templates/tinkDatePickerRangeInputs.html',
         controller:function($scope,$attrs){
           $scope.dynamicName = $attrs.name;
-          $scope.required = $attrs.required;
+          if(angular.isDefined($attrs.required)){
+            $scope.requiredVal = true;
+          }else{
+            $scope.requiredVal = false;
+          }
         },
         scope: {
           firstDate: '=?',
           lastDate: '=?',
-          required:'@?'
+          minDate:'=?',
+          maxDate:'=?',
         },
-        link: function postLink(scope, element,attrs,form) {
+        compile: function(template,$attr){
+          if($attr.required === ''){
+            template.find('input:first').attr('data-require',true);
+            template.find('input:last').attr('data-require',true);
+          }
+          return{
+            pre:function(){},
+            post:function postLink(scope, element,attrs,form) {
           var $directive = {
             open: false,
             focused: {firstDateElem: element.find('div[tink-format-input] div:first'), lastDateElem: element.find('div[tink-format-input] div:last')},
@@ -430,25 +534,34 @@ angular.module('tink.datepicker', [])
           }
 
           $directive.calendar.first.on('click',function(){
-            if($directive.open){
-              if($directive.focusedModel ==='firstDateElem'){
-                hide();
+            if(isTouch){
+              element.find('input[type=date]:first').click();
+            }else{
+              if($directive.open){
+                if($directive.focusedModel ==='firstDateElem'){
+                  hide();
+                }else{
+                  $directive.focused.firstDateElem.focus();
+                }
               }else{
                 $directive.focused.firstDateElem.focus();
               }
-            }else{
-              $directive.focused.firstDateElem.focus();
             }
           });
           $directive.calendar.last.on('click',function(){
-            if($directive.open){
-               if($directive.focusedModel ==='lastDateElem'){
-                hide();
+
+            if(isTouch){
+              element.find('input[type=date]:last').click();
+            }else{
+              if($directive.open){
+                 if($directive.focusedModel ==='lastDateElem'){
+                  hide();
+                }else{
+                  $directive.focused.lastDateElem.focus();
+                }
               }else{
                 $directive.focused.lastDateElem.focus();
               }
-            }else{
-              $directive.focused.lastDateElem.focus();
             }
           });
 
@@ -474,12 +587,11 @@ angular.module('tink.datepicker', [])
                scope.$select(scope.firstDate,null,true);
                buildView();
              }else{
-              checkValidity();
+                checkValidity();
              }
 
 
             });
-
             // Add a watch to know when input changes from the outside //
             scope.$watch('lastDate', function () {
             if(scope.lastDate !== null){
@@ -498,21 +610,36 @@ angular.module('tink.datepicker', [])
       dateFormat: 'dd/mm/yyyy'
     },
     fetchPromises = {};
+      scope.pane={prev:0,next:0};
 
             // -- This builds the view --/
             function buildView() {
+
+              if(checkBefore($directive.viewDate,scope.minDate)){
+                scope.pane.prev = 1;
+                $directive.viewDate = new Date(scope.minDate);
+              }else{
+                scope.pane.prev = 0;
+              }
+              if(checkAfter($directive.viewDate,scope.maxDate)){
+                scope.pane.next = 1;
+                $directive.viewDate = new Date(scope.maxDate);
+              }else{
+                scope.pane.next = 0;
+              }
 
                // -- Retrieve the elements we want to change ! we have to do this because we replace the tbodys !  --/
                $directive.tbody.firstDateElem = element.find('tbody')[0];
                $directive.tbody.lastDateElem = element.find('tbody')[1];
 
               // -- Create the first calendar --/
-              var htmlFirst = calView.createMonthDays($directive.viewDate, scope.firstDate, scope.lastDate,'prevMonth');
+              var htmlFirst = calView.createMonthDays($directive.viewDate, scope.firstDate, scope.lastDate,'prevMonth',scope.minDate,scope.maxDate);
                // -- Replace and COMPILE the nieuw calendar view  --/
                angular.element($directive.tbody.firstDateElem).replaceWith($compile( htmlFirst)( scope ));
 
                // -- Copy the viewDate ! COPY otherwhise you got problems, because of refenties and stuff ;-)  --/
                 var copyViewDate = new Date($directive.viewDate);
+
                // -- add a month  --/
                copyViewDate.setDate(5);
                copyViewDate.setMonth(copyViewDate.getMonth() + 1);
@@ -523,12 +650,46 @@ angular.module('tink.datepicker', [])
 
 
               // -- create the second view   --/
-              var htmlLast = calView.createMonthDays(copyViewDate, scope.firstDate, scope.lastDate,'nextMonth');
+              var htmlLast = calView.createMonthDays(copyViewDate, scope.firstDate, scope.lastDate,'nextMonth',scope.minDate,scope.maxDate);
                // -- compile and replace the second view   --/
                angular.element($directive.tbody.lastDateElem).replaceWith($compile( htmlLast)( scope ));
 
              }
 
+            function checkBefore(date,before){
+              if(!angular.isDate(date)){
+                return false;
+              }
+              if(!angular.isDate(before)){
+                return false;
+              }
+              var copyDate = new Date(date.getFullYear(),date.getMonth(),1);
+              var copyBefore = new Date(before.getFullYear(),before.getMonth(),1);
+
+              if(dateCalculator.dateBeforeOther(copyBefore,copyDate)){
+                return true;
+              }
+              return false;
+
+            }
+            function checkAfter(date,after){
+              if(!angular.isDate(date)){
+                return false;
+              }
+              if(!angular.isDate(after)){
+                return false;
+              }
+              var copyDate = new Date(date.getFullYear(),date.getMonth(),1);
+              var copyafter = new Date(after.getFullYear(),after.getMonth(),1);
+
+              if(dateCalculator.dateBeforeOther(copyDate,copyafter)){
+                return true;
+              }
+              return false;
+            }
+
+              var first =  element.find('#input:first').controller('ngModel');
+              var last = element.find('#input:last').controller('ngModel');
             // -- to change the month of the calender --/
             function nextMonth() {
               // -- add one month to the viewDate --/
@@ -631,6 +792,7 @@ angular.module('tink.datepicker', [])
               if ($directive.focusedModel !== null) {
                 if ($directive.focusedModel === 'firstDateElem') {
                   scope.firstDate = date;
+                  //first.$setViewValue(new Date())
                   if(!angular.isDate(scope.lastDate)){
                     if(!hardcoded){
                       setTimeout(function(){ $directive.focused.lastDateElem.focus(); }, 1);
@@ -651,8 +813,8 @@ angular.module('tink.datepicker', [])
                       setTimeout(function(){ $directive.focused.firstDateElem.focus(); }, 1);
                     }
                   }else{
-                    if(dateCalculator.dateBeforeOther(scope.firstDate,scope.lastDate)){
-                      scope.firstDate = null;
+                    if(!dateCalculator.dateBeforeOther(scope.lastDate,scope.firstDate)){
+                     scope.firstDate = null;
                       if(!hardcoded){
                         setTimeout(function(){ $directive.focused.firstDateElem.focus(); }, 1);
                       }
@@ -666,17 +828,30 @@ angular.module('tink.datepicker', [])
             };
 
             function checkValidity(){
-              if(scope.ctrlconst){
                 //scope.ctrlconst.$setValidity('required',true);
                 if(scope.firstDate === null && scope.lastDate !== null){
-                  scope.ctrlconst.$setValidity('firstdate',false);
+                  first.$setValidity('date-required',false);
                 }else if(scope.firstDate !== null && scope.lastDate === null){
-                  scope.ctrlconst.$setValidity('lastdate',false);
+                  last.$setValidity('date-required',false);
                 }else if(scope.firstDate === null && scope.lastDate === null){
-                  scope.ctrlconst.$setValidity('firstdate',true);
-                  scope.ctrlconst.$setValidity('lastdate',true);
+                  if(angular.isDefined(attrs.required)){
+                    first.$setValidity('date-required',false);
+                    last.$setValidity('date-required',false);
+                  }else{
+                    first.$setValidity('date-required',true);
+                    last.$setValidity('date-required',true);
+                  }
+                }else if(scope.firstDate !== null && scope.lastDate !== null){
+                  first.$setValidity('date-required',true);
+                  last.$setValidity('date-required',true);
                 }
-              }
+
+                if(first.$error.date){
+                  first.$setValidity('date-required',true);
+                }
+                if(last.$error.date){
+                  last.$setValidity('date-required',true);
+                }
             }
 
             function $onMouseDown (evt) {
@@ -715,6 +890,10 @@ angular.module('tink.datepicker', [])
                 templateElem.css({display: 'none'});
                 $directive.open = false;
                 $directive.focusedModel = null;
+                safeApply(scope,function(){
+                 // checkValidity();
+                });
+
               //}
             }
 
@@ -735,16 +914,16 @@ angular.module('tink.datepicker', [])
               angular.element($directive.focused.lastDateElem).bind('blur', hide);
 
               angular.element($directive.focused.firstDateElem).bind('focus', function () {
-                //safeApply(scope,function(){
+                safeApply(scope,function(){
                   $directive.focusedModel = 'firstDateElem';
-                //})
-                show();
+                  show();
+                });
               });
               angular.element($directive.focused.lastDateElem).bind('focus', function () {
-                //safeApply(scope,function(){
+                safeApply(scope,function(){
                   $directive.focusedModel = 'lastDateElem';
-                //})
-                show();
+                  show();
+                });
               });
             }
 
@@ -780,6 +959,10 @@ angular.module('tink.datepicker', [])
             }
 
           }
+
+        }
+
+          };
 
         }
       };
@@ -957,467 +1140,480 @@ angular.module('tink.dropdown', [])
     }
   };
 });;  'use strict';
-  angular.module('tink.format',[])
-  .directive('tinkFormatInput', ['dateCalculator','$window','safeApply',function (dateCalculator,$window,safeApply) {
+  angular.module('tink.format', [])
+  .directive('tinkFormatInput', ['dateCalculator', '$window', 'safeApply', function(dateCalculator, $window, safeApply) {
     return {
-      replace:true,
-      require:['ngModel','?^form'],
-      template:function(){
+      restrict: 'EA',
+      replace: true,
+      priority:99,
+      controller:'tinkFormatController',
+      scope:{
+        minDate:'=?',
+        maxDate:'=?'
+      },
+      require:['tinkFormatInput','ngModel','?^form'],
+      template: function() {
         var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
         var isTouch = ('createTouch' in $window.document) && isNative;
-        if(isTouch){
-          return '<input type="date"/>';
-        }else{
+        if (isTouch) {
+          return '<div><input id="input" type="date"/><div>';
+        } else {
           return '<div><div id="input" class="faux-input" contenteditable="true">{{placeholder}}</div></div>';
         }
       },
-      compile:function(template){
-        template.prop('type','date');
+      compile: function(template) {
+        template.prop('type', 'date');
         return {
-         pre: function() { },
-         post: function(scope,elem,attr,ctrl){
-      //var ctrl = elem.data('$ngModelController');
-      var forms = ctrl[1];
-      if(forms){
-        setTimeout(function(){ forms.$addControl(ctrl[0]); }, 1);
-      }
-      //elem.val('2015-01-11');
-      var controlNg = ctrl[0];
-      if(!attr.format || !attr.placeholder){
-        return;
-      }
-      var format = attr.format;
-      var placeholder = attr.placeholder;
-      var dateFormat ='dd/mm/yyyy';
-      scope.format = format;
-      scope.placeholder = placeholder;
-      var type ='';
-      if(angular.isDefined(attr.date)){
-        type = 'date';
-      }
-      var newVa = placeholder;
+          pre: function() {
+          },
+          post: function(scope, elem, attr, ctrl) {
 
-      String.prototype.replaceAt=function(index, character) {
-        return this.substr(0, index) + character + this.substr(index+character.length);
-      };
-      String.prototype.replaceRange=function(start,stop, value) {
-        return this.substr(0, start) + value.substr(start,stop-start) + this.substr(stop);
-      };
-      var ctrlForm;
+            // -- check if we are using a touch device  --/
+            var isDateSupported = function() {
+              var i = document.createElement('input');
+              i.setAttribute('type', 'date');
+              return i.type !== 'text';
+            };
 
-      if(attr.ctrlModel && forms){
-        ctrlForm = forms[scope[attr.ctrlModel]];
-      }else{
-        ctrlForm = controlNg;
-      }
-
-      function handleInput(key,cur){
-        var cursor;
-        var selection;
-        if(!cur){
-          cursor = getCaretSelection().start;
-          selection = getCaretSelection().end;
+            var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
+            var isTouch = ('createTouch' in $window.document) && isNative && isDateSupported();
+        //variable
+        var config = {
+          format: '00/00/0000',
+          placeholder: 'dd/mm/jjjj'
+        };
+        var dateformat;
+        if(isTouch){
+          dateformat = 'yyyy-mm-dd';
         }else{
-          cursor = cur.start;
-          selection = cur.end;
+          dateformat = 'dd/mm/yyyy';
         }
 
-        if(cursor > -1 && cursor < format.length){
-         if(format[cursor]==='0'){
-           if(charIs(key,'0')){
-            if(cursor !== selection){
-              newVa = newVa.replaceRange(cursor,selection,placeholder);
-            }
-            newVa = newVa.replaceAt(cursor,key);
-            cursor +=1;
-          }else{
-           newVa = newVa.replaceRange(cursor,selection,placeholder);
-         }
-       }else{
-         if(charIs(key,'0')){
-          handleInput(key,{start:cursor+1,end:selection+1});
-          return;
+        var element = elem.find('#input');
+        var ngControl = ctrl[1];
+        var controller = ctrl[0];
+        var form = ctrl[2];
+
+        var prefix = '';
+        if(angular.isDefined(attr.validName)){
+          setTimeout(function(){
+            if(form){
+            safeApply(scope,function(){
+              prefix = attr.validName;
+              form.$removeControl(ngControl);
+              ngControl.$name = prefix+ngControl.$name;
+              form.$addControl(ngControl);
+            });
+          }
+          }, 1);
         }else{
-         cursor +=1;
-       }
-     }
-   }
-   deleteVal = -1;
-   setValue(cursor);
- }
+          setTimeout(function(){
+            safeApply(scope,function(){
+              if(form){
+                form.$addControl(ngControl);
+              }
+            });
+          }, 1);
+        }
 
- function validValue(value){
+        function validFormat(date,format){
+          var dateObject;
+          if(angular.isDefined(date) && date !== null){
 
-  if(value){
-    if(value.length !== format.length) {return false;}
+            if(typeof date === 'string'){
+              if(date.length !== 10){ return false; }
 
-    for(var i =0; i < format.length; i++){
-      if(format[i] === '0' && !charIs(value[i],'0')){
+              if(!isTouch && !/^(?:(?:31(\/)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/.test(date)){return false;}
+
+              dateObject = dateCalculator.getDate(date, format);
+            }else if(angular.isDate(date)){
+              dateObject = date;
+            }else if(typeof date === 'function'){
+              return validFormat(date(),format);
+            }else {
+              return false;
+            }
+
+            return dateObject.toString()!=='Invalid Date';
+          }
+        }
+
+        var isRequired = (function(){
+          if(attr.require === 'true'){
+            return true;
+          }else{
+            return false;
+          }
+        })();
+
+        function checkValidity(value){
+          var stringValue;
+          if(angular.isDate(value)){
+            stringValue = dateCalculator.format(value,dateformat);
+          }else{
+            stringValue = value;
+          }
+
+
+          safeApply(scope,function(){
+
+            if(angular.isDate(scope.minDate)){
+              if(dateCalculator.dateBeforeOther(value,scope.minDate)){
+                ngControl.$setValidity('date-min',true);
+              }else{
+                ngControl.$setValidity('date-min',false);
+              }
+
+            }
+            if(angular.isDate(scope.maxDate)){
+              if(dateCalculator.dateBeforeOther(scope.maxDate,value)){
+                ngControl.$setValidity('date-max',true);
+              }else{
+                ngControl.$setValidity('date-max',false);
+              }
+            }
+
+            if(validFormat(stringValue,dateformat)){
+              ngControl.$setValidity('date',true);
+              if(isRequired){
+                ngControl.$setValidity('date-required',true);
+              }
+            }else if(stringValue !== config.placeholder && stringValue !== null){
+              ngControl.$setValidity('date',false);
+              ngControl.$setValidity('date-min',true);
+              ngControl.$setValidity('date-max',true);
+              if(isRequired){
+                ngControl.$setValidity('date-required',true);
+              }
+            }else{
+              ngControl.$setValidity('date',true);
+              ngControl.$setValidity('date-min',true);
+              ngControl.$setValidity('date-max',true);
+              if(isRequired){
+                ngControl.$setValidity('date-required',false);
+              }
+            }
+
+          });
+        }
+
+        controller.init(element,config,form,ngControl);
+          //format text going to user (model to view)
+          ngControl.$formatters.push(function(modelValue) {
+            if(!isTouch || isTouch && modelValue !== ''){
+              if(angular.isDate(modelValue)){
+                var date = dateCalculator.format(modelValue,dateformat);
+                controller.setValue(date,null,isTouch);
+              }else{
+                controller.setValue(null,null,isTouch);
+              }
+            }else{
+               controller.setValue('',null,isTouch);
+            }
+            checkValidity(modelValue);
+          });
+
+          //format text from the user (view to model)
+          ngControl.$parsers.unshift(function(value) {
+
+              if(isTouch && value === ''){
+                value = element.val();
+              }
+
+            if(value === null || value === ''){
+              return value;
+            }else if(typeof value === 'string'){
+              controller.setValue(value,null,isTouch);
+              return dateCalculator.getDate(value,dateformat);
+            }else{
+              return null;
+            }
+          });
+
+          //on blur update the model.
+          element.on('blur', function() {
+            safeApply(scope,function(){
+              var value;
+              if(isTouch){
+                value = element.val();
+              }else{
+                value = controller.getValue();
+              }
+              if(value === config.placeholder){
+                checkValidity(value);
+              }else{
+                var date = dateCalculator.getDate(value,dateformat);
+                if(date === null){
+                  checkValidity(value);
+                }else{
+                  checkValidity(date);
+                }
+              }
+              //var modelString = dateCalculator.format(ngControl.$modelValue,dateformat);
+              //if(value !== modelString){
+                ngControl.$setViewValue(value);
+                ngControl.$render();
+              //}
+            });
+          });
+      }
+    };
+
+  }
+};
+}])
+  .controller('tinkFormatController',function($scope){
+
+    var self = this;
+    var config;
+    var format;
+    var placeholder;
+    var newVa;
+    var deleteVal = -1;
+
+    self.init = function(element,config,form,ngControl){
+      self.element = element;
+      self.config = config;
+      self.form = form;
+      self.ngControl = ngControl;
+      loadAll();
+    };
+
+    function loadAll(){
+      config = self.config;
+      format = config.format;
+      placeholder = config.placeholder;
+      $scope.placeholder = placeholder;
+      newVa = placeholder;
+      self.element.bind('keydown', function(event) {
+        if (event.which === 8) {
+          handleBackspace();
+          return false;
+        } else if (event.which === 46) {
+          handleDelete();
+          return false;
+        }
+      });
+      self.element.bind('mousedown', function() {
+        setTimeout(function() {
+          if (placeholder === newVa) {
+            setCursor(0);
+          }
+        }, 1);
+      });
+
+      self.element.keypress(function(event) {
+        var key = String.fromCharCode(event.which);
+        handleInput(key);
         return false;
-      }else if(format[i] !== '0' && format[i] !== value[i]){
-        return false;
+      });
+
+      if(self.form){
+        //setTimeout(function(){ self.form.$addControl(self.ngControl); }, 0);
+      }
+
+    }
+    String.prototype.replaceAt = function(index, character) {
+      return this.substr(0, index) + character + this.substr(index + character.length);
+    };
+    String.prototype.replaceRange = function(start, stop, value) {
+      return this.substr(0, start) + value.substr(start, stop - start) + this.substr(stop);
+    };
+
+    function handleInput(key, cur) {
+      var cursor;
+      var selection;
+      if (!cur) {
+        cursor = getCaretSelection().start;
+        selection = getCaretSelection().end;
+      } else {
+        cursor = cur.start;
+        selection = cur.end;
+      }
+
+      if (cursor > -1 && cursor < format.length) {
+        if (format[cursor] === '0') {
+          if (charIs(key, '0')) {
+            if (cursor !== selection) {
+              newVa = newVa.replaceRange(cursor, selection, placeholder);
+            }
+            newVa = newVa.replaceAt(cursor, key);
+            cursor += 1;
+          } else {
+            newVa = newVa.replaceRange(cursor, selection, placeholder);
+          }
+        } else {
+          if (charIs(key, '0')) {
+            handleInput(key, {
+              start: cursor + 1,
+              end: selection + 1
+            });
+            return;
+          } else {
+            cursor += 1;
+          }
+        }
+      }
+      deleteVal = -1;
+      self.setValue(newVa,cursor);
+    }
+
+    function handleBackspace() {
+      var cursor = getCaretSelection();
+      if (cursor.start === cursor.end && cursor.start > 0) {
+        newVa = newVa.replaceAt(cursor.start - 1, placeholder[cursor.start - 1]);
+        self.setValue(newVa,cursor.start - 1);
+      } else {
+        newVa = newVa.replaceRange(cursor.start, cursor.end, placeholder);
+        self.setValue(newVa,cursor.start);
+      }
+
+    }
+
+    function handleDelete() {
+      var cursor = getCaretSelection();
+      if (cursor.start === cursor.end) {
+        var pos = cursor.start;
+        while (placeholder[cursor.start] === newVa[cursor.start] && cursor.start < placeholder.length - 1) {
+          cursor.start++;
+        }
+        newVa = newVa.replaceAt(cursor.start, placeholder[cursor.start]);
+        self.setValue(newVa,pos);
+
+      } else {
+        newVa = newVa.replaceRange(cursor.start, cursor.end, placeholder);
+        self.setValue(newVa,cursor.start);
       }
     }
-    return true;
-  }else {
-    return false;
+
+    function valueToHtml(value) {
+      var html = '';                // weekDaysLabels.join('</th><th class="dow text-center">') + '</th>')
+      var plHtml = '<span class="placeholder">';
+      var plEHtml = '</span>';
+      var open = 0;
+      for (var i = 0; i < placeholder.length; i++) {
+        if (placeholder[i] === value[i]) {
+          if (open === 0) {
+            html += plHtml + value[i];
+            open = 1;
+          } else if (open === 1) {
+            html += value[i];
+          }
+        } else {
+          if (open === 1) {
+            html += plEHtml + value[i];
+            open = 0;
+          } else {
+            html += value[i];
+          }
+        }
+      }
+      if (open === 1) {
+        html += plEHtml;
+      }
+      return html;
   }
-}
 
-function handleBackspace(){
-  var cursor = getCaretSelection();
-  if(cursor.start === cursor.end && cursor.start > 0 ){
-    newVa = newVa.replaceAt(cursor.start-1,placeholder[cursor.start-1]);
-    setValue(cursor.start-1);
-  }else{
-    newVa = newVa.replaceRange(cursor.start,cursor.end,placeholder);
-    setValue(cursor.start);
-  }
+  self.setValue = function(value,cur,force) {
 
-}
-var deleteVal=-1;
-
-function handleDelete(){
-  var cursor = getCaretSelection();
-  if(cursor.start === cursor.end){
-    var pos=cursor.start;
-    while(placeholder[cursor.start]===newVa[cursor.start] && cursor.start < placeholder.length-1){
-      cursor.start++;
-    }
-    newVa = newVa.replaceAt(cursor.start,placeholder[cursor.start]);
-    setValue(pos);
-
-  }else{
-    newVa = newVa.replaceRange(cursor.start,cursor.end,placeholder);
-    setValue(cursor.start);
-  }
-}
-
-var valueToHtml = function(value){
-  var html = '';
-        // weekDaysLabels.join('</th><th class="dow text-center">') + '</th>')
-  var plHtml = '<span class="placeholder">';
-  var plEHtml = '</span>';
-  var open = 0;
-  for(var i=0; i<placeholder.length;i++){
-    if(placeholder[i] === value[i]){
-      if(open ===0){
-        html += plHtml + value[i];
-        open = 1;
-      }else if( open === 1){
-        html += value[i];
+    if(!force){
+      if(value && value.length !== placeholder.length){
+        newVa = placeholder;
+      }else if(!value){
+        newVa = placeholder;
+      }else{
+        newVa = value;
       }
     }else{
-      if(open === 1){
-        html += plEHtml + value[i];
-        open = 0;
-      }else{
-        html += value[i];
+      newVa = value;
+    }
+
+    if(self.element[0].nodeName === 'DIV'){
+      self.element.html(valueToHtml(newVa));
+    }else{
+      self.element.val(newVa);
+    }
+    if (cur && cur > -1 && cur <= format.length) {
+      setCursor(cur);
+    }
+  };
+
+  self.getValue = function(){
+    return newVa;
+  };
+
+  function charIs(char, base) {
+    char = char.trim();
+    if (base === '0' && char !== '') {
+      if (char > -1 && char < 10) {
+        return true;
       }
     }
-  }
-  if(open === 1){
-    html += plEHtml;
-  }
-  return html;
-};
-
-var setValue = function(cur){
-  if(isTouch && type === 'date'){
-    elem.val(newVa);
-  }else{
-    elem.find('#input').html(valueToHtml(newVa));
+    return false;
   }
 
-  if(cur > -1 && cur <= format.length){
-   setCursor(cur);
- }
- ctrlForm.$dirty = true;
- ctrlForm.$pristine = false;
-};
+  function getCaretSelection() {
+    var caretOffset = 0;
+    var element = self.element.get(0);
+    element.focus();
+    var doc = element.ownerDocument || element.document;
+    var win = doc.defaultView || doc.parentWindow;
+    var sel;
+    var startOffset;
 
-var charIs = function(char,base){
-  char = char.trim();
-  if(base === '0' && char !== ''){
-    if(char > -1 && char < 10){
-      return true;
+    if (typeof win.getSelection !== 'undefined') {
+      sel = win.getSelection();
+      if (sel.rangeCount > 0) {
+        var range = win.getSelection().getRangeAt(0);
+        var preCaretRange = range.cloneRange();
+        preCaretRange.selectNodeContents(element);
+        preCaretRange.setEnd(range.endContainer, range.endOffset);
+        caretOffset = preCaretRange.toString().length;
+        startOffset = caretOffset - window.getSelection().toString().length;
+      }
+    } else if ((sel = doc.selection) && sel.type !== 'Control') {
+      var textRange = sel.createRange();
+      var preCaretTextRange = doc.body.createTextRange();
+      preCaretTextRange.moveToElementText(element);
+      preCaretTextRange.setEndPoint('EndToEnd', textRange);
+      caretOffset = preCaretTextRange.text.length;
+      startOffset = caretOffset - document.selection.createRange().text.length;
+
     }
+    return {
+      start: startOffset,
+      end: caretOffset
+    };
   }
-  return false;
-};
-
-var getCaretSelection = function()
-{
- var caretOffset = 0;
- var element = elem.get(0);
- element.focus();
- var doc = element.ownerDocument || element.document;
- var win = doc.defaultView || doc.parentWindow;
- var sel;
- var startOffset;
-
- if (typeof win.getSelection !== 'undefined') {
-  sel = win.getSelection();
-  if (sel.rangeCount > 0) {
-    var range = win.getSelection().getRangeAt(0);
-    var preCaretRange = range.cloneRange();
-    preCaretRange.selectNodeContents(element);
-    preCaretRange.setEnd(range.endContainer, range.endOffset);
-    caretOffset = preCaretRange.toString().length;
-    startOffset = caretOffset - window.getSelection().toString().length;
-  }
-} else if ( (sel = doc.selection) && sel.type !== 'Control') {
-  var textRange = sel.createRange();
-  var preCaretTextRange = doc.body.createTextRange();
-  preCaretTextRange.moveToElementText(element);
-  preCaretTextRange.setEndPoint('EndToEnd', textRange);
-  caretOffset = preCaretTextRange.text.length;
-  startOffset = caretOffset - document.selection.createRange().text.length;
-
-}
-return  {start:startOffset,end:caretOffset};
-};
 
 function setCursor(cur) {
-  var el = elem.find('#input')[0];
+  var el = self.element[0];
   var range = document.createRange();
   var sel = window.getSelection();
   var lengths = 0;
   var chosenChild = 0;
-  for(var i = 0; i< elem.find('#input')[0].childNodes.length;i++){
-    var node = elem.find('#input')[0].childNodes[i];
-    if(node.nodeName === '#text'){
+  for (var i = 0; i < self.element[0].childNodes.length; i++) {
+    var node = self.element[0].childNodes[i];
+    if (node.nodeName === '#text') {
       lengths += node.length;
       chosenChild = node;
-    }else{
+    } else {
       lengths += node.childNodes[0].length;
       chosenChild = node.childNodes[0];
     }
-    if(cur <= lengths){
+    if (cur <= lengths) {
       cur = cur - (lengths - chosenChild.length);
-      i=9999;
+      i = 9999;
     }
   }
-  range.setStart(chosenChild,cur);
+  range.setStart(chosenChild, cur);
   range.collapse(true);
   sel.removeAllRanges();
   sel.addRange(range);
   el.focus();
 }
 
-
-elem.find('#input').bind('keydown',function(event){
-  if(event.which === 8){
-    handleBackspace();
-    return false;
-  }else if(event.which === 46){
-    handleDelete();
-    return false;
-  }
-});
-elem.find('#input').bind('mousedown',function(){
-  setTimeout(function(){
-    if(placeholder === newVa){
-      setCursor(0);
-    }
-  }, 1);
-});
-
-elem.find('#input').keypress(function(event){
-  var key = String.fromCharCode(event.which);
-  setTimeout(function(){
-    handleInput(key);
-  }, 1);
-  return false;
-});
-//hnb314
-controlNg.$render();
-controlNg.$parsers.push(function(viewValue) {
-  handleFormat(viewValue);
-  if(isTouch && type === 'date'){
-   if(viewValue !== null && viewValue !== undefined && viewValue !== '' ){
-    ctrlForm.$dirty = true;
-    return new Date(viewValue);
-  }
-}else{
-          //handleFormat(viewValue);
-          return viewValue;
-        }
-      });
-
-scope.$watch('ngModel',function(newVal,oldVal){
-  if(newVal !== oldVal){
-    handleFormat(newVal);
-  }
-});
-
-var isRequired=function(){
-  var pre = '';
-  if(attr.validName){
-    pre = attr.validName+'-';
-  }
-  if(angular.isDefined(scope.required)){
-    if(placeholder !== newVa && newVa !== ''){
-      ctrlForm.$setValidity(pre+'required', true);
-    }else{
-      ctrlForm.$setValidity(pre+'required', false);
-    }
-  }
-};
-
-elem.find('#input').on('blur', function() {
-  var pre = '';
-  if(attr.validName){
-    pre = attr.validName;
-  }
-  safeApply(scope,function(){
-    if(type === 'date' && validFormat(newVa,'dd/mm/yyyy')){
-      ctrlForm.$setValidity(pre+'date', true);
-      controlNg.$setViewValue(dateCalculator.getDate(newVa,'dd/mm/yyyy'));
-    }else if(type === 'date' ){
-      ctrlForm.$setValidity(pre+'date', false);
-      controlNg.$setViewValue(null);
-      if(placeholder !== newVa){
-        //setDirty();
-      }else{
-        ctrlForm.$setValidity(pre+'date', true);
-      }
-    }else if(validValue(newVa)){
-      controlNg.$setViewValue(newVa);
-      ctrlForm.$setValidity(pre+'format', true);
-    }else{
-      controlNg.$setViewValue(null);
-      if(placeholder === newVa){
-        ctrlForm.$setValidity(pre+'format', true);
-      }else{
-        ctrlForm.$setValidity(pre+'format', false);
-      }
-    }
-    isRequired();
-  });
-});
-isRequired();
-var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
-var isTouch = ('createTouch' in $window.document) && isNative;
-function validFormat(date,format){
-  var dateObject;
-  if(angular.isDefined(date) && date !== null){
-
-    if(typeof date === 'string'){
-      if(date.length !== 10){ return false; }
-
-      if(!isTouch && !/^(?:(?:31(\/)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/.test(date)){return false;}
-
-      dateObject = dateCalculator.getDate(date, format);
-    }else if(angular.isDate(date)){
-      dateObject = date;
-    }else if(typeof date === 'function'){
-      return validFormat(date(),format);
-    }else {
-      return false;
-    }
-
-    return dateObject.toString()!=='Invalid Date';
-  }
-}
-
-controlNg.$formatters.push(function(modelValue) {
-
-  if(isTouch && type === 'date'){
-    if(modelValue !== null && modelValue !== undefined){
-       var format =  handleFormat(dateCalculator.format(modelValue,'yyyy-mm-dd'));
-           ctrlForm.$setPristine();
-           return format;
-          }else{
-         //  var format =  handleFormat(null);
-           //ctrlForm.$setPristine();
-            newVa = '';
-            setValue();
-           return null;
-         }
-       }else{
-        if(modelValue === null || modelValue === undefined){
-          newVa = placeholder;
-          setValue();
-          modelValue = null;
-        }
-        handleFormat(modelValue);
-      }
-      ctrlForm.$setPristine();
-    });
-
-var handleFormat = function(modelValue){
-  var nativ;
-  if(typeof modelValue ==='function'){
-    modelValue = modelValue();
-  }
-  if(type === 'date'){
-    var pre = '';
-    if(attr.validName){
-      pre = attr.validName;
-    }
-    var date;
-    if(isTouch && type === 'date'){
-      if(modelValue === null || !angular.isDefined(modelValue) || modelValue === ''){
-        ctrlForm.$setValidity(pre+'date', false);
-      }else{
-        nativ = new Date(modelValue);
-        date = dateCalculator.formatDate(modelValue, dateFormat);
-      }
-
-    }else if(angular.isDate(modelValue)){
-      date = dateCalculator.formatDate(modelValue, dateFormat);
-    }else{
-      date = modelValue;
-    }
-
-    if(validValue(date) && validFormat(date,'dd/mm/yyyy')){
-      if(isTouch && type === 'date'){
-        newVa =  dateCalculator.formatDate(nativ, 'yyyy-mm-dd');
-      }else{
-        newVa =  date;
-      }
-      ctrlForm.$setValidity(pre+'date', true);
-      setValue();
-    }else{
-      if(placeholder === newVa){
-        ctrlForm.$setValidity(pre+'date', true);
-      }else{
-        ctrlForm.$setValidity(pre+'date', false);
-      }
-   }
- }else if(typeof modelValue === 'string'){
-  if(validValue(modelValue)){
-   newVa =  modelValue;
-   setValue();
- }else{
-  controlNg.$setViewValue(null);
-}
-}
-
-isRequired();
-return modelValue;
-};
-handleFormat(null);
-
-}
-};
-
-}
-};
-}])
-  .controller('TinkFormatController', [function () {
-    var self = this;
-
-    this.groups = {};
-
-    this.init = function(accordion,element,opts){
-     self.$accordion = accordion;
-     self.$options = opts;
-     self.$accordion.init(element);
-   };
-
- }]);; 'use strict';
+});; 'use strict';
  angular.module('tink.sideNav', []);
  angular.module('tink.sideNav')
   .directive('tinkNavAside',['tinkApi',function(tinkApi){
@@ -1429,11 +1625,8 @@ handleFormat(null);
       }
 
       var opts= {};
-      if(attr.accordion){
-        opts.accordion = (attr.accordion === 'true');
-      }
-      if(attr.accordionFirst){
-        opts.gotoPage = (attr.accordionFirst === 'true');
+      if(attr.autoSelect){
+        opts.autoSelect = (attr.autoSelect === 'true');
       }
       var sideNav = tinkApi.sideNavigation(elem);
       sideNav.init(opts);
@@ -2509,6 +2702,11 @@ angular.module('tink', [
             if(sideToggle[id]){
               sideToggle[id].toggleMenu();
             }
+          },
+          closeById:function(id){
+            if(sideToggle[id]){
+              sideToggle[id].closeMenu();
+            }
           }
         },
         topNavigation:$window.tinkApi.topNavigation,
@@ -2650,7 +2848,11 @@ angular.module('tink.dateHelper')
 
   return {
     dateBeforeOther: function (first, last) {
-      if (new Date(first).getTime() > new Date(last).getTime() && last !== null) {
+      var firstDate = new Date(first);
+      var lastDate = new Date(last);
+      firstDate.setHours(0, 0, 0, 0);
+      lastDate.setHours(0, 0, 0, 0);
+      if (firstDate >= lastDate && lastDate !== null) {
         return true;
       } else {
         return false;
@@ -2688,7 +2890,13 @@ angular.module('tink.dateHelper')
       if(!angular.isDefined(date) || !angular.isDefined(format) || date.trim()===''){
         return null;
       }
-      return stringToDate(date, format);
+      date = stringToDate(date, format);
+
+      if(date.toString()!=='Invalid Date'){
+        return date;
+      }else{
+        return null;
+      }
     },
     daysInMonth: function (month,year) {
       if(angular.isDate(month)){
@@ -2702,7 +2910,11 @@ angular.module('tink.dateHelper')
       return new Date(year, month, 0).getDate();
     },
     format: function (date, format) {
-      return dateFormat(date, format, null, nl);
+      if(date === null || date === undefined || date === ''){
+        return null;
+      }else{
+        return dateFormat(date, format, null, nl);
+      }
     },
     formatDate: function (date, format) {
         return dateFormat(date, format,null,nl);
@@ -2822,7 +3034,7 @@ angular.module('tink.dateHelper')
     return arrays;
   }
 
-  function daysInRows(date,selectedDate){
+  function daysInRows(date,selectedDate,before,after){
     var monthCall = callCullateData(date);
     var today = new Date();
     var days = [], day;
@@ -2837,36 +3049,77 @@ angular.module('tink.dateHelper')
         if(angular.isDate(selectedDate)){
           isSelected = selectedDate.toDateString() === day.toDateString();
         }
-        days.push({date: day,selected:isSelected, isToday: day.toDateString() === today.toDateString(), label: dateCalculator.formatDate(day, 'd'),isMuted:isMuted});
+
+        var disable = false;
+        if(angular.isDate(before) && !dateCalculator.dateBeforeOther(day,before)){
+          disable = true;
+        }
+        if(angular.isDate(after) && !dateCalculator.dateBeforeOther(after,day)){
+          disable = true;
+        }
+
+        days.push({date: day,selected:isSelected, isToday: day.toDateString() === today.toDateString(), label: dateCalculator.formatDate(day, 'd'),isMuted:isMuted,disabled:disable});
     }
     var arrays = split(days, 7);
      return arrays;
 
   }
 
-  function monthInRows(date){
+  function monthInRows(date,before,after){
     var months = [];
     var monthDate;
+    if(angular.isDefined(before) && before !== null){
+      before = new Date(before.getFullYear(),before.getMonth(),1);
+    }
+    if(angular.isDefined(after) && after !== null){
+      after = new Date(after.getFullYear(),after.getMonth(),1);
+    }
      for(var i = 0; i < 12; i++) {
       monthDate = new Date(date.getFullYear(),i,1);
-      months.push({date: monthDate,label: dateCalculator.formatDate(monthDate, 'mmm')});
+
+    var disable = false;
+    if(angular.isDate(before) && !dateCalculator.dateBeforeOther(monthDate,before)){
+      disable = true;
+    }
+    if(angular.isDate(after) && !dateCalculator.dateBeforeOther(after,monthDate)){
+      disable = true;
+    }
+
+      months.push({date: monthDate,label: dateCalculator.formatDate(monthDate, 'mmm'),disabled:disable});
      }
     var arrays = split(months, 4);
     return arrays;
   }
 
-  function yearInRows(date){
+  function yearInRows(date,before,after){
     var years = [];
     var yearDate;
-     for(var i = 11; i > -1; i--) {
-      yearDate = new Date(date.getFullYear()-i,date.getMonth(),1);
-      years.push({date: yearDate,label: dateCalculator.formatDate(yearDate, 'yyyy')});
-     }
+
+    if(angular.isDefined(before) && before !== null){
+      before = new Date(before.getFullYear(),date.getMonth(),1);
+    }
+    if(angular.isDefined(after) && after !== null){
+      after = new Date(after.getFullYear(),date.getMonth(),1);
+    }
+
+   for(var i = 11; i > -1; i--) {
+    yearDate = new Date(date.getFullYear()-i,date.getMonth(),1);
+
+    var disable = false;
+    if(angular.isDate(before) && !dateCalculator.dateBeforeOther(yearDate,before)){
+      disable = true;
+    }
+    if(angular.isDate(after) && !dateCalculator.dateBeforeOther(after,yearDate)){
+      disable = true;
+    }
+
+    years.push({date: yearDate,label: dateCalculator.formatDate(yearDate, 'yyyy'),disabled:disable});
+   }
     var arrays = split(years, 4);
     return arrays;
   }
 
-  function createLabels(date, firstRange, lastRange,grayed) {
+  function createLabels(date, firstRange, lastRange,grayed,before,after) {
     var label = '',cssClass = '';
     if (label !== null && angular.isDate(date)) {
       label = date.getDate();
@@ -2892,9 +3145,18 @@ angular.module('tink.dateHelper')
           cssClass = 'btn-today';
         }
       }
+
+      var disable = '';
+      if(angular.isDate(before) && !dateCalculator.dateBeforeOther(date,before)){
+        disable = 'disabled';
+      }
+      if(angular.isDate(after) && !dateCalculator.dateBeforeOther(after,date)){
+        disable = 'disabled';
+      }
+
       var month = ('0' + (date.getMonth() + 1)).slice(-2);
       var day = ('0' + (date.getDate())).slice(-2);
-      return '<td><button ng-click="$select(\''+date.getFullYear()+'/'+month+'/'+day+'\')" class="' + cssClass + '"><span>' + label + '</span></button></td>';
+      return '<td><button '+disable+' ng-click="$select(\''+date.getFullYear()+'/'+month+'/'+day+'\')" class="' + cssClass + '"><span>' + label + '</span></button></td>';
     } else{
       return '<td></td>';
     }
@@ -2911,24 +3173,24 @@ angular.module('tink.dateHelper')
        }
 
       return {
-        createMonthDays: function (date, firstRange, lastRange,control) {
+        createMonthDays: function (date, firstRange, lastRange,control,before,after) {
           var domElem = '', monthCall = callCullateData(date), label;
           //var tr = createTR();
           var tr = '<tr>';
           for (var i = 0; i < monthCall.days; i++) {
             var day = new Date(monthCall.firstDay.getFullYear(), monthCall.firstDay.getMonth(), monthCall.firstDay.getDate() + i);
-            label = createLabels(null, firstRange, lastRange);
+            label = createLabels(null, firstRange, lastRange,false,before,after);
             if(control === 'prevMonth'){
               if(day.getMonth() !== date.getMonth() && dateCalculator.dateBeforeOther(date,day)){
-                label = createLabels(day, firstRange, lastRange,true);
+                label = createLabels(day, firstRange, lastRange,true,before,after);
               }
             } else if(control === 'nextMonth'){
               if(day.getMonth() !== date.getMonth() && dateCalculator.dateBeforeOther(day,date)){
-                label = createLabels(day, firstRange, lastRange,true);
+                label = createLabels(day, firstRange, lastRange,true,before,after);
               }
             }
             if(day.getMonth() === date.getMonth()){
-              label = createLabels(day, firstRange, lastRange);
+              label = createLabels(day, firstRange, lastRange,false,before,after);
             }
 
             //tr.appendChild(label);
@@ -2945,14 +3207,14 @@ angular.module('tink.dateHelper')
 
 
         },
-        daysInRows: function(date,model){
-         return daysInRows(date,model);
+        daysInRows: function(date,model,before,last){
+         return daysInRows(date,model,before,last);
         },
-        monthInRows:function(date){
-          return monthInRows(date);
+        monthInRows:function(date,before,last){
+          return monthInRows(date,before,last);
         },
-        yearInRows:function(date){
-          return yearInRows(date);
+        yearInRows:function(date,before,last){
+          return yearInRows(date,before,last);
         }
       };
     }]);;'use strict';
@@ -2972,182 +3234,49 @@ angular.module('tink.safeApply', [])
             }
         }
     };
-}]);;'use strict';
-angular.module('tink.templates', [])
-    .run(['$templateCache', function($templateCache) {
-      $templateCache.put('templates/popover.html',
-        '<div class="popover {{placement}}" ng-class="{ in: isOpen(), fade: animation() }">'+
-            '<div class="arrow"></div>'+
-            '<div class="popover-inner">'+
-            '<h3 class="popover-title" ng-bind="title" ng-show="title"></h3>'+
-            '<div class="popover-content" ng-bind="content"></div>'+
-           '</div>'+
-        '</div>');
+}]);;angular.module('tink.templates', []).run(['$templateCache', function($templateCache) {
+  'use strict';
 
-      $templateCache.put('templates/tinkDatePicker.html',
-        '<div class="dropdown-menu datepicker" ng-class="\'datepicker-mode-\' + $mode">'+
-        '<table style="table-layout: fixed; height: 100%; width: 100%;">'+
-        '<thead>'+
-        '<tr class="text-center">'+
-            '<th>'+
-                '<button tabindex="-1" type="button" class="btn pull-left" ng-click="$selectPane(-1)">'+
-                    '<i class="fa fa-chevron-left"></i>'+
-                '</button>'+
-            '</th>'+
-            '<th colspan="{{ rows[0].length - 2 }}">'+
-                '<button tabindex="-1" type="button" class="btn btn-default btn-block text-strong"  ng-click="$toggleMode()">'+
-                    '<strong style="text-transform: capitalize;" ng-bind="title"></strong>'+
-                '</button>'+
-            '</th>'+
-            '<th>'+
-                '<button tabindex="-1" type="button" class="btn pull-right" ng-click="$selectPane(+1)">'+
-                    '<i class="fa fa-chevron-right"></i>'+
-                '</button>'+
-            '</th>'+
-        '</tr>'+
-        '<tr ng-show="showLabels" class="days" ng-bind-html="labels"></tr>'+
-        '</thead>'+
-        '<tbody>'+
-        '<tr ng-repeat="(i, row) in rows" height="{{ 100 / rows.length }}%">'+
-            '<td class="text-center" ng-repeat="(j, el) in row">'+
-                '<button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{\'btn-primary\': el.selected, \'btn-today\': el.isToday && !el.selected}" ng-click="$select(el.date)" ng-disabled="el.disabled">'+
-                                    '<span ng-class="{\'text-muted\': el.muted}" ng-bind="el.label"></span>'+
-                '</button>'+
-            '</td>'+
-        '</tr>'+
-        '</tbody>'+
-    '</table>'+
-'</div>');
-
-$templateCache.put('templates/tinkDatePickerRange.html',
-        '<div class="datepickerrange">'+
-  '<div class="pull-left datepickerrange-left">'+
-    '<div class="datepickerrange-header-left">'+
-      '<div class="pull-left">'+
-        '<button tabindex="-1" type="button" class="btn pull-left" ng-click="$selectPane(0)">'+
-          '<i class="fa fa-chevron-left"></i>'+
-        '</button>'+
-      '</div>'+
-      '<div class="text-center clearfix">'+
-        '<label ng-bind="firstTitle"></label>'+
-      '</div>'+
-    '</div>'+
-    '<div class="table-responsive">'+
-      '<table >'+
-        '<thead>'+
-        '<tr ng-bind-html="dayLabels" >'+
-        '</tr>'+
-        '</thead>'+
-        '<tbody  id="firstCal" ng-bind-html="firstCal">'+
-        '</tbody>'+
-      '</table>'+
-    '</div>'+
-  '</div>'+
-  '<div class="pull-right datepickerrange-right">'+
-    '<div class="datepickerrange-header-right">'+
-     ' <div class="pull-right">'+
-        '<button tabindex="-1" type="button" class="btn pull-left" ng-click="$selectPane(1)">'+
-          '<i class="fa fa-chevron-right"></i>'+
-        '</button>'+
-      '</div>'+
-      '<div class="text-center clearfix">'+
-        '<label ng-bind="lastTitle"></label>'+
-      '</div>'+
-    '</div>'+
-    '<div class="table-responsive">'+
-      '<table>'+
-        '<thead>'+
-        '<tr class="days" ng-bind-html="dayLabels"></tr>'+
-        '</thead>'+
-        '<tbody id="secondCal" ng-bind-html="secondCal">'+
-        '</tbody>'+
-      '</table>'+
-    '</div>'+
-'</div>'+
-  '</div>');
-
-$templateCache.put('templates/tinkDatePickerRangeInputs.html',
-  '<div class="datepicker-input-fields row no-gutter">'+
-  '<div class="col-sm-6">'+
-    '<input type="text" id="firstDateElem" data-date data-format="00/00/0000" data-placeholder="dd/mm/jjjj" dynamic-name="dynamicName" tink-format-input ng-model="firstDate" valid-name="first">'+
-    '<span class="datepicker-icon">'+
-      '<i class="fa fa-calendar"></i>'+
-    '</span>'+
-  '</div>'+
-  '<div class="col-sm-6">'+
-    '<input type="text" id="lastDateElem" data-date data-format="00/00/0000" data-placeholder="dd/mm/jjjj" tink-format-input ctrl-model="dynamicName" valid-name="last"  ng-model="lastDate">'+
-    '<span class="datepicker-icon">'+
-      '<i class="fa fa-calendar"></i>'+
-    '</span>'+
-  '</div>'+
-'</div>');
-
-$templateCache.put('templates/tooltip.html',
-    '<div class="tooltip {{placement}}" ng-class="{ in: isOpen(), fade: animation() }">'+
-      '<div class="tooltip-arrow"></div>'+
-      '<div class="tooltip-inner" ng-bind="content"></div>'+
-    '</div>');
-
-$templateCache.put('templates/tinkDatePickerInput.html',
-  '<div class="datepicker-input-fields">'+
-  '<input tink-format-input data-format="00/00/0000" data-placeholder="dd/mm/jjjj" data-date dynamic-name="dynamicName"  ng-model="ngModel" />'+
-  '<span class="datepicker-icon">'+
-  '<i class="fa fa-calendar"></i>'+
-  '</span>'+
-  '</div>');
+  $templateCache.put('templates/popover.html',
+    "<div class=\"popover {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\"> <div class=arrow></div> <div class=popover-inner> <h3 class=popover-title ng-bind=title ng-show=title></h3> <div class=popover-content ng-bind=content></div> </div> </div>"
+  );
 
 
+  $templateCache.put('templates/tinkAccordionGroup.html',
+    "<section class=accordion-panel> <a href class=accordion-toggle ng-click=toggleOpen()> <div class=accordion-panel-heading> <i class=\"fa fa-th-large\"></i> <h4 class=panel-title> <span>{{heading}}</span> </h4> </div> </a> <div class=accordion-panel-body> <div class=accordion-spinner><i class=\"fa fa-rotate-right fa-spin\"></i></div> <div class=accordion-loaded-content ng-transclude> <p>New DOM content comes here</p> </div> </div> </section>"
+  );
 
-$templateCache.put('templates/tinkDatePickerField.html',
-        '<div class="dropdown-menu datepicker" ng-class="\'datepicker-mode-\' + $mode">'+
-        '<table style="table-layout: fixed; height: 100%; width: 100%;">'+
-        '<thead>'+
-        '<tr class="text-center">'+
-            '<th>'+
-                '<button tabindex="-1" type="button" class="btn pull-left" ng-click="$selectPane(-1)">'+
-                    '<i class="fa fa-chevron-left"></i>'+
-                '</button>'+
-            '</th>'+
-            '<th colspan="{{ rows[0].length - 2 }}">'+
-                '<button tabindex="-1" type="button" class="btn btn-default btn-block text-strong"  ng-click="$toggleMode()">'+
-                    '<strong style="text-transform: capitalize;" ng-bind="title"></strong>'+
-                '</button>'+
-            '</th>'+
-            '<th>'+
-                '<button tabindex="-1" type="button" class="btn pull-right" ng-click="$selectPane(+1)">'+
-                    '<i class="fa fa-chevron-right"></i>'+
-                '</button>'+
-            '</th>'+
-        '</tr>'+
-        '<tr ng-show="showLabels" class="days" ng-bind-html="labels"></tr>'+
-        '</thead>'+
-        '<tbody>'+
-        '<tr ng-repeat="(i, row) in rows" height="{{ 100 / rows.length }}%">'+
-            '<td class="text-center" ng-repeat="(j, el) in row">'+
-                '<button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{\'btn-primary\': el.selected, \'btn-today\': el.isToday && !el.selected}" ng-click="$select(el.date)" ng-disabled="el.disabled">'+
-                                    '<span ng-class="{\'text-muted\': el.muted}" ng-bind="el.label"></span>'+
-                '</button>'+
-            '</td>'+
-        '</tr>'+
-        '</tbody>'+
-    '</table>'+
-'</div>');
 
-$templateCache.put('templates/tinkAccordionGroup.html',
-  '<section class="accordion-panel">'+
-  '<a href class="accordion-toggle" ng-click="toggleOpen()">'+
-    '<div class="accordion-panel-heading">'+
-      '<i class="fa fa-th-large"></i>'+
-      '<h4 class="panel-title">'+
-        '<span>{{heading}}</span>'+
-      '</h4>'+
-    '</div>'+
-  '</a>'+
-  '<div class="accordion-panel-body">'+
-    '<div class="accordion-spinner"><i class="fa fa-rotate-right fa-spin"></i></div>'+
-    '<div class="accordion-loaded-content" ng-transclude>'+
-        '<p>New DOM content comes here</p>'+
-    '</div>'+
-  '</div>'+
-'</section>');
+  $templateCache.put('templates/tinkDatePicker.html',
+    "<div class=\"dropdown-menu datepicker\" ng-class=\"'datepicker-mode-' + $mode\"> <table style=\"table-layout: fixed; height: 100%; width: 100%\"> <thead> <tr class=text-center> <th> <button tabindex=-1 type=button class=\"btn pull-left\" ng-click=$selectPane(-1)> <i class=\"fa fa-chevron-left\"></i> </button> </th> <th colspan=\"{{ rows[0].length - 2 }}\"> <button tabindex=-1 type=button class=\"btn btn-default btn-block text-strong\" ng-click=$toggleMode()> <strong style=\"text-transform: capitalize\" ng-bind=title></strong> </button> </th> <th> <button tabindex=-1 type=button class=\"btn pull-right\" ng-click=$selectPane(+1)> <i class=\"fa fa-chevron-right\"></i> </button> </th> </tr> <tr ng-show=showLabels class=days ng-bind-html=labels></tr> </thead> <tbody> <tr ng-repeat=\"(i, row) in rows\" height=\"{{ 100 / rows.length }}%\"> <td class=text-center ng-repeat=\"(j, el) in row\"> <button tabindex=-1 type=button class=\"btn btn-default\" style=\"width: 100%\" ng-class=\"{'btn-primary': el.selected, 'btn-today': el.isToday && !el.elected}\" ng-click=$select(el.date) ng-disabled=el.disabled> <span ng-class=\"{'text-muted': el.muted}\" ng-bind=el.label></span> </button> </td> </tr> </tbody> </table> </div>"
+  );
+
+
+  $templateCache.put('templates/tinkDatePickerField.html',
+    "<div class=\"dropdown-menu datepicker\" ng-class=\"'datepicker-mode-' + $mode\"> <table style=\"table-layout: fixed; height: 100%; width: 100%\"> <thead> <tr class=text-center> <th> <button tabindex=-1 type=button class=\"btn pull-left\" ng-click=$selectPane(-1)> <i class=\"fa fa-chevron-left\"></i> </button> </th> <th colspan=\"{{ rows[0].length - 2 }}\"> <button tabindex=-1 type=button class=\"btn btn-default btn-block text-strong\" ng-click=$toggleMode()> <strong style=\"text-transform: capitalize\" ng-bind=title></strong> </button> </th> <th> <button tabindex=-1 type=button class=\"btn pull-right\" ng-click=$selectPane(+1)> <i class=\"fa fa-chevron-right\"></i> </button> </th> </tr> <tr ng-show=showLabels class=days ng-bind-html=labels></tr> </thead> <tbody> <tr ng-repeat=\"(i, row) in rows\" height=\"{{ 100 / rows.length }}%\"> <td class=text-center ng-repeat=\"(j, el) in row\"> <button tabindex=-1 type=button class=\"btn btn-default\" style=\"width: 100%\" ng-class=\"{'btn-primary': el.selected, 'btn-today': el.isToday && !el.elected}\" ng-click=$select(el.date) ng-disabled=el.disabled> <span ng-class=\"{'text-muted': el.muted}\" ng-bind=el.label></span> </button> </td> </tr> </tbody> </table> </div>"
+  );
+
+
+  $templateCache.put('templates/tinkDatePickerInput.html',
+    "<div class=datepicker-input-fields> <input tink-format-input data-format=00/00/0000 data-placeholder=dd/mm/jjjj data-date dynamic-name=dynamicName ng-model=\"ngModel\">\n" +
+    "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div>"
+  );
+
+
+  $templateCache.put('templates/tinkDatePickerRange.html',
+    "<div class=datepickerrange> <div class=\"pull-left datepickerrange-left\"> <div class=datepickerrange-header-left> <div class=pull-left> <button tabindex=-1 type=button class=\"btn pull-left\" ng-click=$selectPane(0)> <i class=\"fa fa-chevron-left\"></i> </button> </div> <div class=\"text-center clearfix\"> <label ng-bind=firstTitle></label> </div> </div> <div class=table-responsive> <table> <thead> <tr ng-bind-html=dayLabels> </tr> </thead> <tbody id=firstCal ng-bind-html=firstCal> </tbody> </table> </div> </div> <div class=\"pull-right datepickerrange-right\"> <div class=datepickerrange-header-right> <div class=pull-right> <button tabindex=-1 type=button class=\"btn pull-left\" ng-click=$selectPane(1)> <i class=\"fa fa-chevron-right\"></i> </button> </div> <div class=\"text-center clearfix\"> <label ng-bind=lastTitle></label> </div> </div> <div class=table-responsive> <table> <thead> <tr class=days ng-bind-html=dayLabels></tr> </thead> <tbody id=secondCal ng-bind-html=secondCal> </tbody> </table> </div> </div> </div>"
+  );
+
+
+  $templateCache.put('templates/tinkDatePickerRangeInputs.html',
+    "<div class=\"datepicker-input-fields row no-gutter\"> <div class=col-sm-6> <input id=firstDateElem data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj dynamic-name=dynamicName tink-format-input ng-model=firstDate alid-name=first>\n" +
+    "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div> <div class=col-sm-6> <input id=lastDateElem data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj tink-format-input ctrl-model=dynamicName valid-name=last ng-model=lastDate>\n" +
+    "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div> </div>"
+  );
+
+
+  $templateCache.put('templates/tooltip.html',
+    "<div class=\"tooltip {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\"> <div class=tooltip-arrow></div> <div class=tooltip-inner ng-bind=content></div> </div>"
+  );
+
 }]);
