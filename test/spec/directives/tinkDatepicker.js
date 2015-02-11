@@ -196,7 +196,6 @@ describe('datepicker', function() {
         }
       });
       expect(num).toBe(15);
-
     })
 
     it('max date',function(){
@@ -210,7 +209,59 @@ describe('datepicker', function() {
         }
       });
       expect(num).toBe(8);
+    })
 
+    it('min max date',function(){
+      var elm = compileDirective('max-min',{selectedDate:new Date(2015,1,20),mindate:new Date(2015,1,10),maxdate:new Date(2015,1,21)});
+      angular.element(elm.find('.datepicker-icon')[0]).triggerHandler('mousedown');
+      scope.$digest();
+      var num = 0;
+      elm.find('.datepicker button').each(function(){
+        if($(this).is(":disabled")){
+          num +=1;
+        }
+      });
+      expect(num).toBe(23);
+    })
+
+    it('min max date',function(){
+      var elm = compileDirective('max-min',{selectedDate:new Date(2015,1,20),mindate:new Date(2015,1,10),maxdate:new Date(2015,1,21)});
+      angular.element(elm.find('.datepicker-icon')[0]).triggerHandler('mousedown');
+      scope.$digest();
+      var num = 0;
+      elm.find('.datepicker button').each(function(){
+        if($(this).is(":disabled")){
+          num +=1;
+        }
+      });
+      elm.find('button.btn.pull-left').triggerHandler('click');
+      scope.$digest();
+      elm.find('.datepicker button').each(function(){
+        if($(this).is(":disabled")){
+          num +=1;
+        }
+      });
+      expect(num).toBe(46);
+    })
+
+    it('min max date',function(){
+      var elm = compileDirective('max-min',{selectedDate:new Date(2015,1,20),mindate:new Date(2015,1,10),maxdate:new Date(2015,1,21)});
+      angular.element(elm.find('.datepicker-icon')[0]).triggerHandler('mousedown');
+      scope.$digest();
+      var num = 0;
+      elm.find('.datepicker button').each(function(){
+        if($(this).is(":disabled")){
+          num +=1;
+        }
+      });
+      elm.find('button.btn.pull-right').triggerHandler('click');
+      scope.$digest();
+      elm.find('.datepicker button').each(function(){
+        if($(this).is(":disabled")){
+          num +=1;
+        }
+      });
+      expect(num).toBe(46);
     })
 
   });
