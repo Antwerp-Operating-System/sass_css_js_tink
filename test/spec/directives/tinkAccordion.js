@@ -330,42 +330,42 @@ describe('tinkaccordion', function() {
     describe('with default template', function() {
 
     it('all collapsers are closed with string', function() {
-      var elm = compileDirective('default');
+      compileDirective('default');
         expect(sandboxEl.find('.group-open').length).toBe(0);
     });
 
     it('all collapsers are open with string', function() {
-      var elm = compileDirective('all-open');
+      compileDirective('all-open');
         expect(sandboxEl.find('.group-open').length).toBe(4);
     });
 
     it('all collapsers are open with var', function() {
-      var elm = compileDirective('all-var');
+      compileDirective('all-var');
         expect(sandboxEl.find('.group-open').length).toBe(4);
     });
 
     it('all collapsers are closed with var', function() {
-      var elm = compileDirective('all-var',{openStart:false});
+      compileDirective('all-var',{openStart:false});
         expect(sandboxEl.find('.group-open').length).toBe(0);
     });
 
     it('first accordion open because of data-is-collapsed with variable', function() {
-      var elm = compileDirective('all-var',{openStart:false,group1collapsed:false});
+      compileDirective('all-var',{openStart:false,group1collapsed:false});
         expect(sandboxEl.find('section.accordion-panel:first').hasClass('group-open')).toBe(true);
     });
 
     it('first accordion closed because of data-is-collapsed with variable', function() {
-      var elm = compileDirective('all-var',{openStart:false,group1collapsed:true});
+      compileDirective('all-var',{openStart:false,group1collapsed:true});
         expect(sandboxEl.find('section.accordion-panel:first').hasClass('group-open')).toBe(false);
     });
 
     it('first accordion closed because of data-is-collapsed with sting', function() {
-      var elm = compileDirective('group1-collapsed-false',{openStart:false});
+      compileDirective('group1-collapsed-false',{openStart:false});
         expect(sandboxEl.find('section.accordion-panel:first').hasClass('group-open')).toBe(true);
     });
 
     it('first accordion open because of data-is-collapsed with sting', function() {
-      var elm = compileDirective('group1-collapsed-true',{openStart:false});
+      compileDirective('group1-collapsed-true',{openStart:false});
         expect(sandboxEl.find('section.accordion-panel:first').hasClass('group-open')).toBe(false);
     });
 
@@ -378,7 +378,7 @@ describe('tinkaccordion', function() {
         counts.push(action);
         countCall++;
       },openStart:false};
-      var elm = compileDirective('loading-func',newS);
+      compileDirective('loading-func',newS);
       sandboxEl.find('section.accordion-panel:last .accordion-toggle').click();
       expect(counts).toEqual(['open','loading']);
     });
@@ -388,7 +388,7 @@ describe('tinkaccordion', function() {
       var newS = {group1go:function(action){
         counts.push(action);
       },openStart:true};
-      var elm = compileDirective('loading-func',newS);
+      compileDirective('loading-func',newS);
         sandboxEl.find('section.accordion-panel:last .accordion-toggle').click();
     });
 
@@ -397,7 +397,7 @@ describe('tinkaccordion', function() {
       var newS = {group1go:function(action){
         counts.push(action);
       }};
-      var elm = compileDirective('loading-func',newS);
+      compileDirective('loading-func',newS);
         sandboxEl.find('section.accordion-panel:last .accordion-toggle').click();
         sandboxEl.find('section.accordion-panel:last .accordion-toggle').click();
         expect(counts).toEqual(['loading','canceld']);
