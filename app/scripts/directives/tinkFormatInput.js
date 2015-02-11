@@ -251,8 +251,10 @@
           controlKey = 1;
         }
         if((event.ctrlKey||event.metaKey) && event.which === 88){
-          self.setValue(placeholder)
-          return false;
+          setTimeout(function() {
+            self.setValue(placeholder);
+          }, 1);
+          return true;
         }
         if (event.which === 8) {
           handleBackspace();
@@ -278,7 +280,7 @@
       self.element.bind('paste', function (e) {
           var cursor = getCaretSelection();
           e.preventDefault();
-          var text = (e.originalEvent || e).clipboardData.getData('text/plain') || prompt('Paste something..');
+          var text = (e.originalEvent || e).clipboardData.getData('text/plain');
           window.document.execCommand('insertText', false, text);
           self.setValue(keyDowned);
           for(var i=0;i<text.length;i++){
@@ -288,7 +290,6 @@
       });
 
       self.element.keypress(function(event) {
-         console.log("keypress")
         if(!controlKey){
           var key = String.fromCharCode(event.which);
           handleInput(key);

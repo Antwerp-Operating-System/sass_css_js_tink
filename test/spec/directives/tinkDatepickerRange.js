@@ -47,7 +47,7 @@ describe('datepicker range', function() {
 		function triggerInput(el,key){
 			$(el).focus();
 			for(var i =0; i< key.length;i++){
-				var e = jQuery.Event("keypress");
+				var e = jQuery.Event('keypress');
     		e.which = key.charCodeAt(i);
     		$(el).trigger(e);
 			}
@@ -215,7 +215,6 @@ describe('with no dates', function() {
 
 	it('both valid, first change badly would not change scope only on blur', function() {
 		var elm = compileDirective('no-dates');
-		var trigger = angular.element(elm.find('div.faux-input')[0]);
 
 		triggerInput(elm.find('div.faux-input:first'),'20/01/1992');
 		angular.element(elm.find('div.faux-input')[0]).triggerHandler('blur');

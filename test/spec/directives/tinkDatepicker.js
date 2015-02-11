@@ -65,21 +65,21 @@ describe('datepicker', function() {
       angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
       scope.$digest();
       expect(sandboxEl.find('.datepicker').css('display')).toBe(undefined);
-    })
+    });
 
     it('standart does open on click',function(){
       var elm = compileDirective('default');
       angular.element(elm.find('.datepicker-icon')[0]).triggerHandler('mousedown');
       scope.$digest();
       expect(sandboxEl.find('.datepicker').css('display')).toBe('block');
-    })
+    });
 
     it('with attribute trigger=focus open on focus',function(){
       var elm = compileDirective('onfocus');
       angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
       scope.$digest();
       expect(sandboxEl.find('.datepicker').css('display')).toBe('block');
-    })
+    });
 
     it('when open select next month',function(){
       var elm = compileDirective('onfocus',{selectedDate:new Date(2015,1,20)});
@@ -92,7 +92,7 @@ describe('datepicker', function() {
         var title = elm.find('button.btn.btn-default.btn-block.text-strong strong');
         expect(title.html()).toBe(dateCalculator.format(new Date(2015, i, 1), 'MMMM yyyy'));
       }
-    })
+    });
 
     it('when open select prev month',function(){
       var elm = compileDirective('onfocus',{selectedDate:new Date(2015,1,20)});
@@ -105,7 +105,7 @@ describe('datepicker', function() {
         var title = elm.find('button.btn.btn-default.btn-block.text-strong strong');
         expect(title.html()).toBe(dateCalculator.format(new Date(2015, 1-i, 1), 'MMMM yyyy'));
       }
-    })
+    });
 
     it('on first click show months',function(){
       var elm = compileDirective('onfocus',{selectedDate:new Date(2015,1,20)});
@@ -113,7 +113,7 @@ describe('datepicker', function() {
       elm.find('button.btn.btn-default.btn-block.text-strong strong').trigger('click');
       scope.$digest();
       expect(elm.find('.datepicker button span[ng-bind="el.label"]').length).toBe(12);
-    })
+    });
 
      it('on first click show months',function(){
       var elm = compileDirective('onfocus',{selectedDate:new Date(2015,1,20)});
@@ -126,7 +126,7 @@ describe('datepicker', function() {
         var title = elm.find('button.btn.btn-default.btn-block.text-strong strong');
         expect(title.html()).toBe((2015+i).toString());
       }
-    })
+    });
 
      it('on first click show months',function(){
       var elm = compileDirective('onfocus',{selectedDate:new Date(2015,1,20)});
@@ -139,7 +139,7 @@ describe('datepicker', function() {
         var title = elm.find('button.btn.btn-default.btn-block.text-strong strong');
         expect(title.html()).toBe((2015-i).toString());
       }
-    })
+    });
 
      it('on second click show years',function(){
       var elm = compileDirective('onfocus',{selectedDate:new Date(2015,1,20)});
@@ -154,7 +154,7 @@ describe('datepicker', function() {
         var title = elm.find('button.btn.btn-default.btn-block.text-strong strong');
         expect(title.html()).toBe((2004-i)+'-'+(2015-i));
       }
-    })
+    });
 
      it('on second click show years',function(){
       var elm = compileDirective('onfocus',{selectedDate:new Date(2015,1,20)});
@@ -169,7 +169,7 @@ describe('datepicker', function() {
         var title = elm.find('button.btn.btn-default.btn-block.text-strong strong');
         expect(title.html()).toBe((2004+i)+'-'+(2015+i));
       }
-    })
+    });
 
      it('max min date',function(){
       var elm = compileDirective('max-min',{selectedDate:new Date(2015,1,20)});
@@ -177,13 +177,13 @@ describe('datepicker', function() {
       scope.$digest();
       var num = 0;
       elm.find('.datepicker button span[ng-bind="el.label"]').each(function(){
-        if($(this).is(":disabled")){
+        if($(this).is(':disabled')){
           num +=1;
         }
       });
       expect(num).toBe(0);
 
-    })
+    });
 
     it('min date',function(){
       var elm = compileDirective('max-min',{selectedDate:new Date(2015,1,20),mindate:new Date(2015,1,10)});
@@ -191,12 +191,12 @@ describe('datepicker', function() {
       scope.$digest();
       var num = 0;
       elm.find('.datepicker button').each(function(){
-        if($(this).is(":disabled")){
+        if($(this).is(':disabled')){
           num +=1;
         }
       });
       expect(num).toBe(15);
-    })
+    });
 
     it('max date',function(){
       var elm = compileDirective('max-min',{selectedDate:new Date(2015,1,20),maxdate:new Date(2015,1,21)});
@@ -204,12 +204,12 @@ describe('datepicker', function() {
       scope.$digest();
       var num = 0;
       elm.find('.datepicker button').each(function(){
-        if($(this).is(":disabled")){
+        if($(this).is(':disabled')){
           num +=1;
         }
       });
       expect(num).toBe(8);
-    })
+    });
 
     it('min max date',function(){
       var elm = compileDirective('max-min',{selectedDate:new Date(2015,1,20),mindate:new Date(2015,1,10),maxdate:new Date(2015,1,21)});
@@ -217,12 +217,12 @@ describe('datepicker', function() {
       scope.$digest();
       var num = 0;
       elm.find('.datepicker button').each(function(){
-        if($(this).is(":disabled")){
+        if($(this).is(':disabled')){
           num +=1;
         }
       });
       expect(num).toBe(23);
-    })
+    });
 
     it('min max date',function(){
       var elm = compileDirective('max-min',{selectedDate:new Date(2015,1,20),mindate:new Date(2015,1,10),maxdate:new Date(2015,1,21)});
@@ -230,19 +230,19 @@ describe('datepicker', function() {
       scope.$digest();
       var num = 0;
       elm.find('.datepicker button').each(function(){
-        if($(this).is(":disabled")){
+        if($(this).is(':disabled')){
           num +=1;
         }
       });
       elm.find('button.btn.pull-left').triggerHandler('click');
       scope.$digest();
       elm.find('.datepicker button').each(function(){
-        if($(this).is(":disabled")){
+        if($(this).is(':disabled')){
           num +=1;
         }
       });
       expect(num).toBe(46);
-    })
+    });
 
     it('min max date',function(){
       var elm = compileDirective('max-min',{selectedDate:new Date(2015,1,20),mindate:new Date(2015,1,10),maxdate:new Date(2015,1,21)});
@@ -250,19 +250,19 @@ describe('datepicker', function() {
       scope.$digest();
       var num = 0;
       elm.find('.datepicker button').each(function(){
-        if($(this).is(":disabled")){
+        if($(this).is(':disabled')){
           num +=1;
         }
       });
       elm.find('button.btn.pull-right').triggerHandler('click');
       scope.$digest();
       elm.find('.datepicker button').each(function(){
-        if($(this).is(":disabled")){
+        if($(this).is(':disabled')){
           num +=1;
         }
       });
       expect(num).toBe(46);
-    })
+    });
 
   });
 });
