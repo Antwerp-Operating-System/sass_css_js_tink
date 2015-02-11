@@ -15,7 +15,7 @@ $brand-light:           					       #5f9770;
 
 $nav-top-bg-color:      					       #333;
 $nav-aside-link-active-background-color: $brand-light;
-$nav-aside-link-hover-color:  $brand-light;
+$nav-aside-link-hover-color:             $brand-light;
 $nav-aside-link-hover-background-color:  lighten($brand-light, 46%);
 
 
@@ -43,4 +43,4 @@ $btn-primary-border:                     $primary;
 /**
  * Callouts
  */
-$callout-color                 : $primary;
+$callout-color:                          $primary;

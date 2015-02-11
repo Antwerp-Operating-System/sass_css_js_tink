@@ -1,0 +1,81 @@
+/**
+ * Hit area box
+ * --------------------------------------------------
+ */
+
+
+.hit-area-box {
+  @extend .list-unstyled;
+  > li { // direct li after hit-area-box
+    input[type="checkbox"],
+    input[type="radio"] {
+      + label {
+        background-color: rgba(237, 236, 236, .7); // light grey
+        color: rgba(0, 0, 0, .7);
+        display: block;
+        padding: rem(7 5 7 45);
+        margin: rem(6 0);
+        cursor: pointer;
+        transition: background-color linear $animation-speed;
+
+        &:before {
+          left: rem(9);
+          top: rem(6);
+          border: none; // removing border like defined in 'Focus' design
+          height: rem(22); // visually compensating size for removing border on radio
+          width: rem(22); // visually compensating size for removing border on radio
+
+          @media screen and (min-width: $screen-sm) {
+          height: rem(17); // visually compensating size for removing border on radio
+          width: rem(17); // visually compensating size for removing border on radio
+          }
+        }
+      }
+
+      &:hover:enabled:not(:checked),
+      &:active:enabled:not(:checked) {
+        + label {
+          background-color: rgba(237, 236, 236, 1); // light grey
+          color: rgba(0, 0, 0, 1);
+        }
+      }
+
+      &:disabled {
+        + label {
+          cursor: not-allowed;
+          background-color: rgba(237, 236, 236, 1); // light grey
+          color: rgba(0, 0, 0, 1);
+        }
+      }
+
+      &:checked {
+        + label {
+          background-color:  $brand;
+          color: #fff;
+        }
+      }
+
+      &:focus {
+        + label {
+          box-shadow: 0 0 4px 1px rgba($brand-light, .75  );
+        }
+      }
+    }
+
+    input[type="checkbox"] {
+      + label {
+        &:after {
+          left: rem(10);
+          top: rem(6);
+          height: rem(20); // visually compensating size for removing border on square
+          width: rem(20); // visually compensating size for removing border on square
+
+          @media screen and (min-width: $screen-sm) {
+          height: rem(10); // visually compensating size for removing border on square
+          width: rem(10); // visually compensating size for removing border on square
+          }
+        }
+      }
+    }
+  }
+}
