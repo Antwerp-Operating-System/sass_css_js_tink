@@ -6,23 +6,23 @@
 
 .hit-area-box {
   @extend .list-unstyled;
-  > li { // direct li after hit-area-box
+  > li {
     input[type="checkbox"],
     input[type="radio"] {
       + label {
-        background-color: rgba(237, 236, 236, .7); // light grey
-        color: rgba(0, 0, 0, .7);
-        display: block;
-        padding: rem(7 5 7 45);
-        margin: rem(6 0);
+        background-color: darken($gray-lighter, 9%);
+        color: $gray-dark;
         cursor: pointer;
+        display: block;
+        margin: rem(6 0);
+        padding: rem(7 5 7 45);
         transition: background-color linear $animation-speed;
 
         &:before {
-          left: rem(9);
-          top: rem(6);
           border: none; // removing border like defined in 'Focus' design
           height: rem(22); // visually compensating size for removing border on radio
+          left: rem(12);
+          top: rem(8);
           width: rem(22); // visually compensating size for removing border on radio
 
           @media screen and (min-width: $screen-sm) {
@@ -32,32 +32,33 @@
         }
       }
 
-      &:hover:enabled:not(:checked),
-      &:active:enabled:not(:checked) {
+      &:active:enabled:not(:checked),
+      &:hover:enabled:not(:checked) {
         + label {
-          background-color: rgba(237, 236, 236, 1); // light grey
-          color: rgba(0, 0, 0, 1);
-        }
-      }
-
-      &:disabled {
-        + label {
-          cursor: not-allowed;
-          background-color: rgba(237, 236, 236, 1); // light grey
-          color: rgba(0, 0, 0, 1);
+          background-color: $gray-light;
+          color: $black;
         }
       }
 
       &:checked {
         + label {
-          background-color:  $brand;
+          background-color: $brand;
           color: #fff;
+        }
+      }
+
+      &:disabled {
+        + label {
+          //background-color: $gray-lighter;
+          //color: $black;
+          cursor: not-allowed;
         }
       }
 
       &:focus {
         + label {
-          box-shadow: 0 0 4px 1px rgba($brand-light, .75  );
+          //box-shadow: 0 0 4px 1px rgba($brand-light, .75  );
+          @include tab-focus();
         }
       }
     }
@@ -65,13 +66,15 @@
     input[type="checkbox"] {
       + label {
         &:after {
+          height: rem(20); // visually compensating size for removing border on square
           left: rem(10);
           top: rem(6);
-          height: rem(20); // visually compensating size for removing border on square
           width: rem(20); // visually compensating size for removing border on square
 
           @media screen and (min-width: $screen-sm) {
           height: rem(10); // visually compensating size for removing border on square
+          left: rem(13);
+          top: rem(9);
           width: rem(10); // visually compensating size for removing border on square
           }
         }
