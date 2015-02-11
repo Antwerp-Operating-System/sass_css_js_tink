@@ -248,6 +248,10 @@
         if(event.which ===91 || event.which === 92 || event.which === 93){
           controlKey = 1;
         }
+        if((event.ctrlKey||event.metaKey) && event.which === 88){
+          setValue(placeholder)
+          return false;
+        }
         if (event.which === 8) {
           handleBackspace();
           return false;
