@@ -133,8 +133,11 @@ describe('TopNavigation', function() {
       bodyEl.css('width', '50px');
       $(window).trigger('resize');
       scope.$digest();
-      expect(bodyEl.css('padding-top')).toBeGreaterThan(bodyStart);
+      setTimeout(function(){
+           expect(bodyEl.css('padding-top')).toBeGreaterThan(bodyStart);
       expect(bodyEl.css('padding-top')).toBe(elm[0].getBoundingClientRect().height+'px');
+
+      },500)
     });
   });
   describe('with sideNavigation', function() {
