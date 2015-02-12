@@ -36,7 +36,7 @@
 
 .popover-title {
   margin: 0; // reset heading margin
-  padding: 8px 14px;
+  padding: rem(8px 14px);
   font-size: $font-size-base;
   background-color: $popover-title-bg;
   border-bottom: 1px solid darken($popover-title-bg, 5%);
@@ -44,7 +44,7 @@
 }
 
 .popover-content {
-  padding: 9px 14px;
+  padding: rem(9px 14px);
   color: $text-color;
 }
 
@@ -134,3 +134,21 @@
     }
   }
 }
+
+/* Popdown trial run */
+.popdown {
+  @extend .popover;
+  padding:
+  position: relative;
+  text-align: center;
+
+  .popdown-avatar {
+    @extend .center-block;
+    width: rem(50px);
+  }
+  .popdown-name {
+    font-size: $font-size-base;
+    font-weight: bold;
+  }
+}
+
