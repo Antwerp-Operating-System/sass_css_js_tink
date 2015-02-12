@@ -295,6 +295,7 @@ $btn-icon-margin:                8px !default; // right margin when icon inside 
 
 $input-bg:                       $white !default; // `<input>` background color
 $input-bg-disabled:              $gray-lighter !default; // `<input disabled>` background color
+$input-base-color:               $brand-light !default; // Color for checkboxes and radio buttons
 $input-color:                    lighten($gray-dark, 16%) !default; // Text color for `<input>`s
 $input-border:                   $gray-light !default; // `<input>` border color
 $input-border-radius:            $border-radius-base !default; // `<input>` border radius
