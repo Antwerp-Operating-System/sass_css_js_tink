@@ -233,12 +233,13 @@ describe('first selected true',function(){
 	});
 
 	it('Data accordion enabled open accordion should change active element to first element', function() {
-		spyOn($window.tinkApi.util, 'getCurrentURL').and.returnValue('http://localhost:8080/context.html#/menu2');
-			var elm = compileDirective('auto-true');
+		var elm = compileDirective('auto-true');
+		spyOn($window.tinkApi.util, 'getCurrentURL').and.returnValue('http://localhost:8080/context.html#/menu1');
+
 			scope.$digest();
 			angular.element(elm.find('li.can-open a')[0]).triggerHandler('click');
 			scope.$digest();
-			//expect(elm.find('li.active a').attr('href')).toBe('#/forms');
+			expect(elm.find('li.active a').attr('href')).toBe('#/forms');
 	});
 
 });
