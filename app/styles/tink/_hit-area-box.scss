@@ -35,7 +35,7 @@
       &:checked {
         + label {
           background-color: $hit-area-checked-bgcolor;
-          color: #fff;
+          color: $hit-area-checked-color;
         }
       }
 
