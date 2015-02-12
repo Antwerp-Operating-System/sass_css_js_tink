@@ -2589,22 +2589,6 @@ a.badge:hover, a.badge:focus {
   overflow: hidden;
   position: relative; }
 
-.accordion-spinner {
-  background: green;
-  bottom: 0;
-  height: 3.21429rem ;
-  display: block;
-  left: 0;
-  opacity: 1;
-  position: absolute;
-  right: 0;
-  color: #fff;
-  top: 1px;
-  transition: opacity 0.5s linear;
-  z-index: 2;
-  text-align: center;
-  margin: 0 auto; }
-
 .accordion-loaded-content {
   transition: opacity 0.4s linear; }
 

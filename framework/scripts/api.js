@@ -278,7 +278,7 @@
 			currentTogggleElem = null;
 		};
 
-		var toggleAccordion = function(el){
+		var toggleAccordion = function(el,force){
 			if(currentTogggleElem !== null){
 				currentTogggleElem.removeClass(options.openCss);
 			}
@@ -298,7 +298,7 @@
 						if(currentActiveElement && currentActiveElement.parent().parent()[0] === el[0]){
 							goto = 0;
 						}
-						if(goto){
+						if(goto && force !== false){
 							var firstA = el.find('ul a:first');
 							document.location.href = firstA[0].href;
 							setActiveElemnt(el.find('ul li:first'));
@@ -332,7 +332,7 @@
 
 			}else if(activeElem.parent().parent().hasClass('can-open')){
 				if(currentTogggleElem === null || activeElem.parent().parent()[0] !== currentTogggleElem[0]){
-					toggleAccordion(activeElem.parent().parent());
+					toggleAccordion(activeElem.parent().parent(),false);
 				}
 				activeElem.parent().parent().addClass(options.subActive);
 			}else if(currentTogggleElem){
