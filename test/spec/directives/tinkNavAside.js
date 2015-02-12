@@ -25,155 +25,159 @@ describe('navAside', function() {
 	var templates = {
 		'default': {
 			scope: {},
-			element: '<aside data-tink-nav-aside data-auto-select="false" class="nav-left">'+
-			'<div class="nav-aside-section">'+
-			    '<p class="nav-aside-title">Choose a playground</p>'+
-			    '<ul>'+
-			      '<li>'+
-			        '<a href="#/menu1" title="">'+
-			          '<span>Menu 1</span>'+
-			        '</a>'+
-			        '<ul>'+
-			          '<li>'+
-			            '<a href="#/forms" title="">'+
-			              '<i class="fa fa-fw fa-edit"></i>'+
-			              '<span>menu 1 item 1</span>'+
-			            '</a>'+
-			          '</li>'+
-			          '<li>'+
-			            '<a href="#/callouts" title="">'+
-			              '<i class="fa fa-fw fa-twitch"></i>'+
-			              '<span>Callouts</span>'+
-			              '<span class="badge">1</span>'+
-			            '</a>'+
-			          '</li>'+
-			          '<li>'+
-			            '<a href="#/code" title="">'+
-			              '<i class="fa fa-fw fa-code"></i>'+
-			              '<span>Code</span>'+
-			            '</a>'+
-			          '</li>'+
-			        '</ul>'+
-			      '</li>'+
-			      '<li>'+
-			        '<a href="#/menu2" title="">'+
-			          '<span>Menu 2</span>'+
-			          '<span class="badge">1</span>'+
-			        '</a>'+
-			        '<ul>'+
-			          '<li>'+
-			            '<a href="#/menu2/menu1">'+
-			              '<i class="fa fa-fw fa-recycle"></i>'+
-			              '<span>Work Agile Tool</span>'+
-			            '</a>'+
-			          '</li>'+
-			          '<li>'+
-			            '<a href="#/menu2/menu2">'+
-			              '<i class="fa fa-fw fa-recycle"></i>'+
-			              '<span>Work Agile Tool</span>'+
-			            '</a>'+
-			          '</li>'+
-			          '<li>'+
-			            '<a href="#/menu2/menu3">'+
-			              '<i class="fa fa-fw fa-recycle"></i>'+
-			              '<span>Work Agile Tool</span>'+
-			            '</a>'+
-			          '</li>'+
-			        '</ul>'+
-			      '</li>'+
-			      '<li>'+
-			        '<a href="#/menu3" title="">'+
-			          '<span>Menu 3</span>'+
-			          '<span class="badge">1</span>'+
-			        '</a>'+
-			        '<ul>'+
-			          '<li>'+
-			            '<a href="#/menu3/menu4">'+
-			              '<i class="fa fa-fw fa-recycle"></i>'+
-			              '<span>Work Agile Tool</span>'+
-			            '</a>'+
-			          '</li>'+
-			        '</ul>'+
-			      '</li>'+
-			    '</ul>'+
-			  '</div>'+
-			'</aside>'
+			element: '<div data-tink-nav-aside data-auto-select="false" class="nav-left">'+
+				'<aside>'+
+					'<div class="nav-aside-section">'+
+				    '<p class="nav-aside-title">Choose a playground</p>'+
+				    '<ul>'+
+				      '<li>'+
+				        '<a href="#/menu1" title="">'+
+				          '<span>Menu 1</span>'+
+				        '</a>'+
+				        '<ul>'+
+				          '<li>'+
+				            '<a href="#/forms" title="">'+
+				              '<i class="fa fa-fw fa-edit"></i>'+
+				              '<span>menu 1 item 1</span>'+
+				            '</a>'+
+				          '</li>'+
+				          '<li>'+
+				            '<a href="#/callouts" title="">'+
+				              '<i class="fa fa-fw fa-twitch"></i>'+
+				              '<span>Callouts</span>'+
+				              '<span class="badge">1</span>'+
+				            '</a>'+
+				          '</li>'+
+				          '<li>'+
+				            '<a href="#/code" title="">'+
+				              '<i class="fa fa-fw fa-code"></i>'+
+				              '<span>Code</span>'+
+				            '</a>'+
+				          '</li>'+
+				        '</ul>'+
+				      '</li>'+
+				      '<li>'+
+				        '<a href="#/menu2" title="">'+
+				          '<span>Menu 2</span>'+
+				          '<span class="badge">1</span>'+
+				        '</a>'+
+				        '<ul>'+
+				          '<li>'+
+				            '<a href="#/menu2/menu1">'+
+				              '<i class="fa fa-fw fa-recycle"></i>'+
+				              '<span>Work Agile Tool</span>'+
+				            '</a>'+
+				          '</li>'+
+				          '<li>'+
+				            '<a href="#/menu2/menu2">'+
+				              '<i class="fa fa-fw fa-recycle"></i>'+
+				              '<span>Work Agile Tool</span>'+
+				            '</a>'+
+				          '</li>'+
+				          '<li>'+
+				            '<a href="#/menu2/menu3">'+
+				              '<i class="fa fa-fw fa-recycle"></i>'+
+				              '<span>Work Agile Tool</span>'+
+				            '</a>'+
+				          '</li>'+
+				        '</ul>'+
+				      '</li>'+
+				      '<li>'+
+				        '<a href="#/menu3" title="">'+
+				          '<span>Menu 3</span>'+
+				          '<span class="badge">1</span>'+
+				        '</a>'+
+				        '<ul>'+
+				          '<li>'+
+				            '<a href="#/menu3/menu4">'+
+				              '<i class="fa fa-fw fa-recycle"></i>'+
+				              '<span>Work Agile Tool</span>'+
+				            '</a>'+
+				          '</li>'+
+				        '</ul>'+
+				      '</li>'+
+				    '</ul>'+
+				  '</div>'+
+				'</aside>'+
+			'</div>'
 		},
 		'auto-true': {
 			scope: {},
-			element: '<aside data-tink-nav-aside data-auto-select="true" class="nav-left">'+
-			'<div class="nav-aside-section">'+
-			    '<p class="nav-aside-title">Choose a playground</p>'+
-			    '<ul>'+
-			      '<li>'+
-			        '<a href="#/menu1" title="">'+
-			          '<span>Menu 1</span>'+
-			        '</a>'+
-			        '<ul>'+
-			          '<li>'+
-			            '<a href="#/forms" title="">'+
-			              '<i class="fa fa-fw fa-edit"></i>'+
-			              '<span>menu 1 item 1</span>'+
-			            '</a>'+
-			          '</li>'+
-			          '<li>'+
-			            '<a href="#/callouts" title="">'+
-			              '<i class="fa fa-fw fa-twitch"></i>'+
-			              '<span>Callouts</span>'+
-			              '<span class="badge">1</span>'+
-			            '</a>'+
-			          '</li>'+
-			          '<li>'+
-			            '<a href="#/code" title="">'+
-			              '<i class="fa fa-fw fa-code"></i>'+
-			              '<span>Code</span>'+
-			            '</a>'+
-			          '</li>'+
-			        '</ul>'+
-			      '</li>'+
-			      '<li>'+
-			        '<a href="#/menu2" title="">'+
-			          '<span>Menu 2</span>'+
-			          '<span class="badge">1</span>'+
-			        '</a>'+
-			        '<ul>'+
-			          '<li>'+
-			            '<a href="#/menu2/menu1">'+
-			              '<i class="fa fa-fw fa-recycle"></i>'+
-			              '<span>Work Agile Tool</span>'+
-			            '</a>'+
-			          '</li>'+
-			          '<li>'+
-			            '<a href="#/menu2/menu2">'+
-			              '<i class="fa fa-fw fa-recycle"></i>'+
-			              '<span>Work Agile Tool</span>'+
-			            '</a>'+
-			          '</li>'+
-			          '<li>'+
-			            '<a href="#/menu2/menu3">'+
-			              '<i class="fa fa-fw fa-recycle"></i>'+
-			              '<span>Work Agile Tool</span>'+
-			            '</a>'+
-			          '</li>'+
-			        '</ul>'+
-			      '</li>'+
-			      '<li>'+
-			        '<a href="#/menu3" title="">'+
-			          '<span>Menu 3</span>'+
-			          '<span class="badge">1</span>'+
-			        '</a>'+
-			        '<ul>'+
-			          '<li>'+
-			            '<a href="#/menu3/menu4">'+
-			              '<i class="fa fa-fw fa-recycle"></i>'+
-			              '<span>Work Agile Tool</span>'+
-			            '</a>'+
-			          '</li>'+
-			        '</ul>'+
-			      '</li>'+
-			    '</ul>'+
-			  '</div>'+
-			'</aside>'
+			element: '<div data-tink-nav-aside data-auto-select="true" class="nav-left">'+
+				'<aside>'+
+					'<div class="nav-aside-section">'+
+				    '<p class="nav-aside-title">Choose a playground</p>'+
+				    '<ul>'+
+				      '<li>'+
+				        '<a href="#/menu1" title="">'+
+				          '<span>Menu 1</span>'+
+				        '</a>'+
+				        '<ul>'+
+				          '<li>'+
+				            '<a href="#/forms" title="">'+
+				              '<i class="fa fa-fw fa-edit"></i>'+
+				              '<span>menu 1 item 1</span>'+
+				            '</a>'+
+				          '</li>'+
+				          '<li>'+
+				            '<a href="#/callouts" title="">'+
+				              '<i class="fa fa-fw fa-twitch"></i>'+
+				              '<span>Callouts</span>'+
+				              '<span class="badge">1</span>'+
+				            '</a>'+
+				          '</li>'+
+				          '<li>'+
+				            '<a href="#/code" title="">'+
+				              '<i class="fa fa-fw fa-code"></i>'+
+				              '<span>Code</span>'+
+				            '</a>'+
+				          '</li>'+
+				        '</ul>'+
+				      '</li>'+
+				      '<li>'+
+				        '<a href="#/menu2" title="">'+
+				          '<span>Menu 2</span>'+
+				          '<span class="badge">1</span>'+
+				        '</a>'+
+				        '<ul>'+
+				          '<li>'+
+				            '<a href="#/menu2/menu1">'+
+				              '<i class="fa fa-fw fa-recycle"></i>'+
+				              '<span>Work Agile Tool</span>'+
+				            '</a>'+
+				          '</li>'+
+				          '<li>'+
+				            '<a href="#/menu2/menu2">'+
+				              '<i class="fa fa-fw fa-recycle"></i>'+
+				              '<span>Work Agile Tool</span>'+
+				            '</a>'+
+				          '</li>'+
+				          '<li>'+
+				            '<a href="#/menu2/menu3">'+
+				              '<i class="fa fa-fw fa-recycle"></i>'+
+				              '<span>Work Agile Tool</span>'+
+				            '</a>'+
+				          '</li>'+
+				        '</ul>'+
+				      '</li>'+
+				      '<li>'+
+				        '<a href="#/menu3" title="">'+
+				          '<span>Menu 3</span>'+
+				          '<span class="badge">1</span>'+
+				        '</a>'+
+				        '<ul>'+
+				          '<li>'+
+				            '<a href="#/menu3/menu4">'+
+				              '<i class="fa fa-fw fa-recycle"></i>'+
+				              '<span>Work Agile Tool</span>'+
+				            '</a>'+
+				          '</li>'+
+				        '</ul>'+
+				      '</li>'+
+				    '</ul>'+
+				  '</div>'+
+				'</aside>'+
+			'</div>'
 		},
 	};
 
