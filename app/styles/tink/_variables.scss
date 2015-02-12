@@ -295,6 +295,7 @@ $btn-icon-margin:                8px !default; // right margin when icon inside 
 
 $input-bg:                       $white !default; // `<input>` background color
 $input-bg-disabled:              $gray-lighter !default; // `<input disabled>` background color
+$input-base-color:               $brand-light !default; // Color for checkboxes and radio buttons
 $input-color:                    lighten($gray-dark, 16%) !default; // Text color for `<input>`s
 $input-border:                   $gray-light !default; // `<input>` border color
 $input-border-radius:            $border-radius-base !default; // `<input>` border radius
@@ -421,7 +422,7 @@ $nav-aside-section-border-color:                $gray-lighter !default;
 $nav-aside-title-color:                         $gray-light !default;
 $nav-aside-link-color:                          lighten($gray-dark, 12%) !default;
 $nav-aside-link-hover-color:                    $brand !default;
-$nav-aside-link-hover-background-color:         rgba(0, 0, 0, .05) !default;
+$nav-aside-link-hover-background-color:         rgba($black, .05) !default;
 $nav-aside-link-active-color:                   $nav-aside-link-hover-color !default;
 $nav-aside-item-open-color:                     $body-bg !default;
 $nav-aside-badge-color:                         $gray-dark !default;
@@ -466,6 +467,19 @@ $callout-color-warning         : $brand-warning !default;
 $callout-bgcolor-warning       : lighten($callout-color-warning, 45%);
 $callout-color-danger          : $brand-danger !default;
 $callout-bgcolor-danger        : lighten($callout-color-danger, 45%);
+
+
+/**
+ * Hit-area-box
+ */
+$hit-area-color                 : $text-color !default;
+$hit-area-bgcolor               : lighten($gray-light,8%);
+$hit-area-hover-color           : darken($hit-area-color, 20%);
+$hit-area-hover-bgcolor         : darken($hit-area-bgcolor,8%);
+$hit-area-checked-color         : $white !default;
+$hit-area-checked-bgcolor       : $brand !default;
+
+
 
 //== Navbar
 //

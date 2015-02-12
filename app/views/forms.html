@@ -81,7 +81,7 @@
             <div class="col-xs-12 col-md-6 form-group">
               <label>Radio buttons</label>
               <div class="radio">
-                <input type="radio" id="radio11" name="radio11" value="" checked>
+                <input type="radio" id="radio11" name="radio11" value="">
                 <label for="radio11">Option one</label>
               </div>
               <div class="radio">
@@ -116,6 +116,66 @@
           </div> -->
         </fieldset>
 
+<!-- Start Hit area box testing by lievenvg -->
+
+<!-- new code -->
+<fieldset>
+ <legend>New semantic code for hit area box checkbox</legend>
+  <ul class="hit-area-box">
+    <li>
+      <input type="checkbox" id="check21" name="check21" value="" checked="" >
+      <label for="check21">Ja, Kristien Verschoten is aanwezig</label>
+    </li>
+    <li>
+      <input type="checkbox" id="check22" name="check22" value="">
+      <label for="check22">Haar vriendin is ook aanwezig</label>
+    </li>
+    <li>
+      <input type="checkbox" id="check23" name="check23" value="" disabled="">
+      <label for="check23">This little fella can't play because he's disabled. But it's got a lot more text... I mean a lot more... This could go on and on. And on... And on...</label>
+    </li>
+  </ul>
+</fieldset>
+
+
+<fieldset>
+ <legend>New semantic code for hit area box radiobutton</legend>
+  <ul class="hit-area-box">
+    <li>
+      <input type="radio" id="radio21" name="radio21" value="">
+      <label for="radio21">Ja, Kristien Verschoten is aanwezig</label>
+    </li>
+    <li>
+      <input type="radio" id="radio22" name="radio21" value="">
+      <label for="radio22">Nee, Kristien Verschoten is niet aanwezig</label>
+    </li>
+    <li>
+      <input type="radio" id="radio23" name="radio21" value="" disabled="">
+      <label for="radio23">This little fella can't play because he's disabled. But it's got a lot more text... I mean a lot more... This could go on and on. And on... And on...</label>
+    </li>
+  </ul>
+</fieldset>
+
+<!-- end of new code -->
+
+<!-- Why doesn't this basic Tink checkbox work? -->
+<div class="form-group">
+  <h3>Checkboxes according to Tink, that don't seem to work in the playground?</h3>
+  <div class="checkbox">
+    <input type="checkbox" id="checkbox1" name="checkbox1" value="" checked="">
+    <label for="checkbox1">Option one</label>
+  </div>
+  <div class="checkbox">
+    <input type="checkbox" id="checkbox2" name="checkbox2" value="">
+    <label for="checkbox2">Option two is a very long option, so we can see its behaviour when too much text is used for the label.</label>
+  </div>
+  <div class="checkbox">
+    <input type="checkbox" id="checkbox3" name="checkbox3" value="" disabled="">
+    <label for="checkbox3">Option three is disabled</label>
+  </div>
+</div>
+
+<!-- End of Hit area box testing by lievenvg -->
 
         <fieldset>
           <legend>Select</legend>
