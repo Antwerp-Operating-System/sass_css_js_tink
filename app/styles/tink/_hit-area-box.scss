@@ -20,20 +20,12 @@
 
         &:before {
           border: none; // removing border like defined in 'Focus' design
-          height: rem(22); // visually compensating size for removing border on radio
-          left: rem(12);
-          top: rem(8);
-          width: rem(22); // visually compensating size for removing border on radio
-
-          @media screen and (min-width: $screen-sm) {
-          height: rem(17); // visually compensating size for removing border on radio
-          width: rem(17); // visually compensating size for removing border on radio
-          }
         }
       }
 
       &:active:enabled:not(:checked),
-      &:hover:enabled:not(:checked) {
+      &:hover:enabled:not(:checked) ,
+      &:focus:enabled:not(:checked) {
         + label {
           background-color: $hit-area-hover-bgcolor;
           color: $hit-area-hover-color;
@@ -62,17 +54,36 @@
 
     input[type="checkbox"] {
       + label {
+        &:before,
         &:after {
-          height: rem(20); // visually compensating size for removing border on square
-          left: rem(10);
-          top: rem(6);
-          width: rem(20); // visually compensating size for removing border on square
+          height: rem(20); // visually compensating size for removing border on checkbox
+          left: rem(13);
+          top: rem(7);
+          width: rem(20); // visually compensating size for removing border on checkbox
 
           @media screen and (min-width: $screen-sm) {
-          height: rem(10); // visually compensating size for removing border on square
-          left: rem(13);
-          top: rem(9);
-          width: rem(10); // visually compensating size for removing border on square
+            height: rem(14); // visually compensating size for removing border on checkbox
+            left: rem(16);
+            top: rem(10);
+            width: rem(14); // visually compensating size for removing border on checkbox
+          }
+        }
+      }
+    }
+
+    input[type="radio"] {
+      + label {
+        &:before {
+          height: rem(22);
+          left: rem(12);
+          top: rem(6);
+          width: rem(22);
+
+          @media screen and (min-width: $screen-sm) {
+            height: rem(16);
+            left: rem(15);
+            top: rem(9);
+            width: rem(16);
           }
         }
       }
