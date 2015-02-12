@@ -25,84 +25,160 @@ describe('navAside', function() {
 	var templates = {
 		'default': {
 			scope: {},
-			element: '<aside data-tink-nav-aside class="nav-left">'+
-			'<ul class="nav-aside-list" role="sidenav">'+
-			'<li> <a href="#/menu1"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 1</span> <span class="badge">479</span> </a> </li>'+
-			'<li class="can-open"> <a href="#/menu2"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 2</span> <span class="badge">479</span> </a> <ul>'+
-			'<li> <a href="#/menu2/menu1"> <span>Sub menu item 1</span> <span class="badge">479</span> </a> </li>'+
-			'<li> <a href="#/menu2/menu2"> <span>Sub menu item 2</span> </a> </li>'+
-			'<li> <a href="#/menu2/menu3"> <span>Sub menu item 3 als dat geen probleem is</span> <span class="badge">479</span> </a>'+
-			'</li>'+
-			'</ul> </li>'+
-			'<li> <a href="#/menu4"> <!-- <i class="fa fa-fw fa-dashboard"></i> --> <span>Menu item 4<span class="badge">479</span></span> </a>'+
-			'<ul>'+
-			'<li> <a href="#/menu4/menu1"> <span>Sub menu item 14<span class="badge">479</span></span> </a> </li>'+
-			'<li> <a href="#/menu4/menu2"> <span>Sub menu item14</span> </a> </li>'+
-			'<li> <a href="#/menu4/menu3"> <span> Sub menu item 54 <span class="badge">479</span> </span> </a> </li>'+
-			'</ul> </li>'+
-			'<li> <a href="#/menu3"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 3</span> </a> </li>'+
-			'<li> <a href="#/menu3/menu4"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 4</span> </a> </li> </ul> </aside>'
+			element: '<div data-tink-nav-aside data-auto-select="false" class="nav-left">'+
+				'<aside>'+
+					'<div class="nav-aside-section">'+
+				    '<p class="nav-aside-title">Choose a playground</p>'+
+				    '<ul>'+
+				      '<li>'+
+				        '<a href="#/menu1" title="">'+
+				          '<span>Menu 1</span>'+
+				        '</a>'+
+				        '<ul>'+
+				          '<li>'+
+				            '<a href="#/forms" title="">'+
+				              '<i class="fa fa-fw fa-edit"></i>'+
+				              '<span>menu 1 item 1</span>'+
+				            '</a>'+
+				          '</li>'+
+				          '<li>'+
+				            '<a href="#/callouts" title="">'+
+				              '<i class="fa fa-fw fa-twitch"></i>'+
+				              '<span>Callouts</span>'+
+				              '<span class="badge">1</span>'+
+				            '</a>'+
+				          '</li>'+
+				          '<li>'+
+				            '<a href="#/code" title="">'+
+				              '<i class="fa fa-fw fa-code"></i>'+
+				              '<span>Code</span>'+
+				            '</a>'+
+				          '</li>'+
+				        '</ul>'+
+				      '</li>'+
+				      '<li>'+
+				        '<a href="#/menu2" title="">'+
+				          '<span>Menu 2</span>'+
+				          '<span class="badge">1</span>'+
+				        '</a>'+
+				        '<ul>'+
+				          '<li>'+
+				            '<a href="#/menu2/menu1">'+
+				              '<i class="fa fa-fw fa-recycle"></i>'+
+				              '<span>Work Agile Tool</span>'+
+				            '</a>'+
+				          '</li>'+
+				          '<li>'+
+				            '<a href="#/menu2/menu2">'+
+				              '<i class="fa fa-fw fa-recycle"></i>'+
+				              '<span>Work Agile Tool</span>'+
+				            '</a>'+
+				          '</li>'+
+				          '<li>'+
+				            '<a href="#/menu2/menu3">'+
+				              '<i class="fa fa-fw fa-recycle"></i>'+
+				              '<span>Work Agile Tool</span>'+
+				            '</a>'+
+				          '</li>'+
+				        '</ul>'+
+				      '</li>'+
+				      '<li>'+
+				        '<a href="#/menu3" title="">'+
+				          '<span>Menu 3</span>'+
+				          '<span class="badge">1</span>'+
+				        '</a>'+
+				        '<ul>'+
+				          '<li>'+
+				            '<a href="#/menu3/menu4">'+
+				              '<i class="fa fa-fw fa-recycle"></i>'+
+				              '<span>Work Agile Tool</span>'+
+				            '</a>'+
+				          '</li>'+
+				        '</ul>'+
+				      '</li>'+
+				    '</ul>'+
+				  '</div>'+
+				'</aside>'+
+			'</div>'
 		},
-		'accordion': {
+		'auto-true': {
 			scope: {},
-			element: '<aside data-tink-nav-aside data-accordion="true" data-accordion-first="false" class="nav-left">'+
-			'<ul class="nav-aside-list" role="sidenav">'+
-			'<li> <a href="#/menu1"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 1</span> <span class="badge">479</span> </a> </li>'+
-			'<li class="can-open"> <a href="#/menu2"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 2</span> <span class="badge">479</span> </a> <ul>'+
-			'<li> <a href="#/menu2/menu1"> <span>Sub menu item 1</span> <span class="badge">479</span> </a> </li>'+
-			'<li> <a href="#/menu2/menu2"> <span>Sub menu item 2</span> </a> </li>'+
-			'<li> <a href="#/menu2/menu3"> <span>Sub menu item 3 als dat geen probleem is</span> <span class="badge">479</span> </a>'+
-			'</li>'+
-			'</ul> </li>'+
-			'<li> <a href="#/menu4"> <!-- <i class="fa fa-fw fa-dashboard"></i> --> <span>Menu item 4<span class="badge">479</span></span> </a>'+
-			'<ul>'+
-			'<li> <a href="#/menu4/menu1"> <span>Sub menu item 14<span class="badge">479</span></span> </a> </li>'+
-			'<li> <a href="#/menu4/menu2"> <span>Sub menu item14</span> </a> </li>'+
-			'<li> <a href="#/menu4/menu3"> <span> Sub menu item 54 <span class="badge">479</span> </span> </a> </li>'+
-			'</ul> </li>'+
-			'<li> <a href="#/menu3"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 3</span> </a> </li>'+
-			'<li> <a href="#/menu3/menu4"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 4</span> </a> </li> </ul> </aside>'
+			element: '<div data-tink-nav-aside data-auto-select="true" class="nav-left">'+
+				'<aside>'+
+					'<div class="nav-aside-section">'+
+				    '<p class="nav-aside-title">Choose a playground</p>'+
+				    '<ul>'+
+				      '<li>'+
+				        '<a href="#/menu1" title="">'+
+				          '<span>Menu 1</span>'+
+				        '</a>'+
+				        '<ul>'+
+				          '<li>'+
+				            '<a href="#/forms" title="">'+
+				              '<i class="fa fa-fw fa-edit"></i>'+
+				              '<span>menu 1 item 1</span>'+
+				            '</a>'+
+				          '</li>'+
+				          '<li>'+
+				            '<a href="#/callouts" title="">'+
+				              '<i class="fa fa-fw fa-twitch"></i>'+
+				              '<span>Callouts</span>'+
+				              '<span class="badge">1</span>'+
+				            '</a>'+
+				          '</li>'+
+				          '<li>'+
+				            '<a href="#/code" title="">'+
+				              '<i class="fa fa-fw fa-code"></i>'+
+				              '<span>Code</span>'+
+				            '</a>'+
+				          '</li>'+
+				        '</ul>'+
+				      '</li>'+
+				      '<li>'+
+				        '<a href="#/menu2" title="">'+
+				          '<span>Menu 2</span>'+
+				          '<span class="badge">1</span>'+
+				        '</a>'+
+				        '<ul>'+
+				          '<li>'+
+				            '<a href="#/menu2/menu1">'+
+				              '<i class="fa fa-fw fa-recycle"></i>'+
+				              '<span>Work Agile Tool</span>'+
+				            '</a>'+
+				          '</li>'+
+				          '<li>'+
+				            '<a href="#/menu2/menu2">'+
+				              '<i class="fa fa-fw fa-recycle"></i>'+
+				              '<span>Work Agile Tool</span>'+
+				            '</a>'+
+				          '</li>'+
+				          '<li>'+
+				            '<a href="#/menu2/menu3">'+
+				              '<i class="fa fa-fw fa-recycle"></i>'+
+				              '<span>Work Agile Tool</span>'+
+				            '</a>'+
+				          '</li>'+
+				        '</ul>'+
+				      '</li>'+
+				      '<li>'+
+				        '<a href="#/menu3" title="">'+
+				          '<span>Menu 3</span>'+
+				          '<span class="badge">1</span>'+
+				        '</a>'+
+				        '<ul>'+
+				          '<li>'+
+				            '<a href="#/menu3/menu4">'+
+				              '<i class="fa fa-fw fa-recycle"></i>'+
+				              '<span>Work Agile Tool</span>'+
+				            '</a>'+
+				          '</li>'+
+				        '</ul>'+
+				      '</li>'+
+				    '</ul>'+
+				  '</div>'+
+				'</aside>'+
+			'</div>'
 		},
-		'firstSelected': {
-			scope: {},
-			element: '<aside data-tink-nav-aside data-accordion="false" data-accordion-first="true" class="nav-left">'+
-			'<ul class="nav-aside-list" role="sidenav">'+
-			'<li> <a href="#/menu1"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 1</span> <span class="badge">479</span> </a> </li>'+
-			'<li class="can-open"> <a href="#/menu2"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 2</span> <span class="badge">479</span> </a> <ul>'+
-			'<li> <a href="#/menu2/menu1"> <span>Sub menu item 1</span> <span class="badge">479</span> </a> </li>'+
-			'<li> <a href="#/menu2/menu2"> <span>Sub menu item 2</span> </a> </li>'+
-			'<li> <a href="#/menu2/menu3"> <span>Sub menu item 3 als dat geen probleem is</span> <span class="badge">479</span> </a>'+
-			'</li>'+
-			'</ul> </li>'+
-			'<li> <a href="#/menu4"> <!-- <i class="fa fa-fw fa-dashboard"></i> --> <span>Menu item 4<span class="badge">479</span></span> </a>'+
-			'<ul>'+
-			'<li> <a href="#/menu4/menu1"> <span>Sub menu item 14<span class="badge">479</span></span> </a> </li>'+
-			'<li> <a href="#/menu4/menu2"> <span>Sub menu item14</span> </a> </li>'+
-			'<li> <a href="#/menu4/menu3"> <span> Sub menu item 54 <span class="badge">479</span> </span> </a> </li>'+
-			'</ul> </li>'+
-			'<li> <a href="#/menu3"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 3</span> </a> </li>'+
-			'<li> <a href="#/menu3/menu4"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 4</span> </a> </li> </ul> </aside>'
-		},
-		'AccordionfirstSelected': {
-			scope: {},
-			element: '<aside data-tink-nav-aside data-accordion="true" data-accordion-first="true" class="nav-left">'+
-			'<ul class="nav-aside-list" role="sidenav">'+
-			'<li> <a href="#/menu1"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 1</span> <span class="badge">479</span> </a> </li>'+
-			'<li class="can-open"> <a href="#/menu2"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 2</span> <span class="badge">479</span> </a> <ul>'+
-			'<li> <a href="#/menu2/menu1"> <span>Sub menu item 1</span> <span class="badge">479</span> </a> </li>'+
-			'<li> <a href="#/menu2/menu2"> <span>Sub menu item 2</span> </a> </li>'+
-			'<li> <a href="#/menu2/menu3"> <span>Sub menu item 3 als dat geen probleem is</span> <span class="badge">479</span> </a>'+
-			'</li>'+
-			'</ul> </li>'+
-			'<li> <a href="#/menu4"> <!-- <i class="fa fa-fw fa-dashboard"></i> --> <span>Menu item 4<span class="badge">479</span></span> </a>'+
-			'<ul>'+
-			'<li> <a href="#/menu4/menu1"> <span>Sub menu item 14<span class="badge">479</span></span> </a> </li>'+
-			'<li> <a href="#/menu4/menu2"> <span>Sub menu item14</span> </a> </li>'+
-			'<li> <a href="#/menu4/menu3"> <span> Sub menu item 54 <span class="badge">479</span> </span> </a> </li>'+
-			'</ul> </li>'+
-			'<li> <a href="#/menu3"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 3</span> </a> </li>'+
-			'<li> <a href="#/menu3/menu4"> <i class="fa fa-fw fa-dashboard"></i> <span>Menu item 4</span> </a> </li> </ul> </aside>'
-		}
 	};
 
 	function compileDirective(template, locals) {
@@ -115,7 +191,7 @@ describe('navAside', function() {
 	}
 
 	describe('default',function(){
-		it('should have no elements selected', function() {
+	it('should have no elements selected', function() {
 			var elm = compileDirective('default');
 			$location.path('/');
 			scope.$digest();
@@ -124,7 +200,7 @@ describe('navAside', function() {
 		});
 
 		it('should have 1 element selected', function() {
-			spyOn($window.tinkApi.util, 'getCurrentURL').and.returnValue('http://localhost:8080/context.html#/menu1');
+			spyOn($window.tinkApi.util, 'getCurrentURL').and.returnValue('http://localhost:8080/context.html#/forms');
 			var elm = compileDirective('default');
 			scope.$digest();
 			expect(elm.find('li.active').length).toBe(1);
@@ -134,59 +210,15 @@ describe('navAside', function() {
 			spyOn($window.tinkApi.util, 'getCurrentURL').and.returnValue('http://localhost:8080/context.html#/menu1');
 			var elm = compileDirective('default');
 			scope.$digest();
-			angular.element(sandboxEl.find('li.can-open:first a')[0]).triggerHandler('click');
-			scope.$apply();
-			expect(elm.find('li.active a').attr('href')).toBe('#/menu2');
-		});
-
-		it('When clicked on a eleml with no accordion should change active', function() {
-			spyOn($window.tinkApi.util, 'getCurrentURL').and.returnValue('http://localhost:8080/context.html#/menu1');
-			var elm = compileDirective('default');
+			angular.element(sandboxEl.find('a[href="#/menu2/menu1"]')[0]).triggerHandler('click');
 			scope.$digest();
-			angular.element(elm.find('a[href="#/menu3"]')[0]).triggerHandler('click');
-			scope.$digest();
-			expect(sandboxEl.find('li.active a').attr('href')).toBe('#/menu3');
+			expect(elm.find('li.active a').attr('href')).toBe('#/menu2/menu1');
 		});
 	});
-
-describe('accrodion true',function(){
-	it('should have no elements selected', function() {
-		var elm = compileDirective('accordion');
-		$location.path('/');
-		scope.$digest();
-		expect($location.path()).toBe('/');
-		expect(elm.find('li.active').length).toBe(0);
-	});
-
-	it('should have 1 element selected', function() {
-		spyOn($window.tinkApi.util, 'getCurrentURL').and.returnValue('http://localhost:8080/context.html#/menu1');
-		var elm = compileDirective('accordion');
-		scope.$digest();
-		expect(elm.find('li.active').length).toBe(1);
-	});
-
-	it('Data accordion enabled open accordion should not change active element', function() {
-		spyOn($window.tinkApi.util, 'getCurrentURL').and.returnValue('http://localhost:8080/context.html#/menu1');
-		var elm = compileDirective('accordion');
-		scope.$digest();
-		angular.element(sandboxEl.find('li.can-open:first a')[0]).triggerHandler('click');
-		scope.$apply();
-		expect(elm.find('li.active a').attr('href')).toBe('#/menu1');
-	});
-
-	it('When clicked on a elem with no accordion should change active', function() {
-		spyOn($window.tinkApi.util, 'getCurrentURL').and.returnValue('http://localhost:8080/context.html#/menu1');
-		var elm = compileDirective('accordion');
-		scope.$digest();
-		angular.element(elm.find('a[href="#/menu3"]')[0]).triggerHandler('click');
-		scope.$digest();
-		expect(sandboxEl.find('li.active a').attr('href')).toBe('#/menu3');
-	});
-});
 
 describe('first selected true',function(){
 	it('should have no elements selected', function() {
-		var elm = compileDirective('firstSelected');
+		var elm = compileDirective('auto-true');
 		$location.path('/');
 		scope.$digest();
 		expect($location.path()).toBe('/');
@@ -195,27 +227,20 @@ describe('first selected true',function(){
 
 	it('should have 1 element selected', function() {
 		spyOn($window.tinkApi.util, 'getCurrentURL').and.returnValue('http://localhost:8080/context.html#/menu1');
-		var elm = compileDirective('firstSelected');
+		var elm = compileDirective('auto-true');
 		scope.$digest();
 		expect(elm.find('li.active').length).toBe(1);
 	});
 
+
 	it('Data accordion enabled open accordion should change active element to first element', function() {
-		spyOn($window.tinkApi.util, 'getCurrentURL').and.returnValue('http://localhost:8080/context.html#/menu1');
-		var elm = compileDirective('firstSelected');
-		scope.$digest();
-		angular.element(sandboxEl.find('li.can-open:first a')[0]).triggerHandler('click');
-		scope.$apply();
-		expect(elm.find('li.active a').attr('href')).toBe('#/menu2/menu1');
+			spyOn($window.tinkApi.util, 'getCurrentURL').and.callFake(function(){return 'http://localhost:8080/context.html#/menu2';});
+			var elm = compileDirective('auto-true');
+			scope.$apply();
+			angular.element(elm.find('li.can-open a')[0]).triggerHandler('click');
+			scope.$digest();
+			expect(elm.find('li.active a').attr('href')).toBe('#/forms');
 	});
 
-	it('When clicked on a elem with no accordion should change active', function() {
-		spyOn($window.tinkApi.util, 'getCurrentURL').and.returnValue('http://localhost:8080/context.html#/menu1');
-		var elm = compileDirective('firstSelected');
-		scope.$digest();
-		angular.element(elm.find('a[href="#/menu3"]')[0]).triggerHandler('click');
-		scope.$digest();
-		expect(sandboxEl.find('li.active a').attr('href')).toBe('#/menu3');
-	});
 });
 });

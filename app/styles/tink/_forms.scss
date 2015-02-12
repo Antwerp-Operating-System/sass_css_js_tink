@@ -166,13 +166,14 @@ input[type="time"] {
 
     &::-webkit-inner-spin-button {
       border-left: 1px solid $input-border-focus;
+      @warn $input-border-focus;
 
       &:before {
-        border-color: transparent transparent $brand-light;
+        border-color: transparent transparent $input-border-focus;
       }
 
       &:after {
-        border-color: $brand-light transparent transparent;
+        border-color: $input-border-focus transparent transparent;
       }
     }
   }
@@ -201,6 +202,7 @@ input[type="radio"] {
       background: #fff;
       border: 1px solid $input-border;
       position: absolute;
+      transition: border-color linear $animation-speed, box-shadow linear $animation-speed;
     }
   }
 
@@ -236,7 +238,7 @@ input[type="checkbox"] {
     }
 
     &:after {
-      color: $brand-light;
+      color: $input-base-color;
       content: '\f00c';
       font-family: 'FontAwesome';
       font-size: rem(16);
@@ -266,7 +268,8 @@ input[type="checkbox"] {
   &:focus {
     + label {
       &:before {
-        box-shadow: 0 0 0 2px rgba($brand-light, .25);
+        border-color: $input-border-focus;
+        box-shadow: 0 0 0 2px rgba($input-border-focus, .25);
       }
     }
   }
@@ -275,14 +278,13 @@ input[type="checkbox"] {
 input[type="radio"] {
   + label {
     &:before {
-      background: $brand-light;
+      background: $input-base-color;
       border-radius: 50%;
-      box-shadow: 0 0 0 40px #fff inset;
+      box-shadow: 0 0 0 rem(40) #fff inset;
       content: "";
       height: rem(24);
       left: 0;
       top: 0;
-      transition: box-shadow linear $animation-speed;
       width: rem(24);
 
       @media screen and (min-width: $screen-sm) {
@@ -299,12 +301,21 @@ input[type="radio"] {
         box-shadow: 0 0 0 rem(4) #fff inset;
       }
     }
+
+    &:focus {
+      + label {
+        &:before {
+          box-shadow: 0 0 0 rem(4) #fff inset, 0 0 0 rem(2) rgba($input-border-focus, .25);
+        }
+      }
+    }
   }
 
   &:focus {
     + label {
       &:before {
-        box-shadow: 0 0 0 rem(4) #fff inset, 0 0 0 rem(2) rgba($brand-light, .25);
+        border-color: $input-border-focus;
+        box-shadow: 0 0 0 rem(40) #fff inset, 0 0 0 rem(2) rgba($input-border-focus, .25);
       }
     }
   }

@@ -144,7 +144,7 @@ $hr-border:                   $gray-lighter !default; // Horizontal line color.
  */
 
 $code-color:                  $brand !default;
-$code-bg:                     lighten($brand, 54%) !default;
+$code-bg:                     lighten($code-color, 54%) !default;
 
 $kbd-color:                   $white !default;
 $kbd-bg:                      $gray-darker !default;
@@ -186,7 +186,7 @@ $state-success-text:             $brand-success !default;
 $state-success-bg:               lighten($brand-success, 48%) !default;
 $state-success-border:           darken(adjust-hue($state-success-bg, -10), 5%) !default;
 
-$state-info-text:                $brand !default;
+$state-info-text:                $brand-info !default;
 $state-info-bg:                  lighten($brand-info, 24%) !default;
 $state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%) !default;
 
@@ -295,6 +295,7 @@ $btn-icon-margin:                8px !default; // right margin when icon inside 
 
 $input-bg:                       $white !default; // `<input>` background color
 $input-bg-disabled:              $gray-lighter !default; // `<input disabled>` background color
+$input-base-color:               $brand-light !default; // Color for checkboxes and radio buttons
 $input-color:                    lighten($gray-dark, 16%) !default; // Text color for `<input>`s
 $input-border:                   $gray-light !default; // `<input>` border color
 $input-border-radius:            $border-radius-base !default; // `<input>` border radius
@@ -411,26 +412,27 @@ $nav-top-link-hover-color:               $gray-lighter !default;
 $nav-top-link-bg-hover-color:            lighten($nav-top-bg-color, 10);
 $nav-top-padding:                        $bar-padding !default;
 
+$nav-aside-horizontal-padding:                  15px !default;
+$nav-aside-vertical-padding:                    10px !default;
+$nav-aside-item-vertical-padding:               7px !default;
+$nav-aside-width:                               220px !default;
 
-$nav-aside-width:                        220px !default;
-$nav-aside-item-height:                  $bar-height !default;
-$nav-aside-subitem-height:               40px !default;
-
-$nav-aside-bg-color:                     $white !default;
-$nav-aside-item-border-color:            $gray-lighter !default;
-$nav-aside-item-open-color:              $body-bg !default;
-$nav-aside-link-color:                   lighten($gray-dark, 12%) !default;
-$nav-aside-link-hover-color:             $gray-darker !default;
-$nav-aside-link-hover-background-color:  rgba(0, 0, 0, .05) !default;
-$nav-aside-link-active-color:            $white !default;
-$nav-aside-link-active-background-color: $brand !default;
-
-$nav-aside-badge-color:                  $white !default;
-$nav-aside-badge-background-color:       $gray !default;
-$nav-aside-badge-hover-color:            $gray !default;
-$nav-aside-badge-hover-text-color:       $white !default;
-$nav-aside-badge-active-color:           $white !default;
-$nav-aside-badge-active-text-color:      $black !default;
+$nav-aside-bg-color:                            $white !default;
+$nav-aside-section-border-color:                $gray-lighter !default;
+$nav-aside-title-color:                         $gray-light !default;
+$nav-aside-link-color:                          lighten($gray-dark, 12%) !default;
+$nav-aside-link-hover-color:                    $brand !default;
+$nav-aside-link-hover-background-color:         rgba($black, .05) !default;
+$nav-aside-link-active-color:                   $nav-aside-link-hover-color !default;
+$nav-aside-item-open-color:                     $body-bg !default;
+$nav-aside-badge-color:                         $gray-dark !default;
+$nav-aside-badge-background-color:              $gray-lighter !default;
+$nav-aside-badge-hover-color:                   $nav-aside-link-hover-color !default;
+$nav-aside-badge-hover-background-color:        $white !default;
+$nav-aside-badge-active-color:                  $white !default;
+$nav-aside-badge-active-background-color:       $nav-aside-link-hover-color !default;
+$nav-aside-badge-active-hover-color:            $white !default;
+$nav-aside-badge-active-background-hover-color: $nav-aside-link-hover-color !default;
 
 
 
@@ -458,13 +460,26 @@ $datepicker-neutral-dark       : $gray-dark !default;
  * Callout
  */
 $callout-color                 : $brand !default;
-$callout-bgcolor               : lighten($brand, 50%);
+$callout-bgcolor               : lighten($callout-color, 50%);
 $callout-color-success         : $brand-success !default;
-$callout-bgcolor-success       : lighten($brand-success, 60%);
+$callout-bgcolor-success       : lighten($callout-color-success, 60%);
 $callout-color-warning         : $brand-warning !default;
-$callout-bgcolor-warning       : lighten($brand-warning, 45%);
+$callout-bgcolor-warning       : lighten($callout-color-warning, 45%);
 $callout-color-danger          : $brand-danger !default;
-$callout-bgcolor-danger        : lighten($brand-danger, 45%);
+$callout-bgcolor-danger        : lighten($callout-color-danger, 45%);
+
+
+/**
+ * Hit-area-box
+ */
+$hit-area-color                 : $text-color !default;
+$hit-area-bgcolor               : lighten($gray-light,8%);
+$hit-area-hover-color           : darken($hit-area-color, 20%);
+$hit-area-hover-bgcolor         : darken($hit-area-bgcolor,8%);
+$hit-area-checked-color         : $white !default;
+$hit-area-checked-bgcolor       : $brand !default;
+
+
 
 //== Navbar
 //
@@ -611,19 +626,20 @@ $nav-pills-active-link-hover-color:         $component-active-color !default;
 //== Tooltips
 //
 //##
+$zindex-tooltip:              layer("popover") !default;
 
 //** Tooltip max width
-    // $tooltip-max-width:           200px !default;
+$tooltip-max-width:           rem(200px) !default;
 //** Tooltip text color
-    // $tooltip-color:               $white !default;
+$tooltip-color:               $gray-darker !default;
 //** Tooltip background color
-    // $tooltip-bg:                  $black !default;
-    // $tooltip-opacity:             .9 !default;
+$tooltip-bg:                  $white !default; //lighten($gray-light, 10) !default;
+$tooltip-opacity:             .9 !default;
 
 //** Tooltip arrow width
-    // $tooltip-arrow-width:         5px !default;
+$tooltip-arrow-width:         5px !default;
 //** Tooltip arrow color
-    // $tooltip-arrow-color:         $tooltip-bg !default;
+$tooltip-arrow-color:         $tooltip-bg !default;
 
 
 //== Popovers
@@ -869,7 +885,7 @@ $badge-color:                 $gray-dark !default;
 $badge-link-hover-color:      $white !default;
 $badge-bg:                    $gray-lighter !default;
 
-$badge-padding-vertical:      5px !default;
+$badge-padding-vertical:      4px !default;
 $badge-padding-horizontal:    5px !default;
 
 // ** Badge text color in active nav link
