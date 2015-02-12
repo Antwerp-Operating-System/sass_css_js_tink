@@ -1370,7 +1370,8 @@ angular.module('tink.dropdown', [])
     var placeholder;
     var newVa;
     var deleteVal = -1;
-
+    var controlKey = 0;
+    var keyDowned = '';
     self.init = function(element,config,form,ngControl){
       self.element = element;
       self.config = config;
@@ -1386,12 +1387,27 @@ angular.module('tink.dropdown', [])
       $scope.placeholder = placeholder;
       newVa = placeholder;
       self.element.bind('keydown', function(event) {
+        keyDowned = self.getValue();
+        if(event.which ===91 || event.which === 92 || event.which === 93){
+          controlKey = 1;
+        }
+        if((event.ctrlKey||event.metaKey) && event.which === 88){
+          setTimeout(function() {
+            self.setValue(placeholder);
+          }, 1);
+          return true;
+        }
         if (event.which === 8) {
           handleBackspace();
           return false;
         } else if (event.which === 46) {
           handleDelete();
           return false;
+        }
+      });
+      self.element.bind('keyup', function(event) {
+        if(event.which ===91 || event.which === 92 || event.which === 93){
+          controlKey = 0;
         }
       });
       self.element.bind('mousedown', function() {
@@ -1402,10 +1418,24 @@ angular.module('tink.dropdown', [])
         }, 1);
       });
 
+      self.element.bind('paste', function (e) {
+          var cursor = getCaretSelection();
+          e.preventDefault();
+          var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+          window.document.execCommand('insertText', false, text);
+          self.setValue(keyDowned);
+          for(var i=0;i<text.length;i++){
+            handleInput(text[i],cursor);
+            cursor++;
+          }
+      });
+
       self.element.keypress(function(event) {
-        var key = String.fromCharCode(event.which);
-        handleInput(key);
-        return false;
+        if(!controlKey){
+          var key = String.fromCharCode(event.which);
+          handleInput(key);
+          return false;
+        }
       });
 
       if(self.form){
@@ -2842,6 +2872,13 @@ angular.module('tink.dateHelper')
     var month = parseInt(dateItems[monthIndex]);
     month -= 1;
     var formatedDate = new Date(dateItems[yearIndex], month, dateItems[dayIndex]);
+    if(month > 11){
+      return null;
+    }
+    var lastDayOfMonth = new Date(dateItems[yearIndex], month+1, 0);
+    if(dateItems[dayIndex] > lastDayOfMonth.getDate()){
+      return null;
+    }
 
     return formatedDate;
   }
@@ -2892,7 +2929,7 @@ angular.module('tink.dateHelper')
       }
       date = stringToDate(date, format);
 
-      if(date.toString()!=='Invalid Date'){
+      if(date !== null && date.toString() !== 'Invalid Date'){
         return date;
       }else{
         return null;
@@ -3258,7 +3295,7 @@ angular.module('tink.safeApply', [])
 
 
   $templateCache.put('templates/tinkDatePickerInput.html',
-    "<div class=datepicker-input-fields> <input tink-format-input data-format=00/00/0000 data-placeholder=dd/mm/jjjj data-date dynamic-name=dynamicName ng-model=\"ngModel\">\n" +
+    "<div class=datepicker-input-fields> <input tink-format-input data-format=00/00/0000 data-placeholder=dd/mm/jjjj data-date dynamic-name=dynamicName data-max-date=maxDate data-min-date=minDate ng-model=\"ngModel\">\n" +
     "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div>"
   );
 
