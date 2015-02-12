@@ -368,6 +368,12 @@ body {
             padding-right: rem(30);
           }
         }
+
+        &.has-active-item {
+          > a {
+            font-weight: 700;
+          }
+        }
       }
 
 
