@@ -15,6 +15,7 @@
     "app/index.html",
     "app/robots.txt",
     "app/scripts",
+    "app/templates",
     "app/views",
     "Gemfile",
     "Gruntfile.js",
