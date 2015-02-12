@@ -98,13 +98,10 @@
 			if(index >= 0){
 				elem = getGroupAt(index);
 				//If collapse is loading, we have to stop the visual and open de div
-				if(elem.hasClass(defaults.groupLoadingCss)){
-					if(findEl(elem,defaults.loadingCss).css('opacity') === '1' ){
-						findEl(elem,defaults.loadingCss).css('opacity',0);
+				if(elem.hasClass(defaults.groupLoadingCss)){console.log(findEl(elem,defaults.groupLoadingCss))
 						findEl(elem,defaults.contentCss).slideDown(defaults.speed);
 						elem.removeClass(defaults.groupLoadingCss);
 						elem.addClass(defaults.openGroupCss);
-					}
 				//If accordion is not open and doesnt have loading
 				}else if(!elem.hasClass(defaults.openGroupCss)){
 					/*If the collapse has a callback and its not loading
