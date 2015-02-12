@@ -467,6 +467,18 @@ $callout-bgcolor-warning       : lighten($callout-color-warning, 45%);
 $callout-color-danger          : $brand-danger !default;
 $callout-bgcolor-danger        : lighten($callout-color-danger, 45%);
 
+
+/**
+ * Hit-area-box
+ */
+$hit-area-color                 : $text-color !default;
+$hit-area-bgcolor               : lighten($gray-light,8%);
+$hit-area-hover-color           : darken($hit-area-color, 20%);
+$hit-area-hover-bgcolor         : darken($hit-area-bgcolor,8%);
+$hit-area-checked-bgcolor       : $brand !default;
+
+
+
 //== Navbar
 //
 //##

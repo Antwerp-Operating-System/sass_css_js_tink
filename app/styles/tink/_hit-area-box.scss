@@ -10,8 +10,8 @@
     input[type="checkbox"],
     input[type="radio"] {
       + label {
-        background-color: darken($gray-lighter, 9%);
-        color: $gray-dark;
+        background-color: $hit-area-bgcolor;
+        color: $hit-area-color;
         cursor: pointer;
         display: block;
         margin: rem(6 0);
@@ -35,29 +35,26 @@
       &:active:enabled:not(:checked),
       &:hover:enabled:not(:checked) {
         + label {
-          background-color: $gray-light;
-          color: $black;
+          background-color: $hit-area-hover-bgcolor;
+          color: $hit-area-hover-color;
         }
       }
 
       &:checked {
         + label {
-          background-color: $brand;
+          background-color: $hit-area-checked-bgcolor;
           color: #fff;
         }
       }
 
       &:disabled {
         + label {
-          //background-color: $gray-lighter;
-          //color: $black;
           cursor: not-allowed;
         }
       }
 
       &:focus {
         + label {
-          //box-shadow: 0 0 4px 1px rgba($brand-light, .75  );
           @include tab-focus();
         }
       }
