@@ -1,0 +1,92 @@
+/**
+ * Hit area box
+ * --------------------------------------------------
+ */
+
+
+.hit-area-box {
+  @extend .list-unstyled;
+  > li {
+    input[type="checkbox"],
+    input[type="radio"] {
+      + label {
+        background-color: $hit-area-bgcolor;
+        color: $hit-area-color;
+        cursor: pointer;
+        display: block;
+        margin: rem(6 0);
+        padding: rem(7 5 7 45);
+        transition: background-color linear $animation-speed;
+
+        &:before {
+          border: none; // removing border like defined in 'Focus' design
+        }
+      }
+
+      &:active:enabled:not(:checked),
+      &:hover:enabled:not(:checked) ,
+      &:focus:enabled:not(:checked) {
+        + label {
+          background-color: $hit-area-hover-bgcolor;
+          color: $hit-area-hover-color;
+        }
+      }
+
+      &:checked {
+        + label {
+          background-color: $hit-area-checked-bgcolor;
+          color: $hit-area-checked-color;
+        }
+      }
+
+      &:disabled {
+        + label {
+          cursor: not-allowed;
+        }
+      }
+
+      &:focus {
+        + label {
+          @include tab-focus();
+        }
+      }
+    }
+
+    input[type="checkbox"] {
+      + label {
+        &:before,
+        &:after {
+          height: rem(20); // visually compensating size for removing border on checkbox
+          left: rem(13);
+          top: rem(7);
+          width: rem(20); // visually compensating size for removing border on checkbox
+
+          @media screen and (min-width: $screen-sm) {
+            height: rem(14); // visually compensating size for removing border on checkbox
+            left: rem(16);
+            top: rem(10);
+            width: rem(14); // visually compensating size for removing border on checkbox
+          }
+        }
+      }
+    }
+
+    input[type="radio"] {
+      + label {
+        &:before {
+          height: rem(22);
+          left: rem(12);
+          top: rem(6);
+          width: rem(22);
+
+          @media screen and (min-width: $screen-sm) {
+            height: rem(16);
+            left: rem(15);
+            top: rem(9);
+            width: rem(16);
+          }
+        }
+      }
+    }
+  }
+}
