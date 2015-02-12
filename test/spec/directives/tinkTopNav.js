@@ -137,7 +137,7 @@ describe('TopNavigation', function() {
            expect(bodyEl.css('padding-top')).toBeGreaterThan(bodyStart);
       expect(bodyEl.css('padding-top')).toBe(elm[0].getBoundingClientRect().height+'px');
 
-      },500)
+      },500);
     });
   });
   describe('with sideNavigation', function() {

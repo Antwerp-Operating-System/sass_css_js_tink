@@ -191,7 +191,7 @@ describe('navAside', function() {
 	}
 
 	describe('default',function(){
-		it('should have no elements selected', function() {
+	it('should have no elements selected', function() {
 			var elm = compileDirective('default');
 			$location.path('/');
 			scope.$digest();
@@ -229,14 +229,14 @@ describe('first selected true',function(){
 		spyOn($window.tinkApi.util, 'getCurrentURL').and.returnValue('http://localhost:8080/context.html#/menu1');
 		var elm = compileDirective('auto-true');
 		scope.$digest();
-		expect(elm.find('li.active').length).toBe(0);
+		expect(elm.find('li.active').length).toBe(1);
 	});
 
-	it('Data accordion enabled open accordion should change active element to first element', function() {
-		var elm = compileDirective('auto-true');
-		spyOn($window.tinkApi.util, 'getCurrentURL').and.returnValue('http://localhost:8080/context.html#/menu1');
 
-			scope.$digest();
+	it('Data accordion enabled open accordion should change active element to first element', function() {
+			spyOn($window.tinkApi.util, 'getCurrentURL').and.callFake(function(){return 'http://localhost:8080/context.html#/menu2';});
+			var elm = compileDirective('auto-true');
+			scope.$apply();
 			angular.element(elm.find('li.can-open a')[0]).triggerHandler('click');
 			scope.$digest();
 			expect(elm.find('li.active a').attr('href')).toBe('#/forms');
