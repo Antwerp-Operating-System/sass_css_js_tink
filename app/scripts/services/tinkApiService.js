@@ -29,6 +29,11 @@
             if(sideToggle[id]){
               sideToggle[id].closeMenu();
             }
+          },
+          openById:function(id){
+            if(sideToggle[id]){
+              sideToggle[id].openMenu();
+            }
           }
         },
         topNavigation:$window.tinkApi.topNavigation,
