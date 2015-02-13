@@ -26,7 +26,7 @@
           pre: function() {
           },
           post: function(scope, elem, attr, ctrl) {
-
+console.log(attr)
             // -- check if we are using a touch device  --/
             var isDateSupported = function() {
               var i = document.createElement('input');
@@ -56,11 +56,11 @@
         var prefix = '';
         if(angular.isDefined(attr.validName)){
           setTimeout(function(){
-            if(form){
+            if(form && attr.name && typeof attr.name === 'string' && attr.name !== ''){
             safeApply(scope,function(){
               prefix = attr.validName;
               form.$removeControl(ngControl);
-              ngControl.$name = prefix+ngControl.$name;
+              ngControl.$name = prefix+attr.name;
               form.$addControl(ngControl);
             });
           }
@@ -104,6 +104,7 @@
             return false;
           }
         })();
+        var noErrorClass = "hide-error";
 
         function checkValidity(value){
           var stringValue;
@@ -119,28 +120,35 @@
             if(angular.isDate(scope.minDate)){
               if(dateCalculator.dateBeforeOther(value,scope.minDate)){
                 ngControl.$setValidity('date-min',true);
+                elem.addClass(noErrorClass);
               }else{
                 ngControl.$setValidity('date-min',false);
+                elem.removeClass(noErrorClass);
               }
 
             }
             if(angular.isDate(scope.maxDate)){
               if(dateCalculator.dateBeforeOther(scope.maxDate,value)){
                 ngControl.$setValidity('date-max',true);
+                elem.addClass(noErrorClass);
               }else{
                 ngControl.$setValidity('date-max',false);
+                elem.removeClass(noErrorClass);
               }
             }
 
             if(validFormat(stringValue,dateformat)){
               ngControl.$setValidity('date',true);
+              elem.addClass(noErrorClass);
               if(isRequired){
                 ngControl.$setValidity('date-required',true);
+                elem.addClass(noErrorClass);
               }
             }else if(stringValue !== config.placeholder && stringValue !== null){
               ngControl.$setValidity('date',false);
               ngControl.$setValidity('date-min',true);
               ngControl.$setValidity('date-max',true);
+              elem.removeClass(noErrorClass);
               if(isRequired){
                 ngControl.$setValidity('date-required',true);
               }
@@ -148,8 +156,10 @@
               ngControl.$setValidity('date',true);
               ngControl.$setValidity('date-min',true);
               ngControl.$setValidity('date-max',true);
+              elem.addClass(noErrorClass);
               if(isRequired){
                 ngControl.$setValidity('date-required',false);
+                elem.removeClass(noErrorClass);
               }
             }
 

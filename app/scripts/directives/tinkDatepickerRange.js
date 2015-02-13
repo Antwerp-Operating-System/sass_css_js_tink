@@ -22,9 +22,13 @@
           maxDate:'=?',
         },
         compile: function(template,$attr){
-          if($attr.required === ''){
+          if($attr.required === '' || $attr.required === 'required'){
             template.find('input:first').attr('data-require',true);
             template.find('input:last').attr('data-require',true);
+          }
+          if($attr.name){
+            template.find('input:first').attr('name',$attr.name);
+            template.find('input:last').attr('name',$attr.name);
           }
           return{
             pre:function(){},
@@ -32,6 +36,7 @@
           var $directive = {
             open: false,
             focused: {firstDateElem: element.find('div[tink-format-input] div:first'), lastDateElem: element.find('div[tink-format-input] div:last')},
+            elem:{},
             calendar: {first:element.find('span.datepicker-icon:first'),last:element.find('span.datepicker-icon:last')},
             tbody:{firstDateElem:null,lastDateElem:null},
             focusedModel: null,
@@ -338,31 +343,44 @@
               }
               checkValidity();
             };
+            var noErrorClass = "hide-error";
+            var firstEl = $(element.find('> div >*:first-child')[0]);
+            var lastEl = $(element.find('> div >*:first-child')[1]);
 
             function checkValidity(){
                 //scope.ctrlconst.$setValidity('required',true);
                 if(scope.firstDate === null && scope.lastDate !== null){
                   first.$setValidity('date-required',false);
+                  firstEl.removeClass(noErrorClass);
                 }else if(scope.firstDate !== null && scope.lastDate === null){
                   last.$setValidity('date-required',false);
+                  lastEl.removeClass(noErrorClass);
                 }else if(scope.firstDate === null && scope.lastDate === null){
                   if(angular.isDefined(attrs.required)){
                     first.$setValidity('date-required',false);
                     last.$setValidity('date-required',false);
+                    firstEl.removeClass(noErrorClass);
+                    lastEl.removeClass(noErrorClass);
                   }else{
                     first.$setValidity('date-required',true);
                     last.$setValidity('date-required',true);
+                    firstEl.addClass(noErrorClass);
+                    lastEl.addClass(noErrorClass);
                   }
                 }else if(scope.firstDate !== null && scope.lastDate !== null){
                   first.$setValidity('date-required',true);
                   last.$setValidity('date-required',true);
+                  firstEl.addClass(noErrorClass);
+                    lastEl.addClass(noErrorClass);
                 }
 
                 if(first.$error.date){
                   first.$setValidity('date-required',true);
+                  firstEl.addClass(noErrorClass);
                 }
                 if(last.$error.date){
                   last.$setValidity('date-required',true);
+                  lastEl.addClass(noErrorClass);
                 }
             }
 
