@@ -163,6 +163,8 @@
               if(angular.isDate(modelValue)){
                 var date = dateCalculator.format(modelValue,dateformat);
                 controller.setValue(date,null,isTouch);
+                checkValidity(modelValue);
+                return date;
               }else{
                 controller.setValue(null,null,isTouch);
               }
@@ -188,6 +190,14 @@
               return null;
             }
           });
+          element.unbind('input').unbind('keydown').unbind('change');
+          element.bind('input change', function() {
+                    safeApply(scope,function() {
+
+                        //ctrl.$setViewValue(undefined);
+
+                    });
+                  });
 
           //on blur update the model.
           element.on('blur', function() {

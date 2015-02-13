@@ -86,6 +86,7 @@ angular.module('tink.datepicker', [])
 
       clickable.bind('mousedown touch',function(){
         if(isTouch){
+          element.find('input[type=date]:first').focus();
           element.find('input[type=date]:first').click();
         }else{
           safeApply(scope,function(){
