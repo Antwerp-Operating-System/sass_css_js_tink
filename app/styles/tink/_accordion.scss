@@ -90,23 +90,6 @@
   position: relative;
 }
 
-.accordion-spinner {
-  background: green;
-  bottom: 0;
-  height: rem(45px);
-  display: block;
-  left: 0;
-  opacity: 1;
-  position: absolute;
-  right: 0;
-  color:$white;
-  top: 1px;
-  transition: opacity .5s linear;
-  z-index: 2;
-  text-align: center;
-  margin: 0 auto;
-}
-
 .accordion-loaded-content {
   // min-height: 25px;
   transition: opacity .4s linear;

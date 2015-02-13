@@ -229,7 +229,8 @@
     var placeholder;
     var newVa;
     var deleteVal = -1;
-
+    var controlKey = 0;
+    var keyDowned = '';
     self.init = function(element,config,form,ngControl){
       self.element = element;
       self.config = config;
@@ -245,12 +246,27 @@
       $scope.placeholder = placeholder;
       newVa = placeholder;
       self.element.bind('keydown', function(event) {
+        keyDowned = self.getValue();
+        if(event.which ===91 || event.which === 92 || event.which === 93){
+          controlKey = 1;
+        }
+        if((event.ctrlKey||event.metaKey) && event.which === 88){
+          setTimeout(function() {
+            self.setValue(placeholder);
+          }, 1);
+          return true;
+        }
         if (event.which === 8) {
           handleBackspace();
           return false;
         } else if (event.which === 46) {
           handleDelete();
           return false;
+        }
+      });
+      self.element.bind('keyup', function(event) {
+        if(event.which ===91 || event.which === 92 || event.which === 93){
+          controlKey = 0;
         }
       });
       self.element.bind('mousedown', function() {
@@ -261,10 +277,24 @@
         }, 1);
       });
 
+      self.element.bind('paste', function (e) {
+          var cursor = getCaretSelection();
+          e.preventDefault();
+          var text = (e.originalEvent || e).clipboardData.getData('text/plain');
+          window.document.execCommand('insertText', false, text);
+          self.setValue(keyDowned);
+          for(var i=0;i<text.length;i++){
+            handleInput(text[i],cursor);
+            cursor++;
+          }
+      });
+
       self.element.keypress(function(event) {
-        var key = String.fromCharCode(event.which);
-        handleInput(key);
-        return false;
+        if(!controlKey){
+          var key = String.fromCharCode(event.which);
+          handleInput(key);
+          return false;
+        }
       });
 
       if(self.form){

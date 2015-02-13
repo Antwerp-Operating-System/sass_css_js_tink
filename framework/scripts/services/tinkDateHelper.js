@@ -124,6 +124,13 @@ angular.module('tink.dateHelper')
     var month = parseInt(dateItems[monthIndex]);
     month -= 1;
     var formatedDate = new Date(dateItems[yearIndex], month, dateItems[dayIndex]);
+    if(month > 11){
+      return null;
+    }
+    var lastDayOfMonth = new Date(dateItems[yearIndex], month+1, 0);
+    if(dateItems[dayIndex] > lastDayOfMonth.getDate()){
+      return null;
+    }
 
     return formatedDate;
   }
@@ -174,7 +181,7 @@ angular.module('tink.dateHelper')
       }
       date = stringToDate(date, format);
 
-      if(date.toString()!=='Invalid Date'){
+      if(date !== null && date.toString() !== 'Invalid Date'){
         return date;
       }else{
         return null;
