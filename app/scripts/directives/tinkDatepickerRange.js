@@ -46,7 +46,7 @@
             viewDate:new Date(),
             hardCodeFocus: false
           };
-          if(attrs.name){
+          if(attrs.name && form[0]){
             scope.ctrlconst = form[0][attrs.name];
           }
 
