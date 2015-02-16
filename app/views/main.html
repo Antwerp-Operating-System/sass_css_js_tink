@@ -1,3 +1,10 @@
+<style>
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+</style>
 <div class="container">
 <div class="row">
 
@@ -6,8 +13,9 @@
     <!-- FORM ============================================================== -->
     <!-- =================================================================== -->
 
-    <form name="userForm" ng-submit="submitForm()" novalidate>
 
+    <form name="userForm" ng-submit="submitForm()" novalidate>
+ <tink-rijk-register required name="rijk" ng-model="rek"> </tink-rijk-register>
         <!-- NAME-->
         <div class="form-group" ng-class="{ 'has-error' : userForm.single.$invalid && !userForm.single.$pristine }">
             <label>Name</label>
@@ -78,17 +86,17 @@
             </table>
         </div>
         <div class="col-xs-3">
-            <h3>Username</h3>
+            <h3>rijk</h3>
             <table class="table table-bordered">
                 <tbody>
                     <tr>
-                        <td ng-class="{ success: userForm.username.$valid, danger: userForm.username.$invalid }">Valid</td>
+                        <td ng-class="{ success: userForm.rijk.$valid, danger: userForm.rijk.$invalid }">Valid</td>
                     </tr>
                     <tr>
-                        <td ng-class="{ success: userForm.username.$pristine, danger: !userForm.username.$pristine }">Pristine</td>
+                        <td ng-class="{ success: userForm.rijk.$pristine, danger: !userForm.rijk.$pristine }">Pristine</td>
                     </tr>
                     <tr>
-                        <td ng-class="{ success: userForm.username.$dirty }">Dirty</td>
+                        <td ng-class="{ success: userForm.rijk.$dirty }">Dirty</td>
                     </tr>
                 </tbody>
             </table>
