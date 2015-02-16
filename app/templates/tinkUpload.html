@@ -1,0 +1,32 @@
+<div class="fileUpload">
+  <div class="dropzone" data-ng-mouseup="browseFiles($event)">
+    <div data-ng-show="!uploading">
+      <strong translate>Sleep hier een bestand</strong> <span translate>of klik om te <a href="#">bladeren</a></span>
+      <input data-ng-if="multipleUpload" style="display:none;" class="fileInput" name="{{fieldName}}" type="file" ng-file-select="onFileSelect($files)" multiple="" />
+      <input data-ng-if="!multipleUpload" style="display:none;" class="fileInput" name="{{fieldName}}" type="file" ng-file-select="onFileSelect($files)" />
+    </div>
+    <div class="progressInfo" data-ng-show="uploading.length > 0">
+      <div data-ng-if="filereader && preview.src.length > 0" class="preview">
+        <img data-ng-src="{{preview.src}}" alt="preview" height="480" width="800" />
+      </div>
+      <p translate>Bezig met uploaden: {{uploading}}</p>
+    </div>
+    <div class="errorMessage" data-ng-if="errorMessage.length > 0">
+      <p>{{errorMessage}}</p>
+    </div>
+    <div class="uploads" data-ng-if="(ngModel.length > 0 || ngModel != '') && showUploadedFiles">
+      <ul class="uploadedFiles">
+        <li data-ng-if="multipleUpload" data-ng-repeat="file in ngModel track by $index">
+          <span class="delete" data-index="{{$index}}"></span>
+          <p class="file">{{file.original_filename}}</p>
+        </li>
+        <li data-ng-if="!multipleUpload">
+          <span class="delete"></span>
+          <div class="file">
+            <p>{{ngModel }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

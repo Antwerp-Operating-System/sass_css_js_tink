@@ -18,9 +18,9 @@ scope.rek='92012023338';
   scope.go = function(){
   	console.log(scope.dates);
   };
-
+scope.file=null;
   scope.getDate = function(){
-    console.log(scope.rek)
+    console.log(scope.file)
     console.log(scope.userForm.single.$error);
     console.log(scope.userForm);
   };
