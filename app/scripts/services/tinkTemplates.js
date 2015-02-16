@@ -39,6 +39,13 @@ angular.module('tink.templates', []).run(['$templateCache', function($templateCa
   );
 
 
+  $templateCache.put('templates/tinkUpload.html',
+    "<div class=dropzone data-ng-mouseup=browseFiles($event)> <strong translate>Sleep hier een bestand</strong> <span translate>of klik om te bladeren</span>\n" +
+    "<input data-ng-if=multipleUpload style=display:none class=fileInput name={{fieldName}} type=file ng-file-select=onFileSelect($files) multiple>\n" +
+    "<input data-ng-if=!multipleUpload style=display:none class=fileInput name={{fieldName}} type=file ng-file-select=\"onFileSelect($files)\"> </div>"
+  );
+
+
   $templateCache.put('templates/tooltip.html',
     "<div class=\"tooltip {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\"> <div class=tooltip-arrow></div> <div class=tooltip-inner ng-bind=content></div> </div>"
   );

@@ -14,5 +14,6 @@ angular.module('tink', [
 		'tink.timepicker',
 		'tink.accordion',
 		'tink.rijkRegister',
-		'tink.dropupload'
+		'tink.dropupload',
+		'angularFileUpload'
 	]);

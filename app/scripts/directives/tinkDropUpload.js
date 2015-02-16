@@ -13,10 +13,53 @@ angular.module('tink.dropupload')
           post: function(scope, elem, attr, ctrl) {
 
             function addLisener(){
-              elem.addEventListener("dragenter", dragenter, false);
-              elem.addEventListener("dragover", dragover, false);
-              elem.addEventListener("drop", drop, false);
+              elem.bind("dragenter", dragenter);
+              elem.bind("dragover", dragover);
+              elem.bind("drop", drop);
+              elem.bind("click",onClickElem)
             }
+
+            function dragenter(e){
+              e.stopPropagation();
+              e.preventDefault();
+            }
+
+            function onClickElem(){
+
+            }
+
+            function dragover(e){
+              e.stopPropagation();
+              e.preventDefault();
+            }
+
+            function drop(e){
+              e.stopPropagation();
+              e.preventDefault();
+              //get the event
+              var dt = e.originalEvent.dataTransfer;
+              var files = dt.files;
+
+              for (var i = 0; i < files.length; i += 1) {
+                var $file = files[i];
+                var file_obj = {
+                  name:$file.name,
+                  size:$file.size,
+                  type:$file.type,
+                  lastModified:$file.date
+                }
+              }
+            }
+
+            scope.browseFiles = function(){
+               var dropzone = elem.find('.fileInput');
+              dropzone.click();
+            }
+            scope.onFileSelect = function(){
+              console.log("fileselect")
+            }
+
+            addLisener();
 
           }
         }
