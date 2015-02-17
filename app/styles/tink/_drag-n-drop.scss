@@ -1,0 +1,35 @@
+//
+// Drag and drop
+// --------------------------------------------------
+
+.dropzone {
+  background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
+  border: 1px dashed $brand-light;
+  border-radius: rem($badge-border-radius);
+  box-sizing: border-box;
+  cursor: pointer;
+  margin: 0;
+  padding: rem(8 0 0 0);
+  text-align: center;
+  transition: background $animation-speed linear, border $animation-speed linear, color $animation-speed linear;
+
+  &:active {
+    &:focus {
+      @include tab-focus();
+    }
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $gray-lighter;
+  }
+
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: .65;
+    pointer-events: none; // Future-proof disabling of clicks
+  }
+}
