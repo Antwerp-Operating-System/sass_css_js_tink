@@ -40,7 +40,7 @@ module.exports = function (grunt) {
       },
       js: {
         files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
-        tasks: ['newer:jshint:all','ngtemplates'],
+        tasks: ['newer:jshint:all'],
         options: {
           livereload: '<%= connect.options.livereload %>'
         }
@@ -377,7 +377,6 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'wiredep',
-      'ngtemplates',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',

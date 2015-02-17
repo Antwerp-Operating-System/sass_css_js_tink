@@ -1,5 +1,11 @@
 <div data-ng-mouseup="browseFiles($event)">
   <strong translate>Sleep hier een bestand</strong> <span translate>of klik om te bladeren</span>
-  <input data-ng-if="multipleUpload" style="display:none;" class="fileInput" name="{{fieldName}}" type="file" ng-file-select="onFileSelect($files)" multiple="" />
-  <input data-ng-if="!multipleUpload" style="display:none;" class="fileInput" name="{{fieldName}}" type="file" ng-file-select="onFileSelect($files)" />
+  <input style="display:none;" class="fileInput" name="{{fieldName}}" type="file" ng-file-select="onFileSelect($files)" multiple="" />
+  <ul class="uploadedFiles">
+    <li data-ng-repeat="file in files track by $index">
+      <span class="delete" data-index="{{$index}}"></span>
+      <p class="file">{{file.getFileName()}}</p>
+      <p>process {{file.getProgress()}}</p>
+    </li>
+  </ul>
 </div>
