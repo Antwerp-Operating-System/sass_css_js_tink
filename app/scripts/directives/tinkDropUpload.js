@@ -11,7 +11,8 @@ angular.module('tink.dropupload')
         fieldName: '@?',
         multiple: '=?',
         allowedTypes:'=?',
-        maxFileSize:'@?'
+        maxFileSize:'@?',
+        url:'@?'
       },
       compile: function(template) {
         return {
@@ -22,7 +23,8 @@ angular.module('tink.dropupload')
               multiple:true,
               removeFromServer:true,
               allowedTypes:{mimeTypes:[],extensions:[]},
-              maxFileSize:'0'
+              maxFileSize:'0',
+              url:undefined
             }
 
             //Check the scope variable and change the config variable
@@ -31,7 +33,9 @@ angular.module('tink.dropupload')
                 config[key] = scope[key];
               }
             }
-
+            if(config.url){
+              tinkUploadService.addUrls(config.url);
+            }
             //function to add the liseners
             function addLisener(){
               elem.bind("dragenter", dragenter);

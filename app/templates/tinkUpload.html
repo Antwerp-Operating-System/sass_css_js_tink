@@ -7,6 +7,8 @@
       <span class="file">{{file.getFileName()}}</span>
       <span ng-show="!file.error">process {{file.getProgress()}}</span>
       <span ng-show="file.error">error</span>
+      <span ng-show="file.error.type"> type</span>
+      <span ng-show="file.error.size"> size</span>
     </li>
   </ul>
 </div>

@@ -1,6 +1,6 @@
 'use strict';
 angular.module('tink.dropupload')
-.factory('uploudFile',['$q','$upload',function($q,$upload) {
+.factory('uploudFile',['$q','tinkUploadService',function($q,tinkUploadService) {
     var upload = null;
     // instantiate our initial object
     var uploudFile = function(data,uploaded) {
@@ -23,6 +23,10 @@ angular.module('tink.dropupload')
 
     uploudFile.prototype.getFileName = function() {
         return this.fileName;
+    };
+
+    uploudFile.prototype.getData = function() {
+        return this.fileData;
     };
 
     uploudFile.prototype.getProgress = function() {
@@ -52,18 +56,14 @@ angular.module('tink.dropupload')
     uploudFile.prototype.upload = function(){
         var scope = this;
         var promise = $q.defer();
-        upload = $upload.upload({
-            url: 'http://localhost:3000/upload',
-            fields: {'username':'vincent'},
-            file: this.fileData
-        }).progress(function (evt) {console.log(evt)
+        upload = tinkUploadService.upload(this,{})
+        .progress(function (evt) {console.log(evt)
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             if(isNaN(progressPercentage)){
                 progressPercentage = 0;
             }
             scope.progress = progressPercentage;
             promise.notify({progress:progressPercentage,object:scope});
-            //console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
         }).success(function (data, status, headers, config) {
             promise.resolve(scope);
         }).error(function(reject){
