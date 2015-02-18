@@ -38,6 +38,7 @@ angular.module('tink.dropupload')
         }
     }
 
+
     uploudFile.prototype.upload = function(){
         var scope = this;
         var promise = $q.defer();

@@ -25,6 +25,9 @@ scope.file=null;
     console.log(scope.userForm);
   };
 
+
+scope.valid={mimeTypes:['image/jpeg', 'image/png', 'image/pjpeg', 'image/gif'],extensions:['.jpg', '.png', '.gif']};
+
   scope.submitForm = function() {
     console.log(scope.userForm.dubbel);
   };
