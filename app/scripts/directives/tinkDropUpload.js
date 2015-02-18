@@ -12,7 +12,8 @@ angular.module('tink.dropupload')
         multiple: '=?',
         allowedTypes:'=?',
         maxFileSize:'@?',
-        url:'@?'
+        url:'@?',
+        sendOptions:'=?'
       },
       compile: function(template) {
         return {
@@ -24,7 +25,8 @@ angular.module('tink.dropupload')
               removeFromServer:true,
               allowedTypes:{mimeTypes:[],extensions:[]},
               maxFileSize:'0',
-              url:undefined
+              url:undefined,
+              options:{}
             }
 
             //Check the scope variable and change the config variable
@@ -91,7 +93,7 @@ angular.module('tink.dropupload')
                   var sizeCheck = checkFileSize(file);
 
                   if(typeCheck && sizeCheck){
-                    file.upload().then(function(file) {
+                    file.upload(scope.sendOptions).then(function(file) {
                       //file is uploaded
                       console.log("success",file)
                       scope.ngModel.push(file);

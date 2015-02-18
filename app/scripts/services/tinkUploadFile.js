@@ -11,7 +11,6 @@ angular.module('tink.dropupload')
         this.fileName = this.fileData.name;
         this.fileType = this.fileData.type;
         this.fileSize = this.fileData.size;
-        console.log(this.fileData)
 
         if(uploaded){
             this.progress = 100;
@@ -53,11 +52,11 @@ angular.module('tink.dropupload')
     }
 
 
-    uploudFile.prototype.upload = function(){
+    uploudFile.prototype.upload = function(options){
         var scope = this;
         var promise = $q.defer();
-        upload = tinkUploadService.upload(this,{})
-        .progress(function (evt) {console.log(evt)
+        upload = tinkUploadService.upload(this,options)
+        .progress(function (evt) {
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             if(isNaN(progressPercentage)){
                 progressPercentage = 0;

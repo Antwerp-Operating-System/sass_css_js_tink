@@ -18,11 +18,9 @@ angular.module('tink.dropupload')
                 sendUrl = urls['all'];
               }
             }
-            return $upload.upload({
-              url:sendUrl,
-              fields: options,
-              file: file
-            });
+
+            var data = angular.extend({}, {url:sendUrl,file: file.getData()}, options);
+            return $upload.upload(data);
           }else{
             throw 'No instanceof uploadfile';
           }
