@@ -19,6 +19,10 @@
     }
   }
 
+  &.dragenter{
+    background-color: $gray-lighter;
+  }
+
   &:hover,
   &:focus {
     background-color: $gray-lighter;

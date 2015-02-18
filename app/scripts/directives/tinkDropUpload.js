@@ -60,6 +60,7 @@ angular.module('tink.dropupload')
             function dragover(e){
               e.stopPropagation();
               e.preventDefault();
+              elem.addClass('dragenter');
             }
 
               if(scope.ngModel !== undefined){
@@ -74,6 +75,7 @@ angular.module('tink.dropupload')
 
             //The file is droped or selected ! same code !
             function drop(e){
+              elem.removeClass('dragenter');
               var files;
               if(e.type && e.type === 'drop'){
                 e.stopPropagation();
