@@ -10,6 +10,7 @@ angular.module('tink.dropupload')
         this.fileData = data;
         this.fileName = this.fileData.name;
         this.fileType = this.fileData.type;
+        this.fileSize = this.fileData.size;
         console.log(this.fileData)
 
         if(uploaded){
@@ -24,12 +25,21 @@ angular.module('tink.dropupload')
         return this.fileName;
     };
 
-    uploudFile.prototype.getType = function() {
-        return this.fileType;
-    };
-
     uploudFile.prototype.getProgress = function() {
         return this.progress;
+    };
+
+    uploudFile.prototype.getFileSize = function() {
+        return this.fileSize;
+    };
+
+    uploudFile.prototype.getFileExtension = function() {
+        var posLastDot = this.getFileName().lastIndexOf('.');
+        return this.getFileName().substring(posLastDot, this.getFileName().length);
+    };
+
+    uploudFile.prototype.getFileMimeType = function() {
+        return this.fileType;
     };
 
     uploudFile.prototype.cancel = function(){
@@ -46,8 +56,11 @@ angular.module('tink.dropupload')
             url: 'http://localhost:3000/upload',
             fields: {'username':'vincent'},
             file: this.fileData
-        }).progress(function (evt) {
+        }).progress(function (evt) {console.log(evt)
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            if(isNaN(progressPercentage)){
+                progressPercentage = 0;
+            }
             scope.progress = progressPercentage;
             promise.notify({progress:progressPercentage,object:scope});
             //console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);

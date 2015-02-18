@@ -1,7 +1,7 @@
 'use strict';
-angular.module('tink.dropupload', []);
+angular.module('tink.dropupload', ['ngLodash']);
 angular.module('tink.dropupload')
-.directive('tinkUpload', ['$window', 'safeApply','uploudFile', function($window, safeApply,uploudFile) {
+.directive('tinkUpload', ['$window', 'safeApply','uploudFile','lodash', function($window, safeApply,uploudFile,_) {
     return {
       restrict: 'A',
       replace: true,
@@ -10,7 +10,8 @@ angular.module('tink.dropupload')
         ngModel:'=',
         fieldName: '@?',
         multiple: '=?',
-        allowedTypes:'=?'
+        allowedTypes:'=?',
+        maxFileSize:'@?'
       },
       compile: function(template) {
         return {
@@ -21,6 +22,7 @@ angular.module('tink.dropupload')
               multiple:true,
               removeFromServer:true,
               allowedTypes:{mimeTypes:[],extensions:[]},
+              maxFileSize:'0'
             }
 
             //Check the scope variable and change the config variable
@@ -121,11 +123,57 @@ angular.module('tink.dropupload')
 
             }
 
-            function checkFileType(){
+            function checkFileType(file){
+
+              var mimeType = config.allowedTypes.mimeTypes;
+              var extention = config.allowedTypes.extensions;
+
+              var fileType = file.getFileMimeType();
+              var fileEx = file.getFileExtension();
+
+              if(!mimeType || !_.isArray(mimeType)) {
+                  return true;
+              }
+
+              if(!extention || !_.isArray(extention)) {
+                  return true;
+              }
+
+              if(_.indexOf(mimeType, fileType) > -1){
+                if(_.indexOf(extention, fileEx) > -1){
+                  return true;
+                }else{
+                  return true;
+                }
+              }else{
+                return false;
+              }
+
 
             }
 
-            function checkFileSize(){
+            function checkFileSize(file){
+              var fileSize = _.parseInt(file.getFileSize());
+
+              if(!config.maxFileSize){
+                return true;
+              }
+              if(typeof config.maxFileSize === 'number'){
+                if(config.maxFileSize === 0 || !(fileSize > config.maxFileSize)){
+                  return true;
+                }else{
+                  return false;
+                }
+              }else if(typeof config.maxFileSize === 'string'){
+                var maxSize = _.parseInt(config.maxFileSize);
+                if(maxSize === 0 || !(fileSize > maxSize)){
+                  return true;
+                }else{
+                  return false;
+                }
+              }else{
+                return true;
+              }
 
             }
 

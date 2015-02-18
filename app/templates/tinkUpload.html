@@ -4,8 +4,9 @@
   <ul class="uploadedFiles">
     <li data-ng-repeat="file in files track by $index">
       <span class="delete" data-index="{{$index}}"></span>
-      <p class="file">{{file.getFileName()}}</p>
-      <p>process {{file.getProgress()}}</p>
+      <span class="file">{{file.getFileName()}}</span>
+      <span ng-show="!file.error">process {{file.getProgress()}}</span>
+      <span ng-show="file.error">error</span>
     </li>
   </ul>
 </div>
