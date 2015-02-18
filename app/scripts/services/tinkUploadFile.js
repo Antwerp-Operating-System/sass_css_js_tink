@@ -71,6 +71,10 @@ angular.module('tink.dropupload')
         return promise.promise;
     }
 
+     uploudFile.prototype.remove = function(){
+        console.log('file removed');
+     }
+
     return uploudFile;
 
 

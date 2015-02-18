@@ -20,6 +20,7 @@ angular.module('tink.dropupload')
           pre: function() {
           },
           post: function(scope, elem, attr, ctrl) {
+            //Config object with default values
             var config = {
               multiple:true,
               removeFromServer:true,
@@ -28,7 +29,9 @@ angular.module('tink.dropupload')
               url:undefined,
               options:{}
             }
-
+            //To let the view know we have a message.
+            scope.message = {};
+            var holding = null;
             //Check the scope variable and change the config variable
             for(var key in config){
               if(scope[key] !== undefined){
@@ -63,14 +66,23 @@ angular.module('tink.dropupload')
               elem.addClass('dragenter');
             }
 
-              if(scope.ngModel !== undefined){
+            scope.undo = function(e){
+              scope.files[0].cancel();
+              scope.files[0].remove();
+              _.pull(scope.ngModel, scope.files[0]);
+              _.pull(scope.files, scope.files[0]);
+              holding.hold = false;
+              scope.message = {};
+              scope.files.push(holding);
+              holding = null;
+            }
+
+            //if the ngModel is not defined we define it for you
+            if(scope.ngModel !== undefined){
                 scope.ngModel = [];
-              }
-              if(config.multiple){
-                scope.files = [];
-              }else{
-                scope.files = null;
-              }
+            }
+            //create internal files object for use to handle the view
+              scope.files = [];
             //}
 
             //The file is droped or selected ! same code !
@@ -89,16 +101,36 @@ angular.module('tink.dropupload')
               safeApply(scope,function(){
                 for (var i = 0; i < files.length; i += 1) {
                   var file = new uploudFile(files[i]);
-                  scope.files.push(file);
 
+                  if(!config.multiple){
+                    //if there is a file present remove this one from the server !
+                    if(scope.files[0] !== null && scope.files[0] instanceof uploudFile){
+                      if(holding instanceof uploudFile){
+                        holding.cancel();
+                        holding.remove();
+                        _.pull(scope.ngModel, holding);
+                      }
+                      scope.message.hold = true;
+                      holding = scope.files[0];
+                      holding.hold = true;
+                      scope.ngModel.push(holding);
+                      _.pull(scope.files, scope.files[0]);
+                    }
+                  }
+                  scope.files.unshift(file);
+                  //check if the type and size is oke.
                   var typeCheck = checkFileType(file);
                   var sizeCheck = checkFileSize(file);
 
                   if(typeCheck && sizeCheck){
                     file.upload(scope.sendOptions).then(function(file) {
                       //file is uploaded
-                      console.log("success",file)
-                      scope.ngModel.push(file);
+                      //add the uploaded file to the ngModel
+                      if(config.multiple){
+                        scope.ngModel.unshift(file);
+                      }else{
+                        scope.ngModel = file;
+                      }
                     }, function(reason) {
                       //file is not uploaded
                       console.log('fail',reason)
@@ -185,9 +217,9 @@ angular.module('tink.dropupload')
 
             }
 
-            scope.browseFiles = function(){
+            scope.browseFiles = function(e){
                var dropzone = elem.find('.fileInput');
-              dropzone.click();
+                dropzone.click();
             }
             scope.onFileSelect = function(files){
               drop(files);
