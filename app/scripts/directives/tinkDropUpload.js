@@ -163,6 +163,15 @@ angular.module('tink.dropupload')
 
             }
 
+            scope.del = function(index){
+              scope.files[index].cancel();
+              scope.files[index].remove();
+              if(holding){
+                holding = null;
+              }
+               _.pull(scope.files, scope.files[index]);
+            }
+
             function checkFileType(file){
 
               var mimeType = config.allowedTypes.mimeTypes;
