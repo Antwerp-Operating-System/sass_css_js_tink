@@ -1,18 +1,17 @@
-<style>
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-</style>
-
 <div class="container">
-<div class="row">
-
-<div class="col-sm-6">
-
- <div type="file" edit-mode="true" data-multiple="true" tink-upload ng-model="file" show-uploaded-files="true"></div>
-
-</div>
-</div>
+  <h1>Playground main page</h1>
+  <hr>
+    <section class="panel">
+      <header class="panel-heading">
+        <i class="fa fa-th-large"></i>
+        <h1 class="panel-title">Drag and drop</h1>
+      </header>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="dropzone" type="file" edit-mode="true" tink-upload ng-model="file" show-uploaded-files="true"></div>
+          </div>
+        </div>
+      </div>
+    </section>
 </div>
