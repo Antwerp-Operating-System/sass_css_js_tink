@@ -71,8 +71,15 @@ angular.module('tink.sortable')
             var val = keys[i][key];
 
             var cell = row.insertCell(row.cells.length);
+            $(cell).bind('click',sorte(val))
             cell.innerHTML = val;
           }
+        }
+      }
+
+      function sorte ( data ){
+        return function(){
+          console.log(data)
         }
       }
 
@@ -91,6 +98,12 @@ angular.module('tink.sortable')
             }
           }
         }
+      }
+
+      function sort(){
+        scope.data.sort(function(obj1, obj2) {
+          return obj1.name.localeCompare(obj2.name);
+        });
       }
 
       //number of rows it wil show on the page
@@ -138,8 +151,8 @@ angular.module('tink.sortable')
 
         var start = (scope.pageSelected-1)*aantalToShow;
         var stop = (scope.pageSelected *aantalToShow)-1;
-
         var viewable = _.slice(scope.data, start,stop);
+
         setBody(table,viewable);
         $('table').replaceWith($(table));
       };
