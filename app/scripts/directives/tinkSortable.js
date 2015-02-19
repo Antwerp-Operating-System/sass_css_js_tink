@@ -14,7 +14,9 @@ angular.module('tink.sortable')
       var aantalToShow = 1;
       var pages;
 
+      //Preview PAGES
       scope.perPage='10,20,50';
+      //Preview DATA
       scope.data = [
         {name:'vincent',lastname:'bouillart',adress:'doleegstraat 27'},
         {name:'Valerie',lastname:'bouillart',adress:'doleegstraat 27'},
@@ -53,8 +55,12 @@ angular.module('tink.sortable')
         {name:'trcbn',lastname:'bouillart',adress:'doleegstraat 27'},
         {name:'sdfbv',lastname:'bouillart',adress:'doleegstraat 27'}
       ];
+      //preview headers
       scope.headers = [{name:'Voornaam',checked:true},{lastname:'Achternaam',checked:false},{adress:'Adres',checked:true}];
+      //this is a copy to show to the view
       scope.viewer = angular.copy(scope.headers);
+
+      //This function creates our table head
       function setHeader(table,keys){
         var header = table.createTHead();
         var row = header.insertRow(0);
@@ -69,6 +75,8 @@ angular.module('tink.sortable')
           }
         }
       }
+
+      //This function create the table body
       function setBody(table,content){
         var body = table.createTBody();
 
@@ -85,22 +93,26 @@ angular.module('tink.sortable')
         }
       }
 
+      //number of rows it wil show on the page
       scope.numSelected=0;
+      //function to change the row page view
       scope.perPageClick = function(index){
         scope.numSelected = index;
-        pages = Math.ceil(scope.data.length/aantalToShow);
-        scope.pages = _.range(1,pages+1);
         scope.pageSelected=1;
         scope.buildTable();
       };
 
+      //wich page is selected
       scope.pageSelected=1;
+      //function to set the page you need
       scope.setPage = function(index){
         scope.pageSelected = index+1;
         scope.buildTable();
       };
 
+
       scope.perPageView = [];
+      //this function will create a array to show the per row buttons
       function perPage(){
         var per = scope.perPage.split(',');
         for(var i=0;i<per.length;i++){
@@ -115,6 +127,8 @@ angular.module('tink.sortable')
       aantalToShow = scope.perPageView[scope.numSelected];
       pages = Math.ceil(scope.data.length/aantalToShow);
       scope.pages = _.range(1,pages);
+
+      //This function build the table and the number of pages!
       scope.buildTable = function(){
         var table = document.createElement('table');
         setHeader(table,scope.headers);
@@ -131,7 +145,7 @@ angular.module('tink.sortable')
       };
 
       scope.selected = -1;
-
+      //Function that will be called to change the order
       scope.omhoog = function(){
         if(scope.selected > 0){
           scope.viewer.swap(scope.selected,scope.selected-1);
@@ -139,7 +153,7 @@ angular.module('tink.sortable')
           scope.buildTable();
         }
       };
-
+      //Function that will be called to change the order
       scope.omlaag = function(){
         if(scope.selected >=0 && scope.selected < scope.viewer.length-1){
           scope.viewer.swap(scope.selected,scope.selected+1);
@@ -147,7 +161,7 @@ angular.module('tink.sortable')
           scope.buildTable();
         }
       };
-
+      //added this to swap elements easly
       Array.prototype.swap = function(a, b) {
         var temp = this[a];
         this[a] = this[b];
@@ -155,18 +169,18 @@ angular.module('tink.sortable')
       };
 
       scope.buildTable();
-
+      //function that will be called when you clicked on row name
       scope.select=function(e,index){
         scope.selected = index;
         e.preventDefault();
         e.stopPropagation();
       };
-
+      //to save the changes you made
       scope.save = function(){
         scope.headers = angular.copy(scope.viewer);
         scope.buildTable();
       };
-
+      //to cancel the changes you made
       scope.cancel  = function(){
         scope.selected = -1;
         scope.viewer = angular.copy(scope.headers);
