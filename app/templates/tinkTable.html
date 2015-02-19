@@ -22,8 +22,15 @@
     <td draggable>94</td>
   </tr>
 </table>
+<div>
+  <button ng-repeat="num in perPageView" ng-click="perPageClick($index)" ng-class="{selected:numSelected===$index}">{{num}}</button>
+</div>
+<div>
+  <i class="fa fa-angle-double-left"></i><i class="fa fa-angle-left"></i>
+  <button ng-repeat="num in pages" ng-click="setPage($index)" ng-class="{selected:pageSelected===$index+1}">{{num}}</button>
+  <i class="fa fa-angle-right"></i><i class="fa fa-angle-double-right"></i>
+</div>
 <span ng-click="omhoog()">omhoog </span><span ng-click="omlaag()"> omlaag</span>
-
 <div class="list" ng-repeat='header in viewer' ng-init="parentIndex=$index">
   {{}}
 <li style = "display:inline;" ng-repeat='(key,value) in header | myLimitTo:1'>
