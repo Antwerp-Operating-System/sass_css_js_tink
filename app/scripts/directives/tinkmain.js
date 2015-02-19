@@ -15,5 +15,6 @@ angular.module('tink', [
 		'tink.accordion',
 		'tink.rijkRegister',
 		'tink.dropupload',
-		'angularFileUpload'
+		'angularFileUpload',
+		'tink.sortable'
 	]);

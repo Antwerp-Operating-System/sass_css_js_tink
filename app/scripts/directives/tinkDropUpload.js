@@ -1,7 +1,7 @@
 'use strict';
 angular.module('tink.dropupload', ['ngLodash']);
 angular.module('tink.dropupload')
-.directive('tinkUpload', ['$window', 'safeApply','uploudFile','lodash', function($window, safeApply,uploudFile,_) {
+.directive('tinkUpload', ['$window', 'safeApply','UploadFile','lodash','tinkUploadService', function($window, safeApply,UploadFile,_,tinkUploadService) {
     return {
       restrict: 'A',
       replace: true,
@@ -15,11 +15,11 @@ angular.module('tink.dropupload')
         url:'@?',
         sendOptions:'=?'
       },
-      compile: function(template) {
+      compile: function() {
         return {
           pre: function() {
           },
-          post: function(scope, elem, attr, ctrl) {
+          post: function(scope, elem) {
             //Config object with default values
             var config = {
               multiple:true,
@@ -28,7 +28,7 @@ angular.module('tink.dropupload')
               maxFileSize:'0',
               url:undefined,
               options:{}
-            }
+            };
             //To let the view know we have a message.
             scope.message = {};
             var holding = null;
@@ -43,10 +43,10 @@ angular.module('tink.dropupload')
             }
             //function to add the liseners
             function addLisener(){
-              elem.bind("dragenter", dragenter);
-              elem.bind("dragleave", dragleave);
-              elem.bind("dragover", dragover);
-              elem.bind("drop", drop);
+              elem.bind('dragenter', dragenter);
+              elem.bind('dragleave', dragleave);
+              elem.bind('dragover', dragover);
+              elem.bind('drop', drop);
             }
             //Drag enter to add a class
             function dragenter(e){
@@ -66,7 +66,7 @@ angular.module('tink.dropupload')
               elem.addClass('dragenter');
             }
 
-            scope.undo = function(e){
+            scope.undo = function(){
               scope.files[0].cancel();
               scope.files[0].remove();
               _.pull(scope.ngModel, scope.files[0]);
@@ -75,7 +75,7 @@ angular.module('tink.dropupload')
               scope.message = {};
               scope.files.push(holding);
               holding = null;
-            }
+            };
 
             //if the ngModel is not defined we define it for you
             if(scope.ngModel !== undefined){
@@ -100,12 +100,12 @@ angular.module('tink.dropupload')
               }
               safeApply(scope,function(){
                 for (var i = 0; i < files.length; i += 1) {
-                  var file = new uploudFile(files[i]);
+                  var file = new UploadFile(files[i]);
 
                   if(!config.multiple){
                     //if there is a file present remove this one from the server !
-                    if(scope.files[0] !== null && scope.files[0] instanceof uploudFile){
-                      if(holding instanceof uploudFile){
+                    if(scope.files[0] !== null && scope.files[0] instanceof UploadFile){
+                      if(holding instanceof UploadFile){
                         holding.cancel();
                         holding.remove();
                         _.pull(scope.ngModel, holding);
@@ -131,17 +131,16 @@ angular.module('tink.dropupload')
                       }else{
                         scope.ngModel = file;
                       }
-                    }, function(reason) {
+                    }, function error() {
                       //file is not uploaded
-                      console.log('fail',reason)
                       if(!file.error){
                         file.error = {};
                       }
                       file.error.fail = true;
-                    }, function(update) {
+                    }, function update() {
                       //Notification of upload
-                      console.log("update",update)
                     });
+
                   }else{
                     if(!file.error){
                       file.error = {};
@@ -156,12 +155,12 @@ angular.module('tink.dropupload')
 
                 }
 
-              })
+              });
             }
 
-            function remove(e){
+            /*function remove(){
 
-            }
+            }*/
 
             scope.del = function(index){
               scope.files[index].cancel();
@@ -170,7 +169,7 @@ angular.module('tink.dropupload')
                 holding = null;
               }
                _.pull(scope.files, scope.files[index]);
-            }
+            };
 
             function checkFileType(file){
 
@@ -208,14 +207,14 @@ angular.module('tink.dropupload')
                 return true;
               }
               if(typeof config.maxFileSize === 'number'){
-                if(config.maxFileSize === 0 || !(fileSize > config.maxFileSize)){
+                if(config.maxFileSize === 0 || fileSize <= config.maxFileSize){
                   return true;
                 }else{
                   return false;
                 }
               }else if(typeof config.maxFileSize === 'string'){
                 var maxSize = _.parseInt(config.maxFileSize);
-                if(maxSize === 0 || !(fileSize > maxSize)){
+                if(maxSize === 0 || fileSize <= maxSize){
                   return true;
                 }else{
                   return false;
@@ -226,18 +225,18 @@ angular.module('tink.dropupload')
 
             }
 
-            scope.browseFiles = function(e){
+            scope.browseFiles = function(){
                var dropzone = elem.find('.fileInput');
                 dropzone.click();
-            }
+            };
             scope.onFileSelect = function(files){
               drop(files);
-            }
+            };
 
             addLisener();
 
           }
-        }
+        };
       }
-    }
+    };
   }]);

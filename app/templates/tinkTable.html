@@ -1,0 +1,38 @@
+<style>
+.selected{
+  color:red;
+}
+</style>
+<table style="width:100%">
+  <thead>
+  </thead>
+  <tr>
+    <th draggable>First</th>
+    <th draggable>last</th>
+    <th draggable>age</th>
+  </tr>
+  <tr>
+    <td draggable>Jill</td>
+    <td draggable>Smith</td>
+    <td draggable>50</td>
+  </tr>
+  <tr>
+    <td draggable>Eve</td>
+    <td draggable>Jackson</td>
+    <td draggable>94</td>
+  </tr>
+</table>
+<span ng-click="omhoog()">omhoog </span><span ng-click="omlaag()"> omlaag</span>
+
+<div class="list" ng-repeat='header in viewer' ng-init="parentIndex=$index">
+  {{}}
+<li style = "display:inline;" ng-repeat='(key,value) in header | myLimitTo:1'>
+  <div class="checkbox">
+    <input type="checkbox" ng-model="header.checked" id="{{value}}" name="{{value}}" value="{{value}}" checked="">
+    <label for="{{value}}"><span ng-class="{selected:selected===$parent.$index}" ng-click="select($event,$parent.$index)">{{value}}</span></label>
+  </div>
+</li>
+</div>
+<button ng-click="save()">save</button> <button ng-click="cancel()">cancel</button>
+
+

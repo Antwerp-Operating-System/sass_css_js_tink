@@ -1,11 +1,11 @@
 'use strict';
 angular.module('tink.dropupload')
-.factory('uploudFile',['$q','tinkUploadService',function($q,tinkUploadService) {
+.factory('UploadFile',['$q','tinkUploadService',function($q,tinkUploadService) {
     var upload = null;
     // instantiate our initial object
     var uploudFile = function(data,uploaded) {
-        if(!data instanceof File){
-            throw "uploadFile was no file object!";
+        if(!data instanceof window.File){
+            throw 'uploadFile was no file object!';
         }
         this.fileData = data;
         this.fileName = this.fileData.name;
@@ -49,7 +49,7 @@ angular.module('tink.dropupload')
         if(upload !== null){
             upload.abort();
         }
-    }
+    };
 
 
     uploudFile.prototype.upload = function(options){
@@ -63,19 +63,19 @@ angular.module('tink.dropupload')
             }
             scope.progress = progressPercentage;
             promise.notify({progress:progressPercentage,object:scope});
-        }).success(function (data, status, headers, config) {
+        }).success(function () {
             promise.resolve(scope);
-        }).error(function(reject){
+        }).error(function(){
             promise.reject(scope);
         });
         return promise.promise;
-    }
+    };
 
      uploudFile.prototype.remove = function(){
         console.log('file removed');
-     }
+     };
 
     return uploudFile;
 
 
-}])
+}]);

@@ -26,7 +26,6 @@
           pre: function() {
           },
           post: function(scope, elem, attr, ctrl) {
-console.log(attr)
             // -- check if we are using a touch device  --/
             var isDateSupported = function() {
               var i = document.createElement('input');
@@ -104,7 +103,7 @@ console.log(attr)
             return false;
           }
         })();
-        var noErrorClass = "hide-error";
+        var noErrorClass = 'hide-error';
 
         function checkValidity(value){
           var stringValue;
