@@ -13,7 +13,6 @@ angular.module('tink.sortable')
 
       var aantalToShow = 1;
       var pages;
-      var page = 1;
 
       scope.perPage='10,20,50';
       scope.data = [
@@ -93,13 +92,13 @@ angular.module('tink.sortable')
         scope.pages = _.range(1,pages+1);
         scope.pageSelected=1;
         scope.buildTable();
-      }
+      };
 
       scope.pageSelected=1;
       scope.setPage = function(index){
         scope.pageSelected = index+1;
         scope.buildTable();
-      }
+      };
 
       scope.perPageView = [];
       function perPage(){
