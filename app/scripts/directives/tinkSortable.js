@@ -186,6 +186,33 @@ angular.module('tink.sortable')
         scope.viewer = angular.copy(scope.headers);
       };
 
+      //Set first page
+      scope.setFirst = function(){
+        scope.pageSelected=1;
+        scope.buildTable();
+      };
+
+      //set lest page
+      scope.setLast = function(){
+        scope.pageSelected=pages;
+        scope.buildTable();
+      };
+
+      //set next page
+      scope.setNext = function(){
+        if(scope.pageSelected < pages){
+          scope.pageSelected +=1;
+          scope.buildTable();
+        }
+      };
+
+      //set prev page
+      scope.setPrev = function(){
+        if(scope.pageSelected >1){
+          scope.pageSelected -=1;
+          scope.buildTable();
+        }
+      };
 
     }
   };
