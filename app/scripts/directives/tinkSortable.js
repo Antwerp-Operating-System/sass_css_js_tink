@@ -71,16 +71,18 @@ angular.module('tink.sortable')
             var val = keys[i][key];
 
             var cell = row.insertCell(row.cells.length);
-            $(cell).bind('click',sorte(val))
+            $(cell).bind('click',sorte(i));
             cell.innerHTML = val;
           }
         }
       }
 
-      function sorte ( data ){
+      function sorte ( i ){
         return function(){
-          console.log(data)
-        }
+          console.log(scope.headers[i]);
+          sorter(Object.keys(scope.headers[i])[0]);
+          scope.buildTable();
+        };
       }
 
       //This function create the table body
@@ -100,9 +102,9 @@ angular.module('tink.sortable')
         }
       }
 
-      function sort(){
+      function sorter(sortVal){
         scope.data.sort(function(obj1, obj2) {
-          return obj1.name.localeCompare(obj2.name);
+          return obj1[sortVal].localeCompare(obj2[sortVal]);
         });
       }
 
