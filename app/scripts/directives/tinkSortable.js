@@ -55,6 +55,7 @@ angular.module('tink.sortable')
         {name:'trcbn',lastname:'bouillart',adress:'doleegstraat 27'},
         {name:'sdfbv',lastname:'bouillart',adress:'doleegstraat 27'}
       ];
+      scope.sorting = {field:'',direction:1};
       //preview headers
       scope.headers = [{name:'Voornaam',checked:true},{lastname:'Achternaam',checked:false},{adress:'Adres',checked:true}];
       //this is a copy to show to the view
@@ -79,8 +80,14 @@ angular.module('tink.sortable')
 
       function sorte ( i ){
         return function(){
-          console.log(scope.headers[i]);
-          sorter(Object.keys(scope.headers[i])[0]);
+          var key = Object.keys(scope.headers[i])[0];
+          if(scope.sorting.field === key){
+            scope.sorting.direction = scope.sorting.direction * -1;
+          }else{
+            scope.sorting.field = key;
+            scope.sorting.direction = 1;
+          }
+          sorter(key,scope.sorting.direction);
           scope.buildTable();
         };
       }
@@ -102,9 +109,13 @@ angular.module('tink.sortable')
         }
       }
 
-      function sorter(sortVal){
+      function sorter(sortVal,direction){
         scope.data.sort(function(obj1, obj2) {
-          return obj1[sortVal].localeCompare(obj2[sortVal]);
+          if(direction){
+            return direction*obj1[sortVal].localeCompare(obj2[sortVal]);
+          }else{
+            return obj1[sortVal].localeCompare(obj2[sortVal]);
+          }
         });
       }
 
