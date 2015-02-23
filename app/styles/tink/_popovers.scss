@@ -13,7 +13,7 @@
   padding: 1px;
   // Reset font and text propertes given new insertion method
   font-family: $font-family-base;
-  font-size: $font-size-base;
+  font-size: rem($font-size-base);
   font-weight: normal;
   line-height: $line-height-base;
   text-align: left;
@@ -138,16 +138,47 @@
 /* Popdown trial run */
 .popdown {
   @extend .popover;
+  max-width: 300px;
+  padding: rem($padding-base-vertical $padding-base-horizontal);
   position: relative;
   text-align: center;
 
-  .popdown-avatar {
+  .popdown-header {
+    margin: 0 0 rem($padding-base-vertical) 0;
+  }
+
+  .popdown-header-avatar {
     @extend .center-block;
     width: rem(50px);
   }
-  .popdown-name {
+  .popdown-header-title {
     font-size: $font-size-base;
     font-weight: bold;
+     margin: rem($padding-base-vertical 0 $padding-base-vertical * 3);
   }
+
+  .list-buttons {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+
+    li {
+      margin-bottom: 2px;
+
+      a {
+        background-color: $gray-lighter;
+        display: block;
+        padding: $padding-base-vertical $padding-base-horizontal; //$padding-base-horizontal;
+        text-align: left;
+        text-decoration: none;
+
+        &:hover {
+          background-color: $gray-light;
+        }
+      }
+    }
+  }
+
+
 }
 
