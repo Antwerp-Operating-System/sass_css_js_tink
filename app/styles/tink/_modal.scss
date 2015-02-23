@@ -1,0 +1,35 @@
+/**
+ * Modal
+ * --------------------------------------------------
+ */
+
+.modal {
+  background: $modal-backdropcolor;
+  bottom: 0;
+  content: '';
+  height: 100%;
+  left: 0;
+  right: 0;
+  position: fixed;
+  text-align: center;
+  top: 0;
+  width: 100%;
+  z-index: layer('modal');
+
+  &:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    margin-right: -0.25em; /* Adjusts for spacing */
+  }
+}
+
+.modal-dialog {
+  background-color: $modal-bgcolor;
+  border-radius: rem($modal-border-radius);
+  box-shadow: rem(0 6 24) rgba(0, 0, 0, .12);
+  display: inline-block;
+  padding: rem($modal-inner-padding);
+  vertical-align: middle;
+}
