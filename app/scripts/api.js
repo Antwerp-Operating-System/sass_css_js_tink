@@ -98,7 +98,7 @@
 			if(index >= 0){
 				elem = getGroupAt(index);
 				//If collapse is loading, we have to stop the visual and open de div
-				if(elem.hasClass(defaults.groupLoadingCss)){console.log(findEl(elem,defaults.groupLoadingCss))
+				if(elem.hasClass(defaults.groupLoadingCss)){
 						findEl(elem,defaults.contentCss).slideDown(defaults.speed);
 						elem.removeClass(defaults.groupLoadingCss);
 						elem.addClass(defaults.openGroupCss);
