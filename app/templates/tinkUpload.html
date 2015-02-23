@@ -4,7 +4,7 @@
     <input  data-ng-if="multiple" style="display:none;" class="fileInput" name="{{fieldName}}" type="file" ng-file-select="onFileSelect($files)" multiple="" />
     <input  data-ng-if="!multiple" style="display:none;" class="fileInput" name="{{fieldName}}" type="file" ng-file-select="onFileSelect($files)"/>
   </div>
-  <span ng-show="message.hold">De vorige file is vervangen <a ng-mouseup="undo($event)">ongedaanmaken</a></span>
+  <span ng-show="message.hold">De vorige file is vervangen <a ng-mouseup="undo($event)">ongedaan maken</a></span>
   <ul class="uploadedFiles">
     <li data-ng-repeat="file in files track by $index">
       <span class="file">{{file.getFileName()}}</span>
