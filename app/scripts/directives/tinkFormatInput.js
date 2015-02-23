@@ -200,7 +200,7 @@ console.log(attr)
               return null;
             }
           });
-          element.unbind('input').unbind('keydown').unbind('change');
+          element.unbind('input').unbind('change');
           element.bind('input change', function() {
                     safeApply(scope,function() {
 
