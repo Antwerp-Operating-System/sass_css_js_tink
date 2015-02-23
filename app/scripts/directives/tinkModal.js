@@ -41,11 +41,17 @@ angular.module('tink.modal', [])
         $modal.show = function() {
           $modal.$element = linker(options.scope, function(clonedElement, scope) {});
           enterModal();
-          console.log($modal);
+        };
+
+        $modal.hide = function() {
+          leaveModal();
         };
 
         function enterModal(){
           $animate.enter($modal.$element, bodyElement, null);
+        }
+        function leaveModal(){
+          $animate.leave(modalElement, null);
         }
       }
       return ModalFactory;
