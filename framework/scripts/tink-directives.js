@@ -290,6 +290,7 @@ angular.module('tink.datepicker', [])
 
       clickable.bind('mousedown touch',function(){
         if(isTouch){
+          element.find('input[type=date]:first').focus();
           element.find('input[type=date]:first').click();
         }else{
           safeApply(scope,function(){
@@ -1304,6 +1305,8 @@ angular.module('tink.dropdown', [])
               if(angular.isDate(modelValue)){
                 var date = dateCalculator.format(modelValue,dateformat);
                 controller.setValue(date,null,isTouch);
+                checkValidity(modelValue);
+                return date;
               }else{
                 controller.setValue(null,null,isTouch);
               }
@@ -1329,6 +1332,14 @@ angular.module('tink.dropdown', [])
               return null;
             }
           });
+          element.unbind('input').unbind('keydown').unbind('change');
+          element.bind('input change', function() {
+                    safeApply(scope,function() {
+
+                        //ctrl.$setViewValue(undefined);
+
+                    });
+                  });
 
           //on blur update the model.
           element.on('blur', function() {
@@ -2736,6 +2747,11 @@ angular.module('tink', [
           closeById:function(id){
             if(sideToggle[id]){
               sideToggle[id].closeMenu();
+            }
+          },
+          openById:function(id){
+            if(sideToggle[id]){
+              sideToggle[id].openMenu();
             }
           }
         },
