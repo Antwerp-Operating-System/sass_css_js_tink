@@ -1,7 +1,7 @@
 'use strict';
 angular.module('tink.sortable', ['ngLodash']);
 angular.module('tink.sortable')
-.directive('tinkSortable',['lodash',function(_){
+.directive('tinkSortable',['lodash','$compile',function(_,$compile){
   return{
     restrict:'E',
     templateUrl:'templates/tinkTable.html',
@@ -77,6 +77,9 @@ angular.module('tink.sortable')
         var header = table.createTHead();
         var row = header.insertRow(0);
 
+        var check = row.insertCell(0);
+        check.innerHTML = createCheckbox(-1);
+
         for(var i=0;i<keys.length;i++){
           if(keys[i].checked && keys[i].visible){
             var key = Object.keys(keys[i])[0];
@@ -103,17 +106,53 @@ angular.module('tink.sortable')
         };
       }
 
+      scope.checked = [];
+      scope.checkChange = function(i){
+        if(i === -1){
+          angular.forEach(scope.data,function(val){
+            val._checked = !val._checked;
+          })
+        }else{
+          var index = _.findIndex(scope.checked, scope.data[i]);
+          if(index !== -1){
+            scope.checked.splice(index,1);
+          }else{
+            scope.checked.push(scope.data[i]);
+          }
+
+        }
+      }
+
+      function createCheckbox(row,i){
+        var checkbox = '<div class="checkbox">'+
+                          '<input type="checkbox" ng-change="checkChange('+row+')" ng-model="data['+i+']._checked" id="'+row+'" name="'+row+'" value="'+row+'">'+
+                          '<label for="'+row+'"></label>'+
+                        '</div>';
+        return checkbox;
+      }
+
+
       //This function create the table body
       function setBody(table,content){
         var body = table.createTBody();
 
-        for(var j=0;j<content.length;j++){
-           var row = body.insertRow(j);
+
+
           for(var i=scope.viewer.length-1;i>=0;i--){
             if(scope.viewer[i].checked && scope.viewer[i].visible){
-              var val = content[j][scope.viewer[i].field];
-              var cell = row.insertCell(body.length+1);
-              cell.innerHTML = val;
+              for(var j=0;j<content.length;j++){
+                var row;
+                if(body.rows[j]){
+                  row = body.rows[j];
+                }else{
+                  row = body.insertRow(j);
+                  var check = row.insertCell(0);
+                  var index = _.findIndex(scope.data,content[j]);
+                  check.innerHTML = createCheckbox(index,j);
+                }
+                var val = content[j][scope.viewer[i].field];
+                var cell = row.insertCell(1);
+                cell.innerHTML = val;
             }
           }
         }
@@ -190,6 +229,7 @@ angular.module('tink.sortable')
 
         setBody(table,viewable);
         $('table').replaceWith($(table));
+        $compile($('table'))(scope);
       };
 
       scope.selected = -1;
