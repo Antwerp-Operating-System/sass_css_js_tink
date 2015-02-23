@@ -343,7 +343,7 @@
               }
               checkValidity();
             };
-            var noErrorClass = "hide-error";
+            var noErrorClass = 'hide-error';
             var firstEl = $(element.find('> div >*:first-child')[0]);
             var lastEl = $(element.find('> div >*:first-child')[1]);
 
