@@ -8,11 +8,13 @@ angular.module('tink.sortable')
     scope:{
       data:'=?',
       headers:'=?',
+      actions:'=?'
     },
     link:function(scope){
 
       var aantalToShow = 1;
       var pages;
+      var viewable;
 
       //Preview PAGES
       scope.perPage='10,20,50';
@@ -55,14 +57,16 @@ angular.module('tink.sortable')
         {name:'trcbn',lastname:'bouillart',adress:'doleegstraat 27'},
         {name:'sdfbv',lastname:'bouillart',adress:{test:'o'}}
       ];
+      //which sorting is happening
       scope.sorting = {field:'',direction:1};
       //preview headers
       scope.headers = [{field:'name',alias:'Voornaam',checked:true},{field:'lastname',checked:false},{field:'adress',visible:true,checked:true}];
       //this is a copy to show to the view
       scope.viewer = angular.copy(scope.headers);
 
+      //function that runs at the beginning to handle the headers.
       function handleHeaders(){
-        angular.forEach(scope.viewer,function(value,key){
+        angular.forEach(scope.viewer,function(value){
           if(!angular.isDefined(value.alias) || value.alias === null){
             value.alias = value.field;
           }
@@ -77,8 +81,10 @@ angular.module('tink.sortable')
         var header = table.createTHead();
         var row = header.insertRow(0);
 
-        var check = row.insertCell(0);
-        check.innerHTML = createCheckbox(-1);
+        if(typeof scope.actions === 'function'){
+          var check = row.insertCell(0);
+          check.innerHTML = createCheckbox(-1);
+        }
 
         for(var i=0;i<keys.length;i++){
           if(keys[i].checked && keys[i].visible){
@@ -92,6 +98,7 @@ angular.module('tink.sortable')
         }
       }
 
+      //will be called when you press on a header
       function sorte ( i ){
         return function(){
           var key = scope.viewer[i].field;
@@ -111,7 +118,8 @@ angular.module('tink.sortable')
         if(i === -1){
           angular.forEach(scope.data,function(val){
             val._checked = !val._checked;
-          })
+          });
+          scope.checked = angular.copy(viewable);
         }else{
           var index = _.findIndex(scope.checked, scope.data[i]);
           if(index !== -1){
@@ -121,7 +129,10 @@ angular.module('tink.sortable')
           }
 
         }
-      }
+      };
+      scope.actions = function(){
+
+      };
 
       function createCheckbox(row,i){
         var checkbox = '<div class="checkbox">'+
@@ -136,8 +147,6 @@ angular.module('tink.sortable')
       function setBody(table,content){
         var body = table.createTBody();
 
-
-
           for(var i=scope.viewer.length-1;i>=0;i--){
             if(scope.viewer[i].checked && scope.viewer[i].visible){
               for(var j=0;j<content.length;j++){
@@ -146,12 +155,19 @@ angular.module('tink.sortable')
                   row = body.rows[j];
                 }else{
                   row = body.insertRow(j);
-                  var check = row.insertCell(0);
-                  var index = _.findIndex(scope.data,content[j]);
-                  check.innerHTML = createCheckbox(index,j);
+                  if(typeof scope.actions === 'function'){
+                    var check = row.insertCell(0);
+                    var index = _.findIndex(scope.data,content[j]);
+                    check.innerHTML = createCheckbox(index,j);
+                  }
                 }
                 var val = content[j][scope.viewer[i].field];
-                var cell = row.insertCell(1);
+                var cell;
+                if(typeof scope.actions === 'function'){
+                  cell = row.insertCell(1);
+                }else{
+                  cell = row.insertCell(0);
+                }
                 cell.innerHTML = val;
             }
           }
@@ -225,7 +241,7 @@ angular.module('tink.sortable')
 
         var start = (scope.pageSelected-1)*aantalToShow;
         var stop = (scope.pageSelected *aantalToShow)-1;
-        var viewable = _.slice(scope.data, start,stop);
+        viewable = _.slice(scope.data, start,stop);
 
         setBody(table,viewable);
         $('table').replaceWith($(table));
