@@ -15,7 +15,7 @@
             <p ng-show="userForm.single.$invalid && !userForm.single.$pristine" class="help-block">You name is required.</p>
         </div>
 
-         <div class="form-group" ng-class="{ 'has-error' : (userForm.first-dubbel.$invalid && !userForm.first-dubbel.$pristine) || (userForm.last-dubbel.$invalid && !userForm.last-dubbel.$pristine) }">
+         <div class="form-group" ng-class="{ 'has-error' : (userForm.firstdubbel.$invalid && !userForm.firstdubbel.$pristine) || (userForm.lastdubbel.$invalid && !userForm.lastdubbel.$pristine) }">
             <label>Name</label>
             <tink-datepicker-range  type="text" name="dubbel" required class="form-control" data-first-date="dates.first" data-last-date="dates.last">
             <p ng-show="userForm.dubbel.$invalid && !userForm.dubbel.$pristine" class="help-block">You name is required.</p>

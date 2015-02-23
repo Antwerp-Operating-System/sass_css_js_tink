@@ -344,8 +344,8 @@
               checkValidity();
             };
             var noErrorClass = 'hide-error';
-            var firstEl = $(element.find('> div >*:first-child')[0]);
-            var lastEl = $(element.find('> div >*:first-child')[1]);
+            var firstEl = $(element.find('.faux-input')[0]);
+            var lastEl = $(element.find('.faux-input')[1]);
 
             function checkValidity(){
                 //scope.ctrlconst.$setValidity('required',true);
