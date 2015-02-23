@@ -31,12 +31,11 @@
   <i class="fa fa-angle-right" ng-disabled="pageSelected === pages.length" ng-click="setNext()"></i><i ng-click="setLast()" class="fa fa-angle-double-right" ng-disabled="pageSelected === pages.length"></i>
 </div>
 <span ng-click="omhoog()">omhoog </span><span ng-click="omlaag()"> omlaag</span>
-<div class="list" ng-repeat='header in viewer' ng-init="parentIndex=$index">
-  {{}}
-<li style = "display:inline;" ng-repeat='(key,value) in header | myLimitTo:1'>
+<div class="list">
+<li style = "display:inline;" ng-repeat='header in viewer | filter:{ visible: true }' >
   <div class="checkbox">
-    <input type="checkbox" ng-model="header.checked" id="{{value}}" name="{{value}}" value="{{value}}" checked="">
-    <label for="{{value}}"><span ng-class="{selected:selected===$parent.$index}" ng-click="select($event,$parent.$index)">{{value}}</span></label>
+    <input type="checkbox" ng-model="header.checked" id="{{header.alias}}" name="{{header.alias}}" value="{{header.alias}}" checked="">
+    <label for="{{header.alias}}"><span ng-class="{selected:selected===$parent.$index}" ng-click="select($event,$parent.$index)">{{header.alias}}</span></label>
   </div>
 </li>
 </div>

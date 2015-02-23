@@ -18,18 +18,18 @@ angular.module('tink.sortable')
       scope.perPage='10,20,50';
       //Preview DATA
       scope.data = [
-        {name:'vincent',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'Valerie',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'Jef',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'robert',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'steven',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'gill',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'Frederic',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'jeroen',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'joris',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'etien',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'richard',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'Yo',lastname:'bouillart',adress:'doleegstraat 27'},
+        {name:'vincent',lastname:'bouillart',adress:1235},
+        {name:'Valerie',lastname:'bouillart',adress:61242},
+        {name:'Jef',lastname:'bouillart',adress:5746},
+        {name:'robert',lastname:'bouillart',adress:'zaeaz 27'},
+        {name:'steven',lastname:'bouillart',adress:'azdqdc 27'},
+        {name:'gill',lastname:'bouillart',adress:'bnfdk 27'},
+        {name:'Frederic',lastname:'bouillart',adress:'cldlddl 27'},
+        {name:'jeroen',lastname:'bouillart',adress:'qlqlqlq 27'},
+        {name:'joris',lastname:'bouillart',adress:'slslsls 27'},
+        {name:'etien',lastname:'bouillart',adress:'lojkk 27'},
+        {name:'richard',lastname:'bouillart',adress:'vidd,, 27'},
+        {name:'Yo',lastname:'bouillart',adress:'yorefd27'},
         {name:'tinne',lastname:'bouillart',adress:'doleegstraat 27'},
         {name:'lora',lastname:'bouillart',adress:'doleegstraat 27'},
         {name:'wout',lastname:'bouillart',adress:'doleegstraat 27'},
@@ -53,21 +53,32 @@ angular.module('tink.sortable')
         {name:',hgg',lastname:'bouillart',adress:'doleegstraat 27'},
         {name:'ezrr',lastname:'bouillart',adress:'doleegstraat 27'},
         {name:'trcbn',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'sdfbv',lastname:'bouillart',adress:'doleegstraat 27'}
+        {name:'sdfbv',lastname:'bouillart',adress:{test:'o'}}
       ];
       scope.sorting = {field:'',direction:1};
       //preview headers
-      scope.headers = [{name:'Voornaam',checked:true},{lastname:'Achternaam',checked:false},{adress:'Adres',checked:true}];
+      scope.headers = [{field:'name',alias:'Voornaam',checked:true},{field:'lastname',checked:false},{field:'adress',visible:true,checked:true}];
       //this is a copy to show to the view
       scope.viewer = angular.copy(scope.headers);
 
+      function handleHeaders(){
+        angular.forEach(scope.viewer,function(value,key){
+          if(!angular.isDefined(value.alias) || value.alias === null){
+            value.alias = value.field;
+          }
+          if(!angular.isDefined(value.visible) || value.visible === null){
+            value.visible = true;
+          }
+        });
+      }
+      handleHeaders();
       //This function creates our table head
       function setHeader(table,keys){
         var header = table.createTHead();
         var row = header.insertRow(0);
 
         for(var i=0;i<keys.length;i++){
-          if(keys[i].checked){
+          if(keys[i].checked && keys[i].visible){
             var key = Object.keys(keys[i])[0];
             var val = keys[i][key];
 
@@ -80,7 +91,7 @@ angular.module('tink.sortable')
 
       function sorte ( i ){
         return function(){
-          var key = Object.keys(scope.headers[i])[0];
+          var key = scope.viewer[i].field;
           if(scope.sorting.field === key){
             scope.sorting.direction = scope.sorting.direction * -1;
           }else{
@@ -98,10 +109,9 @@ angular.module('tink.sortable')
 
         for(var j=0;j<content.length;j++){
            var row = body.insertRow(j);
-          for(var i=scope.headers.length-1;i>=0;i--){
-            if(scope.headers[i].checked){
-              var key = Object.keys(scope.headers[i])[0];
-              var val = content[j][key];
+          for(var i=scope.viewer.length-1;i>=0;i--){
+            if(scope.viewer[i].checked && scope.viewer[i].visible){
+              var val = content[j][scope.viewer[i].field];
               var cell = row.insertCell(body.length+1);
               cell.innerHTML = val;
             }
@@ -111,11 +121,23 @@ angular.module('tink.sortable')
 
       function sorter(sortVal,direction){
         scope.data.sort(function(obj1, obj2) {
-          if(direction){
-            return direction*obj1[sortVal].localeCompare(obj2[sortVal]);
-          }else{
-            return obj1[sortVal].localeCompare(obj2[sortVal]);
+          var obj1Val = obj1[sortVal];
+          var obj2Val = obj2[sortVal];
+
+          if(!_.isString(obj1Val)){
+            obj1Val = obj1Val.toString();
           }
+
+          if(!_.isString(obj2Val)){
+            obj2Val = obj2Val.toString();
+          }
+
+          if(direction){
+            return direction*obj1Val.localeCompare(obj2Val);
+          }else{
+            return obj1Val.localeCompare(obj2Val);
+          }
+
         });
       }
 
@@ -157,7 +179,7 @@ angular.module('tink.sortable')
       //This function build the table and the number of pages!
       scope.buildTable = function(){
         var table = document.createElement('table');
-        setHeader(table,scope.headers);
+        setHeader(table,scope.viewer);
         aantalToShow = scope.perPageView[scope.numSelected];
         pages = Math.ceil(scope.data.length/aantalToShow);
         scope.pages = _.range(1,pages+1);
