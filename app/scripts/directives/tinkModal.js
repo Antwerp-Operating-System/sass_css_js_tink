@@ -13,7 +13,6 @@ angular.module('tink.modal', [])
   }])
   .provider('$modal', function() {
     var defaults = this.defaults = {
-      template:'templates/tinkModal.html',
       element:null,
     };
 
@@ -89,10 +88,15 @@ angular.module('tink.modal', [])
             //config variable
             config = angular.extend({}, defaults, config);
             config.resolve = config.resolve || {};
+            var templateAndResolvePromise;
+            if(angular.isDefined(config.templateUrl)){
+              templateAndResolvePromise = $q.all([fetchTemplate(config.templateUrl)].concat(fetchResolvePromises(config.resolve)));
+            }else{
+              templateAndResolvePromise = $q.all([config.template].concat(fetchResolvePromises(config.resolve)));
+            }
 
             //Wacht op de template en de resloved variable
-            var templateAndResolvePromise =
-              $q.all([fetchTemplate(config.template)].concat(fetchResolvePromises(config.resolve)));
+
 
             templateAndResolvePromise.then(function success(tplAndVars){
               //Get the modal scope or create one

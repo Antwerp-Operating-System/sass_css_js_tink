@@ -17,13 +17,7 @@ scope.maxdate = new Date(2014,2,20);
   scope.go = function(){
   	 var modalInstance = $modal.open({
         scope:scope,
-        template:'templates/tinkModal.html',
-        controller:'ModalInstanceCtrl',
-        resolve: {
-        items: function () {
-            return 'inserted';
-          }
-        }
+        templateUrl:'templates/tinkModal.html'
       });
 
      modalInstance.result.then(function (selectedItem) {
@@ -41,10 +35,10 @@ scope.maxdate = new Date(2014,2,20);
   scope.submitForm = function() {
     console.log(scope.userForm.dubbel);
   };
-}]).controller('ModalInstanceCtrl',['$scope','$modalInstance','items', function ($scope, $modalInstance,items) {
+}]).controller('ModalInstanceCtrl',['$scope','$modalInstance', function ($scope, $modalInstance) {
 
   $scope.ok = function () {
-    $modalInstance.$close({de:'data',lol:items});
+    $modalInstance.$close({de:'data'});
   };
 
   $scope.cancel = function () {
