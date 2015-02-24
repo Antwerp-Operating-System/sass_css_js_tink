@@ -176,14 +176,14 @@
       &:last-child { margin-bottom: 0; }
 
       a {
-        background-color: $nav-aside-item-open-color;
-        color: $nav-aside-link-color;
+        background: $popover-button-background-color;
+        color: $popover-button-color;
         display: block;
         padding: $padding-base-vertical $padding-base-horizontal; //$padding-base-horizontal;
         text-decoration: none;
 
         &:hover {
-          background-color: $nav-aside-link-hover-background-color;
+          background-color: $popover-button-hover-background-color;
         }
       }
     }
