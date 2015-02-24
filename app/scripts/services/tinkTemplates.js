@@ -40,8 +40,8 @@ angular.module('tink.templates', []).run(['$templateCache', function($templateCa
 
 
   $templateCache.put('templates/tinkModal.html',
-    "<div class=modal tabindex=-1 role=dialog> <div class=modal-dialog> <div class=modal-content> <div class=modal-header ng-show=title> <button type=button class=close ng-click=$hide()>&times;</button> <h4 class=modal-title ng-bind=title></h4> </div> <div class=modal-body ng-bind=content></div> <div class=modal-footer> <button type=button class=\"btn btn-default\" ng-click=ok()>ok</button>\n" +
-    "<button type=button class=\"btn btn-default\" ng-click=$close()>Close</button> </div> </div> </div> </div>"
+    "<div class=modal-header ng-show=title> <button type=button class=close ng-click=$hide()>&times;</button> <h4 class=modal-title ng-bind=title></h4> </div> <div class=modal-body ng-bind=content></div> <div class=modal-footer> <button type=button class=\"btn btn-default\" ng-click=ok()>ok</button>\n" +
+    "<button type=button class=\"btn btn-default\" ng-click=$close()>Close</button> </div>"
   );
 
 
