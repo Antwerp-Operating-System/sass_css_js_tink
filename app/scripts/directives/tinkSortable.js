@@ -243,8 +243,13 @@ angular.module('tink.sortable')
         var stop = (scope.pageSelected *aantalToShow)-1;
         viewable = _.slice(scope.data, start,stop);
 
-        setBody(table,viewable);
-        $('table').replaceWith($(table));
+
+        setBody(table,viewable);  //
+        table=$(table);           //variable table is added code to set class table
+        table.addClass('sortable-table')   //added code to set class table
+
+
+        $('table').replaceWith(table); // old code: $('table').replaceWith($(table));
         $compile($('table'))(scope);
       };
 
