@@ -1,0 +1,58 @@
+/**
+ * Variables
+ * ----------------------------------------------------------------
+ */
+
+/**
+ * Main
+ */
+$logo:                                   "theme/politie-logo.svg";
+
+$brand:                 					       #233588;
+$brand-light:           					       #0a94d6;
+$brand-dark:                             #101e5f;
+
+$nav-top-bg-color:      					       $brand;
+$nav-aside-link-hover-color:             $brand-light;
+
+
+/**
+ * Colors
+ */
+$brand-success:                          #00b394;
+$brand-warning:                          #f2932e;
+$brand-danger:                           lighten(#e60038, 6%);
+
+$link-color:                             $brand-light;
+
+
+/**
+ * Code
+ */
+$code-color:                             $brand-light;
+$code-bg:                                lighten($brand-light, 53%);
+
+
+/**
+ * Buttons
+ */
+$btn-primary-bg:                         $brand-light;
+
+
+/**
+ * Callouts
+ */
+$callout-color:                          $brand-light;
+
+
+/**
+ * Hit-area-box
+ */
+$hit-area-checked-bgcolor:               $brand-light;
+
+
+/**
+ * Panels
+ */
+$panel-default-heading-bg:               $brand-light;
+$panel-default-icon-color:               #fff;
