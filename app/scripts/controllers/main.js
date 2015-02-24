@@ -8,14 +8,27 @@
  * Controller of the tinkApp
  */
 angular.module('tinkFramework.controllers')
-  .controller('MainCtrl',['$scope',function (scope) {
+  .controller('MainCtrl',['$scope','$modal',function (scope,$modal) {
 
   scope.dates= {last:new Date(2015,0,2),first:new Date()};
 scope.signup={username:'11.11.11-111.1'};
 scope.mindate = new Date(2014,1,27);
 scope.maxdate = new Date(2014,2,20);
   scope.go = function(){
-  	console.log(scope.dates);
+  	 var modalInstance = $modal.open({
+        scope:scope,
+        template:'templates/tinkModal.html',
+        controller:'ModalInstanceCtrl',
+        resolve:{
+          lol:'ok'
+        }
+      });
+
+     modalInstance.result.then(function (selectedItem) {
+      console.log('closed')
+    }, function () {
+      console.log('dismised')
+    });
   };
 
   scope.getDate = function(){
@@ -25,5 +38,14 @@ scope.maxdate = new Date(2014,2,20);
 
   scope.submitForm = function() {
     console.log(scope.userForm.dubbel);
+  };
+}]).controller('ModalInstanceCtrl',['$scope','$modalInstance', function ($scope, $modalInstance) {
+
+  $scope.ok = function () {
+    $modalInstance.$close();
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
   };
 }]);
