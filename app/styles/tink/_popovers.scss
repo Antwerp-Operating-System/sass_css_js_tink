@@ -19,7 +19,6 @@
   max-width: rem($popover-max-width);
   padding: rem($popover-padding);
   position: relative; //absolute;
-  text-align: center;
   white-space: normal; // Overrides for proper insertion
   z-index: layer("popover");
 
@@ -152,6 +151,7 @@
 
   &-header {
     margin: rem($padding-base-vertical 0);
+    text-align: center;
   }
 
   &-header-avatar {
