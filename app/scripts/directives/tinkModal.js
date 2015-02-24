@@ -1,15 +1,15 @@
 'use strict';
 angular.module('tink.modal', [])
-  .directive('tinkModa',['$modal',function($modal){
+  .directive('tinkModa',[function(){
     return{
       restrict:'EA',
-      link:function(scope,element){
+      link:function(){
        // var modal = $modal({scope:scope,element:element});
         /*scope.$hide = function(){
           modal.hide();
         }*/
       }
-    }
+    };
   }])
   .provider('$modal', function() {
     var defaults = this.defaults = {
@@ -29,7 +29,7 @@ angular.module('tink.modal', [])
         //for fetching the template that exist
         var fetchPromises = {};
         function fetchTemplate(template) {
-          if(fetchPromises[template]) return fetchPromises[template];
+          if(fetchPromises[template]) {return fetchPromises[template];}
           return (fetchPromises[template] = $http.get(template, {cache: $templateCache}).then(function(res) {
             return res.data;
           }));
@@ -54,7 +54,7 @@ angular.module('tink.modal', [])
         });*/
 
         $modal.show = function() {
-          $modal.$element = linker(options.scope, function(clonedElement, scope) {});
+          $modal.$element = linker(options.scope, function() {});
           enterModal();
         };
 
@@ -84,7 +84,6 @@ angular.module('tink.modal', [])
               }
             };
 
-            var scopeInstance = {};
             var resolveIter = 1;
 
             //config variable
@@ -116,11 +115,11 @@ angular.module('tink.modal', [])
                 scope:modalScope,
                 content: tplAndVars[0],
                 windowTemplateUrl: config.template
-              })
-            })
+              });
+            });
 
               return modalInstance;
-          }
+          };
 
         function createModalWindow(content){
           var modelView = angular.element('<div class="modal" tabindex="-1" role="dialog">'+
@@ -137,7 +136,7 @@ angular.module('tink.modal', [])
 
           function show(){
             var linker = $compile(createModalWindow(instance.content));
-            var content = linker(instance.scope, function(clonedElement, scope) {});
+            var content = linker(instance.scope, function() {});
             model.$element = content;
 
             bodyElement.bind('keyup',function(e){
@@ -155,7 +154,7 @@ angular.module('tink.modal', [])
                   model.dismiss('backdrop');
                 }
               });
-            })
+            });
 
             $animate.enter(content, bodyElement, null);
             openInstance = {element:content,scope:instance.scope};
@@ -164,7 +163,7 @@ angular.module('tink.modal', [])
           if(openInstance !== null){
             leaveModal(openInstance).then(function(){
               show();
-            })
+            });
           }else{
             show();
           }
@@ -183,5 +182,5 @@ angular.module('tink.modal', [])
           return q.promise;
         }
         return $modal;
-     }
+     };
   });
