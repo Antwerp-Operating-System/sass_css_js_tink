@@ -73,12 +73,14 @@ angular.module('tink.modal', [])
               result: modalResultDeferred.promise,
               opened: modalOpenedDeferred.promise,
               close: function (result) {
-                leaveModal(null,result).then(function(){
+                leaveModal(null).then(function(){
                   modalResultDeferred.resolve(result);
                 });
               },
               dismiss: function (reason) {
-                modalResultDeferred.reject(reason);
+                leaveModal(null).then(function(){
+                  modalResultDeferred.reject(reason);
+                });
               }
             };
 
@@ -120,6 +122,16 @@ angular.module('tink.modal', [])
               return modalInstance;
           }
 
+        function createModalWindow(content){
+          var modelView = angular.element('<div class="modal" tabindex="-1" role="dialog">'+
+            '<div class="modal-dialog">'+
+              '<div class="modal-content">'+
+              '</div>'+
+            '</div>'+
+          '</div>');
+          modelView.find('.model-content').insert(content);
+        }
+
         function enterModal(model,instance){
 
           function show(){
@@ -127,8 +139,12 @@ angular.module('tink.modal', [])
             var content = linker(instance.scope, function(clonedElement, scope) {});
             model.$element = content;
 
-            bodyElement.bind('keyup',function(){
-              console.log("nice")
+            bodyElement.bind('keyup',function(e){
+              instance.scope.$apply(function(){
+                if(e.which === 27){
+                  model.dismiss('esc');
+                }
+              });
             })
 
             $animate.enter(content, bodyElement, null);
@@ -144,8 +160,8 @@ angular.module('tink.modal', [])
           }
         }
 
-        function leaveModal(modal,instance){
-          bodyElement.unbind('keyup')
+        function leaveModal(modal){
+          bodyElement.unbind('keyup');
           var q = $q.defer();
           if(modal === null){
             modal = openInstance;
