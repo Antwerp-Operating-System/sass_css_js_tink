@@ -40,8 +40,8 @@ angular.module('tink.templates', []).run(['$templateCache', function($templateCa
 
 
   $templateCache.put('templates/tinkModal.html',
-    "<div class=modal-header ng-show=title> <button type=button class=close ng-click=$hide()>&times;</button> <h4 class=modal-title ng-bind=title></h4> </div> <div class=modal-body ng-bind=content></div> <div class=modal-footer> <button type=button class=\"btn btn-default\" ng-click=ok()>ok</button>\n" +
-    "<button type=button class=\"btn btn-default\" ng-click=$close()>Close</button> </div>"
+    "<h2>Dit is een test</h2> <div> laat ne keer zien wat deze wrapper kan <br> ziet er deftig uit neen ? <br> brrrrrr van brrrr<br> </div> <button type=button class=\"btn btn-default\" ng-click=ok()>ok</button>\n" +
+    "<button type=button class=\"btn btn-default\" ng-click=$close()>Close</button>"
   );
 
 

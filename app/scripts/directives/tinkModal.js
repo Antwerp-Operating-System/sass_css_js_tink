@@ -19,7 +19,7 @@ angular.module('tink.modal', [])
 
     var openInstance = null;
 
-     this.$get = function($http,$q,$rootScope,$templateCache,$compile,$animate,$window,$controller) {
+     this.$get = function($http,$q,$rootScope,$templateCache,$compile,$animate,$window,$controller,$injector) {
       var bodyElement = angular.element($window.document.body);
 
         var $modal = {};
