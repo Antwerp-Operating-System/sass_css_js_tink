@@ -33,8 +33,8 @@ angular.module('tink.templates', []).run(['$templateCache', function($templateCa
 
 
   $templateCache.put('templates/tinkDatePickerRangeInputs.html',
-    "<div class=\"datepicker-input-fields row no-gutter\"> <div class=col-sm-6> <input id=firstDateElem data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj dynamic-name=dynamicName tink-format-input ng-model=firstDate alid-name=first>\n" +
-    "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div> <div class=col-sm-6> <input id=lastDateElem data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj tink-format-input ctrl-model=dynamicName valid-name=last ng-model=lastDate>\n" +
+    "<div class=\"datepicker-input-fields row no-gutter\"> <div class=col-sm-6> <input id=firstDateElem class=elem-one data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj tink-format-input ng-model=firstDate valid-name=first>\n" +
+    "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div> <div class=col-sm-6> <input id=lastDateElem class=elem-two data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj tink-format-input ctrl-model=dynamicName valid-name=last ng-model=lastDate>\n" +
     "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div> </div>"
   );
 

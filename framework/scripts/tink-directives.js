@@ -206,7 +206,7 @@ this.closeGroup = function(elem){
 angular.module('tink.datepicker', [])
 .directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply','$window',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply,$window) {
   return {
-    restrict:'EA',
+    restrict:'E',
     require:['ngModel','?^form'],
     replace:true,
     templateUrl:'templates/tinkDatePickerInput.html',
@@ -511,9 +511,13 @@ angular.module('tink.datepicker', [])
           maxDate:'=?',
         },
         compile: function(template,$attr){
-          if($attr.required === ''){
+          if($attr.required === '' || $attr.required === 'required'){
             template.find('input:first').attr('data-require',true);
             template.find('input:last').attr('data-require',true);
+          }
+          if($attr.name){
+            template.find('input:first').attr('name',$attr.name);
+            template.find('input:last').attr('name',$attr.name);
           }
           return{
             pre:function(){},
@@ -521,6 +525,7 @@ angular.module('tink.datepicker', [])
           var $directive = {
             open: false,
             focused: {firstDateElem: element.find('div[tink-format-input] div:first'), lastDateElem: element.find('div[tink-format-input] div:last')},
+            elem:{},
             calendar: {first:element.find('span.datepicker-icon:first'),last:element.find('span.datepicker-icon:last')},
             tbody:{firstDateElem:null,lastDateElem:null},
             focusedModel: null,
@@ -530,7 +535,7 @@ angular.module('tink.datepicker', [])
             viewDate:new Date(),
             hardCodeFocus: false
           };
-          if(attrs.name){
+          if(attrs.name && form[0]){
             scope.ctrlconst = form[0][attrs.name];
           }
 
@@ -827,31 +832,44 @@ angular.module('tink.datepicker', [])
               }
               checkValidity();
             };
+            var noErrorClass = 'hide-error';
+            var firstEl = $(element.find('.faux-input')[0]);
+            var lastEl = $(element.find('.faux-input')[1]);
 
             function checkValidity(){
                 //scope.ctrlconst.$setValidity('required',true);
                 if(scope.firstDate === null && scope.lastDate !== null){
                   first.$setValidity('date-required',false);
+                  firstEl.removeClass(noErrorClass);
                 }else if(scope.firstDate !== null && scope.lastDate === null){
                   last.$setValidity('date-required',false);
+                  lastEl.removeClass(noErrorClass);
                 }else if(scope.firstDate === null && scope.lastDate === null){
                   if(angular.isDefined(attrs.required)){
                     first.$setValidity('date-required',false);
                     last.$setValidity('date-required',false);
+                    firstEl.removeClass(noErrorClass);
+                    lastEl.removeClass(noErrorClass);
                   }else{
                     first.$setValidity('date-required',true);
                     last.$setValidity('date-required',true);
+                    firstEl.addClass(noErrorClass);
+                    lastEl.addClass(noErrorClass);
                   }
                 }else if(scope.firstDate !== null && scope.lastDate !== null){
                   first.$setValidity('date-required',true);
                   last.$setValidity('date-required',true);
+                  firstEl.addClass(noErrorClass);
+                    lastEl.addClass(noErrorClass);
                 }
 
                 if(first.$error.date){
                   first.$setValidity('date-required',true);
+                  firstEl.addClass(noErrorClass);
                 }
                 if(last.$error.date){
                   last.$setValidity('date-required',true);
+                  lastEl.addClass(noErrorClass);
                 }
             }
 
@@ -1157,7 +1175,7 @@ angular.module('tink.dropdown', [])
         var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
         var isTouch = ('createTouch' in $window.document) && isNative;
         if (isTouch) {
-          return '<div><input id="input" type="date"/><div>';
+          return '<div><input id="input" class="faux-input" type="date"/><div>';
         } else {
           return '<div><div id="input" class="faux-input" contenteditable="true">{{placeholder}}</div></div>';
         }
@@ -1168,7 +1186,6 @@ angular.module('tink.dropdown', [])
           pre: function() {
           },
           post: function(scope, elem, attr, ctrl) {
-
             // -- check if we are using a touch device  --/
             var isDateSupported = function() {
               var i = document.createElement('input');
@@ -1198,11 +1215,11 @@ angular.module('tink.dropdown', [])
         var prefix = '';
         if(angular.isDefined(attr.validName)){
           setTimeout(function(){
-            if(form){
+            if(form && attr.name && typeof attr.name === 'string' && attr.name !== ''){
             safeApply(scope,function(){
               prefix = attr.validName;
               form.$removeControl(ngControl);
-              ngControl.$name = prefix+ngControl.$name;
+              ngControl.$name = prefix+attr.name;
               form.$addControl(ngControl);
             });
           }
@@ -1246,6 +1263,8 @@ angular.module('tink.dropdown', [])
             return false;
           }
         })();
+        var noErrorClass = 'hide-error';
+        var errorElem = $(elem.find('.faux-input')[0]);
 
         function checkValidity(value){
           var stringValue;
@@ -1261,28 +1280,35 @@ angular.module('tink.dropdown', [])
             if(angular.isDate(scope.minDate)){
               if(dateCalculator.dateBeforeOther(value,scope.minDate)){
                 ngControl.$setValidity('date-min',true);
+                errorElem.addClass(noErrorClass);
               }else{
                 ngControl.$setValidity('date-min',false);
+                errorElem.removeClass(noErrorClass);
               }
 
             }
             if(angular.isDate(scope.maxDate)){
               if(dateCalculator.dateBeforeOther(scope.maxDate,value)){
                 ngControl.$setValidity('date-max',true);
+                errorElem.addClass(noErrorClass);
               }else{
                 ngControl.$setValidity('date-max',false);
+                errorElem.removeClass(noErrorClass);
               }
             }
 
             if(validFormat(stringValue,dateformat)){
               ngControl.$setValidity('date',true);
+              errorElem.addClass(noErrorClass);
               if(isRequired){
                 ngControl.$setValidity('date-required',true);
+                errorElem.addClass(noErrorClass);
               }
             }else if(stringValue !== config.placeholder && stringValue !== null){
               ngControl.$setValidity('date',false);
               ngControl.$setValidity('date-min',true);
               ngControl.$setValidity('date-max',true);
+              errorElem.removeClass(noErrorClass);
               if(isRequired){
                 ngControl.$setValidity('date-required',true);
               }
@@ -1290,8 +1316,10 @@ angular.module('tink.dropdown', [])
               ngControl.$setValidity('date',true);
               ngControl.$setValidity('date-min',true);
               ngControl.$setValidity('date-max',true);
+              errorElem.addClass(noErrorClass);
               if(isRequired){
                 ngControl.$setValidity('date-required',false);
+                errorElem.removeClass(noErrorClass);
               }
             }
 
@@ -1332,7 +1360,7 @@ angular.module('tink.dropdown', [])
               return null;
             }
           });
-          element.unbind('input').unbind('keydown').unbind('change');
+          element.unbind('input').unbind('change');
           element.bind('input change', function() {
                     safeApply(scope,function() {
 
@@ -3322,8 +3350,8 @@ angular.module('tink.safeApply', [])
 
 
   $templateCache.put('templates/tinkDatePickerRangeInputs.html',
-    "<div class=\"datepicker-input-fields row no-gutter\"> <div class=col-sm-6> <input id=firstDateElem data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj dynamic-name=dynamicName tink-format-input ng-model=firstDate alid-name=first>\n" +
-    "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div> <div class=col-sm-6> <input id=lastDateElem data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj tink-format-input ctrl-model=dynamicName valid-name=last ng-model=lastDate>\n" +
+    "<div class=\"datepicker-input-fields row no-gutter\"> <div class=col-sm-6> <input id=firstDateElem class=elem-one data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj tink-format-input ng-model=firstDate valid-name=first>\n" +
+    "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div> <div class=col-sm-6> <input id=lastDateElem class=elem-two data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj tink-format-input ctrl-model=dynamicName valid-name=last ng-model=lastDate>\n" +
     "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div> </div>"
   );
 

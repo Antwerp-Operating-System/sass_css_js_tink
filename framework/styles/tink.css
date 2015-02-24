@@ -1757,6 +1757,10 @@ fieldset {
   min-width: 0;
   padding: 0; }
 
+@-moz-document url-prefix() {
+  fieldset {
+    display: table-column; } }
+
 legend {
   border: 0;
   border-bottom: 1px solid #eaeaea;
@@ -2039,9 +2043,9 @@ output {
 
 .has-success > label {
   color: #333; }
-.has-success input[type="color"], .has-success input[type="date"], .has-success input[type="datetime"], .has-success input[type="datetime-local"], .has-success input[type="email"], .has-success input[type="month"], .has-success input[type="number"], .has-success input[type="password"], .has-success input[type="search"], .has-success input[type="tel"], .has-success input[type="time"], .has-success input[type="text"], .has-success input[type="url"], .has-success input[type="week"], .has-success select, .has-success textarea, .has-success .faux-input {
+.has-success input[type="color"]:not(.hide-error), .has-success input[type="date"]:not(.hide-error), .has-success input[type="datetime"]:not(.hide-error), .has-success input[type="datetime-local"]:not(.hide-error), .has-success input[type="email"]:not(.hide-error), .has-success input[type="month"]:not(.hide-error), .has-success input[type="number"]:not(.hide-error), .has-success input[type="password"]:not(.hide-error), .has-success input[type="search"]:not(.hide-error), .has-success input[type="tel"]:not(.hide-error), .has-success input[type="time"]:not(.hide-error), .has-success input[type="text"]:not(.hide-error), .has-success input[type="url"]:not(.hide-error), .has-success input[type="week"]:not(.hide-error), .has-success select:not(.hide-error), .has-success textarea:not(.hide-error), .has-success .faux-input:not(.hide-error) {
   border-color: #4a921f; }
-  .has-success input[type="color"]:focus, .has-success input[type="date"]:focus, .has-success input[type="datetime"]:focus, .has-success input[type="datetime-local"]:focus, .has-success input[type="email"]:focus, .has-success input[type="month"]:focus, .has-success input[type="number"]:focus, .has-success input[type="password"]:focus, .has-success input[type="search"]:focus, .has-success input[type="tel"]:focus, .has-success input[type="time"]:focus, .has-success input[type="text"]:focus, .has-success input[type="url"]:focus, .has-success input[type="week"]:focus, .has-success select:focus, .has-success textarea:focus, .has-success .faux-input:focus {
+  .has-success input[type="color"]:not(.hide-error):focus, .has-success input[type="date"]:not(.hide-error):focus, .has-success input[type="datetime"]:not(.hide-error):focus, .has-success input[type="datetime-local"]:not(.hide-error):focus, .has-success input[type="email"]:not(.hide-error):focus, .has-success input[type="month"]:not(.hide-error):focus, .has-success input[type="number"]:not(.hide-error):focus, .has-success input[type="password"]:not(.hide-error):focus, .has-success input[type="search"]:not(.hide-error):focus, .has-success input[type="tel"]:not(.hide-error):focus, .has-success input[type="time"]:not(.hide-error):focus, .has-success input[type="text"]:not(.hide-error):focus, .has-success input[type="url"]:not(.hide-error):focus, .has-success input[type="week"]:not(.hide-error):focus, .has-success select:not(.hide-error):focus, .has-success textarea:not(.hide-error):focus, .has-success .faux-input:not(.hide-error):focus {
     border-color: #4a921f;
     box-shadow: 0 0 0 2px rgba(74, 146, 31, 0.25);
     outline: 0;
@@ -2057,9 +2061,9 @@ output {
 
 .has-error > label {
   color: #333; }
-.has-error input[type="color"], .has-error input[type="date"], .has-error input[type="datetime"], .has-error input[type="datetime-local"], .has-error input[type="email"], .has-error input[type="month"], .has-error input[type="number"], .has-error input[type="password"], .has-error input[type="search"], .has-error input[type="tel"], .has-error input[type="time"], .has-error input[type="text"], .has-error input[type="url"], .has-error input[type="week"], .has-error select, .has-error textarea, .has-error .faux-input {
+.has-error input[type="color"]:not(.hide-error), .has-error input[type="date"]:not(.hide-error), .has-error input[type="datetime"]:not(.hide-error), .has-error input[type="datetime-local"]:not(.hide-error), .has-error input[type="email"]:not(.hide-error), .has-error input[type="month"]:not(.hide-error), .has-error input[type="number"]:not(.hide-error), .has-error input[type="password"]:not(.hide-error), .has-error input[type="search"]:not(.hide-error), .has-error input[type="tel"]:not(.hide-error), .has-error input[type="time"]:not(.hide-error), .has-error input[type="text"]:not(.hide-error), .has-error input[type="url"]:not(.hide-error), .has-error input[type="week"]:not(.hide-error), .has-error select:not(.hide-error), .has-error textarea:not(.hide-error), .has-error .faux-input:not(.hide-error) {
   border-color: #e60038; }
-  .has-error input[type="color"]:focus, .has-error input[type="date"]:focus, .has-error input[type="datetime"]:focus, .has-error input[type="datetime-local"]:focus, .has-error input[type="email"]:focus, .has-error input[type="month"]:focus, .has-error input[type="number"]:focus, .has-error input[type="password"]:focus, .has-error input[type="search"]:focus, .has-error input[type="tel"]:focus, .has-error input[type="time"]:focus, .has-error input[type="text"]:focus, .has-error input[type="url"]:focus, .has-error input[type="week"]:focus, .has-error select:focus, .has-error textarea:focus, .has-error .faux-input:focus {
+  .has-error input[type="color"]:not(.hide-error):focus, .has-error input[type="date"]:not(.hide-error):focus, .has-error input[type="datetime"]:not(.hide-error):focus, .has-error input[type="datetime-local"]:not(.hide-error):focus, .has-error input[type="email"]:not(.hide-error):focus, .has-error input[type="month"]:not(.hide-error):focus, .has-error input[type="number"]:not(.hide-error):focus, .has-error input[type="password"]:not(.hide-error):focus, .has-error input[type="search"]:not(.hide-error):focus, .has-error input[type="tel"]:not(.hide-error):focus, .has-error input[type="time"]:not(.hide-error):focus, .has-error input[type="text"]:not(.hide-error):focus, .has-error input[type="url"]:not(.hide-error):focus, .has-error input[type="week"]:not(.hide-error):focus, .has-error select:not(.hide-error):focus, .has-error textarea:not(.hide-error):focus, .has-error .faux-input:not(.hide-error):focus {
     border-color: #e60038;
     box-shadow: 0 0 0 2px rgba(230, 0, 56, 0.25);
     outline: 0;
