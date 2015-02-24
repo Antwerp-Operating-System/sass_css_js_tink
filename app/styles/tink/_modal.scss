@@ -13,6 +13,7 @@
   position: fixed;
   text-align: center;
   top: 0;
+  user-select: none;
   width: 100%;
   z-index: layer('modal');
 
@@ -20,8 +21,9 @@
     content: '';
     display: inline-block;
     height: 100%;
+    margin-right: -0.125em;
+    user-select: none;
     vertical-align: middle;
-    margin-right: -0.25em; /* Adjusts for spacing */
   }
 }
 
@@ -31,5 +33,6 @@
   box-shadow: rem(0 6 24) rgba(0, 0, 0, .12);
   display: inline-block;
   padding: rem($modal-inner-padding);
+  user-select: all;
   vertical-align: middle;
 }
