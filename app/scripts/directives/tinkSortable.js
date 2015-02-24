@@ -20,47 +20,47 @@ angular.module('tink.sortable')
       scope.perPage='10,20,50';
       //Preview DATA
       scope.data = [
-        {name:'vincent',lastname:'bouillart',adress:1235},
-        {name:'Valerie',lastname:'bouillart',adress:61242},
-        {name:'Jef',lastname:'bouillart',adress:5746},
-        {name:'robert',lastname:'bouillart',adress:'zaeaz 27'},
-        {name:'steven',lastname:'bouillart',adress:'azdqdc 27'},
-        {name:'gill',lastname:'bouillart',adress:'bnfdk 27'},
-        {name:'Frederic',lastname:'bouillart',adress:'cldlddl 27'},
-        {name:'jeroen',lastname:'bouillart',adress:'qlqlqlq 27'},
-        {name:'joris',lastname:'bouillart',adress:'slslsls 27'},
-        {name:'etien',lastname:'bouillart',adress:'lojkk 27'},
-        {name:'richard',lastname:'bouillart',adress:'vidd,, 27'},
-        {name:'Yo',lastname:'bouillart',adress:'yorefd27'},
-        {name:'tinne',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'lora',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'wout',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'astrid',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'jonas',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'yana',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'laura',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'kriste',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'tom',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'leive',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'tomp',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'vdsfds',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'sdfdfsf',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'sef',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'vnbrf',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'azd',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'wcwv',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'vdgfs',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'ruuy',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'uyfh',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:',hgg',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'ezrr',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'trcbn',lastname:'bouillart',adress:'doleegstraat 27'},
-        {name:'sdfbv',lastname:'bouillart',adress:{test:'o'}}
+        {name:'vincent',achternaam:'bouillart',adress:1235},
+        {name:'Valerie',achternaam:'bouillart',adress:61242},
+        {name:'Jef',achternaam:'bouillart',adress:5746},
+        {name:'robert',achternaam:'bouillart',adress:'zaeaz 27'},
+        {name:'steven',achternaam:'bouillart',adress:'azdqdc 27'},
+        {name:'gill',achternaam:'bouillart',adress:'bnfdk 27'},
+        {name:'Frederic',achternaam:'bouillart',adress:'cldlddl 27'},
+        {name:'jeroen',achternaam:'bouillart',adress:'qlqlqlq 27'},
+        {name:'joris',achternaam:'bouillart',adress:'slslsls 27'},
+        {name:'etien',achternaam:'bouillart',adress:'lojkk 27'},
+        {name:'richard',achternaam:'bouillart',adress:'vidd,, 27'},
+        {name:'Yo',achternaam:'bouillart',adress:'yorefd27'},
+        {name:'tinne',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'lora',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'wout',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'astrid',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'jonas',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'yana',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'laura',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'kriste',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'tom',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'leive',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'tomp',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'vdsfds',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'sdfdfsf',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'sef',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'vnbrf',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'azd',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'wcwv',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'vdgfs',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'ruuy',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'uyfh',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:',hgg',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'ezrr',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'trcbn',achternaam:'bouillart',adress:'doleegstraat 27'},
+        {name:'sdfbv',achternaam:'bouillart',adress:{test:'o'}}
       ];
       //which sorting is happening
       scope.sorting = {field:'',direction:1};
       //preview headers
-      scope.headers = [{field:'name',alias:'Voornaam',checked:true},{field:'lastname',checked:false},{field:'adress',visible:true,checked:true}];
+      scope.headers = [{field:'name',alias:'Voornaam',checked:true},{field:'achternaam',alias:'Achternaam',checked:false},{field:'adress',alias:'Adres',visible:true,checked:true}];
       //this is a copy to show to the view
       scope.viewer = angular.copy(scope.headers);
 
@@ -344,5 +344,3 @@ angular.module('tink.sortable')
         return ret;
     };
 }]);
-
-

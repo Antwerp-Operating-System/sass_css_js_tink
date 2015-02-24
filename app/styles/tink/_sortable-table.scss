@@ -3,13 +3,26 @@
  * --------------------------------------------------
  */
 
+.sortable-table {
+
+  background-color: $brand-light;
+
+
+}
+
 
 .pop-up-dropdown {
 
   background-color: $brand-light;
+  margin:rem(5 0);
+  max-width: rem(200);
 
 }
 
+.right { // doesn't work?
+ left: auto;
+ right: 0;
+}
 
 .selected {
   background-color: $gray-dark;

@@ -1,28 +1,10 @@
-<table style="width:100%">
-  <thead>
-    <tr>
-    <th draggable>First</th>
-    <th draggable>last</th>
-    <th draggable>age</th>
-  </tr>
-  </thead>
-  <tr>
-    <td draggable>Jill</td>
-    <td draggable>Smith</td>
-    <td draggable>50</td>
-  </tr>
-  <tr>
-    <td draggable>Eve</td>
-    <td draggable>Jackson</td>
-    <td draggable>94</td>
-  </tr>
-</table>
+<table></table>
 
 <div class="row">
-  <div class="col-md-6">
-    <button class="btn-sq" ng-repeat="num in perPageView" ng-click="perPageClick($index)" ng-class="{selected:numSelected===$index}">{{num}}</button>
+  <div class="col-xs-6">
+    <button class="btn-sq" ng-repeat="num in perPageView" ng-click="perPageClick($index)" ng-class="{selected:numSelected===$index}">{{num}}</button> per pagina
   </div>
-  <div class="col-md-6">
+  <div class="col-xs-6 right">
     <i class="fa fa-angle-double-left" ng-disabled="pageSelected === 1" ng-click="setFirst()"></i><i ng-click="setPrev()" ng-disabled="pageSelected === 1" class="fa fa-angle-left"></i>
     <button class="btn-sq" ng-repeat="num in pages" ng-click="setPage($index)" ng-class="{selected:pageSelected===$index+1}">{{num}}</button>
     <i class="fa fa-angle-right" ng-disabled="pageSelected === pages.length" ng-click="setNext()"></i><i ng-click="setLast()" class="fa fa-angle-double-right" ng-disabled="pageSelected === pages.length"></i>
@@ -30,7 +12,7 @@
 </div>
 
 
-<!-- I guess this is sorting of the list? -->
+<!-- I guess this is sorting of the list, but it doesn't seem to work? -->
 <div class="pop-up-dropdown">
    <i class="fa fa-arrow-up" ng-click="omhoog()"> </i>
    <i class="fa fa-arrow-down" ng-click="omlaag()"></i>
