@@ -129,13 +129,14 @@ angular.module('tink.modal', [])
               '</div>'+
             '</div>'+
           '</div>');
-          modelView.find('.model-content').insert(content);
+          modelView.find('.modal-content').html(content);
+          return modelView;
         }
 
         function enterModal(model,instance){
 
           function show(){
-            var linker = $compile(instance.content);
+            var linker = $compile(createModalWindow(instance.content));
             var content = linker(instance.scope, function(clonedElement, scope) {});
             model.$element = content;
 
