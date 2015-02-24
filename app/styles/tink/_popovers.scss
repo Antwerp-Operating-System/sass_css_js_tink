@@ -135,27 +135,128 @@
   }
 }
 
+
 /* Popdown trial run */
 .popdown {
-  @extend .popover;
-  background: lighten($nav-aside-item-open-color, 2);
-  max-width: rem($popover-max-width);
-  padding: rem($padding-base-vertical);
-  position: relative;
-  text-align: center;
+  //@extend .popover;
+  background-color: $popdown-bg-color;
+  background-clip: padding-box;
+  border: 1px solid $popover-fallback-border-color;
+  border: 1px solid $popover-border-color;
+  border-radius: $border-radius-large;
+  //display: none;
+  font-family: $font-family-base;
+  font-size: rem($font-size-base);
+  font-weight: normal;
+  line-height: $line-height-base;
 
-  // Overrides for proper insertion
-  white-space: normal;
+  max-width: rem($popdown-max-width);
+  padding: rem($padding-base-vertical);
+  position: relative; //absolute;
+  text-align: center;
+  white-space: normal; // Overrides for proper insertion
+  z-index: layer("popover");
 
   // Offset the popover to account for the popover arrow
-  &.top     { margin-top: -$popover-arrow-width; }
-  &.right   { margin-left: $popover-arrow-width; }
-  &.bottom  { margin-top: $popover-arrow-width; }
-  &.left    { margin-left: -$popover-arrow-width; }
+  // &.top     { margin-top: -$popdown-arrow-width; }
+  // &.right   { margin-left: $popdown-arrow-width; }
+  // &.bottom  { margin-top: $popdown-arrow-width; }
+  // &.left    { margin-left: -$popdown-arrow-width; }
+
+  &.arrow-top { // POPDOWN ARROW-TOP
+    margin-top: -$popdown-arrow-width;
+    >.arrow {
+      left: 50%;
+      margin-left: -$popdown-arrow-outer-width;
+      border-top-width: 0;
+      border-bottom-color: $popdown-arrow-outer-fallback-color; // IE8 fallback
+      border-bottom-color: $popdown-arrow-outer-color;
+      top: -$popdown-arrow-outer-width;
+      &:after {
+        content: " ";
+        top: 1px;
+        margin-left: -$popdown-arrow-width;
+        border-top-width: 0;
+        border-bottom-color: $popdown-arrow-color;
+      }
+    }
+
+    &-left {
+      @extend .arrow-top;
+      >.arrow { left: 20%; }
+    }
+    &-right {
+      @extend .arrow-top;
+      >.arrow { left: 80%; }
+    }
+  }
+
+  &.arrow-right { // POPDOWN ARROW-RIGHT
+    margin-left: $popdown-arrow-width;
+    >.arrow {
+      top: 50%;
+      right: -$popover-arrow-outer-width;
+      margin-top: -$popover-arrow-outer-width;
+      border-right-width: 0;
+      border-left-color: $popover-arrow-outer-fallback-color; // IE8 fallback
+      border-left-color: $popover-arrow-outer-color;
+      &:after {
+        content: " ";
+        right: 1px;
+        border-right-width: 0;
+        border-left-color: $popover-arrow-color;
+        bottom: -$popover-arrow-width;
+      }
+    }
+    &-top {
+      @extend .arrow-right;
+      >.arrow { top: 20%; }
+    }
+    &-bottom {
+      @extend .arrow-right;
+      >.arrow { top: 80%; }
+    }
+  }
+
+  &.arrow-left { //POPDOWN ARROW LEFT
+    margin-left: $popover-arrow-width;
+    >.arrow {
+      top: 50%;
+      right: -$popover-arrow-outer-width;
+      margin-top: -$popover-arrow-outer-width;
+      border-right-width: 0;
+      border-left-color: $popover-arrow-outer-fallback-color; // IE8 fallback
+      border-left-color: $popover-arrow-outer-color;
+      &:after {
+        content: " ";
+        right: 1px;
+        border-right-width: 0;
+        border-left-color: $popover-arrow-color;
+        bottom: -$popover-arrow-width;
+      }
+    }
+    &-top {
+      @extend .arrow-right;
+      >.arrow { top: 20%; }
+    }
+    &-bottom {
+      @extend .arrow-right;
+      >.arrow { top: 80%; }
+    }
+  }
+
+
+  &.arrow-bottom-right {}
+  &.arrow-bottom {}
+  &.arrow-bottom-left {}
+
+  &.arrow-left-bottom{}
+  &.arrow-left {}
+  &.arrow-left-top {}
 
 
   > .arrow {
-    border-width: $popover-arrow-outer-width;
+    border-width: $popdown-arrow-outer-width;
 
     &,
     &:after {
@@ -166,7 +267,7 @@
       border-color: transparent;
       border-style: solid;
 
-      border-width: $popover-arrow-width;
+      border-width: $popdown-arrow-width;
       content: "";
     }
   }
@@ -210,11 +311,5 @@
     }
   }
 
-  // Arrow and positioning
-  // Offset the popover to account for the popover arrow
-  &.top     { margin-top: -$popover-arrow-width; }
-  &.right   { margin-left: $popover-arrow-width; }
-  &.bottom  { margin-top: $popover-arrow-width; }
-  &.left    { margin-left: -$popover-arrow-width; }
 
 }
