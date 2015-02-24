@@ -10,7 +10,7 @@ angular.module('tink.rijkRegister')
       var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
       var isTouch = ('createTouch' in $window.document) && isNative;
       if (isTouch) {
-        return '<div><input type="number" step="0" pattern="[0-9]*"><div>';
+        return '<div><input class="hide-styling" type="number" step="0" pattern="[0-9]*"><div>';
       } else {
         return '<div><div id="input" class="faux-input" contenteditable="true">{{placeholder}}</div></div>';
       }
