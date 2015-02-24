@@ -146,6 +146,12 @@ angular.module('tink.modal', [])
                   model.dismiss('esc');
                 }
               });
+            });
+
+            model.$element.bind('click',function(e){
+              if(e.target === $(this).get(0)){
+                model.dismiss('backdrop');
+              }
             })
 
             $animate.enter(content, bodyElement, null);
