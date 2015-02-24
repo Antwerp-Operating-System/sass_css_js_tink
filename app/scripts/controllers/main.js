@@ -10,7 +10,7 @@
 angular.module('tinkFramework.controllers')
   .controller('MainCtrl',['$scope','$modal',function (scope,$modal) {
 
-  scope.dates= {last:new Date(2015,0,2),first:new Date()};
+scope.dates= {last:new Date(2015,0,2),first:new Date()};
 scope.signup={username:'11.11.11-111.1'};
 scope.mindate = new Date(2014,1,27);
 scope.maxdate = new Date(2014,2,20);
@@ -25,9 +25,9 @@ scope.maxdate = new Date(2014,2,20);
       });
 
      modalInstance.result.then(function (selectedItem) {
-      console.log('closed')
-    }, function () {
-      console.log('dismised')
+      console.log('closed',selectedItem);
+    }, function (reason) {
+      console.log('dismised',reason);
     });
   };
 
