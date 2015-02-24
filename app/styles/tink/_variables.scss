@@ -645,53 +645,24 @@ $tooltip-arrow-color:         $tooltip-bg !default;
 //== Popovers
 //
 //##
+$popover-bg-color:                      lighten($nav-aside-item-open-color, 2) !default; //$white !default;
+$popover-border-color:                  rgba(0,0,0,.2) !default;
+$popover-fallback-border-color:         $gray !default;
+$popover-border-width:                  1px;
+$popover-max-width:                     300px !default;
+$popover-padding:                       $padding-base-vertical;
+$popover-header-bg:                     $white !default;
 
-//** Popover body background color
-$popover-bg:                          $white !default;
-//** Popover maximum width
-$popover-max-width:                   276px !default;
-//** Popover border color
-$popover-border-color:                rgba(0,0,0,.2) !default;
-//** Popover fallback border color
-$popover-fallback-border-color:       $gray !default;
+$popover-arrow-color:                   $popover-bg-color;
+$popover-arrow-width:                   10px;
+$popover-arrow-outer-width:             ($popover-arrow-width + 1) !default;
+$popover-arrow-outer-color:             fade-in($popover-border-color, 0.05) !default;
+$popover-arrow-outer-fallback-color:    darken($popover-fallback-border-color, 20%) !default;
 
-//** Popover title background color
-$popover-title-bg:                    darken($popover-bg, 3%) !default;
+$popover-button-background-color:       $nav-aside-item-open-color;
+$popover-button-hover-background-color: $nav-aside-link-hover-background-color;
 
-//** Popover arrow width
-$popover-arrow-width:                 10px !default;
-//** Popover arrow color
-$popover-arrow-color:                 $popover-bg !default;
-
-//** Popover outer arrow width
-$popover-arrow-outer-width:           ($popover-arrow-width + 1) !default;
-//** Popover outer arrow color
-$popover-arrow-outer-color:           fade_in($popover-border-color, 0.05) !default;
-//** Popover outer arrow fallback color
-$popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%) !default;
-
-
-//== Popdowns
-//
-//##
-$popdown-bg-color:                      lighten($nav-aside-item-open-color, 2) !default; //$white !default;
-$popdown-border-color:                  rgba(0,0,0,.2) !default;
-$popdown-fallback-border-color:         $gray !default;
-$popdown-border-width:                  1px;
-$popdown-max-width:                     300px !default;
-$popdown-padding:                       $padding-base-vertical;
-$popdown-header-bg:                     $white !default;
-
-$popdown-arrow-color:                   $popdown-bg-color;
-$popdown-arrow-width:                   10px;
-$popdown-arrow-outer-width:             ($popdown-arrow-width + 1) !default;
-$popdown-arrow-outer-color:             fade-in($popdown-border-color, 0.05) !default;
-$popdown-arrow-outer-fallback-color:    darken($popdown-fallback-border-color, 20%) !default;
-
-$popdown-button-background-color:       $nav-aside-item-open-color;
-$popdown-button-hover-background-color: $nav-aside-link-hover-background-color;
-
-$popdown-percentage:                    20;
+$popover-percentage:                    15;
 
 
 
