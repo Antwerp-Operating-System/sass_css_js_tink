@@ -679,6 +679,7 @@ $popdown-border-color:                  rgba(0,0,0,.2) !default;
 $popdown-fallback-border-color:         $gray !default;
 $popdown-border-width:                  1px;
 $popdown-max-width:                     300px !default;
+$popdown-padding:                       $padding-base-vertical;
 $popdown-header-bg:                     $white !default;
 
 $popdown-arrow-color:                   $popdown-bg-color;
@@ -689,6 +690,8 @@ $popdown-arrow-outer-fallback-color:    darken($popdown-fallback-border-color, 2
 
 $popdown-button-background-color:       $nav-aside-item-open-color;
 $popdown-button-hover-background-color: $nav-aside-link-hover-background-color;
+
+$popdown-percentage:                    20;
 
 
 

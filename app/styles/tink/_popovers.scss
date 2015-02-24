@@ -138,11 +138,10 @@
 
 /* Popdown trial run */
 .popdown {
-  //@extend .popover;
   background-color: $popdown-bg-color;
   background-clip: padding-box;
-  border: 1px solid $popover-fallback-border-color;
-  border: 1px solid $popover-border-color;
+  border: 1px solid $popdown-fallback-border-color;
+  border: 1px solid $popdown-border-color;
   border-radius: $border-radius-large;
   //display: none;
   font-family: $font-family-base;
@@ -151,20 +150,30 @@
   line-height: $line-height-base;
 
   max-width: rem($popdown-max-width);
-  padding: rem($padding-base-vertical);
+  padding: rem($popdown-padding);
   position: relative; //absolute;
   text-align: center;
   white-space: normal; // Overrides for proper insertion
   z-index: layer("popover");
 
-  // Offset the popover to account for the popover arrow
-  // &.top     { margin-top: -$popdown-arrow-width; }
-  // &.right   { margin-left: $popdown-arrow-width; }
-  // &.bottom  { margin-top: $popdown-arrow-width; }
-  // &.left    { margin-left: -$popdown-arrow-width; }
+
+  > .arrow {
+    border-width: $popdown-arrow-outer-width;
+    &,
+    &:after {
+      position: absolute;
+      display: block;
+      width: 0;
+      height: 0;
+      border-color: transparent;
+      border-style: solid;
+      border-width: $popdown-arrow-width;
+      content: "";
+    }
+  }
 
   &.arrow-top { // POPDOWN ARROW-TOP
-    margin-top: -$popdown-arrow-width;
+    margin-top: $popover-arrow-width;
     >.arrow {
       left: 50%;
       margin-left: -$popdown-arrow-outer-width;
@@ -180,14 +189,13 @@
         border-bottom-color: $popdown-arrow-color;
       }
     }
-
     &-left {
       @extend .arrow-top;
-      >.arrow { left: 20%; }
+      >.arrow { left: $popdown-percentage * 1%; }
     }
     &-right {
       @extend .arrow-top;
-      >.arrow { left: 80%; }
+      >.arrow { left: (100 - $popdown-percentage) * 1%; }
     }
   }
 
@@ -210,67 +218,70 @@
     }
     &-top {
       @extend .arrow-right;
-      >.arrow { top: 20%; }
+      >.arrow { top: $popdown-percentage * 1%; }
     }
     &-bottom {
       @extend .arrow-right;
-      >.arrow { top: 80%; }
+      >.arrow { top:  (100 - $popdown-percentage) * 1%; }
     }
   }
 
-  &.arrow-left { //POPDOWN ARROW LEFT
-    margin-left: $popover-arrow-width;
+  &.arrow-left { // POPDOWN ARROW-LEFT
+    margin-left: $popdown-arrow-width;
     >.arrow {
       top: 50%;
-      right: -$popover-arrow-outer-width;
+      left: -$popover-arrow-outer-width;
       margin-top: -$popover-arrow-outer-width;
-      border-right-width: 0;
-      border-left-color: $popover-arrow-outer-fallback-color; // IE8 fallback
-      border-left-color: $popover-arrow-outer-color;
+      border-left-width: 0;
+      border-right-color: $popover-arrow-outer-fallback-color; // IE8 fallback
+      border-right-color: $popover-arrow-outer-color;
       &:after {
         content: " ";
-        right: 1px;
-        border-right-width: 0;
-        border-left-color: $popover-arrow-color;
+        left: 1px;
         bottom: -$popover-arrow-width;
+        border-left-width: 0;
+        border-right-color: $popover-arrow-color;
       }
     }
     &-top {
-      @extend .arrow-right;
-      >.arrow { top: 20%; }
+      @extend .arrow-left;
+      >.arrow { top: $popdown-percentage * 1%; }
     }
     &-bottom {
-      @extend .arrow-right;
-      >.arrow { top: 80%; }
+      @extend .arrow-left;
+      >.arrow { top:  (100 - $popdown-percentage) * 1%; }
+    }
+  }
+
+  &.arrow-bottom {
+    margin-top: -$popdown-arrow-width;
+    >.arrow {
+      left: 50%;
+      margin-left: -$popover-arrow-outer-width;
+      border-bottom-width: 0;
+      border-top-color: $popover-arrow-outer-fallback-color; // IE8 fallback
+      border-top-color: $popover-arrow-outer-color;
+      bottom: -$popover-arrow-outer-width;
+      &:after {
+        content: " ";
+        bottom: 1px;
+        margin-left: -$popover-arrow-width;
+        border-bottom-width: 0;
+        border-top-color: $popover-arrow-color;
+      }
+    }
+    &-left {
+      @extend .arrow-bottom;
+      >.arrow { left: $popdown-percentage * 1%; }
+    }
+    &-right {
+      @extend .arrow-bottom;
+      >.arrow { left: (100 - $popdown-percentage) * 1%; }
     }
   }
 
 
-  &.arrow-bottom-right {}
-  &.arrow-bottom {}
-  &.arrow-bottom-left {}
-
-  &.arrow-left-bottom{}
-  &.arrow-left {}
-  &.arrow-left-top {}
-
-
-  > .arrow {
-    border-width: $popdown-arrow-outer-width;
-
-    &,
-    &:after {
-      position: absolute;
-      display: block;
-      width: 0;
-      height: 0;
-      border-color: transparent;
-      border-style: solid;
-
-      border-width: $popdown-arrow-width;
-      content: "";
-    }
-  }
+  //
 
   &-header {
     margin: rem($padding-base-vertical 0);
