@@ -5,6 +5,9 @@ angular.module('tink.modal', [])
       restrict:'EA',
       link:function(scope,element){
         var modal = $modal({scope:scope,element:element});
+        scope.$hide = function(){
+          modal.hide();
+        }
       }
     }
   }])
@@ -51,8 +54,9 @@ angular.module('tink.modal', [])
           $animate.enter($modal.$element, bodyElement, null);
         }
         function leaveModal(){
-          $animate.leave(modalElement, null);
+          $animate.leave($modal.$element, null);
         }
+        return $modal;
       }
       return ModalFactory;
      }
