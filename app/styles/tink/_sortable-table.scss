@@ -4,18 +4,13 @@
  */
 // basic styling is already done on the table element by the _table.scss
 
-// button,
-// .btn {
 
-  &.btn-sq {
-    border: 1px solid transparent;
+  .btn-sq {
     color: $datepicker-btn-color;
     margin: rem(0 2);
     min-height: rem(30);
     min-width: rem(30);
     padding: rem(0);
-    // width: 100%; // this was taken from datepicker button but that button is placed in a table
-    background: $gray-light;
 
     @include mq($screen-md) {
       min-height: 38px;
@@ -24,19 +19,15 @@
 
     &:hover {
       background: $datepicker-btn-bgcolor-hover;
+      border: 1px solid transparent;
       color: $datepicker-btn-color-hover;
     }
   }
 
-// }
-
-
-
-
-
 .selected {
-  background-color: $gray-dark;
-  color: $gray-lighter;
+  background: $datepicker-btn-bgcolor-hover;
+  border: 1px solid transparent;
+  color: $datepicker-btn-color-hover;
 }
 
 .sortable-table {

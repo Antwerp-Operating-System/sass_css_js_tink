@@ -9,20 +9,20 @@
 
   <div class="pull-right">
     <!-- first table page -->
-    <i class="fa fa-angle-double-left" ng-disabled="pageSelected === 1" ng-click="setFirst()"></i>
+    <i class="fa fa-angle-double-left btn btn-sq" ng-disabled="pageSelected === 1" ng-click="setFirst()"></i>
     <!-- previous table page -->
-    <i ng-click="setPrev()" ng-disabled="pageSelected === 1" class="fa fa-angle-left"></i>
+    <i ng-click="setPrev()" ng-disabled="pageSelected === 1" class="fa fa-angle-left btn btn-sq"></i>
     <!-- table page number -->
     <button class="btn-sq" ng-repeat="num in pages" ng-click="setPage($index)" ng-class="{selected:pageSelected===$index+1}">{{num}}</button>
     <!-- next table page -->
-    <i class="fa fa-angle-right" ng-disabled="pageSelected === pages.length" ng-click="setNext()"></i>
+    <i class="fa fa-angle-right btn btn-sq" ng-disabled="pageSelected === pages.length" ng-click="setNext()"></i>
     <!-- last table page -->
-    <i ng-click="setLast()" class="fa fa-angle-double-right" ng-disabled="pageSelected === pages.length"></i>
+    <i ng-click="setLast()" class="fa fa-angle-double-right btn btn-sq" ng-disabled="pageSelected === pages.length"></i>
   </div>
 
 </div>
 
-<div class="pop-up-menu">
+<div class="popover arrow-top-right show">
 <!-- arrows to sort the colums -->
    <i class="fa fa-arrow-up" ng-click="omhoog()"> </i>
    <i class="fa fa-arrow-down" ng-click="omlaag()"></i>
