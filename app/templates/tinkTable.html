@@ -9,15 +9,23 @@
 
   <div class="pull-right">
     <!-- first table page -->
-    <i class="fa fa-angle-double-left btn btn-sq" ng-disabled="pageSelected === 1" ng-click="setFirst()"></i>
+    <!-- old code - the function ng-disabled="pageSelected === 1" seems to disable the button -->
+    <!-- <i class="fa fa-angle-double-left btn btn-sq" ng-disabled="pageSelected === 1" ng-click="setFirst()"></i> -->
+    <button class="btn-sq" ng-click="setFirst()" ng-disabled="pageSelected === 1"><i class="fa fa-angle-double-left"></i></button>
     <!-- previous table page -->
-    <i ng-click="setPrev()" ng-disabled="pageSelected === 1" class="fa fa-angle-left btn btn-sq"></i>
+    <!-- old code - the function ng-disabled="pageSelected === 1" seems to disable the button -->
+    <!-- <i ng-click="setPrev()" ng-disabled="pageSelected === 1" class="fa fa-angle-left btn btn-sq"></i> -->
+    <button class="btn-sq" ng-click="setPrev()" ng-disabled="pageSelected === 1"><i class="fa fa-angle-left"></i></button>
     <!-- table page number -->
     <button class="btn-sq" ng-repeat="num in pages" ng-click="setPage($index)" ng-class="{selected:pageSelected===$index+1}">{{num}}</button>
     <!-- next table page -->
-    <i class="fa fa-angle-right btn btn-sq" ng-disabled="pageSelected === pages.length" ng-click="setNext()"></i>
+    <!-- old code - with this function the color is correct-->
+    <!-- <i class="fa fa-angle-right btn btn-sq" ng-disabled="pageSelected === pages.length" ng-click="setNext()"></i> -->
+    <button class="btn-sq" ng-click="setNext()" ng-disabled="pageSelected === pages.length"><i class="fa fa-angle-right"></i></button>
     <!-- last table page -->
-    <i ng-click="setLast()" class="fa fa-angle-double-right btn btn-sq" ng-disabled="pageSelected === pages.length"></i>
+    <!-- old code - with this function the color is correct-->
+    <!-- <i ng-click="setLast()" class="fa fa-angle-double-right btn btn-sq" ng-disabled="pageSelected === pages.length"></i> -->
+    <button class="btn-sq" ng-click="setLast()" ng-disabled="pageSelected === pages.length"><i class="fa fa-angle-double-right"></i></button>
   </div>
 
 </div>
