@@ -10,16 +10,18 @@ angular.module('tink.rijkRegister')
       var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
       var isTouch = ('createTouch' in $window.document) && isNative;
       if (isTouch) {
-        return '<div><input class="hide-styling" type="number" step="0" pattern="[0-9]*"><div>';
+        return '<div><input class="hide-styling" type="text"><div>';
       } else {
         return '<div><div id="input" class="faux-input" contenteditable="true">{{placeholder}}</div></div>';
       }
     },
     link:function(scope,elm,attr,ctrl){
+      var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
+      var isTouch = ('createTouch' in $window.document) && isNative;
       var controller = ctrl[0];
       var form = ctrl[2];
       var ngControl = ctrl[1];
-      var element = elm.find('#input');
+      var element = elm.find('div>:first');
       //variable
       var config = {
         format: '00.00.00-000.00',
@@ -37,7 +39,7 @@ angular.module('tink.rijkRegister')
           modelValue = modelValue.substr(0,2) + '.' + modelValue.substr(2,2)+ '.' + modelValue.substr(4,2)+'-'+ modelValue.substr(6,3)+'-'+modelValue.substr(9,2);
         }
 
-        if(validFormat(modelValue)){
+        if(!isTouch && validFormat(modelValue)){
           controller.setValue(modelValue,null);
         }else{
           modelValue = null;
@@ -51,7 +53,12 @@ angular.module('tink.rijkRegister')
       //on blur update the model.
       element.on('blur', function() {
         safeApply(scope,function(){
-          var value = controller.getValue();
+          var value;
+          if (isTouch) {
+            value = element.val();
+          }else{
+            value = controller.getValue();
+          }
           checkvalidty(value);
             if(IsRRNoValid(value)){
               ngControl.$setViewValue(value);
@@ -82,7 +89,7 @@ angular.module('tink.rijkRegister')
 
        function IsRRNoValid(n) {
         if(!(typeof n === 'string')){
-          return;
+          return false;
         }
           n = n.replace(/[^\d]*/g, '');
             // RR numbers need to be 11 chars long
@@ -103,9 +110,10 @@ angular.module('tink.rijkRegister')
 
        function checkvalidty(value){
 
-        ngControl.$setValidity('format',IsRRNoValid(value))
-        if(value === config.placeholder || value === ''){
+        if(value === config.placeholder || value === '' || value === null || value === undefined){
           ngControl.$setValidity('format',true);
+        }else{
+          ngControl.$setValidity('format',IsRRNoValid(value))
         }
 
         if(isRequired){
@@ -118,9 +126,9 @@ angular.module('tink.rijkRegister')
         }
        }
 
-
-      controller.init(element,config,form,ngControl);
-
+       if (!isTouch) {
+          controller.init(element,config,form,ngControl);
+       }
     }
   };
 }]);
