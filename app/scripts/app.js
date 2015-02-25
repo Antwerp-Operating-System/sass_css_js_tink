@@ -39,6 +39,9 @@ angular.module('tinkFramework', [
       .when('/popover', {
         templateUrl: 'views/popover.html'
       })
+      .when('/panels', {
+        templateUrl: 'views/panels.html'
+      })
       .when('/work-agile-tool', {
         templateUrl: 'views/work-agile-tool.html'
       })
