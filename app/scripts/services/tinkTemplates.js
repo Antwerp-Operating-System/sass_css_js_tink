@@ -2,7 +2,7 @@ angular.module('tink.templates', []).run(['$templateCache', function($templateCa
   'use strict';
 
   $templateCache.put('templates/popover.html',
-    "<div class=\"popover {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\"> <div class=arrow></div> <div class=popover-inner> <h3 class=popover-title ng-bind=title ng-show=title></h3> <div class=popover-content ng-bind=content></div> </div> </div>"
+    "<div class=\"popover {{arrowPlacement}}\"> <span class=arrow></span> <header class=popover-header> <img class=\"popover-header-avatar img-circle\" src=https://pbs.twimg.com/profile_images/1206647652/9b7a61b0-fffc-4e3d-8656-ad52b1491c05_400x400.jpg alt=\"Avatar of Tom Hermans\"> <h1 class=popover-header-title>Tom Hermans</h1> </header>  <ul class=popover-list-buttons> <li> <a href=\"\"><span>List Item 01</span></a> </li> <li> <a href=\"\"><span>List Item 02</span></a> </li> <li> <a href=\"\"><span>List Item 03</span></a> </li> <li> <a href=\"\"><span>List Item 04</span></a> </li> </ul>  </div>"
   );
 
 
