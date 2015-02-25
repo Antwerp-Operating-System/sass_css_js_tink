@@ -90,7 +90,7 @@ angular.module('tink.sortable')
         for(var i=0;i<keys.length;i++){
           if(keys[i].checked && keys[i].visible){
             var key = Object.keys(keys[i])[0];
-            var val = keys[i][key];
+            var val = keys[i].alias || keys[i].field;
             var th = document.createElement('th');
                 th.innerHTML = val;
               row.appendChild(th);
@@ -272,7 +272,6 @@ angular.module('tink.sortable')
         if(scope.selected > 0){
           scope.viewer.swap(scope.selected,scope.selected-1);
           scope.selected-=1;
-          scope.buildTable();
         }
       };
       //Function that will be called to change the order
@@ -280,7 +279,6 @@ angular.module('tink.sortable')
         if(scope.selected >=0 && scope.selected < scope.viewer.length-1){
           scope.viewer.swap(scope.selected,scope.selected+1);
           scope.selected+=1;
-          scope.buildTable();
         }
       };
       //added this to swap elements easly
