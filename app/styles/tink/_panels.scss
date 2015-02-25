@@ -20,7 +20,7 @@
 
 // Panel contents
 .panel-body {
-  padding: rem($panel-body-padding $panel-body-padding * 2); //$panel-body-padding;
+  padding: rem($panel-body-padding $panel-body-padding * 2);
   @include clearfix();
   &:not(:last-child) { border-bottom: 1px solid $panel-default-border; }
 
@@ -53,11 +53,6 @@
   font-size: rem(16);
   font-weight: 700;
   padding: $panel-heading-padding;
-  //text-transform: uppercase;
-
-  // border-bottom: 1px solid transparent;
-  // border-top-radius: $panel-border-radius - 1;
-  //border: 1px solid #e9e9e9;
 
   > .dropdown .dropdown-toggle {
     color: inherit;
