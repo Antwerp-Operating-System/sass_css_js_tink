@@ -22,7 +22,7 @@
 // Panel contents
 .panel-body {
   @include clearfix();
-  padding: rem($panel-body-padding $panel-body-padding * 2);
+  padding: rem($panel-body-padding ($panel-body-padding * 2));
   &:not(:last-child) { border-bottom: 1px solid $panel-default-border; }
 
   .panel-body-title {
@@ -53,7 +53,7 @@
   background-color: #f6f6f6;
   font-size: rem(16);
   font-weight: 700;
-  padding: rem($panel-heading-padding $panel-heading-padding * 1.5);
+  padding: rem($panel-heading-padding ($panel-heading-padding * 1.5));
 
   > .dropdown .dropdown-toggle {
     color: inherit;
@@ -80,7 +80,7 @@
 .panel-footer {
   border-top: 1px solid $gray-lighter;
   font-size: rem(12);
-  padding: rem($panel-heading-padding $panel-heading-padding * 1.5);
+  padding: rem($panel-heading-padding ($panel-heading-padding * 1.5));
 }
 
 
