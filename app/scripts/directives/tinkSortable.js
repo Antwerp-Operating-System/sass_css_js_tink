@@ -61,12 +61,10 @@ angular.module('tink.sortable')
       scope.sorting = {field:'',direction:1};
       //preview headers
       scope.headers = [{field:'name',alias:'Voornaam',checked:true},{field:'achternaam',alias:'Achternaam',checked:false},{field:'adress',alias:'Adres',visible:true,checked:true}];
-      //this is a copy to show to the view
-      scope.viewer = angular.copy(scope.headers);
 
       //function that runs at the beginning to handle the headers.
       function handleHeaders(){
-        angular.forEach(scope.viewer,function(value){
+        angular.forEach(scope.headers,function(value){
           if(!angular.isDefined(value.alias) || value.alias === null){
             value.alias = value.field;
           }
@@ -76,6 +74,8 @@ angular.module('tink.sortable')
         });
       }
       handleHeaders();
+      //this is a copy to show to the view
+      scope.viewer = angular.copy(scope.headers);
       //This function creates our table head
       function setHeader(table,keys){
         var header = table.createTHead();
@@ -112,7 +112,7 @@ angular.module('tink.sortable')
           if(scope.sorting.obj){
             //var index = _.findIndex(scope.viewer, scope.sorting.obj);
           }
-          var key = scope.viewer[i].field;
+          var key = scope.headers[i].field;
           if(scope.sorting.field === key){
             scope.sorting.direction = scope.sorting.direction * -1;
           }else{
@@ -120,7 +120,7 @@ angular.module('tink.sortable')
             scope.sorting.direction = 1;
           }
           sorter(key,scope.sorting.direction);
-          scope.sorting.obj  = scope.viewer[i];
+          scope.sorting.obj  = scope.headers[i];
           scope.buildTable();
 
         };
@@ -160,8 +160,8 @@ angular.module('tink.sortable')
       function setBody(table,content){
         var body = table.createTBody();
 
-          for(var i=scope.viewer.length-1;i>=0;i--){
-            if(scope.viewer[i].checked && scope.viewer[i].visible){
+          for(var i=scope.headers.length-1;i>=0;i--){
+            if(scope.headers[i].checked && scope.headers[i].visible){
               for(var j=0;j<content.length;j++){
                 var row;
                 if(body.rows[j]){
@@ -174,7 +174,7 @@ angular.module('tink.sortable')
                     check.innerHTML = createCheckbox(index,j);
                   }
                 }
-                var val = content[j][scope.viewer[i].field];
+                var val = content[j][scope.headers[i].field];
                 var cell;
                 if(typeof scope.actions === 'function'){
                   cell = row.insertCell(1);
@@ -247,7 +247,7 @@ angular.module('tink.sortable')
       //This function build the table and the number of pages!
       scope.buildTable = function(){
         var table = document.createElement('table');
-        setHeader(table,scope.viewer);
+        setHeader(table,scope.headers);
         aantalToShow = scope.perPageView[scope.numSelected];
         pages = Math.ceil(scope.data.length/aantalToShow);
         scope.pages = _.range(1,pages+1);
