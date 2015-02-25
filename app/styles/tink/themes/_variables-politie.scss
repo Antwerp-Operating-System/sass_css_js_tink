@@ -27,6 +27,7 @@ $nav-aside-link-hover-color:             $brand-light;
 $brand-success:                          #00b394;
 $brand-warning:                          #f2932e;
 $brand-danger:                           lighten(#e60038, 6%);
+$brand-info:                             $brand-dark;
 
 $link-color:                             $brand-light;
 
@@ -47,7 +48,10 @@ $btn-primary-bg:                         $brand-light;
 /**
  * Callouts
  */
-$callout-color:                          $brand-light;
+$callout-color:                          $brand-dark;
+$callout-bgcolor:                        lighten($callout-color, 70%);
+$callout-color-warning:                  $brand-warning;
+$callout-bgcolor-warning:                lighten($callout-color-warning, 42%);
 
 
 /**

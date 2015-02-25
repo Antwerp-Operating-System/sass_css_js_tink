@@ -460,22 +460,22 @@ $datepicker-neutral-dark       : $gray-dark !default;
  * Callout
  */
 $callout-color                 : $brand !default;
-$callout-bgcolor               : lighten($callout-color, 50%);
+$callout-bgcolor               : lighten($callout-color, 50%) !default;
 $callout-color-success         : $brand-success !default;
-$callout-bgcolor-success       : lighten($callout-color-success, 60%);
+$callout-bgcolor-success       : lighten($callout-color-success, 60%) !default;
 $callout-color-warning         : $brand-warning !default;
-$callout-bgcolor-warning       : lighten($callout-color-warning, 45%);
+$callout-bgcolor-warning       : lighten($callout-color-warning, 45%) !default;
 $callout-color-danger          : $brand-danger !default;
-$callout-bgcolor-danger        : lighten($callout-color-danger, 45%);
+$callout-bgcolor-danger        : lighten($callout-color-danger, 45%) !default;
 
 
 /**
  * Hit-area-box
  */
 $hit-area-color                 : $text-color !default;
-$hit-area-bgcolor               : lighten($gray-light,8%);
-$hit-area-hover-color           : darken($hit-area-color, 20%);
-$hit-area-hover-bgcolor         : darken($hit-area-bgcolor,8%);
+$hit-area-bgcolor               : lighten($gray-light,8%) !default;
+$hit-area-hover-color           : darken($hit-area-color, 20%) !default;
+$hit-area-hover-bgcolor         : darken($hit-area-bgcolor,8%) !default;
 $hit-area-checked-color         : $white !default;
 $hit-area-checked-bgcolor       : $brand !default;
 
