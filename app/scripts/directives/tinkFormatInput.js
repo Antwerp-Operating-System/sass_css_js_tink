@@ -15,7 +15,7 @@
         var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
         var isTouch = ('createTouch' in $window.document) && isNative;
         if (isTouch) {
-          return '<div><input id="input" type="date"/><div>';
+          return '<div><input id="input" class="faux-input" type="date"/><div>';
         } else {
           return '<div><div id="input" class="faux-input" contenteditable="true">{{placeholder}}</div></div>';
         }
@@ -104,6 +104,7 @@
           }
         })();
         var noErrorClass = 'hide-error';
+        var errorElem = $(elem.find('.faux-input')[0]);
 
         function checkValidity(value){
           var stringValue;
@@ -119,35 +120,35 @@
             if(angular.isDate(scope.minDate)){
               if(dateCalculator.dateBeforeOther(value,scope.minDate)){
                 ngControl.$setValidity('date-min',true);
-                elem.addClass(noErrorClass);
+                errorElem.addClass(noErrorClass);
               }else{
                 ngControl.$setValidity('date-min',false);
-                elem.removeClass(noErrorClass);
+                errorElem.removeClass(noErrorClass);
               }
 
             }
             if(angular.isDate(scope.maxDate)){
               if(dateCalculator.dateBeforeOther(scope.maxDate,value)){
                 ngControl.$setValidity('date-max',true);
-                elem.addClass(noErrorClass);
+                errorElem.addClass(noErrorClass);
               }else{
                 ngControl.$setValidity('date-max',false);
-                elem.removeClass(noErrorClass);
+                errorElem.removeClass(noErrorClass);
               }
             }
 
             if(validFormat(stringValue,dateformat)){
               ngControl.$setValidity('date',true);
-              elem.addClass(noErrorClass);
+              errorElem.addClass(noErrorClass);
               if(isRequired){
                 ngControl.$setValidity('date-required',true);
-                elem.addClass(noErrorClass);
+                errorElem.addClass(noErrorClass);
               }
             }else if(stringValue !== config.placeholder && stringValue !== null){
               ngControl.$setValidity('date',false);
               ngControl.$setValidity('date-min',true);
               ngControl.$setValidity('date-max',true);
-              elem.removeClass(noErrorClass);
+              errorElem.removeClass(noErrorClass);
               if(isRequired){
                 ngControl.$setValidity('date-required',true);
               }
@@ -155,10 +156,10 @@
               ngControl.$setValidity('date',true);
               ngControl.$setValidity('date-min',true);
               ngControl.$setValidity('date-max',true);
-              elem.addClass(noErrorClass);
+              errorElem.addClass(noErrorClass);
               if(isRequired){
                 ngControl.$setValidity('date-required',false);
-                elem.removeClass(noErrorClass);
+                errorElem.removeClass(noErrorClass);
               }
             }
 
@@ -199,7 +200,7 @@
               return null;
             }
           });
-          element.unbind('input').unbind('keydown').unbind('change');
+          element.unbind('input').unbind('change');
           element.bind('input change', function() {
                     safeApply(scope,function() {
 

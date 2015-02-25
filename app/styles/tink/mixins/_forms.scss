@@ -26,10 +26,12 @@
   input[type="week"],
   select,
   textarea,
-  .faux-input, {
-    border-color: $border-color;
+  .faux-input {
+    &:not(.hide-error) {
+      border-color: $border-color;
 
-    @include form-control-focus($border-color);
+      @include form-control-focus($border-color);
+    }
   }
 
   .validation {
