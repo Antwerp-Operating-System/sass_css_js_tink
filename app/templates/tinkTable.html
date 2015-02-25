@@ -1,30 +1,43 @@
+<!-- placeholder for table -->
 <table></table>
 
-<div class="row">
-  <div class="col-xs-6">
-    <button class="btn-sq" ng-repeat="num in perPageView" ng-click="perPageClick($index)" ng-class="{selected:numSelected===$index}">{{num}}</button> per pagina
-  </div>
-  <div class="col-xs-6 right">
-    <i class="fa fa-angle-double-left" ng-disabled="pageSelected === 1" ng-click="setFirst()"></i><i ng-click="setPrev()" ng-disabled="pageSelected === 1" class="fa fa-angle-left"></i>
+<!-- footer functions for changing the view of the table -->
+<div class="table-viewer">
+
+  <!-- button for rows per table -->
+  <button class="btn-sq" ng-repeat="num in perPageView" ng-click="perPageClick($index)" ng-class="{selected:numSelected===$index}">{{num}}</button> per pagina
+
+  <div class="pull-right">
+    <!-- first table page -->
+    <i class="fa fa-angle-double-left" ng-disabled="pageSelected === 1" ng-click="setFirst()"></i>
+    <!-- previous table page -->
+    <i ng-click="setPrev()" ng-disabled="pageSelected === 1" class="fa fa-angle-left"></i>
+    <!-- table page number -->
     <button class="btn-sq" ng-repeat="num in pages" ng-click="setPage($index)" ng-class="{selected:pageSelected===$index+1}">{{num}}</button>
-    <i class="fa fa-angle-right" ng-disabled="pageSelected === pages.length" ng-click="setNext()"></i><i ng-click="setLast()" class="fa fa-angle-double-right" ng-disabled="pageSelected === pages.length"></i>
+    <!-- next table page -->
+    <i class="fa fa-angle-right" ng-disabled="pageSelected === pages.length" ng-click="setNext()"></i>
+    <!-- last table page -->
+    <i ng-click="setLast()" class="fa fa-angle-double-right" ng-disabled="pageSelected === pages.length"></i>
   </div>
+
 </div>
 
-
-<!-- I guess this is sorting of the list, but it doesn't seem to work? -->
-<div class="pop-up-dropdown">
+<div class="pop-up-menu">
+<!-- arrows to sort the colums -->
    <i class="fa fa-arrow-up" ng-click="omhoog()"> </i>
    <i class="fa fa-arrow-down" ng-click="omlaag()"></i>
 
-<!-- orgingal code: <div class="list"> -->
-  <div>
-  <li style = "display:inline;" ng-repeat='header in viewer | filter:{ visible: true }' >
+<!-- checkboxlist in pop-up-menu -->
+
+  <div class="list-unstyled">
+  <li ng-repeat='header in viewer | filter:{ visible: true }' >
     <div class="checkbox">
       <input type="checkbox" ng-model="header.checked" id="{{header.alias}}" name="{{header.alias}}" value="{{header.alias}}" checked="">
       <label for="{{header.alias}}"><span ng-class="{selected:selected===$index}" ng-click="select($event,$index)">{{header.alias}}</span></label>
     </div>
   </li>
   </div>
+
+  <!-- save / cancel button in pop-up-menu -->
   <button ng-click="save()">save</button> <button ng-click="cancel()">cancel</button>
 </div>
