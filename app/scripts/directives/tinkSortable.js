@@ -82,8 +82,9 @@ angular.module('tink.sortable')
         var row = header.insertRow(0);
 
         if(typeof scope.actions === 'function'){
-          var check = row.insertCell(0);
-          check.innerHTML = createCheckbox(-1);
+          var thCheck = document.createElement('th');
+          thCheck.innerHTML = createCheckbox(-1);
+          row.appendChild(thCheck);
         }
 
         for(var i=0;i<keys.length;i++){
@@ -91,9 +92,10 @@ angular.module('tink.sortable')
             var key = Object.keys(keys[i])[0];
             var val = keys[i][key];
 
-            var cell = row.insertCell(row.cells.length);
-            $(cell).bind('click',sorte(i));
-            cell.innerHTML = val;
+            var th = document.createElement('th');
+                th.innerHTML = val;
+              row.appendChild(th);
+              $(th).bind('click',sorte(i));
           }
         }
       }
