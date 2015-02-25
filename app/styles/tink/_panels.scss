@@ -80,7 +80,7 @@
 .panel-footer {
   border-top: 1px solid $gray-lighter;
   font-size: rem(12);
-  padding: $panel-heading-padding;
+  padding: rem($panel-heading-padding $panel-heading-padding * 1.5);
 }
 
 
