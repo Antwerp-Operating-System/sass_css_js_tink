@@ -2,11 +2,16 @@
  * Sortable table
  * --------------------------------------------------
  */
+// basic styling is already done on the table element by the _table.scss
 
 .sortable-table {
 
-  background-color: $brand-light;
-
+  > thead > tr > th {
+    background-color: $gray;
+    border-bottom: 0;
+    color: $white;
+    vertical-align: bottom; // Bottom align for column headings
+  }
 
 }
 
