@@ -39,8 +39,12 @@ angular.module('tink.rijkRegister')
           modelValue = modelValue.substr(0,2) + '.' + modelValue.substr(2,2)+ '.' + modelValue.substr(4,2)+'-'+ modelValue.substr(6,3)+'-'+modelValue.substr(9,2);
         }
 
-        if(!isTouch && validFormat(modelValue)){
-          controller.setValue(modelValue,null);
+        if(validFormat(modelValue)){
+          if(isTouch){
+            element.val(modelValue);
+          }else{
+            controller.setValue(modelValue,null);
+          }
         }else{
           modelValue = null;
           ngControl.$setViewValue(modelValue);
@@ -117,7 +121,7 @@ angular.module('tink.rijkRegister')
         }
 
         if(isRequired){
-          if(controller.getValue() === config.placeholder){
+          if(controller.getValue() === config.placeholder || value === '' || value === null || value === undefined){
             ngControl.$setValidity('required',false);
             ngControl.$setValidity('format',true);
           }else{
