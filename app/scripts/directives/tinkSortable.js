@@ -91,11 +91,17 @@ angular.module('tink.sortable')
           if(keys[i].checked && keys[i].visible){
             var key = Object.keys(keys[i])[0];
             var val = keys[i][key];
-
             var th = document.createElement('th');
                 th.innerHTML = val;
               row.appendChild(th);
               $(th).bind('click',sorte(i));
+              if(keys[i] === scope.sorting.obj){
+                if(scope.sorting.direction === 1){
+                  $(th).addClass('sort-asc');
+                }else if(scope.sorting.direction === -1){
+                  $(th).addClass('sort-desc');
+                }
+              }
           }
         }
       }
@@ -103,6 +109,9 @@ angular.module('tink.sortable')
       //will be called when you press on a header
       function sorte ( i ){
         return function(){
+          if(scope.sorting.obj){
+            //var index = _.findIndex(scope.viewer, scope.sorting.obj);
+          }
           var key = scope.viewer[i].field;
           if(scope.sorting.field === key){
             scope.sorting.direction = scope.sorting.direction * -1;
@@ -111,7 +120,9 @@ angular.module('tink.sortable')
             scope.sorting.direction = 1;
           }
           sorter(key,scope.sorting.direction);
+          scope.sorting.obj  = scope.viewer[i];
           scope.buildTable();
+
         };
       }
 
