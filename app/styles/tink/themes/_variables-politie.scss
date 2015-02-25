@@ -12,11 +12,20 @@ $brand:                 					       #233588;
 $brand-light:           					       #0a94d6;
 $brand-dark:                             #101e5f;
 
+
+/**
+ * Extra variables that can be used via SASS
+ */
+$brand-extra-blue:                       #f1f9fd;
 $brand-extra-cyan:                       #4accd4;
 $brand-extra-lime:                       #8fd400;
 $brand-extra-pink:                       #e60094;
 $brand-extra-teal:                       #00b394;
 
+
+/**
+ * Navigation
+ */
 $nav-top-bg-color:      					       $brand;
 $nav-aside-link-hover-color:             $brand-light;
 
@@ -48,7 +57,7 @@ $btn-primary-bg:                         $brand-light;
 /**
  * Callouts
  */
-$callout-color:                          $brand;
+$callout-color:                          $brand-info;
 $callout-bgcolor:                        lighten($callout-color, 60%);
 $callout-color-warning:                  $brand-warning;
 $callout-bgcolor-warning:                lighten($callout-color-warning, 40%);
