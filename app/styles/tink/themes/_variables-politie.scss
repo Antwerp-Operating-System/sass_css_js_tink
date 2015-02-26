@@ -55,6 +55,13 @@ $btn-primary-bg:                         $brand-light;
 
 
 /**
+ * Datepicker
+ */
+$datepicker-icon-color:                  $brand-light;
+$datepicker-icon-hover-color:            darken($datepicker-icon-color, 10%);
+
+
+/**
  * Callouts
  */
 $callout-color:                          $brand-info;
@@ -72,5 +79,6 @@ $hit-area-checked-bgcolor:               $brand-light;
 /**
  * Panels
  */
-$panel-default-heading-bg:               $brand-light;
-$panel-default-icon-color:               #fff;
+$panel-default-text:                     lighten(#333, 8%);
+$panel-default-heading-bg:               lighten(#ccc, 8%);
+$panel-default-icon-color:               lighten(#333, 8%);

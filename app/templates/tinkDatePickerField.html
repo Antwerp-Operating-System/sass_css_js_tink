@@ -8,7 +8,7 @@
                 </button>
             </th>
             <th colspan="{{ rows[0].length - 2 }}">
-                <button tabindex="-1" type="button" class="btn btn-default btn-block text-strong"  ng-click="$toggleMode()">
+                <button tabindex="-1" type="button" class="btn btn-block text-strong"  ng-click="$toggleMode()">
                     <strong style="text-transform: capitalize;" ng-bind="title"></strong>
                 </button>
             </th>
@@ -23,7 +23,7 @@
         <tbody>
         <tr ng-repeat="(i, row) in rows" height="{{ 100 / rows.length }}%">
             <td class="text-center" ng-repeat="(j, el) in row">
-                <button tabindex="-1" type="button" class="btn btn-default" style="width: 100%" ng-class="{'btn-primary': el.selected, 'btn-today': el.isToday && !el.elected}" ng-click="$select(el.date)" ng-disabled="el.disabled">
+                <button tabindex="-1" type="button" class="btn" style="width: 100%" ng-class="{'btn-selected': el.selected, 'btn-today': el.isToday && !el.elected}" ng-click="$select(el.date)" ng-disabled="el.disabled">
                                     <span ng-class="{'text-muted': el.muted}" ng-bind="el.label"></span>
                 </button>
             </td>

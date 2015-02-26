@@ -443,17 +443,42 @@ $nav-aside-badge-active-background-hover-color: $nav-aside-link-hover-color !def
  * Settings for both the single as the range datepicker
  */
 
-$datepicker-bgcolor            : $white !default;
-$datepicker-icon-color         : lighten($gray-dark, 16%) !default;
-$datepicker-icon-hover-color   : $gray-dark !default;
-$datepicker-btn-bgcolor        : $white !default;
-$datepicker-btn-bgcolor-hover  : lighten($brand, 16%) !default;
-$datepicker-btn-color          : $gray !default;
-$datepicker-btn-color-hover    : $white !default;
-$datepicker-btn-border-color   : transparent;
-$datepicker-neutral            : $gray !default;
-$datepicker-neutral-light      : $gray-light !default;
-$datepicker-neutral-dark       : $gray-dark !default;
+$datepicker-color:                                  $gray-dark !default;
+$datepicker-bg-color:                               $white !default;
+$datepicker-icon-color:                             lighten($gray-dark, 16%) !default;
+$datepicker-icon-hover-color:                       $gray-dark !default;
+$datepicker-weekdays-color:                         $gray !default;
+
+$datepicker-btn-color:                              $gray !default;
+$datepicker-btn-bg-color:                           $datepicker-bg-color !default;
+$datepicker-btn-border-color:                       transparent !default;
+$datepicker-btn-hover-color:                        $brand !default;
+$datepicker-btn-hover-bg-color:                     rgba($black, .07) !default;
+$datepicker-btn-hover-border-color:                 $datepicker-btn-border-color !default;
+
+$datepicker-btn-selected-color:                     $white !default;
+$datepicker-btn-selected-bg-color:                  $brand !default;
+$datepicker-btn-selected-border-color:              $datepicker-btn-border-color !default;
+
+$datepicker-btn-grayed-color:                       $gray-light !default;
+$datepicker-btn-grayed-bg-color:                    $datepicker-bg-color !default;
+$datepicker-btn-grayed-border-color:                $datepicker-btn-border-color !default;
+$datepicker-btn-grayed-hover-color:                 $gray !default;
+$datepicker-btn-grayed-hover-bg-color:              $datepicker-btn-hover-bg-color !default;
+$datepicker-btn-grayed-hover-border-color:          $datepicker-btn-grayed-border-color !default;
+
+$datepicker-btn-grayed-selected-color:              $datepicker-btn-selected-color !default;
+$datepicker-btn-grayed-selected-bg-color:           $gray !default;
+$datepicker-btn-grayed-selected-border-color:       $datepicker-btn-border-color !default;
+
+$datepicker-btn-today-color:                        $brand !default;
+$datepicker-btn-today-bg-color:                     lighten($brand, 48%) !default;
+$datepicker-btn-today-border-color:                 lighten($brand, 36%) !default;
+$datepicker-btn-today-hover-color:                  darken($datepicker-btn-today-color, 8%) !default;
+$datepicker-btn-today-hover-bg-color:               darken($datepicker-btn-today-bg-color, 8%) !default;
+$datepicker-btn-today-hover-border-color:           $datepicker-btn-today-border-color !default;
+
+
 
 
 /**
