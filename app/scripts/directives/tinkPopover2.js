@@ -122,8 +122,8 @@ angular.module('tink.popOver', ['tink.tooltip'])
                 if(isOpen!== null){
                   $timeout.cancel( timeoutResize);
                   timeoutResize = $timeout(function(){
-                    setPos(isOpen,placement,align,spacing);
-                  },400);
+                    setPos(isOpen,placement,align,spacing);console.log('resoze')
+                  },150);
                 }
               });
 
@@ -134,7 +134,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                 }
               }
               function inViewPort(el,top,left){
-                var win = $(window);
+                var win = $($window);
                 var viewport = {
                   top : win.scrollTop(),
                   left : win.scrollLeft()
@@ -150,9 +150,11 @@ angular.module('tink.popOver', ['tink.tooltip'])
               }
               arrowCal(placement,align);
               var counter = 0;
+              var timoutPos = null;
             //The function that will be called to position the tooltip;
-            function setPos(el,placement,align,spacing){console.log('setpos')
-              $timeout(function(){
+            function setPos(el,placement,align,spacing){
+              $timeout.cancel(timoutPos);
+              timoutPos = $timeout(function(){console.log('resize');
                 var arrow = el.find('span.arrow');
                 var porcent = {right:0.85,left:0.15,top:0.15,bottom:0.85};
                 var arrowHeight = 10;
@@ -185,12 +187,12 @@ angular.module('tink.popOver', ['tink.tooltip'])
                     top = element.offset().top - alignTop;
                   }
 
-                  if(!inViewPort(el,top,left) &&  counter < 3){
+                  if(!inViewPort(el,top,left) &&  counter < 1){
                     setPos(el,'bottom','left',spacing);counter++;
                   }else{
-                    arrowCal(placement,align);
                     el.css('top',top);
                     el.css('left',left);
+                    arrowCal(placement,align);
                     el.css('visibility','visible');
                     counter = 0;
                   }
