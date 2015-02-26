@@ -33,8 +33,8 @@ angular.module('tink.popOver', ['tink.tooltip'])
 
           },
           post: function postLink( scope, element, attributes ) {
-                var placement = 'bottom';
-                var align = 'left';
+                var placement = 'left';
+                var align = 'center';
                 var trigger = 'click';
                 var spacing = 2;
 
@@ -103,6 +103,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                       var el = $($compile(data)(scope));
                       el.css('position','absolute');
                       el.css('visibility','hidden');
+                      el.css('z-index','99999999999');
                       if(placement === 'top'){
                         el.insertBefore(element);
                       }else{
@@ -122,8 +123,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                   $timeout.cancel( timeoutResize);
                   timeoutResize = $timeout(function(){
                     setPos(isOpen,placement,align,spacing);
-                    resizeBuzzy = 0;
-                  },100);
+                  },400);
                 }
               });
 
@@ -149,39 +149,50 @@ angular.module('tink.popOver', ['tink.tooltip'])
                   return (viewport.right > bounds.right && left  > 0);
               }
               arrowCal(placement,align);
+              var counter = 0;
             //The function that will be called to position the tooltip;
             function setPos(el,placement,align,spacing){console.log('setpos')
               $timeout(function(){
                 var arrow = el.find('span.arrow');
+                var porcent = {right:0.85,left:0.15,top:0.15,bottom:0.85};
+                var arrowHeight = 10;
+                var arrowWidth = 10;
 
                 var alignLeft = 0;
+                var alignTop = 0;
                 if(align === 'center'){
                   alignLeft = (el.outerWidth(true) / 2)-(element.outerWidth(true)/2);
+                  alignTop = (el.outerHeight(true) / 2)-(element.outerHeight(true)/2);
+                }else if(align === 'left' || align === 'right'){
+                  alignLeft = (el.outerWidth(true)*porcent[align]) -(element.outerWidth(true)/2);
+                }else if(align === 'top' || align === 'bottom'){
+                  alignTop = (el.outerHeight(true)*porcent[align]) - (element.outerHeight(true)/2);
                 }
 
                 var left = element.offset().left - alignLeft;
                 var top = null;
                   if(placement === 'top'){
-                    top = element.offset().top - el.outerHeight(true)-arrow[0].offsetHeight - spacing;
+                    top = element.offset().top - el.outerHeight(true)- arrowHeight - spacing;
                   }else if(placement === 'bottom'){
-                    top = element.offset().top + element.outerHeight() + spacing;
+                    top = element.offset().top + element.outerHeight() + arrowHeight +spacing;
                   }else if(placement === 'right'){
-                    left = element.offset().left + element.outerWidth(true) + spacing;
+                    left = element.offset().left + element.outerWidth(true) + arrowWidth + spacing;
                   }else if(placement === 'left'){
-                    left = element.offset().left - el.outerWidth(true)- arrow.outerWidth(true) - spacing;
+                    left = element.offset().left - el.outerWidth(true)- arrowWidth - spacing;
                   }
 
                   if(placement === 'right' || placement === 'left'){
-                    top = element.offset().top - (arrow.offset().top - el.offset().top) - (arrow[0].offsetHeight/2) + (element.outerHeight()/2) ;
+                    top = element.offset().top - alignTop;
                   }
 
-                  if(false && !inViewPort(el,top,left)){
-                    arrowCal('bottom','center');
-                    setPos(el,'bottom','center',spacing);
+                  if(!inViewPort(el,top,left) &&  counter < 3){
+                    setPos(el,'bottom','left',spacing);counter++;
                   }else{
+                    arrowCal(placement,align);
                     el.css('top',top);
                     el.css('left',left);
                     el.css('visibility','visible');
+                    counter = 0;
                   }
               },50);
             }
