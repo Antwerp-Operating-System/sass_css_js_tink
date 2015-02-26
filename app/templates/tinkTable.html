@@ -1,37 +1,50 @@
 <!-- placeholder for table -->
 <table></table>
 
-<!-- footer functions for changing the view of the table -->
-<div class="table-viewer">
+<!-- old code for footer functions to change the view of the table -->
+<!-- <div class="table-viewer">
 
-  <!-- button for rows per table -->
   <button class="btn-sq" ng-repeat="num in perPageView" ng-click="perPageClick($index)" ng-class="{selected:numSelected===$index}">{{num}}</button> per pagina
 
+
   <div class="pull-right">
-    <!-- first table page -->
-    <!-- old code - the function ng-disabled="pageSelected === 1" seems to disable the button -->
-    <!-- <i class="fa fa-angle-double-left btn btn-sq" ng-disabled="pageSelected === 1" ng-click="setFirst()"></i> -->
-    <button class="btn-sq" ng-click="setFirst()" ng-disabled="pageSelected === 1"><i class="fa fa-angle-double-left"></i></button>
-    <!-- previous table page -->
-    <!-- old code - the function ng-disabled="pageSelected === 1" seems to disable the button -->
-    <!-- <i ng-click="setPrev()" ng-disabled="pageSelected === 1" class="fa fa-angle-left btn btn-sq"></i> -->
-    <button class="btn-sq" ng-click="setPrev()" ng-disabled="pageSelected === 1"><i class="fa fa-angle-left"></i></button>
-    <!-- table page number -->
-    <button class="btn-sq" ng-repeat="num in pages" ng-click="setPage($index)" ng-class="{selected:pageSelected===$index+1}">{{num}}</button>
-    <!-- next table page -->
-    <!-- old code - with this function the color is correct-->
-    <!-- <i class="fa fa-angle-right btn btn-sq" ng-disabled="pageSelected === pages.length" ng-click="setNext()"></i> -->
-    <button class="btn-sq" ng-click="setNext()" ng-disabled="pageSelected === pages.length"><i class="fa fa-angle-right"></i></button>
-    <!-- last table page -->
-    <!-- old code - with this function the color is correct-->
-    <!-- <i ng-click="setLast()" class="fa fa-angle-double-right btn btn-sq" ng-disabled="pageSelected === pages.length"></i> -->
-    <button class="btn-sq" ng-click="setLast()" ng-disabled="pageSelected === pages.length"><i class="fa fa-angle-double-right"></i></button>
+    <button class="btn-sq" ng-click="setFirst()" ng-disabled="pageSelected === 1"><i class="fa fa-angle-double-left"></i></button><button class="btn-sq" ng-click="setPrev()" ng-disabled="pageSelected === 1"><i class="fa fa-angle-left"></i></button><button class="btn-sq" ng-repeat="num in pages" ng-click="setPage($index)" ng-class="{selected:pageSelected===$index+1}">{{num}}</button><button class="btn-sq" ng-click="setNext()" ng-disabled="pageSelected === pages.length"><i class="fa fa-angle-right"></i></button><button class="btn-sq" ng-click="setLast()" ng-disabled="pageSelected === pages.length"><i class="fa fa-angle-double-right"></i></button>
+  </div>
+
+</div> -->
+
+<!-- beginning of new styling for footer functions to change the view of the table -->
+
+<div class="table-viewer">
+
+  <span class="items-view">
+  <span class="items-shown">1 - 10</span> van 1.351
+  </span>
+
+  <select class="items-per-page">
+    <option value="10">10</option>
+    <option value="20">20</option>
+    <option value="50">50</option>
+  </select> items per pagina
+
+  <!-- button for pagination -->
+  <div class="pull-right">
+    <button class="btn-prev">vorige</button>
+    <button class="btn-sq">1</button>
+    ...
+    <button class="btn-sq">7</button>
+    ...
+    <button class="btn-sq">12</button>
+    <button class="btn-next">volgende</button>
   </div>
 
 </div>
 
+<!-- ending of new styling -->
+
+<!-- pop-over-menu to sort the columns of the table -->
 <div class="popover arrow-top-right show">
-<!-- arrows to sort the colums -->
+<!-- arrows to sort the columns -->
    <i class="fa fa-arrow-up" ng-click="omhoog()"> </i>
    <i class="fa fa-arrow-down" ng-click="omlaag()"></i>
 

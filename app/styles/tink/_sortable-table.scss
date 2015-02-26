@@ -4,9 +4,64 @@
  */
 // basic styling is already done on the table element by the _table.scss
 
+// next button on pagination
+.btn-next {
+    color: $gray-dark;
+    // margin: rem(0 2);
+    // min-height: rem(30);
+    // min-width: rem(30);
+    // padding: rem(0);
 
+    // @include mq($screen-md) {
+    //   min-height: 38px;
+    //   min-width: 38px;
+    // }
+
+    &:after {
+        //color: $input-base-color;
+        content: ' \f105';
+        font-family: 'FontAwesome';
+        // font-size: rem(16);
+        //line-height: 1.4;
+      }
+
+    &:hover {
+      background: $datepicker-btn-bgcolor-hover;
+      border: 1px solid transparent;
+      color: $datepicker-btn-color-hover;
+    }
+  }
+
+.btn-prev {
+    color: $gray-dark;
+    // margin: rem(0 2);
+    min-height: rem(30);
+    min-width: rem(30);
+    // padding: rem(0);
+
+    // @include mq($screen-md) {
+    //   min-height: 38px;
+    //   min-width: 38px;
+    // }
+
+    &:before {
+        //color: $input-base-color;
+        content: '\f104'' ';
+        font-family: 'FontAwesome';
+        // font-size: rem(16);
+        //line-height: 1.4;
+      }
+
+    &:hover {
+      background: $datepicker-btn-bgcolor-hover;
+      border: 1px solid transparent;
+      color: $datepicker-btn-color-hover;
+    }
+  }
+
+// square number buttons
   .btn-sq {
-    color: $datepicker-btn-color;
+    color: $gray-dark;
     margin: rem(0 2);
     min-height: rem(30);
     min-width: rem(30);
@@ -24,6 +79,24 @@
     }
   }
 
+.items-per-page {
+  display: inline-block;
+  max-width: rem(50);
+  margin: rem(0 5);
+
+}
+
+.items-shown {
+  margin: rem(0);
+  font-weight: 700;
+
+}
+
+.items-view {
+
+}
+
+
 .selected {
   background: $datepicker-btn-bgcolor-hover;
   border: 1px solid transparent;
@@ -31,26 +104,45 @@
 }
 
 .sortable-table {
+  @extend .table-bordered;
 
   > thead > tr > th {
     background-color: $gray;
     border-bottom: 0;
     color: $white;
+
+
+      // &:after{
+      //   //color: $input-base-color;
+      //   content: ' ';
+      //   font-family: 'FontAwesome';
+      //   //font-size: rem(16);
+      //   //line-height: 1.4;
+      // }
+
     &.sort-asc {
+
       &:after {
         //color: $input-base-color;
         content: ' \f107';
         font-family: 'FontAwesome';
-        font-size: rem(16);
+        // font-size: rem(16);
         //line-height: 1.4;
       }
     }
     &.sort-desc {
+      // &:before {
+      //   //color: $input-base-color;
+      //   content: '  ';
+      //   font-family: 'FontAwesome';
+      //   font-size: rem(16);
+      //   //line-height: 1.4;
+      // }
       &:after {
         //color: $input-base-color;
         content: ' \f106';
         font-family: 'FontAwesome';
-        font-size: rem(16);
+        //font-size: rem(16);
         //line-height: 1.4;
       }
     }
@@ -58,6 +150,7 @@
 }
 
 .table-viewer {
+
 
 }
 
