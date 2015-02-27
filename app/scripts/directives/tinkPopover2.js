@@ -103,7 +103,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                       var el = $($compile(data)(scope));
                       el.css('position','absolute');
                       el.css('visibility','hidden');
-                      el.css('z-index','99999999999');
+                      // el.css('z-index','99999999999');
                       if(placement === 'top'){
                         el.insertBefore(element);
                       }else{
