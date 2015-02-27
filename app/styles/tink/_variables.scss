@@ -480,8 +480,8 @@ $datepicker-btn-grayed-selected-clicked-bg-color:     darken($datepicker-btn-gra
 $datepicker-btn-grayed-selected-clicked-border-color: $datepicker-btn-grayed-selected-border-color !default;
 
 $datepicker-btn-today-color:                          $brand !default;
-$datepicker-btn-today-bg-color:                       lighten($brand, 48%) !default;
-$datepicker-btn-today-border-color:                   lighten($brand, 36%) !default;
+$datepicker-btn-today-bg-color:                       lighten($datepicker-btn-today-color, 48%) !default;
+$datepicker-btn-today-border-color:                   lighten($datepicker-btn-today-color, 36%) !default;
 $datepicker-btn-today-hover-color:                    darken($datepicker-btn-today-color, 8%) !default;
 $datepicker-btn-today-hover-bg-color:                 darken($datepicker-btn-today-bg-color, 8%) !default;
 $datepicker-btn-today-hover-border-color:             $datepicker-btn-today-border-color !default;
