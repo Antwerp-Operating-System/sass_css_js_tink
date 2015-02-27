@@ -1,4 +1,5 @@
 <!-- placeholder for table -->
+
 <table></table>
 
 <!-- old code for footer functions to change the view of the table -->
@@ -20,19 +21,20 @@
   <span class="items-view">
   <span class="items-shown">1 - 10</span> van 1.351
   </span>
-
-  <select class="items-per-page">
+  <span class="items-per-page">
+  <select>
     <option value="10">10</option>
     <option value="20">20</option>
     <option value="50">50</option>
   </select> items per pagina
+  </span>
 
   <!-- button for pagination -->
   <div class="pull-right">
     <button class="btn-prev">vorige</button>
     <button class="btn-sq">1</button>
     ...
-    <button class="btn-sq">7</button>
+    <button class="btn-sq" selected>7</button>
     ...
     <button class="btn-sq">12</button>
     <button class="btn-next">volgende</button>
@@ -41,6 +43,9 @@
 </div>
 
 <!-- ending of new styling -->
+
+<br />
+<br />
 
 <!-- pop-over-menu to sort the columns of the table -->
 <div class="popover arrow-top-right show">

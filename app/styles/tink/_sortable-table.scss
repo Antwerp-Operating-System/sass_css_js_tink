@@ -8,9 +8,9 @@
 .btn-next {
     color: $gray-dark;
     // margin: rem(0 2);
-    // min-height: rem(30);
-    // min-width: rem(30);
-    // padding: rem(0);
+    min-height: rem(30);
+    min-width: rem(90);
+    padding: rem(0);
 
     // @include mq($screen-md) {
     //   min-height: 38px;
@@ -36,8 +36,8 @@
     color: $gray-dark;
     // margin: rem(0 2);
     min-height: rem(30);
-    min-width: rem(30);
-    // padding: rem(0);
+    min-width: rem(90);
+    padding: rem(0);
 
     // @include mq($screen-md) {
     //   min-height: 38px;
@@ -63,8 +63,8 @@
   .btn-sq {
     color: $gray-dark;
     margin: rem(0 2);
-    min-height: rem(30);
-    min-width: rem(30);
+    height: rem(30);
+    width: rem(30);
     padding: rem(0);
 
     @include mq($screen-md) {
@@ -80,9 +80,14 @@
   }
 
 .items-per-page {
-  display: inline-block;
-  max-width: rem(50);
-  margin: rem(0 5);
+
+
+  > select {
+    display: inline-block;
+    width: rem(50);
+    //padding: 0;
+    margin: rem(0 6 0 15);
+  }
 
 }
 
@@ -93,7 +98,8 @@
 }
 
 .items-view {
-
+border-right: 1px solid;
+padding: rem(6 8 6 0);
 }
 
 
@@ -110,6 +116,10 @@
     background-color: $gray;
     border-bottom: 0;
     color: $white;
+
+    &:first-child {
+      width: rem(15);
+    }
 
 
       // &:after{
