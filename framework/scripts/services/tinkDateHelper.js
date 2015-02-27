@@ -417,15 +417,15 @@ angular.module('tink.dateHelper')
       }
       if (isSameDate(date, firstRange) || isSameDate(date, lastRange)) {
         if(grayed){
-          cssClass = 'btn-grayed-selected';
+          cssClass = 'btn-grayed-selected-clicked';
         }else{
-          cssClass = 'btn-primary';
+          cssClass = 'btn-selected-clicked';
         }
       } else if (inRange(date, firstRange, lastRange)) {
         if(grayed){
           cssClass = 'btn-grayed-selected';
         }else{
-          cssClass = 'btn-info';
+          cssClass = 'btn-selected';
         }
       } else if (isSameDate(date, new Date())) {
         if(grayed){
@@ -445,7 +445,7 @@ angular.module('tink.dateHelper')
 
       var month = ('0' + (date.getMonth() + 1)).slice(-2);
       var day = ('0' + (date.getDate())).slice(-2);
-      return '<td><button '+disable+' ng-click="$select(\''+date.getFullYear()+'/'+month+'/'+day+'\')" class="' + cssClass + '"><span>' + label + '</span></button></td>';
+      return '<td><button '+disable+' ng-click="$select(\''+date.getFullYear()+'/'+month+'/'+day+'\')" class="btn ' + cssClass + '"><span>' + label + '</span></button></td>';
     } else{
       return '<td></td>';
     }
