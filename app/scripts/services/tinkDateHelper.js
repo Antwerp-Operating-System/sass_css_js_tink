@@ -417,9 +417,9 @@ angular.module('tink.dateHelper')
       }
       if (isSameDate(date, firstRange) || isSameDate(date, lastRange)) {
         if(grayed){
-          cssClass = 'btn-grayed-selected';
+          cssClass = 'btn-grayed-selected-clicked';
         }else{
-          cssClass = 'btn-selected';
+          cssClass = 'btn-selected-clicked';
         }
       } else if (inRange(date, firstRange, lastRange)) {
         if(grayed){

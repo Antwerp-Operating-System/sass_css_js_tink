@@ -101,6 +101,12 @@
       background: $datepicker-btn-selected-bg-color;
       border-color: $datepicker-btn-selected-border-color;
       color: $datepicker-btn-selected-color;
+
+      &-clicked {
+        background: $datepicker-btn-selected-clicked-bg-color;
+        border-color: $datepicker-btn-selected-clicked-border-color;
+        color: $datepicker-btn-selected-clicked-color;
+      }
     }
 
     &.btn-info {
@@ -124,6 +130,12 @@
         background: $datepicker-btn-grayed-selected-bg-color;
         border-color: $datepicker-btn-grayed-selected-border-color;
         color: $datepicker-btn-grayed-selected-color;
+
+        &-clicked {
+          background: $datepicker-btn-grayed-selected-clicked-bg-color;
+          border-color: $datepicker-btn-grayed-selected-clicked-border-color;
+          color: $datepicker-btn-grayed-selected-clicked-color;
+        }
       }
     }
   }
@@ -173,6 +185,10 @@
   @include mq($screen-md) {
     min-width: 640px;
   }
+}
+
+.datepicker-days th {
+  padding-bottom: rem(10);
 }
 
 .datepickerrange-header-left,
