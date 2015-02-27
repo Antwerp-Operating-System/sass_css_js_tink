@@ -57,14 +57,11 @@ $btn-primary-bg:                         $brand-light;
 /**
  * Datepicker
  */
-$datepicker-icon-color:                               $brand-light;
-$datepicker-icon-hover-color:                         darken($datepicker-icon-color, 10%);
-
-$datepicker-btn-hover-color:                          $brand-light;
-
-$datepicker-btn-selected-bg-color:                    $brand-light;
-
-$datepicker-btn-today-color:                          $brand-light;
+$datepicker-icon-color:                  $brand-light;
+$datepicker-icon-hover-color:            darken($datepicker-icon-color, 10%);
+$datepicker-btn-hover-color:             $brand-light;
+$datepicker-btn-selected-bg-color:       $brand-light;
+$datepicker-btn-today-color:             $brand-light;
 
 
 /**
