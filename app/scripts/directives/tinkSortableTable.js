@@ -4,7 +4,7 @@ angular.module('tink.sortable')
 .directive('tinkSortableTable',['lodash','$compile',function(_,$compile){
   return{
     restrict:'E',
-    templateUrl:'templates/tinkTable.html',
+    templateUrl:'templates/tinkSortableTable.html',
     scope:{
       data:'=?',
       headers:'=?',
