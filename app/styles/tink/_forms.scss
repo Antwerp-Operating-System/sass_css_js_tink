@@ -174,7 +174,6 @@ input[type="time"] {
 
     &::-webkit-inner-spin-button {
       border-left: 1px solid $input-border-focus;
-      @warn $input-border-focus;
 
       &:before {
         border-color: transparent transparent $input-border-focus;

@@ -26,7 +26,7 @@
     content: '';
     display: block;
     height: 0;
-    overflow:hidden;
+    overflow: hidden;
     position: absolute;
     width: 0;
   }
@@ -34,7 +34,7 @@
 
   &.arrow-top {
     &:before {
-      top: 0;
+      top: -1px;
       left: 50%;
       margin-top: -$popover-arrow-outer-width;
       margin-left: -$popover-arrow-outer-width;
@@ -45,7 +45,7 @@
     &:after {
       top: 0;
       left: 50%;
-      margin-top: -$popover-arrow-width;
+      margin-top: -($popover-arrow-width - .5);
       margin-left: -$popover-arrow-width;
       border-bottom: $popover-arrow-width $popover-bg-color solid;
       border-left: $popover-arrow-width transparent solid;
@@ -63,7 +63,7 @@
 
   &.arrow-bottom {
     &:before {
-      bottom: 0;
+      bottom: -1px;
       left: 50%;
       margin-bottom: -$popover-arrow-outer-width;
       margin-left: -$popover-arrow-outer-width;
@@ -74,7 +74,7 @@
     &:after {
       bottom: 0;
       left: 50%;
-      margin-bottom: -$popover-arrow-width;
+      margin-bottom: -($popover-arrow-width - .5);
       margin-left: -$popover-arrow-width;
       border-top: $popover-arrow-width $popover-bg-color solid;
       border-left: $popover-arrow-width transparent solid;
@@ -92,7 +92,7 @@
 
   &.arrow-left {
     &:before {
-      left: 0;
+      left: -1px;
       top: 50%;
       margin-top: -$popover-arrow-outer-width;
       margin-left: -$popover-arrow-outer-width;
@@ -104,7 +104,7 @@
       left: 0;
       top: 50%;
       margin-top: -$popover-arrow-width;
-      margin-left: -$popover-arrow-width;
+      margin-left: -($popover-arrow-width - .5);
       border-right: $popover-arrow-width $popover-bg-color solid;
       border-top: $popover-arrow-width transparent solid;
       border-bottom: $popover-arrow-width transparent solid;
@@ -121,7 +121,7 @@
 
   &.arrow-right {
     &:before {
-      right: 0;
+      right: -1px;
       top: 50%;
       margin-top: -$popover-arrow-outer-width;
       margin-right: -$popover-arrow-outer-width;
@@ -133,7 +133,7 @@
       right: 0;
       top: 50%;
       margin-top: -$popover-arrow-width;
-      margin-right: -$popover-arrow-width;
+      margin-right: -($popover-arrow-width - .5);
       border-left: $popover-arrow-width $popover-bg-color solid;
       border-top: $popover-arrow-width transparent solid;
       border-bottom: $popover-arrow-width transparent solid;
