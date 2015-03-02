@@ -5,22 +5,42 @@
 // basic styling is already done on the table element by the _table.scss
 
 .table-sortable {
+  //@extend .table-bordered;
+
+  input[type="checkbox"] + label {
+        padding: 0;
+    }
 
   > thead > tr > th {
     background-color: $brand;
     border-bottom: 0;
     color: $white;
+    padding-right: rem(20);
+    position: relative;
+
+    &:first-child {
+      width: rem(33);
+    }
+
+// creating vertical line between th cells
+    &:not(:first-child):before {
+      border: solid 1px $brand-light;
+      content: '';
+      left: 1px;
+      height: 60%;
+      top: 20%;
+      position: absolute;
+    }
 
     &.sort-asc {
 
       &:after {
-        background-color: green;
         content: ' \f107';
         font-family: 'FontAwesome';
         // font-size: rem(16);
         //line-height: 1.4;
-        position: relative;
-        right:0;
+        position: absolute;
+        right: rem(5);
       }
     }
     &.sort-desc {
@@ -30,6 +50,8 @@
         font-family: 'FontAwesome';
         //font-size: rem(16);
         //line-height: 1.4;
+        position: absolute;
+        right: rem(5);
       }
     }
   }
