@@ -698,6 +698,22 @@ $popover-button-color:                  $nav-aside-link-color !default;
 $popover-percentage:                    15;
 
 
+//== DropZone drag'n drop upload
+$dropzone-background-color:             $white;
+$dropzone-hover-background-color:       lighten($brand, 50%);
+$dropzone-border-color:                 $brand-light;
+$dropzone-padding:                      $padding-base-vertical !default;
+
+$dropzone-list-item-bg-color:           $nav-aside-item-open-color !default;
+
+$dropzone-border-color-success:         $brand-success;
+$dropzone-list-item-bg-color-success:   lighten($dropzone-border-color-success, 60%) !default;
+$dropzone-border-color-warning:         $brand-warning !default;
+$dropzone-list-item-bg-color-warning:   lighten($dropzone-border-color-warning, 45%) !default;
+$dropzone-border-color-danger:          $brand-danger;
+$dropzone-list-item-bg-color-danger:    lighten($dropzone-border-color-danger, 45%) !default;
+
+$dropzone-drag-hover-bg-color:          darken($dropzone-hover-background-color, 10);
 
 
 //== Labels
