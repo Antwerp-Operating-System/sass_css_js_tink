@@ -2,7 +2,7 @@
 angular.module('tink.datepicker', [])
 .directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply','$window',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply,$window) {
   return {
-    restrict:'EA',
+    restrict:'E',
     require:['ngModel','?^form'],
     replace:true,
     templateUrl:'templates/tinkDatePickerInput.html',

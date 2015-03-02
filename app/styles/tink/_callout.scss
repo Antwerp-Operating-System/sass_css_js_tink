@@ -6,7 +6,7 @@
   background: $callout-bgcolor;
   border: 1px solid $callout-color;
   border-left: 5px solid $callout-color;
-  border-radius: rem($border-radius-base);
+  // border-radius: rem($border-radius-base);
   box-shadow: 0 1px 1px rgba(0,0,0,.05);
   color: $callout-color;
   margin: rem($line-height-computed) 0;

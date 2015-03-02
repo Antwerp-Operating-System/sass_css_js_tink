@@ -235,7 +235,7 @@ $padding-xs-horizontal:     5px !default;
 $line-height-large:         1.33 !default;
 $line-height-small:         1.5 !default;
 
-$border-radius-base:        2px !default;
+$border-radius-base:        3px !default;
 $border-radius-large:       4px !default;
 $border-radius-small:       2px !default;
 
@@ -369,7 +369,7 @@ $dropdown-header-color:          $gray-light !default;
  * Complete layer list (for reference, add these to $layers only if needed)
  * $layers: base, navbar, dropdown, tooltip, navbar-sticky, navbar-fixed, modal-background, modal, popover;
  */
-$layers: base, pseudo, nav-aside, nav-top, popover !default;
+$layers: base, pseudo, popover, nav-aside, nav-top !default;
 
 
 
@@ -443,39 +443,72 @@ $nav-aside-badge-active-background-hover-color: $nav-aside-link-hover-color !def
  * Settings for both the single as the range datepicker
  */
 
-$datepicker-bgcolor            : $white !default;
-$datepicker-icon-color         : lighten($gray-dark, 16%) !default;
-$datepicker-icon-hover-color   : $gray-dark !default;
-$datepicker-btn-bgcolor        : $white !default;
-$datepicker-btn-bgcolor-hover  : lighten($brand, 16%) !default;
-$datepicker-btn-color          : $gray !default;
-$datepicker-btn-color-hover    : $white !default;
-$datepicker-btn-border-color   : transparent;
-$datepicker-neutral            : $gray !default;
-$datepicker-neutral-light      : $gray-light !default;
-$datepicker-neutral-dark       : $gray-dark !default;
+$datepicker-color:                                    $gray-dark !default;
+$datepicker-bg-color:                                 $white !default;
+$datepicker-icon-color:                               lighten($gray-dark, 16%) !default;
+$datepicker-icon-hover-color:                         $gray-dark !default;
+$datepicker-weekdays-color:                           $gray !default;
+
+$datepicker-btn-color:                                $gray !default;
+$datepicker-btn-bg-color:                             $datepicker-bg-color !default;
+$datepicker-btn-border-color:                         transparent !default;
+$datepicker-btn-hover-color:                          $brand !default;
+$datepicker-btn-hover-bg-color:                       rgba($black, .07) !default;
+$datepicker-btn-hover-border-color:                   $datepicker-btn-border-color !default;
+
+$datepicker-btn-selected-color:                       $white !default;
+$datepicker-btn-selected-bg-color:                    $brand !default;
+$datepicker-btn-selected-border-color:                $datepicker-btn-border-color !default;
+
+$datepicker-btn-selected-clicked-color:               $datepicker-btn-selected-color !default;
+$datepicker-btn-selected-clicked-bg-color:            darken($datepicker-btn-selected-bg-color, 8%) !default;
+$datepicker-btn-selected-clicked-border-color:        $datepicker-btn-selected-border-color !default;
+
+$datepicker-btn-grayed-color:                         $gray-light !default;
+$datepicker-btn-grayed-bg-color:                      $datepicker-bg-color !default;
+$datepicker-btn-grayed-border-color:                  $datepicker-btn-border-color !default;
+$datepicker-btn-grayed-hover-color:                   $gray !default;
+$datepicker-btn-grayed-hover-bg-color:                $datepicker-btn-hover-bg-color !default;
+$datepicker-btn-grayed-hover-border-color:            $datepicker-btn-grayed-border-color !default;
+
+$datepicker-btn-grayed-selected-color:                $datepicker-btn-selected-color !default;
+$datepicker-btn-grayed-selected-bg-color:             $gray !default;
+$datepicker-btn-grayed-selected-border-color:         $datepicker-btn-border-color !default;
+
+$datepicker-btn-grayed-selected-clicked-color:        $datepicker-btn-grayed-selected-color !default;
+$datepicker-btn-grayed-selected-clicked-bg-color:     darken($datepicker-btn-grayed-selected-bg-color, 8%) !default;
+$datepicker-btn-grayed-selected-clicked-border-color: $datepicker-btn-grayed-selected-border-color !default;
+
+$datepicker-btn-today-color:                          $brand !default;
+$datepicker-btn-today-bg-color:                       lighten($datepicker-btn-today-color, 48%) !default;
+$datepicker-btn-today-border-color:                   lighten($datepicker-btn-today-color, 36%) !default;
+$datepicker-btn-today-hover-color:                    darken($datepicker-btn-today-color, 8%) !default;
+$datepicker-btn-today-hover-bg-color:                 darken($datepicker-btn-today-bg-color, 8%) !default;
+$datepicker-btn-today-hover-border-color:             $datepicker-btn-today-border-color !default;
+
+
 
 
 /**
  * Callout
  */
 $callout-color                 : $brand !default;
-$callout-bgcolor               : lighten($callout-color, 50%);
+$callout-bgcolor               : lighten($callout-color, 50%) !default;
 $callout-color-success         : $brand-success !default;
-$callout-bgcolor-success       : lighten($callout-color-success, 60%);
+$callout-bgcolor-success       : lighten($callout-color-success, 60%) !default;
 $callout-color-warning         : $brand-warning !default;
-$callout-bgcolor-warning       : lighten($callout-color-warning, 45%);
+$callout-bgcolor-warning       : lighten($callout-color-warning, 45%) !default;
 $callout-color-danger          : $brand-danger !default;
-$callout-bgcolor-danger        : lighten($callout-color-danger, 45%);
+$callout-bgcolor-danger        : lighten($callout-color-danger, 45%) !default;
 
 
 /**
  * Hit-area-box
  */
 $hit-area-color                 : $text-color !default;
-$hit-area-bgcolor               : lighten($gray-light,8%);
-$hit-area-hover-color           : darken($hit-area-color, 20%);
-$hit-area-hover-bgcolor         : darken($hit-area-bgcolor,8%);
+$hit-area-bgcolor               : lighten($gray-light, 12%) !default;
+$hit-area-hover-color           : $black !default;
+$hit-area-hover-bgcolor         : darken($hit-area-bgcolor, 8%) !default;
 $hit-area-checked-color         : $white !default;
 $hit-area-checked-bgcolor       : $brand !default;
 
@@ -634,7 +667,7 @@ $tooltip-max-width:           rem(200px) !default;
 $tooltip-color:               $gray-darker !default;
 //** Tooltip background color
 $tooltip-bg:                  $white !default; //lighten($gray-light, 10) !default;
-$tooltip-opacity:             .9 !default;
+// $tooltip-opacity:             .9 !default;
 
 //** Tooltip arrow width
 $tooltip-arrow-width:         5px !default;
@@ -645,30 +678,26 @@ $tooltip-arrow-color:         $tooltip-bg !default;
 //== Popovers
 //
 //##
+$popover-bg-color:                      lighten($nav-aside-item-open-color, 2) !default; //$white !default;
+$popover-border-color:                  rgba(0,0,0,.2) !default;
+$popover-fallback-border-color:         $gray !default;
+$popover-border-width:                  1px;
+$popover-max-width:                     300px !default;
+$popover-padding:                       $padding-base-vertical !default;
+$popover-header-bg:                     $white !default;
 
-//** Popover body background color
-    // $popover-bg:                          $white !default;
-//** Popover maximum width
-    // $popover-max-width:                   276px !default;
-//** Popover border color
-    // $popover-border-color:                rgba(0,0,0,.2) !default;
-//** Popover fallback border color
-    // $popover-fallback-border-color:       #ccc !default;
+$popover-arrow-color:                   $popover-bg-color !default;
+$popover-arrow-width:                   11px !default;
+$popover-arrow-outer-width:             $popover-arrow-width !default;
+$popover-arrow-outer-color:             $popover-border-color !default;
 
-//** Popover title background color
-    // $popover-title-bg:                    darken($popover-bg, 3%) !default;
+$popover-button-background-color:       $nav-aside-item-open-color !default; //transparent;
+$popover-button-hover-background-color: $nav-aside-link-hover-background-color !default;
+$popover-button-color:                  $nav-aside-link-color !default;
 
-//** Popover arrow width
-    // $popover-arrow-width:                 10px !default;
-//** Popover arrow color
-    // $popover-arrow-color:                 $white !default;
+$popover-percentage:                    15;
 
-//** Popover outer arrow width
-    // $popover-arrow-outer-width:           ($popover-arrow-width + 1) !default;
-//** Popover outer arrow color
-    // $popover-arrow-outer-color:           fade_in($popover-border-color, 0.05) !default;
-//** Popover outer arrow fallback color
-    // $popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%) !default;
+
 
 
 //== Labels
