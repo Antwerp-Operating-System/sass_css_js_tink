@@ -436,7 +436,6 @@ $nav-aside-badge-active-background-hover-color: $nav-aside-link-hover-color !def
 
 
 
-
 /**
  * Datepicker
  *
@@ -488,7 +487,6 @@ $datepicker-btn-today-hover-border-color:             $datepicker-btn-today-bord
 
 
 
-
 /**
  * Callout
  */
@@ -500,6 +498,7 @@ $callout-color-warning         : $brand-warning !default;
 $callout-bgcolor-warning       : lighten($callout-color-warning, 45%) !default;
 $callout-color-danger          : $brand-danger !default;
 $callout-bgcolor-danger        : lighten($callout-color-danger, 45%) !default;
+
 
 
 /**
@@ -608,10 +607,10 @@ $nav-pills-active-link-hover-bg:            $component-active-bg !default;
 $nav-pills-active-link-hover-color:         $component-active-color !default;
 
 
-//== Pagination
-//
-//##
 
+/**
+ * Pagination
+ */
     // $pagination-color:                     $link-color !default;
     // $pagination-bg:                        $white !default;
     // $pagination-border:                    $gray-lighter !default;
@@ -656,9 +655,10 @@ $nav-pills-active-link-hover-color:         $component-active-color !default;
     // $jumbotron-font-size:            ceil(($font-size-base * 1.5)) !default;
 
 
-//== Tooltips
-//
-//##
+
+/**
+ * Tooltips
+ */
 $zindex-tooltip:              layer("popover") !default;
 
 //** Tooltip max width
@@ -675,9 +675,10 @@ $tooltip-arrow-width:         5px !default;
 $tooltip-arrow-color:         $tooltip-bg !default;
 
 
-//== Popovers
-//
-//##
+
+/**
+ * Popovers
+ */
 $popover-bg-color:                      lighten($nav-aside-item-open-color, 2) !default; //$white !default;
 $popover-border-color:                  rgba(0,0,0,.2) !default;
 $popover-fallback-border-color:         $gray !default;
@@ -696,7 +697,6 @@ $popover-button-hover-background-color: $nav-aside-link-hover-background-color !
 $popover-button-color:                  $nav-aside-link-color !default;
 
 $popover-percentage:                    15;
-
 
 
 
@@ -721,6 +721,7 @@ $popover-percentage:                    15;
     // $label-color:                 $white !default;
 //** Default text color of a linked label
     // $label-link-hover-color:      $white !default;
+
 
 
 //== Modals
@@ -897,12 +898,14 @@ $thumbnail-border-radius:     $border-radius-base !default;
     // $thumbnail-caption-padding:   9px !default;
 
 
+
 //== Wells
 //
 //##
 
     // $well-bg:                     lighten($gray-lighter, 6%) !default;
     // $well-border:                 darken($well-bg, 7%) !default;
+
 
 
 //== Badges
@@ -944,6 +947,7 @@ $breadcrumb-active-color:       $gray-light !default;
 $breadcrumb-separator:          "/" !default;
 
 
+
 //== Carousel - yeah, right!
 //
 //##
@@ -959,6 +963,7 @@ $breadcrumb-separator:          "/" !default;
     // $carousel-indicator-border-color:             $white !default;
 
     // $carousel-caption-color:                      $white !default;
+
 
 
 //== Close
