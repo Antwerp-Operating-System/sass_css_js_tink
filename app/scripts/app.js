@@ -23,6 +23,10 @@ angular.module('tinkFramework', [
 			.when('/', {
 				templateUrl: 'views/main.html'
 			})
+      .when('/upload', {
+        templateUrl: 'views/upload.html',
+        controller: 'MainCtrl'
+      })
 			.when('/datepicker', {
 				templateUrl: 'views/datepicker.html',
         controller: 'MainCtrl'

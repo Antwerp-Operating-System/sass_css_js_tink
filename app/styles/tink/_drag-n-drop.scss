@@ -5,24 +5,20 @@
 .dropzone {
   display: block;
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
-  border: 1px dashed $brand-light;
+  border: 1px dashed $dropzone-border-color;
   border-radius: rem($badge-border-radius);
   box-sizing: border-box;
   cursor: pointer;
   margin: 0;
-  padding: rem(15 0);
+  // min-width: 600px;
+  // padding: rem(15 0);
+  padding: rem($dropzone-padding);
   text-align: center;
-  transition: background $animation-speed linear, border $animation-speed linear, color $animation-speed linear;
 
   &:active {
     &:focus {
       @include tab-focus();
     }
-  }
-
-  &:hover,
-  &:focus {
-    background-color: $gray-lighter;
   }
 
   &.disabled,
@@ -33,24 +29,65 @@
     opacity: .65;
     pointer-events: none; // Future-proof disabling of clicks
   }
+
+  &-header {
+    padding: rem($dropzone-padding * 2 $dropzone-padding );
+    transition: background $animation-speed linear, border $animation-speed linear, color $animation-speed linear;
+
+    &:hover,
+    &:focus {
+      background-color: $dropzone-hover-background-color; //$gray-lighter;
+    }
+  }
 }
 
 .dragenter {
   @extend .list-unstyled;
-    background-color: yellow;//$gray-lighter;
+  background-color: $dropzone-drag-hover-bg-color;//$gray-lighter;
+  border: 1px dashed darken($dropzone-border-color, 10);
+  color: $white;
 }
 
-.uploadedFiles {
+.uploaded-files {
   @extend .list-unstyled;
+  padding: 0;
+  margin: 0;
   text-align: left;
     > li {
-      background-color: $gray-lighter;
+      background-color: $dropzone-list-item-bg-color; //$gray-lighter;
+      border-left: 3px solid $dropzone-border-color;
       padding: rem(3 10);
+      margin-bottom: 2px;
+      text-align: center;
+
+      &:first-child {
+        margin-top: $dropzone-padding;
+      }
+
+      &.success {
+        background-color: $dropzone-list-item-bg-color-success;
+        border-color: $dropzone-border-color-success;
+      }
+      &.error {
+        background-color: $dropzone-list-item-bg-color-danger;
+        border-color: $dropzone-border-color-danger;
+      }
+
+        &:last-child { margin-bottom: 0; }
         &:before {
           content: "\f1c9";
           font-family: FontAwesome;
           font-style: normal;
           font-weight: normal;
         }
+
+      span.delete {
+        float: right;
+        font: normal normal normal 14px/1 FontAwesome;
+        padding-top: $dropzone-padding / 2;
+        &:before {
+          content: "\f00d";
+        }
+      }
     }
 }
