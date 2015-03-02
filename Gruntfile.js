@@ -320,6 +320,7 @@ module.exports = function (grunt) {
       },
       dist: {
         files: {
+          '<%= yeoman.dist %>/styles/tink-politie.min.css': ['.tmp/styles/tink-politie.css'],
           '<%= yeoman.dist %>/styles/tink-ocmw.min.css': ['.tmp/styles/tink-ocmw.css'],
           '<%= yeoman.dist %>/styles/tink-stad.min.css': ['.tmp/styles/tink-stad.css'],
           '<%= yeoman.dist %>/styles/tink.min.css': ['.tmp/styles/tink.css']

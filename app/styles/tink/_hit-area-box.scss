@@ -6,6 +6,7 @@
 
 .hit-area-box {
   @extend .list-unstyled;
+
   > li {
     input[type="checkbox"],
     input[type="radio"] {
@@ -14,7 +15,7 @@
         color: $hit-area-color;
         cursor: pointer;
         display: block;
-        margin: rem(6 0);
+        margin: 1px 0;
         padding: rem(7 5 7 45);
         transition: background-color linear $animation-speed;
 
@@ -48,6 +49,26 @@
       &:focus {
         + label {
           @include tab-focus();
+        }
+      }
+    }
+
+    &:first-child {
+      input[type="checkbox"],
+      input[type="radio"] {
+        + label {
+          border-top-right-radius: rem($border-radius-base);
+          border-top-left-radius: rem($border-radius-base);
+        }
+      }
+    }
+
+    &:last-child {
+      input[type="checkbox"],
+      input[type="radio"] {
+        + label {
+          border-bottom-right-radius: rem($border-radius-base);
+          border-bottom-left-radius: rem($border-radius-base);
         }
       }
     }
