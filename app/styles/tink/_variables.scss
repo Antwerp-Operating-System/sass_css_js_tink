@@ -691,7 +691,8 @@ $popover-bg-color:                      lighten($nav-aside-item-open-color, 2) !
 $popover-border-color:                  rgba(0,0,0,.2) !default;
 $popover-fallback-border-color:         $gray !default;
 $popover-border-width:                  1px;
-$popover-width:                         220px !default;
+$popover-min-width:                     220px !default;
+$popover-max-width:                     $popover-min-width * 2 !default;
 $popover-padding:                       $padding-base-vertical !default;
 $popover-header-bg:                     $white !default;
 
