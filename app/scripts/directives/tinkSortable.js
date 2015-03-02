@@ -266,7 +266,7 @@ angular.module('tink.sortable')
 
         setBody(table,viewable);  //
         table=$(table);           //variable table is added code to set class table
-        table.addClass('sortable-table')   //added code to set class table
+        table.addClass('table-sortable')   //added code to set class table
 
 
         $('table').replaceWith(table); // old code: $('table').replaceWith($(table));
