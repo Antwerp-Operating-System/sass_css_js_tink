@@ -1,7 +1,7 @@
 'use strict';
 angular.module('tink.sortable', ['ngLodash']);
 angular.module('tink.sortable')
-.directive('tinkSortable',['lodash','$compile',function(_,$compile){
+.directive('tinkSortableTable',['lodash','$compile',function(_,$compile){
   return{
     restrict:'E',
     templateUrl:'templates/tinkTable.html',
@@ -96,7 +96,7 @@ angular.module('tink.sortable')
 
         for(var i=0;i<keys.length;i++){
           if(keys[i].checked && keys[i].visible){
-            var key = Object.keys(keys[i])[0];
+            // var key = Object.keys(keys[i])[0];
             var val = keys[i].alias || keys[i].field;
             var th = document.createElement('th');
                 th.innerHTML = val;
@@ -266,7 +266,7 @@ angular.module('tink.sortable')
 
         setBody(table,viewable);  //
         table=$(table);           //variable table is added code to set class table
-        table.addClass('table-sortable')   //added code to set class table
+        table.addClass('table-sortable');   //added code to set class table
 
 
         $('table').replaceWith(table); // old code: $('table').replaceWith($(table));
