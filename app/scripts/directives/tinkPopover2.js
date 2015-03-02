@@ -124,7 +124,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                   $timeout.cancel( timeoutResize);
                   timeoutResize = $timeout(function(){console.log('resize');
                    // setPos(isOpen,placement,align,spacing);
-                    calcPos(element,isOpen)
+                    calcPos(element,isOpen,placement,align)
                   },2500);
                 };
               }, true);
@@ -181,7 +181,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
               var timoutPos = null;
 
               //calculate the position
-              function calcPos(element,el){
+              function calcPos(element,el,place,align,spacing){
                 var w1 = element.offset().left - $window.scrollX;
                 var w2 = $window.innerWidth - (w1+element.outerWidth(true));
                 var h1 = element.offset().top - $window.scrollY;
@@ -210,51 +210,57 @@ angular.module('tink.popOver', ['tink.tooltip'])
                 //height quadrant
                 var qHeight = $window.innerHeight * 0.25;
 
+                if(placementCheck(element,el,[place]) !== false){
+                  chosen.place = place;
+                  chosen.align = align;
 
-                if(h1 < qHeight){
-                  //q1
-                  if(placementCheck(element,el,['bottom']) !== false){
-                    chosen.preferPlacement = 'bottom';
-                  }else if(chosen.x !== false){
-                    chosen.preferPlacement = chosen.x;
-                  }else{
-                    console.warn('tosmall screen');
-                  }
-                }else if (h1 > qHeight && h1 < qHeight *3){
-                  //qCenter
-                  if(chosen.x !== false){
-                    chosen.preferPlacement = chosen.x;
-                  }else if(chosen.y !== false){
-                    chosen.preferPlacement = chosen.y;
-                  }else{
-                    console.warn('to small screen');
-                  }
-                  chosen.preferAlign = 'center'
                 }else{
-                  //Qbottom
-                  if(placementCheck(element,el,['top']) !== false){
-                    chosen.preferPlacement = 'top';
-                  }else if(chosen.x !== false){
-                    chosen.preferPlacement = chosen.x;
-                  }else if(chosen.y !== false){
-                    chosen.preferPlacement = chosen.y;
+                  if(h1 < qHeight){
+                    //q1
+                    if(placementCheck(element,el,['bottom']) !== false){
+                      chosen.preferPlacement = 'bottom';
+                    }else if(chosen.x !== false){
+                      chosen.preferPlacement = chosen.x;
+                    }else{
+                      console.warn('tosmall screen');
+                    }
+                  }else if (h1 > qHeight && h1 < qHeight *3){
+                    //qCenter
+                    if(chosen.x !== false){
+                      chosen.preferPlacement = chosen.x;
+                    }else if(chosen.y !== false){
+                      chosen.preferPlacement = chosen.y;
+                    }else{
+                      console.warn('to small screen');
+                    }
+                    chosen.preferAlign = 'center'
+                  }else{
+                    //Qbottom
+                    if(placementCheck(element,el,['top']) !== false){
+                      chosen.preferPlacement = 'top';
+                    }else if(chosen.x !== false){
+                      chosen.preferPlacement = chosen.x;
+                    }else if(chosen.y !== false){
+                      chosen.preferPlacement = chosen.y;
+                    }
                   }
-                }
 
-                if(chosen.preferPlacement !== undefined){
-                  chosen.place = chosen.preferPlacement;
-                }
+                  if(chosen.preferPlacement !== undefined){
+                    chosen.place = chosen.preferPlacement;
+                  }
 
-                if(chosen.place === 'left' || chosen.place === 'right'){
-                  chosen.align = 'top';
-                }
+                  if(chosen.place === 'left' || chosen.place === 'right'){
+                    chosen.align = 'top';
+                  }
 
-                if(chosen.place === 'bottom' || chosen.place === 'top'){
-                  chosen.align = 'left';
-                }
+                  if(chosen.place === 'bottom' || chosen.place === 'top'){
+                    chosen.align = 'left';
+                  }
 
-                if(chosen.preferAlign !== undefined){
-                  chosen.align = chosen.preferAlign;
+                  if(chosen.preferAlign !== undefined){
+                    chosen.align = chosen.preferAlign;
+                  }
+
                 }
 
                 var pos = getPos(el,chosen.place,chosen.align,2);
