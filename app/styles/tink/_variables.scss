@@ -687,8 +687,8 @@ $popover-padding:                       $padding-base-vertical !default;
 $popover-header-bg:                     $white !default;
 
 $popover-arrow-color:                   $popover-bg-color !default;
-$popover-arrow-width:                   10px !default;
-$popover-arrow-outer-width:             ($popover-arrow-width + 1) !default;
+$popover-arrow-width:                   11px !default;
+$popover-arrow-outer-width:             $popover-arrow-width !default;
 $popover-arrow-outer-color:             $popover-border-color !default;
 
 $popover-button-background-color:       $nav-aside-item-open-color !default; //transparent;

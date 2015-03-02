@@ -45,7 +45,7 @@
     &:after {
       top: 0;
       left: 50%;
-      margin-top: -$popover-arrow-width;
+      margin-top: -($popover-arrow-width - .5);
       margin-left: -$popover-arrow-width;
       border-bottom: $popover-arrow-width $popover-bg-color solid;
       border-left: $popover-arrow-width transparent solid;
