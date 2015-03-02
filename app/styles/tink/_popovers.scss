@@ -15,7 +15,7 @@
   font-weight: normal;
   line-height: $line-height-base;
 
-  max-width: rem($popover-max-width);
+  min-width: rem($popover-width);
   padding: rem($popover-padding);
   position: relative; //absolute;
   white-space: normal; // Overrides for proper insertion
