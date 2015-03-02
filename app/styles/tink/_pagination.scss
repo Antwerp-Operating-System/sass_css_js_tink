@@ -1,0 +1,68 @@
+/**
+ * Pagination
+ * --------------------------------------------------
+ */
+
+// previous and next button on pagination
+.btn-next,
+.btn-prev {
+  color: $gray-dark;
+
+  &:hover {
+    // background: $gray-lighter;
+    // border: 1px solid transparent;
+  }
+}
+
+.btn-next {
+
+  &:after {
+    content: ' \f105';
+    font-family: 'FontAwesome';
+  }
+}
+
+.btn-prev {
+
+  &:before {
+    content: '\f104'' ';
+    font-family: 'FontAwesome';
+  }
+}
+
+// square number buttons
+.btn-square {
+  height: rem(34);
+  width: rem(34);
+  padding: rem(0);
+
+  &:hover {
+    // border: 1px solid transparent;
+  }
+}
+
+.items-per-page {
+  > select {
+    display: inline-block;
+    width: rem(50);
+    margin: rem(0 6 0 15);
+  }
+}
+
+.items-shown {
+  margin: rem(0);
+  font-weight: 700;
+
+}
+
+.items-view {
+  border-right: 1px solid;
+  padding: rem(6 8 6 0);
+}
+
+
+.selected {
+  background: $brand;
+  border: 1px solid transparent;
+  color: $white;
+}
