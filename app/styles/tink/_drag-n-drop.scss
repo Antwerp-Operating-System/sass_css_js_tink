@@ -45,7 +45,9 @@
   @extend .list-unstyled;
   background-color: $dropzone-drag-hover-bg-color;//$gray-lighter;
   border: 1px dashed darken($dropzone-border-color, 10);
-  color: $white;
+  color: $brand;
+
+  .uploaded-files li { background-color: transparent !important;}
 }
 
 .uploaded-files {
@@ -56,7 +58,7 @@
     > li {
       background-color: $dropzone-list-item-bg-color; //$gray-lighter;
       //border-left: 3px solid $dropzone-border-color;
-      padding: rem(3 10);
+      padding: rem(3 0 3 6);
       margin-bottom: 2px;
       position: relative;
       // text-align: center;
@@ -68,6 +70,7 @@
       &.success {
         background-color: $dropzone-list-item-bg-color-success;
         border-color: $dropzone-color-success;
+        font-size: $dropzone-list-item-font-size;
         .line { background-color: $dropzone-color-success; }
 
         &.progress-100 {
@@ -97,18 +100,26 @@
           font-weight: normal;
         }
 
-      span {
-        font-size: $font-size-small;
+      > {
+
+        &.file {
+          font-size: $dropzone-list-item-font-size;
+        }
         &.error {
           color: $dropzone-color-danger;
+          font-size: $dropzone-list-item-font-size;
         }
         &.delete {
+          // background-color: red;
+          background-color: transparent;
+          border: none;
+          display: inline-block;
           float: right;
-          padding-top: $dropzone-padding / 2;
-          &:before {
-            content: "\f00d";
-            font-family: FontAwesome;
-          }
+          // padding: $dropzone-padding / 2 $dropzone-padding;
+          // &:before {
+          //   content: "\f00d";
+          //   font-family: FontAwesome;
+          // }
         }
         &.line {
           height: 2px;
