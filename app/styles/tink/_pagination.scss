@@ -2,13 +2,24 @@
  * Pagination
  * --------------------------------------------------
  */
+
+
 .table-sort-options {
-  margin: rem($line-height-computed 0 0);
+  overflow: auto;
 }
 
+/**
+ * Left
+ */
+
 .table-sort-info {
-  display: inline-block;
-  margin-bottom: rem($line-height-computed);
+  display: block;
+  margin: rem($line-height-computed 8 $line-height-computed 0);
+  text-align: center;
+
+  @include mq($screen-sm) {
+    display: inline-block;
+  }
 
   .select {
     border-left: 1px solid;
@@ -26,9 +37,18 @@
   }
 }
 
+
+/**
+ * Right
+ */
+
 .table-sort-pagination {
-  float: right;
-  margin-bottom: rem($line-height-computed);
+  margin: rem($line-height-computed 0);
+  text-align: center;
+
+  @include mq($screen-sm) {
+    float: right;
+  }
 }
 
 .pagination {
@@ -42,13 +62,15 @@
     position: relative;
 
     a,
-    span {
+    > span {
       background-color: $pagination-link-bg;
       border: 1px solid $pagination-link-border;
       float: left;
       margin-left: -1px;
+      min-width: rem(30);
       padding: rem($pagination-padding-vertical $pagination-padding-horizontal);
       text-decoration: none;
+      z-index: layer('base');
     }
 
     a {
@@ -64,14 +86,20 @@
         z-index: layer('pseudo');
       }
 
-      span {
-        color: $pagination-color;
+      @include mq($screen-md, "max") {
+        > span {
+          display: none;
+        }
       }
+    }
+
+    > span {
+      color: $pagination-color;
     }
 
     &:first-child {
       a,
-      span {
+      > span {
         border-bottom-left-radius: $border-radius-base;
         border-top-left-radius: $border-radius-base;
         margin-left: 0;
@@ -80,7 +108,7 @@
 
     &:last-child {
       a,
-      span {
+      > span {
         border-bottom-right-radius: $border-radius-base;
         border-top-right-radius: $border-radius-base;
       }
@@ -96,11 +124,29 @@
       }
     }
 
+    &.disabled {
+      a,
+      a:hover,
+      a:active,
+      a:focus {
+        background-color: $pagination-link-disabled-bg;
+        border-color: $pagination-link-disabled-border;
+        color: $pagination-link-disabled-color;
+        cursor: not-allowed;
+        z-index: layer('ground');
+      }
+    }
+
     &.prev {
       a:before {
         content: ' \f104';
         font-family: 'FontAwesome';
-        margin-right: rem(8);
+        line-height: $line-height-base;
+
+        @include mq($screen-md) {
+          float: left;
+          margin: rem(0 8 0 0);
+        }
       }
     }
 
@@ -108,7 +154,11 @@
       a:after {
         content: ' \f105';
         font-family: 'FontAwesome';
-        margin-left: rem(5);
+
+        @include mq($screen-md) {
+          float: right;
+          margin: rem(0 0 0 5);
+        }
       }
     }
   }

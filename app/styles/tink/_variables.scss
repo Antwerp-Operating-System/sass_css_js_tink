@@ -623,7 +623,7 @@ $pagination-padding-vertical:     $padding-small-vertical * 2/3;
 
 $pagination-color:                $gray !default;
 
-$pagination-link-color:           $link-color !default;
+$pagination-link-color:           $text-color !default;
 $pagination-link-bg:              $white !default;
 $pagination-link-border:          $input-border !default;
 
@@ -635,9 +635,9 @@ $pagination-link-active-color:    $white !default;
 $pagination-link-active-bg:       $brand !default;
 $pagination-link-active-border:   $pagination-link-active-bg !default;
 
-// $pagination-disabled-color:  $gray-light !default;
-// $pagination-disabled-bg:     $white !default;
-// $pagination-disabled-border: $gray-lighter !default;
+$pagination-link-disabled-color:  $gray-light !default;
+$pagination-link-disabled-bg:     $white !default;
+$pagination-link-disabled-border: lighten($gray-light, 10%) !default;
 
 
 //== Pager
