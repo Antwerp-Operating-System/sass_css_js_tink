@@ -703,6 +703,8 @@ $dropzone-background-color:             $white;
 $dropzone-hover-background-color:       lighten($brand, 50%);
 $dropzone-border-color:                 $brand-light;
 $dropzone-padding:                      $padding-base-vertical !default;
+$dropzone-min-width:                    440px;
+$dropzone-max-width:                    $dropzone-min-width * 2;
 
 $dropzone-list-item-font-size:          $font-size-base;
 $dropzone-list-item-bg-color:           $nav-aside-item-open-color !default;

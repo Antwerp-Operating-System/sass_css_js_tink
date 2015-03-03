@@ -10,7 +10,8 @@
   box-sizing: border-box;
   cursor: pointer;
   margin: 0;
-  // min-width: 600px;
+  min-width: $dropzone-min-width;
+  max-width: $dropzone-max-width;
   // padding: rem(15 0);
   padding: rem($dropzone-padding);
   text-align: center;
@@ -58,13 +59,22 @@
     > li {
       background-color: $dropzone-list-item-bg-color; //$gray-lighter;
       //border-left: 3px solid $dropzone-border-color;
-      padding: rem(3 0 3 6);
+      padding: $dropzone-padding;
+      // padding-right: 0;
       margin-bottom: 2px;
       position: relative;
       // text-align: center;
 
       &:first-child {
         margin-top: $dropzone-padding;
+      }
+
+      &:last-child { margin-bottom: 0; }
+      &:before {
+        content: "\f1c9";
+        font-family: FontAwesome;
+        font-style: normal;
+        font-weight: normal;
       }
 
       &.success {
@@ -92,42 +102,43 @@
         .line { background-color: $dropzone-color-danger; }
       }
 
-        &:last-child { margin-bottom: 0; }
+
+      // Spans communicating about errors and success
+      .file {
+        font-size: $dropzone-list-item-font-size;
+      }
+      .error { display: block; }
+      .error,
+      .error-type,
+      .error-filesize {
+        color: $dropzone-color-danger;
+        font-size: $dropzone-list-item-font-size;
+      }
+      .delete {
+        // background-color: red;
+        background-color: transparent;
+        border: none;
+        display: inline-block;
+        // float: right;
+        position: absolute;
+        right: $dropzone-padding;
+        top: $dropzone-padding / 1.5;
         &:before {
-          content: "\f1c9";
+          // color: $gray;
+          content: "\f00d";
           font-family: FontAwesome;
-          font-style: normal;
-          font-weight: normal;
         }
-
-      > {
-
-        &.file {
-          font-size: $dropzone-list-item-font-size;
-        }
-        &.error {
-          color: $dropzone-color-danger;
-          font-size: $dropzone-list-item-font-size;
-        }
-        &.delete {
-          // background-color: red;
-          background-color: transparent;
-          border: none;
-          display: inline-block;
-          float: right;
-          // padding: $dropzone-padding / 2 $dropzone-padding;
-          // &:before {
-          //   content: "\f00d";
-          //   font-family: FontAwesome;
-          // }
-        }
-        &.line {
-          height: 2px;
-          position: absolute;
-          bottom:0;
-          left:0;
-          width: 1%;
+        &:hover:before {
+          // color: $gray-dark;
         }
       }
+      .line {
+        height: 2px;
+        position: absolute;
+        bottom:0;
+        left:0;
+        width: 1%;
+      }
+
     }
 }
