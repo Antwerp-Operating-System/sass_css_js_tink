@@ -214,15 +214,7 @@ $table-border-color:            $gray-light !default; // Border color for table 
 // $table-bg-active:               $table-bg-hover !default;
 $table-bg-active:               $gray-lighter !default;
 
-/**
- * Sortable table
- */
 
-$table-sortable-th-bg:          $gray-lighter !default; // Default background color used for sortable tablehead.
-$table-sortable-th-color:       $gray-dark !default; // Default color used for sortable tablehead.
-$table-sortable-th-line-color:  darken($table-sortable-th-bg, 18%) !default;
-$table-sortable-bg-active:      darken($table-sortable-th-bg, 3%) !default; // Default background color used for active sortable tablehead.
-// $table-sortable-bg-hover:       lighten($gray-light, 6%) !default; // Default background color used for hovered sortable tablehead.
 
 /**
  * Components - global settings
@@ -910,6 +902,18 @@ $panel-warning-heading-bg:    $state-warning-bg !default;
 $panel-danger-text:           $state-danger-text !default;
 $panel-danger-border:         $state-danger-border !default;
 $panel-danger-heading-bg:     $state-danger-bg !default;
+
+
+
+/**
+ * Sortable table
+ */
+
+$table-sortable-heading-bg:          $panel-default-heading-bg !default;
+$table-sortable-heading-color:       $panel-default-text !default;
+$table-sortable-heading-line:        darken($panel-default-text, 48%) !default;
+$table-sortable-heading-hover-bg:    lighten($table-sortable-heading-bg, 5%) !default;
+$table-sortable-heading-hover-color: $table-sortable-heading-color !default;
 
 
 
