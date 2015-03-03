@@ -7,8 +7,11 @@
 .table-sortable {
 
   input[type="checkbox"] + label {
-        padding: 0;
+    padding: 0;
+    @include mq($screen-sm, "max") {
+      padding-right: rem(13);
     }
+  }
 
   > thead > tr > th {
     background-color: $table-sortable-th-bg;
