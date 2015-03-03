@@ -49,6 +49,9 @@ angular.module('tinkFramework', [
       .when('/grid', {
         templateUrl: 'views/grid.html'
       })
+      .when('/sortable-table', {
+        templateUrl: 'views/sortable-table.html'
+      })
       .when('/work-agile-tool', {
         templateUrl: 'views/work-agile-tool.html'
       })

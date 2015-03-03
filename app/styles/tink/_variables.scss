@@ -214,7 +214,15 @@ $table-border-color:            $gray-light !default; // Border color for table 
 // $table-bg-active:               $table-bg-hover !default;
 $table-bg-active:               $gray-lighter !default;
 
+/**
+ * Sortable table
+ */
 
+$table-sortable-th-bg:          $gray-lighter !default; // Default background color used for sortable tablehead.
+$table-sortable-th-color:       $gray-dark !default; // Default color used for sortable tablehead.
+$table-sortable-th-line-color:  darken($table-sortable-th-bg, 18%) !default;
+$table-sortable-bg-active:      darken($table-sortable-th-bg, 3%) !default; // Default background color used for active sortable tablehead.
+// $table-sortable-bg-hover:       lighten($gray-light, 6%) !default; // Default background color used for hovered sortable tablehead.
 
 /**
  * Components - global settings
@@ -369,7 +377,7 @@ $dropdown-header-color:          $gray-light !default;
  * Complete layer list (for reference, add these to $layers only if needed)
  * $layers: base, navbar, dropdown, tooltip, navbar-sticky, navbar-fixed, modal-background, modal, popover;
  */
-$layers: base, pseudo, popover, nav-aside, nav-top !default;
+$layers: base, pseudo, above-pseudo, popover, nav-aside, nav-top !default;
 
 
 
@@ -436,7 +444,6 @@ $nav-aside-badge-active-background-hover-color: $nav-aside-link-hover-color !def
 
 
 
-
 /**
  * Datepicker
  *
@@ -488,7 +495,6 @@ $datepicker-btn-today-hover-border-color:             $datepicker-btn-today-bord
 
 
 
-
 /**
  * Callout
  */
@@ -500,6 +506,7 @@ $callout-color-warning         : $brand-warning !default;
 $callout-bgcolor-warning       : lighten($callout-color-warning, 45%) !default;
 $callout-color-danger          : $brand-danger !default;
 $callout-bgcolor-danger        : lighten($callout-color-danger, 45%) !default;
+
 
 
 /**
@@ -608,25 +615,30 @@ $nav-pills-active-link-hover-bg:            $component-active-bg !default;
 $nav-pills-active-link-hover-color:         $component-active-color !default;
 
 
-//== Pagination
-//
-//##
 
-    // $pagination-color:                     $link-color !default;
-    // $pagination-bg:                        $white !default;
-    // $pagination-border:                    $gray-lighter !default;
+/**
+ * Pagination
+ */
+$pagination-padding-horizontal:   $padding-small-horizontal * 2/3;
+$pagination-padding-vertical:     $padding-small-vertical * 2/3;
 
-    // $pagination-hover-color:               $link-hover-color !default;
-    // $pagination-hover-bg:                  $gray-lighter !default;
-    // $pagination-hover-border:              $gray-lighter !default;
+$pagination-color:                $gray !default;
 
-    // $pagination-active-color:              $white !default;
-    // $pagination-active-bg:                 $brand-primary !default;
-    // $pagination-active-border:             $brand-primary !default;
+$pagination-link-color:           $text-color !default;
+$pagination-link-bg:              $white !default;
+$pagination-link-border:          $input-border !default;
 
-    // $pagination-disabled-color:            $gray-light !default;
-    // $pagination-disabled-bg:               $white !default;
-    // $pagination-disabled-border:           $gray-lighter !default;
+$pagination-link-hover-color:     $link-hover-color !default;
+$pagination-link-hover-bg:        rgba($black, .05) !default;
+$pagination-link-hover-border:    $pagination-link-border !default;
+
+$pagination-link-active-color:    $white !default;
+$pagination-link-active-bg:       $brand !default;
+$pagination-link-active-border:   $pagination-link-active-bg !default;
+
+$pagination-link-disabled-color:  $gray-light !default;
+$pagination-link-disabled-bg:     $white !default;
+$pagination-link-disabled-border: lighten($gray-light, 10%) !default;
 
 
 //== Pager
@@ -656,9 +668,10 @@ $nav-pills-active-link-hover-color:         $component-active-color !default;
     // $jumbotron-font-size:            ceil(($font-size-base * 1.5)) !default;
 
 
-//== Tooltips
-//
-//##
+
+/**
+ * Tooltips
+ */
 $zindex-tooltip:              layer("popover") !default;
 
 //** Tooltip max width
@@ -675,9 +688,10 @@ $tooltip-arrow-width:         5px !default;
 $tooltip-arrow-color:         $tooltip-bg !default;
 
 
-//== Popovers
-//
-//##
+
+/**
+ * Popovers
+ */
 $popover-bg-color:                      lighten($nav-aside-item-open-color, 2) !default; //$white !default;
 $popover-border-color:                  rgba(0,0,0,.2) !default;
 $popover-fallback-border-color:         $gray !default;
@@ -720,7 +734,6 @@ $upload-list-item-bg-color-danger:    lighten($upload-color-danger, 45%) !defaul
 
 $upload-drag-hover-bg-color:          darken($upload-hover-background-color, 10);
 
-
 //== Labels
 //
 //##
@@ -742,6 +755,7 @@ $upload-drag-hover-bg-color:          darken($upload-hover-background-color, 10)
     // $label-color:                 $white !default;
 //** Default text color of a linked label
     // $label-link-hover-color:      $white !default;
+
 
 
 //== Modals
@@ -918,12 +932,14 @@ $thumbnail-border-radius:     $border-radius-base !default;
     // $thumbnail-caption-padding:   9px !default;
 
 
+
 //== Wells
 //
 //##
 
     // $well-bg:                     lighten($gray-lighter, 6%) !default;
     // $well-border:                 darken($well-bg, 7%) !default;
+
 
 
 //== Badges
@@ -965,6 +981,7 @@ $breadcrumb-active-color:       $gray-light !default;
 $breadcrumb-separator:          "/" !default;
 
 
+
 //== Carousel - yeah, right!
 //
 //##
@@ -980,6 +997,7 @@ $breadcrumb-separator:          "/" !default;
     // $carousel-indicator-border-color:             $white !default;
 
     // $carousel-caption-color:                      $white !default;
+
 
 
 //== Close

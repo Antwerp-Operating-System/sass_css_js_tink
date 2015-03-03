@@ -6,7 +6,7 @@ angular.module('tink.dropupload')
     $get: function ($upload) {
       return {
         upload: function(file,options){
-          if(file.getData() instanceof File){
+          if(file.getData() instanceof window.File){
             var fileMime = file.getFileMimeType();
             var sendUrl = '';
             if(urls[fileMime]){

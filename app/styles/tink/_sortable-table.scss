@@ -1,0 +1,67 @@
+/**
+ * Sortable table
+ * --------------------------------------------------
+ */
+// basic styling is already done on the table element by the _table.scss
+
+.table-sortable {
+
+  input[type="checkbox"] + label {
+    padding: 0;
+    @include mq($screen-sm, "max") {
+      padding-right: rem(13);
+    }
+  }
+
+  > thead > tr > th {
+    background-color: $table-sortable-th-bg;
+    border-bottom: 0;
+    color: $table-sortable-th-color;
+    cursor: pointer;
+    padding-right: rem(20);
+    position: relative;
+    transition: background-color linear $animation-speed;
+    user-select: none;
+
+// setting width on first tablehead cell to fit the checkbox
+    &:first-child {
+      width: rem(33);
+    }
+
+    &:active {
+      background-color: $table-sortable-bg-active;
+    }
+
+    &:hover {
+      background-color: $table-sortable-bg-active;
+    }
+
+// creating vertical line between tablehead cells
+    &:not(:first-child):before {
+      border-left: solid 1px $table-sortable-th-line-color;
+      content: '';
+      height: 60%;
+      left: 0;
+      position: absolute;
+      top: 20%;
+    }
+
+    &.sort-asc {
+      &:after {
+        content: ' \f107';
+        font-family: 'FontAwesome';
+        position: absolute;
+        right: rem(8);
+      }
+    }
+
+    &.sort-desc {
+      &:after {
+        content: ' \f106';
+        font-family: 'FontAwesome';
+        position: absolute;
+        right: rem(8);
+      }
+    }
+  }
+}
