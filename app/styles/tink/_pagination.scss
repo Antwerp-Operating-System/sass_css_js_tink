@@ -17,7 +17,7 @@
   margin: rem($line-height-computed 8 $line-height-computed 0);
   text-align: center;
 
-  @include mq($screen-sm) {
+  @include mq($screen-md) {
     display: inline-block;
   }
 
@@ -46,7 +46,7 @@
   margin: rem($line-height-computed 0);
   text-align: center;
 
-  @include mq($screen-sm) {
+  @include mq($screen-md) {
     float: right;
   }
 }
@@ -57,9 +57,20 @@
   margin: 0;
 
   li {
-    display: inline;
+    // display: inline;
+    display: none;
     padding: 0;
     position: relative;
+
+    @include mq($screen-sm) {
+      display: inline;
+    }
+
+    &.prev,
+    &.next,
+    &.active {
+      display: inline;
+    }
 
     a,
     > span {
@@ -82,8 +93,16 @@
       &:focus {
         color: $pagination-link-hover-color;
         background-color: $pagination-link-hover-bg;
-        border-color: $pagination-link-hover-border;
         z-index: layer('pseudo');
+      }
+
+      &:hover,
+      &:active {
+        border-color: $pagination-link-hover-border;
+      }
+
+      &:focus {
+        border-color: $input-border-focus;
       }
 
       @include mq($screen-md, "max") {
@@ -120,7 +139,7 @@
         border-color: $pagination-link-active-border;
         color: $pagination-link-active-color;
         cursor: default;
-        z-index: layer('pseudo');
+        z-index: layer('above-pseudo');
       }
     }
 
