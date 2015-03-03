@@ -698,25 +698,27 @@ $popover-button-color:                  $nav-aside-link-color !default;
 $popover-percentage:                    15;
 
 
-//== DropZone drag'n drop upload
-$dropzone-background-color:             $white;
-$dropzone-hover-background-color:       lighten($brand, 50%);
-$dropzone-border-color:                 $brand-light;
-$dropzone-padding:                      $padding-base-vertical !default;
-$dropzone-min-width:                    440px;
-$dropzone-max-width:                    $dropzone-min-width * 2;
+/**
+ * Upload
+ */
+$upload-background-color:             $white;
+$upload-hover-background-color:       lighten($brand, 50%);
+$upload-border-color:                 $brand-light;
+$upload-padding:                      $padding-base-vertical !default;
+$upload-min-width:                    440px;
+$upload-max-width:                    $upload-min-width * 2;
 
-$dropzone-list-item-font-size:          $font-size-base;
-$dropzone-list-item-bg-color:           $nav-aside-item-open-color !default;
+$upload-list-item-font-size:          $font-size-base;
+$upload-list-item-bg-color:           $nav-aside-item-open-color !default;
 
-$dropzone-color-success:                $brand-success;
-$dropzone-list-item-bg-color-success:   lighten($dropzone-color-success, 60%) !default;
-$dropzone-color-warning:                $brand-warning !default;
-$dropzone-list-item-bg-color-warning:   lighten($dropzone-color-warning, 45%) !default;
-$dropzone-color-danger:                 $brand-danger;
-$dropzone-list-item-bg-color-danger:    lighten($dropzone-color-danger, 45%) !default;
+$upload-color-success:                $brand-success;
+$upload-list-item-bg-color-success:   lighten($upload-color-success, 60%) !default;
+$upload-color-warning:                $brand-warning !default;
+$upload-list-item-bg-color-warning:   lighten($upload-color-warning, 45%) !default;
+$upload-color-danger:                 $brand-danger;
+$upload-list-item-bg-color-danger:    lighten($upload-color-danger, 45%) !default;
 
-$dropzone-drag-hover-bg-color:          darken($dropzone-hover-background-color, 10);
+$upload-drag-hover-bg-color:          darken($upload-hover-background-color, 10);
 
 
 //== Labels
