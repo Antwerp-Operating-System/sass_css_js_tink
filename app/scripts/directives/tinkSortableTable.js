@@ -17,7 +17,7 @@ angular.module('tink.sortable')
       var viewable;
 
       //Preview PAGES
-      scope.perPage='10,20,100';
+      scope.perPage=  _.parseInt(10);
       //Preview DATA
       scope.data = [
         {name:'vincent',achternaam:'bouillart',adress:1235},
@@ -69,6 +69,7 @@ angular.module('tink.sortable')
       //preview headers
       scope.headers = [{field:'name',alias:'Voornaam',checked:true},{field:'achternaam',alias:'Achternaam',checked:false},{field:'adress',alias:'Adres',visible:true,checked:true}];
 
+      scope.itemLength = scope.data.length;
       //function that runs at the beginning to handle the headers.
       function handleHeaders(){
         angular.forEach(scope.headers,function(value){
@@ -136,11 +137,13 @@ angular.module('tink.sortable')
       scope.checked = [];
       scope.checkChange = function(i){
         if(i === -1){
+          var check = scope.data[undefined]._checked;
           angular.forEach(scope.data,function(val){
-            val._checked = !val._checked;
+            val._checked = check;
           });
           scope.checked = angular.copy(viewable);
         }else{
+          scope.data[undefined]._checked = false;
           var index = _.findIndex(scope.checked, scope.data[i]);
           if(index !== -1){
             scope.checked.splice(index,1);
@@ -233,21 +236,11 @@ angular.module('tink.sortable')
         scope.buildTable();
       };
 
-
-      scope.perPageView = [];
-      //this function will create a array to show the per row buttons
-      function perPage(){
-        var per = scope.perPage.split(',');
-        for(var i=0;i<per.length;i++){
-          var num = _.parseInt(per[i]);
-          if(!isNaN(num)){
-            scope.perPageView.push(num);
-          }
-        }
+      scope.setItems = function(n){
+        scope.buildTable();
       }
-      perPage();
 
-      aantalToShow = scope.perPageView[scope.numSelected];
+      aantalToShow = scope.perPage;
       pages = Math.ceil(scope.data.length/aantalToShow);
       scope.pages = _.range(1,pages);
 
@@ -255,14 +248,19 @@ angular.module('tink.sortable')
       scope.buildTable = function(){
         var table = document.createElement('table');
         setHeader(table,scope.headers);
-        aantalToShow = scope.perPageView[scope.numSelected];
+        aantalToShow = scope.perPage;
         pages = Math.ceil(scope.data.length/aantalToShow);
-        scope.pages = _.range(1,pages+1);
+        scope.pages = pages;
 
         var start = (scope.pageSelected-1)*aantalToShow;
         var stop = (scope.pageSelected *aantalToShow)-1;
         viewable = _.slice(scope.data, start,stop);
-
+        scope.numFirst = start +1;
+        if(stop > scope.data.length){
+          scope.numLast = scope.data.length;
+        }else{
+          scope.numLast = stop +1;
+        }
 
         setBody(table,viewable);  //
         table=$(table);           //variable table is added code to set class table
