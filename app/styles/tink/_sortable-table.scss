@@ -48,7 +48,7 @@
 
     &.sort-asc {
       &:after {
-        content: ' \f107';
+        content: ' \f106';
         font-family: 'FontAwesome';
         position: absolute;
         right: rem(8);
@@ -57,7 +57,7 @@
 
     &.sort-desc {
       &:after {
-        content: ' \f106';
+        content: ' \f107';
         font-family: 'FontAwesome';
         position: absolute;
         right: rem(8);
