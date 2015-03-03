@@ -14,9 +14,9 @@
   }
 
   > thead > tr > th {
-    background-color: $table-sortable-th-bg;
+    background-color: $table-sortable-heading-bg;
     border-bottom: 0;
-    color: $table-sortable-th-color;
+    color: $table-sortable-heading-color;
     cursor: pointer;
     padding-right: rem(20);
     position: relative;
@@ -28,17 +28,14 @@
       width: rem(33);
     }
 
+    &:hover,
     &:active {
-      background-color: $table-sortable-bg-active;
-    }
-
-    &:hover {
-      background-color: $table-sortable-bg-active;
+      background-color: $table-sortable-heading-hover-bg;
     }
 
 // creating vertical line between tablehead cells
     &:not(:first-child):before {
-      border-left: solid 1px $table-sortable-th-line-color;
+      border-left: solid 1px $table-sortable-heading-line;
       content: '';
       height: 60%;
       left: 0;
