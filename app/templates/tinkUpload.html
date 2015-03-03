@@ -9,18 +9,21 @@
   <span ng-show="message.hold">De vorige file is vervangen <a ng-mouseup="undo($event)">ongedaan maken</a></span>
   <ul class="uploaded-files">
     <li data-ng-repeat="file in files track by $index" data-ng-class="{'success': !file.error, 'error': file.error}" class=" progress-{{file.getProgress()}}">
+      <button class="btn-xs delete" ng-click='del($index)' data-index="{{$index}}">
+        <!-- <i class="fa fa-remove"></i> -->
+      </button>
       <span class="line" style="width: {{file.getProgress()}}%"></span>
       <span class="file">{{file.getFileName()}}</span>
       <span class="success" ng-show="!file.error">[{{file.getProgress()}}%]</span>
-      <span class="error" ng-show="file.error">ERROR</span>
-      <span ng-show="file.error.type"> type</span>
-      <span ng-show="file.error.size"> size</span>
+      <span class="error" ng-show="file.error">Er is een fout opgetreden :
+        <span class="error-type" ng-show="file.error.type">dit bestandstype is niet toegelaten.</span>
+        <span class="error-filesize" ng-show="file.error.size">dit bestand overschrijdt de toegelaten bestandsgrootte.</span>
+      </span>
       <!-- <span class="delete" ng-click='del($index)' data-index="{{$index}}">
         <i class="fa fa-cloud-upload"></i>DEL
       </span> -->
-      <button class="btn-xs delete" ng-click='del($index)' data-index="{{$index}}">
-        <i class="fa fa-remove"></i>
-      </button>
+
     </li>
   </ul>
+  <span class="help-block">Toegelaten bestanden: pdf, jpg, jpeg. Maximum grootte: 2MB</span>
 </div>
