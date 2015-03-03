@@ -16,6 +16,7 @@
   > thead > tr > th {
     background-color: $table-sortable-th-bg;
     border-bottom: 0;
+    color: $table-sortable-th-color;
     cursor: pointer;
     padding-right: rem(20);
     position: relative;
