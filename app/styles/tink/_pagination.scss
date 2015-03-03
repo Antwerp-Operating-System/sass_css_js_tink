@@ -19,6 +19,7 @@
 
   @include mq($screen-md) {
     display: inline-block;
+    float: left;
   }
 
   .select {
