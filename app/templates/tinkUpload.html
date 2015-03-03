@@ -15,7 +15,12 @@
       <span class="error" ng-show="file.error">ERROR</span>
       <span ng-show="file.error.type"> type</span>
       <span ng-show="file.error.size"> size</span>
-      <span class="delete" ng-click='del($index)' data-index="{{$index}}">DEL</span>
+      <!-- <span class="delete" ng-click='del($index)' data-index="{{$index}}">
+        <i class="fa fa-cloud-upload"></i>DEL
+      </span> -->
+      <button class="btn-xs delete" ng-click='del($index)' data-index="{{$index}}">
+        <i class="fa fa-remove"></i>
+      </button>
     </li>
   </ul>
 </div>
