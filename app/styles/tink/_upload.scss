@@ -2,19 +2,18 @@
 // Drag and drop
 // --------------------------------------------------
 
-.dropzone {
-  display: block;
+.upload {
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
-  border: 1px dashed $dropzone-border-color;
+  border: 1px dashed $upload-border-color;
   border-radius: rem($badge-border-radius);
   box-sizing: border-box;
-  cursor: pointer;
+  display: block;
   margin: 0;
-  min-width: $dropzone-min-width;
-  max-width: $dropzone-max-width;
-  // padding: rem(15 0);
-  padding: rem($dropzone-padding);
+  min-width: $upload-min-width;
+  max-width: $upload-max-width;
+  padding: rem($upload-padding);
   text-align: center;
+  transition: background $animation-speed linear;
 
   &:active {
     &:focus {
@@ -28,24 +27,25 @@
     box-shadow: none;
     cursor: not-allowed;
     opacity: .65;
-    pointer-events: none; // Future-proof disabling of clicks
+    pointer-events: none; // Future-proof disabling of clicks ->
   }
 
   &-header {
-    padding: rem($dropzone-padding * 2 $dropzone-padding );
+    cursor: pointer;
+    padding: rem($upload-padding * 2 $upload-padding );
     transition: background $animation-speed linear, border $animation-speed linear, color $animation-speed linear;
 
     &:hover,
     &:focus {
-      background-color: $dropzone-hover-background-color; //$gray-lighter;
+      background-color: $upload-hover-background-color; //$gray-lighter;
     }
   }
 }
 
 .dragenter {
   @extend .list-unstyled;
-  background-color: $dropzone-drag-hover-bg-color;//$gray-lighter;
-  border: 1px dashed darken($dropzone-border-color, 10);
+  background-color: $upload-drag-hover-bg-color;//$gray-lighter;
+  border: 1px dashed darken($upload-border-color, 10);
   color: $brand;
 
   .uploaded-files li { background-color: transparent !important;}
@@ -57,16 +57,16 @@
   margin: 0;
   text-align: left;
     > li {
-      background-color: $dropzone-list-item-bg-color; //$gray-lighter;
-      //border-left: 3px solid $dropzone-border-color;
-      padding: $dropzone-padding;
+      background-color: $upload-list-item-bg-color; //$gray-lighter;
+      //border-left: 3px solid $upload-border-color;
+      padding: $upload-padding;
       // padding-right: 0;
       margin-bottom: 2px;
       position: relative;
       // text-align: center;
 
       &:first-child {
-        margin-top: $dropzone-padding;
+        margin-top: $upload-padding;
       }
 
       &:last-child { margin-bottom: 0; }
@@ -78,41 +78,41 @@
       }
 
       &.success {
-        background-color: $dropzone-list-item-bg-color-success;
-        border-color: $dropzone-color-success;
-        font-size: $dropzone-list-item-font-size;
-        .line { background-color: $dropzone-color-success; }
+        background-color: $upload-list-item-bg-color-success;
+        border-color: $upload-color-success;
+        font-size: $upload-list-item-font-size;
+        .line { background-color: $upload-color-success; }
 
         &.progress-100 {
-          background-color: $dropzone-list-item-bg-color;
+          background-color: $upload-list-item-bg-color;
           // color: $gray;
           transition: background $animation-fade-speed linear;
           transition-delay: $animation-fade-speed;
 
           .line {
-            background-color: $dropzone-list-item-bg-color;
+            background-color: $upload-list-item-bg-color;
             transition: background $animation-fade-speed linear;
             transition-delay: $animation-fade-speed;
           }
         }
       }
       &.error {
-        background-color: $dropzone-list-item-bg-color-danger;
-        border-color: $dropzone-color-danger;
-        .line { background-color: $dropzone-color-danger; }
+        background-color: $upload-list-item-bg-color-danger;
+        border-color: $upload-color-danger;
+        .line { background-color: $upload-color-danger; }
       }
 
 
       // Spans communicating about errors and success
       .file {
-        font-size: $dropzone-list-item-font-size;
+        font-size: $upload-list-item-font-size;
       }
       .error { display: block; }
       .error,
       .error-type,
       .error-filesize {
-        color: $dropzone-color-danger;
-        font-size: $dropzone-list-item-font-size;
+        color: $upload-color-danger;
+        font-size: $upload-list-item-font-size;
       }
       .delete {
         // background-color: red;
@@ -121,8 +121,8 @@
         display: inline-block;
         // float: right;
         position: absolute;
-        right: $dropzone-padding;
-        top: $dropzone-padding / 1.5;
+        right: $upload-padding;
+        top: $upload-padding / 1.5;
         &:before {
           // color: $gray;
           content: "\f00d";
