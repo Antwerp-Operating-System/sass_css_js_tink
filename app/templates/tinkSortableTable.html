@@ -2,47 +2,32 @@
 
 <table></table>
 
-<!-- old code for footer functions to change the view of the table -->
-<!-- <div class="table-viewer">
 
-  <button class="btn-sq" ng-repeat="num in perPageView" ng-click="perPageClick($index)" ng-class="{selected:numSelected===$index}">{{num}}</button> per pagina
-
-
-  <div class="pull-right">
-    <button class="btn-sq" ng-click="setFirst()" ng-disabled="pageSelected === 1"><i class="fa fa-angle-double-left"></i></button><button class="btn-sq" ng-click="setPrev()" ng-disabled="pageSelected === 1"><i class="fa fa-angle-left"></i></button><button class="btn-sq" ng-repeat="num in pages" ng-click="setPage($index)" ng-class="{selected:pageSelected===$index+1}">{{num}}</button><button class="btn-sq" ng-click="setNext()" ng-disabled="pageSelected === pages.length"><i class="fa fa-angle-right"></i></button><button class="btn-sq" ng-click="setLast()" ng-disabled="pageSelected === pages.length"><i class="fa fa-angle-double-right"></i></button>
+<div class="table-sort-options">
+  <div class="table-sort-info">
+    <strong>1 - 10</strong> van 1.351
+    <div class="select">
+      <select>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+      </select> items per pagina
+    </div>
   </div>
-
-</div> -->
-
-<!-- beginning of new styling for footer functions to change the view of the table -->
-
-<div class="table-viewer">
-
-  <span class="items-view">
-  <span class="items-shown">1 - 10</span> van 1.351
-  </span>
-  <span class="items-per-page">
-  <select>
-    <option value="10">10</option>
-    <option value="20">20</option>
-    <option value="50">50</option>
-  </select> items per pagina
-  </span>
-
-  <!-- button for pagination -->
-  <div class="pull-right">
-    <button class="btn-prev">vorige</button>
-    <button class="btn-square">1</button>
-    ...
-    <button class="btn-square" selected>7</button>
-    ...
-    <button class="btn-square">12</button>
-    <button class="btn-next">volgende</button>
+  <div class="table-sort-pagination">
+    <ul class="pagination">
+      <li class="prev"><a href="#" title="">Vorige</a></li>
+      <li><a href="#" title="">1</a></li>
+      <li><span>…</span></li>
+      <li class="active"><a href="#" title="">7</a></li>
+      <li><span>…</span></li>
+      <li><a href="#" title="">12</a></li>
+      <li class="next"><a href="#" title="">Volgende</a></li>
+    </ul>
   </div>
-
 </div>
 
-<!-- ending of new styling -->
+
 
 <br />
 <br />
