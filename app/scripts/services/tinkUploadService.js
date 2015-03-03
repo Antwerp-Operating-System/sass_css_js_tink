@@ -1,6 +1,6 @@
 'use strict';
 angular.module('tink.dropupload')
-.provider("tinkUploadService",['lodash', function (_) {
+.provider('tinkUploadService',['lodash', function (_) {
   var urls = {};
   return {
     $get: function ($upload) {
@@ -12,10 +12,10 @@ angular.module('tink.dropupload')
             if(urls[fileMime]){
               sendUrl = urls[fileMime];
             }else{
-              if(!urls['all']){
-                throw 'no All url is set ! in uploadservice'
+              if(!urls.all){
+                throw 'no All url is set ! in uploadservice';
               }else{
-                sendUrl = urls['all'];
+                sendUrl = urls.all;
               }
             }
 

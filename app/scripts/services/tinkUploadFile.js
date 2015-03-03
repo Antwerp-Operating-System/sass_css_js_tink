@@ -5,7 +5,7 @@ angular.module('tink.dropupload')
     // instantiate our initial object
     var uploudFile = function(data,uploaded) {
         if(!data instanceof File){
-            throw "uploadFile was no file object!";
+            throw 'uploadFile was no file object!';
         }
         this.fileData = data;
         this.fileName = this.fileData.name;
@@ -49,7 +49,7 @@ angular.module('tink.dropupload')
         if(upload !== null){
             upload.abort();
         }
-    }
+    };
 
 
     uploudFile.prototype.upload = function(options){
@@ -69,13 +69,13 @@ angular.module('tink.dropupload')
             promise.reject(scope);
         });
         return promise.promise;
-    }
+    };
 
      uploudFile.prototype.remove = function(){
         console.log('file removed');
-     }
+     };
 
     return uploudFile;
 
 
-}])
+}]);

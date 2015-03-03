@@ -28,7 +28,7 @@ angular.module('tink.dropupload')
               maxFileSize:'0',
               url:undefined,
               options:{}
-            }
+            };
             //To let the view know we have a message.
             scope.message = {};
             var holding = null;
@@ -43,10 +43,10 @@ angular.module('tink.dropupload')
             }
             //function to add the liseners
             function addLisener(){
-              elem.bind("dragenter", dragenter);
-              elem.bind("dragleave", dragleave);
-              elem.bind("dragover", dragover);
-              elem.bind("drop", drop);
+              elem.bind('dragenter', dragenter);
+              elem.bind('dragleave', dragleave);
+              elem.bind('dragover', dragover);
+              elem.bind('drop', drop);
             }
             //Drag enter to add a class
             function dragenter(e){
@@ -75,7 +75,7 @@ angular.module('tink.dropupload')
               scope.message = {};
               scope.files.push(holding);
               holding = null;
-            }
+            };
 
             //if the ngModel is not defined we define it for you
             if(scope.ngModel !== undefined){
@@ -133,14 +133,14 @@ angular.module('tink.dropupload')
                       }
                     }, function(reason) {
                       //file is not uploaded
-                      console.log('fail',reason)
+                      console.log('fail',reason);
                       if(!file.error){
                         file.error = {};
                       }
                       file.error.fail = true;
                     }, function(update) {
                       //Notification of upload
-                      console.log("update",update)
+                      console.log('update',update);
                     });
                   }else{
                     if(!file.error){
@@ -156,7 +156,7 @@ angular.module('tink.dropupload')
 
                 }
 
-              })
+              });
             }
 
             function remove(e){
@@ -170,7 +170,7 @@ angular.module('tink.dropupload')
                 holding = null;
               }
                _.pull(scope.files, scope.files[index]);
-            }
+            };
 
             function checkFileType(file){
 
@@ -229,15 +229,15 @@ angular.module('tink.dropupload')
             scope.browseFiles = function(e){
                var dropzone = elem.find('.fileInput');
                 dropzone.click();
-            }
+            };
             scope.onFileSelect = function(files){
               drop(files);
-            }
+            };
 
             addLisener();
 
           }
-        }
+        };
       }
-    }
+    };
   }]);

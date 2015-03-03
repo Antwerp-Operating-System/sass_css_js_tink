@@ -20,7 +20,7 @@ scope.rek='92012023338';
   };
 scope.file=null;
   scope.getDate = function(){
-    console.log(scope.file)
+    console.log(scope.file);
     console.log(scope.userForm.single.$error);
     console.log(scope.userForm);
   };
