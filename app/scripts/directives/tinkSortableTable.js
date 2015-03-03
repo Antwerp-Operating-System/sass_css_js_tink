@@ -17,7 +17,7 @@ angular.module('tink.sortable')
       var viewable;
 
       //Preview PAGES
-      scope.perPage=  _.parseInt(10);
+      scope.perPage=  _.parseInt(4);
       //Preview DATA
       scope.data = [
         {name:'vincent',achternaam:'bouillart',adress:1235},
@@ -232,13 +232,35 @@ angular.module('tink.sortable')
       scope.pageSelected=1;
       //function to set the page you need
       scope.setPage = function(index){
-        scope.pageSelected = index+1;
-        scope.buildTable();
+        if(index > 0 ){
+          scope.pageSelected = index;
+          scope.buildTable();
+        }
       };
 
       scope.setItems = function(){
         scope.buildTable();
       };
+
+      function buildPagination(){
+        scope.showNums = [];
+        var num = scope.pageSelected;
+        var numPages = scope.pages;
+
+        if(numPages <6){
+          scope.showNums = _.range(2,numPages);
+        }else{
+          if(num < 4){
+            scope.showNums = _.range(2,4);
+            scope.showNums.push(-1);
+          }else if(num >= numPages -2){
+            scope.showNums = [-1].concat(_.range(numPages-2,numPages));
+          }else{
+            scope.showNums = [-1,num,-1];
+          }
+        }
+        scope.showNums.push(numPages);
+      }
 
       aantalToShow = scope.perPage;
       pages = Math.ceil(scope.data.length/aantalToShow);
@@ -254,14 +276,14 @@ angular.module('tink.sortable')
 
         var start = (scope.pageSelected-1)*aantalToShow;
         var stop = (scope.pageSelected *aantalToShow)-1;
-        viewable = _.slice(scope.data, start,stop);
+        viewable = _.slice(scope.data, start,stop+1);
         scope.numFirst = start +1;
         if(stop > scope.data.length){
           scope.numLast = scope.data.length;
         }else{
           scope.numLast = stop +1;
         }
-
+        buildPagination();
         setBody(table,viewable);  //
         table=$(table);           //variable table is added code to set class table
         table.addClass('table-sortable');   //added code to set class table
