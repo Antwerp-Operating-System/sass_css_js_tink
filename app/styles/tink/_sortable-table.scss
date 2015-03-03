@@ -12,44 +12,48 @@
     }
 
   > thead > tr > th {
-    background-color: $brand;
+    background-color: $table-sortable-th-bg;
     border-bottom: 0;
-    color: $white;
+    cursor: pointer;
     padding-right: rem(20);
     position: relative;
+    transition: background-color linear $animation-speed;
 
+// setting width on first tablehead cell to fit the checkbox
     &:first-child {
       width: rem(33);
     }
 
-// creating vertical line between th cells
+    &:active {
+      background-color: $table-sortable-bg-active;
+    }
+
+    &:hover {
+      background-color: $table-sortable-bg-active;
+    }
+
+// creating vertical line between tablehead cells
     &:not(:first-child):before {
-      border: solid 1px $brand-light;
+      border-left: solid 1px $table-sortable-th-line-color;
       content: '';
-      left: 1px;
       height: 60%;
-      top: 20%;
+      left: 0;
       position: absolute;
+      top: 20%;
     }
 
     &.sort-asc {
-
       &:after {
         content: ' \f107';
         font-family: 'FontAwesome';
-        // font-size: rem(16);
-        //line-height: 1.4;
         position: absolute;
         right: rem(5);
       }
     }
     &.sort-desc {
-
       &:after {
         content: ' \f106';
         font-family: 'FontAwesome';
-        //font-size: rem(16);
-        //line-height: 1.4;
         position: absolute;
         right: rem(5);
       }

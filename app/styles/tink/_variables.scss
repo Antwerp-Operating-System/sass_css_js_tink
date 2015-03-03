@@ -214,7 +214,14 @@ $table-border-color:            $gray-light !default; // Border color for table 
 // $table-bg-active:               $table-bg-hover !default;
 $table-bg-active:               $gray-lighter !default;
 
+/**
+ * Sortable table
+ */
 
+$table-sortable-th-bg:          $gray-lighter !default; // Default background color used for sortable tablehead.
+$table-sortable-th-line-color:  darken($table-sortable-th-bg, 18%) !default;
+$table-sortable-bg-active:      darken($table-sortable-th-bg, 3%) !default; // Default background color used for active sortable tablehead.
+// $table-sortable-bg-hover:       lighten($gray-light, 6%) !default; // Default background color used for hovered sortable tablehead.
 
 /**
  * Components - global settings
