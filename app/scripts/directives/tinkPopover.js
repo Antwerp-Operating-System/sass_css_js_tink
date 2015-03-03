@@ -29,9 +29,6 @@ angular.module('tink.popOver', ['tink.tooltip'])
 
 
       return {
-          pre: function preLink( scope, element, attributes ) {
-
-          },
           post: function postLink( scope, element, attributes ) {
                 var placement = attributes.tinkPopoverPlace;
                 var align = attributes.tinkPopoverAlign;
@@ -39,7 +36,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                 var spacing = 2;
 
                 function arrowCal(placement,align){
-                  var arrowCss = 'arrow-'
+                  var arrowCss = 'arrow-';
                   switch(placement){
                     case 'left':
                       arrowCss = arrowCss + 'right';
@@ -83,8 +80,8 @@ angular.module('tink.popOver', ['tink.tooltip'])
                         hide();
                       }
 
-                    })
-                  })
+                    });
+                  });
                 }else if(trigger === 'hover'){
                    element.bind('mouseenter',function(){
                     show();
@@ -113,20 +110,20 @@ angular.module('tink.popOver', ['tink.tooltip'])
 
                       isOpen = el;
                     }
-                  })
+                  });
                 }
               }
 
               var timeoutResize = null;
 
-              $window.addEventListener('resize', function(e) {
+              $window.addEventListener('resize', function() {
                 if(isOpen!== null){
                   $timeout.cancel( timeoutResize);
-                  timeoutResize = $timeout(function(){console.log('resize');
+                  timeoutResize = $timeout(function(){
                    // setPos(isOpen,placement,align,spacing);
-                    calcPos(element,isOpen,placement,align,spacing)
+                    calcPos(element,isOpen,placement,align,spacing);
                   },250);
-                };
+                }
               }, true);
 
               function hide(){
@@ -164,7 +161,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
 
                 //experimental
                 var procent = {right:0.85,left:0.15,top:0.15,bottom:0.85,center:0.5};
-                var popoverMessare= {}
+                var popoverMessare= {};
 
                 popoverMessare.top = pH * procent[align]-(element.outerHeight(true)/2);
                 popoverMessare.bottom = pH * (1-procent[align])-(element.outerHeight(true)/2);
@@ -190,7 +187,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                       }
                     }
                   }else if(placement === 'top' || placement === 'bottom'){
-                    var Ralign = null;
+                    Ralign = null;
                     if(align){
                       popoverMessare.left = pH * procent[align[i]]-(element.outerWidth(true)/2);
                       popoverMessare.right = pH * (1-procent[align[i]])-(element.outerWidth(true)/2);
@@ -210,7 +207,6 @@ angular.module('tink.popOver', ['tink.tooltip'])
                 return false;
               }
               arrowCal(placement,align);
-              var counter = 0;
               var timoutPos = null;
 
               //calculate the position
@@ -219,7 +215,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                 var w2 = $window.innerWidth - (w1+element.outerWidth(true));
                 var h1 = element.offset().top - $window.scrollY;
                 var h2 = $window.innerHeight - (h1+element.outerHeight(true));
-                var elemOffsetX = element.offset().left + element.outerWidth(true) - $window.scrollY;
+                //var elemOffsetX = element.offset().left + element.outerWidth(true) - $window.scrollY;
                 var chosen = {};
 
 
@@ -271,7 +267,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                     }else{
                       console.warn('to small screen');
                     }
-                    chosen.preferAlign = 'center'
+                    chosen.preferAlign = 'center';
                   }else{
                     //Qbottom
                     if(placementCheck(element,el,['top'],[chosen.Xname]) !== false){
@@ -303,15 +299,13 @@ angular.module('tink.popOver', ['tink.tooltip'])
 
                 var pos = getPos(el,chosen.place,chosen.align,spacing);
                 pos.then(function(data){
-                  if(inViewPort(el,data.top,data.left) && place !== undefined){
+                  if(inViewPort(el,data.top,data.left) && data.place !== undefined){
                     //jipay it did what it did
-                    console.log('congrat',chosen.place,chosen.align)
                     el.css('top',data.top);
                     el.css('left',data.left);
                     arrowCal(chosen.place,chosen.align);
                     el.css('visibility','visible');
                   }else{
-                    var sol = null;
                     var pos1 = ['bottom','bottom','bottom','top','top','top','left','left','left','right','right','right'];
                     var pos2 = ['left','center','right','left','center','right','top','center','bottom','top','center','bottom'];
                     var search = placementCheck(element,el,pos1,pos2);
@@ -335,7 +329,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                     });
                   }
 
-                })
+                });
               }
 
                //The function that will be called to position the tooltip;
@@ -377,53 +371,6 @@ angular.module('tink.popOver', ['tink.tooltip'])
               },50);
               return q.promise;
             }
-
-            //The function that will be called to position the tooltip;
-            function setPos(el,placement,align,spacing){
-              $timeout.cancel(timoutPos);
-              timoutPos = $timeout(function(){console.log('resize');
-                var porcent = {right:0.85,left:0.15,top:0.15,bottom:0.85};
-                var arrowHeight = 10;
-                var arrowWidth = 10;
-
-                var alignLeft = 0;
-                var alignTop = 0;
-                if(align === 'center'){
-                  alignLeft = (el.outerWidth(true) / 2)-(element.outerWidth(true)/2);
-                  alignTop = (el.outerHeight(true) / 2)-(element.outerHeight(true)/2);
-                }else if(align === 'left' || align === 'right'){
-                  alignLeft = (el.outerWidth(true)*porcent[align]) -(element.outerWidth(true)/2);
-                }else if(align === 'top' || align === 'bottom'){
-                  alignTop = (el.outerHeight(true)*porcent[align]) - (element.outerHeight(true)/2);
-                }
-
-                var left = element.offset().left - alignLeft;
-                var top = null;
-                  if(placement === 'top'){
-                    top = element.offset().top - el.outerHeight(true)- arrowHeight - spacing;
-                  }else if(placement === 'bottom'){
-                    top = element.offset().top + element.outerHeight() + arrowHeight +spacing;
-                  }else if(placement === 'right'){
-                    left = element.offset().left + element.outerWidth(true) + arrowWidth + spacing;
-                  }else if(placement === 'left'){
-                    left = element.offset().left - el.outerWidth(true)- arrowWidth - spacing;
-                  }
-
-                  if(placement === 'right' || placement === 'left'){
-                    top = element.offset().top - alignTop;
-                  }
-                  if(!inViewPort(el,top,left) &&  counter < 1){
-                    setPos(el,'bottom','left',spacing);counter++;
-                  }else{
-                    el.css('top',top);
-                    el.css('left',left);
-                    arrowCal(placement,align);
-                    el.css('visibility','visible');
-                    counter = 0;
-                  }
-              },50);
-            }
-
           }
       };
     },
@@ -432,6 +379,6 @@ angular.module('tink.popOver', ['tink.tooltip'])
       var el = angular.element(div);
       $( el ).insertAfter(element);
     }
-  }
+  };
 
 }]);
