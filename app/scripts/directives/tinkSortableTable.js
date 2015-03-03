@@ -236,9 +236,9 @@ angular.module('tink.sortable')
         scope.buildTable();
       };
 
-      scope.setItems = function(n){
+      scope.setItems = function(){
         scope.buildTable();
-      }
+      };
 
       aantalToShow = scope.perPage;
       pages = Math.ceil(scope.data.length/aantalToShow);
