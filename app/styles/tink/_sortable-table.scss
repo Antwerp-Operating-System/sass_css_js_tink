@@ -5,7 +5,6 @@
 // basic styling is already done on the table element by the _table.scss
 
 .table-sortable {
-  //@extend .table-bordered;
 
   input[type="checkbox"] + label {
         padding: 0;
@@ -18,6 +17,7 @@
     padding-right: rem(20);
     position: relative;
     transition: background-color linear $animation-speed;
+    user-select: none;
 
 // setting width on first tablehead cell to fit the checkbox
     &:first-child {
@@ -47,15 +47,16 @@
         content: ' \f107';
         font-family: 'FontAwesome';
         position: absolute;
-        right: rem(5);
+        right: rem(8);
       }
     }
+
     &.sort-desc {
       &:after {
         content: ' \f106';
         font-family: 'FontAwesome';
         position: absolute;
-        right: rem(5);
+        right: rem(8);
       }
     }
   }
