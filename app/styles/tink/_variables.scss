@@ -174,7 +174,7 @@ $pre-scrollable-max-height:   340px !default;
  */
 
 $animation-speed:                .1s !default;
-
+$animation-fade-speed:           2s !default;
 
 
 /**
@@ -716,12 +716,12 @@ $dropzone-padding:                      $padding-base-vertical !default;
 
 $dropzone-list-item-bg-color:           $nav-aside-item-open-color !default;
 
-$dropzone-border-color-success:         $brand-success;
-$dropzone-list-item-bg-color-success:   lighten($dropzone-border-color-success, 60%) !default;
-$dropzone-border-color-warning:         $brand-warning !default;
-$dropzone-list-item-bg-color-warning:   lighten($dropzone-border-color-warning, 45%) !default;
-$dropzone-border-color-danger:          $brand-danger;
-$dropzone-list-item-bg-color-danger:    lighten($dropzone-border-color-danger, 45%) !default;
+$dropzone-color-success:                $brand-success;
+$dropzone-list-item-bg-color-success:   lighten($dropzone-color-success, 60%) !default;
+$dropzone-color-warning:                $brand-warning !default;
+$dropzone-list-item-bg-color-warning:   lighten($dropzone-color-warning, 45%) !default;
+$dropzone-color-danger:                 $brand-danger;
+$dropzone-list-item-bg-color-danger:    lighten($dropzone-color-danger, 45%) !default;
 
 $dropzone-drag-hover-bg-color:          darken($dropzone-hover-background-color, 10);
 

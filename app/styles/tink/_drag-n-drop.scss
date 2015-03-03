@@ -55,10 +55,11 @@
   text-align: left;
     > li {
       background-color: $dropzone-list-item-bg-color; //$gray-lighter;
-      border-left: 3px solid $dropzone-border-color;
+      //border-left: 3px solid $dropzone-border-color;
       padding: rem(3 10);
       margin-bottom: 2px;
-      text-align: center;
+      position: relative;
+      // text-align: center;
 
       &:first-child {
         margin-top: $dropzone-padding;
@@ -66,11 +67,26 @@
 
       &.success {
         background-color: $dropzone-list-item-bg-color-success;
-        border-color: $dropzone-border-color-success;
+        border-color: $dropzone-color-success;
+        .line { background-color: $dropzone-color-success; }
+
+        &.progress-100 {
+          background-color: $dropzone-list-item-bg-color;
+          // color: $gray;
+          transition: background $animation-fade-speed linear;
+          transition-delay: $animation-fade-speed;
+
+          .line {
+            background-color: $dropzone-list-item-bg-color;
+            transition: background $animation-fade-speed linear;
+            transition-delay: $animation-fade-speed;
+          }
+        }
       }
       &.error {
         background-color: $dropzone-list-item-bg-color-danger;
-        border-color: $dropzone-border-color-danger;
+        border-color: $dropzone-color-danger;
+        .line { background-color: $dropzone-color-danger; }
       }
 
         &:last-child { margin-bottom: 0; }
@@ -81,12 +97,25 @@
           font-weight: normal;
         }
 
-      span.delete {
-        float: right;
-        font: normal normal normal 14px/1 FontAwesome;
-        padding-top: $dropzone-padding / 2;
-        &:before {
-          content: "\f00d";
+      span {
+        font-size: $font-size-small;
+        &.error {
+          color: $dropzone-color-danger;
+        }
+        &.delete {
+          float: right;
+          padding-top: $dropzone-padding / 2;
+          &:before {
+            content: "\f00d";
+            font-family: FontAwesome;
+          }
+        }
+        &.line {
+          height: 2px;
+          position: absolute;
+          bottom:0;
+          left:0;
+          width: 1%;
         }
       }
     }
