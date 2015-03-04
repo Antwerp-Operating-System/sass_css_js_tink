@@ -8,7 +8,7 @@ angular.module('tink.dropupload')
       transclude: true,
       templateUrl:'templates/tinkUpload.html',
       scope:{
-        ngModel:'=files',
+        ngModel:'=',
         fieldName: '@?',
         multiple: '=?',
         allowedTypes:'=?',
@@ -42,6 +42,29 @@ angular.module('tink.dropupload')
             if(config.url){
               tinkUploadService.addUrls(config.url);
             }
+
+            scope.$watch('ngModel',function(newVa,ol){
+              if(newVa !== ol && newVa.length > ol.length){
+                angular.forEach(newVa,function(value){
+                  if(_.indexOf(scope.files, value)===-1){
+                    if(typeof value === UploadFile){
+                      scope.files.push(value)
+                    }else{
+                      _.pull(scope.ngModel, value);
+                    }
+                  }
+                })
+              }else if(newVa !== ol && newVa.length < ol.length){
+                angular.forEach(newVa,function(value){
+                    if(typeof value === UploadFile){
+                      if(_.indexOf(scope.files, value)!==-1){
+                         _.pull(scope.files, value);
+                      }
+                    }
+                })
+              }
+            },true)
+
             //function to add the liseners
             function addLisener(){
               elem.bind('dragenter', dragenter);
@@ -169,7 +192,8 @@ angular.module('tink.dropupload')
               if(holding){
                 holding = null;
               }
-               _.pull(scope.files, scope.files[index]);
+                _.pull(scope.ngModel, scope.files[0]);
+                _.pull(scope.files, scope.files[0]);
             };
 
             function checkFileType(file){
