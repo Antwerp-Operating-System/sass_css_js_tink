@@ -26,7 +26,7 @@ scope.file=null;
   };
 
 tinkUploadService.addUrls('http://localhost:3000/upload');
-scope.valid={mimeTypes:['image/jpeg', 'image/png', 'image/pjpeg', 'image/gif'],extensions:['.jpg', '.png', '.gif']};
+//scope.valid={mimeTypes:['image/jpeg', 'image/png', 'image/pjpeg', 'image/gif'],extensions:['.jpg', '.png', '.gif']};
 scope.extraOptions = {date:{isPrivate:true},formName:'lalaForm'};
 
   scope.submitForm = function() {
