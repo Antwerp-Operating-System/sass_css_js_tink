@@ -98,8 +98,8 @@
         &.progress-100 {
           background-color: $upload-list-item-bg-color;
           // color: $gray;
-
-          // transition-delay: $animation-slow;
+          transition: background $animation-slow linear;
+          transition-delay: $animation-slow;
 
           .line {
             background-color: transparent; //$upload-list-item-bg-color;
