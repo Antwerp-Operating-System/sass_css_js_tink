@@ -727,7 +727,7 @@ $upload-list-item-bg-color-danger:    lighten($upload-color-danger, 45%) !defaul
 $upload-drag-hover-bg-color:          darken($upload-hover-background-color, 10);
 
 $upload-delete-icon-color:            rgba($black, .35) !default;
-$upload-delete-icon-hover-color:      $gray-dark !default;
+$upload-delete-icon-hover-color:      rgba($black, .55) !default;
 $upload-delete-icon-bg-hover-color:   rgba($black, .05) !default;
 
 //== Labels
