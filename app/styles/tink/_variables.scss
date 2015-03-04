@@ -214,6 +214,8 @@ $table-border-color:            $gray-light !default; // Border color for table 
 // $table-bg-active:               $table-bg-hover !default;
 $table-bg-active:               $gray-lighter !default;
 
+$table-heading-bg:               $gray-lighter !default;
+
 
 
 /**
@@ -885,22 +887,24 @@ $panel-danger-heading-bg:     $state-danger-bg !default;
 
 
 /**
- * Sortable table (this may be removed when all variables are moved to Table alternative heading)
+ * Interactive table
  */
 
-$table-sortable-heading-bg:          $panel-default-heading-bg !default;
-$table-sortable-heading-color:       $panel-default-text !default;
-$table-sortable-heading-line:        darken($panel-default-text, 48%) !default;
-$table-sortable-heading-hover-bg:    lighten($table-sortable-heading-bg, 5%) !default;
-$table-sortable-heading-hover-color: $table-sortable-heading-color !default;
+// heading bg and color are standard the values of tables
+//$table-interactive-heading-bg:          $panel-default-heading-bg !default;
+$table-interactive-heading-color:       $panel-default-text !default;
+$table-interactive-heading-line:        darken($panel-default-text, 48%) !default;
+$table-interactive-heading-hover-bg:    darken($table-heading-bg, 5%) !default;
+$table-interactive-heading-hover-color: $table-interactive-heading-color !default;
 
 /**
  * Table alternative heading
  */
 $table-alternative-heading-bg:          $panel-default-heading-bg !default;
 $table-alternative-heading-color:       $panel-default-text !default;
-$table-alternative-heading-hover-bg:    lighten($table-sortable-heading-bg, 5%) !default;
-$table-alternative-heading-hover-color: $table-sortable-heading-color !default;
+$table-alternative-heading-line:        darken($panel-default-text, 48%) !default;
+$table-alternative-heading-hover-bg:    lighten($table-alternative-heading-bg, 5%) !default;
+$table-alternative-heading-hover-color: $table-alternative-heading-color !default;
 
 /**
  * Thumbnails
