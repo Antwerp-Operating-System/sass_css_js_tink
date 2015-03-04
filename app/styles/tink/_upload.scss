@@ -122,7 +122,7 @@
         position: absolute;
         right: $upload-padding;
         top: $upload-padding / 1.5;
-        // transition: background $animation-speed linear, color $animation-speed linear;
+        transition: background $animation-speed linear, color $animation-speed linear;
 
         &:before {
           color: $upload-delete-icon-color;
