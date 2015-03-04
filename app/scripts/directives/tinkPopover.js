@@ -91,15 +91,22 @@ angular.module('tink.popOver', ['tink.tooltip'])
                    });
                 }
 
-
+              function popoverHtml(){
+                var html = '<div class="popover {{arrowPlacement}}">'+
+                            '<span class="arrow"></span>'+
+                          '</div>';
+                          return html;
+              }
 
               function show (){
                 if(theTemplate !== null){
                   theTemplate.then(function(data){
                     if(isOpen === null){
-                      var el = $($compile(data)(scope));
+                      var elContent = $($compile(data)(scope));
+                      var el =$($compile(popoverHtml())(scope));
                       el.css('position','absolute');
                       el.css('visibility','hidden');
+                      elContent.insertAfter(el.find('span'));
                       // el.css('z-index','99999999999');
                       if(placement === 'top'){
                         el.insertBefore(element);
@@ -378,11 +385,6 @@ angular.module('tink.popOver', ['tink.tooltip'])
             }
           }
       };
-    },
-    link:function(scope,element){
-      var div  = '<div style="background:red;height:200px;width:200px">ue</div>';
-      var el = angular.element(div);
-      $( el ).insertAfter(element);
     }
   };
 
