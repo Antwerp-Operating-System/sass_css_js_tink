@@ -5,9 +5,10 @@ angular.module('tink.dropupload')
     return {
       restrict: 'A',
       replace: true,
+      transclude: true,
       templateUrl:'templates/tinkUpload.html',
       scope:{
-        ngModel:'=',
+        ngModel:'=files',
         fieldName: '@?',
         multiple: '=?',
         allowedTypes:'=?',
@@ -179,11 +180,11 @@ angular.module('tink.dropupload')
               var fileType = file.getFileMimeType();
               var fileEx = file.getFileExtension();
 
-              if(!mimeType || !_.isArray(mimeType)) {
+              if(!mimeType || mimeType.length === 0 || !_.isArray(mimeType)) {
                   return true;
               }
 
-              if(!extention || !_.isArray(extention)) {
+              if(!extention || extention.length === 0 || !_.isArray(extention)) {
                   return true;
               }
 
