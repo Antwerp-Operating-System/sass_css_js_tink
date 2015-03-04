@@ -143,6 +143,16 @@ angular.module('tink.popOver', ['tink.tooltip'])
                 }
               }, true);
 
+              $window.addEventListener('scroll', function() {
+                if(isOpen!== null){
+                  $timeout.cancel( timeoutResize);
+                  timeoutResize = $timeout(function(){
+                   // setPos(isOpen,placement,align,spacing);
+                    calcPos(element,isOpen,placement,align,spacing);
+                  },450);
+                }
+              }, true);
+
               function hide(){
                 if(isOpen !== null){
                   isOpen.remove();
