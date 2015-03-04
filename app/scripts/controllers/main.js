@@ -8,7 +8,7 @@
  * Controller of the tinkApp
  */
 angular.module('tinkFramework.controllers')
-  .controller('MainCtrl',['$scope','tinkUploadService',function (scope,tinkUploadService) {
+  .controller('MainCtrl',['$scope','tinkUploadService','UploadFile',function (scope,tinkUploadService,UploadFile) {
 
   scope.dates= {last:new Date(2015,0,2),first:new Date()};
 scope.signup={username:'11.11.11-111.1'};
@@ -29,8 +29,10 @@ tinkUploadService.addUrls('http://localhost:3000/upload');
 //scope.valid={mimeTypes:['image/jpeg', 'image/png', 'image/pjpeg', 'image/gif'],extensions:['.jpg', '.png', '.gif']};
 scope.extraOptions = {date:{isPrivate:true},formName:'lalaForm'};
 scope.showUp = function(){
+
+  //scope.file.push({data:''})
+ //scope.file = new UploadFile();
   console.log(scope.file)
-  scope.file.push({data:''})
 }
   scope.submitFoscope = function() {
     console.log(scope.userForm.dubbel);

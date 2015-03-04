@@ -44,24 +44,31 @@ angular.module('tink.dropupload')
             }
 
             scope.$watch('ngModel',function(newVa,ol){
-              if(newVa !== ol && newVa.length > ol.length){
-                angular.forEach(newVa,function(value){
-                  if(_.indexOf(scope.files, value)===-1){
-                    if(typeof value === UploadFile){
-                      scope.files.push(value)
-                    }else{
-                      _.pull(scope.ngModel, value);
-                    }
-                  }
-                })
-              }else if(newVa !== ol && newVa.length < ol.length){
-                angular.forEach(newVa,function(value){
-                    if(typeof value === UploadFile){
-                      if(_.indexOf(scope.files, value)!==-1){
-                         _.pull(scope.files, value);
+              if(newVa instanceof Array){
+                if(newVa !== ol && newVa.length > ol.length){
+                  angular.forEach(newVa,function(value){
+                    if(_.indexOf(scope.files, value)===-1){
+                      if(typeof value === UploadFile){
+                        scope.files.push(value)
+                      }else{
+                        _.pull(scope.ngModel, value);
                       }
                     }
-                })
+                  })
+                }else if(newVa !== ol && newVa.length < ol.length){
+                  angular.forEach(newVa,function(value){
+                      if(typeof value === UploadFile){
+                        if(_.indexOf(scope.files, value)!==-1){
+                           _.pull(scope.files, value);
+                        }
+                      }
+                  })
+                }
+              }else if(newVa instanceof UploadFile){
+                if(_.indexOf(scope.files, newVa)===-1){
+                  scope.files = [];
+                  scope.files.push(newVa);
+                }
               }
             },true)
 
@@ -91,13 +98,17 @@ angular.module('tink.dropupload')
             }
 
             scope.undo = function(){
-              scope.files[0].cancel();
-              scope.files[0].remove();
-              _.pull(scope.ngModel, scope.files[0]);
-              _.pull(scope.files, scope.files[0]);
+              if(scope.files[0]){
+                scope.files[0].cancel();
+                scope.files[0].remove();
+                _.pull(scope.ngModel, scope.files[0]);
+                _.pull(scope.files, scope.files[0]);
+              }
+
               holding.hold = false;
               scope.message = {};
               scope.files.push(holding);
+              scope.ngModel = holding;
               holding = null;
             };
 
@@ -137,7 +148,12 @@ angular.module('tink.dropupload')
                       scope.message.hold = true;
                       holding = scope.files[0];
                       holding.hold = true;
-                      scope.ngModel.push(holding);
+
+                      /*if(config.multiple){
+                        scope.ngModel.push(holding);
+                      }else{
+                        scope.ngModel = holding;
+                      }*/
                       _.pull(scope.files, scope.files[0]);
                     }
                   }
@@ -189,10 +205,12 @@ angular.module('tink.dropupload')
             scope.del = function(index){
               scope.files[index].cancel();
               scope.files[index].remove();
-              if(holding){
-                holding = null;
-              }
+
+              if(config.multiple){
                 _.pull(scope.ngModel, scope.files[0]);
+              }else{
+                scope.ngModel = null;
+              }
                 _.pull(scope.files, scope.files[0]);
             };
 
