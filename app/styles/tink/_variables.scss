@@ -372,7 +372,7 @@ $dropdown-header-color:          $gray-light !default;
  * Complete layer list (for reference, add these to $layers only if needed)
  * $layers: base, navbar, dropdown, tooltip, navbar-sticky, navbar-fixed, modal-background, modal, popover;
  */
-$layers: base, pseudo, above-pseudo, popover, nav-aside, nav-top !default;
+$layers: base, pseudo, above-pseudo, nav-aside, popover, nav-top !default;
 
 
 
