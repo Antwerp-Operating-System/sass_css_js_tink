@@ -271,10 +271,16 @@ angular.module('tink.popOver', ['tink.tooltip'])
 
                 }else{
                   if(h1 < qHeight){
+                    var alignB;
                     //q1
-                    if(placementCheck(element,el,['bottom'],[chosen.Xname]) !== false){
+                    if(w1 > w2){
+                      alignB = 'right';
+                    }else{
+                      alignB = 'left';
+                    }
+                    if(placementCheck(element,el,['bottom'],[alignB]) !== false){
                       chosen.preferPlacement = 'bottom';
-                      chosen.preferAlign = chosen.Xname;
+                      chosen.preferAlign = alignB;
                     }else if(chosen.x !== false){
                       //chosen.preferPlacement = chosen.x;
                     }else{
@@ -289,7 +295,9 @@ angular.module('tink.popOver', ['tink.tooltip'])
                     }else{
                       console.warn('to small screen');
                     }
-                    chosen.preferAlign = 'center';
+                    if(placementCheck(element,el,[chosen.Xname],['center']) !== false){
+                      chosen.preferAlign = 'center';
+                    }
                   }else{
                     //Qbottom
                     if(placementCheck(element,el,['top'],[chosen.Xname]) !== false){
@@ -306,11 +314,20 @@ angular.module('tink.popOver', ['tink.tooltip'])
                   }
 
                   if(chosen.place === 'left' || chosen.place === 'right'){
-                    chosen.align = 'top';
+                    if(h1 > h2){
+                      chosen.align = 'bottom';
+                    }else{
+                      chosen.align = 'top';
+                    }
+
                   }
 
                   if(chosen.place === 'bottom' || chosen.place === 'top'){
-                    chosen.align = 'left';
+                    if(w1 > w2){
+                      chosen.align = 'right';
+                    }else{
+                      chosen.align = 'left';
+                    }
                   }
 
                   if(chosen.preferAlign !== undefined){
@@ -318,39 +335,42 @@ angular.module('tink.popOver', ['tink.tooltip'])
                   }
 
                 }
-
-                var pos = getPos(el,chosen.place,chosen.align,spacing);
-                pos.then(function(data){
-                  if(inViewPort(el,data.top,data.left) && data.place !== undefined){
-                    //jipay it did what it did
-                    el.css('top',data.top);
-                    el.css('left',data.left);
-                    arrowCal(chosen.place,chosen.align);
-                    el.css('visibility','visible');
-                  }else{
-                    var pos1 = ['bottom','bottom','bottom','top','top','top','left','left','left','right','right','right'];
+var pos;
+                if(placementCheck(element,el,[chosen.place],[chosen.align])){
+                  pos = getPos(el,chosen.place,chosen.align,spacing);
+                }else{
+                  var pos1 = [];
                     var pos2 = ['left','center','right','left','center','right','top','center','bottom','top','center','bottom'];
+                    if(w1 > w2){
+                      pos1.concat(['left','left','left'])
+                    }else{
+                      pos1.concat(['right','right','right'])
+                    }
+                    if(h1 > h2){
+                      pos1.concat(['top','top','top'])
+                    }else{
+                      pos1.concat(['bottom','bottom','bottom'])
+                    }
                     var search = placementCheck(element,el,pos1,pos2);
                     var call;
                     if(search !== false){
-                      call = getPos(el,search.place,search.align,spacing);
+                      pos = getPos(el,search.place,search.align,spacing);
                     }else{
                       console.log(chosen);
                       if(chosen.xWidth > el.outerWidth(true)+spacing){
-                        call = getPos(el,chosen.Xname,'top',spacing);
+                        pos = getPos(el,chosen.Xname,'top',spacing);
                       }else{
-                        call = getPos(el,'bottom',chosen.Xname,spacing);
+                        pos = getPos(el,'bottom',chosen.Xname,spacing);
                       }
                     }
+                }
 
-                    call.then(function(data){
-                      el.css('top',data.top);
-                      el.css('left',data.left);
-                      arrowCal(data.place,data.align);
-                      el.css('visibility','visible');
-                    });
-                  }
 
+                pos.then(function(data){
+                    el.css('top',data.top);
+                    el.css('left',data.left);
+                    arrowCal(data.place,data.align);
+                    el.css('visibility','visible');
                 });
               }
 
