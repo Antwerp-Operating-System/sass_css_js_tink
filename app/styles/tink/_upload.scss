@@ -52,6 +52,16 @@
   //.uploaded-files li { background-color: transparent !important;}
 }
 
+.file-change {
+  background-color: $upload-list-item-bg-color-warning;
+  display: inline-block;
+  font-size: $upload-list-item-font-size;
+  padding: $upload-padding;
+  width: 100%;
+  a {
+    cursor: pointer;
+  }
+}
 .uploaded-files {
   @extend .list-unstyled;
   padding: 0;
@@ -82,12 +92,13 @@
         background-color: $upload-list-item-bg-color-success;
         border-color: $upload-color-success;
         font-size: $upload-list-item-font-size;
+        // transition: background $animation-slow linear;
         .line { background-color: $upload-color-success; }
 
         &.progress-100 {
-          background-color: $upload-list-item-bg-color;
+          background-color: green; //$upload-list-item-bg-color;
           // color: $gray;
-          transition: background $animation-slow linear;
+
           // transition-delay: $animation-slow;
 
           .line {
@@ -142,6 +153,5 @@
         left:0;
         width: 1%;
       }
-
     }
 }
