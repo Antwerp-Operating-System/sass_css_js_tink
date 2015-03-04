@@ -8,9 +8,12 @@ angular.module('tink.dropupload')
             throw 'uploadFile was no file object!';
         }
         this.fileData = data;
-        this.fileName = this.fileData.name;
-        this.fileType = this.fileData.type;
-        this.fileSize = this.fileData.size;
+        if(this.fileData){
+            this.fileName = this.fileData.name;
+            this.fileType = this.fileData.type;
+            this.fileSize = this.fileData.size;
+        }
+
 
         if(uploaded){
             this.progress = 100;
