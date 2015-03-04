@@ -885,7 +885,7 @@ $panel-danger-heading-bg:     $state-danger-bg !default;
 
 
 /**
- * Sortable table
+ * Sortable table (this may be removed when all variables are moved to Table alternative heading)
  */
 
 $table-sortable-heading-bg:          $panel-default-heading-bg !default;
@@ -894,7 +894,13 @@ $table-sortable-heading-line:        darken($panel-default-text, 48%) !default;
 $table-sortable-heading-hover-bg:    lighten($table-sortable-heading-bg, 5%) !default;
 $table-sortable-heading-hover-color: $table-sortable-heading-color !default;
 
-
+/**
+ * Table alternative heading
+ */
+$table-alternative-heading-bg:          $panel-default-heading-bg !default;
+$table-alternative-heading-color:       $panel-default-text !default;
+$table-alternative-heading-hover-bg:    lighten($table-sortable-heading-bg, 5%) !default;
+$table-alternative-heading-hover-color: $table-sortable-heading-color !default;
 
 /**
  * Thumbnails

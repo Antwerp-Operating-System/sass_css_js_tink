@@ -1,47 +1,44 @@
 /**
- * Sortable table
+ * Table interactive
  * --------------------------------------------------
  */
 // basic styling is already done on the table element by the _table.scss
+// table interactive adds interactive styling elements
 
-.table-sortable {
-
+.table-interactive {
   input[type="checkbox"] + label {
-    padding: 0;
+    padding: 0; // remove padding so the tablecell width can be adjusted
     @include mq($screen-sm, "max") {
-      padding-right: rem(13);
+      padding-right: rem(24);
     }
   }
+    > thead > tr > th {
+      cursor: pointer;
+      position: relative;
+      user-select: none;
 
-  > thead > tr > th {
-    background-color: $table-sortable-heading-bg;
-    border-bottom: 0;
-    color: $table-sortable-heading-color;
-    cursor: pointer;
-    padding-right: rem(20);
-    position: relative;
-    transition: background-color linear $animation-speed;
-    user-select: none;
 
-// setting width on first tablehead cell to fit the checkbox
+  // setting width on first tablehead cell to fit the checkbox
     &:first-child {
-      width: rem(33);
+      width: rem(35);
     }
 
+// perhaps hover state on basic table has to be different then when table head is colored
     &:hover,
     &:active {
-      background-color: $table-sortable-heading-hover-bg;
+      // background-color: $table-sortable-heading-hover-bg;
     }
 
 // creating vertical line between tablehead cells
-    &:not(:first-child):before {
-      border-left: solid 1px $table-sortable-heading-line;
-      content: '';
-      height: 60%;
-      left: 0;
-      position: absolute;
-      top: 20%;
-    }
+// this is not needed on a basic table especially when it's bordererd
+    // &:not(:first-child):before {
+    //   border-left: solid 1px $table-sortable-heading-line;
+    //   content: '';
+    //   height: 60%;
+    //   left: 0;
+    //   position: absolute;
+    //   top: 20%;
+    // }
 
     &.sort-asc {
       &:after {
@@ -62,3 +59,99 @@
     }
   }
 }
+
+
+
+
+/**
+ * Table alternative heading -> this will be added to the table css when finished
+ * --------------------------------------------------
+ */
+
+.table-alternative-heading {
+
+  > thead > tr > th {
+    background-color: $table-alternative-heading-bg;
+    border-bottom: 0;
+    color: $table-alternative-heading-color;
+    transition: background-color linear $animation-speed;
+
+      &:hover,
+      &:active {
+        background-color: $table-alternative-heading-hover-bg;
+        color:  $table-alternative-heading-hover-color;
+      }
+  }
+}
+
+
+
+
+
+
+
+
+// /**
+//  * The old Sortable table code
+//  * --------------------------------------------------
+//  */
+// // basic styling is already done on the table element by the _table.scss
+
+// .table-sortable {
+
+//   input[type="checkbox"] + label {
+//     padding: 0;
+//     @include mq($screen-sm, "max") {
+//       padding-right: rem(13);
+//     }
+//   }
+
+//   > thead > tr > th {
+//     background-color: $table-sortable-heading-bg;
+//     border-bottom: 0;
+//     color: $table-sortable-heading-color;
+//     cursor: pointer;
+//     padding-right: rem(20);
+//     position: relative;
+//     transition: background-color linear $animation-speed;
+//     user-select: none;
+
+// // setting width on first tablehead cell to fit the checkbox
+//     &:first-child {
+//       width: rem(33);
+//     }
+
+//     &:hover,
+//     &:active {
+//       background-color: $table-sortable-heading-hover-bg;
+//     }
+
+// // creating vertical line between tablehead cells
+//     &:not(:first-child):before {
+//       border-left: solid 1px $table-sortable-heading-line;
+//       content: '';
+//       height: 60%;
+//       left: 0;
+//       position: absolute;
+//       top: 20%;
+//     }
+
+//     &.sort-asc {
+//       &:after {
+//         content: ' \f106';
+//         font-family: 'FontAwesome';
+//         position: absolute;
+//         right: rem(8);
+//       }
+//     }
+
+//     &.sort-desc {
+//       &:after {
+//         content: ' \f107';
+//         font-family: 'FontAwesome';
+//         position: absolute;
+//         right: rem(8);
+//       }
+//     }
+//   }
+// }

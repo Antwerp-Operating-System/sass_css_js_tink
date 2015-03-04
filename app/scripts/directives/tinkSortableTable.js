@@ -286,7 +286,7 @@ angular.module('tink.sortable')
         buildPagination();
         setBody(table,viewable);  //
         table=$(table);           //variable table is added code to set class table
-        table.addClass('table-sortable');   //added code to set class table
+        table.addClass('table-interactive');   //added code to set class table
 
 
         $('table').replaceWith(table); // old code: $('table').replaceWith($(table));
