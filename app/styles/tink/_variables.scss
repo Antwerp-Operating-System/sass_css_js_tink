@@ -174,7 +174,7 @@ $pre-scrollable-max-height:   340px !default;
  */
 
 $animation-speed:                .1s !default;
-$animation-slow:                 $animation-speed * 10 !default;
+$animation-slow:                 $animation-speed * 8 !default;
 
 
 /**
@@ -722,7 +722,7 @@ $upload-list-item-font-size:          $font-size-base;
 $upload-list-item-bg-color:           $nav-aside-item-open-color !default;
 
 $upload-color-success:                $brand-success;
-$upload-list-item-bg-color-success:   lighten($upload-color-success, 60%) !default;
+$upload-list-item-bg-color-success:   lighten($upload-color-success, 40%) !default;
 $upload-color-warning:                $brand-warning !default;
 $upload-list-item-bg-color-warning:   lighten($upload-color-warning, 45%) !default;
 $upload-color-danger:                 $brand-danger;
