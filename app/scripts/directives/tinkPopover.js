@@ -98,6 +98,16 @@ angular.module('tink.popOver', ['tink.tooltip'])
                           return html;
               }
 
+              $(document).bind('click',function(e){
+                var clicked = $(e.target).parents('.popover').last();
+                if(isOpen && ($(e.target).get(0) !== element.get(0) || clicked.length > 0)){
+                  if(isOpen.get(0) !== clicked.get(0)){
+                    hide();
+                  }
+                }
+
+              })
+
               function show (){
                 if(theTemplate !== null){
                   theTemplate.then(function(data){
