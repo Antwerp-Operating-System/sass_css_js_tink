@@ -28,8 +28,11 @@ scope.file=null;
 tinkUploadService.addUrls('http://localhost:3000/upload');
 //scope.valid={mimeTypes:['image/jpeg', 'image/png', 'image/pjpeg', 'image/gif'],extensions:['.jpg', '.png', '.gif']};
 scope.extraOptions = {date:{isPrivate:true},formName:'lalaForm'};
-
-  scope.submitForm = function() {
+scope.showUp = function(){
+  console.log(scope.file)
+  scope.file.push({data:''})
+}
+  scope.submitFoscope = function() {
     console.log(scope.userForm.dubbel);
   };
 }]);
