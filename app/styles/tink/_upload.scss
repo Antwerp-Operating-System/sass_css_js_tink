@@ -86,13 +86,13 @@
         &.progress-100 {
           background-color: $upload-list-item-bg-color;
           // color: $gray;
-          transition: background $animation-fade-speed linear;
-          transition-delay: $animation-fade-speed;
+          transition: background $animation-slow linear;
+          // transition-delay: $animation-slow;
 
           .line {
             background-color: $upload-list-item-bg-color;
-            transition: background $animation-fade-speed linear;
-            transition-delay: $animation-fade-speed;
+            transition: background $animation-slow linear;
+            transition-delay: $animation-slow;
           }
         }
       }
@@ -115,21 +115,23 @@
         font-size: $upload-list-item-font-size;
       }
       .delete {
-        // background-color: red;
         background-color: transparent;
         border: none;
         display: inline-block;
-        // float: right;
         position: absolute;
         right: $upload-padding;
         top: $upload-padding / 1.5;
+        transition: background $animation-speed linear, color $animation-speed linear;
+
         &:before {
-          // color: $gray;
-          content: "\f00d";
-          font-family: FontAwesome;
+          color: $upload-delete-icon-color;
+          content: "×";
         }
         &:hover:before {
-          // color: $gray-dark;
+          color: $upload-delete-icon-hover-color;
+        }
+        &:hover {
+          background-color: $upload-delete-icon-bg-hover-color;
         }
       }
       .line {

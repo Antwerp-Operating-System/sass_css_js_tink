@@ -5,7 +5,9 @@
       <input  data-ng-if="multiple" style="display:none;" class="fileInput" name="{{fieldName}}" type="file" ng-file-select="onFileSelect($files)" multiple="" />
       <input  data-ng-if="!multiple" style="display:none;" class="fileInput" name="{{fieldName}}" type="file" ng-file-select="onFileSelect($files)"/>
     </div>
+    <span class="help-block" ng-transclude>Toegelaten bestanden: pdf, jpg, jpeg. Maximum grootte: 2MB</span>
   </header>
+
   <span ng-show="message.hold">De vorige file is vervangen <a ng-mouseup="undo($event)">ongedaan maken</a></span>
   <ul class="uploaded-files">
     <li data-ng-repeat="file in files track by $index" data-ng-class="{'success': !file.error, 'error': file.error}" class=" progress-{{file.getProgress()}}">
@@ -20,5 +22,5 @@
 
     </li>
   </ul>
-  <span class="help-block" ng-transclude>Toegelaten bestanden: pdf, jpg, jpeg. Maximum grootte: 2MB</span>
+
 </div>
