@@ -174,7 +174,7 @@ $pre-scrollable-max-height:   340px !default;
  */
 
 $animation-speed:                .1s !default;
-$animation-fade-speed:           1.5s !default;
+$animation-slow:                 $animation-speed * 10 !default;
 
 
 /**
@@ -725,6 +725,10 @@ $upload-color-danger:                 $brand-danger;
 $upload-list-item-bg-color-danger:    lighten($upload-color-danger, 45%) !default;
 
 $upload-drag-hover-bg-color:          darken($upload-hover-background-color, 10);
+
+$upload-delete-icon-color:            lighten($gray-dark, 16%) !default;
+$upload-delete-icon-hover-color:      $gray-dark !default;
+$upload-delete-icon-bg-hover-color:   rgba($black, .05) !default;
 
 //== Labels
 //
