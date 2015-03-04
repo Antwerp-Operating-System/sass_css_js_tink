@@ -149,11 +149,13 @@ angular.module('tink.popOver', ['tink.tooltip'])
               }
 
               function placementCheck(element,popover,place,align){
-                var w1 = element.offset().left - $window.scrollX;
+                var pageScrollY = ($window.scrollY || $window.pageYOffset);
+                var pageScrollX = ($window.scrollX || $window.pageXOffset);
+                var w1 = element.offset().left - pageScrollX
                 var w2 = $window.innerWidth - (w1+element.outerWidth(true));
-                var h1 = element.offset().top - $window.scrollY;
+                var h1 = element.offset().top - pageScrollY;
                 var h2 = $window.innerHeight - (h1+element.outerHeight(true));
-                var elemOffsetX = element.offset().left + element.outerWidth(true) - $window.scrollY;
+                var elemOffsetX = element.offset().left + element.outerWidth(true) - pageScrollY;
 
                 var pW = popover.outerWidth(true);
                 var pH = popover.outerHeight(true);
@@ -211,9 +213,12 @@ angular.module('tink.popOver', ['tink.tooltip'])
 
               //calculate the position
               function calcPos(element,el,place,align,spacing){
-                var w1 = element.offset().left - $window.scrollX;
+                var pageScrollY = ($window.scrollY || $window.pageYOffset);
+                var pageScrollX = ($window.scrollX || $window.pageXOffset);
+
+                var w1 = element.offset().left - pageScrollX;
                 var w2 = $window.innerWidth - (w1+element.outerWidth(true));
-                var h1 = element.offset().top - $window.scrollY;
+                var h1 = element.offset().top - pageScrollY;
                 var h2 = $window.innerHeight - (h1+element.outerHeight(true));
                 //var elemOffsetX = element.offset().left + element.outerWidth(true) - $window.scrollY;
                 var chosen = {};
