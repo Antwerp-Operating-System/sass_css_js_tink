@@ -1,6 +1,6 @@
 'use strict';
 angular.module('tink.popOver', ['tink.tooltip'])
-.directive( 'tinkPopover', ['$q','$templateCache','$http','$compile','$timeout','$window',function ($q,$templateCache,$http,$compile,$timeout,$window) {
+.directive( 'tinkPopover', ['$q','$templateCache','$http','$compile','$timeout','$window','$rootScope',function ($q,$templateCache,$http,$compile,$timeout,$window,$rootScope) {
   return {
     restrict:'EA',
     compile: function compile( tElement, attrs ) {
@@ -108,6 +108,16 @@ angular.module('tink.popOver', ['tink.tooltip'])
 
               })
 
+              if(attributes.tinkPopoverGroup){
+                scope.$on('popover-open', function(event, args) {
+
+                    var group = args.group;
+                    if(group === attributes.tinkPopoverGroup && isOpen && $(args.el).get(0) !== isOpen.get(0)){
+                      hide();
+                    }
+                });
+              }
+
               function show (){
                 if(theTemplate !== null){
                   theTemplate.then(function(data){
@@ -124,6 +134,10 @@ angular.module('tink.popOver', ['tink.tooltip'])
                         el.insertAfter(element);
                       }
                       calcPos(element,el,placement,align,spacing);
+
+                      if(attributes.tinkPopoverGroup){
+                        $rootScope.$broadcast('popover-open', { group: attributes.tinkPopoverGroup,el:el });
+                      }
 
                       isOpen = el;
                     }
