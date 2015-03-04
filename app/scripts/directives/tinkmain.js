@@ -12,5 +12,9 @@ angular.module('tink', [
 		'tink.validDate',
 		'tink.format',
 		'tink.timepicker',
-		'tink.accordion'
+		'tink.accordion',
+		'tink.rijkRegister',
+		'tink.dropupload',
+		'angularFileUpload',
+		'tink.sortable'
 	]);

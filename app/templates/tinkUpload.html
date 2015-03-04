@@ -1,0 +1,18 @@
+<div class="dropzone">
+  <div data-ng-mouseup="browseFiles($event)">
+    <strong translate>Sleep hier een bestand</strong> <span translate>of klik om te bladeren</span>
+    <input  data-ng-if="multiple" style="display:none;" class="fileInput" name="{{fieldName}}" type="file" ng-file-select="onFileSelect($files)" multiple="" />
+    <input  data-ng-if="!multiple" style="display:none;" class="fileInput" name="{{fieldName}}" type="file" ng-file-select="onFileSelect($files)"/>
+  </div>
+  <span ng-show="message.hold">De vorige file is vervangen <a ng-mouseup="undo($event)">ongedaanmaken</a></span>
+  <ul class="uploadedFiles">
+    <li data-ng-repeat="file in files track by $index">
+      <span class="file">{{file.getFileName()}}</span>
+      <span ng-show="!file.error">process {{file.getProgress()}}</span>
+      <span ng-show="file.error">error</span>
+      <span ng-show="file.error.type"> type</span>
+      <span ng-show="file.error.size"> size</span>
+      <span class="delete" ng-click='del($index)' data-index="{{$index}}">DEL</span>
+    </li>
+  </ul>
+</div>

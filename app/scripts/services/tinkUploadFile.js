@@ -1,0 +1,81 @@
+'use strict';
+angular.module('tink.dropupload')
+.factory('UploadFile',['$q','tinkUploadService',function($q,tinkUploadService) {
+    var upload = null;
+    // instantiate our initial object
+    var uploudFile = function(data,uploaded) {
+        if(!data instanceof window.File){
+            throw 'uploadFile was no file object!';
+        }
+        this.fileData = data;
+        this.fileName = this.fileData.name;
+        this.fileType = this.fileData.type;
+        this.fileSize = this.fileData.size;
+
+        if(uploaded){
+            this.progress = 100;
+        }else{
+            this.progress = 0;
+        }
+    };
+
+
+    uploudFile.prototype.getFileName = function() {
+        return this.fileName;
+    };
+
+    uploudFile.prototype.getData = function() {
+        return this.fileData;
+    };
+
+    uploudFile.prototype.getProgress = function() {
+        return this.progress;
+    };
+
+    uploudFile.prototype.getFileSize = function() {
+        return this.fileSize;
+    };
+
+    uploudFile.prototype.getFileExtension = function() {
+        var posLastDot = this.getFileName().lastIndexOf('.');
+        return this.getFileName().substring(posLastDot, this.getFileName().length);
+    };
+
+    uploudFile.prototype.getFileMimeType = function() {
+        return this.fileType;
+    };
+
+    uploudFile.prototype.cancel = function(){
+        if(upload !== null){
+            upload.abort();
+        }
+    };
+
+
+    uploudFile.prototype.upload = function(options){
+        var scope = this;
+        var promise = $q.defer();
+        upload = tinkUploadService.upload(this,options)
+        .progress(function (evt) {
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            if(isNaN(progressPercentage)){
+                progressPercentage = 0;
+            }
+            scope.progress = progressPercentage;
+            promise.notify({progress:progressPercentage,object:scope});
+        }).success(function () {
+            promise.resolve(scope);
+        }).error(function(){
+            promise.reject(scope);
+        });
+        return promise.promise;
+    };
+
+     uploudFile.prototype.remove = function(){
+        console.log('file removed');
+     };
+
+    return uploudFile;
+
+
+}]);
