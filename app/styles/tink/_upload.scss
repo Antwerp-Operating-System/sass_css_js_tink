@@ -96,7 +96,7 @@
         .line { background-color: $upload-color-success; }
 
         &.progress-100 {
-          background-color: green; //$upload-list-item-bg-color;
+          background-color: $upload-list-item-bg-color;
           // color: $gray;
 
           // transition-delay: $animation-slow;
