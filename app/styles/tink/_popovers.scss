@@ -9,17 +9,16 @@
   border: 1px solid $popover-fallback-border-color;
   border: 1px solid $popover-border-color;
   border-radius: $border-radius-large;
-  //display: none;
   font-family: $font-family-base;
   font-size: rem($font-size-base);
   font-weight: normal;
   line-height: $line-height-base;
-
   min-width: rem($popover-min-width);
   max-width: rem($popover-max-width);
   padding: rem($popover-padding);
-  position: relative; //absolute;
-  white-space: normal; // Overrides for proper insertion
+  position: relative;
+  transition: bottom $animation-speed linear, left $animation-speed linear, right $animation-speed linear, top $animation-speed linear;
+  white-space: normal;
   z-index: layer("popover");
 
   &:before,
