@@ -6,7 +6,7 @@ angular.module('tink.sortable')
     restrict:'E',
     templateUrl:'templates/tinkSortableTable.html',
     scope:{
-      data:'=?',
+      data:'=',
       headers:'=?',
       actions:'=?',
       itemsPerPage:'=?'
@@ -17,52 +17,37 @@ angular.module('tink.sortable')
       var pages;
       var viewable;
 
-      //Preview DATA
-      scope.data = [
-        {name:'vincent',achternaam:'bouillart',adress:1235},
-        {name:'Valerie',achternaam:'bouillart',adress:61242},
-        {name:'Jef',achternaam:'bouillart',adress:5746},
-        {name:'robert',achternaam:'bouillart',adress:'zaeaz 27'},
-        {name:'steven',achternaam:'bouillart',adress:'azdqdc 27'},
-        {name:'gill',achternaam:'bouillart',adress:'bnfdk 27'},
-        {name:'Frederic',achternaam:'bouillart',adress:'cldlddl 27'},
-        {name:'jeroen',achternaam:'bouillart',adress:'qlqlqlq 27'},
-        {name:'joris',achternaam:'bouillart',adress:'slslsls 27'},
-        {name:'etien',achternaam:'bouillart',adress:'lojkk 27'},
-        {name:'richard',achternaam:'bouillart',adress:'vidd,, 27'},
-        {name:'Yo',achternaam:'bouillart',adress:'yorefd27'},
-        {name:'tinne',achternaam:'bouillart',adress:'doleegstraat 27'},
-        {name:'lora',achternaam:'bouillart',adress:'doleegfstraat 27'},
-        {name:'wout',achternaam:'bouillart',adress:'doleegstrfaat 27'},
-        {name:'astrid',achternaam:'bouillart',adress:'doleegstraat 27'},
-        {name:'jonas',achternaam:'bouillart',adress:'doleegsftraat 27'},
-        {name:'yana',achternaam:'bouillart',adress:'doleegstraat 27'},
-        {name:'laura',achternaam:'bouillart',adress:'doleegsfftraat 27'},
-        {name:'kriste',achternaam:'bouillart',adress:'doleegfstraat 27'},
-        {name:'tom',achternaam:'bouillart',adress:'doleegstrafat 27'},
-        {name:'leive',achternaam:'bouillart',adress:'doleegstraat 27'},
-        {name:'tomp',achternaam:'bouillart',adress:'doleegstrfaat 27'},
-        {name:'vdsfds',achternaam:'bouillart',adress:'doleegsftraat 27'},
-        {name:'sdfdfsf',achternaam:'bouillart',adress:'doleegfstraat 27'},
-        {name:'sef',achternaam:'bouillart',adress:'doleegstrfaat 27'},
-        {name:'vnbrf',achternaam:'bouillart',adress:'doleegstraat 27'},
-        {name:'azd',achternaam:'bouillart',adress:'doleegstffraat 27'},
-        {name:'wcwv',achternaam:'bouillart',adress:'doleegstraat 27'},
-        {name:'vdgfs',achternaam:'bouillart',adress:'doleegfstraat 27'},
-        {name:'vdfssfds',achternaam:'bouillart',adress:'doleeggsftraat 27'},
-        {name:'sdfdsffsf',achternaam:'bouillart',adress:'doleefstraat 27'},
-        {name:'sesfsf',achternaam:'bouillart',adress:'doleegsgtrfaat 27'},
-        {name:'vnsfbrf',achternaam:'bouillart',adress:'doleegsgtraat 27'},
-        {name:'azfsd',achternaam:'bouillart',adress:'doleegstrgaat 27'},
-        {name:'wcfswv',achternaam:'bouillart',adress:'doleegstgfraat 27'},
-        {name:'vdfsgfs',achternaam:'bouillart',adress:'doleegsgftraat 27'},
-        {name:'rufsuy',achternaam:'bouillart',adress:'doleegsfgraat 27'},
-        {name:'uyfsffh',achternaam:'bouillart',adress:'doleegsgftraat 27'},
-        {name:'fhgsfg',achternaam:'bouillart',adress:'doleegstgfraat 27'},
-        {name:'ezrsfr',achternaam:'bouillart',adress:'doleegstgrfaat 27'},
-        {name:'trcsfbn',achternaam:'bouillart',adress:'doleegsgtfraat 27'},
-        {name:'sdffsbv',achternaam:'bouillart',adress:{test:'o'}}
-      ];
+
+      function uncheckAll(){
+        angular.forEach(viewable,function(val){
+          if(val._checked===true){
+            val._checked = false;
+          }
+        })
+        if(scope.hulpdata[-1]){
+            scope.hulpdata[-1]._checked = false;
+          }
+      }
+
+      scope.$watchCollection('data',function(){
+        scope.buildTable();
+      })
+
+      if(scope.actions instanceof Array){
+        scope.viewActions = [];
+        for(var i=0;i<scope.actions.length;i++){
+          var action = scope.actions[i];
+          scope.viewActions.push({name:action.name,callback:function(){
+            var checked = [];
+            angular.forEach(viewable,function(val){
+              if(val._checked===true){
+                checked.push(val);
+              }
+            })
+            action.callback(checked,uncheckAll);
+          }})
+        }
+      }
       if(typeof scope.itemsPerPage === 'string'){
         var items = scope.itemsPerPage.split(',');
         scope.itemsPerPage = [];
@@ -89,7 +74,6 @@ angular.module('tink.sortable')
       //preview headers
       scope.headers = [{field:'name',alias:'Voornaam',checked:true},{field:'achternaam',alias:'Achternaam',checked:false},{field:'adress',alias:'Adres',visible:true,checked:true}];
 
-      scope.itemLength = scope.data.length;
       //function that runs at the beginning to handle the headers.
       function handleHeaders(){
         angular.forEach(scope.headers,function(value){
@@ -111,7 +95,7 @@ angular.module('tink.sortable')
 
         if(typeof scope.actions === 'function'){
           var thCheck = document.createElement('th');
-          thCheck.innerHTML = createCheckbox(-1);
+          thCheck.innerHTML = createCheckbox(-1,i,'hulp');
           row.appendChild(thCheck);
         }
 
@@ -154,32 +138,45 @@ angular.module('tink.sortable')
         };
       }
 
-      scope.checked = [];
+      function fullChecked(){
+        var length = 0;
+          angular.forEach(viewable,function(val){
+            if(val._checked){
+              length+=1;
+            }
+          });
+          if(length === viewable.length){
+            scope.hulpdata[-1]._checked = true;
+          }else{
+            scope.hulpdata[-1]._checked = false;
+          }
+      }
+
       scope.checkChange = function(i){
         if(i === -1){
-          var check = scope.data[undefined]._checked;
-          angular.forEach(scope.data,function(val){
+          var check = scope.hulpdata[-1]._checked;
+          angular.forEach(viewable,function(val){
             val._checked = check;
           });
-          scope.checked = angular.copy(viewable);
         }else{
-          scope.data[undefined]._checked = false;
-          var index = _.findIndex(scope.checked, scope.data[i]);
-          if(index !== -1){
-            scope.checked.splice(index,1);
-          }else{
-            scope.checked.push(scope.data[i]);
+          if(scope.hulpdata[-1]){
+            scope.hulpdata[-1]._checked = false;
           }
-
+          fullChecked();
         }
       };
       scope.actions = function(){
 
       };
 
-      function createCheckbox(row,i){
+      scope.hulpdata=[];
+
+      function createCheckbox(row,i,hulp){
+        if(!hulp){
+          hulp ='';
+        }
         var checkbox = '<div class="checkbox">'+
-                          '<input type="checkbox" ng-change="checkChange('+row+')" ng-model="data['+i+']._checked" id="'+row+'" name="'+row+'" value="'+row+'">'+
+                          '<input type="checkbox" ng-change="checkChange('+row+')" ng-model="'+hulp+'data['+row+']._checked" id="'+row+'" name="'+row+'" value="'+row+'">'+
                           '<label for="'+row+'"></label>'+
                         '</div>';
         return checkbox;
@@ -254,12 +251,14 @@ angular.module('tink.sortable')
       scope.setPage = function(index){
         if(index > 0 ){
           scope.pageSelected = index;
+          uncheckAll();
           scope.buildTable();
         }
       };
 
       scope.setItems = function(){
         scope.buildTable();
+        fullChecked();
       };
 
       function buildPagination(){
@@ -279,7 +278,9 @@ angular.module('tink.sortable')
             scope.showNums = [-1,num,-1];
           }
         }
-        scope.showNums.push(numPages);
+        if(numPages >1 ){
+          scope.showNums.push(numPages);
+        }
       }
 
       aantalToShow = scope.perPage;
@@ -304,6 +305,7 @@ angular.module('tink.sortable')
           scope.numLast = stop +1;
         }
         buildPagination();
+        scope.itemLength = scope.data.length;
         setBody(table,viewable);  //
         table=$(table);           //variable table is added code to set class table
         table.addClass('table-interactive');   //added code to set class table
@@ -355,21 +357,19 @@ angular.module('tink.sortable')
 
       //Set first page
       scope.setFirst = function(){
-        scope.pageSelected=1;
-        scope.buildTable();
+        scope.setPage(1);
       };
 
       //set lest page
       scope.setLast = function(){
-        scope.pageSelected=pages;
-        scope.buildTable();
+        scope.setPage(pages);
       };
 
       //set next page
       scope.setNext = function(){
         if(scope.pageSelected < pages){
           scope.pageSelected +=1;
-          scope.buildTable();
+          scope.setPage(scope.pageSelected);
         }
       };
 
@@ -377,7 +377,7 @@ angular.module('tink.sortable')
       scope.setPrev = function(){
         if(scope.pageSelected >1){
           scope.pageSelected -=1;
-          scope.buildTable();
+          scope.setPage(scope.pageSelected);
         }
       };
 
