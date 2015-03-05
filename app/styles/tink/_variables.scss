@@ -183,7 +183,7 @@ $animation-slow:                 $animation-speed * 8 !default;
 //## Define colors for form feedback states and, by default, alerts.
 
 $state-success-text:             $brand-success !default;
-$state-success-bg:               lighten($brand-success, 48%) !default;
+$state-success-bg:               lighten($brand-success, 60%) !default;
 $state-success-border:           darken(adjust-hue($state-success-bg, -10), 5%) !default;
 
 $state-info-text:                $brand-info !default;
@@ -191,11 +191,11 @@ $state-info-bg:                  lighten($brand-info, 24%) !default;
 $state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%) !default;
 
 $state-warning-text:             $brand-warning !default;
-$state-warning-bg:               lighten($brand-warning, 32%) !default;
+$state-warning-bg:               lighten($brand-warning, 45%) !default;
 $state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 5%) !default;
 
 $state-danger-text:              $brand-danger !default;
-$state-danger-bg:                lighten($brand-danger, 40%) !default;
+$state-danger-bg:                lighten($brand-danger, 48%) !default;
 $state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 5%) !default;
 
 
@@ -490,6 +490,7 @@ $datepicker-btn-today-hover-border-color:             $datepicker-btn-today-bord
 /**
  * Callout
  */
+$callout-border-radius         : 0 !default;
 $callout-color                 : $brand !default;
 $callout-bgcolor               : lighten($callout-color, 50%) !default;
 $callout-color-success         : $brand-success !default;
@@ -497,7 +498,7 @@ $callout-bgcolor-success       : lighten($callout-color-success, 60%) !default;
 $callout-color-warning         : $brand-warning !default;
 $callout-bgcolor-warning       : lighten($callout-color-warning, 45%) !default;
 $callout-color-danger          : $brand-danger !default;
-$callout-bgcolor-danger        : lighten($callout-color-danger, 45%) !default;
+$callout-bgcolor-danger        : lighten($callout-color-danger, 48%) !default;
 
 
 
@@ -707,26 +708,22 @@ $popover-percentage:                    15;
 /**
  * Upload
  */
+$upload-border-radius:                $border-radius-base;
+
 $upload-background-color:             $white;
 $upload-hover-background-color:       lighten($brand, 50%);
 $upload-border-color:                 $brand-light;
-$upload-padding:                      $padding-base-vertical !default;
-$upload-min-width:                    440px;
-$upload-max-width:                    $upload-min-width * 2;
 
-$upload-list-item-font-size:          $font-size-base;
-$upload-list-item-bg-color:           $nav-aside-item-open-color !default;
+$upload-bg-color:                     $nav-aside-item-open-color !default;
 
 $upload-color-success:                $brand-success;
-$upload-list-item-bg-color-success:   lighten($upload-color-success, 40%) !default;
+$upload-bg-color-success:             lighten($upload-color-success, 40%) !default;
 $upload-color-warning:                $brand-warning !default;
-$upload-list-item-bg-color-warning:   lighten($upload-color-warning, 45%) !default;
+$upload-bg-color-warning:             lighten($upload-color-warning, 45%) !default;
 $upload-color-danger:                 $brand-danger;
-$upload-list-item-bg-color-danger:    lighten($upload-color-danger, 45%) !default;
+$upload-bg-color-danger:              lighten($upload-color-danger, 48%) !default;
 
-$upload-drag-hover-bg-color:          darken($upload-hover-background-color, 10);
-
-$upload-delete-icon-color:            rgba($black, .35) !default;
+$upload-delete-icon-color:            rgba($black, .55) !default;
 $upload-delete-icon-hover-color:      rgba($black, .55) !default;
 $upload-delete-icon-bg-hover-color:   rgba($black, .05) !default;
 
