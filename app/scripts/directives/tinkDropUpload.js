@@ -44,11 +44,34 @@ angular.module('tink.dropupload')
             }
 
             scope.$watchCollection('ngModel',function(newVa,ol){
-              if(newVa instanceof Array){
+              var removed = _.difference(scope.files, newVa);
+              var added = _.difference(newVa,scope.files);
+
+              angular.forEach(removed,function(value){
+                //if(config.multiple){
+                  if(_.indexOf(scope.files, value)!==-1){
+                    _.pull(scope.files, value);
+                  }
+                /*}else{
+                  scope.files=[value];
+                }*/
+              });
+
+              angular.forEach(added,function(value){
+                if(config.multiple){
+                  if(_.indexOf(scope.files, value)==-1){
+                    scope.files.push(value);
+                  }
+                }else{
+                  scope.files.length = 0;
+                  scope.files.push(value);
+                }
+              });
+              /*if(newVa instanceof Array){
                 if(newVa !== ol && newVa.length > ol.length){
                   angular.forEach(newVa,function(value){
                     if(_.indexOf(scope.files, value)===-1){
-                      if(typeof value === UploadFile){
+                      if(value instanceof UploadFile){
                         scope.files.push(value)
                       }else{
                         _.pull(scope.ngModel, value);
@@ -57,7 +80,7 @@ angular.module('tink.dropupload')
                   })
                 }else if(newVa !== ol && newVa.length < ol.length){
                   angular.forEach(newVa,function(value){
-                      if(typeof value === UploadFile){
+                      if(value instanceof UploadFile){
                         if(_.indexOf(scope.files, value)!==-1){
                            _.pull(scope.files, value);
                         }
@@ -69,7 +92,7 @@ angular.module('tink.dropupload')
                   scope.files = [];
                   scope.files.push(newVa);
                 }
-              }
+              }*/
             },true)
 
             //function to add the liseners
@@ -102,13 +125,15 @@ angular.module('tink.dropupload')
                 scope.files[0].cancel();
                 scope.files[0].remove();
                 _.pull(scope.ngModel, scope.files[0]);
-                _.pull(scope.files, scope.files[0]);
+                //_.pull(scope.files, scope.files[0]);
               }
 
               holding.hold = false;
               scope.message = {};
-              scope.files.push(holding);
-              scope.ngModel = holding;
+              scope.ngModel.length = 0;
+              //scope.files.length = 0;
+              //scope.files.push(holding);
+              scope.ngModel.push(holding);
               holding = null;
             };
 
@@ -122,81 +147,83 @@ angular.module('tink.dropupload')
 
             //The file is droped or selected ! same code !
             function drop(e){
-              elem.removeClass('dragenter');
-              var files;
-              if(e.type && e.type === 'drop'){
-                e.stopPropagation();
-                e.preventDefault();
-                //get the event
-                var dt = e.originalEvent.dataTransfer;
-                 files = dt.files;
-              }else{
-                files = e;
-              }
               safeApply(scope,function(){
-                for (var i = 0; i < files.length; i += 1) {
-                  var file = new UploadFile(files[i]);
+                elem.removeClass('dragenter');
+                var files;
+                if(e.type && e.type === 'drop'){
+                  e.stopPropagation();
+                  e.preventDefault();
+                  //get the event
+                  var dt = e.originalEvent.dataTransfer;
+                   files = dt.files;
+                }else{
+                  files = e;
+                }
 
-                  if(!config.multiple){
-                    //if there is a file present remove this one from the server !
-                    if(scope.files[0] !== null && scope.files[0] instanceof UploadFile){
-                      if(holding instanceof UploadFile){
-                        holding.cancel();
-                        holding.remove();
-                        _.pull(scope.ngModel, holding);
+                  for (var i = 0; i < files.length; i += 1) {
+                    var file = new UploadFile(files[i]);
+
+                    if(!config.multiple){
+                      //if there is a file present remove this one from the server !
+                      if(scope.files[0] !== null && scope.files[0] instanceof UploadFile){
+                        if(holding instanceof UploadFile){
+                          holding.cancel();
+                          holding.remove();
+                          _.pull(scope.ngModel, holding);
+                        }
+                        scope.message.hold = true;
+                        holding = scope.files[0];
+                        holding.hold = true;
+
+                        /*if(config.multiple){
+                          scope.ngModel.push(holding);
+                        }else{
+                          scope.ngModel = holding;
+                        }*/
+                        //_.pull(scope.files, scope.files[0]);
                       }
-                      scope.message.hold = true;
-                      holding = scope.files[0];
-                      holding.hold = true;
-
-                      /*if(config.multiple){
-                        scope.ngModel.push(holding);
-                      }else{
-                        scope.ngModel = holding;
-                      }*/
-                      _.pull(scope.files, scope.files[0]);
                     }
-                  }
-                  if(config.multiple){
-                    if(!scope.ngModel instanceof Array){
-                      scope.ngModel = [];
+                    if(config.multiple){
+                      if(!(scope.ngModel instanceof Array)){
+                        scope.ngModel = [];
+                      }
+                      scope.ngModel.unshift(file);
+                    }else{
+                      scope.ngModel.length = 0;
+                      scope.ngModel.push(file);
                     }
-                    scope.ngModel.unshift(file);
-                  }else{
-                    scope.ngModel = file;
-                  }
-                  scope.files.unshift(file);scope.ngModel = file;
-                  //check if the type and size is oke.
-                  var typeCheck = checkFileType(file);
-                  var sizeCheck = checkFileSize(file);
 
-                  if(typeCheck && sizeCheck){
-                    file.upload(scope.sendOptions).then(function(file) {
-                      //file is uploaded
-                      //add the uploaded file to the ngModel
-                    }, function error() {
-                      //file is not uploaded
+                    //check if the type and size is oke.
+                    var typeCheck = checkFileType(file);
+                    var sizeCheck = checkFileSize(file);
+
+                    if(typeCheck && sizeCheck){
+                      file.upload(scope.sendOptions).then(function(file) {
+                        //file is uploaded
+                        //add the uploaded file to the ngModel
+                      }, function error() {
+                        //file is not uploaded
+                        if(!file.error){
+                          file.error = {};
+                        }
+                        file.error.fail = true;
+                      }, function update() {
+                        //Notification of upload
+                      });
+
+                    }else{
                       if(!file.error){
                         file.error = {};
                       }
-                      file.error.fail = true;
-                    }, function update() {
-                      //Notification of upload
-                    });
+                      if(!typeCheck){
+                        file.error.type = true;
+                      }
+                      if(!sizeCheck){
+                        file.error.size = true;
+                      }
+                    }
 
-                  }else{
-                    if(!file.error){
-                      file.error = {};
-                    }
-                    if(!typeCheck){
-                      file.error.type = true;
-                    }
-                    if(!sizeCheck){
-                      file.error.size = true;
-                    }
                   }
-
-                }
 
               });
             }
@@ -212,9 +239,9 @@ angular.module('tink.dropupload')
               if(config.multiple){
                 _.pull(scope.ngModel, scope.files[0]);
               }else{
-                scope.ngModel = null;
+                scope.ngModel.length = 0;
               }
-                _.pull(scope.files, scope.files[0]);
+                _.pull(scope.ngModel, scope.files[0]);
             };
 
             function checkFileType(file){
