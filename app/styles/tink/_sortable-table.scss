@@ -12,31 +12,19 @@
       padding-right: rem(24);
     }
   }
-    > thead > tr > th {
-      cursor: pointer;
-      position: relative;
-      user-select: none;
+  > thead > tr > th {
+    cursor: pointer;
+    position: relative;
+    user-select: none;
 
-
-  // setting width on first tablehead cell to fit the checkbox
+// setting width on first tablehead cell to fit the checkbox
     &:first-child {
       width: rem(35);
     }
 
-// perhaps hover state on basic table has to be different then when table head is colored
-    &:hover,
-    &:active {
+    &:hover {
       background-color: $table-interactive-heading-hover-bg;
-    }
-
-// creating vertical line between tablehead cells
-    &:not(:first-child):before {
-      border-left: solid 1px $table-interactive-heading-line;
-      content: '';
-      height: 60%;
-      left: 0;
-      position: absolute;
-      top: 20%;
+      color: $table-interactive-heading-hover-color;
     }
 
     &.sort-asc {
@@ -59,23 +47,38 @@
   }
 }
 
+// adding vertical separator to table heading
+.table-interactive {
+  &:not(.table-bordered) {
+    > thead > tr > th:not(:first-child):before {
+      border-left: solid 1px $table-interactive-heading-line;
+      content: '';
+      height: 60%;
+      left: 0;
+      position: absolute;
+      top: 20%;
+    }
+  }
+}
+
+
 /**
  * Table alternative heading -> this will be added to the table css when finished
  * --------------------------------------------------
  */
 
 .table-alternative-heading {
-
   > thead > tr > th {
     background-color: $table-alternative-heading-bg;
     border-bottom: 0;
     color: $table-alternative-heading-color;
     transition: background-color linear $animation-speed;
+  }
+}
 
-      &:hover,
-      &:active {
-        background-color: $table-alternative-heading-hover-bg;
-        color:  $table-alternative-heading-hover-color;
-      }
+.table-alternative-heading.table-interactive {
+  > thead > tr > th:hover {
+    background-color: $table-alternative-heading-hover-bg;
+    color:  $table-alternative-heading-hover-color;
   }
 }
