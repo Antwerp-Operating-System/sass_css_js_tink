@@ -8,9 +8,7 @@
     <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}}
     <div class="select">
       <select ng-Change='setItems()' ng-model='perPage'>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="20">20</option>
+        <option ng-repeat="items in itemsPerPage" ng-bind="items">{{items}}</option>
       </select> items per pagina
     </div>
   </div>

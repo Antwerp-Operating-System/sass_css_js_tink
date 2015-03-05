@@ -14,6 +14,7 @@ angular.module('tinkFramework.controllers')
 scope.signup={username:'11.11.11-111.1'};
 scope.mindate = new Date(2014,1,27);
 scope.maxdate = new Date(2014,2,20);
+scope.pages='5,10,15*,20';
 scope.rek='92012023338';
   scope.go = function(){
   	console.log(scope.dates);

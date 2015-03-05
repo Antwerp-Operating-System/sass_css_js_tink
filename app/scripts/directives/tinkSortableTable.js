@@ -8,7 +8,8 @@ angular.module('tink.sortable')
     scope:{
       data:'=?',
       headers:'=?',
-      actions:'=?'
+      actions:'=?',
+      itemsPerPage:'=?'
     },
     link:function(scope){
 
@@ -16,8 +17,6 @@ angular.module('tink.sortable')
       var pages;
       var viewable;
 
-      //Preview PAGES
-      scope.perPage=  _.parseInt(4);
       //Preview DATA
       scope.data = [
         {name:'vincent',achternaam:'bouillart',adress:1235},
@@ -64,6 +63,27 @@ angular.module('tink.sortable')
         {name:'trcsfbn',achternaam:'bouillart',adress:'doleegsgtfraat 27'},
         {name:'sdffsbv',achternaam:'bouillart',adress:{test:'o'}}
       ];
+      if(typeof scope.itemsPerPage === 'string'){
+        var items = scope.itemsPerPage.split(',');
+        scope.itemsPerPage = [];
+        for(var i=0;i<items.length;i++){
+          if(items[i].slice(-1) === '*'){
+            var num = _.parseInt(items[i].substr(0,items[i].length-1));
+            scope.perPage = num;
+            scope.itemsPerPage.push(num);
+          }else{
+            scope.itemsPerPage.push(_.parseInt(items[i]));
+          }
+        }
+
+        if(!scope.perPage && scope.itemsPerPage.length !==0){
+          scope.perPage = _.parseInt(items[0]);
+        }
+
+      }else{
+        scope.perPage = _.parseInt(10);
+        scope.itemsPerPage = [10,20,50];
+      }
       //which sorting is happening
       scope.sorting = {field:'',direction:1};
       //preview headers
