@@ -1,6 +1,16 @@
-//
-// Drag and drop
-// --------------------------------------------------
+/**
+ * Upload
+ * --------------------------------------------------
+ */
+
+/**
+ * Vars
+ */
+$upload-padding:    $padding-base-vertical;
+$upload-min-width:  440px;
+$upload-max-width:  $upload-min-width * 2;
+$upload-font-size:  $font-size-base;
+
 
 .upload {
   background-image: none; // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214
@@ -27,131 +37,164 @@
     box-shadow: none;
     cursor: not-allowed;
     opacity: .65;
-    pointer-events: none; // Future-proof disabling of clicks ->
+    pointer-events: none;
   }
 
-  &-header {
-    cursor: pointer;
+  &-zone {
     padding: rem($upload-padding * 2 $upload-padding );
+    position: relative;
     transition: background $animation-speed linear, border $animation-speed linear, color $animation-speed linear;
 
     &:hover,
     &:focus {
-      background-color: $upload-hover-background-color; //$gray-lighter;
+      background-color: $upload-hover-background-color;
+    }
+  }
+
+  &-file-input {
+    bottom: 0;
+    background: rgba(255,255,0,.2);
+    cursor: pointer;
+    left: 0;
+    opacity: .01;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  &-files {
+    @extend .list-unstyled;
+    padding: 0;
+    text-align: left;
+
+    > li {
+      background-color: $upload-bg-color;
+      font-size: $upload-font-size;
+      margin: 0 0 2px 0;
+      overflow: hidden;
+      padding: rem($upload-padding 24 $upload-padding 24);
+      position: relative;
+      z-index: layer('ground');
+
+      &:first-child {
+        margin-top: rem($upload-padding);
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &:before {
+        content: "\f1c9";
+        font-family: FontAwesome;
+        font-style: normal;
+        font-weight: normal;
+        left: rem($upload-padding);
+        position: absolute;
+        top: rem($upload-padding);
+      }
+
+      &.success {
+        .upload-progress {
+          background-color: transparent;
+          transition: background-color $animation-slow linear;
+          transition-delay: $animation-slow;
+        }
+      }
+
+      &:not(.success) {
+        padding-right: rem(42);
+      }
+
+      &.error {
+        background-color: $upload-bg-color-danger;
+      }
+
+      &:hover {
+        .upload-btn-delete {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  &-filename {
+    font-size: $upload-font-size;
+  }
+
+  &-file-change {
+    background-color: $upload-bg-color-warning;
+    color: $upload-color-warning;
+    font-size: $upload-font-size;
+    margin: rem($upload-padding 0 0);
+    padding: $upload-padding;
+
+    a {
+      color: darken($upload-color-warning, 8%);
+      cursor: pointer;
+      text-decoration: underline;
+
+      &:hover,
+      &:focus {
+        color: darken($upload-color-warning, 18%);
+      }
+    }
+  }
+
+  &-fileoptions {
+    color: $upload-color-success;
+    position: absolute;
+    right: rem($upload-padding);
+    top: rem($upload-padding);
+  }
+
+  &-error {
+    color: $upload-color-danger;
+    display: block;
+  }
+
+  &-btn-delete {
+    background: transparent;
+    border: none;
+    color: $upload-delete-icon-color;
+    height: rem(15);
+    line-height: 0;
+    margin: rem(-4 0 0);
+    opacity: .5;
+    padding: 0;
+    transition: all $animation-speed linear;
+    width: rem(15);
+
+    &:before {
+      content: "×";
+    }
+
+    &:hover {
+      background-color: $upload-delete-icon-bg-hover-color;
+
+      &:before {
+        color: $upload-delete-icon-hover-color;
+      }
+    }
+  }
+
+  &-progress {
+    background: $upload-bg-color-success;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: layer('cellar');
+
+    &:not(.success) {
+      transition: width $animation-speed linear;
     }
   }
 }
 
 .dragenter {
   @extend .list-unstyled;
-  background-color: $upload-drag-hover-bg-color;//$gray-lighter;
-  border: 1px dashed darken($upload-border-color, 10);
-  // .upload-header {
-  //   color: $brand;
-  // }
-  //.uploaded-files li { background-color: transparent !important;}
+  background-color: $upload-hover-background-color;
+  // border: 1px dashed darken($upload-border-color, 10);
 }
 
-.file-change {
-  background-color: $upload-list-item-bg-color-warning;
-  display: inline-block;
-  font-size: $upload-list-item-font-size;
-  padding: $upload-padding;
-  width: 100%;
-  a {
-    cursor: pointer;
-  }
-}
-.uploaded-files {
-  @extend .list-unstyled;
-  padding: 0;
-  margin: 0;
-  text-align: left;
-    > li {
-      background-color: $upload-list-item-bg-color; //$gray-lighter;
-      //border-left: 3px solid $upload-border-color;
-      padding: $upload-padding;
-      // padding-right: 0;
-      margin-bottom: 2px;
-      position: relative;
-      // text-align: center;
-
-      &:first-child {
-        margin-top: $upload-padding;
-      }
-
-      &:last-child { margin-bottom: 0; }
-      &:before {
-        content: "\f1c9";
-        font-family: FontAwesome;
-        font-style: normal;
-        font-weight: normal;
-      }
-
-      &.success {
-        background-color: $upload-list-item-bg-color-success;
-        border-color: $upload-color-success;
-        font-size: $upload-list-item-font-size;
-        // transition: background $animation-slow linear;
-        .line { background-color: $upload-color-success; }
-
-        &.progress-100 {
-          background-color: $upload-list-item-bg-color;
-          // color: $gray;
-          transition: background $animation-slow linear;
-          transition-delay: $animation-slow;
-
-          .line {
-            background-color: transparent; //$upload-list-item-bg-color;
-            transition: background $animation-slow linear;
-            // transition-delay: $animation-slow;
-          }
-        }
-      }
-      &.error {
-        background-color: $upload-list-item-bg-color-danger;
-        border-color: $upload-color-danger;
-        .line { background-color: $upload-color-danger; }
-      }
-
-
-      // Spans communicating about errors and success
-      .file {
-        font-size: $upload-list-item-font-size;
-      }
-      .error { display: block; }
-      .error,
-      .error-type,
-      .error-filesize {
-        color: $upload-color-danger;
-        font-size: $upload-list-item-font-size;
-      }
-      .delete {
-        background-color: transparent;
-        border: none;
-        display: inline-block;
-        position: absolute;
-        right: $upload-padding;
-        top: $upload-padding / 1.5;
-        transition: background $animation-speed linear, color $animation-speed linear;
-
-        &:before {
-          color: $upload-delete-icon-color;
-          content: "×";
-        }
-        &:hover:before {
-          color: $upload-delete-icon-hover-color;
-        }
-        &:hover {
-          background-color: $upload-delete-icon-bg-hover-color;
-        }
-      }
-      .line {
-        height: 2px;
-        position: absolute;
-        bottom:0;
-        left:0;
-        width: 1%;
-      }
-    }
-}
