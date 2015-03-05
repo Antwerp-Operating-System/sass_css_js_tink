@@ -145,6 +145,9 @@ angular.module('tink.sortable')
               length+=1;
             }
           });
+          if(!scope.hulpdata[-1]){
+            scope.hulpdata[-1] = {};
+          }
           if(length === viewable.length){
             scope.hulpdata[-1]._checked = true;
           }else{
@@ -298,7 +301,16 @@ angular.module('tink.sortable')
         var start = (scope.pageSelected-1)*aantalToShow;
         var stop = (scope.pageSelected *aantalToShow)-1;
         viewable = _.slice(scope.data, start,stop+1);
-        scope.numFirst = start +1;
+        if(viewable.length === 0 && scope.pageSelected > 1){
+          scope.pageSelected = scope.pageSelected-1;
+          scope.buildTable();
+          return;
+        }
+        if(scope.data.length === 0){
+          scope.numFirst = 0;
+        }else{
+          scope.numFirst = start +1;
+        }
         if(stop > scope.data.length){
           scope.numLast = scope.data.length;
         }else{
