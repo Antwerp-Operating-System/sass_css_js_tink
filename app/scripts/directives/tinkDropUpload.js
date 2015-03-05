@@ -157,7 +157,15 @@ angular.module('tink.dropupload')
                       _.pull(scope.files, scope.files[0]);
                     }
                   }
-                  scope.files.unshift(file);
+                  if(config.multiple){
+                    if(!scope.ngModel instanceof Array){
+                      scope.ngModel = [];
+                    }
+                    scope.ngModel.unshift(file);
+                  }else{
+                    scope.ngModel = file;
+                  }
+                  scope.files.unshift(file);scope.ngModel = file;
                   //check if the type and size is oke.
                   var typeCheck = checkFileType(file);
                   var sizeCheck = checkFileSize(file);
@@ -166,11 +174,6 @@ angular.module('tink.dropupload')
                     file.upload(scope.sendOptions).then(function(file) {
                       //file is uploaded
                       //add the uploaded file to the ngModel
-                      if(config.multiple){
-                        scope.ngModel.unshift(file);
-                      }else{
-                        scope.ngModel = file;
-                      }
                     }, function error() {
                       //file is not uploaded
                       if(!file.error){
