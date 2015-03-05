@@ -43,7 +43,7 @@ angular.module('tink.dropupload')
               tinkUploadService.addUrls(config.url);
             }
 
-            scope.$watch('ngModel',function(newVa,ol){
+            scope.$watchCollection('ngModel',function(newVa,ol){
               if(newVa instanceof Array){
                 if(newVa !== ol && newVa.length > ol.length){
                   angular.forEach(newVa,function(value){
