@@ -5,10 +5,10 @@
       <input  data-ng-if="multiple" class="upload-file-input" name="{{fieldName}}" type="file" data-ng-file-select="onFileSelect($files)" multiple="" />
       <input  data-ng-if="!multiple" class="upload-file-input" name="{{fieldName}}" type="file" data-ng-file-select="onFileSelect($files)"/>
     </div>
-    <span class="help-block" data-ng-transclude>Toegelaten bestanden: pdf, jpg, jpeg. Maximum grootte: 2MB</span>
+    <span class="help-block" data-ng-transclude>Toegelaten bestanden: jpg, gif, png, pdf. Maximum grootte: 2MB</span>
   </div>
 
-  <p class="upload-file-change" data-ng-if="message.hold">De vorige file is vervangen. <a data-ng-mouseup="undo($event)">Ongedaan maken.</a></p>
+  <p class="upload-file-change" data-ng-if="message.hold">De vorige file werd vervangen. <a data-ng-mouseup="undo($event)">Ongedaan maken.</a></p>
 
   <ul class="upload-files">
     <li data-ng-repeat="file in files track by $index" data-ng-class="{'success': !file.error && file.getProgress() === 100, 'error': file.error}">
