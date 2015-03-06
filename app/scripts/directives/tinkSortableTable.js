@@ -7,7 +7,7 @@ angular.module('tink.sortable')
     templateUrl:'templates/tinkSortableTable.html',
     scope:{
       ngModel:'=',
-      headers:'=?',
+      headers:'=',
       actions:'=?',
       itemsPerPage:'=?'
     },
