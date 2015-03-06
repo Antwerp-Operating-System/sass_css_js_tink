@@ -79,8 +79,9 @@ angular.module('tink.sortable')
       //which sorting is happening
       scope.sorting = {field:'',direction:1};
       //preview headers
-      scope.headers = [{field:'name',alias:'Voornaam',checked:true},{field:'achternaam',alias:'Achternaam',checked:false},{field:'adress',alias:'Adres',visible:true,checked:true}];
-
+      if(!scope.headers instanceof Array){
+        scope.headers = [];
+      }
       //function that runs at the beginning to handle the headers.
       function handleHeaders(){
         angular.forEach(scope.headers,function(value){
