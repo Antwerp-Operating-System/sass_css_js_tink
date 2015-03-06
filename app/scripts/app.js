@@ -50,7 +50,8 @@ angular.module('tinkFramework', [
         templateUrl: 'views/grid.html'
       })
       .when('/sortable-table', {
-        templateUrl: 'views/sortable-table.html'
+        templateUrl: 'views/sortable-table.html',
+        controller: 'MainCtrl'
       })
       .when('/work-agile-tool', {
         templateUrl: 'views/work-agile-tool.html'

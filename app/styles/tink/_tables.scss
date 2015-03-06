@@ -26,6 +26,7 @@ table {
   }
 
   > thead > tr > th {
+    background-color: $table-heading-bg;
     border-bottom: 2px solid $table-border-color;
     vertical-align: bottom; // Bottom align for column headings
   }
