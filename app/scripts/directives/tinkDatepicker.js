@@ -2,7 +2,7 @@
 angular.module('tink.datepicker', [])
 .directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply','$window',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply,$window) {
   return {
-    restrict:'EA',
+    restrict:'E',
     require:['ngModel','?^form'],
     replace:true,
     templateUrl:'templates/tinkDatePickerInput.html',
@@ -237,10 +237,10 @@ angular.module('tink.datepicker', [])
         if(!angular.isDate(after)){
           return false;
         }
-        var copyDate = new Date(date.getFullYear(),date.getMonth(),1);
-        var copyafter = new Date(after.getFullYear(),after.getMonth(),1);
+        var copyDate = new Date(date.getFullYear(),date.getMonth(),1,0,0,0);
+        var copyafter = new Date(after.getFullYear(),after.getMonth(),1,0,0,0);
 
-        if(!dateCalculator.dateBeforeOther(copyafter,copyDate)){
+        if(!dateCalculator.dateBeforeOther(copyafter,copyDate) || copyafter.getTime()===copyDate.getTime()){
           return true;
         }
         return false;

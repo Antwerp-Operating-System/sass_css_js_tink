@@ -3,162 +3,191 @@
  * --------------------------------------------------
  */
 
-$zindex-popover:           1060 !default;
-//== Popovers
-//
-//##
-
-//** Popover body background color
-$popover-bg:                          #fff !default;
-//** Popover maximum width
-$popover-max-width:                   276px !default;
-//** Popover border color
-$popover-border-color:                rgba(0,0,0,.2) !default;
-//** Popover fallback border color
-$popover-fallback-border-color:       #ccc !default;
-
-//** Popover title background color
-$popover-title-bg:                    darken($popover-bg, 3%) !default;
-
-//** Popover arrow width
-$popover-arrow-width:                 10px !default;
-//** Popover arrow color
-$popover-arrow-color:                 $popover-bg !default;
-
-//** Popover outer arrow width
-$popover-arrow-outer-width:           ($popover-arrow-width + 1) !default;
-//** Popover outer arrow color
-$popover-arrow-outer-color:           fade_in($popover-border-color, 0.05) !default;
-//** Popover outer arrow fallback color
-$popover-arrow-outer-fallback-color:  darken($popover-fallback-border-color, 20%) !default;
-
 .popover {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: $zindex-popover;
-  display: none;
-  max-width: $popover-max-width;
-  padding: 1px;
-  // Reset font and text propertes given new insertion method
-  font-family: $font-family-base;
-  font-size: $font-size-base;
-  font-weight: normal;
-  line-height: $line-height-base;
-  text-align: left;
-  background-color: $popover-bg;
+  background-color: $popover-bg-color;
   background-clip: padding-box;
   border: 1px solid $popover-fallback-border-color;
   border: 1px solid $popover-border-color;
   border-radius: $border-radius-large;
-
-
-  // Overrides for proper insertion
+  font-family: $font-family-base;
+  font-size: rem($font-size-base);
+  font-weight: normal;
+  line-height: $line-height-base;
+  min-width: rem($popover-min-width);
+  max-width: rem($popover-max-width);
+  padding: rem($popover-padding);
+  position: relative;
+  transition: bottom $animation-speed linear, left $animation-speed linear, right $animation-speed linear, top $animation-speed linear;
   white-space: normal;
+  z-index: layer("popover");
 
-  // Offset the popover to account for the popover arrow
-  &.top     { margin-top: -$popover-arrow-width; }
-  &.right   { margin-left: $popover-arrow-width; }
-  &.bottom  { margin-top: $popover-arrow-width; }
-  &.left    { margin-left: -$popover-arrow-width; }
-}
-
-.popover-title {
-  margin: 0; // reset heading margin
-  padding: 8px 14px;
-  font-size: $font-size-base;
-  background-color: $popover-title-bg;
-  border-bottom: 1px solid darken($popover-title-bg, 5%);
-  border-radius: ($border-radius-large - 1) ($border-radius-large - 1) 0 0;
-}
-
-.popover-content {
-  padding: 9px 14px;
-}
-
-// Arrows
-//
-// .arrow is outer, .arrow:after is inner
-
-.popover > .arrow {
-  &,
+  &:before,
   &:after {
-    position: absolute;
+    content: '';
     display: block;
-    width: 0;
     height: 0;
-    border-color: transparent;
-    border-style: solid;
+    overflow: hidden;
+    position: absolute;
+    width: 0;
   }
-}
-.popover > .arrow {
-  border-width: $popover-arrow-outer-width;
-}
-.popover > .arrow:after {
-  border-width: $popover-arrow-width;
-  content: "";
-}
 
-.popover {
-  &.top > .arrow {
-    left: 50%;
-    margin-left: -$popover-arrow-outer-width;
-    border-bottom-width: 0;
-    border-top-color: $popover-arrow-outer-fallback-color; // IE8 fallback
-    border-top-color: $popover-arrow-outer-color;
-    bottom: -$popover-arrow-outer-width;
-    &:after {
-      content: " ";
-      bottom: 1px;
-      margin-left: -$popover-arrow-width;
-      border-bottom-width: 0;
-      border-top-color: $popover-arrow-color;
+
+  &.arrow-top {
+    &:before {
+      top: -1px;
+      left: 50%;
+      margin-top: -$popover-arrow-outer-width;
+      margin-left: -$popover-arrow-outer-width;
+      border-bottom: $popover-arrow-outer-width $popover-arrow-outer-color solid;
+      border-left: $popover-arrow-outer-width transparent solid;
+      border-right: $popover-arrow-outer-width transparent solid;
     }
-  }
-  &.right > .arrow {
-    top: 50%;
-    left: -$popover-arrow-outer-width;
-    margin-top: -$popover-arrow-outer-width;
-    border-left-width: 0;
-    border-right-color: $popover-arrow-outer-fallback-color; // IE8 fallback
-    border-right-color: $popover-arrow-outer-color;
     &:after {
-      content: " ";
-      left: 1px;
-      bottom: -$popover-arrow-width;
-      border-left-width: 0;
-      border-right-color: $popover-arrow-color;
-    }
-  }
-  &.bottom > .arrow {
-    left: 50%;
-    margin-left: -$popover-arrow-outer-width;
-    border-top-width: 0;
-    border-bottom-color: $popover-arrow-outer-fallback-color; // IE8 fallback
-    border-bottom-color: $popover-arrow-outer-color;
-    top: -$popover-arrow-outer-width;
-    &:after {
-      content: " ";
-      top: 1px;
+      top: 0;
+      left: 50%;
+      margin-top: -($popover-arrow-width - .5);
       margin-left: -$popover-arrow-width;
-      border-top-width: 0;
-      border-bottom-color: $popover-arrow-color;
+      border-bottom: $popover-arrow-width $popover-bg-color solid;
+      border-left: $popover-arrow-width transparent solid;
+      border-right: $popover-arrow-width transparent solid;
+    }
+    &-left {
+      @extend .arrow-top;
+      &:before, &:after { left: $popover-percentage * 1%; }
+    }
+    &-right {
+      @extend .arrow-top;
+      &:before, &:after { left: (100 - $popover-percentage) * 1%; }
     }
   }
 
-  &.left > .arrow {
-    top: 50%;
-    right: -$popover-arrow-outer-width;
-    margin-top: -$popover-arrow-outer-width;
-    border-right-width: 0;
-    border-left-color: $popover-arrow-outer-fallback-color; // IE8 fallback
-    border-left-color: $popover-arrow-outer-color;
+  &.arrow-bottom {
+    &:before {
+      bottom: -1px;
+      left: 50%;
+      margin-bottom: -$popover-arrow-outer-width;
+      margin-left: -$popover-arrow-outer-width;
+      border-top: $popover-arrow-outer-width $popover-arrow-outer-color solid;
+      border-left: $popover-arrow-outer-width transparent solid;
+      border-right: $popover-arrow-outer-width transparent solid;
+    }
     &:after {
-      content: " ";
-      right: 1px;
-      border-right-width: 0;
-      border-left-color: $popover-arrow-color;
-      bottom: -$popover-arrow-width;
+      bottom: 0;
+      left: 50%;
+      margin-bottom: -($popover-arrow-width - .5);
+      margin-left: -$popover-arrow-width;
+      border-top: $popover-arrow-width $popover-bg-color solid;
+      border-left: $popover-arrow-width transparent solid;
+      border-right: $popover-arrow-width transparent solid;
+    }
+    &-left {
+      @extend .arrow-bottom;
+      &:before, &:after { left: $popover-percentage * 1%; }
+    }
+    &-right {
+      @extend .arrow-bottom;
+      &:before, &:after { left: (100 - $popover-percentage) * 1%; }
     }
   }
+
+  &.arrow-left {
+    &:before {
+      left: -1px;
+      top: 50%;
+      margin-top: -$popover-arrow-outer-width;
+      margin-left: -$popover-arrow-outer-width;
+      border-right: $popover-arrow-outer-width $popover-arrow-outer-color solid;
+      border-top: $popover-arrow-outer-width transparent solid;
+      border-bottom: $popover-arrow-outer-width transparent solid;
+    }
+    &:after {
+      left: 0;
+      top: 50%;
+      margin-top: -$popover-arrow-width;
+      margin-left: -($popover-arrow-width - .5);
+      border-right: $popover-arrow-width $popover-bg-color solid;
+      border-top: $popover-arrow-width transparent solid;
+      border-bottom: $popover-arrow-width transparent solid;
+    }
+    &-top {
+      @extend .arrow-left;
+      &:before, &:after { top: $popover-percentage * 1%; }
+    }
+    &-bottom {
+      @extend .arrow-left;
+      &:before, &:after { top: (100 - $popover-percentage) * 1%; }
+    }
+  }
+
+  &.arrow-right {
+    &:before {
+      right: -1px;
+      top: 50%;
+      margin-top: -$popover-arrow-outer-width;
+      margin-right: -$popover-arrow-outer-width;
+      border-left: $popover-arrow-outer-width $popover-arrow-outer-color solid;
+      border-top: $popover-arrow-outer-width transparent solid;
+      border-bottom: $popover-arrow-outer-width transparent solid;
+    }
+    &:after {
+      right: 0;
+      top: 50%;
+      margin-top: -$popover-arrow-width;
+      margin-right: -($popover-arrow-width - .5);
+      border-left: $popover-arrow-width $popover-bg-color solid;
+      border-top: $popover-arrow-width transparent solid;
+      border-bottom: $popover-arrow-width transparent solid;
+    }
+    &-top {
+      @extend .arrow-right;
+      &:before, &:after { top: $popover-percentage * 1%; }
+    }
+    &-bottom {
+      @extend .arrow-right;
+      &:before, &:after { top: (100 - $popover-percentage) * 1%; }
+    }
+  }
+
+
+  &-header {
+    // background-color: #bada55;
+    margin: rem($padding-base-vertical 0 $padding-base-vertical * 2);
+    text-align: center;
+  }
+
+  &-header-avatar {
+    @extend .center-block;
+    width: rem(50px);
+  }
+  &-header-title {
+    font-size: $font-size-base;
+    font-weight: bold;
+    margin: rem($padding-base-vertical 0 0);
+  }
+
+  &-list {}
+  &-list-buttons {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+    text-align: left;
+
+    li {
+      margin-bottom: 2px;
+      &:last-child { margin-bottom: 0; }
+
+      a {
+        background: $popover-button-background-color;
+        color: $popover-button-color;
+        display: block;
+        padding: $padding-base-vertical $padding-base-horizontal; //$padding-base-horizontal;
+        text-decoration: none;
+
+        &:hover {
+          background-color: $popover-button-hover-background-color;
+        }
+      }
+    }
+  }
+
 }

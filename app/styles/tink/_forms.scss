@@ -11,6 +11,14 @@ fieldset {
   padding: 0;
 }
 
+// ---- Start Firefox fieldset bug hack. See https://bugzilla.mozilla.org/show_bug.cgi?id=261037 (or http://stackoverflow.com/questions/1673346/fieldset-firefox-overflow-css-fix)
+@-moz-document url-prefix() {
+  fieldset {
+    display: table-column
+  }
+}
+// ---- End Firefox fieldset bug hack.
+
 legend {
   border: 0;
   border-bottom: 1px solid $legend-border-color;
@@ -166,7 +174,6 @@ input[type="time"] {
 
     &::-webkit-inner-spin-button {
       border-left: 1px solid $input-border-focus;
-      @warn $input-border-focus;
 
       &:before {
         border-color: transparent transparent $input-border-focus;
@@ -352,7 +359,7 @@ table {
     }
   }
 }
-// ---- End Firefox 30 select bug hacks
+// ---- End Firefox 30 select bug hack.
 
 select {
   -webkit-appearance: none;

@@ -11,6 +11,7 @@
   "indent": 2,
   "latedef": true,
   "newcap": true,
+  "loopfunc":true,
   "noarg": true,
   "quotmark": "single",
   "regexp": true,

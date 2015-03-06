@@ -26,6 +26,17 @@
 .relative {
   position: relative !important;
 }
+.vertical-align-middle { // use together with `.row`
+  display: table;
+  table-layout: fixed;
+
+  > div {
+    display: table-cell;
+    float: none;
+    height: 100%;
+    vertical-align: middle;
+  }
+}
 
 /**
  * Toggling content

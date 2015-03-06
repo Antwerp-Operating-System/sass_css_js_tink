@@ -1,0 +1,150 @@
+<div class="container">
+  <h1>Datepicker</h1>
+  <hr>
+  <div class="row">
+
+    <div class="col-sm-6">
+      <!-- =================================================================== -->
+      <!-- FORM ============================================================== -->
+      <!-- =================================================================== -->
+
+      <form name="userForm" ng-submit="submitForm()" novalidate>
+
+        <!-- NAME-->
+        <div class="form-group" ng-class="{ 'has-error' : userForm.single.$invalid && !userForm.single.$pristine }">
+          <label>Name</label>
+          <tink-datepicker name="single"  required="required" class="form-control" data-max-date="maxdate" ng-model="dates.first">
+          <p ng-show="userForm.single.$invalid && !userForm.single.$pristine" class="help-block">You name is required.</p>
+        </div>
+
+        <div class="form-group" ng-class="{ 'has-error' : (userForm.firstdubbel.$invalid && !userForm.firstdubbel.$pristine) || (userForm.lastdubbel.$invalid && !userForm.lastdubbel.$pristine) }">
+          <label>Name</label>
+          <tink-datepicker-range  type="text" name="dubbel" required class="form-control" data-first-date="dates.first" data-last-date="dates.last">
+          <p ng-show="userForm.dubbel.$invalid && !userForm.dubbel.$pristine" class="help-block">You name is required.</p>
+        </div>
+
+        <!-- USERNAME -->
+        <div class="form-group" ng-class="{ 'has-error' : userForm.username.$invalid && !userForm.username.$pristine }">
+          <label>Username</label>
+          <input type="text" name="username" class="form-control" ng-model="user.username" ng-minlength="3" ng-maxlength="8">
+          <p ng-show="userForm.username.$error.minlength" class="help-block">Username is too short.</p>
+          <p ng-show="userForm.username.$error.maxlength" class="help-block">Username is too long.</p>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
+          <label>Email</label>
+          <input type="email" name="email" class="form-control" ng-model="user.email">
+          <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+      </form>
+    </div>
+    <div class="col-sm-6">
+      <!-- =================================================================== -->
+      <!-- VALIDATION TABLES ================================================= -->
+      <!-- =================================================================== -->
+      <div class="row">
+        <div class="col-xs-3">
+          <h3 class="h4">Form</h3>
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td ng-class="{ success: userForm.$valid, danger: userForm.$invalid }">Valid</td>
+              </tr>
+              <tr>
+                <td ng-class="{ success: userForm.$pristine, danger: !userForm.$pristine }">Pristine</td>
+              </tr>
+              <tr>
+                <td ng-class="{ success: userForm.$dirty }">Dirty</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-xs-3">
+          <h3 class="h4">single</h3>
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td ng-class="{ success: userForm.single.$valid, danger: userForm.single.$invalid }">Valid</td>
+              </tr>
+              <tr>
+                <td ng-class="{ success: userForm.single.$pristine, danger: !userForm.single.$pristine }">Pristine</td>
+              </tr>
+              <tr>
+                <td ng-class="{ success: userForm.single.$dirty }">Dirty</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-xs-3">
+          <h3 class="h4">Username</h3>
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td ng-class="{ success: userForm.username.$valid, danger: userForm.username.$invalid }">Valid</td>
+              </tr>
+              <tr>
+                <td ng-class="{ success: userForm.username.$pristine, danger: !userForm.username.$pristine }">Pristine</td>
+              </tr>
+              <tr>
+                <td ng-class="{ success: userForm.username.$dirty }">Dirty</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-xs-3">
+          <h3 class="h4">Email</h3>
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td ng-class="{ success: userForm.email.$valid, danger: userForm.email.$invalid }">Valid</td>
+              </tr>
+              <tr>
+                <td ng-class="{ success: userForm.email.$pristine, danger: !userForm.email.$pristine }">Pristine</td>
+              </tr>
+              <tr>
+                <td ng-class="{ success: userForm.email.$dirty }">Dirty</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-xs-3">
+          <h3 class="h4">first dubbel</h3>
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td ng-class="{ success: userForm.firstdubbel.$valid, danger: userForm.firstdubbel.$invalid }">Valid</td>
+              </tr>
+              <tr>
+                <td ng-class="{ success: userForm.firstdubbel.$pristine, danger: !userForm.firstdubbel.$pristine }">Pristine</td>
+              </tr>
+              <tr>
+                <td ng-class="{ success: userForm.firstdubbel.$dirty }">Dirty</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-xs-3">
+          <h3 class="h4">last dubbel</h3>
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td ng-class="{ success: userForm.lastdubbel.$valid, danger: userForm.lastdubbel.$invalid }">Valid</td>
+              </tr>
+              <tr>
+                <td ng-class="{ success: userForm.lastdubbel.$pristine, danger: !userForm.lastdubbel.$pristine }">Pristine</td>
+              </tr>
+              <tr>
+                <td ng-class="{ success: userForm.lastdubbel.$dirty }">Dirty</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <button ng-click="getDate()">

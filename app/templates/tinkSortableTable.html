@@ -1,0 +1,53 @@
+<!-- placeholder for table -->
+
+<table></table>
+
+
+<div class="table-sort-options">
+  <div class="table-sort-info">
+    <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}}
+    <div class="select">
+      <select ng-Change='setItems()' ng-model='perPage'>
+        <option ng-repeat="items in itemsPerPage" ng-bind="items">{{items}}</option>
+      </select> items per pagina
+    </div>
+  </div>
+  <div class="table-sort-pagination">
+    <ul class="pagination">
+      <li class="prev" ng-class="{disabled:pageSelected===1}"  ng-click="setPrev()"><a href="" title="" tabindex="-1"><span>Vorige</span></a></li>
+      <li ng-class="{active:pageSelected===1}" ng-click="setFirst()"><a href="" title="">1</a></li>
+      <li ng-repeat="pag in showNums track by $index" ng-class="{active:pag===pageSelected}" ng-click="setPage(pag)"><a href="" ng-if="pag !== -1">{{pag}}</a> <span ng-show="pag === -1">...<span></li>
+      <li class="next" ng-click="setNext()" ng-class="{disabled:pageSelected===pages}"><a href="" title=""><span>Volgende</span></a></li>
+    </ul>
+  </div>
+</div>
+
+
+
+<br />
+<br />
+
+<!-- pop-over-menu to sort the columns of the table -->
+<div class="popover arrow-top-right show">
+<!-- arrows to sort the columns -->
+   <i class="fa fa-arrow-up" ng-click="omhoog()"> </i>
+   <i class="fa fa-arrow-down" ng-click="omlaag()"></i>
+
+<!-- checkboxlist in pop-up-menu -->
+
+  <div class="list-unstyled">
+  <li ng-repeat='header in viewer | filter:{ visible: true }' >
+    <div class="checkbox">
+      <input type="checkbox" ng-model="header.checked" id="{{header.alias}}" name="{{header.alias}}" value="{{header.alias}}" checked="">
+      <label for="{{header.alias}}"><span ng-class="{selected:selected===$index}" ng-click="select($event,$index)">{{header.alias}}</span></label>
+    </div>
+  </li>
+  </div>
+
+  <!-- save / cancel button in pop-up-menu -->
+  <button ng-click="save()">save</button> <button ng-click="cancel()">cancel</button>
+</div>
+
+<div class="popover arrow-top-right show">
+  <button ng-repeat='action in viewActions' ng-click="action.callback()">{{action.name}}</button>
+</div>
