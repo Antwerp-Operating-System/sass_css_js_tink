@@ -5,7 +5,7 @@
     <!-- =================================================================== -->
     <!-- FORM ============================================================== -->
     <!-- =================================================================== -->
-
+<button ng-click='go()'>open the modal</button>
     <form name="userForm" ng-submit="submitForm()" novalidate>
 
         <!-- NAME-->
@@ -20,7 +20,7 @@
             <tink-datepicker-range  type="text" name="dubbel" required class="form-control" data-first-date="dates.first" data-last-date="dates.last">
             <p ng-show="userForm.dubbel.$invalid && !userForm.dubbel.$pristine" class="help-block">You name is required.</p>
         </div>
-
+<tink-modal />
       <!-- USERNAME -->
 <div class="form-group" ng-class="{ 'has-error' : userForm.username.$invalid && !userForm.username.$pristine }">
     <label>Username</label>

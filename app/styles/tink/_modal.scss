@@ -1,0 +1,53 @@
+/**
+ * Modal
+ * --------------------------------------------------
+ */
+
+.modal {
+  background: $modal-backdropcolor;
+  bottom: 0;
+  content: '';
+  height: 100%;
+  overflow: scroll;
+  position: fixed;
+  left: 0;
+  right: 0;
+  text-align: center;
+  top: 0;
+  user-select: none;
+  width: 100%;
+  z-index: layer('modal');
+
+  &:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    margin-right: -0.125em;
+    vertical-align: middle;
+  }
+}
+
+.modal-dialog {
+  background-color: $modal-bgcolor;
+  border-radius: rem($modal-border-radius);
+  box-shadow: rem(0 6 24) rgba(0, 0, 0, .12);
+  display: inline-block;
+  margin: rem(32 0);
+  max-width: 95%;
+  overflow: scroll;
+  padding: rem($modal-inner-padding);
+  user-select: all;
+  vertical-align: middle;
+
+  @include mq($screen-sm) {
+    max-width: 75%;
+  }
+
+  @include mq($screen-md) {
+    max-width: 60%;
+  }
+
+  @include mq($screen-lg) {
+    max-width: rem(600);
+  }
+}
