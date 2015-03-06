@@ -1,4 +1,4 @@
-'use strict';
+
 angular.module('tink.sortable', ['ngLodash']);
 angular.module('tink.sortable')
 .directive('tinkSortableTable',['lodash','$compile','$rootScope',function(_,$compile,$rootScope){
@@ -6,7 +6,7 @@ angular.module('tink.sortable')
     restrict:'E',
     templateUrl:'templates/tinkSortableTable.html',
     scope:{
-      data:'=',
+      ngModel:'=',
       headers:'=?',
       actions:'=?',
       itemsPerPage:'=?'
@@ -24,14 +24,21 @@ angular.module('tink.sortable')
             val._checked = false;
           }
         });
-        if(scope.hulpdata[-1]){
-            scope.hulpdata[-1]._checked = false;
+        if(scope.hulpngModel[-1]){
+            scope.hulpngModel[-1]._checked = false;
           }
       }
-
-      scope.$watchCollection('data',function(){
-        scope.buildTable();
-      });
+      var ngModelWatch;
+      function watch(){
+        //scope.ngModel = angular.copy(scope.ngModel);
+        ngModelWatch = scope.$watch('ngModel',function(newArray,oldArray){
+          if(newArray !== oldArray){
+            resort();
+            scope.buildTable();
+          }
+        },true);
+      };
+      watch();
 
       if(scope.actions instanceof Array){
         scope.viewActions = [];
@@ -92,7 +99,7 @@ angular.module('tink.sortable')
       function setHeader(table,keys){
         var header = table.createTHead();
         var row = header.insertRow(0);
-
+        scope.selectedMax = keys.length-1;
         if(typeof scope.actions === 'function'){
           var thCheck = document.createElement('th');
           thCheck.innerHTML = createCheckbox(-1,i,'hulp');
@@ -117,7 +124,13 @@ angular.module('tink.sortable')
           }
         }
       }
-
+      //hersort because of new data
+      function resort(){
+        if(scope.sorting && scope.sorting.obj){
+          var sortKey =  scope.sorting.obj.field;
+          sorter(sortKey,scope.sorting.direction);
+        }
+      }
       //will be called when you press on a header
       function sorte ( i ){
         return function(){
@@ -145,8 +158,8 @@ angular.module('tink.sortable')
               length+=1;
             }
           });
-          if(!scope.hulpdata[-1]){
-            scope.hulpdata[-1] = {};
+          if(!scope.hulpngModel[-1]){
+            scope.hulpngModel[-1] = {};
           }
           if(length !== 0){
             scope.selectedCheck = true;
@@ -154,22 +167,22 @@ angular.module('tink.sortable')
             scope.selectedCheck = false;
           }
           if(length === viewable.length){
-            scope.hulpdata[-1]._checked = true;
+            scope.hulpngModel[-1]._checked = true;
           }else{
-            scope.hulpdata[-1]._checked = false;
+            scope.hulpngModel[-1]._checked = false;
           }
       }
 
       scope.checkChange = function(i){
         if(i === -1){
-          var check = scope.hulpdata[-1]._checked;
+          var check = scope.hulpngModel[-1]._checked;
           angular.forEach(viewable,function(val){
             val._checked = check;
             scope.selectedCheck = check;
           });
         }else{
-          if(scope.hulpdata[-1]){
-            scope.hulpdata[-1]._checked = false;
+          if(scope.hulpngModel[-1]){
+            scope.hulpngModel[-1]._checked = false;
           }
           fullChecked();
         }
@@ -178,14 +191,14 @@ angular.module('tink.sortable')
 
       };
 
-      scope.hulpdata=[];
+      scope.hulpngModel=[];
 
       function createCheckbox(row,i,hulp){
         if(!hulp){
           hulp ='';
         }
         var checkbox = '<div class="checkbox">'+
-                          '<input type="checkbox" ng-change="checkChange('+row+')" ng-model="'+hulp+'data['+row+']._checked" id="'+row+'" name="'+row+'" value="'+row+'">'+
+                          '<input type="checkbox" ng-change="checkChange('+row+')" ng-model="'+hulp+'ngModel['+row+']._checked" id="'+row+'" name="'+row+'" value="'+row+'">'+
                           '<label for="'+row+'"></label>'+
                         '</div>';
         return checkbox;
@@ -206,7 +219,7 @@ angular.module('tink.sortable')
                   row = body.insertRow(j);
                   if(typeof scope.actions === 'function'){
                     var check = row.insertCell(0);
-                    var index = _.findIndex(scope.data,content[j]);
+                    var index = _.findIndex(scope.ngModel,content[j]);
                     check.innerHTML = createCheckbox(index,j);
                   }
                 }
@@ -223,8 +236,27 @@ angular.module('tink.sortable')
         }
       }
 
+      function deepCopy(obj) {
+        if (Object.prototype.toString.call(obj) === '[object Array]') {
+            var out = [], i = 0, len = obj.length;
+            for ( ; i < len; i++ ) {
+                out[i] = obj[i];
+            }
+            return out;
+        }
+        if (typeof obj === 'object') {
+            var out = {}, i;
+            for ( i in obj ) {
+                out[i] = arguments.callee(obj[i]);
+            }
+            return out;
+        }
+        return obj;
+    }
+
       function sorter(sortVal,direction){
-        scope.data.sort(function(obj1, obj2) {
+        ngModelWatch();
+        scope.ngModel.sort(function(obj1, obj2) {
           var obj1Val = obj1[sortVal];
           var obj2Val = obj2[sortVal];
 
@@ -243,6 +275,7 @@ angular.module('tink.sortable')
           }
 
         });
+        watch();
       }
 
       //number of rows it wil show on the page
@@ -293,7 +326,7 @@ angular.module('tink.sortable')
       }
 
       aantalToShow = scope.perPage;
-      pages = Math.ceil(scope.data.length/aantalToShow);
+      pages = Math.ceil(scope.ngModel.length/aantalToShow);
       scope.pages = _.range(1,pages);
 
       //This function build the table and the number of pages!
@@ -301,29 +334,29 @@ angular.module('tink.sortable')
         var table = document.createElement('table');
         setHeader(table,scope.headers);
         aantalToShow = scope.perPage;
-        pages = Math.ceil(scope.data.length/aantalToShow);
+        pages = Math.ceil(scope.ngModel.length/aantalToShow);
         scope.pages = pages;
 
         var start = (scope.pageSelected-1)*aantalToShow;
         var stop = (scope.pageSelected *aantalToShow)-1;
-        viewable = _.slice(scope.data, start,stop+1);
+        viewable = _.slice(scope.ngModel, start,stop+1);
         if(viewable.length === 0 && scope.pageSelected > 1){
           scope.pageSelected = scope.pageSelected-1;
           scope.buildTable();
           return;
         }
-        if(scope.data.length === 0){
+        if(scope.ngModel.length === 0){
           scope.numFirst = 0;
         }else{
           scope.numFirst = start +1;
         }
-        if(stop > scope.data.length){
-          scope.numLast = scope.data.length;
+        if(stop > scope.ngModel.length){
+          scope.numLast = scope.ngModel.length;
         }else{
           scope.numLast = stop +1;
         }
         buildPagination();
-        scope.itemLength = scope.data.length;
+        scope.itemLength = scope.ngModel.length;
         setBody(table,viewable);  //
         table=$(table);           //variable table is added code to set class table
         table.addClass('table-interactive');   //added code to set class table

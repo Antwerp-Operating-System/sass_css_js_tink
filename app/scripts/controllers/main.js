@@ -78,8 +78,15 @@ scope.extraOptions = {date:{isPrivate:true},formName:'lalaForm'};
   scope.submitForm = function() {
     console.log(scope.userForm.dubbel);
   };
+  scope.addData = function(){
+    scope.data.push({name:'AAAAAAAa',achternaam:'AZERTY',adress:'BIMBAM STREER'});
+  }
+  scope.changeData = function(){
+    scope.data[0].name = 'AUWJEEASS';
+  }
 
   scope.actions = [{name:'remove',callback:function(items,uncheck){
+    console.log(scope.data.indexOf(items[0]))
     //scope.data[scope.data.indexOf(items[0])]._checked = false;
     uncheck();
     angular.forEach(items,function(val){

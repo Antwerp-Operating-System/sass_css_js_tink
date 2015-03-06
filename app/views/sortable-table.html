@@ -9,9 +9,11 @@
       <div class="panel-body">
         <div class="row">
           <div class="col-xs-12">
-            <tink-sortable-table data="data" actions="actions" items-per-page='pages'></tink-sortable-table>
+            <tink-sortable-table ng-model="data" actions="actions" items-per-page='pages'></tink-sortable-table>
           </div>
         </div>
       </div>
     </section>
+    <button ng-click="addData()">add row</button>
+    <button ng-click="changeData()">change row</button>
 </div>

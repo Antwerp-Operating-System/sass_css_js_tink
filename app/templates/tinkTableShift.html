@@ -1,9 +1,6 @@
-<div class="table-interactive-options">
-  <!-- arrows to sort the columns -->
-  <div class="table-interactive-sort">
-    <i class="fa fa-arrow-up" ng-click="omhoog()"> </i>
-    <i class="fa fa-arrow-down" ng-click="omlaag()"></i>
-  </div>
+<!-- arrows to sort the columns -->
+   <button ng-disabled="selected<1" ng-click="omhoog()"><i class="fa fa-arrow-up"> </i></button>
+   <button  ng-disabled="selected<0 || selected === selectedMax" ng-click="omlaag()"><i class="fa fa-arrow-down"></i></button>
 
   <!-- checkboxlist in pop-up-menu -->
 
@@ -14,11 +11,7 @@
       <label for="{{header.alias}}"><span ng-class="{selected:selected===$index}" ng-click="select($event,$index)">{{header.alias}}</span></label>
     </div>
   </li>
-</ul>
-
-  <div class="table-interactive-sort">
-    <button class="btn-xs" ng-click="save()">save</button> <button class="btn-xs" ng-click="cancel()">cancel</button>
   </div>
 
   <!-- save / cancel button in pop-up-menu -->
-  <button ng-click="save()">save</button> <button ng-click="cancel()">cancel</button>
+  <button class="btn-xs" ng-click="close()">klaar</button>
