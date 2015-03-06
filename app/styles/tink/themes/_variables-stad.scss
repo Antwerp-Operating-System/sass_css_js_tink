@@ -70,3 +70,12 @@ $hit-area-checked-bgcolor:               $primary;
  * Pagination
  */
 $pagination-link-active-bg:              $primary;
+
+
+
+/**
+ * Upload
+ */
+$upload-hover-background-color:       lighten($primary, 50%);
+$upload-border-color:                 $primary;
+$upload-bg-color-success:             lighten($brand-success, 54%);

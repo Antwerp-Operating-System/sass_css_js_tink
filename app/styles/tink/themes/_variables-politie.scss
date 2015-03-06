@@ -91,3 +91,12 @@ $panel-default-icon-color:               lighten(#333, 8%);
  * Pagination
  */
 $pagination-link-active-bg:              $brand-light;
+
+
+
+/**
+ * Upload
+ */
+$upload-hover-background-color:       lighten($brand-light, 50%);
+$upload-border-color:                 $brand-light;
+// $upload-bg-color-success:             lighten($brand-success, 54%);
