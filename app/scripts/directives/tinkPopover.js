@@ -366,14 +366,14 @@ var pos;
                   var pos1 = [];
                     var pos2 = ['left','center','right','left','center','right','top','center','bottom','top','center','bottom'];
                     if(w1 > w2){
-                      pos1.concat(['left','left','left']);
+                      pos1 = pos1.concat(['left','left','left']);
                     }else{
-                      pos1.concat(['right','right','right']);
+                      pos1 = pos1.concat(['right','right','right']);
                     }
                     if(h1 > h2){
-                      pos1.concat(['top','top','top']);
+                      pos1 = pos1.concat(['top','top','top']);
                     }else{
-                      pos1.concat(['bottom','bottom','bottom']);
+                      pos1 = pos1.concat(['bottom','bottom','bottom']);
                     }
                     var search = placementCheck(element,el,pos1,pos2);
                     if(search !== false){
