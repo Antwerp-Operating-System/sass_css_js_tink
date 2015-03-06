@@ -125,7 +125,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                       var elContent = $($compile(data)(scope));
                       var el =$($compile(popoverHtml())(scope));
                       el.css('position','absolute');
-                      el.css('visibility','hidden');
+                      el.css('display','none');
                       elContent.insertAfter(el.find('span'));
                       // el.css('z-index','99999999999');
                       if(placement === 'top'){
@@ -393,7 +393,7 @@ var pos;
                     el.css('top',data.top);
                     el.css('left',data.left);
                     arrowCal(data.place,data.align);
-                    el.css('visibility','visible');
+                    el.css('display','block');
                 });
               }
 
