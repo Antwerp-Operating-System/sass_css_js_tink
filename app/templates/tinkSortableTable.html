@@ -2,9 +2,9 @@
 
 <table></table>
 
-<button tink-popover tink-popover-template="templates/tinkTableShift.html">Options</button>
+<button tink-popover tink-popover-group="option-table" tink-popover-template="templates/tinkTableShift.html">Option</button>
 
-<div ng-if="viewActions && selected === true">
+<div ng-if="viewActions && selectedCheck === true">
   <button tink-popover tink-popover-template="templates/tinkTableAction.html">Actions</button>
 </div>
 

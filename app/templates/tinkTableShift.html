@@ -8,15 +8,17 @@
   <!-- checkboxlist in pop-up-menu -->
 
   <ul class="table-interactive-cols">
-    <li ng-repeat='header in viewer | filter:{ visible: true }' >
-      <div class="checkbox is-selectable" ng-class="{selected:selected===$index}">
-        <input type="checkbox" ng-model="header.checked" id="{{header.alias}}" name="{{header.alias}}" value="{{header.alias}}" checked="">
-        <label for="{{header.alias}}"><span ng-click="select($event,$index)">{{header.alias}}</span></label>
-      </div>
-    </li>
-  </ul>
+  <li ng-repeat='header in viewer | filter:{ visible: true }' >
+    <div class="checkbox is-selectable" ng-class="{selected:selected===$index}">
+      <input type="checkbox" ng-model="header.checked" ng-change="headerChange()" id="{{header.alias}}" name="{{header.alias}}" value="{{header.alias}}" checked="">
+      <label for="{{header.alias}}"><span ng-class="{selected:selected===$index}" ng-click="select($event,$index)">{{header.alias}}</span></label>
+    </div>
+  </li>
+</ul>
 
   <div class="table-interactive-sort">
     <button class="btn-xs" ng-click="save()">save</button> <button class="btn-xs" ng-click="cancel()">cancel</button>
   </div>
-</div>
+
+  <!-- save / cancel button in pop-up-menu -->
+  <button ng-click="save()">save</button> <button ng-click="cancel()">cancel</button>

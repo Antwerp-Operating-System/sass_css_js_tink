@@ -1,7 +1,7 @@
 'use strict';
 angular.module('tink.sortable', ['ngLodash']);
 angular.module('tink.sortable')
-.directive('tinkSortableTable',['lodash','$compile',function(_,$compile){
+.directive('tinkSortableTable',['lodash','$compile','$rootScope',function(_,$compile,$rootScope){
   return{
     restrict:'E',
     templateUrl:'templates/tinkSortableTable.html',
@@ -87,7 +87,7 @@ angular.module('tink.sortable')
       }
       handleHeaders();
       //this is a copy to show to the view
-      scope.viewer = angular.copy(scope.headers);
+      scope.viewer = scope.headers;
       //This function creates our table head
       function setHeader(table,keys){
         var header = table.createTHead();
@@ -100,7 +100,7 @@ angular.module('tink.sortable')
         }
 
         for(var k=0;k<keys.length;k++){
-          if(keys[k].checked && keys[k].visible){
+          if(keys[k] && keys[k].checked && keys[k].visible){
             // var key = Object.keys(keys[i])[0];
             var val = keys[k].alias || keys[k].field;
             var th = document.createElement('th');
@@ -149,9 +149,9 @@ angular.module('tink.sortable')
             scope.hulpdata[-1] = {};
           }
           if(length !== 0){
-            scope.selected = true;
+            scope.selectedCheck = true;
           }else{
-            scope.selected = false;
+            scope.selectedCheck = false;
           }
           if(length === viewable.length){
             scope.hulpdata[-1]._checked = true;
@@ -165,7 +165,7 @@ angular.module('tink.sortable')
           var check = scope.hulpdata[-1]._checked;
           angular.forEach(viewable,function(val){
             val._checked = check;
-            scope.selected = check;
+            scope.selectedCheck = check;
           });
         }else{
           if(scope.hulpdata[-1]){
@@ -197,7 +197,7 @@ angular.module('tink.sortable')
         var body = table.createTBody();
 
           for(var i=scope.headers.length-1;i>=0;i--){
-            if(scope.headers[i].checked && scope.headers[i].visible){
+            if(scope.headers[i] && scope.headers[i].checked && scope.headers[i].visible){
               for(var j=0;j<content.length;j++){
                 var row;
                 if(body.rows[j]){
@@ -327,7 +327,7 @@ angular.module('tink.sortable')
         setBody(table,viewable);  //
         table=$(table);           //variable table is added code to set class table
         table.addClass('table-interactive');   //added code to set class table
-
+        fullChecked();
 
         $('table').replaceWith(table); // old code: $('table').replaceWith($(table));
         $compile($('table'))(scope);
@@ -340,6 +340,7 @@ angular.module('tink.sortable')
           scope.viewer.swap(scope.selected,scope.selected-1);
           scope.selected-=1;
         }
+        scope.buildTable();
       };
       //Function that will be called to change the order
       scope.omlaag = function(){
@@ -347,7 +348,12 @@ angular.module('tink.sortable')
           scope.viewer.swap(scope.selected,scope.selected+1);
           scope.selected+=1;
         }
+        scope.buildTable();
       };
+
+      scope.headerChange = function(){
+        scope.buildTable();
+      }
       //added this to swap elements easly
       Array.prototype.swap = function(a, b) {
         var temp = this[a];
@@ -362,16 +368,6 @@ angular.module('tink.sortable')
         e.preventDefault();
         e.stopPropagation();
       };
-      //to save the changes you made
-      scope.save = function(){
-        scope.headers = angular.copy(scope.viewer);
-        scope.buildTable();
-      };
-      //to cancel the changes you made
-      scope.cancel  = function(){
-        scope.selected = -1;
-        scope.viewer = angular.copy(scope.headers);
-      };
 
       //Set first page
       scope.setFirst = function(){
@@ -382,6 +378,10 @@ angular.module('tink.sortable')
       scope.setLast = function(){
         scope.setPage(pages);
       };
+
+      scope.close = function(){
+        $rootScope.$broadcast('popover-open', { group: 'option-table',el:$('<div><div>') });
+      }
 
       //set next page
       scope.setNext = function(){
