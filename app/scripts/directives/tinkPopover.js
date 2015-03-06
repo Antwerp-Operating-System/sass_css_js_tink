@@ -106,7 +106,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                   }
                 }
 
-              })
+              });
 
               if(attributes.tinkPopoverGroup){
                 scope.$on('popover-open', function(event, args) {
@@ -192,7 +192,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
               function placementCheck(element,popover,place,align){
                 var pageScrollY = ($window.scrollY || $window.pageYOffset);
                 var pageScrollX = ($window.scrollX || $window.pageXOffset);
-                var w1 = element.offset().left - pageScrollX
+                var w1 = element.offset().left - pageScrollX;
                 var w2 = $window.innerWidth - (w1+element.outerWidth(true));
                 var h1 = element.offset().top - pageScrollY;
                 var h2 = $window.innerHeight - (h1+element.outerHeight(true));
@@ -366,14 +366,14 @@ var pos;
                   var pos1 = [];
                     var pos2 = ['left','center','right','left','center','right','top','center','bottom','top','center','bottom'];
                     if(w1 > w2){
-                      pos1.concat(['left','left','left'])
+                      pos1.concat(['left','left','left']);
                     }else{
-                      pos1.concat(['right','right','right'])
+                      pos1.concat(['right','right','right']);
                     }
                     if(h1 > h2){
-                      pos1.concat(['top','top','top'])
+                      pos1.concat(['top','top','top']);
                     }else{
-                      pos1.concat(['bottom','bottom','bottom'])
+                      pos1.concat(['bottom','bottom','bottom']);
                     }
                     var search = placementCheck(element,el,pos1,pos2);
                     var call;

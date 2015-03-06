@@ -84,12 +84,12 @@ scope.extraOptions = {date:{isPrivate:true},formName:'lalaForm'};
     uncheck();
     angular.forEach(items,function(val){
       scope.data.splice(scope.data.indexOf(val),1);
-    })
+    });
 
     console.log(items);
     //console.log(scope.data.indexOf(items[0]))
     //uncheck();
-  }}]
+  }}];
 
 
 }]);

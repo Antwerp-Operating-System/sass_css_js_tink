@@ -59,7 +59,7 @@ angular.module('tink.dropupload')
 
               angular.forEach(added,function(value){
                 if(config.multiple){
-                  if(_.indexOf(scope.files, value)==-1){
+                  if(_.indexOf(scope.files, value)===-1){
                     scope.files.push(value);
                   }
                 }else{
@@ -93,7 +93,7 @@ angular.module('tink.dropupload')
                   scope.files.push(newVa);
                 }
               }*/
-            },true)
+            },true);
 
             //function to add the liseners
             function addLisener(){

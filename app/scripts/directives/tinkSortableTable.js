@@ -23,7 +23,7 @@ angular.module('tink.sortable')
           if(val._checked===true){
             val._checked = false;
           }
-        })
+        });
         if(scope.hulpdata[-1]){
             scope.hulpdata[-1]._checked = false;
           }
@@ -31,7 +31,7 @@ angular.module('tink.sortable')
 
       scope.$watchCollection('data',function(){
         scope.buildTable();
-      })
+      });
 
       if(scope.actions instanceof Array){
         scope.viewActions = [];
@@ -43,9 +43,9 @@ angular.module('tink.sortable')
               if(val._checked===true){
                 checked.push(val);
               }
-            })
+            });
             action.callback(checked,uncheckAll);
-          }})
+          }});
         }
       }
       if(typeof scope.itemsPerPage === 'string'){
