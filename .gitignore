@@ -6,4 +6,4 @@ bower_components
 npm-debug.log
 *.sublime-workspace
 *.lock
-*tinkTemplates.js
+app/scripts/services/tinkTemplates.js
