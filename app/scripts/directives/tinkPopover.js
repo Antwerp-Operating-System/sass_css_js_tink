@@ -173,7 +173,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                   isOpen = null;
                 }
               }
-              function inViewPort(el,top,left){
+              /*function inViewPort(el,top,left){
                 var win = $($window);
                 var viewport = {
                   top : win.scrollTop(),
@@ -187,7 +187,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                   bounds.bottom = bounds.top + el.outerHeight();
 
                   return (viewport.right > bounds.right && left  > 0 && bounds.bottom < viewport.bottom);
-              }
+              }*/
 
               function placementCheck(element,popover,place,align){
                 var pageScrollY = ($window.scrollY || $window.pageYOffset);
@@ -376,7 +376,6 @@ var pos;
                       pos1.concat(['bottom','bottom','bottom']);
                     }
                     var search = placementCheck(element,el,pos1,pos2);
-                    var call;
                     if(search !== false){
                       pos = getPos(el,search.place,search.align,spacing);
                     }else{

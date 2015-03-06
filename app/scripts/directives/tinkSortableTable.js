@@ -51,13 +51,13 @@ angular.module('tink.sortable')
       if(typeof scope.itemsPerPage === 'string'){
         var items = scope.itemsPerPage.split(',');
         scope.itemsPerPage = [];
-        for(var i=0;i<items.length;i++){
-          if(items[i].slice(-1) === '*'){
-            var num = _.parseInt(items[i].substr(0,items[i].length-1));
+        for(var j=0;j<items.length;j++){
+          if(items[j].slice(-1) === '*'){
+            var num = _.parseInt(items[j].substr(0,items[j].length-1));
             scope.perPage = num;
             scope.itemsPerPage.push(num);
           }else{
-            scope.itemsPerPage.push(_.parseInt(items[i]));
+            scope.itemsPerPage.push(_.parseInt(items[j]));
           }
         }
 
@@ -99,15 +99,15 @@ angular.module('tink.sortable')
           row.appendChild(thCheck);
         }
 
-        for(var i=0;i<keys.length;i++){
-          if(keys[i].checked && keys[i].visible){
+        for(var k=0;k<keys.length;k++){
+          if(keys[k].checked && keys[k].visible){
             // var key = Object.keys(keys[i])[0];
-            var val = keys[i].alias || keys[i].field;
+            var val = keys[k].alias || keys[k].field;
             var th = document.createElement('th');
                 th.innerHTML = val;
               row.appendChild(th);
-              $(th).bind('click',sorte(i));
-              if(keys[i] === scope.sorting.obj){
+              $(th).bind('click',sorte(k));
+              if(keys[k] === scope.sorting.obj){
                 if(scope.sorting.direction === 1){
                   $(th).addClass('sort-asc');
                 }else if(scope.sorting.direction === -1){

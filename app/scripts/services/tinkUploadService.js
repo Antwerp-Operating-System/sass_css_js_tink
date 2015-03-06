@@ -26,7 +26,7 @@ angular.module('tink.dropupload')
           }
         },
         remove: function(file){
-          if(file.getData() instanceof File){
+          if(file.getData() instanceof window.File){
             //TODO
           }
         },

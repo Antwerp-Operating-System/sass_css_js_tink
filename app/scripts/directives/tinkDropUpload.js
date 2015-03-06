@@ -43,7 +43,7 @@ angular.module('tink.dropupload')
               tinkUploadService.addUrls(config.url);
             }
 
-            scope.$watchCollection('ngModel',function(newVa,ol){
+            scope.$watchCollection('ngModel',function(newVa){
               var removed = _.difference(scope.files, newVa);
               var added = _.difference(newVa,scope.files);
 
@@ -198,7 +198,7 @@ angular.module('tink.dropupload')
                     var sizeCheck = checkFileSize(file);
 
                     if(typeCheck && sizeCheck){
-                      file.upload(scope.sendOptions).then(function(file) {
+                      file.upload(scope.sendOptions).then(function() {
                         //file is uploaded
                         //add the uploaded file to the ngModel
                       }, function error() {
