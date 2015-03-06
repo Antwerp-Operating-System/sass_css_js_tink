@@ -688,10 +688,10 @@ $tooltip-arrow-color:         $tooltip-bg !default;
 /**
  * Popovers
  */
-$popover-bg-color:                      lighten($nav-aside-item-open-color, 2) !default; //$white !default;
+$popover-bg-color:                      lighten($nav-aside-item-open-color, 2) !default;
 $popover-border-color:                  rgba(0,0,0,.2) !default;
 $popover-fallback-border-color:         $gray !default;
-$popover-border-width:                  1px;
+$popover-border-width:                  1px !default;
 $popover-min-width:                     220px !default;
 $popover-max-width:                     $popover-min-width * 2 !default;
 $popover-padding:                       $padding-base-vertical !default;
@@ -702,29 +702,29 @@ $popover-arrow-width:                   11px !default;
 $popover-arrow-outer-width:             $popover-arrow-width !default;
 $popover-arrow-outer-color:             $popover-border-color !default;
 
-$popover-button-background-color:       $nav-aside-item-open-color !default; //transparent;
+$popover-button-background-color:       $nav-aside-item-open-color !default;
 $popover-button-hover-background-color: $nav-aside-link-hover-background-color !default;
 $popover-button-color:                  $nav-aside-link-color !default;
 
-$popover-percentage:                    15;
+$popover-percentage:                    15 !default;
 
 
 /**
  * Upload
  */
-$upload-border-radius:                $border-radius-base;
+$upload-border-radius:                $border-radius-base !default;
 
-$upload-background-color:             $white;
-$upload-hover-background-color:       lighten($brand, 50%);
-$upload-border-color:                 $brand-light;
+$upload-background-color:             $white !default;
+$upload-hover-background-color:       lighten($brand, 50%) !default;
+$upload-border-color:                 $brand-light !default;
 
 $upload-bg-color:                     $nav-aside-item-open-color !default;
 
-$upload-color-success:                $brand-success;
+$upload-color-success:                $brand-success !default;
 $upload-bg-color-success:             lighten($upload-color-success, 40%) !default;
 $upload-color-warning:                $brand-warning !default;
 $upload-bg-color-warning:             lighten($upload-color-warning, 45%) !default;
-$upload-color-danger:                 $brand-danger;
+$upload-color-danger:                 $brand-danger !default;
 $upload-bg-color-danger:              lighten($upload-color-danger, 48%) !default;
 
 $upload-delete-icon-color:            rgba($black, .55) !default;
@@ -917,9 +917,10 @@ $panel-danger-heading-bg:     $state-danger-bg !default;
 // heading bg and color are standard the values of tables
 //$table-interactive-heading-bg:          $panel-default-heading-bg !default;
 //$table-interactive-heading-color:       $panel-default-text !default;
-$table-interactive-heading-line:        lighten($table-heading-color, 48%) !default;
-$table-interactive-heading-hover-bg:    darken($table-heading-bg, 5%) !default;
-$table-interactive-heading-hover-color: $table-heading-color !default;
+$table-interactive-heading-line:             lighten($table-heading-color, 48%) !default;
+$table-interactive-heading-hover-bg:         darken($table-heading-bg, 5%) !default;
+$table-interactive-heading-hover-color:      $table-heading-color !default;
+$table-interactive-options-selected-bgcolor: lighten($brand, 50%) !default;
 
 /**
  * Table alternative heading

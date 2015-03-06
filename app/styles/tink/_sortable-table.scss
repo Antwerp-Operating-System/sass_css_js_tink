@@ -1,9 +1,10 @@
 /**
  * Table interactive
  * --------------------------------------------------
+ * Basic styling is already done on the table element by the _table.scss
+ * .table-interactive adds interactive styling elements
  */
-// basic styling is already done on the table element by the _table.scss
-// table interactive adds interactive styling elements
+
 
 .table-interactive {
   input[type="checkbox"] + label {
@@ -17,7 +18,7 @@
     position: relative;
     user-select: none;
 
-// setting width on first tablehead cell to fit the checkbox
+    // setting width on first tablehead cell to fit the checkbox
     &:first-child {
       width: rem(35);
     }
@@ -45,10 +46,8 @@
       }
     }
   }
-}
 
-// adding vertical separator to table heading
-.table-interactive {
+  // adding vertical separator to table heading
   &:not(.table-bordered) {
     > thead > tr > th:not(:first-child):before {
       border-left: solid 1px $table-interactive-heading-line;
@@ -60,6 +59,35 @@
     }
   }
 }
+
+
+
+/**
+ * Sort styling
+ */
+.is-selectable {
+  &.selected {
+    background-color: $table-interactive-options-selected-bgcolor;
+  }
+
+  label {
+    display: block;
+
+    span {
+      bottom: 0;
+      left: rem(32);
+      padding-top: rem(2);
+      position: absolute;
+      right: 0;
+      top: 0;
+
+      @media screen and (min-width: $screen-sm) {
+        left: rem(26);
+      }
+    }
+  }
+}
+
 
 
 /**
