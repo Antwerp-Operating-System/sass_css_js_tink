@@ -368,7 +368,7 @@ angular.module('tink.sortable')
 
       scope.headerChange = function(){
         scope.buildTable();
-      }
+      };
       //added this to swap elements easly
       Array.prototype.swap = function(a, b) {
         var temp = this[a];
@@ -396,7 +396,7 @@ angular.module('tink.sortable')
 
       scope.close = function(){
         $rootScope.$broadcast('popover-open', { group: 'option-table',el:$('<div><div>') });
-      }
+      };
 
       //set next page
       scope.setNext = function(){
