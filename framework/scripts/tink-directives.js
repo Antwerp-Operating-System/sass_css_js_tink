@@ -2783,7 +2783,7 @@ angular.module('tink.rijkRegister')
 
     }
   };
-}]);;
+}]);;'use strict';
 angular.module('tink.sortable', ['ngLodash']);
 angular.module('tink.sortable')
 .directive('tinkSortableTable',['lodash','$compile','$rootScope',function(_,$compile,$rootScope){
@@ -2822,7 +2822,7 @@ angular.module('tink.sortable')
             scope.buildTable();
           }
         },true);
-      };
+      }
       watch();
 
       if(scope.actions instanceof Array){
@@ -3021,24 +3021,6 @@ angular.module('tink.sortable')
         }
       }
 
-      function deepCopy(obj) {
-        if (Object.prototype.toString.call(obj) === '[object Array]') {
-            var out = [], i = 0, len = obj.length;
-            for ( ; i < len; i++ ) {
-                out[i] = obj[i];
-            }
-            return out;
-        }
-        if (typeof obj === 'object') {
-            var out = {}, i;
-            for ( i in obj ) {
-                out[i] = arguments.callee(obj[i]);
-            }
-            return out;
-        }
-        return obj;
-    }
-
       function sorter(sortVal,direction){
         ngModelWatch();
         scope.ngModel.sort(function(obj1, obj2) {
@@ -3171,7 +3153,7 @@ angular.module('tink.sortable')
 
       scope.headerChange = function(){
         scope.buildTable();
-      }
+      };
       //added this to swap elements easly
       Array.prototype.swap = function(a, b) {
         var temp = this[a];
@@ -3199,7 +3181,7 @@ angular.module('tink.sortable')
 
       scope.close = function(){
         $rootScope.$broadcast('popover-open', { group: 'option-table',el:$('<div><div>') });
-      }
+      };
 
       //set next page
       scope.setNext = function(){
@@ -4894,8 +4876,8 @@ angular.module('tink.safeApply', [])
 
 
   $templateCache.put('templates/tinkTableShift.html',
-    " <button ng-disabled=\"selected<1\" ng-click=omhoog()><i class=\"fa fa-arrow-up\"> </i></button>\n" +
-    "<button ng-disabled=\"selected<0 || selected === selectedMax\" ng-click=omlaag()><i class=\"fa fa-arrow-down\"></i></button>  <ul class=table-interactive-cols> <li ng-repeat=\"header in viewer | filter:{ visible: true }\"> <div class=\"checkbox is-selectable\" ng-class=\"{selected:selected===$index}\"> <input type=checkbox ng-model=header.checked ng-change=headerChange() id={{header.alias}} name={{header.alias}} value={{header.alias}} checked> <label for={{header.alias}}><span ng-class=\"{selected:selected===$index}\" ng-click=select($event,$index)>{{header.alias}}</span></label> </div> </li>   <button class=btn-xs ng-click=close()>klaar</button></ul>"
+    "<div class=table-interactive-options>  <div class=table-interactive-sort> <button class=btn-borderless ng-disabled=\"selected<1\" ng-click=omhoog()><i class=\"fa fa-arrow-up\"> </i></button>\n" +
+    "<button class=btn-borderless ng-disabled=\"selected<0 || selected === selectedMax\" ng-click=omlaag()><i class=\"fa fa-arrow-down\"></i></button> </div>  <ul class=table-interactive-cols> <li ng-repeat=\"header in viewer | filter:{ visible: true }\"> <div class=\"checkbox is-selectable\" ng-class=\"{selected:selected===$index}\"> <input type=checkbox ng-model=header.checked ng-change=headerChange() id={{header.alias}} name={{header.alias}} value={{header.alias}} checked> <label for={{header.alias}}><span ng-class=\"{selected:selected===$index}\" ng-click=select($event,$index)>{{header.alias}}</span></label> </div> </li> </ul> <div class=table-interactive-sort>  <button class=btn-xs ng-click=close()>klaar</button> </div> </div>"
   );
 
 
