@@ -8,9 +8,10 @@
   bottom: 0;
   content: '';
   height: 100%;
+  overflow: scroll;
+  position: fixed;
   left: 0;
   right: 0;
-  position: fixed;
   text-align: center;
   top: 0;
   user-select: none;
@@ -31,7 +32,22 @@
   border-radius: rem($modal-border-radius);
   box-shadow: rem(0 6 24) rgba(0, 0, 0, .12);
   display: inline-block;
+  margin: rem(32 0);
+  max-width: 95%;
+  overflow: scroll;
   padding: rem($modal-inner-padding);
   user-select: all;
   vertical-align: middle;
+
+  @include mq($screen-sm) {
+    max-width: 75%;
+  }
+
+  @include mq($screen-md) {
+    max-width: 60%;
+  }
+
+  @include mq($screen-lg) {
+    max-width: rem(600);
+  }
 }

@@ -61,7 +61,7 @@
           top: rem(7);
           width: rem(20); // visually compensating size for removing border on checkbox
 
-          @media screen and (min-width: $screen-sm) {
+          @include mq($screen-sm) {
             height: rem(14); // visually compensating size for removing border on checkbox
             left: rem(16);
             top: rem(10);
@@ -79,7 +79,7 @@
           top: rem(6);
           width: rem(22);
 
-          @media screen and (min-width: $screen-sm) {
+          @include mq($screen-sm) {
             height: rem(16);
             left: rem(15);
             top: rem(9);
