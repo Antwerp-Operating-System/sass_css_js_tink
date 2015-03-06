@@ -16,6 +16,7 @@
   > thead > tr > th {
     cursor: pointer;
     position: relative;
+    transition: background-color $animation-speed linear;
     user-select: none;
 
     // setting width on first tablehead cell to fit the checkbox
@@ -24,8 +25,10 @@
     }
 
     &:hover {
-      background-color: $table-interactive-heading-hover-bg;
-      color: $table-interactive-heading-hover-color;
+      &:not(:first-child) {
+        background-color: $table-interactive-heading-hover-bg;
+        color: $table-interactive-heading-hover-color;
+      }
     }
 
     &.sort-asc {
@@ -99,6 +102,7 @@
 
   i {
     cursor: pointer;
+    user-select: none;
 
     &:first-child {
       margin-right: rem(4);
