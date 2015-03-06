@@ -148,6 +148,11 @@ angular.module('tink.sortable')
           if(!scope.hulpdata[-1]){
             scope.hulpdata[-1] = {};
           }
+          if(length !== 0){
+            scope.selected = true;
+          }else{
+            scope.selected = false;
+          }
           if(length === viewable.length){
             scope.hulpdata[-1]._checked = true;
           }else{
@@ -160,6 +165,7 @@ angular.module('tink.sortable')
           var check = scope.hulpdata[-1]._checked;
           angular.forEach(viewable,function(val){
             val._checked = check;
+            scope.selected = check;
           });
         }else{
           if(scope.hulpdata[-1]){

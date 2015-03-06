@@ -1,7 +1,12 @@
 <!-- placeholder for table -->
 
 <table></table>
+
 <button tink-popover tink-popover-template="templates/tinkTableShift.html">Option</button>
+
+<div ng-if="viewActions && selected === true">
+  <button tink-popover tink-popover-template="templates/tinkTableAction.html">Actions</button>
+</div>
 
 <div class="table-sort-options">
   <div class="table-sort-info">
@@ -28,7 +33,3 @@
 <br />
 
 
-
-<div class="popover arrow-top-right show">
-  <button ng-repeat='action in viewActions' ng-click="action.callback()">{{action.name}}</button>
-</div>
