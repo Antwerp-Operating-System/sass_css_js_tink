@@ -1,17 +1,22 @@
-<!-- arrows to sort the columns -->
-   <i class="fa fa-arrow-up" ng-click="omhoog()"> </i>
-   <i class="fa fa-arrow-down" ng-click="omlaag()"></i>
-
-<!-- checkboxlist in pop-up-menu -->
-
-  <div class="list-unstyled">
-  <li ng-repeat='header in viewer | filter:{ visible: true }' >
-    <div class="checkbox is-selectable" ng-class="{selected:selected===$index}">
-      <input type="checkbox" ng-model="header.checked" id="{{header.alias}}" name="{{header.alias}}" value="{{header.alias}}" checked="">
-      <label for="{{header.alias}}"><span ng-click="select($event,$index)">{{header.alias}}</span></label>
-    </div>
-  </li>
+<div class="table-interactive-options">
+  <!-- arrows to sort the columns -->
+  <div class="table-interactive-sort">
+    <i class="fa fa-arrow-up" ng-click="omhoog()"> </i>
+    <i class="fa fa-arrow-down" ng-click="omlaag()"></i>
   </div>
 
-  <!-- save / cancel button in pop-up-menu -->
-  <button ng-click="save()">save</button> <button ng-click="cancel()">cancel</button>
+  <!-- checkboxlist in pop-up-menu -->
+
+  <ul class="table-interactive-cols">
+    <li ng-repeat='header in viewer | filter:{ visible: true }' >
+      <div class="checkbox is-selectable" ng-class="{selected:selected===$index}">
+        <input type="checkbox" ng-model="header.checked" id="{{header.alias}}" name="{{header.alias}}" value="{{header.alias}}" checked="">
+        <label for="{{header.alias}}"><span ng-click="select($event,$index)">{{header.alias}}</span></label>
+      </div>
+    </li>
+  </ul>
+
+  <div class="table-interactive-sort">
+    <button class="btn-xs" ng-click="save()">save</button> <button class="btn-xs" ng-click="cancel()">cancel</button>
+  </div>
+</div>

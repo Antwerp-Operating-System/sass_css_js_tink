@@ -65,27 +65,52 @@
 /**
  * Sort styling
  */
-.is-selectable {
-  &.selected {
-    background-color: $table-interactive-options-selected-bgcolor;
-  }
+.table-interactive-options {
 
-  label {
-    display: block;
+  .is-selectable {
+    padding-left: rem(4);
+    padding-right: rem(4);
 
-    span {
-      bottom: 0;
-      left: rem(32);
-      padding-top: rem(2);
-      position: absolute;
-      right: 0;
-      top: 0;
+    &.selected {
+      background-color: $table-interactive-options-selected-bgcolor;
+    }
 
-      @media screen and (min-width: $screen-sm) {
-        left: rem(26);
+    label {
+      display: block;
+
+      span {
+        bottom: 0;
+        left: rem(32);
+        padding-top: rem(2);
+        position: absolute;
+        right: 0;
+        top: 0;
+
+        @media screen and (min-width: $screen-sm) {
+          left: rem(26);
+        }
       }
     }
   }
+}
+
+.table-interactive-sort {
+  padding: rem(5);
+
+  i {
+    cursor: pointer;
+
+    &:first-child {
+      margin-right: rem(4);
+    }
+  }
+}
+
+.table-interactive-cols {
+  @extend .list-unstyled;
+  margin: rem(5 0);
+  max-height: rem(200);
+  overflow: scroll;
 }
 
 
