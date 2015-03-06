@@ -5,6 +5,7 @@ angular.module('tink.dropupload')
     return {
       restrict: 'A',
       replace: true,
+      transclude: true,
       templateUrl:'templates/tinkUpload.html',
       scope:{
         ngModel:'=',
@@ -41,6 +42,59 @@ angular.module('tink.dropupload')
             if(config.url){
               tinkUploadService.addUrls(config.url);
             }
+
+            scope.$watchCollection('ngModel',function(newVa,ol){
+              var removed = _.difference(scope.files, newVa);
+              var added = _.difference(newVa,scope.files);
+
+              angular.forEach(removed,function(value){
+                //if(config.multiple){
+                  if(_.indexOf(scope.files, value)!==-1){
+                    _.pull(scope.files, value);
+                  }
+                /*}else{
+                  scope.files=[value];
+                }*/
+              });
+
+              angular.forEach(added,function(value){
+                if(config.multiple){
+                  if(_.indexOf(scope.files, value)==-1){
+                    scope.files.push(value);
+                  }
+                }else{
+                  scope.files.length = 0;
+                  scope.files.push(value);
+                }
+              });
+              /*if(newVa instanceof Array){
+                if(newVa !== ol && newVa.length > ol.length){
+                  angular.forEach(newVa,function(value){
+                    if(_.indexOf(scope.files, value)===-1){
+                      if(value instanceof UploadFile){
+                        scope.files.push(value)
+                      }else{
+                        _.pull(scope.ngModel, value);
+                      }
+                    }
+                  })
+                }else if(newVa !== ol && newVa.length < ol.length){
+                  angular.forEach(newVa,function(value){
+                      if(value instanceof UploadFile){
+                        if(_.indexOf(scope.files, value)!==-1){
+                           _.pull(scope.files, value);
+                        }
+                      }
+                  })
+                }
+              }else if(newVa instanceof UploadFile){
+                if(_.indexOf(scope.files, newVa)===-1){
+                  scope.files = [];
+                  scope.files.push(newVa);
+                }
+              }*/
+            },true)
+
             //function to add the liseners
             function addLisener(){
               elem.bind('dragenter', dragenter);
@@ -67,13 +121,19 @@ angular.module('tink.dropupload')
             }
 
             scope.undo = function(){
-              scope.files[0].cancel();
-              scope.files[0].remove();
-              _.pull(scope.ngModel, scope.files[0]);
-              _.pull(scope.files, scope.files[0]);
+              if(scope.files[0]){
+                scope.files[0].cancel();
+                scope.files[0].remove();
+                _.pull(scope.ngModel, scope.files[0]);
+                //_.pull(scope.files, scope.files[0]);
+              }
+
               holding.hold = false;
               scope.message = {};
-              scope.files.push(holding);
+              scope.ngModel.length = 0;
+              //scope.files.length = 0;
+              //scope.files.push(holding);
+              scope.ngModel.push(holding);
               holding = null;
             };
 
@@ -87,73 +147,83 @@ angular.module('tink.dropupload')
 
             //The file is droped or selected ! same code !
             function drop(e){
-              elem.removeClass('dragenter');
-              var files;
-              if(e.type && e.type === 'drop'){
-                e.stopPropagation();
-                e.preventDefault();
-                //get the event
-                var dt = e.originalEvent.dataTransfer;
-                 files = dt.files;
-              }else{
-                files = e;
-              }
               safeApply(scope,function(){
-                for (var i = 0; i < files.length; i += 1) {
-                  var file = new UploadFile(files[i]);
+                elem.removeClass('dragenter');
+                var files;
+                if(e.type && e.type === 'drop'){
+                  e.stopPropagation();
+                  e.preventDefault();
+                  //get the event
+                  var dt = e.originalEvent.dataTransfer;
+                   files = dt.files;
+                }else{
+                  files = e;
+                }
 
-                  if(!config.multiple){
-                    //if there is a file present remove this one from the server !
-                    if(scope.files[0] !== null && scope.files[0] instanceof UploadFile){
-                      if(holding instanceof UploadFile){
-                        holding.cancel();
-                        holding.remove();
-                        _.pull(scope.ngModel, holding);
+                  for (var i = 0; i < files.length; i += 1) {
+                    var file = new UploadFile(files[i]);
+
+                    if(!config.multiple){
+                      //if there is a file present remove this one from the server !
+                      if(scope.files[0] !== null && scope.files[0] instanceof UploadFile){
+                        if(holding instanceof UploadFile){
+                          holding.cancel();
+                          holding.remove();
+                          _.pull(scope.ngModel, holding);
+                        }
+                        scope.message.hold = true;
+                        holding = scope.files[0];
+                        holding.hold = true;
+
+                        /*if(config.multiple){
+                          scope.ngModel.push(holding);
+                        }else{
+                          scope.ngModel = holding;
+                        }*/
+                        //_.pull(scope.files, scope.files[0]);
                       }
-                      scope.message.hold = true;
-                      holding = scope.files[0];
-                      holding.hold = true;
-                      scope.ngModel.push(holding);
-                      _.pull(scope.files, scope.files[0]);
                     }
-                  }
-                  scope.files.unshift(file);
-                  //check if the type and size is oke.
-                  var typeCheck = checkFileType(file);
-                  var sizeCheck = checkFileSize(file);
-
-                  if(typeCheck && sizeCheck){
-                    file.upload(scope.sendOptions).then(function(file) {
-                      //file is uploaded
-                      //add the uploaded file to the ngModel
-                      if(config.multiple){
-                        scope.ngModel.unshift(file);
-                      }else{
-                        scope.ngModel = file;
+                    if(config.multiple){
+                      if(!(scope.ngModel instanceof Array)){
+                        scope.ngModel = [];
                       }
-                    }, function error() {
-                      //file is not uploaded
+                      scope.ngModel.unshift(file);
+                    }else{
+                      scope.ngModel.length = 0;
+                      scope.ngModel.push(file);
+                    }
+
+                    //check if the type and size is oke.
+                    var typeCheck = checkFileType(file);
+                    var sizeCheck = checkFileSize(file);
+
+                    if(typeCheck && sizeCheck){
+                      file.upload(scope.sendOptions).then(function(file) {
+                        //file is uploaded
+                        //add the uploaded file to the ngModel
+                      }, function error() {
+                        //file is not uploaded
+                        if(!file.error){
+                          file.error = {};
+                        }
+                        file.error.fail = true;
+                      }, function update() {
+                        //Notification of upload
+                      });
+
+                    }else{
                       if(!file.error){
                         file.error = {};
                       }
-                      file.error.fail = true;
-                    }, function update() {
-                      //Notification of upload
-                    });
+                      if(!typeCheck){
+                        file.error.type = true;
+                      }
+                      if(!sizeCheck){
+                        file.error.size = true;
+                      }
+                    }
 
-                  }else{
-                    if(!file.error){
-                      file.error = {};
-                    }
-                    if(!typeCheck){
-                      file.error.type = true;
-                    }
-                    if(!sizeCheck){
-                      file.error.size = true;
-                    }
                   }
-
-                }
 
               });
             }
@@ -165,10 +235,13 @@ angular.module('tink.dropupload')
             scope.del = function(index){
               scope.files[index].cancel();
               scope.files[index].remove();
-              if(holding){
-                holding = null;
+
+              if(config.multiple){
+                _.pull(scope.ngModel, scope.files[0]);
+              }else{
+                scope.ngModel.length = 0;
               }
-               _.pull(scope.files, scope.files[index]);
+                _.pull(scope.ngModel, scope.files[0]);
             };
 
             function checkFileType(file){
@@ -179,11 +252,11 @@ angular.module('tink.dropupload')
               var fileType = file.getFileMimeType();
               var fileEx = file.getFileExtension();
 
-              if(!mimeType || !_.isArray(mimeType)) {
+              if(!mimeType || mimeType.length === 0 || !_.isArray(mimeType)) {
                   return true;
               }
 
-              if(!extention || !_.isArray(extention)) {
+              if(!extention || extention.length === 0 || !_.isArray(extention)) {
                   return true;
               }
 

@@ -25,6 +25,11 @@ angular.module('tink.dropupload')
             throw 'No instanceof uploadfile';
           }
         },
+        remove: function(file){
+          if(file.getData() instanceof File){
+            //TODO
+          }
+        },
         addUrls: function (url,type) {
           if(type === undefined || type === null || type === ''){
             type = 'all';
