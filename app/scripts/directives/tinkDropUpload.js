@@ -48,23 +48,23 @@ angular.module('tink.dropupload')
               var added = _.difference(newVa,scope.files);
 
               angular.forEach(removed,function(value){
-                //if(config.multiple){
+                if(value instanceof UploadFile){
                   if(_.indexOf(scope.files, value)!==-1){
                     _.pull(scope.files, value);
                   }
-                /*}else{
-                  scope.files=[value];
-                }*/
+                }
               });
 
               angular.forEach(added,function(value){
-                if(config.multiple){
-                  if(_.indexOf(scope.files, value)===-1){
+                if(value instanceof UploadFile){
+                  if(config.multiple){
+                    if(_.indexOf(scope.files, value)===-1){
+                      scope.files.push(value);
+                    }
+                  }else{
+                    scope.files.length = 0;
                     scope.files.push(value);
                   }
-                }else{
-                  scope.files.length = 0;
-                  scope.files.push(value);
                 }
               });
               /*if(newVa instanceof Array){

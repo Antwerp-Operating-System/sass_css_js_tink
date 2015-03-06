@@ -1,7 +1,7 @@
 <!-- placeholder for table -->
 
 <table></table>
-
+<button tink-popover tink-popover-template="templates/tinkTableShift.html">Option</button>
 
 <div class="table-sort-options">
   <div class="table-sort-info">
@@ -27,26 +27,7 @@
 <br />
 <br />
 
-<!-- pop-over-menu to sort the columns of the table -->
-<div class="popover arrow-top-right show">
-<!-- arrows to sort the columns -->
-   <i class="fa fa-arrow-up" ng-click="omhoog()"> </i>
-   <i class="fa fa-arrow-down" ng-click="omlaag()"></i>
 
-<!-- checkboxlist in pop-up-menu -->
-
-  <div class="list-unstyled">
-  <li ng-repeat='header in viewer | filter:{ visible: true }' >
-    <div class="checkbox">
-      <input type="checkbox" ng-model="header.checked" id="{{header.alias}}" name="{{header.alias}}" value="{{header.alias}}" checked="">
-      <label for="{{header.alias}}"><span ng-class="{selected:selected===$index}" ng-click="select($event,$index)">{{header.alias}}</span></label>
-    </div>
-  </li>
-  </div>
-
-  <!-- save / cancel button in pop-up-menu -->
-  <button ng-click="save()">save</button> <button ng-click="cancel()">cancel</button>
-</div>
 
 <div class="popover arrow-top-right show">
   <button ng-repeat='action in viewActions' ng-click="action.callback()">{{action.name}}</button>

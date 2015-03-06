@@ -182,7 +182,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                 viewport.right = viewport.left + win.width();
                 viewport.bottom = viewport.top + win.height();
 
-                var bounds = el.offset();
+                var bounds = el.position();
                   bounds.right = bounds.left + el.outerWidth();
                   bounds.bottom = bounds.top + el.outerHeight();
 
@@ -192,11 +192,11 @@ angular.module('tink.popOver', ['tink.tooltip'])
               function placementCheck(element,popover,place,align){
                 var pageScrollY = ($window.scrollY || $window.pageYOffset);
                 var pageScrollX = ($window.scrollX || $window.pageXOffset);
-                var w1 = element.offset().left - pageScrollX;
+                var w1 = element.position().left - pageScrollX;
                 var w2 = $window.innerWidth - (w1+element.outerWidth(true));
-                var h1 = element.offset().top - pageScrollY;
+                var h1 = element.position().top - pageScrollY;
                 var h2 = $window.innerHeight - (h1+element.outerHeight(true));
-                var elemOffsetX = element.offset().left + element.outerWidth(true) - pageScrollY;
+                var elemOffsetX = element.position().left + element.outerWidth(true) - pageScrollY;
 
                 var pW = popover.outerWidth(true);
                 var pH = popover.outerHeight(true);
@@ -257,11 +257,11 @@ angular.module('tink.popOver', ['tink.tooltip'])
                 var pageScrollY = ($window.scrollY || $window.pageYOffset);
                 var pageScrollX = ($window.scrollX || $window.pageXOffset);
 
-                var w1 = element.offset().left - pageScrollX;
+                var w1 = element.position().left - pageScrollX;
                 var w2 = $window.innerWidth - (w1+element.outerWidth(true));
-                var h1 = element.offset().top - pageScrollY;
+                var h1 = element.position().top - pageScrollY;
                 var h2 = $window.innerHeight - (h1+element.outerHeight(true));
-                //var elemOffsetX = element.offset().left + element.outerWidth(true) - $window.scrollY;
+                //var elemOffsetX = element.position().left + element.outerWidth(true) - $window.scrollY;
                 var chosen = {};
 
 
@@ -418,20 +418,20 @@ var pos;
                   alignTop = (el.outerHeight(true)*porcent[align]) - (element.outerHeight(true)/2);
                 }
 
-                var left = element.offset().left - alignLeft;
+                var left = element.position().left - alignLeft;
                 var top = null;
                   if(placement === 'top'){
-                    top = element.offset().top - el.outerHeight(true)- arrowHeight - spacing;
+                    top = element.position().top - el.outerHeight(true)- arrowHeight - spacing;
                   }else if(placement === 'bottom'){
-                    top = element.offset().top + element.outerHeight() + arrowHeight +spacing;
+                    top = element.position().top + element.outerHeight() + arrowHeight +spacing;
                   }else if(placement === 'right'){
-                    left = element.offset().left + element.outerWidth(true) + arrowWidth + spacing;
+                    left = element.position().left + element.outerWidth(true) + arrowWidth + spacing;
                   }else if(placement === 'left'){
-                    left = element.offset().left - el.outerWidth(true)- arrowWidth - spacing;
+                    left = element.position().left - el.outerWidth(true)- arrowWidth - spacing;
                   }
 
                   if(placement === 'right' || placement === 'left'){
-                    top = element.offset().top- alignTop;
+                    top = element.position().top- alignTop;
                   }
                     q.resolve({top:top,left:left,place:placement,align:align});
               },50);
