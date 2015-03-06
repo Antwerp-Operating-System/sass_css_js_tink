@@ -1,4 +1,4 @@
-'use strict';
+
 angular.module('tink.sortable', ['ngLodash']);
 angular.module('tink.sortable')
 .directive('tinkSortableTable',['lodash','$compile','$rootScope',function(_,$compile,$rootScope){
@@ -37,7 +37,7 @@ angular.module('tink.sortable')
             scope.buildTable();
           }
         },true);
-      }
+      };
       watch();
 
       if(scope.actions instanceof Array){
@@ -235,6 +235,24 @@ angular.module('tink.sortable')
           }
         }
       }
+
+      function deepCopy(obj) {
+        if (Object.prototype.toString.call(obj) === '[object Array]') {
+            var out = [], i = 0, len = obj.length;
+            for ( ; i < len; i++ ) {
+                out[i] = obj[i];
+            }
+            return out;
+        }
+        if (typeof obj === 'object') {
+            var out = {}, i;
+            for ( i in obj ) {
+                out[i] = arguments.callee(obj[i]);
+            }
+            return out;
+        }
+        return obj;
+    }
 
       function sorter(sortVal,direction){
         ngModelWatch();

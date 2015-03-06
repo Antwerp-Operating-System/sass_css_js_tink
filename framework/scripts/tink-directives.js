@@ -204,7 +204,7 @@ this.closeGroup = function(elem){
 }]);
 ;'use strict';
 angular.module('tink.datepicker', [])
-.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply','$window',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply,$window) {
+.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply','$window','$sce',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply,$window,$sce) {
   return {
     restrict:'E',
     require:['ngModel','?^form'],
@@ -277,6 +277,12 @@ angular.module('tink.datepicker', [])
         $directive.selectedDate =  newVal;
         $directive.viewDate = newVal;
       });
+
+      // labels for the days you can make this variable //
+      var dayLabels = ['ma', 'di', 'wo', 'do', 'vr', 'za', 'zo'];
+       // -- create the labels  --/
+       scope.labels = $sce.trustAsHtml('<th>' + dayLabels.join('</th><th>') + '</th>');
+      // Add a watch to know when input changes from the outside //
 
       // -- check if we are using a touch device  --/
      var isDateSupported = function() {
@@ -441,10 +447,10 @@ angular.module('tink.datepicker', [])
         if(!angular.isDate(after)){
           return false;
         }
-        var copyDate = new Date(date.getFullYear(),date.getMonth(),1);
-        var copyafter = new Date(after.getFullYear(),after.getMonth(),1);
+        var copyDate = new Date(date.getFullYear(),date.getMonth(),1,0,0,0);
+        var copyafter = new Date(after.getFullYear(),after.getMonth(),1,0,0,0);
 
-        if(!dateCalculator.dateBeforeOther(copyafter,copyDate)){
+        if(!dateCalculator.dateBeforeOther(copyafter,copyDate) || copyafter.getTime()===copyDate.getTime()){
           return true;
         }
         return false;
@@ -1158,7 +1164,321 @@ angular.module('tink.dropdown', [])
       });
     }
   };
-});;  'use strict';
+});;'use strict';
+angular.module('tink.dropupload', ['ngLodash']);
+angular.module('tink.dropupload')
+.directive('tinkUpload', ['$window', 'safeApply','UploadFile','lodash','tinkUploadService', function($window, safeApply,UploadFile,_,tinkUploadService) {
+    return {
+      restrict: 'A',
+      replace: true,
+      transclude: true,
+      templateUrl:'templates/tinkUpload.html',
+      scope:{
+        ngModel:'=',
+        fieldName: '@?',
+        multiple: '=?',
+        allowedTypes:'=?',
+        maxFileSize:'@?',
+        url:'@?',
+        sendOptions:'=?'
+      },
+      compile: function() {
+        return {
+          pre: function() {
+          },
+          post: function(scope, elem) {
+            //Config object with default values
+            var config = {
+              multiple:true,
+              removeFromServer:true,
+              allowedTypes:{mimeTypes:[],extensions:[]},
+              maxFileSize:'0',
+              url:undefined,
+              options:{}
+            };
+            //To let the view know we have a message.
+            scope.message = {};
+            var holding = null;
+            //Check the scope variable and change the config variable
+            for(var key in config){
+              if(scope[key] !== undefined){
+                config[key] = scope[key];
+              }
+            }
+            if(config.url){
+              tinkUploadService.addUrls(config.url);
+            }
+
+            scope.$watchCollection('ngModel',function(newVa){
+              var removed = _.difference(scope.files, newVa);
+              var added = _.difference(newVa,scope.files);
+
+              angular.forEach(removed,function(value){
+                if(value instanceof UploadFile){
+                  if(_.indexOf(scope.files, value)!==-1){
+                    _.pull(scope.files, value);
+                  }
+                }
+              });
+
+              angular.forEach(added,function(value){
+                if(value instanceof UploadFile){
+                  if(config.multiple){
+                    if(_.indexOf(scope.files, value)===-1){
+                      scope.files.unshift(value);
+                    }
+                  }else{
+                    scope.files.length = 0;
+                    scope.files.unshift(value);
+                  }
+                }
+              });
+              /*if(newVa instanceof Array){
+                if(newVa !== ol && newVa.length > ol.length){
+                  angular.forEach(newVa,function(value){
+                    if(_.indexOf(scope.files, value)===-1){
+                      if(value instanceof UploadFile){
+                        scope.files.push(value)
+                      }else{
+                        _.pull(scope.ngModel, value);
+                      }
+                    }
+                  })
+                }else if(newVa !== ol && newVa.length < ol.length){
+                  angular.forEach(newVa,function(value){
+                      if(value instanceof UploadFile){
+                        if(_.indexOf(scope.files, value)!==-1){
+                           _.pull(scope.files, value);
+                        }
+                      }
+                  })
+                }
+              }else if(newVa instanceof UploadFile){
+                if(_.indexOf(scope.files, newVa)===-1){
+                  scope.files = [];
+                  scope.files.push(newVa);
+                }
+              }*/
+            },true);
+
+            //function to add the liseners
+            function addLisener(){
+              elem.bind('dragenter', dragenter);
+              elem.bind('dragleave', dragleave);
+              elem.bind('dragover', dragover);
+              elem.bind('drop', drop);
+            }
+            //Drag enter to add a class
+            function dragenter(e){
+              e.stopPropagation();
+              e.preventDefault();
+              elem.addClass('dragenter');
+            }
+            //Leave drag area to remove the class
+            function dragleave(){
+              elem.removeClass('dragenter');
+            }
+
+            //Drag over prevent default because we do not need it.
+            function dragover(e){
+              e.stopPropagation();
+              e.preventDefault();
+              elem.addClass('dragenter');
+            }
+
+            scope.undo = function(){
+              if(scope.files[0]){
+                scope.files[0].cancel();
+                scope.files[0].remove();
+                _.pull(scope.ngModel, scope.files[0]);
+                //_.pull(scope.files, scope.files[0]);
+              }
+
+              holding.hold = false;
+              scope.message = {};
+              scope.ngModel.length = 0;
+              //scope.files.length = 0;
+              //scope.files.push(holding);
+              scope.ngModel.push(holding);
+              holding = null;
+            };
+
+            //if the ngModel is not defined we define it for you
+            if(scope.ngModel !== undefined){
+                scope.ngModel = [];
+            }
+            //create internal files object for use to handle the view
+              scope.files = [];
+            //}
+
+            //The file is droped or selected ! same code !
+            function drop(e){
+              safeApply(scope,function(){
+                elem.removeClass('dragenter');
+                var files;
+                if(e.type && e.type === 'drop'){
+                  e.stopPropagation();
+                  e.preventDefault();
+                  //get the event
+                  var dt = e.originalEvent.dataTransfer;
+                   files = dt.files;
+                }else{
+                  files = e;
+                }
+
+                  for (var i = 0; i < files.length; i += 1) {
+                    var file = new UploadFile(files[i]);
+
+                    if(!config.multiple){
+                      //if there is a file present remove this one from the server !
+                      if(scope.files[0] !== null && scope.files[0] instanceof UploadFile){
+                        if(holding instanceof UploadFile){
+                          holding.cancel();
+                          holding.remove();
+                          _.pull(scope.ngModel, holding);
+                        }
+                        scope.message.hold = true;
+                        holding = scope.files[0];
+                        holding.hold = true;
+
+                        /*if(config.multiple){
+                          scope.ngModel.push(holding);
+                        }else{
+                          scope.ngModel = holding;
+                        }*/
+                        //_.pull(scope.files, scope.files[0]);
+                      }
+                    }
+                    if(config.multiple){
+                      if(!(scope.ngModel instanceof Array)){
+                        scope.ngModel = [];
+                      }
+                      scope.ngModel.unshift(file);
+                    }else{
+                      scope.ngModel.length = 0;
+                      scope.ngModel.push(file);
+                    }
+
+                    //check if the type and size is oke.
+                    var typeCheck = checkFileType(file);
+                    var sizeCheck = checkFileSize(file);
+
+                    if(typeCheck && sizeCheck){
+                      file.upload(scope.sendOptions).then(function() {
+                        //file is uploaded
+                        //add the uploaded file to the ngModel
+                      }, function error() {
+                        //file is not uploaded
+                        if(!file.error){
+                          file.error = {};
+                        }
+                        file.error.fail = true;
+                      }, function update() {
+                        //Notification of upload
+                      });
+
+                    }else{
+                      if(!file.error){
+                        file.error = {};
+                      }
+                      if(!typeCheck){
+                        file.error.type = true;
+                      }
+                      if(!sizeCheck){
+                        file.error.size = true;
+                      }
+                    }
+
+                  }
+
+              });
+            }
+
+            /*function remove(){
+
+            }*/
+
+            scope.del = function(index){
+              scope.files[index].cancel();
+              scope.files[index].remove();
+
+              if(config.multiple){
+                _.pull(scope.ngModel, scope.files[0]);
+              }else{
+                scope.ngModel.length = 0;
+              }
+                _.pull(scope.ngModel, scope.files[0]);
+            };
+
+            function checkFileType(file){
+
+              var mimeType = config.allowedTypes.mimeTypes;
+              var extention = config.allowedTypes.extensions;
+
+              var fileType = file.getFileMimeType();
+              var fileEx = file.getFileExtension();
+
+              if(!mimeType || mimeType.length === 0 || !_.isArray(mimeType)) {
+                  return true;
+              }
+
+              if(!extention || extention.length === 0 || !_.isArray(extention)) {
+                  return true;
+              }
+
+              if(_.indexOf(mimeType, fileType) > -1){
+                if(_.indexOf(extention, fileEx) > -1){
+                  return true;
+                }else{
+                  return true;
+                }
+              }else{
+                return false;
+              }
+
+
+            }
+
+            function checkFileSize(file){
+              var fileSize = _.parseInt(file.getFileSize());
+
+              if(!config.maxFileSize){
+                return true;
+              }
+              if(typeof config.maxFileSize === 'number'){
+                if(config.maxFileSize === 0 || fileSize <= config.maxFileSize){
+                  return true;
+                }else{
+                  return false;
+                }
+              }else if(typeof config.maxFileSize === 'string'){
+                var maxSize = _.parseInt(config.maxFileSize);
+                if(maxSize === 0 || fileSize <= maxSize){
+                  return true;
+                }else{
+                  return false;
+                }
+              }else{
+                return true;
+              }
+
+            }
+
+            scope.browseFiles = function(){
+               var dropzone = elem.find('.fileInput');
+                dropzone.click();
+            };
+            scope.onFileSelect = function(files){
+              drop(files);
+            };
+
+            addLisener();
+
+          }
+        };
+      }
+    };
+  }]);;  'use strict';
   angular.module('tink.format', [])
   .directive('tinkFormatInput', ['dateCalculator', '$window', 'safeApply', function(dateCalculator, $window, safeApply) {
     return {
@@ -1682,7 +2002,196 @@ function setCursor(cur) {
   el.focus();
 }
 
-});; 'use strict';
+});;'use strict';
+angular.module('tink.modal', [])
+  .directive('tinkModa',[function(){
+    return{
+      restrict:'EA',
+      link:function(){
+       // var modal = $modal({scope:scope,element:element});
+        /*scope.$hide = function(){
+          modal.hide();
+        }*/
+      }
+    };
+  }])
+  .provider('$modal', function() {
+    var defaults = this.defaults = {
+      element:null,
+    };
+
+    var openInstance = null;
+
+     this.$get = function($http,$q,$rootScope,$templateCache,$compile,$animate,$window,$controller,$injector) {
+      var bodyElement = angular.element($window.document.body);
+
+        var $modal = {};
+        var options = $modal.$options = angular.extend({}, defaults);
+        var linker;
+
+        //for fetching the template that exist
+        var fetchPromises = {};
+        function fetchTemplate(template) {
+          if(fetchPromises[template]) {return fetchPromises[template];}
+          return (fetchPromises[template] = $http.get(template, {cache: $templateCache}).then(function(res) {
+            return res.data;
+          }));
+        }
+
+        function fetchResolvePromises(resolves) {
+          var promisesArr = [];
+          angular.forEach(resolves, function (value) {
+            if (angular.isFunction(value) || angular.isArray(value)) {
+              promisesArr.push($q.when($injector.invoke(value)));
+            }
+          });
+          return promisesArr;
+        }
+
+        /*$modal.$promise = fetchTemplate(options.template);
+
+        //when the templated is loaded start everyting
+        $modal.$promise.then(function(template) {
+          linker = $compile(template);
+          //$modal.show()
+        });*/
+
+        $modal.show = function() {
+          $modal.$element = linker(options.scope, function() {});
+          enterModal();
+        };
+
+        $modal.hide = function() {
+          leaveModal();
+        };
+
+        $modal.open = function(config){
+
+          //create the promises for opening and result
+          var modalResultDeferred = $q.defer();
+          var modalOpenedDeferred = $q.defer();
+
+          //Create an instance for the modal
+          var modalInstance = {
+              result: modalResultDeferred.promise,
+              opened: modalOpenedDeferred.promise,
+              close: function (result) {
+                leaveModal(null).then(function(){
+                  modalResultDeferred.resolve(result);
+                });
+              },
+              dismiss: function (reason) {
+                leaveModal(null).then(function(){
+                  modalResultDeferred.reject(reason);
+                });
+              }
+            };
+
+            var resolveIter = 1;
+
+            //config variable
+            config = angular.extend({}, defaults, config);
+            config.resolve = config.resolve || {};
+            var templateAndResolvePromise;
+            if(angular.isDefined(config.templateUrl)){
+              templateAndResolvePromise = $q.all([fetchTemplate(config.templateUrl)].concat(fetchResolvePromises(config.resolve)));
+            }else{
+              templateAndResolvePromise = $q.all([config.template].concat(fetchResolvePromises(config.resolve)));
+            }
+
+            //Wacht op de template en de resloved variable
+
+
+            templateAndResolvePromise.then(function success(tplAndVars){
+              //Get the modal scope or create one
+              var modalScope = (config.scope || $rootScope).$new();
+              //add the close and dismiss to to the scope
+              modalScope.$close = modalInstance.close;
+              modalScope.$dismiss = modalInstance.dismiss;
+
+              var ctrlInstance,ctrlConstant={};
+              ctrlConstant.$scope = modalScope;
+              ctrlConstant.$modalInstance = modalScope;
+              angular.forEach(config.resolve, function (value, key) {
+                  ctrlConstant[key] = tplAndVars[resolveIter++];
+              });
+              if (config.controller) {
+                ctrlInstance = $controller(config.controller, ctrlConstant);
+              }
+
+              enterModal(modalInstance,{
+                scope:modalScope,
+                content: tplAndVars[0],
+                windowTemplateUrl: config.template
+              });
+            });
+
+              return modalInstance;
+          };
+
+        function createModalWindow(content){
+          var modelView = angular.element('<div class="modal" tabindex="-1" role="dialog">'+
+            '<div class="modal-dialog">'+
+              '<div class="modal-content">'+
+              '</div>'+
+            '</div>'+
+          '</div>');
+          modelView.find('.modal-content').html(content);
+          return modelView;
+        }
+
+        function enterModal(model,instance){
+
+          function show(){
+            var linker = $compile(createModalWindow(instance.content));
+            var content = linker(instance.scope, function() {});
+            model.$element = content;
+
+            bodyElement.bind('keyup',function(e){
+              instance.scope.$apply(function(){
+                if(e.which === 27){
+                  model.dismiss('esc');
+                }
+              });
+            });
+
+            model.$element.bind('click',function(e){
+              var view = $(this);
+              instance.scope.$apply(function(){
+                if(e.target === view.get(0)){
+                  model.dismiss('backdrop');
+                }
+              });
+            });
+
+            $animate.enter(content, bodyElement, null);
+            openInstance = {element:content,scope:instance.scope};
+          }
+
+          if(openInstance !== null){
+            leaveModal(openInstance).then(function(){
+              show();
+            });
+          }else{
+            show();
+          }
+        }
+
+        function leaveModal(modal){
+          bodyElement.unbind('keyup');
+          var q = $q.defer();
+          if(modal === null){
+            modal = openInstance;
+          }
+          $animate.leave(modal.element).then(function() {
+            openInstance = null;
+            q.resolve('ended');
+          });
+          return q.promise;
+        }
+        return $modal;
+     };
+  });; 'use strict';
  angular.module('tink.sideNav', []);
  angular.module('tink.sideNav')
   .directive('tinkNavAside',['tinkApi',function(tinkApi){
@@ -1706,17 +2215,1030 @@ function setCursor(cur) {
 };
 }]);;'use strict';
 angular.module('tink.popOver', ['tink.tooltip'])
-.directive( 'tinkPopoverPopup', function () {
+.directive( 'tinkPopover', ['$q','$templateCache','$http','$compile','$timeout','$window','$rootScope',function ($q,$templateCache,$http,$compile,$timeout,$window,$rootScope) {
   return {
-    restrict: 'EA',
-    replace: true,
-    scope: { title: '@', content: '@', placement: '@', animation: '&', isOpen: '&' },
-    templateUrl: 'templates/popover.html'
+    restrict:'EA',
+    compile: function compile( tElement, attrs ) {
+      var fetchPromises = {};
+      //to retrieve a template;
+      function haalTemplateOp(template) {
+        // --- if the template already is in our app cache return it. //
+        if (fetchPromises[template]){
+          return fetchPromises[template];
+        }
+        // --- If not get the template from templatecache or http. //
+        return (fetchPromises[template] = $q.when($templateCache.get(template) || $http.get(template))
+          .then(function (res) {
+            // --- When the template is retrieved return it. //
+            if (angular.isObject(res)) {
+              $templateCache.put(template, res.data);
+              return res.data;
+            }
+            return res;
+          }));
+      }
+      var theTemplate = null;
+      if(attrs.tinkPopoverTemplate){
+        theTemplate = haalTemplateOp(attrs.tinkPopoverTemplate);
+      }
+
+
+      return {
+          post: function postLink( scope, element, attributes ) {
+                var placement = attributes.tinkPopoverPlace;
+                var align = attributes.tinkPopoverAlign;
+                var trigger = 'click';
+                var spacing = 2;
+
+                function arrowCal(placement,align){
+                  var arrowCss = 'arrow-';
+                  switch(placement){
+                    case 'left':
+                      arrowCss = arrowCss + 'right';
+                      break;
+                    case 'right':
+                      arrowCss = arrowCss + 'left';
+                      break;
+                    case 'top':
+                      arrowCss = arrowCss + 'bottom';
+                      break;
+                    case 'bottom':
+                      arrowCss = arrowCss + 'top';
+                      break;
+                  }
+
+                  switch(align){
+                    case 'center':
+                      break;
+                    case 'top':
+                    case 'bottom':
+                      if(placement === 'right' || placement === 'left'){
+                        arrowCss = arrowCss + '-' + align;
+                      }
+                      break;
+                    case 'left':
+                    case 'right':
+                      if(placement === 'top' || placement === 'bottom'){
+                        arrowCss = arrowCss + '-' + align;
+                      }
+                  }
+                  scope.arrowPlacement = arrowCss;
+                }
+
+                var isOpen = null;
+                if(trigger === 'click'){
+                  element.bind('click',function(){
+                    scope.$apply(function(){
+                      if(isOpen === null){
+                        show();
+                      }else{
+                        hide();
+                      }
+
+                    });
+                  });
+                }else if(trigger === 'hover'){
+                   element.bind('mouseenter',function(){
+                    show();
+                   });
+                   element.bind('mouseleave',function(){
+                    hide();
+                   });
+                }
+
+              function popoverHtml(){
+                var html = '<div class="popover {{arrowPlacement}}">'+
+                            '<span class="arrow"></span>'+
+                          '</div>';
+                          return html;
+              }
+
+              $(document).bind('click',function(e){
+                var clicked = $(e.target).parents('.popover').last();
+                if(isOpen && ($(e.target).get(0) !== element.get(0) || clicked.length > 0)){
+                  if(isOpen.get(0) !== clicked.get(0) &&  $(e.target).get(0) !== isOpen.get(0) ){
+                    hide();
+                  }
+                }
+
+              });
+
+              if(attributes.tinkPopoverGroup){
+                scope.$on('popover-open', function(event, args) {
+
+                    var group = args.group;
+                    if(group === attributes.tinkPopoverGroup && isOpen && $(args.el).get(0) !== isOpen.get(0)){
+                      hide();
+                    }
+                });
+              }
+
+              function show (){
+                if(theTemplate !== null){
+                  theTemplate.then(function(data){
+                    if(isOpen === null){
+                      var elContent = $($compile(data)(scope));
+                      var el =$($compile(popoverHtml())(scope));
+                      el.css('position','absolute');
+                      el.css('display','none');
+                      elContent.insertAfter(el.find('span'));
+                      // el.css('z-index','99999999999');
+                      if(placement === 'top'){
+                        el.insertBefore(element);
+                      }else{
+                        el.insertAfter(element);
+                      }
+                      calcPos(element,el,placement,align,spacing);
+
+                      if(attributes.tinkPopoverGroup){
+                        $rootScope.$broadcast('popover-open', { group: attributes.tinkPopoverGroup,el:el });
+                      }
+
+                      isOpen = el;
+                    }
+                  });
+                }
+              }
+
+              var timeoutResize = null;
+
+              $window.addEventListener('resize', function() {
+                if(isOpen!== null){
+                  $timeout.cancel( timeoutResize);
+                  timeoutResize = $timeout(function(){
+                   // setPos(isOpen,placement,align,spacing);
+                    calcPos(element,isOpen,placement,align,spacing);
+                  },250);
+                }
+              }, true);
+
+              $window.addEventListener('scroll', function() {
+                if(isOpen!== null){
+                  $timeout.cancel( timeoutResize);
+                  timeoutResize = $timeout(function(){
+                   // setPos(isOpen,placement,align,spacing);
+                    calcPos(element,isOpen,placement,align,spacing);
+                  },450);
+                }
+              }, true);
+
+              function hide(){
+                if(isOpen !== null){
+                  isOpen.remove();
+                  isOpen = null;
+                }
+              }
+              /*function inViewPort(el,top,left){
+                var win = $($window);
+                var viewport = {
+                  top : win.scrollTop(),
+                  left : win.scrollLeft()
+                };
+                viewport.right = viewport.left + win.width();
+                viewport.bottom = viewport.top + win.height();
+
+                var bounds = el.position();
+                  bounds.right = bounds.left + el.outerWidth();
+                  bounds.bottom = bounds.top + el.outerHeight();
+
+                  return (viewport.right > bounds.right && left  > 0 && bounds.bottom < viewport.bottom);
+              }*/
+
+              function placementCheck(element,popover,place,align){
+                var pageScrollY = ($window.scrollY || $window.pageYOffset);
+                var pageScrollX = ($window.scrollX || $window.pageXOffset);
+                var w1 = element.position().left - pageScrollX;
+                var w2 = $window.innerWidth - (w1+element.outerWidth(true));
+                var h1 = element.position().top - pageScrollY;
+                var h2 = $window.innerHeight - (h1+element.outerHeight(true));
+                var elemOffsetX = element.position().left + element.outerWidth(true) - pageScrollY;
+
+                var pW = popover.outerWidth(true);
+                var pH = popover.outerHeight(true);
+                var pPos = pW + elemOffsetX;
+
+                //experimental
+                var procent = {right:0.85,left:0.15,top:0.15,bottom:0.85,center:0.5};
+                var popoverMessare= {};
+
+                popoverMessare.top = pH * procent[align]-(element.outerHeight(true)/2);
+                popoverMessare.bottom = pH * (1-procent[align])-(element.outerHeight(true)/2);
+                //
+
+
+                for(var i =0; i < place.length;i++){
+                  var placement = place[i];
+                  var Ralign = null;
+                  if(placement === 'left' || placement === 'right'){
+                    if(align){
+                      popoverMessare.top = pH * procent[align[i]]-(element.outerHeight(true)/2);
+                      popoverMessare.bottom = pH * (1-procent[align[i]])-(element.outerHeight(true)/2);
+                      Ralign = align[i];
+                    }
+                    if(h1 > popoverMessare.top || align === undefined){
+                      if(h2 > popoverMessare.bottom || align === undefined){
+                        if(placement === 'left' && w1 > pW){
+                          return {place:placement,align:Ralign};
+                        }else if(placement === 'right' && pPos > pW){
+                          return {place:placement,align:Ralign};
+                        }
+                      }
+                    }
+                  }else if(placement === 'top' || placement === 'bottom'){
+                    Ralign = null;
+                    if(align){
+                      popoverMessare.left = pH * procent[align[i]]-(element.outerWidth(true)/2);
+                      popoverMessare.right = pH * (1-procent[align[i]])-(element.outerWidth(true)/2);
+                      Ralign = align[i];
+                    }
+
+                    if(w1 > popoverMessare.left || align === undefined){
+                      if(w2 > popoverMessare.right || align === undefined){
+                        if(placement === 'top'&& pH < h1){
+                          return {place:placement,align:Ralign};
+                        }else if(placement === 'bottom' && pH+h1+element.outerHeight(true) < $window.innerHeight){
+                          return {place:placement,align:Ralign};
+                        }
+                      }
+                    }
+                }}
+                return false;
+              }
+              arrowCal(placement,align);
+              var timoutPos = null;
+
+              //calculate the position
+              function calcPos(element,el,place,align,spacing){
+                var pageScrollY = ($window.scrollY || $window.pageYOffset);
+                var pageScrollX = ($window.scrollX || $window.pageXOffset);
+
+                var w1 = element.position().left - pageScrollX;
+                var w2 = $window.innerWidth - (w1+element.outerWidth(true));
+                var h1 = element.position().top - pageScrollY;
+                var h2 = $window.innerHeight - (h1+element.outerHeight(true));
+                //var elemOffsetX = element.position().left + element.outerWidth(true) - $window.scrollY;
+                var chosen = {};
+
+
+                //calc biggest quadrant
+                if(w1 > w2){
+                  chosen.xWidth = w1;
+                  chosen.Xname = 'left';
+                  chosen.x = placementCheck(element,el,['left']).place;
+                }else{
+                  chosen.x = placementCheck(element,el,['right']).place;
+                  chosen.Xname = 'right';
+                  chosen.xWidth = w2;
+                }
+
+                if(h1 > h2){
+                  chosen.y = placementCheck(element,el,['top']).place;
+                  chosen.yHeight = h1;
+                  chosen.Yname = 'top';
+                }else{
+                  chosen.y = placementCheck(element,el,['bottom']).place;
+                  chosen.yHeight = h2;
+                  chosen.Yname = 'bottom';
+                }
+
+                //height quadrant
+                var qHeight = $window.innerHeight * 0.25;
+
+                if(placementCheck(element,el,[place],[align]) !== false){
+                  chosen.place = place;
+                  chosen.align = align;
+
+                }else{
+                  if(h1 < qHeight){
+                    var alignB;
+                    //q1
+                    if(w1 > w2){
+                      alignB = 'right';
+                    }else{
+                      alignB = 'left';
+                    }
+                    if(placementCheck(element,el,['bottom'],[alignB]) !== false){
+                      chosen.preferPlacement = 'bottom';
+                      chosen.preferAlign = alignB;
+                    }else if(chosen.x !== false){
+                      //chosen.preferPlacement = chosen.x;
+                    }else{
+                      console.warn('tosmall screen');
+                    }
+                  }else if (h1 > qHeight && h1 < qHeight *3){
+                    //qCenter
+                    if(chosen.x !== false){
+                      chosen.preferPlacement = chosen.x;
+                    }else if(chosen.y !== false){
+                      chosen.preferPlacement = chosen.y;
+                    }else{
+                      console.warn('to small screen');
+                    }
+                    if(placementCheck(element,el,[chosen.Xname],['center']) !== false){
+                      chosen.preferAlign = 'center';
+                    }
+                  }else{
+                    //Qbottom
+                    if(placementCheck(element,el,['top'],[chosen.Xname]) !== false){
+                      chosen.preferPlacement = 'top';
+                    }else if(chosen.x !== false){
+                      chosen.preferPlacement = chosen.x;
+                    }else if(chosen.y !== false){
+                      chosen.preferPlacement = chosen.y;
+                    }
+                  }
+
+                  if(chosen.preferPlacement !== undefined){
+                    chosen.place = chosen.preferPlacement;
+                  }
+
+                  if(chosen.place === 'left' || chosen.place === 'right'){
+                    if(h1 > h2){
+                      chosen.align = 'bottom';
+                    }else{
+                      chosen.align = 'top';
+                    }
+
+                  }
+
+                  if(chosen.place === 'bottom' || chosen.place === 'top'){
+                    if(w1 > w2){
+                      chosen.align = 'right';
+                    }else{
+                      chosen.align = 'left';
+                    }
+                  }
+
+                  if(chosen.preferAlign !== undefined){
+                    chosen.align = chosen.preferAlign;
+                  }
+
+                }
+var pos;
+                if(placementCheck(element,el,[chosen.place],[chosen.align])){
+                  pos = getPos(el,chosen.place,chosen.align,spacing);
+                }else{
+                  var pos1 = [];
+                    var pos2 = ['left','center','right','left','center','right','top','center','bottom','top','center','bottom'];
+                    if(w1 > w2){
+                      pos1 = pos1.concat(['left','left','left']);
+                    }else{
+                      pos1 = pos1.concat(['right','right','right']);
+                    }
+                    if(h1 > h2){
+                      pos1 = pos1.concat(['top','top','top']);
+                    }else{
+                      pos1 = pos1.concat(['bottom','bottom','bottom']);
+                    }
+                    var search = placementCheck(element,el,pos1,pos2);
+                    if(search !== false){
+                      pos = getPos(el,search.place,search.align,spacing);
+                    }else{
+                      console.log(chosen);
+                      if(chosen.xWidth > el.outerWidth(true)+spacing){
+                        pos = getPos(el,chosen.Xname,'top',spacing);
+                      }else{
+                        pos = getPos(el,'bottom',chosen.Xname,spacing);
+                      }
+                    }
+                }
+
+
+                pos.then(function(data){
+                    el.css('top',data.top);
+                    el.css('left',data.left);
+                    arrowCal(data.place,data.align);
+                    el.css('display','block');
+                });
+              }
+
+               //The function that will be called to position the tooltip;
+            function getPos(el,placement,align,spacing){
+              var q = $q.defer();
+              $timeout.cancel(timoutPos);
+              timoutPos = $timeout(function(){
+                var porcent = {right:0.85,left:0.15,top:0.15,bottom:0.85};
+                var arrowHeight = 10;
+                var arrowWidth = 10;
+
+                var alignLeft = 0;
+                var alignTop = 0;
+                if(align === 'center'){
+                  alignLeft = (el.outerWidth(true) / 2)-(element.outerWidth(true)/2);
+                  alignTop = (el.outerHeight(true) / 2)-(element.outerHeight(true)/2);
+                }else if(align === 'left' || align === 'right'){
+                  alignLeft = (el.outerWidth(true)*porcent[align]) -(element.outerWidth(true)/2);
+                }else if(align === 'top' || align === 'bottom'){
+                  alignTop = (el.outerHeight(true)*porcent[align]) - (element.outerHeight(true)/2);
+                }
+
+                var left = element.position().left - alignLeft;
+                var top = null;
+                  if(placement === 'top'){
+                    top = element.position().top - el.outerHeight(true)- arrowHeight - spacing;
+                  }else if(placement === 'bottom'){
+                    top = element.position().top + element.outerHeight() + arrowHeight +spacing;
+                  }else if(placement === 'right'){
+                    left = element.position().left + element.outerWidth(true) + arrowWidth + spacing;
+                  }else if(placement === 'left'){
+                    left = element.position().left - el.outerWidth(true)- arrowWidth - spacing;
+                  }
+
+                  if(placement === 'right' || placement === 'left'){
+                    top = element.position().top- alignTop;
+                  }
+                    q.resolve({top:top,left:left,place:placement,align:align});
+              },50);
+              return q.promise;
+            }
+          }
+      };
+    }
   };
-})
-.directive( 'tinkPopover', [ '$tooltip', function ( $tooltip ) {
-  return $tooltip( 'tinkPopover', 'popover', 'click' );
+
 }]);;'use strict';
+angular.module('tink.rijkRegister', []);
+angular.module('tink.rijkRegister')
+  .directive('tinkRijkRegister',['$window','safeApply',function($window,safeApply){
+   return {
+    restrict:'AE',
+    controller:'tinkFormatController',
+    require:['tinkRijkRegister','ngModel','?^form'],
+    template: function() {
+      var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
+      var isTouch = ('createTouch' in $window.document) && isNative;
+      if (isTouch) {
+        return '<div><input type="number" step="0" pattern="[0-9]*"><div>';
+      } else {
+        return '<div><div id="input" class="faux-input" contenteditable="true">{{placeholder}}</div></div>';
+      }
+    },
+    link:function(scope,elm,attr,ctrl){
+      var controller = ctrl[0];
+      var form = ctrl[2];
+      var ngControl = ctrl[1];
+      var element = elm.find('#input');
+      //variable
+      var config = {
+        format: '00.00.00-000.00',
+        placeholder: 'xx.xx.xx-xxx.xx'
+      };
+
+       ngControl.$parsers.unshift(function(value) {
+        checkvalidty(value);
+        return value;
+       });
+
+       ngControl.$formatters.push(function(modelValue) {
+
+        if(modelValue.length === 11){
+          modelValue = modelValue.substr(0,2) + '.' + modelValue.substr(2,2)+ '.' + modelValue.substr(4,2)+'-'+ modelValue.substr(6,3)+'-'+modelValue.substr(9,2);
+        }
+
+        if(validFormat(modelValue)){
+          controller.setValue(modelValue,null);
+        }else{
+          modelValue = null;
+          ngControl.$setViewValue(modelValue);
+        }
+        checkvalidty(modelValue);
+        return modelValue;
+       });
+
+       element.unbind('input').unbind('keydown').unbind('change');
+      //on blur update the model.
+      element.on('blur', function() {
+        safeApply(scope,function(){
+          var value = controller.getValue();
+          checkvalidty(value);
+            if(isRRNoValid(value)){
+              ngControl.$setViewValue(value);
+              ngControl.$render();
+            }
+
+        });
+      });
+
+       var isRequired = (function(){
+          if(attr.required === 'true' || attr.required === '' || attr.required === 'required'){
+            return true;
+          }else{
+            return false;
+          }
+        })();
+
+        function validFormat(value){
+          if(value.length === 11){
+            return value.match(/[0-9]*/g);
+          }else if(value.length === 15){
+            return value.match(/[0-9][0-9].[0-9][0-9].[0-9][0-9]-[0-9][0-9][0-9].[0-9][0-9]/g);
+          }else{
+            return false;
+          }
+        }
+
+
+       function isRRNoValid(n) {
+        if(typeof n !== 'string'){
+          return false;
+        }
+          n = n.replace(/[^\d]*/g, '');
+            // RR numbers need to be 11 chars long
+            if (n.length !== 11){
+              return false;
+            }
+
+            var checkDigit = n.substr(n.length - 2, 2);
+            var modFunction = function(nr) { return 97 - (nr % 97); };
+            var nrToCheck = parseInt(n.substr(0, 9));
+
+            // first check without 2
+            if (modFunction(nrToCheck) === checkDigit){
+              return true;
+            }
+            // then check with 2 appended for y2k+ births
+            nrToCheck = parseInt('2' + n.substr(0, 9));
+            return (modFunction(nrToCheck) === checkDigit);
+        }
+
+       function checkvalidty(value){
+
+        ngControl.$setValidity('format',isRRNoValid(value));
+        if(value === config.placeholder || value === ''){
+          ngControl.$setValidity('format',true);
+        }
+
+        if(isRequired){
+          if(controller.getValue() === config.placeholder){
+            ngControl.$setValidity('required',false);
+            ngControl.$setValidity('format',true);
+          }else{
+            ngControl.$setValidity('required',true);
+          }
+        }
+       }
+
+
+      controller.init(element,config,form,ngControl);
+
+    }
+  };
+}]);;
+angular.module('tink.sortable', ['ngLodash']);
+angular.module('tink.sortable')
+.directive('tinkSortableTable',['lodash','$compile','$rootScope',function(_,$compile,$rootScope){
+  return{
+    restrict:'E',
+    templateUrl:'templates/tinkSortableTable.html',
+    scope:{
+      ngModel:'=',
+      headers:'=?',
+      actions:'=?',
+      itemsPerPage:'=?'
+    },
+    link:function(scope){
+
+      var aantalToShow = 1;
+      var pages;
+      var viewable;
+
+
+      function uncheckAll(){
+        angular.forEach(viewable,function(val){
+          if(val._checked===true){
+            val._checked = false;
+          }
+        });
+        if(scope.hulpngModel[-1]){
+            scope.hulpngModel[-1]._checked = false;
+          }
+      }
+      var ngModelWatch;
+      function watch(){
+        //scope.ngModel = angular.copy(scope.ngModel);
+        ngModelWatch = scope.$watch('ngModel',function(newArray,oldArray){
+          if(newArray !== oldArray){
+            resort();
+            scope.buildTable();
+          }
+        },true);
+      };
+      watch();
+
+      if(scope.actions instanceof Array){
+        scope.viewActions = [];
+        for(var i=0;i<scope.actions.length;i++){
+          var action = scope.actions[i];
+          scope.viewActions.push({name:action.name,callback:function(){
+            var checked = [];
+            angular.forEach(viewable,function(val){
+              if(val._checked===true){
+                checked.push(val);
+              }
+            });
+            action.callback(checked,uncheckAll);
+          }});
+        }
+      }
+      if(typeof scope.itemsPerPage === 'string'){
+        var items = scope.itemsPerPage.split(',');
+        scope.itemsPerPage = [];
+        for(var j=0;j<items.length;j++){
+          if(items[j].slice(-1) === '*'){
+            var num = _.parseInt(items[j].substr(0,items[j].length-1));
+            scope.perPage = num;
+            scope.itemsPerPage.push(num);
+          }else{
+            scope.itemsPerPage.push(_.parseInt(items[j]));
+          }
+        }
+
+        if(!scope.perPage && scope.itemsPerPage.length !==0){
+          scope.perPage = _.parseInt(items[0]);
+        }
+
+      }else{
+        scope.perPage = _.parseInt(10);
+        scope.itemsPerPage = [10,20,50];
+      }
+      //which sorting is happening
+      scope.sorting = {field:'',direction:1};
+      //preview headers
+      scope.headers = [{field:'name',alias:'Voornaam',checked:true},{field:'achternaam',alias:'Achternaam',checked:false},{field:'adress',alias:'Adres',visible:true,checked:true}];
+
+      //function that runs at the beginning to handle the headers.
+      function handleHeaders(){
+        angular.forEach(scope.headers,function(value){
+          if(!angular.isDefined(value.alias) || value.alias === null){
+            value.alias = value.field;
+          }
+          if(!angular.isDefined(value.visible) || value.visible === null){
+            value.visible = true;
+          }
+        });
+      }
+      handleHeaders();
+      //this is a copy to show to the view
+      scope.viewer = scope.headers;
+      //This function creates our table head
+      function setHeader(table,keys){
+        var header = table.createTHead();
+        var row = header.insertRow(0);
+        scope.selectedMax = keys.length-1;
+        if(typeof scope.actions === 'function'){
+          var thCheck = document.createElement('th');
+          thCheck.innerHTML = createCheckbox(-1,i,'hulp');
+          row.appendChild(thCheck);
+        }
+
+        for(var k=0;k<keys.length;k++){
+          if(keys[k] && keys[k].checked && keys[k].visible){
+            // var key = Object.keys(keys[i])[0];
+            var val = keys[k].alias || keys[k].field;
+            var th = document.createElement('th');
+                th.innerHTML = val;
+              row.appendChild(th);
+              $(th).bind('click',sorte(k));
+              if(keys[k] === scope.sorting.obj){
+                if(scope.sorting.direction === 1){
+                  $(th).addClass('sort-asc');
+                }else if(scope.sorting.direction === -1){
+                  $(th).addClass('sort-desc');
+                }
+              }
+          }
+        }
+      }
+      //hersort because of new data
+      function resort(){
+        if(scope.sorting && scope.sorting.obj){
+          var sortKey =  scope.sorting.obj.field;
+          sorter(sortKey,scope.sorting.direction);
+        }
+      }
+      //will be called when you press on a header
+      function sorte ( i ){
+        return function(){
+          if(scope.sorting.obj){
+            //var index = _.findIndex(scope.viewer, scope.sorting.obj);
+          }
+          var key = scope.headers[i].field;
+          if(scope.sorting.field === key){
+            scope.sorting.direction = scope.sorting.direction * -1;
+          }else{
+            scope.sorting.field = key;
+            scope.sorting.direction = 1;
+          }
+          sorter(key,scope.sorting.direction);
+          scope.sorting.obj  = scope.headers[i];
+          scope.buildTable();
+
+        };
+      }
+
+      function fullChecked(){
+        var length = 0;
+          angular.forEach(viewable,function(val){
+            if(val._checked){
+              length+=1;
+            }
+          });
+          if(!scope.hulpngModel[-1]){
+            scope.hulpngModel[-1] = {};
+          }
+          if(length !== 0){
+            scope.selectedCheck = true;
+          }else{
+            scope.selectedCheck = false;
+          }
+          if(length === viewable.length){
+            scope.hulpngModel[-1]._checked = true;
+          }else{
+            scope.hulpngModel[-1]._checked = false;
+          }
+      }
+
+      scope.checkChange = function(i){
+        if(i === -1){
+          var check = scope.hulpngModel[-1]._checked;
+          angular.forEach(viewable,function(val){
+            val._checked = check;
+            scope.selectedCheck = check;
+          });
+        }else{
+          if(scope.hulpngModel[-1]){
+            scope.hulpngModel[-1]._checked = false;
+          }
+          fullChecked();
+        }
+      };
+      scope.actions = function(){
+
+      };
+
+      scope.hulpngModel=[];
+
+      function createCheckbox(row,i,hulp){
+        if(!hulp){
+          hulp ='';
+        }
+        var checkbox = '<div class="checkbox">'+
+                          '<input type="checkbox" ng-change="checkChange('+row+')" ng-model="'+hulp+'ngModel['+row+']._checked" id="'+row+'" name="'+row+'" value="'+row+'">'+
+                          '<label for="'+row+'"></label>'+
+                        '</div>';
+        return checkbox;
+      }
+
+
+      //This function create the table body
+      function setBody(table,content){
+        var body = table.createTBody();
+
+          for(var i=scope.headers.length-1;i>=0;i--){
+            if(scope.headers[i] && scope.headers[i].checked && scope.headers[i].visible){
+              for(var j=0;j<content.length;j++){
+                var row;
+                if(body.rows[j]){
+                  row = body.rows[j];
+                }else{
+                  row = body.insertRow(j);
+                  if(typeof scope.actions === 'function'){
+                    var check = row.insertCell(0);
+                    var index = _.findIndex(scope.ngModel,content[j]);
+                    check.innerHTML = createCheckbox(index,j);
+                  }
+                }
+                var val = content[j][scope.headers[i].field];
+                var cell;
+                if(typeof scope.actions === 'function'){
+                  cell = row.insertCell(1);
+                }else{
+                  cell = row.insertCell(0);
+                }
+                cell.innerHTML = val;
+            }
+          }
+        }
+      }
+
+      function deepCopy(obj) {
+        if (Object.prototype.toString.call(obj) === '[object Array]') {
+            var out = [], i = 0, len = obj.length;
+            for ( ; i < len; i++ ) {
+                out[i] = obj[i];
+            }
+            return out;
+        }
+        if (typeof obj === 'object') {
+            var out = {}, i;
+            for ( i in obj ) {
+                out[i] = arguments.callee(obj[i]);
+            }
+            return out;
+        }
+        return obj;
+    }
+
+      function sorter(sortVal,direction){
+        ngModelWatch();
+        scope.ngModel.sort(function(obj1, obj2) {
+          var obj1Val = obj1[sortVal];
+          var obj2Val = obj2[sortVal];
+
+          if(!_.isString(obj1Val)){
+            obj1Val = obj1Val.toString();
+          }
+
+          if(!_.isString(obj2Val)){
+            obj2Val = obj2Val.toString();
+          }
+
+          if(direction){
+            return direction*obj1Val.localeCompare(obj2Val);
+          }else{
+            return obj1Val.localeCompare(obj2Val);
+          }
+
+        });
+        watch();
+      }
+
+      //number of rows it wil show on the page
+      scope.numSelected=0;
+      //function to change the row page view
+      scope.perPageClick = function(index){
+        scope.numSelected = index;
+        scope.pageSelected=1;
+        scope.buildTable();
+      };
+
+      //wich page is selected
+      scope.pageSelected=1;
+      //function to set the page you need
+      scope.setPage = function(index){
+        if(index > 0 ){
+          scope.pageSelected = index;
+          uncheckAll();
+          scope.buildTable();
+        }
+      };
+
+      scope.setItems = function(){
+        scope.buildTable();
+        fullChecked();
+      };
+
+      function buildPagination(){
+        scope.showNums = [];
+        var num = scope.pageSelected;
+        var numPages = scope.pages;
+
+        if(numPages <6){
+          scope.showNums = _.range(2,numPages);
+        }else{
+          if(num < 4){
+            scope.showNums = _.range(2,4);
+            scope.showNums.push(-1);
+          }else if(num >= numPages -2){
+            scope.showNums = [-1].concat(_.range(numPages-2,numPages));
+          }else{
+            scope.showNums = [-1,num,-1];
+          }
+        }
+        if(numPages >1 ){
+          scope.showNums.push(numPages);
+        }
+      }
+
+      aantalToShow = scope.perPage;
+      pages = Math.ceil(scope.ngModel.length/aantalToShow);
+      scope.pages = _.range(1,pages);
+
+      //This function build the table and the number of pages!
+      scope.buildTable = function(){
+        var table = document.createElement('table');
+        setHeader(table,scope.headers);
+        aantalToShow = scope.perPage;
+        pages = Math.ceil(scope.ngModel.length/aantalToShow);
+        scope.pages = pages;
+
+        var start = (scope.pageSelected-1)*aantalToShow;
+        var stop = (scope.pageSelected *aantalToShow)-1;
+        viewable = _.slice(scope.ngModel, start,stop+1);
+        if(viewable.length === 0 && scope.pageSelected > 1){
+          scope.pageSelected = scope.pageSelected-1;
+          scope.buildTable();
+          return;
+        }
+        if(scope.ngModel.length === 0){
+          scope.numFirst = 0;
+        }else{
+          scope.numFirst = start +1;
+        }
+        if(stop > scope.ngModel.length){
+          scope.numLast = scope.ngModel.length;
+        }else{
+          scope.numLast = stop +1;
+        }
+        buildPagination();
+        scope.itemLength = scope.ngModel.length;
+        setBody(table,viewable);  //
+        table=$(table);           //variable table is added code to set class table
+        table.addClass('table-interactive');   //added code to set class table
+        fullChecked();
+
+        $('table').replaceWith(table); // old code: $('table').replaceWith($(table));
+        $compile($('table'))(scope);
+      };
+
+      scope.selected = -1;
+      //Function that will be called to change the order
+      scope.omhoog = function(){
+        if(scope.selected > 0){
+          scope.viewer.swap(scope.selected,scope.selected-1);
+          scope.selected-=1;
+        }
+        scope.buildTable();
+      };
+      //Function that will be called to change the order
+      scope.omlaag = function(){
+        if(scope.selected >=0 && scope.selected < scope.viewer.length-1){
+          scope.viewer.swap(scope.selected,scope.selected+1);
+          scope.selected+=1;
+        }
+        scope.buildTable();
+      };
+
+      scope.headerChange = function(){
+        scope.buildTable();
+      }
+      //added this to swap elements easly
+      Array.prototype.swap = function(a, b) {
+        var temp = this[a];
+        this[a] = this[b];
+        this[b] = temp;
+      };
+
+      scope.buildTable();
+      //function that will be called when you clicked on row name
+      scope.select=function(e,index){
+        scope.selected = index;
+        e.preventDefault();
+        e.stopPropagation();
+      };
+
+      //Set first page
+      scope.setFirst = function(){
+        scope.setPage(1);
+      };
+
+      //set lest page
+      scope.setLast = function(){
+        scope.setPage(pages);
+      };
+
+      scope.close = function(){
+        $rootScope.$broadcast('popover-open', { group: 'option-table',el:$('<div><div>') });
+      }
+
+      //set next page
+      scope.setNext = function(){
+        if(scope.pageSelected < pages){
+          scope.pageSelected +=1;
+          scope.setPage(scope.pageSelected);
+        }
+      };
+
+      //set prev page
+      scope.setPrev = function(){
+        if(scope.pageSelected >1){
+          scope.pageSelected -=1;
+          scope.setPage(scope.pageSelected);
+        }
+      };
+
+    }
+  };
+}]).filter('myLimitTo', [function(){
+    return function(obj, limit){
+        var keys = Object.keys(obj);
+        if(keys.length < 1){
+            return [];
+        }
+
+        var ret = {},
+        count = 0;
+        angular.forEach(keys, function(key){
+           if(count >= limit){
+                return false;
+            }
+            ret[key] = obj[key];
+            count++;
+        });
+        return ret;
+    };
+}]);
+;'use strict';
 angular.module('tink.timepicker', []);
 angular.module('tink.timepicker')
 .directive('tinkTimepicker',['$window',function($window){
@@ -2743,7 +4265,12 @@ angular.module('tink', [
 		'tink.validDate',
 		'tink.format',
 		'tink.timepicker',
-		'tink.accordion'
+		'tink.accordion',
+		'tink.rijkRegister',
+		'tink.dropupload',
+		'angularFileUpload',
+		'tink.sortable',
+		'tink.modal'
 	]);
 ; 'use strict';
  angular.module('tink.tinkApi', []);
@@ -3319,7 +4846,7 @@ angular.module('tink.safeApply', [])
   'use strict';
 
   $templateCache.put('templates/popover.html',
-    "<div class=\"popover {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\"> <div class=arrow></div> <div class=popover-inner> <h3 class=popover-title ng-bind=title ng-show=title></h3> <div class=popover-content ng-bind=content></div> </div> </div>"
+    "<header class=popover-header> <img class=\"popover-header-avatar img-circle\" src=https://pbs.twimg.com/profile_images/1206647652/9b7a61b0-fffc-4e3d-8656-ad52b1491c05_400x400.jpg alt=\"Avatar of Tom Hermans\"> <h1 class=popover-header-title>Tom Hermans</h1> </header>  <ul class=popover-list-buttons> <li> <a href=\"\"><span>List Item 01</span></a> </li> <li> <a href=\"\"><span>List Item 02</span></a> </li> <li> <a href=\"\"><span>List Item 03</span></a> </li> <li> <a href=\"\"><span>List Item 04</span></a> </li> </ul>"
   );
 
 
@@ -3329,12 +4856,12 @@ angular.module('tink.safeApply', [])
 
 
   $templateCache.put('templates/tinkDatePicker.html',
-    "<div class=\"dropdown-menu datepicker\" ng-class=\"'datepicker-mode-' + $mode\"> <table style=\"table-layout: fixed; height: 100%; width: 100%\"> <thead> <tr class=text-center> <th> <button tabindex=-1 type=button class=\"btn pull-left\" ng-click=$selectPane(-1)> <i class=\"fa fa-chevron-left\"></i> </button> </th> <th colspan=\"{{ rows[0].length - 2 }}\"> <button tabindex=-1 type=button class=\"btn btn-block text-strong\" ng-click=$toggleMode()> <strong style=\"text-transform: capitalize\" ng-bind=title></strong> </button> </th> <th> <button tabindex=-1 type=button class=\"btn pull-right\" ng-click=$selectPane(+1)> <i class=\"fa fa-chevron-right\"></i> </button> </th> </tr> <tr ng-show=showLabels class=datepicker-days ng-bind-html=labels></tr> </thead> <tbody> <tr ng-repeat=\"(i, row) in rows\" height=\"{{ 100 / rows.length }}%\"> <td class=text-center ng-repeat=\"(j, el) in row\"> <button tabindex=-1 type=button class=btn style=\"width: 100%\" ng-class=\"{'btn-selected': el.selected, 'btn-today': el.isToday && !el.elected}\" ng-click=$select(el.date) ng-disabled=el.disabled> <span ng-class=\"{'text-muted': el.muted}\" ng-bind=el.label></span> </button> </td> </tr> </tbody> </table> </div>"
+    "<div class=\"dropdown-menu datepicker\" ng-class=\"'datepicker-mode-' + $mode\"> <table style=\"table-layout: fixed; height: 100%; width: 100%\"> <thead> <tr class=text-center> <th> <button tabindex=-1 type=button ng-disabled=pane.prev class=\"btn pull-left\" ng-click=$selectPane(-1)> <i class=\"fa fa-chevron-left\"></i> </button> </th> <th colspan=\"{{ rows[0].length - 2 }}\"> <button tabindex=-1 type=button class=\"btn btn-block text-strong\" ng-click=$toggleMode()> <strong style=\"text-transform: capitalize\" ng-bind=title></strong> </button> </th> <th> <button tabindex=-1 type=button ng-disabled=pane.next class=\"btn pull-right\" ng-click=$selectPane(+1)> <i class=\"fa fa-chevron-right\"></i> </button> </th> </tr> <tr ng-show=showLabels class=datepicker-days ng-bind-html=labels></tr> </thead> <tbody> <tr ng-repeat=\"(i, row) in rows\" height=\"{{ 100 / rows.length }}%\"> <td class=text-center ng-repeat=\"(j, el) in row\"> <button tabindex=-1 type=button class=btn style=\"width: 100%\" ng-class=\"{'btn-selected': el.selected, 'btn-today': el.isToday && !el.elected}\" ng-click=$select(el.date) ng-disabled=el.disabled> <span ng-class=\"{'text-muted': el.muted}\" ng-bind=el.label></span> </button> </td> </tr> </tbody> </table> </div>"
   );
 
 
   $templateCache.put('templates/tinkDatePickerField.html',
-    "<div class=\"dropdown-menu datepicker\" ng-class=\"'datepicker-mode-' + $mode\"> <table style=\"table-layout: fixed; height: 100%; width: 100%\"> <thead> <tr class=text-center> <th> <button tabindex=-1 type=button class=\"btn pull-left\" ng-click=$selectPane(-1)> <i class=\"fa fa-chevron-left\"></i> </button> </th> <th colspan=\"{{ rows[0].length - 2 }}\"> <button tabindex=-1 type=button class=\"btn btn-block text-strong\" ng-click=$toggleMode()> <strong style=\"text-transform: capitalize\" ng-bind=title></strong> </button> </th> <th> <button tabindex=-1 type=button class=\"btn pull-right\" ng-click=$selectPane(+1)> <i class=\"fa fa-chevron-right\"></i> </button> </th> </tr> <tr ng-show=showLabels class=datepicker-days ng-bind-html=labels></tr> </thead> <tbody> <tr ng-repeat=\"(i, row) in rows\" height=\"{{ 100 / rows.length }}%\"> <td class=text-center ng-repeat=\"(j, el) in row\"> <button tabindex=-1 type=button class=btn style=\"width: 100%\" ng-class=\"{'btn-selected': el.selected, 'btn-today': el.isToday && !el.elected}\" ng-click=$select(el.date) ng-disabled=el.disabled> <span ng-class=\"{'text-muted': el.muted}\" ng-bind=el.label></span> </button> </td> </tr> </tbody> </table> </div>"
+    "<div class=\"dropdown-menu datepicker\" ng-class=\"'datepicker-mode-' + $mode\"> <table style=\"table-layout: fixed; height: 100%; width: 100%\"> <thead> <tr class=text-center> <th> <button tabindex=-1 type=button ng-disabled=pane.prev class=\"btn pull-left\" ng-click=$selectPane(-1)> <i class=\"fa fa-chevron-left\"></i> </button> </th> <th colspan=\"{{ rows[0].length - 2 }}\"> <button tabindex=-1 type=button class=\"btn btn-block text-strong\" ng-click=$toggleMode()> <strong style=\"text-transform: capitalize\" ng-bind=title></strong> </button> </th> <th> <button tabindex=-1 type=button ng-disabled=pane.next class=\"btn pull-right\" ng-click=$selectPane(+1)> <i class=\"fa fa-chevron-right\"></i> </button> </th> </tr> <tr class=datepicker-days ng-bind-html=labels></tr> </thead> <tbody> <tr ng-repeat=\"(i, row) in rows\" height=\"{{ 100 / rows.length }}%\"> <td class=text-center ng-repeat=\"(j, el) in row\"> <button tabindex=-1 type=button class=btn style=\"width: 100%\" ng-class=\"{'btn-selected': el.selected, 'btn-today': el.isToday && !el.elected}\" ng-click=$select(el.date) ng-disabled=el.disabled> <span ng-class=\"{'text-muted': el.muted}\" ng-bind=el.label></span> </button> </td> </tr> </tbody> </table> </div>"
   );
 
 
@@ -3356,8 +4883,170 @@ angular.module('tink.safeApply', [])
   );
 
 
+  $templateCache.put('templates/tinkSortableTable.html',
+    " <table></table> <button tink-popover tink-popover-group=option-table tink-popover-template=templates/tinkTableShift.html>Option</button> <div ng-if=\"viewActions && selectedCheck === true\"> <button tink-popover tink-popover-template=templates/tinkTableAction.html>Actions</button> </div> <div class=table-sort-options> <div class=table-sort-info> <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}} <div class=select> <select ng-change=setItems() ng-model=perPage> <option ng-repeat=\"items in itemsPerPage\" ng-bind=items>{{items}}</option> </select> items per pagina </div> </div> <div class=table-sort-pagination> <ul class=pagination> <li class=prev ng-class=\"{disabled:pageSelected===1}\" ng-click=setPrev()><a href=\"\" tabindex=-1><span>Vorige</span></a></li> <li ng-class=\"{active:pageSelected===1}\" ng-click=setFirst()><a href=\"\">1</a></li> <li ng-repeat=\"pag in showNums track by $index\" ng-class=\"{active:pag===pageSelected}\" ng-click=setPage(pag)><a href=\"\" ng-if=\"pag !== -1\">{{pag}}</a> <span ng-show=\"pag === -1\">...<span></span></span></li> <li class=next ng-click=setNext() ng-class=\"{disabled:pageSelected===pages}\"><a href=\"\"><span>Volgende</span></a></li> </ul> </div> </div> <br> <br>"
+  );
+
+
+  $templateCache.put('templates/tinkTableAction.html',
+    "<button ng-repeat=\"action in viewActions\" ng-click=action.callback()>{{action.name}}</button>"
+  );
+
+
+  $templateCache.put('templates/tinkTableShift.html',
+    " <button ng-disabled=\"selected<1\" ng-click=omhoog()><i class=\"fa fa-arrow-up\"> </i></button>\n" +
+    "<button ng-disabled=\"selected<0 || selected === selectedMax\" ng-click=omlaag()><i class=\"fa fa-arrow-down\"></i></button>  <ul class=table-interactive-cols> <li ng-repeat=\"header in viewer | filter:{ visible: true }\"> <div class=\"checkbox is-selectable\" ng-class=\"{selected:selected===$index}\"> <input type=checkbox ng-model=header.checked ng-change=headerChange() id={{header.alias}} name={{header.alias}} value={{header.alias}} checked> <label for={{header.alias}}><span ng-class=\"{selected:selected===$index}\" ng-click=select($event,$index)>{{header.alias}}</span></label> </div> </li>   <button class=btn-xs ng-click=close()>klaar</button></ul>"
+  );
+
+
+  $templateCache.put('templates/tinkUpload.html',
+    "<div class=upload> <div class=upload-zone> <div data-ng-mouseup=browseFiles($event)> <strong translate>Sleep hier een bestand</strong> <span translate>of klik om te bladeren</span>\n" +
+    "<input data-ng-if=multiple class=upload-file-input name={{fieldName}} type=file data-ng-file-select=onFileSelect($files) multiple>\n" +
+    "<input data-ng-if=!multiple class=upload-file-input name={{fieldName}} type=file data-ng-file-select=\"onFileSelect($files)\"> </div> <span class=help-block data-ng-transclude>Toegelaten bestanden: jpg, gif, png, pdf. Maximum grootte: 2MB</span> </div> <p class=upload-file-change data-ng-if=message.hold>De vorige file werd vervangen. <a data-ng-mouseup=undo($event)>Ongedaan maken.</a></p> <ul class=upload-files> <li data-ng-repeat=\"file in files track by $index\" data-ng-class=\"{'success': !file.error && file.getProgress() === 100, 'error': file.error}\"> <span class=upload-filename>{{file.getFileName()}}</span>\n" +
+    "<span class=upload-fileoptions> <button class=upload-btn-delete data-ng-click=del($index) data-ng-if=\"file.getProgress() === 100 || file.error\"><span class=sr-only>Verwijder</span></button>\n" +
+    "<span class=upload-feedback data-ng-if=\"!file.error && file.getProgress() !== 100\">{{file.getProgress()}}%</span> </span>\n" +
+    "<span class=upload-error data-ng-if=file.error> <span data-ng-if=file.error.type>Dit bestandstype is niet toegelaten.</span>\n" +
+    "<span data-ng-if=file.error.size>Dit bestand overschrijdt de toegelaten bestandsgrootte.</span>\n" +
+    "<span data-ng-if=\"!file.error.type && !file.error.size\">Er is een fout opgetreden bij het uploaden. Probeer het opnieuw.</span> </span>\n" +
+    "<span class=upload-progress style=\"width: {{file.getProgress()}}%\"></span> </li> </ul> </div>"
+  );
+
+
   $templateCache.put('templates/tooltip.html',
     "<div class=\"tooltip {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\"> <div class=tooltip-arrow></div> <div class=tooltip-inner ng-bind=content></div> </div>"
   );
 
+}]);
+;'use strict';
+angular.module('tink.dropupload')
+.factory('UploadFile',['$q','tinkUploadService',function($q,tinkUploadService) {
+    var upload = null;
+    // instantiate our initial object
+    var uploudFile = function(data,uploaded) {
+        if(!data instanceof window.File){
+            throw 'uploadFile was no file object!';
+        }
+        this.fileData = data;
+        if(this.fileData){
+            this.fileName = this.fileData.name;
+            this.fileType = this.fileData.type;
+            this.fileSize = this.fileData.size;
+        }
+
+
+        if(uploaded){
+            this.progress = 100;
+        }else{
+            this.progress = 0;
+        }
+    };
+
+
+    uploudFile.prototype.getFileName = function() {
+        return this.fileName;
+    };
+
+    uploudFile.prototype.getData = function() {
+        return this.fileData;
+    };
+
+    uploudFile.prototype.getProgress = function() {
+        return this.progress;
+    };
+
+    uploudFile.prototype.getFileSize = function() {
+        return this.fileSize;
+    };
+
+    uploudFile.prototype.getFileExtension = function() {
+        var posLastDot = this.getFileName().lastIndexOf('.');
+        return this.getFileName().substring(posLastDot, this.getFileName().length);
+    };
+
+    uploudFile.prototype.getFileMimeType = function() {
+        return this.fileType;
+    };
+
+    uploudFile.prototype.cancel = function(){
+        if(upload !== null){
+            upload.abort();
+        }
+    };
+
+
+    uploudFile.prototype.upload = function(options){
+        var scope = this;
+        var promise = $q.defer();
+        upload = tinkUploadService.upload(this,options)
+        .progress(function (evt) {
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            if(isNaN(progressPercentage)){
+                progressPercentage = 0;
+            }
+            scope.progress = progressPercentage;
+            promise.notify({progress:progressPercentage,object:scope});
+        }).success(function () {
+            promise.resolve(scope);
+        }).error(function(){
+            promise.reject(scope);
+        });
+        return promise.promise;
+    };
+
+     uploudFile.prototype.remove = function(){
+        console.log('file removed');
+     };
+
+    return uploudFile;
+
+
+}]);;'use strict';
+angular.module('tink.dropupload')
+.provider('tinkUploadService',['lodash', function (_) {
+  var urls = {};
+  return {
+    $get: function ($upload) {
+      return {
+        upload: function(file,options){
+          if(file.getData() instanceof window.File){
+            var fileMime = file.getFileMimeType();
+            var sendUrl = '';
+            if(urls[fileMime]){
+              sendUrl = urls[fileMime];
+            }else{
+              if(!urls.all){
+                throw 'no All url is set ! in uploadservice';
+              }else{
+                sendUrl = urls.all;
+              }
+            }
+
+            var data = angular.extend({}, {url:sendUrl,file: file.getData()}, options);
+            return $upload.upload(data);
+          }else{
+            throw 'No instanceof uploadfile';
+          }
+        },
+        remove: function(file){
+          if(file.getData() instanceof window.File){
+            //TODO
+          }
+        },
+        addUrls: function (url,type) {
+          if(type === undefined || type === null || type === ''){
+            type = 'all';
+            urls[type] = url;
+          }else{
+            if(_.isArray(type)){
+              for(var i = 0;i < type.length; i++){
+                urls[type[i]] = url;
+              }
+            }else if(typeof type === 'string'){
+              urls[type] = url;
+            }
+          }
+        }
+      };
+    }
+  };
 }]);
