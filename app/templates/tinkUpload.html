@@ -19,10 +19,10 @@
         <span class="upload-feedback" data-ng-if="!file.error && file.getProgress() !== 100">{{file.getProgress()}}%</span>
       </span>
 
-      <span class="upload-error" data-ng-if="file.error">Er is een fout opgetreden
-        <span data-ng-if="!file.error.type && !file.error.size">.</span>
-        <span data-ng-if="file.error.type">: dit bestandstype is niet toegelaten.</span>
-        <span data-ng-if="file.error.size">: dit bestand overschrijdt de toegelaten bestandsgrootte.</span>
+      <span class="upload-error" data-ng-if="file.error">
+        <span data-ng-if="file.error.type">Dit bestandstype is niet toegelaten.</span>
+        <span data-ng-if="file.error.size">Dit bestand overschrijdt de toegelaten bestandsgrootte.</span>
+        <span data-ng-if="!file.error.type && !file.error.size">Er is een fout opgetreden bij het uploaden. Probeer het opnieuw.</span>
       </span>
 
       <span class="upload-progress" style="width: {{file.getProgress()}}%"></span>
