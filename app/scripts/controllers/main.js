@@ -17,7 +17,8 @@ scope.maxdate = new Date(2014,2,20);
   scope.go = function(){
   	 var modalInstance = $modal.open({
         scope:scope,
-        templateUrl:'templates/tinkModal.html'
+        controller:'ModalInstanceCtrl',
+        templateUrl:'views/tinkModal.html'
       });
 
      modalInstance.result.then(function (selectedItem) {
@@ -38,6 +39,7 @@ scope.maxdate = new Date(2014,2,20);
 }]).controller('ModalInstanceCtrl',['$scope','$modalInstance', function ($scope, $modalInstance) {
 
   $scope.ok = function () {
+    console.log("lol")
     $modalInstance.$close({de:'data'});
   };
 

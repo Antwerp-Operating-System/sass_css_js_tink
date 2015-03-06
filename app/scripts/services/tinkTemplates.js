@@ -39,12 +39,6 @@ angular.module('tink.templates', []).run(['$templateCache', function($templateCa
   );
 
 
-  $templateCache.put('templates/tinkModal.html',
-    "<h2>Dit is een test</h2> <div> laat ne keer zien wat deze wrapper kan <br> ziet er deftig uit neen ? <br> brrrrrr van brrrr<br> </div> <button type=button class=\"btn btn-default\" ng-click=ok()>ok</button>\n" +
-    "<button type=button class=\"btn btn-default\" ng-click=$close()>Close</button>"
-  );
-
-
   $templateCache.put('templates/tooltip.html',
     "<div class=\"tooltip {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\"> <div class=tooltip-arrow></div> <div class=tooltip-inner ng-bind=content></div> </div>"
   );
