@@ -1,17 +1,23 @@
-<!-- arrows to sort the columns -->
-   <button ng-disabled="selected<1" ng-click="omhoog()"><i class="fa fa-arrow-up"> </i></button>
-   <button  ng-disabled="selected<0 || selected === selectedMax" ng-click="omlaag()"><i class="fa fa-arrow-down"></i></button>
+<div class="table-interactive-options">
+  <!-- arrows to sort the columns -->
+  <div class="table-interactive-sort">
+    <button class="btn-borderless" ng-disabled="selected<1" ng-click="omhoog()"><i class="fa fa-arrow-up"> </i></button>
+    <button class="btn-borderless" ng-disabled="selected<0 || selected === selectedMax" ng-click="omlaag()"><i class="fa fa-arrow-down"></i></button>
+  </div>
 
   <!-- checkboxlist in pop-up-menu -->
 
   <ul class="table-interactive-cols">
-  <li ng-repeat='header in viewer | filter:{ visible: true }' >
-    <div class="checkbox is-selectable" ng-class="{selected:selected===$index}">
-      <input type="checkbox" ng-model="header.checked" ng-change="headerChange()" id="{{header.alias}}" name="{{header.alias}}" value="{{header.alias}}" checked="">
-      <label for="{{header.alias}}"><span ng-class="{selected:selected===$index}" ng-click="select($event,$index)">{{header.alias}}</span></label>
-    </div>
-  </li>
-  </div>
+    <li ng-repeat='header in viewer | filter:{ visible: true }' >
+      <div class="checkbox is-selectable" ng-class="{selected:selected===$index}">
+        <input type="checkbox" ng-model="header.checked" ng-change="headerChange()" id="{{header.alias}}" name="{{header.alias}}" value="{{header.alias}}" checked="">
+        <label for="{{header.alias}}"><span ng-class="{selected:selected===$index}" ng-click="select($event,$index)">{{header.alias}}</span></label>
+      </div>
+    </li>
+  </ul>
 
-  <!-- save / cancel button in pop-up-menu -->
-  <button class="btn-xs" ng-click="close()">klaar</button>
+  <div class="table-interactive-sort">
+    <!-- save / cancel button in pop-up-menu -->
+    <button class="btn-xs" ng-click="close()">klaar</button>
+  </div>
+</div>

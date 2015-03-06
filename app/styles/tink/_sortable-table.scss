@@ -100,8 +100,18 @@
 .table-interactive-sort {
   padding: rem(5);
 
-  i {
+  .btn-borderless {
+    border: none;
     cursor: pointer;
+    padding: 0 0 0 rem(4);
+
+    &[disabled] {
+      opacity: .32;
+      pointer-events: none;
+    }
+  }
+
+  i {
     user-select: none;
 
     &:first-child {
@@ -114,7 +124,7 @@
   @extend .list-unstyled;
   margin: rem(5 0);
   max-height: rem(200);
-  overflow: scroll;
+  overflow: auto;
 }
 
 
