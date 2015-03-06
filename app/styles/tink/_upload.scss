@@ -7,8 +7,8 @@
  * Vars
  */
 $upload-padding:    $padding-base-vertical;
-$upload-min-width:  440px;
-$upload-max-width:  $upload-min-width * 2;
+// $upload-min-width:  440px;
+// $upload-max-width:  $upload-min-width * 2;
 $upload-font-size:  $font-size-base;
 
 
@@ -19,11 +19,12 @@ $upload-font-size:  $font-size-base;
   box-sizing: border-box;
   display: block;
   margin: 0;
-  min-width: $upload-min-width;
-  max-width: $upload-max-width;
+  // min-width: $upload-min-width;
+  // max-width: $upload-max-width;
   padding: rem($upload-padding);
   text-align: center;
   transition: background $animation-speed linear;
+
 
   &:active {
     &:focus {
