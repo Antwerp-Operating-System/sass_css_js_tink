@@ -1,6 +1,6 @@
 'use strict';
 angular.module('tink.datepicker', [])
-.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply','$window',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply,$window) {
+.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply','$window','$sce',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply,$window,$sce) {
   return {
     restrict:'E',
     require:['ngModel','?^form'],
@@ -73,6 +73,12 @@ angular.module('tink.datepicker', [])
         $directive.selectedDate =  newVal;
         $directive.viewDate = newVal;
       });
+
+      // labels for the days you can make this variable //
+      var dayLabels = ['ma', 'di', 'wo', 'do', 'vr', 'za', 'zo'];
+       // -- create the labels  --/
+       scope.labels = $sce.trustAsHtml('<th>' + dayLabels.join('</th><th>') + '</th>');
+      // Add a watch to know when input changes from the outside //
 
       // -- check if we are using a touch device  --/
      var isDateSupported = function() {
