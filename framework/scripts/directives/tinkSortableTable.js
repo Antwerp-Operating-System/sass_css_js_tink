@@ -7,11 +7,14 @@ angular.module('tink.sortable')
     templateUrl:'templates/tinkSortableTable.html',
     scope:{
       ngModel:'=',
-      headers:'=?',
+      headers:'=',
       actions:'=?',
       itemsPerPage:'=?'
     },
-    link:function(scope){
+    link:function(scope,element){
+      if(!scope.headers || scope.headers.length < 1 ){
+        return;
+      }
 
       var aantalToShow = 1;
       var pages;
@@ -79,8 +82,9 @@ angular.module('tink.sortable')
       //which sorting is happening
       scope.sorting = {field:'',direction:1};
       //preview headers
-      scope.headers = [{field:'name',alias:'Voornaam',checked:true},{field:'achternaam',alias:'Achternaam',checked:false},{field:'adress',alias:'Adres',visible:true,checked:true}];
-
+      if(!scope.headers instanceof Array){
+        scope.headers = [];
+      }
       //function that runs at the beginning to handle the headers.
       function handleHeaders(){
         angular.forEach(scope.headers,function(value){
@@ -344,8 +348,9 @@ angular.module('tink.sortable')
         table.addClass('table-interactive');   //added code to set class table
         fullChecked();
 
-        $('table').replaceWith(table); // old code: $('table').replaceWith($(table));
-        $compile($('table'))(scope);
+        var tableEl = element.find('table');
+        tableEl.replaceWith(table); // old code: $('table').replaceWith($(table));
+        $compile(table)(scope);
       };
 
       scope.selected = -1;

@@ -11,7 +11,10 @@ angular.module('tink.sortable')
       actions:'=?',
       itemsPerPage:'=?'
     },
-    link:function(scope){
+    link:function(scope,element){
+      if(!scope.headers || scope.headers.length < 1 ){
+        return;
+      }
 
       var aantalToShow = 1;
       var pages;
@@ -345,8 +348,9 @@ angular.module('tink.sortable')
         table.addClass('table-interactive');   //added code to set class table
         fullChecked();
 
-        $('table').replaceWith(table); // old code: $('table').replaceWith($(table));
-        $compile($('table'))(scope);
+        var tableEl = element.find('table');
+        tableEl.replaceWith(table); // old code: $('table').replaceWith($(table));
+        $compile(table)(scope);
       };
 
       scope.selected = -1;

@@ -75,6 +75,9 @@ scope.extraOptions = {date:{isPrivate:true},formName:'lalaForm'};
         {name:'trcsfbn',achternaam:'bouillart',adress:'doleegsgtfraat 27'},
         {name:'sdffsbv',achternaam:'bouillart',adress:{test:'o'}}
       ];
+
+  scope.headers = [{field:'name',alias:'Voornaam',checked:true},{field:'achternaam',alias:'Achternaam',checked:false},{field:'adress',alias:'Adres',checked:true}];
+
   scope.submitForm = function() {
     console.log(scope.userForm.dubbel);
   };
