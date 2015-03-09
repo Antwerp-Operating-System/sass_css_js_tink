@@ -223,7 +223,8 @@ angular.module('tink.sortable')
                   row = body.insertRow(j);
                   if(typeof scope.actions === 'function'){
                     var check = row.insertCell(0);
-                    var index = _.findIndex(scope.ngModel,content[j]);
+                    // var index = scope.ngModel.indexOf(content[j]);
+                    var index = j;
                     check.innerHTML = createCheckbox(index,j);
                   }
                 }
@@ -295,7 +296,7 @@ angular.module('tink.sortable')
           array[i] = {};
         }
         return array;
-      }
+      };
 
       function buildPagination(){
         scope.showNums = [];
@@ -334,7 +335,7 @@ angular.module('tink.sortable')
         var start = (scope.pageSelected-1)*aantalToShow;
         var stop = (scope.pageSelected *aantalToShow)-1;
         viewable = _.slice(scope.ngModel, start,stop+1);
-        scope.checkB = scope.createArray(viewable.length)
+        scope.checkB = scope.createArray(viewable.length);
         if(viewable.length === 0 && scope.pageSelected > 1){
           scope.pageSelected = scope.pageSelected-1;
           scope.buildTable();

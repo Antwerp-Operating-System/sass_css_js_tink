@@ -139,48 +139,54 @@ input[type="month"],
 input[type="number"],
 input[type="time"] {
 
-  &::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    border-left: 1px solid $input-border;
-    display: block;
-    height: rem($input-height-base - 2px);
-    position: relative;
-    transition: border-color linear $animation-speed;
-    width: rem(20);
+  &:not(.hide-styling) {
 
-    &:before, &:after {
-      border-style: solid;
-      content: "";
-      height: 0;
-      position: absolute;
-      right: rem(6);
-      width: 0;
-    }
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      border-left: 1px solid $input-border;
+      display: block;
+      height: rem($input-height-base - 2px);
+      position: relative;
+      transition: border-color linear $animation-speed;
+      width: rem(20);
 
-    &:before {
-      border-color: transparent transparent $gray-light;
-      border-width: rem(4 4 6 4);
-      top: 0;
-    }
+      &:before, &:after {
+        border-style: solid;
+        content: "";
+        height: 0;
+        position: absolute;
+        right: rem(6);
+        width: 0;
+      }
 
-    &:after {
-      border-color: $gray-light transparent transparent;
-      border-width: rem(6 4 4 4);
-      bottom: 0;
+      &:before {
+        border-color: transparent transparent $gray-light;
+        border-width: rem(4 4 6 4);
+        top: 0;
+      }
+
+      &:after {
+        border-color: $gray-light transparent transparent;
+        border-width: rem(6 4 4 4);
+        bottom: 0;
+      }
     }
   }
 
   &:focus {
 
-    &::-webkit-inner-spin-button {
-      border-left: 1px solid $input-border-focus;
+    &:not(.hide-styling) {
 
-      &:before {
-        border-color: transparent transparent $input-border-focus;
-      }
+      &::-webkit-inner-spin-button {
+        border-left: 1px solid $input-border-focus;
 
-      &:after {
-        border-color: $input-border-focus transparent transparent;
+        &:before {
+          border-color: transparent transparent $input-border-focus;
+        }
+
+        &:after {
+          border-color: $input-border-focus transparent transparent;
+        }
       }
     }
   }

@@ -32,7 +32,8 @@ angular.module('tinkFramework', [
         controller: 'MainCtrl'
 			})
       .when('/forms', {
-        templateUrl: 'views/forms.html'
+        templateUrl: 'views/forms.html',
+        controller: 'FormsCtrl'
       })
       .when('/callouts', {
         templateUrl: 'views/callouts.html'

@@ -393,7 +393,9 @@ var pos;
                     el.css('top',data.top);
                     el.css('left',data.left);
                     arrowCal(data.place,data.align);
+                    // el.addClass('prevent-transition');
                     el.css('display','block');
+                    // el.removeClass('prevent-transition');
                 });
               }
 
