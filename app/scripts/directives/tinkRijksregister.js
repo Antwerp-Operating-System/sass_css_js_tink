@@ -33,7 +33,7 @@ angular.module('tink.rijkRegister')
 
        ngControl.$formatters.push(function(modelValue) {
 
-        if(modelValue.length === 11){
+        if(modelValue && modelValue.length === 11){
           modelValue = modelValue.substr(0,2) + '.' + modelValue.substr(2,2)+ '.' + modelValue.substr(4,2)+'-'+ modelValue.substr(6,3)+'-'+modelValue.substr(9,2);
         }
 
