@@ -35,7 +35,7 @@ angular.module('tink.nationalNumber')
 
        ngControl.$formatters.push(function(modelValue) {
 
-        if(modelValue.length === 11){
+        if(modelValue && modelValue.length === 11){
           modelValue = modelValue.substr(0,2) + '.' + modelValue.substr(2,2)+ '.' + modelValue.substr(4,2)+'-'+ modelValue.substr(6,3)+'-'+modelValue.substr(9,2);
         }
 
@@ -81,9 +81,9 @@ angular.module('tink.nationalNumber')
         })();
 
         function validFormat(value){
-          if(value.length === 11){
+          if(value && value.length === 11){
             return value.match(/[0-9]*/g);
-          }else if(value.length === 15){
+          }else if(value && value.length === 15){
             return value.match(/[0-9][0-9].[0-9][0-9].[0-9][0-9]-[0-9][0-9][0-9].[0-9][0-9]/g);
           }else{
             return false;
