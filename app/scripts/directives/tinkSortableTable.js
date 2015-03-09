@@ -22,13 +22,13 @@ angular.module('tink.sortable')
 
 
       function uncheckAll(){
-        angular.forEach(viewable,function(val){
-          if(val._checked===true){
-            val._checked = false;
+        for(var i=0;i<viewable.length;i++){
+          if(scope.checkB[i] && scope.checkB[i]._checked===true){
+            scope.checkB[i]._checked = false;
           }
-        });
-        if(scope.hulpngModel[-1]){
-            scope.hulpngModel[-1]._checked = false;
+        }
+        if(scope.checkB[-1]){
+            scope.checkB[-1]._checked = false;
           }
       }
       var ngModelWatch;
@@ -49,11 +49,11 @@ angular.module('tink.sortable')
           var action = scope.actions[i];
           scope.viewActions.push({name:action.name,callback:function(){
             var checked = [];
-            angular.forEach(viewable,function(val){
-              if(val._checked===true){
-                checked.push(val);
+            for(var i=0;i<viewable.length;i++){
+              if(scope.checkB[i] && scope.checkB[i]._checked===true){
+                checked.push(viewable[i]);
               }
-            });
+            }
             action.callback(checked,uncheckAll);
           }});
         }
@@ -157,13 +157,13 @@ angular.module('tink.sortable')
 
       function fullChecked(){
         var length = 0;
-          angular.forEach(viewable,function(val){
-            if(val._checked){
+        for(var i=0;i<viewable.length;i++){
+          if(scope.checkB[i] && scope.checkB[i]._checked){
               length+=1;
             }
-          });
-          if(!scope.hulpngModel[-1]){
-            scope.hulpngModel[-1] = {};
+          }
+          if(!scope.checkB[-1]){
+            scope.checkB[-1] = {};
           }
           if(length !== 0){
             scope.selectedCheck = true;
@@ -171,22 +171,22 @@ angular.module('tink.sortable')
             scope.selectedCheck = false;
           }
           if(length === viewable.length){
-            scope.hulpngModel[-1]._checked = true;
+            scope.checkB[-1]._checked = true;
           }else{
-            scope.hulpngModel[-1]._checked = false;
+            scope.checkB[-1]._checked = false;
           }
       }
 
       scope.checkChange = function(i){
         if(i === -1){
-          var check = scope.hulpngModel[-1]._checked;
-          angular.forEach(viewable,function(val){
+          var check = scope.checkB[-1]._checked;
+          angular.forEach(scope.checkB,function(val){
             val._checked = check;
             scope.selectedCheck = check;
           });
         }else{
-          if(scope.hulpngModel[-1]){
-            scope.hulpngModel[-1]._checked = false;
+          if(scope.checkB[-1]){
+            scope.checkB[-1]._checked = false;
           }
           fullChecked();
         }
@@ -196,13 +196,13 @@ angular.module('tink.sortable')
       };
 
       scope.hulpngModel=[];
-
+      scope.checkB = [];
       function createCheckbox(row,i,hulp){
         if(!hulp){
           hulp ='';
         }
         var checkbox = '<div class="checkbox">'+
-                          '<input type="checkbox" ng-change="checkChange('+row+')" ng-model="'+hulp+'ngModel['+row+']._checked" id="'+row+'" name="'+row+'" value="'+row+'">'+
+                          '<input type="checkbox" ng-change="checkChange('+row+')" ng-model="checkB['+row+']._checked" id="'+row+'" name="'+row+'" value="'+row+'">'+
                           '<label for="'+row+'"></label>'+
                         '</div>';
         return checkbox;
@@ -289,6 +289,14 @@ angular.module('tink.sortable')
         fullChecked();
       };
 
+      scope.createArray = function(num){
+        var array = [];
+        for(var i=0;i<num;i++){
+          array[i] = {};
+        }
+        return array;
+      }
+
       function buildPagination(){
         scope.showNums = [];
         var num = scope.pageSelected;
@@ -326,6 +334,7 @@ angular.module('tink.sortable')
         var start = (scope.pageSelected-1)*aantalToShow;
         var stop = (scope.pageSelected *aantalToShow)-1;
         viewable = _.slice(scope.ngModel, start,stop+1);
+        scope.checkB = scope.createArray(viewable.length)
         if(viewable.length === 0 && scope.pageSelected > 1){
           scope.pageSelected = scope.pageSelected-1;
           scope.buildTable();
