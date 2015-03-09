@@ -61,9 +61,11 @@ angular.module('tink.dropupload')
         upload = tinkUploadService.upload(this,options);
         upload.then(
             function success() {
+                scope.progress=100;
                 promise.resolve(scope);
             },
             function fail(){
+                scope.progress=0;
                 promise.reject(scope);
             },
             function notify(evt) {

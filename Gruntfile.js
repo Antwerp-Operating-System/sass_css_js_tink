@@ -92,7 +92,7 @@ module.exports = function (grunt) {
         },
         cwd:      'app',
         src:      'templates/**.html',
-        dest:     '<%= yeoman.app %>/scripts/services/tinkTemplates.js'
+        dest:     '<%= yeoman.dist %>/scripts/tinkTemplates.js'
       }
     },
     jshint: {
@@ -291,7 +291,7 @@ module.exports = function (grunt) {
         separator: ';'
       },
       dist: {
-        src: ['<%= yeoman.app %>/scripts/directives/*.js','<%= yeoman.app %>/scripts/services/*.js','bower_components/ng-lodash/build/ng-lodash.js','bower_components/lodash/lodash.js','bower_components/ng-file-upload/angular-file-upload.js'],
+        src: ['<%= yeoman.app %>/scripts/directives/*.js','<%= yeoman.app %>/scripts/services/*.js','bower_components/ng-lodash/build/ng-lodash.js','bower_components/lodash/lodash.js','bower_components/ng-file-upload/angular-file-upload.js','<%= yeoman.dist %>/scripts/tinkTemplates.js'],
         dest: '<%= yeoman.dist %>/scripts/tink-directives.js'
       }
     },

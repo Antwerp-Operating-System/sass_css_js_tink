@@ -223,7 +223,8 @@ angular.module('tink.sortable')
                   row = body.insertRow(j);
                   if(typeof scope.actions === 'function'){
                     var check = row.insertCell(0);
-                    var index = _.findIndex(scope.ngModel,content[j]);
+                    var index = scope.ngModel.indexOf(content[j]);
+                    var index = j;
                     check.innerHTML = createCheckbox(index,j);
                   }
                 }
