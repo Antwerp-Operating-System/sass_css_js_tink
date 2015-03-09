@@ -5,12 +5,13 @@
 
 // Base class
 .panel {
+  @include panel-variant($panel-default-border, $panel-default-text, $panel-default-heading-bg, $panel-default-border);
+
   background-color: $panel-bg;
   border: 1px solid transparent;
   border-radius: $panel-border-radius;
   box-shadow: 0 1px 1px rgba(0,0,0,.05);
   margin-bottom: rem($line-height-computed);
-  @include panel-variant($panel-default-border, $panel-default-text, $panel-default-heading-bg, $panel-default-border);
 
   &.colored {
     background: lighten($brand, 50);
@@ -20,14 +21,14 @@
 
 // Panel contents
 .panel-body {
-  padding: rem($panel-body-padding $panel-body-padding * 2); //$panel-body-padding;
   @include clearfix();
+  padding: rem($panel-body-padding ($panel-body-padding * 2));
   &:not(:last-child) { border-bottom: 1px solid $panel-default-border; }
 
   .panel-body-title {
+    font-weight: 600;
     margin-top: 0;
     margin-bottom: 1rem;
-    font-weight: 600;
     span { font-size: 70%; color: $gray; }
   }
 
@@ -52,12 +53,7 @@
   background-color: #f6f6f6;
   font-size: rem(16);
   font-weight: 700;
-  padding: $panel-heading-padding;
-  //text-transform: uppercase;
-
-  // border-bottom: 1px solid transparent;
-  // border-top-radius: $panel-border-radius - 1;
-  //border: 1px solid #e9e9e9;
+  padding: rem($panel-heading-padding ($panel-heading-padding * 1.5));
 
   > .dropdown .dropdown-toggle {
     color: inherit;
@@ -71,7 +67,7 @@
     display: inline-block;
     font-size: rem(14);
     font-weight: 700;
-    margin: 0 0 0 rem(24);
+    margin: 0;
     padding: 0;
   }
   .fa + .panel-title {
@@ -84,7 +80,7 @@
 .panel-footer {
   border-top: 1px solid $gray-lighter;
   font-size: rem(12);
-  padding: $panel-heading-padding;
+  padding: rem($panel-heading-padding ($panel-heading-padding * 1.5));
 }
 
 

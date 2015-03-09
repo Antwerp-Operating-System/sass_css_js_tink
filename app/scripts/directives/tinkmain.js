@@ -13,5 +13,9 @@ angular.module('tink', [
 		'tink.format',
 		'tink.timepicker',
 		'tink.accordion',
-		'tink.nationalNumber'
+		'tink.nationalNumber',
+		'tink.dropupload',
+		'angularFileUpload',
+		'tink.sortable',
+		'tink.modal'
 	]);

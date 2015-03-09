@@ -1,0 +1,102 @@
+/**
+ * Variables
+ * ----------------------------------------------------------------
+ */
+
+/**
+ * Main
+ */
+$logo:                                   "theme/politie-logo.svg";
+
+$brand:                 					       #233588;
+$brand-light:           					       #0a94d6;
+$brand-dark:                             #101e5f;
+
+
+/**
+ * Extra variables that can be used via SASS
+ */
+$brand-extra-blue:                       #f1f9fd;
+$brand-extra-cyan:                       #4accd4;
+$brand-extra-lime:                       #8fd400;
+$brand-extra-pink:                       #e60094;
+$brand-extra-teal:                       #00b394;
+
+
+/**
+ * Navigation
+ */
+$nav-top-bg-color:      					       $brand;
+$nav-aside-link-hover-color:             $brand-light;
+
+
+/**
+ * Colors
+ */
+$brand-success:                          #00b394;
+$brand-warning:                          #f2932e;
+$brand-danger:                           lighten(#e60038, 6%);
+$brand-info:                             $brand;
+
+$link-color:                             $brand-light;
+
+
+/**
+ * Code
+ */
+$code-color:                             $brand-light;
+$code-bg:                                lighten($brand-light, 53%);
+
+
+/**
+ * Buttons
+ */
+$btn-primary-bg:                         $brand-light;
+
+
+/**
+ * Datepicker
+ */
+$datepicker-icon-color:                  $brand-light;
+$datepicker-icon-hover-color:            darken($datepicker-icon-color, 10%);
+$datepicker-btn-hover-color:             $brand-light;
+$datepicker-btn-selected-bg-color:       $brand-light;
+$datepicker-btn-today-color:             $brand-light;
+
+
+/**
+ * Callouts
+ */
+$callout-color:                          $brand-info;
+$callout-bgcolor:                        lighten($callout-color, 60%);
+$callout-color-warning:                  $brand-warning;
+$callout-bgcolor-warning:                lighten($callout-color-warning, 40%);
+
+
+/**
+ * Hit-area-box
+ */
+$hit-area-checked-bgcolor:               $brand-light;
+
+
+/**
+ * Panels
+ */
+$panel-default-text:                     lighten(#333, 8%);
+$panel-default-heading-bg:               lighten(#ccc, 8%);
+$panel-default-icon-color:               lighten(#333, 8%);
+
+
+/**
+ * Pagination
+ */
+$pagination-link-active-bg:              $brand-light;
+
+
+
+/**
+ * Upload
+ */
+$upload-hover-background-color:       lighten($brand-light, 50%);
+$upload-border-color:                 $brand-light;
+// $upload-bg-color-success:             lighten($brand-success, 54%);

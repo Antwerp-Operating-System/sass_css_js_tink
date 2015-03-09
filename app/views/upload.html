@@ -1,0 +1,36 @@
+<div class="container">
+  <h1>Upload</h1>
+  <hr>
+
+  <section class="panel">
+    <header class="panel-heading">
+      <i class="fa fa-th-large"></i>
+      <h1 class="panel-title">Drag and drop multi</h1>
+    </header>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-6">
+          <div type="file" data-send-options="extraOptions" data-multiple="true" data-allowed-types="valid" edit-mode="true" tink-upload ng-model="files" show-uploaded-files="true">
+            Maximum grootte: 200MB</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <header class="panel-heading">
+      <i class="fa fa-th-large"></i>
+      <h1 class="panel-title">Drag and drop</h1>
+    </header>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-sm-6">
+          <div type="file" data-send-options="extraOptions" data-multiple="false" data-allowed-types="valid" edit-mode="true" tink-upload ng-model="file" show-uploaded-files="true">
+            Maximum grootte: 200MB</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<button ng-click="showUp()"></button>
+</div>

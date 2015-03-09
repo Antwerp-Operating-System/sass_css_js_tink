@@ -1,0 +1,151 @@
+/**
+ * Table interactive
+ * --------------------------------------------------
+ * Basic styling is already done on the table element by the _table.scss
+ * .table-interactive adds interactive styling elements
+ */
+
+
+.table-interactive {
+  input[type="checkbox"] + label {
+    padding: 0; // remove padding so the tablecell width can be adjusted
+    @include mq($screen-sm, "max") {
+      padding-right: rem(24);
+    }
+  }
+  > thead > tr > th {
+    cursor: pointer;
+    position: relative;
+    transition: background-color $animation-speed linear;
+    user-select: none;
+
+    // setting width on first tablehead cell to fit the checkbox
+    &:first-child {
+      width: rem(35);
+    }
+
+    &:hover {
+      &:not(:first-child) {
+        background-color: $table-interactive-heading-hover-bg;
+        color: $table-interactive-heading-hover-color;
+      }
+    }
+
+    &.sort-asc {
+      &:after {
+        content: '\f106';
+        font-family: 'FontAwesome';
+        position: absolute;
+        right: rem(8);
+      }
+    }
+
+    &.sort-desc {
+      &:after {
+        content: '\f107';
+        font-family: 'FontAwesome';
+        position: absolute;
+        right: rem(8);
+      }
+    }
+  }
+
+  // adding vertical separator to table heading
+  &:not(.table-bordered) {
+    > thead > tr > th:not(:first-child):before {
+      border-left: solid 1px $table-interactive-heading-line;
+      content: '';
+      height: 60%;
+      left: 0;
+      position: absolute;
+      top: 20%;
+    }
+  }
+}
+
+
+
+/**
+ * Sort styling
+ */
+.table-interactive-options {
+
+  .is-selectable {
+    padding-left: rem(4);
+    padding-right: rem(4);
+
+    &.selected {
+      background-color: $table-interactive-options-selected-bgcolor;
+    }
+
+    label {
+      display: block;
+
+      span {
+        bottom: 0;
+        left: rem(32);
+        padding-top: rem(2);
+        position: absolute;
+        right: 0;
+        top: 0;
+
+        @include mq($screen-sm) {
+          left: rem(26);
+        }
+      }
+    }
+  }
+}
+
+.table-interactive-sort {
+  padding: rem(5);
+
+  .btn-borderless {
+    border: none;
+    cursor: pointer;
+    padding: 0 0 0 rem(4);
+
+    &[disabled] {
+      opacity: .32;
+      pointer-events: none;
+    }
+  }
+
+  i {
+    user-select: none;
+
+    &:first-child {
+      margin-right: rem(4);
+    }
+  }
+}
+
+.table-interactive-cols {
+  @extend .list-unstyled;
+  margin: rem(5 0);
+  max-height: rem(200);
+  overflow: auto;
+}
+
+
+
+/**
+ * Table alternative heading -> this will be added to the table css when finished
+ * --------------------------------------------------
+ */
+
+.table-alternative-heading {
+  > thead > tr > th {
+    background-color: $table-alternative-heading-bg;
+    border-bottom: 0;
+    color: $table-alternative-heading-color;
+    transition: background-color linear $animation-speed;
+  }
+}
+
+.table-alternative-heading.table-interactive {
+  > thead > tr > th:hover {
+    background-color: $table-alternative-heading-hover-bg;
+    color:  $table-alternative-heading-hover-color;
+  }
+}

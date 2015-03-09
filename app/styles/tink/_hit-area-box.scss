@@ -6,6 +6,7 @@
 
 .hit-area-box {
   @extend .list-unstyled;
+
   > li {
     input[type="checkbox"],
     input[type="radio"] {
@@ -14,7 +15,7 @@
         color: $hit-area-color;
         cursor: pointer;
         display: block;
-        margin: rem(6 0);
+        margin: 1px 0;
         padding: rem(7 5 7 45);
         transition: background-color linear $animation-speed;
 
@@ -52,6 +53,26 @@
       }
     }
 
+    &:first-child {
+      input[type="checkbox"],
+      input[type="radio"] {
+        + label {
+          border-top-right-radius: rem($border-radius-base);
+          border-top-left-radius: rem($border-radius-base);
+        }
+      }
+    }
+
+    &:last-child {
+      input[type="checkbox"],
+      input[type="radio"] {
+        + label {
+          border-bottom-right-radius: rem($border-radius-base);
+          border-bottom-left-radius: rem($border-radius-base);
+        }
+      }
+    }
+
     input[type="checkbox"] {
       + label {
         &:before,
@@ -61,7 +82,7 @@
           top: rem(7);
           width: rem(20); // visually compensating size for removing border on checkbox
 
-          @media screen and (min-width: $screen-sm) {
+          @include mq($screen-sm) {
             height: rem(14); // visually compensating size for removing border on checkbox
             left: rem(16);
             top: rem(10);
@@ -79,7 +100,7 @@
           top: rem(6);
           width: rem(22);
 
-          @media screen and (min-width: $screen-sm) {
+          @include mq($screen-sm) {
             height: rem(16);
             left: rem(15);
             top: rem(9);

@@ -54,6 +54,10 @@ module.exports = function (grunt) {
         files: ['<%= yeoman.app %>/styles/**/*.{scss,sass}'],
         tasks: ['sass:server', 'autoprefixer']
       },
+      html: {
+        files: ['<%= yeoman.app %>/templates/{,*/}*.{htm,html}'],
+        tasks: ['ngtemplates']
+      },
       gruntfile: {
         files: ['Gruntfile.js']
       },
@@ -231,6 +235,24 @@ module.exports = function (grunt) {
           {
             expand: true,
             dot: true,
+            cwd: 'bower_components/lodash',
+            dest: '<%= yeoman.dist %>/scripts/directives',
+            src: [
+              'lodash.js'
+            ]
+          },
+          {
+            expand: true,
+            dot: true,
+            cwd: 'bower_components/ng-lodash/build',
+            dest: '<%= yeoman.dist %>/scripts/directives',
+            src: [
+              'ng-lodash.js'
+            ]
+          },
+          {
+            expand: true,
+            dot: true,
             cwd: '<%= yeoman.app %>/scripts/',
             dest: '<%= yeoman.dist %>/scripts/',
             src: [
@@ -269,7 +291,7 @@ module.exports = function (grunt) {
         separator: ';'
       },
       dist: {
-        src: ['<%= yeoman.app %>/scripts/directives/*.js','<%= yeoman.app %>/scripts/services/*.js'],
+        src: ['<%= yeoman.app %>/scripts/directives/*.js','<%= yeoman.app %>/scripts/services/*.js','bower_components/ng-lodash/build/ng-lodash.js','bower_components/lodash/lodash.js','bower_components/ng-file-upload/angular-file-upload.js'],
         dest: '<%= yeoman.dist %>/scripts/tink-directives.js'
       }
     },
@@ -320,6 +342,7 @@ module.exports = function (grunt) {
       },
       dist: {
         files: {
+          '<%= yeoman.dist %>/styles/tink-politie.min.css': ['.tmp/styles/tink-politie.css'],
           '<%= yeoman.dist %>/styles/tink-ocmw.min.css': ['.tmp/styles/tink-ocmw.css'],
           '<%= yeoman.dist %>/styles/tink-stad.min.css': ['.tmp/styles/tink-stad.css'],
           '<%= yeoman.dist %>/styles/tink.min.css': ['.tmp/styles/tink.css']
@@ -377,7 +400,6 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'wiredep',
-      'ngtemplates',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',

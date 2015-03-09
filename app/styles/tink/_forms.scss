@@ -207,7 +207,7 @@ input[type="radio"] {
     position: relative;
     user-select: none;
 
-    @media screen and (min-width: $screen-sm) {
+    @include mq($screen-sm) {
       padding-left: rem(26);
     }
 
@@ -238,7 +238,7 @@ input[type="checkbox"] {
       top: rem(1);
       width: rem(22);
 
-      @media screen and (min-width: $screen-sm) {
+      @include mq($screen-sm) {
         height: rem(16);
         top: rem(4);
         width: rem(16);
@@ -262,7 +262,7 @@ input[type="checkbox"] {
       transform: scale(2);
       transition: opacity linear $animation-speed, transform linear $animation-speed;
 
-      @media screen and (min-width: $screen-sm) {
+      @include mq($screen-sm) {
         font-size: rem(13);
         line-height: 1.25;
       }
@@ -300,7 +300,7 @@ input[type="radio"] {
       top: 0;
       width: rem(24);
 
-      @media screen and (min-width: $screen-sm) {
+      @include mq($screen-sm) {
         height: rem(18);
         top: rem(3);
         width: rem(18);

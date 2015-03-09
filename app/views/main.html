@@ -1,10 +1,3 @@
-<style>
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-</style>
 <div class="container">
 <div class="row">
 
@@ -12,7 +5,6 @@ input[type="number"]::-webkit-inner-spin-button {
     <!-- =================================================================== -->
     <!-- FORM ============================================================== -->
     <!-- =================================================================== -->
-
 
     <form name="userForm" ng-submit="submitForm()" novalidate>
 
@@ -28,7 +20,7 @@ input[type="number"]::-webkit-inner-spin-button {
             <tink-datepicker-range  type="text" name="dubbel" required class="form-control" data-first-date="dates.first" data-last-date="dates.last">
             <p ng-show="userForm.dubbel.$invalid && !userForm.dubbel.$pristine" class="help-block">You name is required.</p>
         </div>
-
+<tink-modal />
       <!-- USERNAME -->
 <div class="form-group" ng-class="{ 'has-error' : userForm.username.$invalid && !userForm.username.$pristine }">
     <label>Username</label>
@@ -86,17 +78,17 @@ input[type="number"]::-webkit-inner-spin-button {
             </table>
         </div>
         <div class="col-xs-3">
-            <h3>rijk</h3>
+            <h3>Username</h3>
             <table class="table table-bordered">
                 <tbody>
                     <tr>
-                        <td ng-class="{ success: userForm.rijk.$valid, danger: userForm.rijk.$invalid }">Valid</td>
+                        <td ng-class="{ success: userForm.username.$valid, danger: userForm.username.$invalid }">Valid</td>
                     </tr>
                     <tr>
-                        <td ng-class="{ success: userForm.rijk.$pristine, danger: !userForm.rijk.$pristine }">Pristine</td>
+                        <td ng-class="{ success: userForm.username.$pristine, danger: !userForm.username.$pristine }">Pristine</td>
                     </tr>
                     <tr>
-                        <td ng-class="{ success: userForm.rijk.$dirty }">Dirty</td>
+                        <td ng-class="{ success: userForm.username.$dirty }">Dirty</td>
                     </tr>
                 </tbody>
             </table>

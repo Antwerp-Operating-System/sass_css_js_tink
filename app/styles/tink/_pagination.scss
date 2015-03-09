@@ -1,0 +1,185 @@
+/**
+ * Pagination
+ * --------------------------------------------------
+ */
+
+
+.table-sort-options {
+  overflow: auto;
+}
+
+/**
+ * Left
+ */
+
+.table-sort-info {
+  display: block;
+  margin: rem($line-height-computed 8 $line-height-computed 0);
+  text-align: center;
+
+  @include mq($screen-md) {
+    display: inline-block;
+    float: left;
+  }
+
+  .select {
+    border-left: 1px solid;
+    display: inline-block;
+    margin: rem(0 0 0 8);
+    padding: rem(0 0 0 12);
+
+    select {
+      display: inline-block;
+      height: auto;
+      margin-right: rem(2);
+      padding: rem($pagination-padding-vertical 20 $pagination-padding-vertical $pagination-padding-horizontal);
+      width: auto;
+    }
+  }
+}
+
+
+/**
+ * Right
+ */
+
+.table-sort-pagination {
+  margin: rem($line-height-computed 0);
+  text-align: center;
+
+  @include mq($screen-md) {
+    float: right;
+  }
+}
+
+.pagination {
+  @extend .list-inline;
+  display: inline-block;
+  margin: 0;
+
+  li {
+    // display: inline;
+    display: none;
+    padding: 0;
+    position: relative;
+
+    @include mq($screen-sm) {
+      display: inline;
+    }
+
+    &.prev,
+    &.next,
+    &.active {
+      display: inline;
+    }
+
+    a,
+    > span {
+      background-color: $pagination-link-bg;
+      border: 1px solid $pagination-link-border;
+      float: left;
+      margin-left: -1px;
+      min-width: rem(30);
+      padding: rem($pagination-padding-vertical $pagination-padding-horizontal);
+      text-decoration: none;
+      z-index: layer('base');
+    }
+
+    a {
+      color: $pagination-link-color;
+      position: relative;
+
+      &:hover,
+      &:active,
+      &:focus {
+        color: $pagination-link-hover-color;
+        background-color: $pagination-link-hover-bg;
+        z-index: layer('pseudo');
+      }
+
+      &:hover,
+      &:active {
+        border-color: $pagination-link-hover-border;
+      }
+
+      &:focus {
+        border-color: $input-border-focus;
+      }
+
+      @include mq($screen-md, "max") {
+        > span {
+          display: none;
+        }
+      }
+    }
+
+    > span {
+      color: $pagination-color;
+    }
+
+    &:first-child {
+      a,
+      > span {
+        border-bottom-left-radius: $border-radius-base;
+        border-top-left-radius: $border-radius-base;
+        margin-left: 0;
+      }
+    }
+
+    &:last-child {
+      a,
+      > span {
+        border-bottom-right-radius: $border-radius-base;
+        border-top-right-radius: $border-radius-base;
+      }
+    }
+
+    &.active {
+      a {
+        background-color: $pagination-link-active-bg;
+        border-color: $pagination-link-active-border;
+        color: $pagination-link-active-color;
+        cursor: default;
+        z-index: layer('above-pseudo');
+      }
+    }
+
+    &.disabled {
+      a,
+      a:hover,
+      a:active,
+      a:focus {
+        background-color: $pagination-link-disabled-bg;
+        border-color: $pagination-link-disabled-border;
+        color: $pagination-link-disabled-color;
+        cursor: not-allowed;
+        z-index: layer('ground');
+      }
+    }
+
+    &.prev {
+      a:before {
+        content: ' \f104';
+        font-family: 'FontAwesome';
+        line-height: $line-height-base;
+
+        @include mq($screen-md) {
+          float: left;
+          margin: rem(0 8 0 0);
+        }
+      }
+    }
+
+    &.next {
+      a:after {
+        content: ' \f105';
+        font-family: 'FontAwesome';
+
+        @include mq($screen-md) {
+          float: right;
+          margin: rem(0 0 0 5);
+        }
+      }
+    }
+  }
+}

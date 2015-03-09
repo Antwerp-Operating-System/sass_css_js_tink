@@ -21,11 +21,15 @@ angular.module('tinkFramework', [
   ]).config(function ($routeProvider) { /*, $locationProvider */
 		$routeProvider
 			.when('/', {
-				templateUrl: 'views/main.html',
-				controller: 'MainCtrl'
+				templateUrl: 'views/main.html'
 			})
+      .when('/upload', {
+        templateUrl: 'views/upload.html',
+        controller: 'MainCtrl'
+      })
 			.when('/datepicker', {
-				templateUrl: 'views/datepickertest.html'
+				templateUrl: 'views/datepicker.html',
+        controller: 'MainCtrl'
 			})
       .when('/forms', {
         templateUrl: 'views/forms.html',
@@ -36,6 +40,23 @@ angular.module('tinkFramework', [
       })
       .when('/code', {
         templateUrl: 'views/code.html'
+      })
+      .when('/popover', {
+        templateUrl: 'views/popover.html'
+      })
+      .when('/panels', {
+        templateUrl: 'views/panels.html'
+      })
+      .when('/grid', {
+        templateUrl: 'views/grid.html'
+      })
+      .when('/sortable-table', {
+        templateUrl: 'views/sortable-table.html',
+        controller: 'MainCtrl'
+      })
+      .when('/modal', {
+        templateUrl: 'views/modal.html',
+        controller: 'ModalCtrl'
       })
       .when('/work-agile-tool', {
         templateUrl: 'views/work-agile-tool.html'
