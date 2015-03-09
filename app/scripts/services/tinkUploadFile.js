@@ -58,24 +58,29 @@ angular.module('tink.dropupload')
     uploudFile.prototype.upload = function(options){
         var scope = this;
         var promise = $q.defer();
-        upload = tinkUploadService.upload(this,options)
-        .progress(function (evt) {
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            if(isNaN(progressPercentage)){
-                progressPercentage = 0;
-            }
-            scope.progress = progressPercentage;
-            promise.notify({progress:progressPercentage,object:scope});
-        }).success(function () {
-            promise.resolve(scope);
-        }).error(function(){
-            promise.reject(scope);
-        });
+        upload = tinkUploadService.upload(this,options);
+        upload.then(
+            function success() {
+                scope.progress=100;
+                promise.resolve(scope);
+            },
+            function fail(){
+                scope.progress=0;
+                promise.reject(scope);
+            },
+            function notify(evt) {
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                if(isNaN(progressPercentage)){
+                    progressPercentage = 0;
+                }
+                scope.progress = progressPercentage;
+                promise.notify({progress:progressPercentage,object:scope});
+            });
         return promise.promise;
     };
 
      uploudFile.prototype.remove = function(){
-        console.log('file removed');
+        tinkUploadService.remove(this);
      };
 
     return uploudFile;
