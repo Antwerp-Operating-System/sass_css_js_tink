@@ -29,7 +29,7 @@ angular.module('tink.nationalNumber')
       };
 
        ngControl.$parsers.unshift(function(value) {
-        checkvalidty(value)
+        checkvalidty(value);
         return value;
        });
 
@@ -49,7 +49,7 @@ angular.module('tink.nationalNumber')
             modelValue = null;
             ngControl.$setViewValue(modelValue);
           }
-          checkvalidty(modelValue)
+          checkvalidty(modelValue);
 
         }
         return modelValue;
@@ -66,7 +66,7 @@ angular.module('tink.nationalNumber')
             value = controller.getValue();
           }
           checkvalidty(value);
-            if(IsRRNoValid(value)){
+            if(isRRNoValid(value)){
               ngControl.$setViewValue(value);
               ngControl.$render();
             }
@@ -96,25 +96,27 @@ angular.module('tink.nationalNumber')
         }
 
 
-       function IsRRNoValid(n) {
-        if(!(typeof n === 'string')){
+       function isRRNoValid(n) {
+        if(typeof n !== 'string'){
           return false;
         }
           n = n.replace(/[^\d]*/g, '');
             // RR numbers need to be 11 chars long
-            if (n.length != 11)
-                return false;
+            if (n.length !== 11) {
+              return false;
+            }
 
             var checkDigit = n.substr(n.length - 2, 2);
             var modFunction = function(nr) { return 97 - (nr % 97); };
             var nrToCheck = parseInt(n.substr(0, 9));
 
             // first check without 2
-            if (modFunction(nrToCheck) == checkDigit)
-                return true;
+            if (modFunction(nrToCheck) === checkDigit) {
+              return true;
+            }
             // then check with 2 appended for y2k+ births
             nrToCheck = parseInt('2' + n.substr(0, 9));
-            return (modFunction(nrToCheck) == checkDigit);
+            return (modFunction(nrToCheck) === checkDigit);
         }
 
        function checkvalidty(value){
@@ -122,7 +124,7 @@ angular.module('tink.nationalNumber')
         if(value === config.placeholder || value === '' || value === null || value === undefined){
           ngControl.$setValidity('format',true);
         }else{
-          ngControl.$setValidity('format',IsRRNoValid(value))
+          ngControl.$setValidity('format',isRRNoValid(value));
         }
 
         if(isRequired){

@@ -1,4 +1,4 @@
-angular.module('tink.templates', []).run(['$templateCache', function($templateCache) {
+angular.module('tink.templates', []).run([function() {
   'use strict';
 
 }]);
