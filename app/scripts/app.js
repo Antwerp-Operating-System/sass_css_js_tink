@@ -53,6 +53,10 @@ angular.module('tinkFramework', [
         templateUrl: 'views/sortable-table.html',
         controller: 'MainCtrl'
       })
+      .when('/modal', {
+        templateUrl: 'views/modal.html',
+        controller: 'ModalCtrl'
+      })
       .when('/work-agile-tool', {
         templateUrl: 'views/work-agile-tool.html'
       })
