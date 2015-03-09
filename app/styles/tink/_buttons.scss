@@ -278,3 +278,17 @@ input[type="submit"],
 // .fa {
 //   padding-right: .25em;
 // }
+
+
+// // Pop-over button
+// // --------------------------------------------------
+
+.btn-pop-over {
+  padding-right: rem(20);
+      &:after {
+        content: '\f0d7';
+        font-family: 'FontAwesome';
+        position: absolute;
+        right: rem(22);
+      }
+}

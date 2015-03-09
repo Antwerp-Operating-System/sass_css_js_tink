@@ -1,8 +1,13 @@
+<!-- Top information bar for table -->
+
+  <div class="top table-sort-info">
+    <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}}
+  </div>
+  <button class="btn-pop-over pull-right" tink-popover tink-popover-group="option-table" tink-popover-template="templates/tinkTableShift.html">Kolommen</button>
+
+
 <!-- placeholder for table -->
-
 <table></table>
-
-<button tink-popover tink-popover-group="option-table" tink-popover-template="templates/tinkTableShift.html">Option</button>
 
 <div ng-if="viewActions && selectedCheck === true">
   <button tink-popover tink-popover-template="templates/tinkTableAction.html">Actions</button>
