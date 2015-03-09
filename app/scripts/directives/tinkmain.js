@@ -13,5 +13,5 @@ angular.module('tink', [
 		'tink.format',
 		'tink.timepicker',
 		'tink.accordion',
-		'tink.rijkRegister'
+		'tink.nationalNumber'
 	]);

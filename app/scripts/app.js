@@ -28,7 +28,8 @@ angular.module('tinkFramework', [
 				templateUrl: 'views/datepickertest.html'
 			})
       .when('/forms', {
-        templateUrl: 'views/forms.html'
+        templateUrl: 'views/forms.html',
+        controller: 'FormsCtrl'
       })
       .when('/callouts', {
         templateUrl: 'views/callouts.html'

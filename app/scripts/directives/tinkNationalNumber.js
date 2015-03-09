@@ -1,11 +1,11 @@
 'use strict';
-angular.module('tink.rijkRegister', []);
-angular.module('tink.rijkRegister')
-  .directive('tinkRijkRegister',['$window','safeApply',function($window,safeApply){
+angular.module('tink.nationalNumber', []);
+angular.module('tink.nationalNumber')
+  .directive('tinkNationalNumber',['$window','safeApply',function($window,safeApply){
    return {
     restrict:'AE',
     controller:'tinkFormatController',
-    require:['tinkRijkRegister','ngModel','?^form'],
+    require:['tinkNationalNumber','ngModel','?^form'],
     template: function() {
       var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
       var isTouch = ('createTouch' in $window.document) && isNative;
