@@ -166,14 +166,16 @@ angular.module('tink.dropupload')
                     if(!config.multiple){
                       //if there is a file present remove this one from the server !
                       if(scope.files[0] !== null && scope.files[0] instanceof UploadFile){
-                        if(holding instanceof UploadFile){
-                          holding.cancel();
-                          holding.remove();
-                          _.pull(scope.ngModel, holding);
+                        if(!scope.files[0].error){
+                          if(holding instanceof UploadFile){
+                            holding.cancel();
+                            holding.remove();
+                            _.pull(scope.ngModel, holding);
+                          }
+                          scope.message.hold = true;
+                          holding = scope.files[0];
+                          holding.hold = true;
                         }
-                        scope.message.hold = true;
-                        holding = scope.files[0];
-                        holding.hold = true;
 
                         /*if(config.multiple){
                           scope.ngModel.push(holding);
