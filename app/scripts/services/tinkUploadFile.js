@@ -78,7 +78,7 @@ angular.module('tink.dropupload')
     };
 
      uploudFile.prototype.remove = function(){
-        console.log('file removed');
+        tinkUploadService.remove(this);
      };
 
     return uploudFile;
