@@ -20,6 +20,7 @@ angular.module('tink.modal', [])
 
      this.$get = function($http,$q,$rootScope,$templateCache,$compile,$animate,$window,$controller,$injector) {
       var bodyElement = angular.element($window.document.body);
+      var htmlElement = $('html');
 
         var $modal = {};
         var options = $modal.$options = angular.extend({}, defaults);
@@ -142,7 +143,7 @@ angular.module('tink.modal', [])
             var linker = $compile(createModalWindow(instance.content));
             var content = linker(instance.scope, function() {});
             model.$element = content;
-
+            $(htmlElement).addClass('has-open-modal');
             bodyElement.bind('keyup',function(e){
               instance.scope.$apply(function(){
                 if(e.which === 27){
@@ -179,6 +180,7 @@ angular.module('tink.modal', [])
           if(modal === null){
             modal = openInstance;
           }
+          $(htmlElement).removeClass('has-open-modal');
           $animate.leave(modal.element).then(function() {
             openInstance = null;
             q.resolve('ended');
