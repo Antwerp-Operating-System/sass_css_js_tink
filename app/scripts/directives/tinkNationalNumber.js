@@ -34,22 +34,24 @@ angular.module('tink.nationalNumber')
        });
 
        ngControl.$formatters.push(function(modelValue) {
-
-        if(modelValue && modelValue.length === 11){
-          modelValue = modelValue.substr(0,2) + '.' + modelValue.substr(2,2)+ '.' + modelValue.substr(4,2)+'-'+ modelValue.substr(6,3)+'-'+modelValue.substr(9,2);
-        }
-
-        if(validFormat(modelValue)){
-          if(isTouch){
-            element.val(modelValue);
-          }else{
-            controller.setValue(modelValue,null);
+        if(modelValue !== undefined){
+          if(modelValue && modelValue.length === 11){
+            modelValue = modelValue.substr(0,2) + '.' + modelValue.substr(2,2)+ '.' + modelValue.substr(4,2)+'-'+ modelValue.substr(6,3)+'-'+modelValue.substr(9,2);
           }
-        }else{
-          modelValue = null;
-          ngControl.$setViewValue(modelValue);
+
+          if(validFormat(modelValue)){
+            if(isTouch){
+              element.val(modelValue);
+            }else{
+              controller.setValue(modelValue,null);
+            }
+          }else{
+            modelValue = null;
+            ngControl.$setViewValue(modelValue);
+          }
+          checkvalidty(modelValue)
+
         }
-        checkvalidty(modelValue)
         return modelValue;
        });
 
@@ -67,6 +69,9 @@ angular.module('tink.nationalNumber')
             if(IsRRNoValid(value)){
               ngControl.$setViewValue(value);
               ngControl.$render();
+            }
+            if(value === 'xx.xx.xx-xxx.xx' || value === ''){
+              ngControl.$setViewValue(null);
             }
 
         });
