@@ -2807,13 +2807,13 @@ angular.module('tink.sortable')
 
 
       function uncheckAll(){
-        angular.forEach(viewable,function(val){
-          if(val._checked===true){
-            val._checked = false;
+        for(var i=0;i<viewable.length;i++){
+          if(scope.checkB[i] && scope.checkB[i]._checked===true){
+            scope.checkB[i]._checked = false;
           }
-        });
-        if(scope.hulpngModel[-1]){
-            scope.hulpngModel[-1]._checked = false;
+        }
+        if(scope.checkB[-1]){
+            scope.checkB[-1]._checked = false;
           }
       }
       var ngModelWatch;
@@ -2834,11 +2834,11 @@ angular.module('tink.sortable')
           var action = scope.actions[i];
           scope.viewActions.push({name:action.name,callback:function(){
             var checked = [];
-            angular.forEach(viewable,function(val){
-              if(val._checked===true){
-                checked.push(val);
+            for(var i=0;i<viewable.length;i++){
+              if(scope.checkB[i] && scope.checkB[i]._checked===true){
+                checked.push(viewable[i]);
               }
-            });
+            }
             action.callback(checked,uncheckAll);
           }});
         }
@@ -2942,13 +2942,13 @@ angular.module('tink.sortable')
 
       function fullChecked(){
         var length = 0;
-          angular.forEach(viewable,function(val){
-            if(val._checked){
+        for(var i=0;i<viewable.length;i++){
+          if(scope.checkB[i] && scope.checkB[i]._checked){
               length+=1;
             }
-          });
-          if(!scope.hulpngModel[-1]){
-            scope.hulpngModel[-1] = {};
+          }
+          if(!scope.checkB[-1]){
+            scope.checkB[-1] = {};
           }
           if(length !== 0){
             scope.selectedCheck = true;
@@ -2956,22 +2956,22 @@ angular.module('tink.sortable')
             scope.selectedCheck = false;
           }
           if(length === viewable.length){
-            scope.hulpngModel[-1]._checked = true;
+            scope.checkB[-1]._checked = true;
           }else{
-            scope.hulpngModel[-1]._checked = false;
+            scope.checkB[-1]._checked = false;
           }
       }
 
       scope.checkChange = function(i){
         if(i === -1){
-          var check = scope.hulpngModel[-1]._checked;
-          angular.forEach(viewable,function(val){
+          var check = scope.checkB[-1]._checked;
+          angular.forEach(scope.checkB,function(val){
             val._checked = check;
             scope.selectedCheck = check;
           });
         }else{
-          if(scope.hulpngModel[-1]){
-            scope.hulpngModel[-1]._checked = false;
+          if(scope.checkB[-1]){
+            scope.checkB[-1]._checked = false;
           }
           fullChecked();
         }
@@ -2981,13 +2981,13 @@ angular.module('tink.sortable')
       };
 
       scope.hulpngModel=[];
-
+      scope.checkB = [];
       function createCheckbox(row,i,hulp){
         if(!hulp){
           hulp ='';
         }
         var checkbox = '<div class="checkbox">'+
-                          '<input type="checkbox" ng-change="checkChange('+row+')" ng-model="'+hulp+'ngModel['+row+']._checked" id="'+row+'" name="'+row+'" value="'+row+'">'+
+                          '<input type="checkbox" ng-change="checkChange('+row+')" ng-model="checkB['+row+']._checked" id="'+row+'" name="'+row+'" value="'+row+'">'+
                           '<label for="'+row+'"></label>'+
                         '</div>';
         return checkbox;
@@ -3074,6 +3074,14 @@ angular.module('tink.sortable')
         fullChecked();
       };
 
+      scope.createArray = function(num){
+        var array = [];
+        for(var i=0;i<num;i++){
+          array[i] = {};
+        }
+        return array;
+      }
+
       function buildPagination(){
         scope.showNums = [];
         var num = scope.pageSelected;
@@ -3111,6 +3119,7 @@ angular.module('tink.sortable')
         var start = (scope.pageSelected-1)*aantalToShow;
         var stop = (scope.pageSelected *aantalToShow)-1;
         viewable = _.slice(scope.ngModel, start,stop+1);
+        scope.checkB = scope.createArray(viewable.length)
         if(viewable.length === 0 && scope.pageSelected > 1){
           scope.pageSelected = scope.pageSelected-1;
           scope.buildTable();
@@ -4831,11 +4840,6 @@ angular.module('tink.safeApply', [])
     };
 }]);;angular.module('tink.templates', []).run(['$templateCache', function($templateCache) {
   'use strict';
-
-  $templateCache.put('templates/popover.html',
-    "<header class=popover-header> <img class=\"popover-header-avatar img-circle\" src=https://pbs.twimg.com/profile_images/1206647652/9b7a61b0-fffc-4e3d-8656-ad52b1491c05_400x400.jpg alt=\"Avatar of Tom Hermans\"> <h1 class=popover-header-title>Tom Hermans</h1> </header>  <ul class=popover-list-buttons> <li> <a href=\"\"><span>List Item 01</span></a> </li> <li> <a href=\"\"><span>List Item 02</span></a> </li> <li> <a href=\"\"><span>List Item 03</span></a> </li> <li> <a href=\"\"><span>List Item 04</span></a> </li> </ul>"
-  );
-
 
   $templateCache.put('templates/tinkAccordionGroup.html',
     "<section class=accordion-panel> <a href class=accordion-toggle ng-click=toggleOpen()> <div class=accordion-panel-heading> <i class=\"fa fa-th-large\"></i> <h4 class=panel-title> <span>{{heading}}</span> </h4> </div> </a> <div class=accordion-panel-body> <div class=accordion-loaded-content ng-transclude> <p>New DOM content comes here</p> </div> </div> </section>"
@@ -26038,7 +26042,7 @@ angular.module('ngLodash', []).constant('lodash', null).config([
 ;/**!
  * AngularJS file upload/drop directive and service with progress and abort
  * @author  Danial  <danial.farid@gmail.com>
- * @version 3.0.4
+ * @version 3.0.7
  */
 (function() {
 	
@@ -26064,7 +26068,7 @@ if (window.XMLHttpRequest && !window.XMLHttpRequest.__isFileAPIShim) {
 	
 var angularFileUpload = angular.module('angularFileUpload', []);
 
-angularFileUpload.version = '3.0.4';
+angularFileUpload.version = '3.0.7';
 angularFileUpload.service('$upload', ['$http', '$q', '$timeout', function($http, $q, $timeout) {
 	function sendHttp(config) {
 		config.method = config.method || 'POST';
@@ -26300,31 +26304,28 @@ function handleFileSelect(scope, elem, attr, ngModel, $parse, $timeout, $compile
 	}
 	
 	function resetAndClick(evt) {
-		var isChanged = fileElem[0].value != null && fileElem[0].value != '';
-		// reset the value to allow selecting the same file again
-		fileElem[0].value = null;
-		// chrome fires change event on popup cancel so no need for special handling but for others
-		// we cannot detect the user clicking cancel on file select popup and it doesn't fire change event, 
-		// so we fire a null change event before the popup opens for these browsers so if the user 
-		// clicks cancel the previous file value will be removed and model will be notified. 
-		if (navigator.userAgent.indexOf("Chrome") === -1) {
-			// if this is manual click trigger we don't need to reset again 
-			if (!elem.attr('__afu_clone__')) {
-				if (isChanged) {
-					onChangeFn({target: {files: []}});
-				}
-				// fix for IE10 cannot set the value of the input to null programmatically by cloning and replacing input
-				if (navigator.appVersion.indexOf("MSIE 10") !== -1) {
-					var clone = recompileElem();
-					clone.attr('__afu_clone__', true);
-					clone[0].click();
-					evt.preventDefault();
-					evt.stopPropagation();
-					return true;
-				}
-			} else {
-				elem.attr('__afu_clone__', null);
+		if (fileElem[0].value != null && fileElem[0].value != '') {
+			fileElem[0].value = null;
+			// IE 11 already fires change event when you set the value to null
+			if (navigator.userAgent.indexOf("Trident/7") === -1) {
+				onChangeFn({target: {files: []}});
 			}
+		}
+		// if this is manual click trigger we don't need to reset again 
+		if (!elem.attr('__afu_clone__')) {
+			// fix for IE10 cannot set the value of the input to null programmatically by cloning and replacing input
+			// IE 11 setting the value to null event will be fired after file change clearing the selected file so 
+			// we just recreate the element for IE 11 as well
+			if (navigator.appVersion.indexOf("MSIE 10") !== -1 || navigator.userAgent.indexOf("Trident/7") !== -1) {
+				var clone = recompileElem();
+				clone.attr('__afu_clone__', true);
+				clone[0].click();
+				evt.preventDefault();
+				evt.stopPropagation();
+				return true;
+			}
+		} else {
+			elem.attr('__afu_clone__', null);
 		}
 	}
 	
@@ -26359,26 +26360,22 @@ function handleFileSelect(scope, elem, attr, ngModel, $parse, $timeout, $compile
 				rejFiles.push(file);
 			}
 		}
-		if (ngModel) {
-			$timeout(function() {
-				if (scope[attr.ngModel]) scope[attr.ngModel].value = files
-				scope[attr.ngModel] = files;
+		$timeout(function() {
+			if (ngModel) {
+				$parse(attr.ngModel).assign(scope, files);
 				ngModel && ngModel.$setViewValue(files != null && files.length == 0 ? '' : files);
-				if (attr['ngModelRejected']) {
-					if (scope[attr.ngModelRejected]) scope[attr.ngModelRejected].value = rejFiles;
-					scope[attr.ngModelRejected] = rejFiles;
+				if (attr.ngModelRejected) {
+					$parse(attr.ngModelRejected).assign(scope, rejFiles);
 				}
-			});
-		}
-		if (attr.ngFileChange && attr.ngFileChange != "") {
-			$timeout(function() {
+			}
+			if (attr.ngFileChange && attr.ngFileChange != "") {
 				$parse(attr.ngFileChange)(scope, {
 					$files: files,
 					$rejectedFiles: rejFiles,
 					$event: evt
 				});
-			});
-		}
+			}
+		});
 	}
 }
 
@@ -26431,8 +26428,10 @@ function handleDrop(scope, elem, attr, ngModel, $parse, $timeout, $location) {
 		evt.preventDefault();
 		if (stopPropagation) evt.stopPropagation();
 		// handling dragover events from the Chrome download bar
-		var b = evt.dataTransfer.effectAllowed;
-		evt.dataTransfer.dropEffect = ('move' === b || 'linkMove' === b) ? 'move' : 'copy';
+		if (navigator.userAgent.indexOf("Chrome") > -1) {
+			var b = evt.dataTransfer.effectAllowed;
+			evt.dataTransfer.dropEffect = ('move' === b || 'linkMove' === b) ? 'move' : 'copy';
+		}
 		$timeout.cancel(leaveTimeout);
 		if (!scope.actualDragOverClass) {
 			actualDragOverClass = calculateDragOverClass(scope, attr, evt);
@@ -26460,13 +26459,13 @@ function handleDrop(scope, elem, attr, ngModel, $parse, $timeout, $location) {
 		extractFiles(evt, function(files, rejFiles) {
 			$timeout(function() {
 				if (ngModel) {
-					if (scope[attr.ngModel]) scope[attr.ngModel].value = files; 
-					scope[attr.ngModel] = files;
+					$parse(attr.ngModel).assign(scope, files);
 					ngModel && ngModel.$setViewValue(files != null && files.length == 0 ? '' : files);
 				}
 				if (attr['ngModelRejected']) {
-					if (scope[attr.ngModelRejected]) scope[attr.ngModelRejected].value = rejFiles;
-					scope[attr.ngModelRejected] = rejFiles;
+					if (scope[attr.ngModelRejected]) {
+						$parse(attr.ngModelRejected).assign(scope, rejFiles);
+					}
 				}
 			});
 			$timeout(function() {
@@ -26517,12 +26516,7 @@ function handleDrop(scope, elem, attr, ngModel, $parse, $timeout, $location) {
 						continue;
 					}
 					if (entry != null) {
-						//fix for chrome bug https://code.google.com/p/chromium/issues/detail?id=149735
-						if (isASCII(entry.name)) {
-							traverseFileTree(files, entry);
-						} else if (!items[i].webkitGetAsEntry().isDirectory) {
-							addFile(items[i].getAsFile());
-						}
+						traverseFileTree(files, entry);
 					}
 				} else {
 					var f = items[i].getAsFile();
@@ -26611,10 +26605,6 @@ function dropAvailable() {
     return ('draggable' in div) && ('ondrop' in div);
 }
 
-function isASCII(str) {
-	return /^[\000-\177]*$/.test(str);
-}
-
 function globStringToRegex(str) {
 	if (str.length > 2 && str[0] === '/' && str[str.length -1] === '/') {
 		return str.substring(1, str.length - 1);
@@ -26622,15 +26612,15 @@ function globStringToRegex(str) {
 	var split = str.split(','), result = '';
 	if (split.length > 1) {
 		for (var i = 0; i < split.length; i++) {
-			if (split[i].indexOf('.') == 0) {
-				split[i] = '*' + split[i];
-			}
 			result += '(' + globStringToRegex(split[i]) + ')';
 			if (i < split.length - 1) {
 				result += '|'
 			}
 		}
 	} else {
+		if (str.indexOf('.') == 0) {
+			str= '*' + str;
+		}
 		result = '^' + str.replace(new RegExp('[.\\\\+*?\\[\\^\\]$(){}=!<>|:\\' + '-]', 'g'), '\\$&') + '$';
 		result = result.replace(/\\\*/g, '.*').replace(/\\\?/g, '.');
 	}

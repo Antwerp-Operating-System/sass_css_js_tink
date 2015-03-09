@@ -1,11 +1,6 @@
 angular.module('tink.templates', []).run(['$templateCache', function($templateCache) {
   'use strict';
 
-  $templateCache.put('templates/popover.html',
-    "<header class=popover-header> <img class=\"popover-header-avatar img-circle\" src=https://pbs.twimg.com/profile_images/1206647652/9b7a61b0-fffc-4e3d-8656-ad52b1491c05_400x400.jpg alt=\"Avatar of Tom Hermans\"> <h1 class=popover-header-title>Tom Hermans</h1> </header>  <ul class=popover-list-buttons> <li> <a href=\"\"><span>List Item 01</span></a> </li> <li> <a href=\"\"><span>List Item 02</span></a> </li> <li> <a href=\"\"><span>List Item 03</span></a> </li> <li> <a href=\"\"><span>List Item 04</span></a> </li> </ul>"
-  );
-
-
   $templateCache.put('templates/tinkAccordionGroup.html',
     "<section class=accordion-panel> <a href class=accordion-toggle ng-click=toggleOpen()> <div class=accordion-panel-heading> <i class=\"fa fa-th-large\"></i> <h4 class=panel-title> <span>{{heading}}</span> </h4> </div> </a> <div class=accordion-panel-body> <div class=accordion-loaded-content ng-transclude> <p>New DOM content comes here</p> </div> </div> </section>"
   );
