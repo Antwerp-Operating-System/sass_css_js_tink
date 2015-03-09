@@ -33,6 +33,9 @@ $code-bg:                                lighten($brand, 60%);
 /**
  * State
  */
+$state-success-text:                     $brand-success;
+$state-success-bg:                       lighten($brand-success, 60%);
+$state-success-border:                   darken(adjust-hue($state-success-bg, -10), 5%);
 
 /**
  * Buttons
@@ -47,12 +50,13 @@ $btn-primary-border:                     $primary;
  * Callouts
  */
 $callout-color:                          $primary;
-
+$callout-color-success:                  $state-success-text;
+$callout-bgcolor-success:                $state-success-bg;
 
 
 /**
  * Upload
  */
-$upload-hover-background-color:       lighten($primary, 50%);
-$upload-border-color:                 $primary;
-$upload-bg-color-success:             lighten($brand-success, 54%);
+$upload-hover-background-color:          lighten($primary, 50%);
+$upload-border-color:                    $primary;
+$upload-bg-color-success:                lighten($brand-success, 54%);

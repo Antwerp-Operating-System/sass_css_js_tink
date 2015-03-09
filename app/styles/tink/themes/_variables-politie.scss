@@ -50,6 +50,21 @@ $code-bg:                                lighten($brand-light, 53%);
 /**
  * State
  */
+$state-success-text:             $brand-success;
+$state-success-bg:               lighten($brand-success, 60%);
+$state-success-border:           darken(adjust-hue($state-success-bg, -10), 5%);
+
+$state-info-text:                $brand-info;
+$state-info-bg:                  lighten($brand-info, 24%);
+$state-info-border:              darken(adjust-hue($state-info-bg, -10), 7%);
+
+$state-warning-text:             $brand-warning;
+$state-warning-bg:               lighten($brand-warning, 45%);
+$state-warning-border:           darken(adjust-hue($state-warning-bg, -10), 5%);
+
+$state-danger-text:              $brand-danger;
+$state-danger-bg:                lighten($brand-danger, 48%);
+$state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 5%);
 
 /**
  * Buttons
@@ -72,8 +87,8 @@ $datepicker-btn-today-color:             $brand-light;
  */
 $callout-color:                          $brand-info;
 $callout-bgcolor:                        lighten($callout-color, 60%);
-$callout-color-warning:                  $brand-warning;
-$callout-bgcolor-warning:                lighten($callout-color-warning, 40%);
+$callout-color-warning:                  $state-warning-text;
+$callout-bgcolor-warning:                $state-warning-bg;
 
 
 /**
