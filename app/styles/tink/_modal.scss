@@ -3,6 +3,10 @@
  * --------------------------------------------------
  */
 
+html.has-open-modal {
+  overflow: hidden;
+}
+
 .modal {
   background: $modal-backdropcolor;
   bottom: 0;
