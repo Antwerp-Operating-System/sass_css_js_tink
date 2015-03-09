@@ -8,7 +8,7 @@
   <button tink-popover tink-popover-template="templates/tinkTableAction.html">Actions</button>
 </div>
 
-<div ng-if="numFirst" class="table-sort-options">
+<div ng-show="numFirst" class="table-sort-options">
   <div class="table-sort-info">
     <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}}
     <div class="select">
