@@ -199,7 +199,6 @@ $state-danger-bg:                lighten($brand-danger, 48%) !default;
 $state-danger-border:            darken(adjust-hue($state-danger-bg, -10), 5%) !default;
 
 
-
 /**
  * Tables
  */
@@ -496,12 +495,13 @@ $datepicker-btn-today-hover-border-color:             $datepicker-btn-today-bord
 $callout-border-radius         : 0 !default;
 $callout-color                 : $brand !default;
 $callout-bgcolor               : lighten($callout-color, 50%) !default;
-$callout-color-success         : $brand-success !default;
-$callout-bgcolor-success       : lighten($callout-color-success, 60%) !default;
-$callout-color-warning         : $brand-warning !default;
-$callout-bgcolor-warning       : lighten($callout-color-warning, 45%) !default;
-$callout-color-danger          : $brand-danger !default;
-$callout-bgcolor-danger        : lighten($callout-color-danger, 48%) !default;
+
+$callout-color-success         : $state-success-text;
+$callout-bgcolor-success       : $state-success-bg;
+$callout-color-warning         : $state-warning-text;
+$callout-bgcolor-warning       : $state-warning-bg;
+$callout-color-danger          : $state-danger-text;
+$callout-bgcolor-danger        : $state-danger-bg;
 
 
 
