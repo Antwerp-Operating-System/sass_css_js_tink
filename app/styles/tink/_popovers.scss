@@ -14,7 +14,7 @@
   font-weight: normal;
   line-height: $line-height-base;
   min-width: rem($popover-min-width);
-  max-width: rem($popover-max-width);
+  // max-width: rem($popover-max-width);
   padding: rem($popover-padding);
   position: relative;
   transition: bottom $animation-speed linear, left $animation-speed linear, right $animation-speed linear, top $animation-speed linear;
@@ -170,7 +170,6 @@
     margin: rem($padding-base-vertical 0 0);
   }
 
-  &-list {}
   &-list-buttons {
     list-style: none;
     margin: 0;

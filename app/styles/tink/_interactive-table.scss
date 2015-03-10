@@ -122,19 +122,28 @@
 
 .table-interactive-cols {
   @extend .list-unstyled;
+  display: block;
   margin: rem(5 0);
   max-height: rem(200);
   overflow: auto;
-}
 
-
-/**
- * Table top bar styling
- * --------------------------------------------------
- */
-
-.top.table-sort-info {
-    margin: rem(6.5 0 15);
+  li {
+    label {
+      overflow: auto;
+      &:hover {
+        background-color: #eee;
+        cursor: grab;
+      }
+      &:active {
+        // background-color: #eee;
+        cursor: grabbing;
+      }
+      &:after,
+      &:before {
+        cursor: pointer !important;
+      }
+    }
+  }
 }
 
 

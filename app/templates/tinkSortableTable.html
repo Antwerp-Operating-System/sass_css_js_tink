@@ -1,10 +1,28 @@
 <!-- Top information bar for table -->
 
-  <div class="top table-sort-info">
+  <!-- <div class="top table-sort-info">
     <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}}
   </div>
-  <button class="btn-pop-over pull-right" tink-popover tink-popover-group="option-table" tink-popover-template="templates/tinkTableShift.html">Kolommen</button>
+  <button class="btn-pop-over pull-right" tink-popover tink-popover-group="option-table" tink-popover-template="templates/tinkTableShift.html">Kolommen</button> -->
 
+<!-- <div class="row margin-bottom">
+  <div class="col-xs-6">
+    <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}}
+  </div>
+  <div class="text-right">
+    <button class="btn-pop-over" tink-popover tink-popover-group="option-table" tink-popover-template="templates/tinkTableShift.html">Kolommen</button>
+  </div>
+</div> -->
+<div class="bar">
+  <div class="bar-section">
+    <div class="bar-section-left">
+      <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}}
+    </div>
+    <div class="bar-section-right">
+      <button class="btn-pop-over" tink-popover tink-popover-group="option-table" tink-popover-template="templates/tinkTableShift.html">Kolommen</button>
+    </div>
+  </div>
+</div>
 
 <!-- placeholder for table -->
 <table></table>

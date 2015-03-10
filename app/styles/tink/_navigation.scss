@@ -184,6 +184,14 @@ body {
       }
     }
   }
+
+  &-section-left {
+    margin-left: rem($bar-padding / 2);
+  }
+
+  &-section-right {
+    margin-right: rem($bar-padding / 2);
+  }
 }
 
 
@@ -449,5 +457,5 @@ body {
  * Bar
  */
 .bar {
-  @include bar($nav-top-height, transparent, $bar-link-color);
+  @include bar($nav-top-height, transparent, $bar-color);
 }
