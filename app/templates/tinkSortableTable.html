@@ -42,7 +42,7 @@
   </div>
   <div class="table-sort-pagination">
     <ul class="pagination">
-      <li class="prev" ng-class="{disabled:pageSelected===1}"  ng-click="setPrev()"><a href="" title="" tabindex="-1"><span>Vorige</span></a></li>
+      <li class="prev" ng-class="{disabled:pageSelected===1}"  ng-click="setPrev()"><a href="" title=""><span>Vorige</span></a></li>
       <li ng-class="{active:pageSelected===1}" ng-click="setFirst()"><a href="" title="">1</a></li>
       <li ng-repeat="pag in showNums track by $index" ng-class="{active:pag===pageSelected}" ng-click="setPage(pag)"><a href="" ng-if="pag !== -1">{{pag}}</a> <span ng-show="pag === -1">...<span></li>
       <li class="next" ng-click="setNext()" ng-class="{disabled:pageSelected===pages}"><a href="" title=""><span>Volgende</span></a></li>
