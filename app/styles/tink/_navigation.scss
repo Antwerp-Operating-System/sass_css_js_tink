@@ -451,3 +451,24 @@ body {
 .bar {
   @include bar($nav-top-height, transparent, $bar-link-color);
 }
+
+
+
+/**
+ * Back to top
+ */
+.back-to-top {
+    height: 45px;
+    width: 45px;
+    position: fixed;
+    bottom: rem(30);
+    right: rem(25);
+    //box-shadow: 0 0 10px rgba(#000, .05);
+    //background: rgba(red, .8) url(../img/cd-top-arrow.svg) no-repeat center 50%;
+
+  :before {
+      content: '\f077';
+      font-family: 'FontAwesome';
+  }
+}
+

@@ -58,6 +58,9 @@ angular.module('tinkFramework', [
         templateUrl: 'views/modal.html',
         controller: 'ModalCtrl'
       })
+      .when('/back-to-top', {
+        templateUrl: 'views/back-to-top.html',
+      })
       .when('/work-agile-tool', {
         templateUrl: 'views/work-agile-tool.html'
       })
