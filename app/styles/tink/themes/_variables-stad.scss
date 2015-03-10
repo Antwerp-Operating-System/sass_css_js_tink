@@ -36,46 +36,46 @@ $code-bg:                                lighten($primary, 51%);
 /**
  * Focus
  */
-$input-base-color:                       $primary;
-$input-border-focus:                     $primary;
+$input-base-color:                        $primary;
+$input-border-focus:                      $primary;
 
 
 /**
  * Buttons
  */
-$btn-primary-bg:                         $primary;
+$btn-primary-bg:                          $primary;
 
 
 /**
  * Datepicker
  */
-$datepicker-btn-hover-color:             $primary;
-$datepicker-btn-selected-bg-color:       $primary;
-$datepicker-btn-today-color:             $primary;
+$datepicker-btn-hover-color:              $primary;
+$datepicker-btn-selected-bg-color:        $primary;
+$datepicker-btn-today-color:              $primary;
 
 
 /**
  * Callouts
  */
-$callout-color:                          $primary;
+$callout-color:                           $primary;
 
 
 /**
  * Hit-area-box
  */
-$hit-area-checked-bgcolor:               $primary;
+$hit-area-checked-bgcolor:                $primary;
 
 
 /**
  * Pagination
  */
-$pagination-link-active-bg:              $primary;
+$pagination-link-active-bg:               $primary;
 
 
 
 /**
  * Upload
  */
-$upload-hover-background-color:       lighten($primary, 50%);
-$upload-border-color:                 $primary;
-$upload-bg-color-success:             lighten($brand-success, 54%);
+$upload-hover-background-color:           lighten($primary, 50%);
+$upload-border-color:                     $primary;
+$upload-bg-color-success:                 lighten($brand-success, 54%);
