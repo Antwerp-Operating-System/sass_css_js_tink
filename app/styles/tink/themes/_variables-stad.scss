@@ -32,12 +32,6 @@ $link-hover-color:                       lighten($link-color, 8%);
 $code-color:                             $primary;
 $code-bg:                                lighten($primary, 51%);
 
-/**
- * State
- */
-$state-success-text:                      $brand-success;
-$state-success-bg:                        lighten($brand-success, 60%);
-$state-success-border:                    darken(adjust-hue($state-success-bg, -10), 5%);
 
 /**
  * Focus

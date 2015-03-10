@@ -30,12 +30,6 @@ $brand-success:                          #0b0;
  */
 $code-bg:                                lighten($brand, 60%);
 
-/**
- * State
- */
-$state-success-text:                     $brand-success;
-$state-success-bg:                       lighten($brand-success, 60%);
-$state-success-border:                   darken(adjust-hue($state-success-bg, -10), 5%);
 
 /**
  * Buttons
@@ -45,13 +39,10 @@ $btn-primary-bg:                         $primary;
 $btn-primary-border:                     $primary;
 
 
-
 /**
  * Callouts
  */
 $callout-color:                          $primary;
-$callout-color-success:                  $state-success-text;
-$callout-bgcolor-success:                $state-success-bg;
 
 
 /**
