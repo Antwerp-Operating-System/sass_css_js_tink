@@ -3,11 +3,11 @@
 // --------------------------------------------------
 
 
-.breadcrumb {
+.breadcrumbs {
   background-color: $breadcrumb-bg;
   list-style: none;
   margin-bottom: rem($line-height-computed / 2);
-  padding: rem($breadcrumb-padding-vertical $breadcrumb-padding-horizontal);
+  padding: rem($breadcrumb-padding-vertical 0); //$breadcrumb-padding-horizontal);
 
   // border-radius: 0; //$border-radius-base;
 
@@ -21,7 +21,74 @@
     }
   }
 
-  > .active {
+  > .active,
+  .is-current {
     color: $breadcrumb-active-color;
+  }
+
+
+}
+
+// cb breadcrumbs
+.cb-breadcrumbs,
+.cb-breadcrumbs ol {
+  display: inline;
+  // font-size: $font-size-small;
+  list-style: none;
+  padding-left: 0;
+  .breadcrumbs--item {
+    display: inline;
+    font-size: $font-size-base;
+
+    :not(:first-child) {
+      &:before {
+        color: $gray-light;
+        content: '\f054';
+        font-family: 'FontAwesome';
+        font-size: $font-size-small * .7;
+        // margin-bottom: 20px;
+        padding: 0 8px 0 10px;
+        vertical-align: middle;
+      }
+    }
+    // &:first-child {
+    //   &:before {
+    //     content: '';
+    //     padding: 0
+    //   }
+    // }
+  }
+  // .fa {
+  //   color: $gray-light;
+  //   font-size: $font-size-base * .75;
+  //   margin: rem(0 5px);
+  //   padding-bottom: .25em;
+  //   // padding-top: 1em;
+  //   // vertical-align: top;
+  // }
+}
+
+
+
+// NEW STYLING
+.breadcrumb {
+  color: $breadcrumb-color;
+  background-color: $breadcrumb-bg;
+}
+.breadcrumb-block {
+  a {
+    padding-left: 8px;
+    &:before {
+      content: ">";
+      color: #ddd;
+      padding-right: 8px;
+      text-decoration: none;
+    }
+  }
+  .first {
+    padding-left: 0;
+    &:before {
+      content: none;
+    }
   }
 }
