@@ -39,17 +39,15 @@ $btn-primary-bg:                         $primary;
 $btn-primary-border:                     $primary;
 
 
-
 /**
  * Callouts
  */
 $callout-color:                          $primary;
 
 
-
 /**
  * Upload
  */
-$upload-hover-background-color:       lighten($primary, 50%);
-$upload-border-color:                 $primary;
-$upload-bg-color-success:             lighten($brand-success, 54%);
+$upload-hover-background-color:          lighten($primary, 50%);
+$upload-border-color:                    $primary;
+$upload-bg-color-success:                lighten($brand-success, 54%);
