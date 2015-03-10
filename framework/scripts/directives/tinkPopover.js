@@ -98,9 +98,15 @@ angular.module('tink.popOver', ['tink.tooltip'])
                           return html;
               }
 
+              function childOf(c,p){ //returns boolean
+                while((c=c.parentNode)&&c!==p){
+                }
+                return !!c;
+              }
+
               $(document).bind('click',function(e){
                 var clicked = $(e.target).parents('.popover').last();
-                if(isOpen && ($(e.target).get(0) !== element.get(0) || clicked.length > 0)){
+                if(isOpen && !childOf($(e.target).get(0),element.get(0)) && ($(e.target).get(0) !== element.get(0) || clicked.length > 0)){
                   if(isOpen.get(0) !== clicked.get(0) &&  $(e.target).get(0) !== isOpen.get(0) ){
                     hide();
                   }
@@ -393,7 +399,9 @@ var pos;
                     el.css('top',data.top);
                     el.css('left',data.left);
                     arrowCal(data.place,data.align);
+                    // el.addClass('prevent-transition');
                     el.css('display','block');
+                    // el.removeClass('prevent-transition');
                 });
               }
 

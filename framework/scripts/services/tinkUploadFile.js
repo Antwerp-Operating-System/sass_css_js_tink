@@ -50,7 +50,9 @@ angular.module('tink.dropupload')
 
     uploudFile.prototype.cancel = function(){
         if(upload !== null){
-            upload.abort();
+            if(upload.abort){
+                upload.abort();
+            }
         }
     };
 
