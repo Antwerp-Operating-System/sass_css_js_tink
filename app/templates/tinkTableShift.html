@@ -6,10 +6,9 @@
   </div>
 
   <!-- checkboxlist in pop-up-menu -->
-
-  <ul class="table-interactive-cols">
-    <li ng-repeat='header in viewer | filter:{ visible: true }' >
-      <div class="checkbox is-selectable" ng-class="{selected:selected===$index}">
+  <ul class="table-interactive-cols clearfix">
+    <li ng-repeat="header in viewer | filter:{ visible: true }">
+      <div class="checkbox is-selectable is-draggable" ng-class="{selected:selected===$index}">
         <input type="checkbox" ng-model="header.checked" ng-change="headerChange()" id="{{header.alias}}" name="{{header.alias}}" value="{{header.alias}}" checked="">
         <label for="{{header.alias}}"><span ng-class="{selected:selected===$index}" ng-click="select($event,$index)">{{header.alias}}</span></label>
       </div>
@@ -18,6 +17,6 @@
 
   <div class="table-interactive-sort">
     <!-- save / cancel button in pop-up-menu -->
-    <button class="btn-xs" ng-click="close()">klaar</button>
+    <button class="btn-xs" ng-click="close()">Sluiten</button>
   </div>
 </div>
