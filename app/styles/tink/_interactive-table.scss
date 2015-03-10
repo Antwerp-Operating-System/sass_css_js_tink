@@ -9,10 +9,12 @@
 .table-interactive {
   input[type="checkbox"] + label {
     padding: 0; // remove padding so the tablecell width can be adjusted
+
     @include mq($screen-sm, "max") {
       padding-right: rem(24);
     }
   }
+
   > thead > tr > th {
     cursor: pointer;
     position: relative;
@@ -69,10 +71,12 @@
  * Sort styling
  */
 .table-interactive-options {
+  overflow: visible;
 
   .is-selectable {
     padding-left: rem(4);
     padding-right: rem(4);
+    transition: background-color $animation-speed linear;
 
     &.selected {
       background-color: $table-interactive-options-selected-bgcolor;
@@ -82,15 +86,32 @@
       display: block;
 
       span {
-        bottom: 0;
-        left: rem(32);
-        padding-top: rem(2);
-        position: absolute;
-        right: 0;
-        top: 0;
+        display: block;
+        margin: rem(-2 -4 0 -6);
+        padding: rem(2 6 2 6);
+      }
+    }
+  }
 
-        @include mq($screen-sm) {
-          left: rem(26);
+  .is-draggable {
+    &:hover {
+      label {
+        span {
+          cursor: grab;
+        }
+      }
+    }
+
+    &:not(.selected) {
+      &:hover {
+        background-color: $table-interactive-options-hover-bgcolor;
+      }
+    }
+
+    &:active {
+      label {
+        span {
+          cursor: grabbing;
         }
       }
     }
@@ -99,6 +120,7 @@
 
 .table-interactive-sort {
   padding: rem(5);
+  text-align: right;
 
   .btn-borderless {
     border: none;
@@ -122,9 +144,16 @@
 
 .table-interactive-cols {
   @extend .list-unstyled;
+  display: block;
   margin: rem(5 0);
-  max-height: rem(200);
-  overflow: auto;
+  max-height: rem(150);
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+button i {
+  position: relative;
+  z-index: 0;
 }
 
 

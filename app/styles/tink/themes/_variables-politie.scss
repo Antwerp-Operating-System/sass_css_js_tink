@@ -49,6 +49,15 @@ $code-bg:                                lighten($brand-light, 53%);
 
 
 /**
+ * State
+ */
+$state-warning-text:                     $brand-warning;
+$state-warning-bg:                       lighten($state-warning-text, 40%);
+$state-danger-text:                      $brand-danger;
+$state-danger-bg:                        lighten($state-danger-text, 45%);
+
+
+/**
  * Buttons
  */
 $btn-primary-bg:                         $brand-light;
@@ -69,8 +78,6 @@ $datepicker-btn-today-color:             $brand-light;
  */
 $callout-color:                          $brand-info;
 $callout-bgcolor:                        lighten($callout-color, 60%);
-$callout-color-warning:                  $brand-warning;
-$callout-bgcolor-warning:                lighten($callout-color-warning, 40%);
 
 
 /**
@@ -93,10 +100,8 @@ $panel-default-icon-color:               lighten(#333, 8%);
 $pagination-link-active-bg:              $brand-light;
 
 
-
 /**
  * Upload
  */
 $upload-hover-background-color:       lighten($brand-light, 50%);
 $upload-border-color:                 $brand-light;
-// $upload-bg-color-success:             lighten($brand-success, 54%);

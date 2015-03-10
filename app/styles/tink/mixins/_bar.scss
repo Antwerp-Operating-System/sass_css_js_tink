@@ -1,13 +1,11 @@
 /**
  * Bar component
  */
-@mixin bar($height: $bar-height, $bg-color: $bar-bg-color, $color: $bar-color, $link-color: $bar-link-color, $link-hover-color: $bar-link-hover-color, $link-bg-hover-color: $bar-link-bg-hover-color, $padding: $bar-padding, $fix-overflow: true) {
+@mixin bar($height: $bar-height, $bg-color: $bar-bg-color, $color: $bar-color, $link-color: $bar-link-color, $link-hover-color: $bar-link-hover-color, $link-bg-hover-color: $bar-link-bg-hover-color, $padding: $bar-padding) {
+  @include clearfix();
   background-color: $bg-color;
   color: $color;
   line-height: rem($height);
-  @if $fix-overflow {
-    overflow: auto;
-  }
   position: relative;
 
   a.btn,
@@ -43,7 +41,7 @@
     line-height: rem($height);
     margin: 0;
 
-    li {
+    > li {
       height: 100%;
       line-height: rem($height);
       margin: 0;
@@ -75,7 +73,7 @@
     &-left {
       height: 100%;
       float: left;
-      margin-left: rem($padding / 2);
+      text-align: left;
     }
 
     &-center {
@@ -86,7 +84,7 @@
     &-right {
       height: 100%;
       float: right;
-      margin-right: rem($padding / 2);
+      text-align: left;
     }
   }
 }
