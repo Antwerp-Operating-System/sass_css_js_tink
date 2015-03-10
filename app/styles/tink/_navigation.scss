@@ -466,17 +466,38 @@ body {
  * Back to top
  */
 .back-to-top {
-    height: 45px;
-    width: 45px;
-    position: fixed;
-    bottom: rem(30);
-    right: rem(25);
-    //box-shadow: 0 0 10px rgba(#000, .05);
-    //background: rgba(red, .8) url(../img/cd-top-arrow.svg) no-repeat center 50%;
+  bottom: rem(30);
+  height: 45px;
+  opacity: 0;
+  position: fixed;
+  right: rem(25);
+  transition: opacity .3s 0s, visibility 0s .3s;
+  visibility: hidden;
+  width: 45px;
 
-  :before {
-      content: '\f077';
-      font-family: 'FontAwesome';
+  &:after {
+    content: '\f077';
+    font-family: 'FontAwesome';
   }
-}
 
+  &.btn-is-visible, &.btn-fade-out, .no-touch &:hover {
+    -webkit-transition: opacity .3s 0s, visibility 0s 0s;
+    -moz-transition: opacity .3s 0s, visibility 0s 0s;
+    transition: opacity .3s 0s, visibility 0s 0s;
+  }
+
+  &.btn-is-visible { /* the button becomes visible */
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &.btn-fade-out { /* if the user keeps scrolling down, the button is out of focus and becomes less visible */
+    opacity: .5;
+  }
+
+  .no-touch &:hover {
+    background-color: rgba(red, 1);
+    opacity: 1;
+  }
+
+}
