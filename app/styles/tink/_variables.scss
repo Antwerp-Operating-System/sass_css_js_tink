@@ -928,6 +928,7 @@ $table-interactive-heading-line:             lighten($table-heading-color, 48%) 
 $table-interactive-heading-hover-bg:         darken($table-heading-bg, 5%) !default;
 $table-interactive-heading-hover-color:      $table-heading-color !default;
 $table-interactive-options-selected-bgcolor: lighten($brand, 50%) !default;
+$table-interactive-options-hover-bgcolor:    rgba($black, .05) !default;
 
 /**
  * Table alternative heading

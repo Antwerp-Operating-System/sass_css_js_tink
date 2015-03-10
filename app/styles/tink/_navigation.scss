@@ -94,7 +94,7 @@ body {
  */
 
 .nav-top {
-  @include bar($nav-top-height, $nav-top-bg-color, $nav-top-color, $nav-top-link-color, $nav-top-link-hover-color, $nav-top-link-bg-hover-color, $nav-top-padding, false);
+  @include bar($nav-top-height, $nav-top-bg-color, $nav-top-color, $nav-top-link-color, $nav-top-link-hover-color, $nav-top-link-bg-hover-color, $nav-top-padding);
   position: fixed;
   top: 0;
   transition: height $animation-speed linear;

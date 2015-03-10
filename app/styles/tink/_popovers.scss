@@ -13,7 +13,7 @@
   font-size: rem($font-size-base);
   font-weight: normal;
   line-height: $line-height-base;
-  min-width: rem($popover-min-width);
+  // min-width: rem($popover-min-width);
   // max-width: rem($popover-max-width);
   padding: rem($popover-padding);
   position: relative;
@@ -177,7 +177,7 @@
     text-align: left;
 
     li {
-      margin-bottom: 2px;
+      margin-bottom: rem(2);
       &:last-child { margin-bottom: 0; }
 
       a {
