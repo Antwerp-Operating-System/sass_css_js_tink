@@ -40,7 +40,7 @@
       </select> items per pagina
     </div>
   </div>
-  <div class="table-sort-pagination">
+  <div class="table-sort-pagination" data-ng-if="pages > 1">
     <ul class="pagination">
       <li class="prev" ng-class="{disabled:pageSelected===1}"  ng-click="setPrev()"><a href="" title=""><span>Vorige</span></a></li>
       <li ng-class="{active:pageSelected===1}" ng-click="setFirst()"><a href="" title="">1</a></li>

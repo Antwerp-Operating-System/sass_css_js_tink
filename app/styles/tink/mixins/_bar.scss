@@ -2,6 +2,7 @@
  * Bar component
  */
 @mixin bar($height: $bar-height, $bg-color: $bar-bg-color, $color: $bar-color, $link-color: $bar-link-color, $link-hover-color: $bar-link-hover-color, $link-bg-hover-color: $bar-link-bg-hover-color, $padding: $bar-padding) {
+  @include clearfix();
   background-color: $bg-color;
   color: $color;
   line-height: rem($height);
