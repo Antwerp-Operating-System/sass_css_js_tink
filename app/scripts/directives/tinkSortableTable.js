@@ -20,6 +20,14 @@ angular.module('tink.sortable')
       var pages;
       var viewable;
 
+      scope.dragControlListeners = {
+          accept: function (sourceItemHandleScope, destSortableScope) {return true},
+          orderChanged: function(event) {
+            scope.buildTable();
+          },
+          containment: '#board'//optional param.
+      };
+
 
       function uncheckAll(){
         for(var i=0;i<viewable.length;i++){
