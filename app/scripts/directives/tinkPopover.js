@@ -99,7 +99,8 @@ angular.module('tink.popOver', ['tink.tooltip'])
               }
 
               function childOf(c,p){ //returns boolean
-                while((c=c.parentNode)&&c!==p);
+                while((c=c.parentNode)&&c!==p){
+                }
                 return !!c;
               }
 
