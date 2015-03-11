@@ -19,7 +19,7 @@
         font-family: 'FontAwesome';
         font-size: $font-size-small * .7;
         // margin-bottom: 20px;
-        padding: 0 8px 0 10px;
+        padding: rem(0 8px 0 10px);
         vertical-align: middle;
       }
     }
