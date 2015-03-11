@@ -1,6 +1,10 @@
-//
-// Breadcrumbs
-// --------------------------------------------------
+/**
+ * Breadcrumbs
+ * --------------------------------------------------
+ * - breadcrumbs
+ * - there's also a breadcrumbs branch where there's microdata enhancement in the HTML ( branch breadcrumbs-microdata )
+ */
+
 
 .breadcrumbs,
 .breadcrumbs ol {
@@ -8,22 +12,24 @@
   list-style: none;
   padding-left: 0;
   .breadcrumbs-item {
+    color: $breadcrumb-color;
     display: inline;
-    font-size: $font-size-base;
+    font-size: $breadcrumb-font-size;
+    padding: 0;
 
     :not(:first-child) {
       &:before {
-        color: $gray-light;
-        content: '\f054';
+        color: $breadcrumb-separator-color;
+        content: $breadcrumb-separator; //'\f054';
         font-family: 'FontAwesome';
-        font-size: $font-size-small * .7;
-        padding: rem(0 8px 0 10px);
+        font-size: rem($breadcrumb-separator-size);
+        padding: rem($breadcrumb-separator-padding);
         vertical-align: middle;
       }
     }
 
     &.is-current {
-      font-weight: 600;
+      font-weight: $breadcrumb-active-font-weight;
     }
   }
 }
