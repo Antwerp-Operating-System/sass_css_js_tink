@@ -1,4 +1,14 @@
-jQuery(document).ready(function($){
+'use strict';
+angular.module('tink.accordion', []);
+angular.module('tink.accordion')
+.directive('tinkAccordion',['tinkApi',function (tinkApi) {
+  return {
+    scope:{
+
+    },
+    template: '<div class="panel-group" ng-transclude></div>',
+
+
   // browser window scroll (in pixels) after which the "back to top" link is shown
   var offset = 300,
     //browser window scroll (in pixels) after which the "back to top" link opacity is reduced
@@ -25,4 +35,41 @@ jQuery(document).ready(function($){
     );
   });
 
-});
+
+
+
+    }
+  };
+}])
+
+// Original js code:
+// 'use strict';
+// angular.module('tink.accordion', []);
+// angular.module('tink.accordion')
+// .directive('tinkAccordion',['tinkApi',function (tinkApi) {
+//   return {
+//     restrict:'EA',
+//     controller:'TinkAccordionController',
+//     transclude: true,
+//     replace: false,
+//     scope:{
+//       startOpen:'=',
+//       oneAtATime:'='
+//     },
+//     template: '<div class="panel-group" ng-transclude></div>',
+//     link:function(scope,element, attrs, accordionCtrl){
+//       var options = {};
+//       angular.forEach(['oneAtATime','startOpen'], function(key) {
+//         if(angular.isDefined(attrs[key])) {
+//           if(typeof scope[key] === 'boolean'){
+//             options[key] = scope[key];
+//           }else{
+//             options[key] = attrs[key] === 'true';
+//           }
+//         }
+//       });
+//       var accordionElem = tinkApi.accordion(element);
+//       accordionCtrl.init(accordionElem,element,options);
+//     }
+//   };
+// }])
