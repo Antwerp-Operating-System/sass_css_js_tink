@@ -77,7 +77,7 @@ angular.module('tink.datepicker', [])
       // labels for the days you can make this variable //
       var dayLabels = ['ma', 'di', 'wo', 'do', 'vr', 'za', 'zo'];
        // -- create the labels  --/
-       scope.labels = $sce.trustAsHtml('<th>' + dayLabels.join('</th><th>') + '</th>');
+       scope.labels = [];
       // Add a watch to know when input changes from the outside //
 
       // -- check if we are using a touch device  --/
@@ -203,7 +203,7 @@ angular.module('tink.datepicker', [])
         }else{
           scope.pane.next = 0;
         }
-
+          scope.labels = [];
           if($directive.mode === 1){
             scope.title = dateCalculator.format($directive.viewDate, 'yyyy');
             scope.rows =  calView.monthInRows($directive.viewDate,scope.minDate,scope.maxDate);
@@ -211,6 +211,7 @@ angular.module('tink.datepicker', [])
           if($directive.mode === 0){
             scope.title = dateCalculator.format($directive.viewDate, options.yearTitleFormat);
             scope.rows =  calView.daysInRows($directive.viewDate,$directive.selectedDate,scope.minDate,scope.maxDate);
+            scope.labels = $sce.trustAsHtml('<th>' + dayLabels.join('</th><th>') + '</th>');
           }
           if($directive.mode === 2){
             var currentYear = parseInt(dateCalculator.format($directive.viewDate, 'yyyy'));
