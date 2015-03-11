@@ -23,6 +23,7 @@ angular.module('tink.sortable')
       scope.dragControlListeners = {
           accept: function (sourceItemHandleScope, destSortableScope) {return true},
           orderChanged: function(event) {
+            scope.selected = event.dest.index;
             scope.buildTable();
           },
           containment: '#board'//optional param.
