@@ -480,24 +480,11 @@ body {
     font-family: 'FontAwesome';
   }
 
-  &.btn-is-visible, &.btn-fade-out, .no-touch &:hover {
-    -webkit-transition: opacity .3s 0s, visibility 0s 0s;
-    -moz-transition: opacity .3s 0s, visibility 0s 0s;
-    transition: opacity .3s 0s, visibility 0s 0s;
-  }
-
-  &.btn-is-visible { /* the button becomes visible */
+  &.btn-is-visible {
+    opacity: 1;
     visibility: visible;
-    opacity: 1;
-  }
-
-  &.btn-fade-out { /* if the user keeps scrolling down, the button is out of focus and becomes less visible */
-    opacity: .5;
-  }
-
-  .no-touch &:hover {
-    background-color: rgba(red, 1);
-    opacity: 1;
   }
 
 }
+
+
