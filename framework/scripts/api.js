@@ -187,7 +187,7 @@
 		    obj.css('-ms-transform')     ||
 		    obj.css('-o-transform')      ||
 		    obj.css('transform');
-		    if(matrix !== 'none') {
+		    if(matrix !== 'none' && matrix != '') {
 		        var values = matrix.split('(')[1].split(')')[0].split(',');
 		        var a = values[3];
 		        var b = values[4];
