@@ -481,10 +481,32 @@ body {
   }
 
   &.btn-is-visible {
-    opacity: 1;
-    visibility: visible;
+  background-color: $gray-lighter;
+  opacity: .30;
+  visibility: visible;
+
+  -webkit-animation: come-alive 1s; /* Safari 4+ */
+  -moz-animation:    come-alive 1s; /* Fx 5+ */
+  -o-animation:      come-alive 1s; /* Opera 12+ */
+  animation:         come-alive 1s; /* IE 10+, Fx 29+ */
+
   }
 
+}
+
+@keyframes come-alive {
+  0% {
+    opacity: .70;
+    visibility: visible;
+  }
+  30% {
+    opacity: .50;
+    visibility: visible;
+  }
+  100% {
+    opacity: .30;
+    visibility: visible;
+  }
 }
 
 
