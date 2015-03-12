@@ -50,18 +50,7 @@ angular.module('tink.datepicker', [])
         $directive.pane.month = 1;
         $directive.open = 1;
         scope.build();
-        setTimeout(function(){
-          if($(copyEl.find('.btn-today')).length !== 0){
-            $(copyEl.find('.btn-today')).attr('aria-selected', 'true');
-            $(copyEl.find('.btn-today')).focus();
-            currentSelected = $(copyEl.find('.btn-today'));
-          }else{
-            var firstTb = $(copyEl.find('tbody button:first'));
-            firstTb.attr('aria-selected', 'true');
-            firstTb.focus();
-            currentSelected = firstTb;
-          }
-        },50);
+        setFocusButton();
       };
 
       //content = angular.element('<input tink-format-input data-format="00/00/0000" data-placeholder="mm/dd/jjjj" data-date name="'+attr.name+'"  ng-model="ngModel" />');
@@ -92,8 +81,13 @@ var mousedown = 0;
 
       function setFocusButton(btn){
         setTimeout(function(){
+          if(currentSelected){
+            currentSelected.attr('aria-selected', 'false');
+          }
           if(btn){
-
+            btn.attr('aria-selected', 'true');
+            btn.focus();
+            currentSelected= btn;
           }else{
             if($(copyEl.find('.btn-today')).length !== 0){
               $(copyEl.find('.btn-today')).attr('aria-selected', 'true');
@@ -106,7 +100,7 @@ var mousedown = 0;
               currentSelected = firstTb;
             }
           }
-          },50);
+          },150);
       }
 
       function calcFocus(e){
@@ -222,6 +216,14 @@ var mousedown = 0;
       scope.$selectPane = function(value) {
         $directive.viewDate = new Date(Date.UTC($directive.viewDate.getFullYear()+( ($directive.pane.year|| 0) * value), $directive.viewDate.getMonth() + ( ($directive.pane.month || 0) * value), 1));
         scope.build();
+        setTimeout(function(){
+          var rijen = copyEl.find('tbody').children();
+          if(value === +1){
+             setFocusButton($(rijen[0]).find('button:first'));
+          }else if(value === -1){
+            setFocusButton($(rijen[rijen.length-1]).find('button:last'));
+          }
+        },50)
       };
 
       scope.$toggleMode = function(){
