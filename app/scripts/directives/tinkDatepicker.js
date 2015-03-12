@@ -98,18 +98,20 @@ var mousedown = 0;
      var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
      var isTouch = ('createTouch' in $window.document) && isNative && isDateSupported();
 
-      clickable.bind('click touch',function(){
+      clickable.bind('mousedown touch',function(){
         if(isTouch){
           element.find('input[type=date]:first').focus();
           element.find('input[type=date]:first').click();
         }else{
           safeApply(scope,function(){
+
             if($directive.open){
               scope.hide();
             }else{
               scope.$show();
               content.focus();
             }
+
           });
         }
         event.preventDefault();
@@ -165,10 +167,10 @@ var mousedown = 0;
          copyEl.css({display: 'none'});
          $directive.open = 0;
          copyEl = null;
-         scope.$apply(function(){
-          content.click();
-         content.focus();
-
+         safeApply(scope,function(){
+         // content.click();
+         //content.focus();
+            $directive.open = 0;
          })
 
         }
@@ -197,7 +199,11 @@ var mousedown = 0;
       };
 
       content.blur(function(){
-        if(!mousedown)scope.hide();
+        safeApply(scope,function(){
+          if(!mousedown){
+            scope.hide();
+          }
+        })
       });
       scope.pane={prev:0,next:0};
       scope.build = function() {
