@@ -6,30 +6,35 @@
  */
 
 
-.breadcrumbs,
-.breadcrumbs ol {
-  display: inline;
-  list-style: none;
-  padding-left: 0;
-  .breadcrumbs-item {
-    color: $breadcrumb-color;
+.breadcrumbs {
+  background: $breadcrumb-bg;
+  color: $breadcrumb-color;
+  font-size: $breadcrumb-font-size;
+  padding: $breadcrumb-padding-vertical $breadcrumb-padding-horizontal;
+
+  ol {
     display: inline;
-    font-size: $breadcrumb-font-size;
-    padding: 0;
+    list-style: none;
+    padding-left: 0;
 
-    :not(:first-child) {
-      &:before {
-        color: $breadcrumb-separator-color;
-        content: $breadcrumb-separator; //'\f054';
-        font-family: 'FontAwesome';
-        font-size: rem($breadcrumb-separator-size);
-        padding: rem($breadcrumb-separator-padding);
-        vertical-align: middle;
+    li {
+      display: inline;
+      padding: 0;
+
+      :not(:first-child) {
+        &:before {
+          color: $breadcrumb-separator-color;
+          content: $breadcrumb-separator; //'\f054';
+          font-family: 'FontAwesome';
+          font-size: rem($breadcrumb-separator-size);
+          padding: rem(0 $breadcrumb-separator-padding 0 ($breadcrumb-separator-padding + 1));
+          vertical-align: middle;
+        }
       }
-    }
 
-    &.is-current {
-      font-weight: $breadcrumb-active-font-weight;
+      &.is-current {
+        font-weight: $breadcrumb-active-font-weight;
+      }
     }
   }
 }
