@@ -1,6 +1,6 @@
 'use strict';
 angular.module('tink.datepicker', [])
-.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply','$window','$sce',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply,$window,$sce) {
+.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply','$window','$sce','$timeout',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply,$window,$sce,setTimeout) {
   return {
     restrict:'E',
     require:['ngModel','?^form'],
@@ -26,7 +26,7 @@ angular.module('tink.datepicker', [])
         post:function(scope,element,attr){
 
         function setAriaInput(date){
-          $(element).find('#input').attr('aria-label','date '+date);
+         // $(element).find('#input').attr('aria-label','date '+date);
         }
         setAriaInput('');
       //var ctrl = element.controller('ngModel');
@@ -40,12 +40,28 @@ angular.module('tink.datepicker', [])
 
       scope.$show = function(){
         copyEl = templateElem;
+        if($directive.appended !== 1) {
+          element.append(copyEl);
+          $directive.appended=1;
+        }
+        copyEl.attr('aria-hidden','false');
         copyEl.css({position: 'absolute', display: 'block'});
-        element.append(copyEl);
         bindLiseners();
         $directive.pane.month = 1;
         $directive.open = 1;
         scope.build();
+        setTimeout(function(){
+          if($(copyEl.find('.btn-today')).length !== 0){
+            $(copyEl.find('.btn-today')).attr('aria-selected', 'true');
+            $(copyEl.find('.btn-today')).focus();
+            currentSelected = $(copyEl.find('.btn-today'));
+          }else{
+            var firstTb = $(copyEl.find('tbody button:first'));
+            firstTb.attr('aria-selected', 'true');
+            firstTb.focus();
+            currentSelected = firstTb;
+          }
+        },50);
       };
 
       //content = angular.element('<input tink-format-input data-format="00/00/0000" data-placeholder="mm/dd/jjjj" data-date name="'+attr.name+'"  ng-model="ngModel" />');
@@ -57,11 +73,82 @@ var mousedown = 0;
         copyEl.bind('mousedown',function(event){
           mousedown = 1;
         });
-        copyEl.bind('mouseup',function(event){
+        /*copyEl.bind('mouseup',function(event){
           mousedown = 0;
+          return false;
+        });*/
+        $($window).bind('click',function(event){
+          console.log(event)
         });
 
+        copyEl.bind("keydown", function (event) {
+          safeApply(scope,function(){
+             if (event.which === 38 || event.which === 37 || event.which === 39 || event.which === 40) {
+              calcFocus(event.which);
+            }
+          })
+        });
+      }
 
+      function setFocusButton(btn){
+        setTimeout(function(){
+          if(btn){
+
+          }else{
+            if($(copyEl.find('.btn-today')).length !== 0){
+              $(copyEl.find('.btn-today')).attr('aria-selected', 'true');
+              $(copyEl.find('.btn-today')).focus();
+              currentSelected = $(copyEl.find('.btn-today'));
+            }else{
+              var firstTb = $(copyEl.find('tbody button:first'));
+              firstTb.attr('aria-selected', 'true');
+              firstTb.focus();
+              currentSelected = firstTb;
+            }
+          }
+          },50);
+      }
+
+      function calcFocus(e){
+        var rijen = copyEl.find('tbody').children();
+        var rijIndex = rijen.index( currentSelected.closest('tr'));
+        if(rijIndex != -1){
+          var kolommen = $(rijen[rijIndex]).children();
+          var kolomIndex = kolommen.index( currentSelected.closest('td'));
+
+          if (e === 37){
+            //left Arrow
+            if( rijIndex === 0 && kolomIndex === 0){
+              scope.$selectPane(-1);
+            }else if(kolomIndex>0){
+              currentSelected = $($(kolommen[kolomIndex-1]).find('button'));
+            }else{
+              currentSelected = $($(rijen[rijIndex-1]).children()[$(rijen[rijIndex-1]).children().length-1]).find('button');
+            }
+          }else if(e === 39){
+            //right arrow
+            if(rijIndex === rijen.length-1 && kolomIndex === $(rijen[rijIndex]).children().length-1){
+              scope.$selectPane(+1);
+            }else if(kolomIndex<kolommen.length-1){
+              currentSelected = $($(kolommen[kolomIndex+1]).find('button'));
+            }else{
+              currentSelected = $($(rijen[rijIndex+1]).children()[0]).find('button');
+            }
+          }else if(e===38){
+            if(rijIndex>0){
+              currentSelected = $($(rijen[rijIndex-1]).children()[kolomIndex]).find('button');
+            }else{
+              scope.$selectPane(-1);
+            }
+          }else if(e===40){
+            if(rijIndex<rijen.length-1){
+              currentSelected = $($(rijen[rijIndex+1]).children()[kolomIndex]).find('button');
+            }else{
+              scope.$selectPane(+1);
+            }
+          }
+          currentSelected.focus();
+        }
       }
 
       // ctrl.$formatters.push(function(modelValue) {
@@ -109,7 +196,7 @@ var mousedown = 0;
               scope.hide();
             }else{
               scope.$show();
-              content.focus();
+              //content.focus();
             }
 
           });
@@ -128,6 +215,7 @@ var mousedown = 0;
         pane:{},
         open:0,
         mode:0,
+        appended:0,
         selectedDate:null
       };
 
@@ -165,6 +253,7 @@ var mousedown = 0;
       scope.hide = function(){
         if(copyEl){
          copyEl.css({display: 'none'});
+         copyEl.attr('aria-hidden','true');
          $directive.open = 0;
          copyEl = null;
          safeApply(scope,function(){
@@ -198,30 +287,35 @@ var mousedown = 0;
         }
       };
 
-      content.blur(function(){
-        safeApply(scope,function(){
+      content.bind('blur',function(){console.log(blur)
+        safeApply(scope,function(){console.log(mousedown)
           if(!mousedown){
-            scope.hide();
+            //scope.hide();
           }
         })
       });
-      scope.pane={prev:0,next:0};
+
+      var currentSelected;
+
+
+
+      scope.pane={prev:false,next:false};
       scope.build = function() {
         if($directive.viewDate === null || $directive.viewDate === undefined){
           $directive.viewDate = new Date();
         }
 
         if(checkBefore($directive.viewDate,scope.minDate)){
-          scope.pane.prev = 1;
+          scope.pane.prev = true;
           $directive.viewDate = new Date(scope.minDate);
         }else{
-          scope.pane.prev = 0;
+          scope.pane.prev = false;
         }
         if(checkAfter($directive.viewDate,scope.maxDate)){
-          scope.pane.next = 1;
+          scope.pane.next = true;
           $directive.viewDate = new Date(scope.maxDate);
         }else{
-          scope.pane.next = 0;
+          scope.pane.next = false;
         }
           scope.labels = [];
           if($directive.mode === 1){
