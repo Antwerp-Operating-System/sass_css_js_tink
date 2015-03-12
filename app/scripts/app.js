@@ -41,6 +41,9 @@ angular.module('tinkFramework', [
       .when('/code', {
         templateUrl: 'views/code.html'
       })
+      .when('/breadcrumbs', {
+        templateUrl: 'views/breadcrumbs.html'
+      })
       .when('/popover', {
         templateUrl: 'views/popover.html'
       })
