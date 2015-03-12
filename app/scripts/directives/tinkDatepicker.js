@@ -25,6 +25,10 @@ angular.module('tink.datepicker', [])
         pre:function(){},
         post:function(scope,element,attr){
 
+        function setAriaInput(date){
+          $(element).find('#input').attr('aria-label','date '+date);
+        }
+        setAriaInput('');
       //var ctrl = element.controller('ngModel');
       //ctrls[1].$removeControl(ctrls[1]['single']);
       //ctrls[1].$removeControl(ctrls[0])
@@ -47,13 +51,16 @@ angular.module('tink.datepicker', [])
       //content = angular.element('<input tink-format-input data-format="00/00/0000" data-placeholder="mm/dd/jjjj" data-date name="'+attr.name+'"  ng-model="ngModel" />');
       //$(content).insertBefore(element.find('span.datepicker-icon'));
       //$compile(content)(scope);
-
+var mousedown = 0;
       function bindLiseners(){
 
-        copyEl.bind('mousedown',function(){
-          //input.focus();
-          return false;
+        copyEl.bind('mousedown',function(event){
+          mousedown = 1;
         });
+        copyEl.bind('mouseup',function(event){
+          mousedown = 0;
+        });
+
 
       }
 
@@ -70,6 +77,7 @@ angular.module('tink.datepicker', [])
       }
 
       scope.$watch('ngModel',function(newVal){
+        setAriaInput(dateCalculator.format(newVal, 'mm/dd/yyyy'));
         $directive.selectedDate =  newVal;
         $directive.viewDate = newVal;
       });
@@ -90,7 +98,7 @@ angular.module('tink.datepicker', [])
      var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
      var isTouch = ('createTouch' in $window.document) && isNative && isDateSupported();
 
-      clickable.bind('mousedown touch',function(){
+      clickable.bind('click touch',function(){
         if(isTouch){
           element.find('input[type=date]:first').focus();
           element.find('input[type=date]:first').click();
@@ -104,7 +112,7 @@ angular.module('tink.datepicker', [])
             }
           });
         }
-        return false;
+        event.preventDefault();
       });
 
 
@@ -157,6 +165,12 @@ angular.module('tink.datepicker', [])
          copyEl.css({display: 'none'});
          $directive.open = 0;
          copyEl = null;
+         scope.$apply(function(){
+          content.click();
+         content.focus();
+
+         })
+
         }
       };
 
@@ -183,7 +197,7 @@ angular.module('tink.datepicker', [])
       };
 
       content.blur(function(){
-        scope.hide();
+        if(!mousedown)scope.hide();
       });
       scope.pane={prev:0,next:0};
       scope.build = function() {

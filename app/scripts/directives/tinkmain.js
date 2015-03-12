@@ -17,5 +17,6 @@ angular.module('tink', [
 		'tink.dropupload',
 		'angularFileUpload',
 		'tink.sortable',
-		'tink.modal'
+		'tink.modal',
+		'ngAria'
 	]);
