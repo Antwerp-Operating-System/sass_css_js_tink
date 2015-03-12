@@ -526,7 +526,7 @@ body {
     font-family: 'FontAwesome';
   }
 
-  &.btn-is-visible {
+  &.is-visible {
     background-color: $gray-dark;
     opacity: .90;
     visibility: visible;

@@ -13,7 +13,7 @@ angular.module('tink.backtotop', [])
           $back_to_top = element; //grab the "back to top" link
 
         $(window).scroll(function(){ //hide or show the "back to top" link
-          ( $(this).scrollTop() > offset ) ? $back_to_top.addClass('btn-is-visible') : $back_to_top.removeClass('btn-is-visible btn-fade-out');
+          ( $(this).scrollTop() > offset ) ? $back_to_top.addClass('is-visible') : $back_to_top.removeClass('is-visible btn-fade-out');
           // disabled this function because we're going to use an animation instead
           // if( $(this).scrollTop() > offset_opacity ) {
           //   $back_to_top.addClass('btn-fade-out');
