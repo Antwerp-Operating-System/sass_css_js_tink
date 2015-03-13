@@ -56,27 +56,43 @@ angular.module('tink.datepicker', [])
       //content = angular.element('<input tink-format-input data-format="00/00/0000" data-placeholder="mm/dd/jjjj" data-date name="'+attr.name+'"  ng-model="ngModel" />');
       //$(content).insertBefore(element.find('span.datepicker-icon'));
       //$compile(content)(scope);
-var mousedown = 0;
+      var mousedown = 0;
+      var Liseners = {};
       function bindLiseners(){
 
-        copyEl.bind('mousedown',function(event){
-          mousedown = 1;
-        });
-        /*copyEl.bind('mouseup',function(event){
-          mousedown = 0;
-          return false;
-        });*/
-        $($window).bind('click',function(event){
-          console.log(event)
-        });
+        function childOf(c,p){ //returns boolean
+          while((c=c.parentNode)&&c!==p){
+          }
+          return !!c;
+        }
 
-        copyEl.bind("keydown", function (event) {
-          safeApply(scope,function(){
-             if (event.which === 38 || event.which === 37 || event.which === 39 || event.which === 40) {
-              calcFocus(event.which);
+        Liseners.windowClick = function(event){
+          if($directive.open){
+            if(!childOf(event.target,copyEl.get(0)) && !childOf(event.target,element.get(0))){
+              scope.hide();
             }
-          })
-        });
+          }
+        };
+
+        Liseners.windowKeydown = function (event) {
+          if($directive.open){
+            safeApply(scope,function(){
+              if (event.which === 38 || event.which === 37 || event.which === 39 || event.which === 40) {
+                calcFocus(event.which);
+              }
+            })
+          }
+        };
+
+        $($window).bind('click',Liseners.windowClick);
+
+        $($window).bind("keydown",Liseners.windowKeydown);
+      }
+
+      function removeLiseners(){
+        $($window).unbind('click',Liseners.windowClick);
+
+        $($window).unbind("keydown",Liseners.windowKeydown);
       }
 
       function setFocusButton(btn){
@@ -258,6 +274,7 @@ var mousedown = 0;
          copyEl.attr('aria-hidden','true');
          $directive.open = 0;
          copyEl = null;
+         removeLiseners();
          safeApply(scope,function(){
          // content.click();
          //content.focus();
