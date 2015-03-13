@@ -6,7 +6,7 @@
   </div>
 
   <!-- checkboxlist in pop-up-menu -->
-  <ul data-as-sortable="dragControlListeners" ng-model="viewer" class="table-interactive-cols clearfix" >
+  <ul data-as-sortable="dragControlListeners" ng-model="viewer" class="table-interactive-cols" >
     <li ng-repeat="header in viewer | filter:{ visible: true }" data-as-sortable-item>
       <div class="checkbox is-selectable is-draggable" ng-class="{selected:selected===$index}">
         <input type="checkbox" ng-model="header.checked" ng-change="headerChange()" id="{{header.alias}}" name="{{header.alias}}" value="{{header.alias}}" checked="">

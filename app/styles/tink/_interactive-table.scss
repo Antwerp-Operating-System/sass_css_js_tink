@@ -144,11 +144,13 @@
 
 .table-interactive-cols {
   @extend .list-unstyled;
+  @extend .clearfix;
   display: block;
   margin: rem(5 0);
   max-height: rem(150);
   overflow: hidden;
   overflow-y: auto;
+  user-select: none;
 }
 
 button i {
