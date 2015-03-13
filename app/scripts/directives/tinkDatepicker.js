@@ -126,7 +126,7 @@ angular.module('tink.datepicker', [])
               currentSelected = firstTb;
             }
           }
-          },150);
+          },10);
       }
 
       function calcLast(){
@@ -160,7 +160,12 @@ angular.module('tink.datepicker', [])
                 scope.$selectPane(-1);
               }
             }else if(kolomIndex>0){
-              calcPos = $($(kolommen[kolomIndex-1]).find('button'));
+              var btn = $($(kolommen[kolomIndex-1]).find('button'));
+              if(btn.hasClass('btn-grayed') && !btn.is(':disabled')){
+                scope.$selectPane(-1);
+              }else{
+                calcPos = btn;
+              }
             }else{
               calcPos = $($(rijen[rijIndex-1]).children()[$(rijen[rijIndex-1]).children().length-1]).find('button');
             }
@@ -171,19 +176,34 @@ angular.module('tink.datepicker', [])
                 scope.$selectPane(+1);
               }
             }else if(kolomIndex<kolommen.length-1){
-              calcPos = $($(kolommen[kolomIndex+1]).find('button'));
+              var btn = $($(kolommen[kolomIndex+1]).find('button'));
+              if(btn.hasClass('btn-grayed') && !btn.is(':disabled')){
+                scope.$selectPane(+1);
+              }else{
+                calcPos = btn;
+              }
             }else{
               calcPos = $($(rijen[rijIndex+1]).children()[0]).find('button');
             }
           }else if(e===38){
             if(rijIndex>0){
-              calcPos = $($(rijen[rijIndex-1]).children()[kolomIndex]).find('button');
+              var btn = $($(rijen[rijIndex-1]).children()[kolomIndex]).find('button');
+              if(btn.hasClass('btn-grayed') && !btn.is(':disabled')){
+                scope.$selectPane(-1);
+              }else{
+                calcPos = btn;
+              }
             }else{
               scope.$selectPane(-1);
             }
           }else if(e===40){
             if(rijIndex<rijen.length-1){
-              calcPos = $($(rijen[rijIndex+1]).children()[kolomIndex]).find('button');
+              var btn = $($(rijen[rijIndex+1]).children()[kolomIndex]).find('button');
+              if(btn.hasClass('btn-grayed') && !btn.is(':disabled')){
+                scope.$selectPane(+1);
+              }else{
+                calcPos = btn;
+              }
             }else{
               if(calcFirst()){console.log('calcFirst');
                 scope.$selectPane(+1);
@@ -270,9 +290,9 @@ angular.module('tink.datepicker', [])
         setTimeout(function(){
           var rijen = copyEl.find('tbody').children();
           if(value === +1){
-             setFocusButton($(rijen[0]).find('button:first'));
+             setFocusButton($(rijen[0]).find('button:not(.btn-grayed):first'));
           }else if(value === -1){
-            setFocusButton($(rijen[rijen.length-1]).find('button:last'));
+            setFocusButton($(rijen[rijen.length-1]).find('button:not(.btn-grayed):last'));
           }
         },50)
       };
