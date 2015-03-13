@@ -201,7 +201,7 @@
             }
           });
           element.unbind('input').unbind('change');
-          element.bind('input change', function() {
+          element.bind('input', function() {
                     safeApply(scope,function() {
 
                         //ctrl.$setViewValue(undefined);
@@ -443,6 +443,7 @@
 
     if(self.element[0].nodeName === 'DIV'){
       self.element.html(valueToHtml(newVa));
+      self.element.trigger('valueChanged',[newVa]);
     }else{
       self.element.val(newVa);
     }
