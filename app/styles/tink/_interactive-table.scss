@@ -151,6 +151,10 @@
   overflow: hidden;
   overflow-y: auto;
   user-select: none;
+
+  li {
+    overflow: hidden;
+  }
 }
 
 button i {
