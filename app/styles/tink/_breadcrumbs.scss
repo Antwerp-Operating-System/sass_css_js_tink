@@ -2,14 +2,14 @@
  * Breadcrumbs
  * --------------------------------------------------
  * - breadcrumbs
- * - there's also a breadcrumbs branch where there's microdata enhancement in the HTML ( branch breadcrumbs-microdata )
+ * - there's also a breadcrumbs branch where there's microdata enhancement in the HTML (branch 'feature/breadcrumbs-microdata')
  */
 
 
 .breadcrumbs {
   background: $breadcrumb-bg;
   color: $breadcrumb-color;
-  font-size: $breadcrumb-font-size;
+  font-size: rem($breadcrumb-font-size);
   padding: $breadcrumb-padding-vertical $breadcrumb-padding-horizontal;
 
   ol {
