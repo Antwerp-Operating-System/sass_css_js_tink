@@ -503,94 +503,97 @@ html {
 /**
  * Back to top
  */
-.scroll-to-top {
-  background: none !important;
-  pointer-events: none;
-  position: relative;
-  transform: translate3d(0, 0, 0);
-  transition: opacity 0.3s;
-  z-index: layer("above-pseudo");
 
-  &.fixed {
-    bottom: 50px;
-    left: 0;
-    margin: 0 auto;
-    position: fixed;
-    right: 0;
-  }
+// code Tom H
+// .scroll-to-top {
+//   background: none !important;
+//   pointer-events: none;
+//   position: relative;
+//   transform: translate3d(0, 0, 0);
+//   transition: opacity 0.3s;
+//   z-index: layer("above-pseudo");
 
-  a {
-    -webkit-transition: 0.2s ease-out;
-    // background-color: #212530;
-    background-color: rgba($gray,0.4);
-    border-radius: rem($border-radius-base);
-    border: none;
-    color: $white;
-    cursor: pointer;
-    display: block;
-    float: right;
-    height: rem(28px);
-    line-height: rem(28px);
-    margin-right: rem(20px);
-    padding: 0;
-    pointer-events: auto;
-    text-align: center;
-    transition: $animation-speed ease-out;
-    width: rem(38px);
-    z-index: layer("above-pseudo");
+//   &.fixed {
+//     bottom: 50px;
+//     left: 0;
+//     margin: 0 auto;
+//     position: fixed;
+//     right: 0;
+//   }
 
-    &:hover {
-      background-color: rgba($gray,0.8);
-    }
-  }
-}
+//   a {
+//     -webkit-transition: 0.2s ease-out;
+//     // background-color: #212530;
+//     background-color: rgba($gray,0.4);
+//     border-radius: rem($border-radius-base);
+//     border: none;
+//     color: $white;
+//     cursor: pointer;
+//     display: block;
+//     float: right;
+//     height: rem(28px);
+//     line-height: rem(28px);
+//     margin-right: rem(20px);
+//     padding: 0;
+//     pointer-events: auto;
+//     text-align: center;
+//     transition: $animation-speed ease-out;
+//     width: rem(38px);
+//     z-index: layer("above-pseudo");
+
+//     &:hover {
+//       background-color: rgba($gray,0.8);
+//     }
+//   }
+// }
 
 // LVG BTT code
 .back-to-top {
+  background-color: rgba($gray,0.4);
   border: none;
-  bottom: rem(30);
-  height: rem(28px);
-  line-height: rem(28px);
+  bottom: rem(20);
+  color: $white;
+  height: rem(28);
+  line-height: rem(0);
   opacity: 0;
   position: fixed;
-  right: rem(55px);
+  right: rem(20);;
   transition: opacity $animation-speed * 3 0s; //, visibility 0s $animation-speed * 3;
   visibility: hidden;
-  width: rem(38px);
+  width: rem(38);
 
   &:after {
     color: $white;
     content: '\f077';
     font-family: 'FontAwesome';
+    font-weight: normal;
   }
 
   &.is-visible {
-    background-color: $gray-dark;
+    animation: come-alive 1s;
     opacity: .90;
     visibility: visible;
-
-    -webkit-animation: come-alive 1s; /* Safari 4+ */
-    -moz-animation:    come-alive 1s; /* Fx 5+ */
-    -o-animation:      come-alive 1s; /* Opera 12+ */
-    animation:         come-alive 1s; /* IE 10+, Fx 29+ */
-
   }
+
+  &:hover {
+      background-color: rgba($gray,0.8);
+    }
 
 }
 
-@keyframes come-alive {
-  0% {
-    opacity: .70;
-    visibility: visible;
-  }
-  30% {
-    opacity: .50;
-    visibility: visible;
-  }
-  100% {
-    opacity: .30;
-    visibility: visible;
-  }
-}
+// @keyframes come-alive {
+//   0% {
+//     opacity: .70;
+//     visibility: visible;
+//   }
+//   30% {
+//     opacity: .50;
+//     visibility: visible;
+//   }
+//   100% {
+//     opacity: .30;
+//     visibility: visible;
+//   }
+// }
 
 
