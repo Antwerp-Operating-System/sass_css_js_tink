@@ -182,7 +182,7 @@ angular.module('tink.modal', [])
   .directive('tinkModal',[function(){
     return{
       restrict:'A',
-      scope:true;
+      scope:true,
       link:function(scope,attr,element){
         if(!attr.tinkModalTemplate){
           return;
