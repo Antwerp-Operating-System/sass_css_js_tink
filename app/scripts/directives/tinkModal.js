@@ -1,16 +1,5 @@
 'use strict';
 angular.module('tink.modal', [])
-  .directive('tinkModa',[function(){
-    return{
-      restrict:'EA',
-      link:function(){
-       // var modal = $modal({scope:scope,element:element});
-        /*scope.$hide = function(){
-          modal.hide();
-        }*/
-      }
-    };
-  }])
   .provider('$modal', function() {
     var defaults = this.defaults = {
       element:null,
@@ -189,4 +178,42 @@ angular.module('tink.modal', [])
         }
         return $modal;
      };
-  });
+  })
+  .directive('tinkModal',['$modal',function($modal){
+    return{
+      restrict:'A',
+      scope:{
+        tinkModalSuccess:'=',
+        tinkModalDismiss:'='
+      },
+      link:function(scope,element,attr){
+        if(!attr.tinkModalTemplate){
+          return;
+        }
+
+        element.bind('click',function(){
+          scope.$apply(function(){
+            openModal(attr.tinkModalTemplate);
+          });
+        });
+
+        function openModal(template){
+          var modalInstance = $modal.open({
+            templateUrl: template
+          });
+
+          if(typeof scope.tinkModalSuccess !== 'function'){
+            scope.tinkModalSuccess = null;
+          }
+
+          if(typeof scope.tinkModalDismiss !== 'function'){
+            scope.tinkModalDismiss = null;
+          }
+
+          modalInstance.result.then(scope.tinkModalSuccess,scope.tinkModalDismiss);
+        }
+
+
+      }
+    };
+  }])
