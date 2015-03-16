@@ -179,11 +179,11 @@ angular.module('tink.modal', [])
         return $modal;
      };
   })
-  .directive('tinkModal',[function(){
+  .directive('tinkModal',['$modal',function($modal){
     return{
       restrict:'A',
       scope:true,
-      link:function(scope,attr,element){
+      link:function(scope,element,attr){
         if(!attr.tinkModalTemplate){
           return;
         }
@@ -194,28 +194,20 @@ angular.module('tink.modal', [])
           });
         });
 
-        var fetchPromises = {};
-        //to retrieve a template;
-        function haalTemplateOp(template) {
-          // --- if the template already is in our app cache return it. //
-          if (fetchPromises[template]){
-            return fetchPromises[template];
-          }
-          // --- If not get the template from templatecache or http. //
-          return (fetchPromises[template] = $q.when($templateCache.get(template) || $http.get(template))
-            .then(function (res) {
-              // --- When the template is retrieved return it. //
-              if (angular.isObject(res)) {
-                $templateCache.put(template, res.data);
-                return res.data;
-              }
-              return res;
-            }));
-        }
+        function openModal(template){
+          var modalInstance = $modal.open({
+            templateUrl: template
+          });
 
-        var theTemplate = null;
-        function openModal(){
-          theTemplate = haalTemplateOp(attrs.tinkPopoverTemplate);
+          if(typeof attr.tinkModalSuccess !== 'function'){
+            attr.tinkModalSuccess = null;
+          }
+
+          if(typeof attr.tinkModalDismiss !== 'function'){
+            attr.tinkModalDismiss = null;
+          }
+
+          modalInstance.result.then(attr.tinkModalSuccess,attr.tinkModalDismiss);
         }
 
 
