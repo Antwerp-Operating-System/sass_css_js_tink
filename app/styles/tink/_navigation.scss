@@ -15,17 +15,33 @@
  * HTML behaviour when side navigation is open
  */
 
-html.nav-left-open {
+html.nav-left-open,
+html.nav-right-open {
 
   body {
     overflow-x: hidden;
   }
+}
+
+html.nav-left-open {
 
   @include mq($screen-sm, "max") {
     .main {
       transform: translate($nav-aside-width, 0);
     }
     .nav-left {
+      transform: translate(0, 0);
+    }
+  }
+}
+
+html.nav-right-open {
+
+  @include mq($screen-sm, "max") {
+    .main {
+      transform: translate(-$nav-aside-width, 0);
+    }
+    .nav-right {
       transform: translate(0, 0);
     }
   }
@@ -39,35 +55,36 @@ html.nav-left-open {
  * so we need to 'fix' the body's padding
  */
 
-body {
-  padding-top: rem($nav-top-height);
+html {
+  &.has-nav-left {
+    .main {
+      @include mq($screen-sm) {
+        padding-left: rem($nav-aside-width);
+      }
+    }
+  }
 
-  // If the nav-top for some reason needs to scroll with the page
+  &.has-nav-right {
+    .main {
+      @include mq($screen-sm) {
+        padding-right: rem($nav-aside-width);
+      }
+    }
+  }
+
+  /**
+   * If the nav-top for some reason needs to scroll with the page
+   */
   &.has-relative-nav-top {
-    padding-top: 0;
-
     .nav-top {
       position: relative;
     }
   }
-
-  &.reset-padding {
-    padding-top: 0;
-
-    .main {
-      @include mq($screen-sm) {
-        padding-left: 0;
-      }
-    }
-  }
 }
+
 
 .main {
   transition: opacity ($animation-speed * 2) linear, padding $animation-speed linear, transform $animation-speed linear;
-
-  @include mq($screen-sm) {
-    padding-left: rem($nav-aside-width);
-  }
 
   /**
    * ng-animate classes
@@ -95,6 +112,7 @@ body {
 
 .nav-top {
   @include bar($nav-top-height, $nav-top-bg-color, $nav-top-color, $nav-top-link-color, $nav-top-link-hover-color, $nav-top-link-bg-hover-color, $nav-top-padding);
+  left: 0;
   position: fixed;
   top: 0;
   transition: height $animation-speed linear;
@@ -439,7 +457,6 @@ body {
 .nav-left {
   left: 0;
   transform: translate(rem(-$nav-aside-width), 0);
-  transition: transform $animation-speed linear;
 
   @include mq($screen-sm) {
     transform: translate(0, 0);
@@ -447,6 +464,27 @@ body {
 
   &:before {
     right: 0;
+  }
+}
+
+
+
+
+/**
+ * Right navigation
+ * (add-on for .nav-aside)
+ */
+
+.nav-right {
+  right: 0;
+  transform: translate(rem($nav-aside-width), 0);
+
+  @include mq($screen-sm) {
+    transform: translate(0, 0);
+  }
+
+  &:before {
+    left: 0;
   }
 }
 
