@@ -7,7 +7,6 @@
       <!-- =================================================================== -->
       <!-- FORM ============================================================== -->
       <!-- =================================================================== -->
-
       <form name="userForm" ng-submit="submitForm()" novalidate>
 
         <!-- NAME-->
@@ -16,6 +15,7 @@
           <tink-datepicker name="single"  required="required" class="form-control" data-max-date="maxdate" ng-model="dates.first">
           <p ng-show="userForm.single.$invalid && !userForm.single.$pristine" class="help-block">You name is required.</p>
         </div>
+      <tink-national-number name="nation" ng-model="tem"></tink-national-number>
 
         <div class="form-group" ng-class="{ 'has-error' : (userForm.firstdubbel.$invalid && !userForm.firstdubbel.$pristine) || (userForm.lastdubbel.$invalid && !userForm.lastdubbel.$pristine) }">
           <label>Name</label>
@@ -123,6 +123,22 @@
               </tr>
               <tr>
                 <td ng-class="{ success: userForm.firstdubbel.$dirty }">Dirty</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-xs-3">
+          <h3 class="h4">nation</h3>
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td ng-class="{ success: userForm.nation.$valid, danger: userForm.nation.$invalid }">Valid</td>
+              </tr>
+              <tr>
+                <td ng-class="{ success: userForm.nation.$pristine, danger: !userForm.nation.$pristine }">Pristine</td>
+              </tr>
+              <tr>
+                <td ng-class="{ success: userForm.nation.$dirty }">Dirty</td>
               </tr>
             </tbody>
           </table>
