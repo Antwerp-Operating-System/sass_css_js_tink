@@ -383,6 +383,11 @@
 				options.gotoPage = false;
 			}
 
+			if(options.menuStr.hasClass('nav-right')){
+				options.toggleClass = 'nav-right-open';
+			}
+
+
 			// map urls with elements
 			(function mapUrls(){
 				var aMap = options.menuStr.find('li a[href]');
