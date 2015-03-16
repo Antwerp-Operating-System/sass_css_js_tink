@@ -1,16 +1,5 @@
 'use strict';
 angular.module('tink.modal', [])
-  .directive('tinkModa',[function(){
-    return{
-      restrict:'EA',
-      link:function(){
-       // var modal = $modal({scope:scope,element:element});
-        /*scope.$hide = function(){
-          modal.hide();
-        }*/
-      }
-    };
-  }])
   .provider('$modal', function() {
     var defaults = this.defaults = {
       element:null,
@@ -189,4 +178,47 @@ angular.module('tink.modal', [])
         }
         return $modal;
      };
-  });
+  })
+  .directive('tinkModal',[function(){
+    return{
+      restrict:'A',
+      scope:true;
+      link:function(scope,attr,element){
+        if(!attr.tinkModalTemplate){
+          return;
+        }
+
+        element.bind('click',function(){
+          scope.$apply(function(){
+            openModal(attr.tinkModalTemplate);
+          });
+        });
+
+        var fetchPromises = {};
+        //to retrieve a template;
+        function haalTemplateOp(template) {
+          // --- if the template already is in our app cache return it. //
+          if (fetchPromises[template]){
+            return fetchPromises[template];
+          }
+          // --- If not get the template from templatecache or http. //
+          return (fetchPromises[template] = $q.when($templateCache.get(template) || $http.get(template))
+            .then(function (res) {
+              // --- When the template is retrieved return it. //
+              if (angular.isObject(res)) {
+                $templateCache.put(template, res.data);
+                return res.data;
+              }
+              return res;
+            }));
+        }
+
+        var theTemplate = null;
+        function openModal(){
+          theTemplate = haalTemplateOp(attrs.tinkPopoverTemplate);
+        }
+
+
+      }
+    };
+  }])
