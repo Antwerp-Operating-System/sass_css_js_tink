@@ -2535,19 +2535,33 @@ button[type="submit"], input[type="submit"], .btn-primary {
   font-size: 0.85714rem ;
   padding: 0.85714rem 1.28571rem ; }
 
-.breadcrumb {
-  background-color: #f9f9f9;
-  list-style: none;
-  margin-bottom: 0.71429rem ;
-  padding: 0.57143rem 1.07143rem ; }
-  .breadcrumb > li {
-    display: inline-block; }
-    .breadcrumb > li + li:before {
-      color: #bbb;
-      content: "/\00a0";
-      padding: 0rem 0.57143rem ; }
-  .breadcrumb > .active {
-    color: #bbb; }
+/**
+ * Breadcrumbs
+ * --------------------------------------------------
+ * - breadcrumbs
+ * - there's also a breadcrumbs branch where there's microdata enhancement in the HTML (branch 'feature/breadcrumbs-microdata')
+ */
+.breadcrumbs {
+  background: transparent;
+  color: #333;
+  font-size: 1rem ;
+  padding: 10px 0; }
+  .breadcrumbs ol {
+    display: inline;
+    list-style: none;
+    padding-left: 0; }
+    .breadcrumbs ol li {
+      display: inline;
+      padding: 0; }
+      .breadcrumbs ol li :not(:first-child):before {
+        color: #bbb;
+        content: "\f054";
+        font-family: 'FontAwesome';
+        font-size: 0.6rem ;
+        padding: 0rem 0.57143rem 0rem 0.64286rem ;
+        vertical-align: middle; }
+      .breadcrumbs ol li.is-current {
+        font-weight: 600; }
 
 .badge {
   background-color: #eaeaea;
@@ -3392,8 +3406,9 @@ button i {
 /**
  * HTML behaviour when side navigation is open
  */
-html.nav-left-open body {
+html.nav-left-open body, html.nav-right-open body {
   overflow-x: hidden; }
+
 @media (max-width: 768px) {
   html.nav-left-open .main {
     -webkit-transform: translate(220px, 0);
@@ -3406,21 +3421,34 @@ html.nav-left-open body {
     transform: translate(0, 0); }
  }
 
+@media (max-width: 768px) {
+  html.nav-right-open .main {
+    -webkit-transform: translate(-220px, 0);
+    -ms-transform: translate(-220px, 0);
+    transform: translate(-220px, 0); }
+
+  html.nav-right-open .nav-right {
+    -webkit-transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+    transform: translate(0, 0); }
+ }
+
 /**
  * Default behaviour is that there is a fixed nav-top,
  * so we need to 'fix' the body's padding
  */
-body {
-  padding-top: 3.57143rem ; }
-  body.has-relative-nav-top {
-    padding-top: 0; }
-    body.has-relative-nav-top .nav-top {
-      position: relative; }
-  body.reset-padding {
-    padding-top: 0; }
-    @media (min-width: 768px) {
-      body.reset-padding .main {
-        padding-left: 0; } }
+html {
+  /**
+   * If the nav-top for some reason needs to scroll with the page
+   */ }
+  @media (min-width: 768px) {
+    html.has-nav-left .main {
+      padding-left: 15.71429rem ; } }
+  @media (min-width: 768px) {
+    html.has-nav-right .main {
+      padding-right: 15.71429rem ; } }
+  html.has-relative-nav-top .nav-top {
+    position: relative; }
 
 .main {
   transition: opacity 0.2s linear, padding 0.1s linear, -webkit-transform 0.1s linear;
@@ -3428,9 +3456,6 @@ body {
   /**
    * ng-animate classes
    */ }
-  @media (min-width: 768px) {
-    .main {
-      padding-left: 15.71429rem ; } }
   .main.ng-enter {
     opacity: 0; }
   .main.ng-leave {
@@ -3448,6 +3473,7 @@ body {
   color: #fff;
   line-height: 3.57143rem ;
   position: relative;
+  left: 0;
   position: fixed;
   top: 0;
   transition: height 0.1s linear;
@@ -3462,7 +3488,7 @@ body {
     margin-top: -0.21429rem ; }
   .nav-top .link {
     color: #fff;
-    border-radius: 6px;
+    border-radius: 3px;
     height: 100%;
     line-height: 3.57143rem ;
     margin: 0.42857rem 0rem ;
@@ -3711,9 +3737,7 @@ body {
   left: 0;
   -webkit-transform: translate(-15.71429rem , 0);
   -ms-transform: translate(-15.71429rem , 0);
-  transform: translate(-15.71429rem , 0);
-  transition: -webkit-transform 0.1s linear;
-  transition: transform 0.1s linear; }
+  transform: translate(-15.71429rem , 0); }
   @media (min-width: 768px) {
     .nav-left {
       -webkit-transform: translate(0, 0);
@@ -3721,6 +3745,23 @@ body {
       transform: translate(0, 0); } }
   .nav-left:before {
     right: 0; }
+
+/**
+ * Right navigation
+ * (add-on for .nav-aside)
+ */
+.nav-right {
+  right: 0;
+  -webkit-transform: translate(15.71429rem , 0);
+  -ms-transform: translate(15.71429rem , 0);
+  transform: translate(15.71429rem , 0); }
+  @media (min-width: 768px) {
+    .nav-right {
+      -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+      transform: translate(0, 0); } }
+  .nav-right:before {
+    left: 0; }
 
 /**
  * Bar
@@ -3739,7 +3780,7 @@ body {
     margin-top: -0.21429rem ; }
   .bar .link {
     color: #5f9770;
-    border-radius: 6px;
+    border-radius: 3px;
     height: 100%;
     line-height: 3.57143rem ;
     margin: 0.42857rem 0rem ;
