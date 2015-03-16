@@ -563,6 +563,10 @@ html {
   width: rem(38);
   z-index: layer("above-pseudo");
 
+  span {
+    @extend .sr-only;
+  }
+
   &:after {
     color: $white;
     content: '\f077';
