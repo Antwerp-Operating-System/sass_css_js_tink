@@ -995,16 +995,18 @@ $badge-border-radius:         3px !default;
 //
 //##
 
-$breadcrumb-padding-vertical:   8px !default;
-$breadcrumb-padding-horizontal: 15px !default;
-//** Breadcrumb background color
-$breadcrumb-bg:                 lighten($gray-lighter, 6%) !default;
-//** Breadcrumb text color
-$breadcrumb-color:              $gray-light !default;
-//** Text color of current page in the breadcrumb
-$breadcrumb-active-color:       $gray-light !default;
-//** Textual separator for between breadcrumb elements
-$breadcrumb-separator:          "/" !default;
+$breadcrumb-padding-vertical:   10px !default;
+$breadcrumb-padding-horizontal: 0 !default;
+$breadcrumb-font-size:          $font-size-base !default;
+$breadcrumb-bg:                 transparent !default;
+$breadcrumb-color:              $text-color !default;
+
+$breadcrumb-active-font-weight: 600 !default;
+
+$breadcrumb-separator:          "\f054" !default;
+$breadcrumb-separator-color:    $gray-light !default;
+$breadcrumb-separator-padding:  8px !default;
+$breadcrumb-separator-size:     $breadcrumb-font-size * .6 !default;
 
 
 

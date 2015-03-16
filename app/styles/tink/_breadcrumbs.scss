@@ -1,27 +1,40 @@
-//
-// Breadcrumbs
-// --------------------------------------------------
+/**
+ * Breadcrumbs
+ * --------------------------------------------------
+ * - breadcrumbs
+ * - there's also a breadcrumbs branch where there's microdata enhancement in the HTML (branch 'feature/breadcrumbs-microdata')
+ */
 
 
-.breadcrumb {
-  background-color: $breadcrumb-bg;
-  list-style: none;
-  margin-bottom: rem($line-height-computed / 2);
-  padding: rem($breadcrumb-padding-vertical $breadcrumb-padding-horizontal);
+.breadcrumbs {
+  background: $breadcrumb-bg;
+  color: $breadcrumb-color;
+  font-size: rem($breadcrumb-font-size);
+  padding: $breadcrumb-padding-vertical $breadcrumb-padding-horizontal;
 
-  // border-radius: 0; //$border-radius-base;
+  ol {
+    display: inline;
+    list-style: none;
+    padding-left: 0;
 
-  > li {
-    display: inline-block;
+    li {
+      display: inline;
+      padding: 0;
 
-    + li:before {
-      color: $breadcrumb-color;
-      content: "#{$breadcrumb-separator}\00a0"; // Unicode space added since inline-block means non-collapsing white-space
-      padding: rem(0 8px);
+      :not(:first-child) {
+        &:before {
+          color: $breadcrumb-separator-color;
+          content: $breadcrumb-separator; //'\f054';
+          font-family: 'FontAwesome';
+          font-size: rem($breadcrumb-separator-size);
+          padding: rem(0 $breadcrumb-separator-padding 0 ($breadcrumb-separator-padding + 1));
+          vertical-align: middle;
+        }
+      }
+
+      &.is-current {
+        font-weight: $breadcrumb-active-font-weight;
+      }
     }
-  }
-
-  > .active {
-    color: $breadcrumb-active-color;
   }
 }
