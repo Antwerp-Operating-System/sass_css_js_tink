@@ -182,7 +182,10 @@ angular.module('tink.modal', [])
   .directive('tinkModal',['$modal',function($modal){
     return{
       restrict:'A',
-      scope:true,
+      scope:{
+        tinkModalSuccess:'=',
+        tinkModalDismiss:'='
+      },
       link:function(scope,element,attr){
         if(!attr.tinkModalTemplate){
           return;
@@ -199,15 +202,15 @@ angular.module('tink.modal', [])
             templateUrl: template
           });
 
-          if(typeof attr.tinkModalSuccess !== 'function'){
-            attr.tinkModalSuccess = null;
+          if(typeof scope.tinkModalSuccess !== 'function'){
+            scope.tinkModalSuccess = null;
           }
 
-          if(typeof attr.tinkModalDismiss !== 'function'){
-            attr.tinkModalDismiss = null;
+          if(typeof scope.tinkModalDismiss !== 'function'){
+            scope.tinkModalDismiss = null;
           }
 
-          modalInstance.result.then(attr.tinkModalSuccess,attr.tinkModalDismiss);
+          modalInstance.result.then(scope.tinkModalSuccess,scope.tinkModalDismiss);
         }
 
 

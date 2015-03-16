@@ -27,4 +27,11 @@ angular.module('tinkFramework.controllers')
       console.log('Modal dismissed at: ' + new Date());
     });
   };
+
+  scope.lose = function(){
+    console.log('close called')
+  }
+  scope.ismissed = function(){
+    console.log('dismissed called');
+  }
 }]);
