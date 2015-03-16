@@ -558,9 +558,10 @@ html {
   opacity: 0;
   position: fixed;
   right: rem(20);;
-  transition: opacity $animation-speed * 3 0s; //, visibility 0s $animation-speed * 3;
+  transition: opacity ($animation-speed) linear;
   visibility: hidden;
   width: rem(38);
+  z-index: layer("above-pseudo");
 
   &:after {
     color: $white;
@@ -571,29 +572,30 @@ html {
 
   &.is-visible {
     animation: come-alive 1s;
-    opacity: .90;
+    opacity: 1;
     visibility: visible;
   }
 
   &:hover {
       background-color: rgba($gray,0.8);
+      transition: opacity ($animation-speed) linear;
     }
 
 }
 
-// @keyframes come-alive {
-//   0% {
-//     opacity: .70;
-//     visibility: visible;
-//   }
-//   30% {
-//     opacity: .50;
-//     visibility: visible;
-//   }
-//   100% {
-//     opacity: .30;
-//     visibility: visible;
-//   }
-// }
+@keyframes come-alive {
+  0% {
+    background-color: rgba($gray,0.8);
+    visibility: visible;
+  }
+  30% {
+    background-color: rgba($gray,0.6);
+    visibility: visible;
+  }
+  100% {
+    background-color: rgba($gray,0.4);
+    visibility: visible;
+  }
+}
 
 
