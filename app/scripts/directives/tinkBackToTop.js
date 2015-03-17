@@ -17,6 +17,8 @@ angular.module('tink.backtotop', [])
         var offset = 300,
           scrollTopDuration = 200;
 
+        // var offset = (scope.offset !== undefined || parseInt(scope.offset) !== isNaN()) ? parseInt(scope.offset) : 300;
+
         if(scope.offset !== undefined || parseInt(scope.offset) !== isNaN()) {
           offset = parseInt(scope.offset);
         }
