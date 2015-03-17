@@ -5,7 +5,9 @@
  * - top navigation
  * - side navigation:
  *   - left navigation
+ *   - right navigation
  * - bar
+ * - back-to top
  */
 
 
@@ -503,69 +505,19 @@ html {
 /**
  * Back to top
  */
-
-// code Tom H
-// .scroll-to-top {
-//   background: none !important;
-//   pointer-events: none;
-//   position: relative;
-//   transform: translate3d(0, 0, 0);
-//   transition: opacity 0.3s;
-//   z-index: layer("above-pseudo");
-
-//   &.fixed {
-//     bottom: 50px;
-//     left: 0;
-//     margin: 0 auto;
-//     position: fixed;
-//     right: 0;
-//   }
-
-//   a {
-//     -webkit-transition: 0.2s ease-out;
-//     // background-color: #212530;
-//     background-color: rgba($gray,0.4);
-//     border-radius: rem($border-radius-base);
-//     border: none;
-//     color: $white;
-//     cursor: pointer;
-//     display: block;
-//     float: right;
-//     height: rem(28px);
-//     line-height: rem(28px);
-//     margin-right: rem(20px);
-//     padding: 0;
-//     pointer-events: auto;
-//     text-align: center;
-//     transition: $animation-speed ease-out;
-//     width: rem(38px);
-//     z-index: layer("above-pseudo");
-
-//     &:hover {
-//       background-color: rgba($gray,0.8);
-//     }
-//   }
-// }
-
-// LVG BTT code
 .back-to-top {
-  background-color: rgba($gray,0.4);
+  background-color: $back-top-top-bgcolor;
   border: none;
-  bottom: rem(20);
-  color: $white;
-  height: rem(28);
+  bottom: rem(16);
+  color: $back-top-top-color;
   line-height: rem(0);
   opacity: 0;
+  padding: rem(16 12);
   position: fixed;
-  right: rem(20);;
-  transition: opacity ($animation-speed) linear;
-  visibility: hidden;
-  width: rem(38);
+  right: rem(16);
+  transform: translate(0, 60px);
+  transition: background $animation-speed linear, opacity $animation-speed linear, transform $animation-speed linear;
   z-index: layer("above-pseudo");
-
-  span {
-    @extend .sr-only;
-  }
 
   &:after {
     color: $white;
@@ -574,32 +526,19 @@ html {
     font-weight: normal;
   }
 
+  &:hover,
+  &:active,
+  &:focus  {
+    background-color: $back-top-top-hover-bgcolor;
+    color: $back-top-top-hover-color;
+  }
+
   &.is-visible {
-    animation: come-alive 1s;
     opacity: 1;
-    visibility: visible;
+    transform: translate(0, 0);
   }
 
-  &:hover {
-      background-color: rgba($gray,0.8);
-      transition: opacity ($animation-speed) linear;
-    }
-
-}
-
-@keyframes come-alive {
-  0% {
-    background-color: rgba($gray,0.8);
-    visibility: visible;
-  }
-  30% {
-    background-color: rgba($gray,0.6);
-    visibility: visible;
-  }
-  100% {
-    background-color: rgba($gray,0.4);
-    visibility: visible;
+  span {
+    @extend .sr-only;
   }
 }
-
-
