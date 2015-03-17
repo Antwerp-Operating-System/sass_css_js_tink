@@ -5,7 +5,9 @@
  * - top navigation
  * - side navigation:
  *   - left navigation
+ *   - right navigation
  * - bar
+ * - back-to top
  */
 
 
@@ -27,7 +29,7 @@ html.nav-left-open {
 
   @include mq($screen-sm, "max") {
     .main {
-      transform: translate($nav-aside-width, 0);
+      transform: translate(rem($nav-aside-width), 0);
     }
     .nav-left {
       transform: translate(0, 0);
@@ -39,7 +41,7 @@ html.nav-right-open {
 
   @include mq($screen-sm, "max") {
     .main {
-      transform: translate(-$nav-aside-width, 0);
+      transform: translate(rem(-$nav-aside-width), 0);
     }
     .nav-right {
       transform: translate(0, 0);
@@ -496,4 +498,47 @@ html {
  */
 .bar {
   @include bar($nav-top-height, transparent, $bar-color);
+}
+
+
+
+/**
+ * Back to top
+ */
+.back-to-top {
+  background-color: $back-top-top-bgcolor;
+  border: none;
+  bottom: rem(16);
+  color: $back-top-top-color;
+  line-height: rem(0);
+  opacity: 0;
+  padding: rem(15 12 17);
+  position: fixed;
+  right: rem(16);
+  transform: translate(0, rem(60));
+  transition: background $animation-speed linear, opacity $animation-speed linear, transform $animation-speed linear;
+  z-index: layer("above-pseudo");
+
+  &:after {
+    color: $white;
+    content: '\f077';
+    font-family: 'FontAwesome';
+    font-weight: normal;
+  }
+
+  &:hover,
+  &:active,
+  &:focus  {
+    background-color: $back-top-top-hover-bgcolor;
+    color: $back-top-top-hover-color;
+  }
+
+  &.is-visible {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  span {
+    @extend .sr-only;
+  }
 }
