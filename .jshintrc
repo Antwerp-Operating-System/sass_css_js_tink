@@ -23,6 +23,7 @@
   "globals": {
     "angular": false,
     "$": false,
-    "jQuery": false
+    "jQuery": false,
+    "Sortable": false
   }
 }

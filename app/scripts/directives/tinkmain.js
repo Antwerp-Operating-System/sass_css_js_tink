@@ -17,6 +17,5 @@ angular.module('tink', [
 		'tink.dropupload',
 		'angularFileUpload',
 		'tink.sortable',
-		'tink.modal',
-		'ui.sortable'
+		'tink.modal'
 	]);

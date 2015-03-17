@@ -20,18 +20,6 @@ angular.module('tink.sortable')
       var pages;
       var viewable;
 
-      scope.dragControlListeners = {
-          accept: function () { //accept: function (sourceItemHandleScope, destSortableScope) {
-            return true;
-          },
-          orderChanged: function(event) {
-            scope.selected = event.dest.index;
-            scope.buildTable();
-          },
-          // containment: '#board'//optional param.
-      };
-
-
       function uncheckAll(){
         for(var i=0;i<viewable.length;i++){
           if(scope.checkB[i] && scope.checkB[i]._checked===true){
@@ -460,4 +448,24 @@ angular.module('tink.sortable')
         });
         return ret;
     };
+}]).directive('tinkShiftSort',['$timeout',function(timeout){
+  return {
+    restirct:'A',
+    link:function(scope,elem){
+      timeout(function(){
+        Sortable.create(elem.find('ul').get(0),{
+          ghostClass: 'sortable-placeholder',
+          onEnd: function (evt) {
+            scope.$apply(function(){
+              var old = scope.headers[evt.oldIndex];
+              scope.headers[evt.oldIndex] = scope.headers[evt.newIndex];
+              scope.headers[evt.newIndex] = old;
+              scope.selected = evt.newIndex;
+              scope.buildTable();
+            });
+          },
+        });
+      },200);      
+    }
+  };
 }]);
