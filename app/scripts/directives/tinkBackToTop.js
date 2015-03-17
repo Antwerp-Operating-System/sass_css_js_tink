@@ -1,33 +1,37 @@
 'use strict';
 angular.module('tink.backtotop', [])
-  .directive('tinkBackToTop',[function(){
-    return{
-      restrict:'EA',
-      scope:{},
-      link:function(scope,element,attrs){
+  .directive('tinkBackToTop', [function () {
+    return {
+      restrict: 'EA',
+      scope: {
+        offset: '@'
+      },
+      template: '<button class="back-to-top"><span>Terug naar boven</span></button>',
+      replace: true,
 
-      jQuery(document).ready(function($){ //browser window scroll (in pixels) after which the "back to top" link is shown
-        var offset = 300, //browser window scroll (in pixels) after which the "back to top" link opacity is reduced
-          offsetOpacity = 1200,
-          scrollTopDuration = 200, //duration of the top scrolling animation (in ms)
-          $backToTop = element; //grab the "back to top" link
-          $backToTop.addClass('back-to-top'); //adding the cladd back-to-top so it's not needed in the html
-          $backToTop.append( '<span>Terug naar boven</span>');
+      link: function(scope, element) {
 
-        $(window).scroll(function(){ //hide or show the "back to top" link
-          ( $(this).scrollTop() > offset ) ? $backToTop.addClass('is-visible') : $backToTop.removeClass('is-visible btn-fade-out');
-          // disabled this function because we're going to use an animation instead
-          // if( $(this).scrollTop() > offsetOpacity ) {
-          //   $back_to_top.addClass('btn-fade-out');
-          // }
+      jQuery(document).ready(function($) {
+
+        // Options: offset from which button is showed and duration of the scroll animation
+        var offset = parseInt(scope.offset) || 300,
+          scrollTopDuration = 200;
+
+         // Hide or show the "back to top" link
+        $(window).scroll(function () {
+          if($(this).scrollTop() > offset) {
+            element.addClass('is-visible');
+          } else {
+            element.removeClass('is-visible btn-fade-out');
+          }
         });
 
-        $backToTop.on('click', function(event){ //smooth scroll to top
+        // Scroll to top when the button is clicked
+        element.on('click', function(event) {
           event.preventDefault();
-          $('body,html').animate({
-            scrollTop: 0 , //the top = 0
-            }, scrollTopDuration
-          );
+          $('body, html').animate({
+            scrollTop: 0 ,
+          }, scrollTopDuration);
         });
       });
       }
