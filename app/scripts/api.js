@@ -351,11 +351,11 @@
 
 		};
 		var openMenu = function(){
-			$(options.toggleMenu).toggleClass(options.toggleClass);
+			$(options.toggleMenu).addClass(options.toggleClass);
 		};
 
 		var closeMenu = function(){
-			$(options.toggleMenu).toggleClass(options.toggleClass);
+			$(options.toggleMenu).removeClass(options.toggleClass);
 		};
 
 		var calculateTop = function(){
@@ -382,6 +382,11 @@
 			}else{
 				options.gotoPage = false;
 			}
+
+			if(options.menuStr.hasClass('nav-right')){
+				options.toggleClass = 'nav-right-open';
+			}
+
 
 			// map urls with elements
 			(function mapUrls(){
