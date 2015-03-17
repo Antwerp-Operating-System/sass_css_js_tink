@@ -455,6 +455,7 @@ angular.module('tink.sortable')
       timeout(function(){
         Sortable.create(elem.find('ul').get(0),{
           ghostClass: 'sortable-placeholder',
+          animation: 200,
           handle:'.draggable-elem',
           onUpdate: function (evt) {
             scope.$apply(function(){
@@ -466,7 +467,7 @@ angular.module('tink.sortable')
             });
           },
         });
-      },200);      
+      },200);
     }
   };
 }]);
