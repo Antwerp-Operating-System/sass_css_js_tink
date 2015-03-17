@@ -241,7 +241,7 @@
   }
 };
 }])
-  .controller('tinkFormatController',function($scope){
+  .controller('tinkFormatController',function(){
 
     var self = this;
     var config;

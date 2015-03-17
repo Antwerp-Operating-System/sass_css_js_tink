@@ -216,4 +216,4 @@ angular.module('tink.modal', [])
 
       }
     };
-  }])
+  }]);

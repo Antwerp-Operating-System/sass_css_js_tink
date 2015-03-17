@@ -29,9 +29,9 @@ angular.module('tinkFramework.controllers')
   };
 
   scope.lose = function(){
-    console.log('close called')
-  }
+    console.log('close called');
+  };
   scope.ismissed = function(){
     console.log('dismissed called');
-  }
+  };
 }]);
