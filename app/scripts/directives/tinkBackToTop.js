@@ -18,12 +18,23 @@ angular.module('tink.backtotop', [])
           scrollTopDuration = 200;
 
         // var offset = (scope.offset !== undefined || parseInt(scope.offset) !== isNaN()) ? parseInt(scope.offset) : 300;
-
         if(scope.offset !== undefined || parseInt(scope.offset) !== isNaN()) {
           offset = parseInt(scope.offset);
         }
 
-        checkVisibility($(this));
+        // Hide or show the "back to top" link
+        function checkVisibility(checkThis) {
+          if(checkThis.scrollTop() >= offset) {
+            element.addClass('is-visible');
+          } else {
+            element.removeClass('is-visible');
+          }
+        }
+
+        // Do this on load
+        function initialize() {
+          checkVisibility($(element));
+        }
 
         // Re-evaluate whether button should be shown or not
         $(window).scroll(function () {
@@ -40,14 +51,7 @@ angular.module('tink.backtotop', [])
           }, scrollTopDuration);
         });
 
-        // Hide or show the "back to top" link
-        function checkVisibility(checkThis) {
-          if(checkThis.scrollTop() >= offset) {
-            element.addClass('is-visible');
-          } else {
-            element.removeClass('is-visible btn-fade-out');
-          }
-        }
+        initialize();
       });
       }
     };
