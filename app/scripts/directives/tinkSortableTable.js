@@ -455,7 +455,7 @@ angular.module('tink.sortable')
       timeout(function(){
         Sortable.create(elem.find('ul').get(0),{
           ghostClass: 'sortable-placeholder',
-          onEnd: function (evt) {
+          onUpdate: function (evt) {
             scope.$apply(function(){
               var old = scope.headers[evt.oldIndex];
               scope.headers[evt.oldIndex] = scope.headers[evt.newIndex];
