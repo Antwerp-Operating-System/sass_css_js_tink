@@ -14,15 +14,19 @@ angular.module('tink.backtotop', [])
       jQuery(document).ready(function($) {
 
         // Options: offset from which button is showed and duration of the scroll animation
-        var offset = parseInt(scope.offset) || 300,
+        var offset = 300,
           scrollTopDuration = 200;
 
-         // Hide or show the "back to top" link
+        if(scope.offset !== undefined || parseInt(scope.offset) !== isNaN()) {
+          offset = parseInt(scope.offset);
+        }
+
+        checkVisibility($(this));
+
+        // Re-evaluate whether button should be shown or not
         $(window).scroll(function () {
-          if($(this).scrollTop() > offset) {
-            element.addClass('is-visible');
-          } else {
-            element.removeClass('is-visible btn-fade-out');
+          if(offset !== 0) {
+            checkVisibility($(this));
           }
         });
 
@@ -33,6 +37,15 @@ angular.module('tink.backtotop', [])
             scrollTop: 0 ,
           }, scrollTopDuration);
         });
+
+        // Hide or show the "back to top" link
+        function checkVisibility(checkThis) {
+          if(checkThis.scrollTop() >= offset) {
+            element.addClass('is-visible');
+          } else {
+            element.removeClass('is-visible btn-fade-out');
+          }
+        }
       });
       }
     };
