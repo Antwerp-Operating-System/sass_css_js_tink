@@ -456,6 +456,11 @@ angular.module('tink.sortable')
         Sortable.create(elem.find('ul').get(0),{
           ghostClass: 'sortable-placeholder',
           handle:'.draggable-elem',
+          onStart: function (evt) {
+             scope.$apply(function(){
+              scope.selected = evt.oldIndex;
+            });
+          },
           onUpdate: function (evt) {
             scope.$apply(function(){
               var old = scope.headers[evt.oldIndex];
