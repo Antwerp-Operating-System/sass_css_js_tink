@@ -53,8 +53,8 @@ angular.module('tinkFramework', [
       .when('/grid', {
         templateUrl: 'views/grid.html'
       })
-      .when('/sortable-table', {
-        templateUrl: 'views/sortable-table.html',
+      .when('/interactive-table', {
+        templateUrl: 'views/interactive-table.html',
         controller: 'MainCtrl'
       })
       .when('/modal', {

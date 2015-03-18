@@ -1,10 +1,10 @@
 'use strict';
-angular.module('tink.sortable', ['ngLodash']);
-angular.module('tink.sortable')
-.directive('tinkSortableTable',['lodash','$compile','$rootScope',function(_,$compile,$rootScope){
+angular.module('tink.interactiveTable', ['ngLodash']);
+angular.module('tink.interactiveTable')
+.directive('tinkInteractiveTable',['lodash','$compile','$rootScope',function(_,$compile,$rootScope){
   return{
     restrict:'E',
-    templateUrl:'templates/tinkSortableTable.html',
+    templateUrl:'templates/tinkInteractiveTable.html',
     scope:{
       ngModel:'=',
       headers:'=',
@@ -454,7 +454,7 @@ angular.module('tink.sortable')
     link:function(scope,elem){
       timeout(function(){
         Sortable.create(elem.find('ul').get(0),{
-          ghostClass: 'sortable-placeholder',
+          ghostClass: 'draggable-placeholder',
           animation: 200,
           handle:'.draggable-elem',
           onStart: function (evt) {

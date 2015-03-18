@@ -16,7 +16,7 @@ angular.module('tink', [
 		'tink.nationalNumber',
 		'tink.dropupload',
 		'angularFileUpload',
-		'tink.sortable',
+		'tink.interactiveTable',
 		'tink.modal',
 		'tink.backtotop'
 	]);
