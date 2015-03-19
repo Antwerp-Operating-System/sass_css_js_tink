@@ -1,10 +1,10 @@
 'use strict';
-angular.module('tink.sortable', ['ngLodash']);
-angular.module('tink.sortable')
-.directive('tinkSortableTable',['lodash','$compile','$rootScope',function(_,$compile,$rootScope){
+angular.module('tink.interactiveTable', ['ngLodash']);
+angular.module('tink.interactiveTable')
+.directive('tinkInteractiveTable',['lodash','$compile','$rootScope',function(_,$compile,$rootScope){
   return{
     restrict:'E',
-    templateUrl:'templates/tinkSortableTable.html',
+    templateUrl:'templates/tinkInteractiveTable.html',
     scope:{
       ngModel:'=',
       headers:'=',
@@ -19,7 +19,6 @@ angular.module('tink.sortable')
       var aantalToShow = 1;
       var pages;
       var viewable;
-
 
       function uncheckAll(){
         for(var i=0;i<viewable.length;i++){
@@ -449,4 +448,31 @@ angular.module('tink.sortable')
         });
         return ret;
     };
+}]).directive('tinkShiftSort',['$timeout',function(timeout){
+  return {
+    restirct:'A',
+    link:function(scope,elem){
+      timeout(function(){
+        Sortable.create(elem.find('ul').get(0),{
+          ghostClass: 'draggable-placeholder',
+          animation: 200,
+          handle:'.draggable-elem',
+          onStart: function (evt) {
+             scope.$apply(function(){
+              scope.selected = evt.oldIndex;
+            });
+          },
+          onUpdate: function (evt) {
+            scope.$apply(function(){
+              var old = scope.headers[evt.oldIndex];
+              scope.headers[evt.oldIndex] = scope.headers[evt.newIndex];
+              scope.headers[evt.newIndex] = old;
+              scope.selected = evt.newIndex;
+              scope.buildTable();
+            });
+          },
+        });
+      },200);
+    }
+  };
 }]);

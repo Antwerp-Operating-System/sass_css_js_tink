@@ -203,6 +203,64 @@ this.closeGroup = function(elem){
 
 }]);
 ;'use strict';
+angular.module('tink.backtotop', [])
+  .directive('tinkBackToTop', [function () {
+    return {
+      restrict: 'EA',
+      scope: {
+        offset: '@'
+      },
+      template: '<button class="back-to-top"><span>Terug naar boven</span></button>',
+      replace: true,
+
+      link: function(scope, element) {
+
+      jQuery(document).ready(function($) {
+
+        // Options: offset from which button is showed and duration of the scroll animation
+        var offset = 300,
+          scrollTopDuration = 200;
+
+        // var offset = (scope.offset !== undefined || parseInt(scope.offset) !== isNaN()) ? parseInt(scope.offset) : 300;
+        if(scope.offset !== undefined || parseInt(scope.offset) !== isNaN()) {
+          offset = parseInt(scope.offset);
+        }
+
+        // Hide or show the "back to top" link
+        function checkVisibility(checkThis) {
+          if(checkThis.scrollTop() >= offset) {
+            element.addClass('is-visible');
+          } else {
+            element.removeClass('is-visible');
+          }
+        }
+
+        // Do this on load
+        function initialize() {
+          checkVisibility($(element));
+        }
+
+        // Re-evaluate whether button should be shown or not
+        $(window).scroll(function () {
+          if(offset !== 0) {
+            checkVisibility($(this));
+          }
+        });
+
+        // Scroll to top when the button is clicked
+        element.on('click', function(event) {
+          event.preventDefault();
+          $('body, html').animate({
+            scrollTop: 0 ,
+          }, scrollTopDuration);
+        });
+
+        initialize();
+      });
+      }
+    };
+  }]);
+;'use strict';
 angular.module('tink.datepicker', [])
 .directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply','$window','$sce',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply,$window,$sce) {
   return {
@@ -1723,7 +1781,7 @@ angular.module('tink.dropupload')
   }
 };
 }])
-  .controller('tinkFormatController',function($scope){
+  .controller('tinkFormatController',function(){
 
     var self = this;
     var config;
@@ -1745,7 +1803,8 @@ angular.module('tink.dropupload')
       config = self.config;
       format = config.format;
       placeholder = config.placeholder;
-      $scope.placeholder = placeholder;
+      //$scope.placeholder = valueToHtml(placeholder);
+      self.setValue(placeholder);
       newVa = placeholder;
       self.element.bind('keydown', function(event) {
         keyDowned = self.getValue();
@@ -2005,18 +2064,485 @@ function setCursor(cur) {
 }
 
 });;'use strict';
-angular.module('tink.modal', [])
-  .directive('tinkModa',[function(){
-    return{
-      restrict:'EA',
-      link:function(){
-       // var modal = $modal({scope:scope,element:element});
-        /*scope.$hide = function(){
-          modal.hide();
-        }*/
+angular.module('tink.interactiveTable', ['ngLodash']);
+angular.module('tink.interactiveTable')
+.directive('tinkInteractiveTable',['lodash','$compile','$rootScope',function(_,$compile,$rootScope){
+  return{
+    restrict:'E',
+    templateUrl:'templates/tinkInteractiveTable.html',
+    scope:{
+      ngModel:'=',
+      headers:'=',
+      actions:'=?',
+      itemsPerPage:'=?'
+    },
+    link:function(scope,element){
+      if(!scope.headers || scope.headers.length < 1 ){
+        return;
       }
+
+      var aantalToShow = 1;
+      var pages;
+      var viewable;
+
+      function uncheckAll(){
+        for(var i=0;i<viewable.length;i++){
+          if(scope.checkB[i] && scope.checkB[i]._checked===true){
+            scope.checkB[i]._checked = false;
+          }
+        }
+        if(scope.checkB[-1]){
+            scope.checkB[-1]._checked = false;
+          }
+      }
+      var ngModelWatch;
+      function watch(){
+        //scope.ngModel = angular.copy(scope.ngModel);
+        ngModelWatch = scope.$watch('ngModel',function(newArray,oldArray){
+          if(newArray !== oldArray){
+            resort();
+            scope.buildTable();
+          }
+        },true);
+      }
+      watch();
+
+      if(scope.actions instanceof Array){
+        scope.viewActions = [];
+        for(var i=0;i<scope.actions.length;i++){
+          var action = scope.actions[i];
+          scope.viewActions.push({name:action.name,callback:function(){
+            var checked = [];
+            for(var i=0;i<viewable.length;i++){
+              if(scope.checkB[i] && scope.checkB[i]._checked===true){
+                checked.push(viewable[i]);
+              }
+            }
+            action.callback(checked,uncheckAll);
+          }});
+        }
+      }
+      if(typeof scope.itemsPerPage === 'string'){
+        var items = scope.itemsPerPage.split(',');
+        scope.itemsPerPage = [];
+        for(var j=0;j<items.length;j++){
+          if(items[j].slice(-1) === '*'){
+            var num = _.parseInt(items[j].substr(0,items[j].length-1));
+            scope.perPage = num;
+            scope.itemsPerPage.push(num);
+          }else{
+            scope.itemsPerPage.push(_.parseInt(items[j]));
+          }
+        }
+
+        if(!scope.perPage && scope.itemsPerPage.length !==0){
+          scope.perPage = _.parseInt(items[0]);
+        }
+
+      }else{
+        scope.perPage = _.parseInt(10);
+        scope.itemsPerPage = [10,20,50];
+      }
+      //which sorting is happening
+      scope.sorting = {field:'',direction:1};
+      //preview headers
+      if(!scope.headers instanceof Array){
+        scope.headers = [];
+      }
+      //function that runs at the beginning to handle the headers.
+      function handleHeaders(){
+        angular.forEach(scope.headers,function(value){
+          if(!angular.isDefined(value.alias) || value.alias === null){
+            value.alias = value.field;
+          }
+          if(!angular.isDefined(value.visible) || value.visible === null){
+            value.visible = true;
+          }
+        });
+      }
+      handleHeaders();
+      //this is a copy to show to the view
+      scope.viewer = scope.headers;
+      //This function creates our table head
+      function setHeader(table,keys){
+        var header = table.createTHead();
+        var row = header.insertRow(0);
+        scope.selectedMax = keys.length-1;
+        if(typeof scope.actions === 'function'){
+          var thCheck = document.createElement('th');
+          thCheck.innerHTML = createCheckbox(-1,i,'hulp');
+          row.appendChild(thCheck);
+        }
+
+        for(var k=0;k<keys.length;k++){
+          if(keys[k] && keys[k].checked && keys[k].visible){
+            // var key = Object.keys(keys[i])[0];
+            var val = keys[k].alias || keys[k].field;
+            var th = document.createElement('th');
+                th.innerHTML = val;
+              row.appendChild(th);
+              $(th).bind('click',sorte(k));
+              if(keys[k] === scope.sorting.obj){
+                if(scope.sorting.direction === 1){
+                  $(th).addClass('sort-asc');
+                }else if(scope.sorting.direction === -1){
+                  $(th).addClass('sort-desc');
+                }
+              }
+          }
+        }
+      }
+      //hersort because of new data
+      function resort(){
+        if(scope.sorting && scope.sorting.obj){
+          var sortKey =  scope.sorting.obj.field;
+          sorter(sortKey,scope.sorting.direction);
+        }
+      }
+      //will be called when you press on a header
+      function sorte ( i ){
+        return function(){
+          if(scope.sorting.obj){
+            //var index = _.findIndex(scope.viewer, scope.sorting.obj);
+          }
+          var key = scope.headers[i].field;
+          if(scope.sorting.field === key){
+            scope.sorting.direction = scope.sorting.direction * -1;
+          }else{
+            scope.sorting.field = key;
+            scope.sorting.direction = 1;
+          }
+          sorter(key,scope.sorting.direction);
+          scope.sorting.obj  = scope.headers[i];
+          scope.buildTable();
+
+        };
+      }
+
+      function fullChecked(){
+        var length = 0;
+        for(var i=0;i<viewable.length;i++){
+          if(scope.checkB[i] && scope.checkB[i]._checked){
+              length+=1;
+            }
+          }
+          if(!scope.checkB[-1]){
+            scope.checkB[-1] = {};
+          }
+          if(length !== 0){
+            scope.selectedCheck = true;
+          }else{
+            scope.selectedCheck = false;
+          }
+          if(length === viewable.length){
+            scope.checkB[-1]._checked = true;
+          }else{
+            scope.checkB[-1]._checked = false;
+          }
+      }
+
+      scope.checkChange = function(i){
+        if(i === -1){
+          var check = scope.checkB[-1]._checked;
+          angular.forEach(scope.checkB,function(val){
+            val._checked = check;
+            scope.selectedCheck = check;
+          });
+        }else{
+          if(scope.checkB[-1]){
+            scope.checkB[-1]._checked = false;
+          }
+          fullChecked();
+        }
+      };
+      scope.actions = function(){
+
+      };
+
+      scope.hulpngModel=[];
+      scope.checkB = [];
+      function createCheckbox(row,i,hulp){
+        if(!hulp){
+          hulp ='';
+        }
+        var checkbox = '<div class="checkbox">'+
+                          '<input type="checkbox" ng-change="checkChange('+row+')" ng-model="checkB['+row+']._checked" id="'+row+'" name="'+row+'" value="'+row+'">'+
+                          '<label for="'+row+'"></label>'+
+                        '</div>';
+        return checkbox;
+      }
+
+
+      //This function create the table body
+      function setBody(table,content){
+        var body = table.createTBody();
+
+          for(var i=scope.headers.length-1;i>=0;i--){
+            if(scope.headers[i] && scope.headers[i].checked && scope.headers[i].visible){
+              for(var j=0;j<content.length;j++){
+                var row;
+                if(body.rows[j]){
+                  row = body.rows[j];
+                }else{
+                  row = body.insertRow(j);
+                  if(typeof scope.actions === 'function'){
+                    var check = row.insertCell(0);
+                    // var index = scope.ngModel.indexOf(content[j]);
+                    var index = j;
+                    check.innerHTML = createCheckbox(index,j);
+                  }
+                }
+                var val = content[j][scope.headers[i].field];
+                var cell;
+                if(typeof scope.actions === 'function'){
+                  cell = row.insertCell(1);
+                }else{
+                  cell = row.insertCell(0);
+                }
+                cell.innerHTML = val;
+            }
+          }
+        }
+      }
+
+      function sorter(sortVal,direction){
+        ngModelWatch();
+        scope.ngModel.sort(function(obj1, obj2) {
+          var obj1Val = obj1[sortVal];
+          var obj2Val = obj2[sortVal];
+
+          if(!_.isString(obj1Val)){
+            obj1Val = obj1Val.toString();
+          }
+
+          if(!_.isString(obj2Val)){
+            obj2Val = obj2Val.toString();
+          }
+
+          if(direction){
+            return direction*obj1Val.localeCompare(obj2Val);
+          }else{
+            return obj1Val.localeCompare(obj2Val);
+          }
+
+        });
+        watch();
+      }
+
+      //number of rows it wil show on the page
+      scope.numSelected=0;
+      //function to change the row page view
+      scope.perPageClick = function(index){
+        scope.numSelected = index;
+        scope.pageSelected=1;
+        scope.buildTable();
+      };
+
+      //wich page is selected
+      scope.pageSelected=1;
+      //function to set the page you need
+      scope.setPage = function(index){
+        if(index > 0 ){
+          scope.pageSelected = index;
+          uncheckAll();
+          scope.buildTable();
+        }
+      };
+
+      scope.setItems = function(){
+        scope.buildTable();
+        fullChecked();
+      };
+
+      scope.createArray = function(num){
+        var array = [];
+        for(var i=0;i<num;i++){
+          array[i] = {};
+        }
+        return array;
+      };
+
+      function buildPagination(){
+        scope.showNums = [];
+        var num = scope.pageSelected;
+        var numPages = scope.pages;
+
+        if(numPages <6){
+          scope.showNums = _.range(2,numPages);
+        }else{
+          if(num < 4){
+            scope.showNums = _.range(2,4);
+            scope.showNums.push(-1);
+          }else if(num >= numPages -2){
+            scope.showNums = [-1].concat(_.range(numPages-2,numPages));
+          }else{
+            scope.showNums = [-1,num,-1];
+          }
+        }
+        if(numPages >1 ){
+          scope.showNums.push(numPages);
+        }
+      }
+
+      aantalToShow = scope.perPage;
+      pages = Math.ceil(scope.ngModel.length/aantalToShow);
+      scope.pages = _.range(1,pages);
+
+      //This function build the table and the number of pages!
+      scope.buildTable = function(){
+        var table = document.createElement('table');
+        setHeader(table,scope.headers);
+        aantalToShow = scope.perPage;
+        pages = Math.ceil(scope.ngModel.length/aantalToShow);
+        scope.pages = pages;
+
+        var start = (scope.pageSelected-1)*aantalToShow;
+        var stop = (scope.pageSelected *aantalToShow)-1;
+        viewable = _.slice(scope.ngModel, start,stop+1);
+        scope.checkB = scope.createArray(viewable.length);
+        if(viewable.length === 0 && scope.pageSelected > 1){
+          scope.pageSelected = scope.pageSelected-1;
+          scope.buildTable();
+          return;
+        }
+        if(scope.ngModel.length === 0){
+          scope.numFirst = 0;
+        }else{
+          scope.numFirst = start +1;
+        }
+        if(stop > scope.ngModel.length){
+          scope.numLast = scope.ngModel.length;
+        }else{
+          scope.numLast = stop +1;
+        }
+        buildPagination();
+        scope.itemLength = scope.ngModel.length;
+        setBody(table,viewable);  //
+        table=$(table);           //variable table is added code to set class table
+        table.addClass('table-interactive');   //added code to set class table
+        fullChecked();
+
+        var tableEl = element.find('table');
+        tableEl.replaceWith(table); // old code: $('table').replaceWith($(table));
+        $compile(table)(scope);
+      };
+
+      scope.selected = -1;
+      //Function that will be called to change the order
+      scope.omhoog = function(){
+        if(scope.selected > 0){
+          scope.viewer.swap(scope.selected,scope.selected-1);
+          scope.selected-=1;
+        }
+        scope.buildTable();
+      };
+      //Function that will be called to change the order
+      scope.omlaag = function(){
+        if(scope.selected >=0 && scope.selected < scope.viewer.length-1){
+          scope.viewer.swap(scope.selected,scope.selected+1);
+          scope.selected+=1;
+        }
+        scope.buildTable();
+      };
+
+      scope.headerChange = function(){
+        scope.buildTable();
+      };
+      //added this to swap elements easly
+      Array.prototype.swap = function(a, b) {
+        var temp = this[a];
+        this[a] = this[b];
+        this[b] = temp;
+      };
+
+      scope.buildTable();
+      //function that will be called when you clicked on row name
+      scope.select=function(e,index){
+        scope.selected = index;
+        e.preventDefault();
+        e.stopPropagation();
+      };
+
+      //Set first page
+      scope.setFirst = function(){
+        scope.setPage(1);
+      };
+
+      //set lest page
+      scope.setLast = function(){
+        scope.setPage(pages);
+      };
+
+      scope.close = function(){
+        $rootScope.$broadcast('popover-open', { group: 'option-table',el:$('<div><div>') });
+      };
+
+      //set next page
+      scope.setNext = function(){
+        if(scope.pageSelected < pages){
+          scope.pageSelected +=1;
+          scope.setPage(scope.pageSelected);
+        }
+      };
+
+      //set prev page
+      scope.setPrev = function(){
+        if(scope.pageSelected >1){
+          scope.pageSelected -=1;
+          scope.setPage(scope.pageSelected);
+        }
+      };
+
+    }
+  };
+}]).filter('myLimitTo', [function(){
+    return function(obj, limit){
+        var keys = Object.keys(obj);
+        if(keys.length < 1){
+            return [];
+        }
+
+        var ret = {},
+        count = 0;
+        angular.forEach(keys, function(key){
+           if(count >= limit){
+                return false;
+            }
+            ret[key] = obj[key];
+            count++;
+        });
+        return ret;
     };
-  }])
+}]).directive('tinkShiftSort',['$timeout',function(timeout){
+  return {
+    restirct:'A',
+    link:function(scope,elem){
+      timeout(function(){
+        Sortable.create(elem.find('ul').get(0),{
+          ghostClass: 'draggable-placeholder',
+          animation: 200,
+          handle:'.draggable-elem',
+          onStart: function (evt) {
+             scope.$apply(function(){
+              scope.selected = evt.oldIndex;
+            });
+          },
+          onUpdate: function (evt) {
+            scope.$apply(function(){
+              var old = scope.headers[evt.oldIndex];
+              scope.headers[evt.oldIndex] = scope.headers[evt.newIndex];
+              scope.headers[evt.newIndex] = old;
+              scope.selected = evt.newIndex;
+              scope.buildTable();
+            });
+          },
+        });
+      },200);
+    }
+  };
+}]);
+;'use strict';
+angular.module('tink.modal', [])
   .provider('$modal', function() {
     var defaults = this.defaults = {
       element:null,
@@ -2195,7 +2721,45 @@ angular.module('tink.modal', [])
         }
         return $modal;
      };
-  });;'use strict';
+  })
+  .directive('tinkModal',['$modal',function($modal){
+    return{
+      restrict:'A',
+      scope:{
+        tinkModalSuccess:'=',
+        tinkModalDismiss:'='
+      },
+      link:function(scope,element,attr){
+        if(!attr.tinkModalTemplate){
+          return;
+        }
+
+        element.bind('click',function(){
+          scope.$apply(function(){
+            openModal(attr.tinkModalTemplate);
+          });
+        });
+
+        function openModal(template){
+          var modalInstance = $modal.open({
+            templateUrl: template
+          });
+
+          if(typeof scope.tinkModalSuccess !== 'function'){
+            scope.tinkModalSuccess = null;
+          }
+
+          if(typeof scope.tinkModalDismiss !== 'function'){
+            scope.tinkModalDismiss = null;
+          }
+
+          modalInstance.result.then(scope.tinkModalSuccess,scope.tinkModalDismiss);
+        }
+
+
+      }
+    };
+  }]);;'use strict';
 angular.module('tink.nationalNumber', []);
 angular.module('tink.nationalNumber')
   .directive('tinkNationalNumber',['$window','safeApply',function($window,safeApply){
@@ -2266,11 +2830,12 @@ angular.module('tink.nationalNumber')
             if(isRRNoValid(value)){
               ngControl.$setViewValue(value);
               ngControl.$render();
+            }else{
+               ngControl.$setViewValue(null);
             }
-            if(value === 'xx.xx.xx-xxx.xx' || value === ''){
+            /*if(value === 'xx.xx.xx-xxx.xx' || value === ''){
               ngControl.$setViewValue(null);
-            }
-
+            }*/
         });
       });
 
@@ -2308,12 +2873,12 @@ angular.module('tink.nationalNumber')
             var nrToCheck = parseInt(n.substr(0, 9));
 
             // first check without 2
-            if (modFunction(nrToCheck) === checkDigit) {
+            if (modFunction(nrToCheck) === parseInt(checkDigit)) {
               return true;
             }
             // then check with 2 appended for y2k+ births
             nrToCheck = parseInt('2' + n.substr(0, 9));
-            return (modFunction(nrToCheck) === checkDigit);
+            return (modFunction(nrToCheck) === parseInt(checkDigit));
         }
 
        function checkvalidty(value){
@@ -2813,458 +3378,6 @@ var pos;
   };
 
 }]);;'use strict';
-angular.module('tink.sortable', ['ngLodash']);
-angular.module('tink.sortable')
-.directive('tinkSortableTable',['lodash','$compile','$rootScope',function(_,$compile,$rootScope){
-  return{
-    restrict:'E',
-    templateUrl:'templates/tinkSortableTable.html',
-    scope:{
-      ngModel:'=',
-      headers:'=',
-      actions:'=?',
-      itemsPerPage:'=?'
-    },
-    link:function(scope,element){
-      if(!scope.headers || scope.headers.length < 1 ){
-        return;
-      }
-
-      var aantalToShow = 1;
-      var pages;
-      var viewable;
-
-
-      function uncheckAll(){
-        for(var i=0;i<viewable.length;i++){
-          if(scope.checkB[i] && scope.checkB[i]._checked===true){
-            scope.checkB[i]._checked = false;
-          }
-        }
-        if(scope.checkB[-1]){
-            scope.checkB[-1]._checked = false;
-          }
-      }
-      var ngModelWatch;
-      function watch(){
-        //scope.ngModel = angular.copy(scope.ngModel);
-        ngModelWatch = scope.$watch('ngModel',function(newArray,oldArray){
-          if(newArray !== oldArray){
-            resort();
-            scope.buildTable();
-          }
-        },true);
-      }
-      watch();
-
-      if(scope.actions instanceof Array){
-        scope.viewActions = [];
-        for(var i=0;i<scope.actions.length;i++){
-          var action = scope.actions[i];
-          scope.viewActions.push({name:action.name,callback:function(){
-            var checked = [];
-            for(var i=0;i<viewable.length;i++){
-              if(scope.checkB[i] && scope.checkB[i]._checked===true){
-                checked.push(viewable[i]);
-              }
-            }
-            action.callback(checked,uncheckAll);
-          }});
-        }
-      }
-      if(typeof scope.itemsPerPage === 'string'){
-        var items = scope.itemsPerPage.split(',');
-        scope.itemsPerPage = [];
-        for(var j=0;j<items.length;j++){
-          if(items[j].slice(-1) === '*'){
-            var num = _.parseInt(items[j].substr(0,items[j].length-1));
-            scope.perPage = num;
-            scope.itemsPerPage.push(num);
-          }else{
-            scope.itemsPerPage.push(_.parseInt(items[j]));
-          }
-        }
-
-        if(!scope.perPage && scope.itemsPerPage.length !==0){
-          scope.perPage = _.parseInt(items[0]);
-        }
-
-      }else{
-        scope.perPage = _.parseInt(10);
-        scope.itemsPerPage = [10,20,50];
-      }
-      //which sorting is happening
-      scope.sorting = {field:'',direction:1};
-      //preview headers
-      if(!scope.headers instanceof Array){
-        scope.headers = [];
-      }
-      //function that runs at the beginning to handle the headers.
-      function handleHeaders(){
-        angular.forEach(scope.headers,function(value){
-          if(!angular.isDefined(value.alias) || value.alias === null){
-            value.alias = value.field;
-          }
-          if(!angular.isDefined(value.visible) || value.visible === null){
-            value.visible = true;
-          }
-        });
-      }
-      handleHeaders();
-      //this is a copy to show to the view
-      scope.viewer = scope.headers;
-      //This function creates our table head
-      function setHeader(table,keys){
-        var header = table.createTHead();
-        var row = header.insertRow(0);
-        scope.selectedMax = keys.length-1;
-        if(typeof scope.actions === 'function'){
-          var thCheck = document.createElement('th');
-          thCheck.innerHTML = createCheckbox(-1,i,'hulp');
-          row.appendChild(thCheck);
-        }
-
-        for(var k=0;k<keys.length;k++){
-          if(keys[k] && keys[k].checked && keys[k].visible){
-            // var key = Object.keys(keys[i])[0];
-            var val = keys[k].alias || keys[k].field;
-            var th = document.createElement('th');
-                th.innerHTML = val;
-              row.appendChild(th);
-              $(th).bind('click',sorte(k));
-              if(keys[k] === scope.sorting.obj){
-                if(scope.sorting.direction === 1){
-                  $(th).addClass('sort-asc');
-                }else if(scope.sorting.direction === -1){
-                  $(th).addClass('sort-desc');
-                }
-              }
-          }
-        }
-      }
-      //hersort because of new data
-      function resort(){
-        if(scope.sorting && scope.sorting.obj){
-          var sortKey =  scope.sorting.obj.field;
-          sorter(sortKey,scope.sorting.direction);
-        }
-      }
-      //will be called when you press on a header
-      function sorte ( i ){
-        return function(){
-          if(scope.sorting.obj){
-            //var index = _.findIndex(scope.viewer, scope.sorting.obj);
-          }
-          var key = scope.headers[i].field;
-          if(scope.sorting.field === key){
-            scope.sorting.direction = scope.sorting.direction * -1;
-          }else{
-            scope.sorting.field = key;
-            scope.sorting.direction = 1;
-          }
-          sorter(key,scope.sorting.direction);
-          scope.sorting.obj  = scope.headers[i];
-          scope.buildTable();
-
-        };
-      }
-
-      function fullChecked(){
-        var length = 0;
-        for(var i=0;i<viewable.length;i++){
-          if(scope.checkB[i] && scope.checkB[i]._checked){
-              length+=1;
-            }
-          }
-          if(!scope.checkB[-1]){
-            scope.checkB[-1] = {};
-          }
-          if(length !== 0){
-            scope.selectedCheck = true;
-          }else{
-            scope.selectedCheck = false;
-          }
-          if(length === viewable.length){
-            scope.checkB[-1]._checked = true;
-          }else{
-            scope.checkB[-1]._checked = false;
-          }
-      }
-
-      scope.checkChange = function(i){
-        if(i === -1){
-          var check = scope.checkB[-1]._checked;
-          angular.forEach(scope.checkB,function(val){
-            val._checked = check;
-            scope.selectedCheck = check;
-          });
-        }else{
-          if(scope.checkB[-1]){
-            scope.checkB[-1]._checked = false;
-          }
-          fullChecked();
-        }
-      };
-      scope.actions = function(){
-
-      };
-
-      scope.hulpngModel=[];
-      scope.checkB = [];
-      function createCheckbox(row,i,hulp){
-        if(!hulp){
-          hulp ='';
-        }
-        var checkbox = '<div class="checkbox">'+
-                          '<input type="checkbox" ng-change="checkChange('+row+')" ng-model="checkB['+row+']._checked" id="'+row+'" name="'+row+'" value="'+row+'">'+
-                          '<label for="'+row+'"></label>'+
-                        '</div>';
-        return checkbox;
-      }
-
-
-      //This function create the table body
-      function setBody(table,content){
-        var body = table.createTBody();
-
-          for(var i=scope.headers.length-1;i>=0;i--){
-            if(scope.headers[i] && scope.headers[i].checked && scope.headers[i].visible){
-              for(var j=0;j<content.length;j++){
-                var row;
-                if(body.rows[j]){
-                  row = body.rows[j];
-                }else{
-                  row = body.insertRow(j);
-                  if(typeof scope.actions === 'function'){
-                    var check = row.insertCell(0);
-                    // var index = scope.ngModel.indexOf(content[j]);
-                    var index = j;
-                    check.innerHTML = createCheckbox(index,j);
-                  }
-                }
-                var val = content[j][scope.headers[i].field];
-                var cell;
-                if(typeof scope.actions === 'function'){
-                  cell = row.insertCell(1);
-                }else{
-                  cell = row.insertCell(0);
-                }
-                cell.innerHTML = val;
-            }
-          }
-        }
-      }
-
-      function sorter(sortVal,direction){
-        ngModelWatch();
-        scope.ngModel.sort(function(obj1, obj2) {
-          var obj1Val = obj1[sortVal];
-          var obj2Val = obj2[sortVal];
-
-          if(!_.isString(obj1Val)){
-            obj1Val = obj1Val.toString();
-          }
-
-          if(!_.isString(obj2Val)){
-            obj2Val = obj2Val.toString();
-          }
-
-          if(direction){
-            return direction*obj1Val.localeCompare(obj2Val);
-          }else{
-            return obj1Val.localeCompare(obj2Val);
-          }
-
-        });
-        watch();
-      }
-
-      //number of rows it wil show on the page
-      scope.numSelected=0;
-      //function to change the row page view
-      scope.perPageClick = function(index){
-        scope.numSelected = index;
-        scope.pageSelected=1;
-        scope.buildTable();
-      };
-
-      //wich page is selected
-      scope.pageSelected=1;
-      //function to set the page you need
-      scope.setPage = function(index){
-        if(index > 0 ){
-          scope.pageSelected = index;
-          uncheckAll();
-          scope.buildTable();
-        }
-      };
-
-      scope.setItems = function(){
-        scope.buildTable();
-        fullChecked();
-      };
-
-      scope.createArray = function(num){
-        var array = [];
-        for(var i=0;i<num;i++){
-          array[i] = {};
-        }
-        return array;
-      };
-
-      function buildPagination(){
-        scope.showNums = [];
-        var num = scope.pageSelected;
-        var numPages = scope.pages;
-
-        if(numPages <6){
-          scope.showNums = _.range(2,numPages);
-        }else{
-          if(num < 4){
-            scope.showNums = _.range(2,4);
-            scope.showNums.push(-1);
-          }else if(num >= numPages -2){
-            scope.showNums = [-1].concat(_.range(numPages-2,numPages));
-          }else{
-            scope.showNums = [-1,num,-1];
-          }
-        }
-        if(numPages >1 ){
-          scope.showNums.push(numPages);
-        }
-      }
-
-      aantalToShow = scope.perPage;
-      pages = Math.ceil(scope.ngModel.length/aantalToShow);
-      scope.pages = _.range(1,pages);
-
-      //This function build the table and the number of pages!
-      scope.buildTable = function(){
-        var table = document.createElement('table');
-        setHeader(table,scope.headers);
-        aantalToShow = scope.perPage;
-        pages = Math.ceil(scope.ngModel.length/aantalToShow);
-        scope.pages = pages;
-
-        var start = (scope.pageSelected-1)*aantalToShow;
-        var stop = (scope.pageSelected *aantalToShow)-1;
-        viewable = _.slice(scope.ngModel, start,stop+1);
-        scope.checkB = scope.createArray(viewable.length);
-        if(viewable.length === 0 && scope.pageSelected > 1){
-          scope.pageSelected = scope.pageSelected-1;
-          scope.buildTable();
-          return;
-        }
-        if(scope.ngModel.length === 0){
-          scope.numFirst = 0;
-        }else{
-          scope.numFirst = start +1;
-        }
-        if(stop > scope.ngModel.length){
-          scope.numLast = scope.ngModel.length;
-        }else{
-          scope.numLast = stop +1;
-        }
-        buildPagination();
-        scope.itemLength = scope.ngModel.length;
-        setBody(table,viewable);  //
-        table=$(table);           //variable table is added code to set class table
-        table.addClass('table-interactive');   //added code to set class table
-        fullChecked();
-
-        var tableEl = element.find('table');
-        tableEl.replaceWith(table); // old code: $('table').replaceWith($(table));
-        $compile(table)(scope);
-      };
-
-      scope.selected = -1;
-      //Function that will be called to change the order
-      scope.omhoog = function(){
-        if(scope.selected > 0){
-          scope.viewer.swap(scope.selected,scope.selected-1);
-          scope.selected-=1;
-        }
-        scope.buildTable();
-      };
-      //Function that will be called to change the order
-      scope.omlaag = function(){
-        if(scope.selected >=0 && scope.selected < scope.viewer.length-1){
-          scope.viewer.swap(scope.selected,scope.selected+1);
-          scope.selected+=1;
-        }
-        scope.buildTable();
-      };
-
-      scope.headerChange = function(){
-        scope.buildTable();
-      };
-      //added this to swap elements easly
-      Array.prototype.swap = function(a, b) {
-        var temp = this[a];
-        this[a] = this[b];
-        this[b] = temp;
-      };
-
-      scope.buildTable();
-      //function that will be called when you clicked on row name
-      scope.select=function(e,index){
-        scope.selected = index;
-        e.preventDefault();
-        e.stopPropagation();
-      };
-
-      //Set first page
-      scope.setFirst = function(){
-        scope.setPage(1);
-      };
-
-      //set lest page
-      scope.setLast = function(){
-        scope.setPage(pages);
-      };
-
-      scope.close = function(){
-        $rootScope.$broadcast('popover-open', { group: 'option-table',el:$('<div><div>') });
-      };
-
-      //set next page
-      scope.setNext = function(){
-        if(scope.pageSelected < pages){
-          scope.pageSelected +=1;
-          scope.setPage(scope.pageSelected);
-        }
-      };
-
-      //set prev page
-      scope.setPrev = function(){
-        if(scope.pageSelected >1){
-          scope.pageSelected -=1;
-          scope.setPage(scope.pageSelected);
-        }
-      };
-
-    }
-  };
-}]).filter('myLimitTo', [function(){
-    return function(obj, limit){
-        var keys = Object.keys(obj);
-        if(keys.length < 1){
-            return [];
-        }
-
-        var ret = {},
-        count = 0;
-        angular.forEach(keys, function(key){
-           if(count >= limit){
-                return false;
-            }
-            ret[key] = obj[key];
-            count++;
-        });
-        return ret;
-    };
-}]);
-;'use strict';
 angular.module('tink.timepicker', []);
 angular.module('tink.timepicker')
 .directive('tinkTimepicker',['$window',function($window){
@@ -4295,8 +4408,9 @@ angular.module('tink', [
 		'tink.nationalNumber',
 		'tink.dropupload',
 		'angularFileUpload',
-		'tink.sortable',
-		'tink.modal'
+		'tink.interactiveTable',
+		'tink.modal',
+		'tink.backtotop'
 	]);
 ; 'use strict';
  angular.module('tink.tinkApi', []);
@@ -4868,7 +4982,77 @@ angular.module('tink.safeApply', [])
             }
         }
     };
-}]);;'use strict';
+}]);;angular.module('tink.templates', []).run(['$templateCache', function($templateCache) {
+  'use strict';
+
+  $templateCache.put('templates/tinkAccordionGroup.html',
+    "<section class=accordion-panel> <a href class=accordion-toggle ng-click=toggleOpen()> <div class=accordion-panel-heading> <i class=\"fa fa-th-large\"></i> <h4 class=panel-title> <span>{{heading}}</span> </h4> </div> </a> <div class=accordion-panel-body> <div class=accordion-loaded-content ng-transclude> <p>New DOM content comes here</p> </div> </div> </section>"
+  );
+
+
+  $templateCache.put('templates/tinkDatePicker.html',
+    "<div class=\"dropdown-menu datepicker\" ng-class=\"'datepicker-mode-' + $mode\"> <table style=\"table-layout: fixed; height: 100%; width: 100%\"> <thead> <tr class=text-center> <th> <button tabindex=-1 type=button ng-disabled=pane.prev class=\"btn pull-left\" ng-click=$selectPane(-1)> <i class=\"fa fa-chevron-left\"></i> </button> </th> <th colspan=\"{{ rows[0].length - 2 }}\"> <button tabindex=-1 type=button class=\"btn btn-block text-strong\" ng-click=$toggleMode()> <strong style=\"text-transform: capitalize\" ng-bind=title></strong> </button> </th> <th> <button tabindex=-1 type=button ng-disabled=pane.next class=\"btn pull-right\" ng-click=$selectPane(+1)> <i class=\"fa fa-chevron-right\"></i> </button> </th> </tr> <tr ng-show=showLabels class=datepicker-days ng-bind-html=labels></tr> </thead> <tbody> <tr ng-repeat=\"(i, row) in rows\" height=\"{{ 100 / rows.length }}%\"> <td class=text-center ng-repeat=\"(j, el) in row\"> <button tabindex=-1 type=button class=btn style=\"width: 100%\" ng-class=\"{'btn-selected': el.selected, 'btn-today': el.isToday && !el.elected}\" ng-click=$select(el.date) ng-disabled=el.disabled> <span ng-class=\"{'text-muted': el.muted}\" ng-bind=el.label></span> </button> </td> </tr> </tbody> </table> </div>"
+  );
+
+
+  $templateCache.put('templates/tinkDatePickerField.html',
+    "<div class=\"dropdown-menu datepicker\" ng-class=\"'datepicker-mode-' + $mode\"> <table style=\"table-layout: fixed; height: 100%; width: 100%\"> <thead> <tr class=text-center> <th> <button tabindex=-1 type=button ng-disabled=pane.prev class=\"btn pull-left\" ng-click=$selectPane(-1)> <i class=\"fa fa-chevron-left\"></i> </button> </th> <th colspan=\"{{ rows[0].length - 2 }}\"> <button tabindex=-1 type=button class=\"btn btn-block text-strong\" ng-click=$toggleMode()> <strong style=\"text-transform: capitalize\" ng-bind=title></strong> </button> </th> <th> <button tabindex=-1 type=button ng-disabled=pane.next class=\"btn pull-right\" ng-click=$selectPane(+1)> <i class=\"fa fa-chevron-right\"></i> </button> </th> </tr> <tr class=datepicker-days ng-bind-html=labels></tr> </thead> <tbody> <tr ng-repeat=\"(i, row) in rows\" height=\"{{ 100 / rows.length }}%\"> <td class=text-center ng-repeat=\"(j, el) in row\"> <button tabindex=-1 type=button class=btn style=\"width: 100%\" ng-class=\"{'btn-selected': el.selected, 'btn-today': el.isToday && !el.elected}\" ng-click=$select(el.date) ng-disabled=el.disabled> <span ng-class=\"{'text-muted': el.muted}\" ng-bind=el.label></span> </button> </td> </tr> </tbody> </table> </div>"
+  );
+
+
+  $templateCache.put('templates/tinkDatePickerInput.html',
+    "<div class=datepicker-input-fields> <input tink-format-input data-format=00/00/0000 data-placeholder=dd/mm/jjjj data-date dynamic-name=dynamicName data-max-date=maxDate data-min-date=minDate ng-model=\"ngModel\">\n" +
+    "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div>"
+  );
+
+
+  $templateCache.put('templates/tinkDatePickerRange.html',
+    "<div class=datepickerrange> <div class=\"pull-left datepickerrange-left\"> <div class=datepickerrange-header-left> <div class=pull-left> <button tabindex=-1 type=button class=\"btn pull-left\" ng-click=$selectPane(0)> <i class=\"fa fa-chevron-left\"></i> </button> </div> <div class=\"text-center clearfix\"> <label ng-bind=firstTitle></label> </div> </div> <div class=table-responsive> <table> <thead> <tr class=datepicker-days ng-bind-html=dayLabels> </tr> </thead> <tbody id=firstCal ng-bind-html=firstCal> </tbody> </table> </div> </div> <div class=\"pull-right datepickerrange-right\"> <div class=datepickerrange-header-right> <div class=pull-right> <button tabindex=-1 type=button class=\"btn pull-left\" ng-click=$selectPane(1)> <i class=\"fa fa-chevron-right\"></i> </button> </div> <div class=\"text-center clearfix\"> <label ng-bind=lastTitle></label> </div> </div> <div class=table-responsive> <table> <thead> <tr class=datepicker-days ng-bind-html=dayLabels></tr> </thead> <tbody id=secondCal ng-bind-html=secondCal> </tbody> </table> </div> </div> </div>"
+  );
+
+
+  $templateCache.put('templates/tinkDatePickerRangeInputs.html',
+    "<div class=\"datepicker-input-fields row no-gutter\"> <div class=col-sm-6> <input id=firstDateElem class=elem-one data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj tink-format-input ng-model=firstDate valid-name=first>\n" +
+    "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div> <div class=col-sm-6> <input id=lastDateElem class=elem-two data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj tink-format-input ctrl-model=dynamicName valid-name=last ng-model=lastDate>\n" +
+    "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div> </div>"
+  );
+
+
+  $templateCache.put('templates/tinkSortableTable.html',
+    " <table></table> <button tink-popover tink-popover-group=option-table tink-popover-template=templates/tinkTableShift.html>Option</button> <div ng-if=\"viewActions && selectedCheck === true\"> <button tink-popover tink-popover-template=templates/tinkTableAction.html>Actions</button> </div> <div ng-if=numFirst class=table-sort-options> <div class=table-sort-info> <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}} <div class=select> <select ng-change=setItems() ng-model=perPage> <option ng-repeat=\"items in itemsPerPage\" ng-bind=items>{{items}}</option> </select> items per pagina </div> </div> <div class=table-sort-pagination> <ul class=pagination> <li class=prev ng-class=\"{disabled:pageSelected===1}\" ng-click=setPrev()><a href=\"\" tabindex=-1><span>Vorige</span></a></li> <li ng-class=\"{active:pageSelected===1}\" ng-click=setFirst()><a href=\"\">1</a></li> <li ng-repeat=\"pag in showNums track by $index\" ng-class=\"{active:pag===pageSelected}\" ng-click=setPage(pag)><a href=\"\" ng-if=\"pag !== -1\">{{pag}}</a> <span ng-show=\"pag === -1\">...<span></span></span></li> <li class=next ng-click=setNext() ng-class=\"{disabled:pageSelected===pages}\"><a href=\"\"><span>Volgende</span></a></li> </ul> </div> </div> <br> <br>"
+  );
+
+
+  $templateCache.put('templates/tinkTableAction.html',
+    "<button ng-repeat=\"action in viewActions\" ng-click=action.callback()>{{action.name}}</button>"
+  );
+
+
+  $templateCache.put('templates/tinkTableShift.html',
+    "<div class=table-interactive-options>  <div class=table-interactive-sort> <button class=btn-borderless ng-disabled=\"selected<1\" ng-click=omhoog()><i class=\"fa fa-arrow-up\"> </i></button>\n" +
+    "<button class=btn-borderless ng-disabled=\"selected<0 || selected === selectedMax\" ng-click=omlaag()><i class=\"fa fa-arrow-down\"></i></button> </div>  <ul class=table-interactive-cols> <li ng-repeat=\"header in viewer | filter:{ visible: true }\"> <div class=\"checkbox is-selectable\" ng-class=\"{selected:selected===$index}\"> <input type=checkbox ng-model=header.checked ng-change=headerChange() id={{header.alias}} name={{header.alias}} value={{header.alias}} checked> <label for={{header.alias}}><span ng-class=\"{selected:selected===$index}\" ng-click=select($event,$index)>{{header.alias}}</span></label> </div> </li> </ul> <div class=table-interactive-sort>  <button class=btn-xs ng-click=close()>klaar</button> </div> </div>"
+  );
+
+
+  $templateCache.put('templates/tinkUpload.html',
+    "<div class=upload> <div class=upload-zone> <div data-ng-mouseup=browseFiles($event)> <strong translate>Sleep hier een bestand</strong> <span translate>of klik om te bladeren</span>\n" +
+    "<input data-ng-if=multiple class=upload-file-input name={{fieldName}} type=file data-ng-file-select=onFileSelect($files) multiple>\n" +
+    "<input data-ng-if=!multiple class=upload-file-input name={{fieldName}} type=file data-ng-file-select=\"onFileSelect($files)\"> </div> <span class=help-block data-ng-transclude>Toegelaten bestanden: jpg, gif, png, pdf. Maximum grootte: 2MB</span> </div> <p class=upload-file-change data-ng-if=message.hold>De vorige file werd vervangen. <a data-ng-mouseup=undo($event)>Ongedaan maken.</a></p> <ul class=upload-files> <li data-ng-repeat=\"file in files track by $index\" data-ng-class=\"{'success': !file.error && file.getProgress() === 100, 'error': file.error}\"> <span class=upload-filename>{{file.getFileName()}}</span>\n" +
+    "<span class=upload-fileoptions> <button class=upload-btn-delete data-ng-click=del($index) data-ng-if=\"file.getProgress() === 100 || file.error\"><span class=sr-only>Verwijder</span></button>\n" +
+    "<span class=upload-feedback data-ng-if=\"!file.error && file.getProgress() !== 100\">{{file.getProgress()}}%</span> </span>\n" +
+    "<span class=upload-error data-ng-if=file.error> <span data-ng-if=file.error.type>Dit bestandstype is niet toegelaten.</span>\n" +
+    "<span data-ng-if=file.error.size>Dit bestand overschrijdt de toegelaten bestandsgrootte.</span>\n" +
+    "<span data-ng-if=\"!file.error.type && !file.error.size\">Er is een fout opgetreden bij het uploaden. Probeer het opnieuw.</span> </span>\n" +
+    "<span class=upload-progress style=\"width: {{file.getProgress()}}%\"></span> </li> </ul> </div>"
+  );
+
+
+  $templateCache.put('templates/tooltip.html',
+    "<div class=\"tooltip {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\"> <div class=tooltip-arrow></div> <div class=tooltip-inner ng-bind=content></div> </div>"
+  );
+
+}]);
+;'use strict';
 angular.module('tink.dropupload')
 .factory('UploadFile',['$q','tinkUploadService',function($q,tinkUploadService) {
     var upload = null;
@@ -5007,7 +5191,1058 @@ angular.module('tink.dropupload')
       };
     }
   };
-}]);;/**
+}]);;/**!
+ * Sortable
+ * @author	RubaXa   <trash@rubaxa.org>
+ * @license MIT
+ */
+
+
+(function (factory) {
+	"use strict";
+
+	if (typeof define === "function" && define.amd) {
+		define(factory);
+	}
+	else if (typeof module != "undefined" && typeof module.exports != "undefined") {
+		module.exports = factory();
+	}
+	else if (typeof Package !== "undefined") {
+		Sortable = factory();  // export for Meteor.js
+	}
+	else {
+		/* jshint sub:true */
+		window["Sortable"] = factory();
+	}
+})(function () {
+	"use strict";
+
+	var dragEl,
+		ghostEl,
+		cloneEl,
+		rootEl,
+		nextEl,
+
+		scrollEl,
+		scrollParentEl,
+
+		lastEl,
+		lastCSS,
+
+		oldIndex,
+		newIndex,
+
+		activeGroup,
+		autoScroll = {},
+
+		tapEvt,
+		touchEvt,
+
+		expando = 'Sortable' + (new Date).getTime(),
+
+		win = window,
+		document = win.document,
+		parseInt = win.parseInt,
+
+		supportDraggable = !!('draggable' in document.createElement('div')),
+
+
+		_silent = false,
+
+		_dispatchEvent = function (rootEl, name, targetEl, fromEl, startIndex, newIndex) {
+			var evt = document.createEvent('Event');
+
+			evt.initEvent(name, true, true);
+
+			evt.item = targetEl || rootEl;
+			evt.from = fromEl || rootEl;
+			evt.clone = cloneEl;
+
+			evt.oldIndex = startIndex;
+			evt.newIndex = newIndex;
+
+			rootEl.dispatchEvent(evt);
+		},
+
+		_customEvents = 'onAdd onUpdate onRemove onStart onEnd onFilter onSort'.split(' '),
+
+		noop = function () {},
+
+		abs = Math.abs,
+		slice = [].slice,
+
+		touchDragOverListeners = [],
+
+		_autoScroll = _throttle(function (/**Event*/evt, /**Object*/options, /**HTMLElement*/rootEl) {
+			// Bug: https://bugzilla.mozilla.org/show_bug.cgi?id=505521
+			if (rootEl && options.scroll) {
+				var el,
+					rect,
+					sens = options.scrollSensitivity,
+					speed = options.scrollSpeed,
+
+					x = evt.clientX,
+					y = evt.clientY,
+
+					winWidth = window.innerWidth,
+					winHeight = window.innerHeight,
+
+					vx,
+					vy
+				;
+
+				// Delect scrollEl
+				if (scrollParentEl !== rootEl) {
+					scrollEl = options.scroll;
+					scrollParentEl = rootEl;
+
+					if (scrollEl === true) {
+						scrollEl = rootEl;
+
+						do {
+							if ((scrollEl.offsetWidth < scrollEl.scrollWidth) ||
+								(scrollEl.offsetHeight < scrollEl.scrollHeight)
+							) {
+								break;
+							}
+							/* jshint boss:true */
+						} while (scrollEl = scrollEl.parentNode);
+					}
+				}
+
+				if (scrollEl) {
+					el = scrollEl;
+					rect = scrollEl.getBoundingClientRect();
+					vx = (abs(rect.right - x) <= sens) - (abs(rect.left - x) <= sens);
+					vy = (abs(rect.bottom - y) <= sens) - (abs(rect.top - y) <= sens);
+				}
+
+
+				if (!(vx || vy)) {
+					vx = (winWidth - x <= sens) - (x <= sens);
+					vy = (winHeight - y <= sens) - (y <= sens);
+
+					/* jshint expr:true */
+					(vx || vy) && (el = win);
+				}
+
+
+				if (autoScroll.vx !== vx || autoScroll.vy !== vy || autoScroll.el !== el) {
+					autoScroll.el = el;
+					autoScroll.vx = vx;
+					autoScroll.vy = vy;
+
+					clearInterval(autoScroll.pid);
+
+					if (el) {
+						autoScroll.pid = setInterval(function () {
+							if (el === win) {
+								win.scrollTo(win.scrollX + vx * speed, win.scrollY + vy * speed);
+							} else {
+								vy && (el.scrollTop += vy * speed);
+								vx && (el.scrollLeft += vx * speed);
+							}
+						}, 24);
+					}
+				}
+			}
+		}, 30)
+	;
+
+
+
+	/**
+	 * @class  Sortable
+	 * @param  {HTMLElement}  el
+	 * @param  {Object}       [options]
+	 */
+	function Sortable(el, options) {
+		this.el = el; // root element
+		this.options = options = (options || {});
+
+
+		// Default options
+		var defaults = {
+			group: Math.random(),
+			sort: true,
+			disabled: false,
+			store: null,
+			handle: null,
+			scroll: true,
+			scrollSensitivity: 30,
+			scrollSpeed: 10,
+			draggable: /[uo]l/i.test(el.nodeName) ? 'li' : '>*',
+			ghostClass: 'sortable-ghost',
+			ignore: 'a, img',
+			filter: null,
+			animation: 0,
+			setData: function (dataTransfer, dragEl) {
+				dataTransfer.setData('Text', dragEl.textContent);
+			},
+			dropBubble: false,
+			dragoverBubble: false
+		};
+
+
+		// Set default options
+		for (var name in defaults) {
+			!(name in options) && (options[name] = defaults[name]);
+		}
+
+
+		var group = options.group;
+
+		if (!group || typeof group != 'object') {
+			group = options.group = { name: group };
+		}
+
+
+		['pull', 'put'].forEach(function (key) {
+			if (!(key in group)) {
+				group[key] = true;
+			}
+		});
+
+
+		// Define events
+		_customEvents.forEach(function (name) {
+			options[name] = _bind(this, options[name] || noop);
+			_on(el, name.substr(2).toLowerCase(), options[name]);
+		}, this);
+
+
+		// Export options
+		options.groups = ' ' + group.name + (group.put.join ? ' ' + group.put.join(' ') : '') + ' ';
+		el[expando] = options;
+
+
+		// Bind all private methods
+		for (var fn in this) {
+			if (fn.charAt(0) === '_') {
+				this[fn] = _bind(this, this[fn]);
+			}
+		}
+
+
+		// Bind events
+		_on(el, 'mousedown', this._onTapStart);
+		_on(el, 'touchstart', this._onTapStart);
+
+		_on(el, 'dragover', this);
+		_on(el, 'dragenter', this);
+
+		touchDragOverListeners.push(this._onDragOver);
+
+		// Restore sorting
+		options.store && this.sort(options.store.get(this));
+	}
+
+
+	Sortable.prototype = /** @lends Sortable.prototype */ {
+		constructor: Sortable,
+
+
+		_dragStarted: function () {
+			if (rootEl && dragEl) {
+				// Apply effect
+				_toggleClass(dragEl, this.options.ghostClass, true);
+
+				Sortable.active = this;
+
+				// Drag start event
+				_dispatchEvent(rootEl, 'start', dragEl, rootEl, oldIndex);
+			}
+		},
+
+
+		_onTapStart: function (/**Event|TouchEvent*/evt) {
+			var type = evt.type,
+				touch = evt.touches && evt.touches[0],
+				target = (touch || evt).target,
+				originalTarget = target,
+				options =  this.options,
+				el = this.el,
+				filter = options.filter;
+
+			if (type === 'mousedown' && evt.button !== 0 || options.disabled) {
+				return; // only left button or enabled
+			}
+
+			target = _closest(target, options.draggable, el);
+
+			if (!target) {
+				return;
+			}
+
+			// get the index of the dragged element within its parent
+			oldIndex = _index(target);
+
+			// Check filter
+			if (typeof filter === 'function') {
+				if (filter.call(this, evt, target, this)) {
+					_dispatchEvent(originalTarget, 'filter', target, el, oldIndex);
+					evt.preventDefault();
+					return; // cancel dnd
+				}
+			}
+			else if (filter) {
+				filter = filter.split(',').some(function (criteria) {
+					criteria = _closest(originalTarget, criteria.trim(), el);
+
+					if (criteria) {
+						_dispatchEvent(criteria, 'filter', target, el, oldIndex);
+						return true;
+					}
+				});
+
+				if (filter) {
+					evt.preventDefault();
+					return; // cancel dnd
+				}
+			}
+
+
+			if (options.handle && !_closest(originalTarget, options.handle, el)) {
+				return;
+			}
+
+
+			// Prepare `dragstart`
+			if (target && !dragEl && (target.parentNode === el)) {
+				tapEvt = evt;
+
+				rootEl = this.el;
+				dragEl = target;
+				nextEl = dragEl.nextSibling;
+				activeGroup = this.options.group;
+
+				dragEl.draggable = true;
+
+				// Disable "draggable"
+				options.ignore.split(',').forEach(function (criteria) {
+					_find(target, criteria.trim(), _disableDraggable);
+				});
+
+				if (touch) {
+					// Touch device support
+					tapEvt = {
+						target: target,
+						clientX: touch.clientX,
+						clientY: touch.clientY
+					};
+
+					this._onDragStart(tapEvt, 'touch');
+					evt.preventDefault();
+				}
+
+				_on(document, 'mouseup', this._onDrop);
+				_on(document, 'touchend', this._onDrop);
+				_on(document, 'touchcancel', this._onDrop);
+
+				_on(dragEl, 'dragend', this);
+				_on(rootEl, 'dragstart', this._onDragStart);
+
+				if (!supportDraggable) {
+					this._onDragStart(tapEvt, true);
+				}
+
+				try {
+					if (document.selection) {
+						document.selection.empty();
+					} else {
+						window.getSelection().removeAllRanges();
+					}
+				} catch (err) {
+				}
+			}
+		},
+
+		_emulateDragOver: function () {
+			if (touchEvt) {
+				_css(ghostEl, 'display', 'none');
+
+				var target = document.elementFromPoint(touchEvt.clientX, touchEvt.clientY),
+					parent = target,
+					groupName = ' ' + this.options.group.name + '',
+					i = touchDragOverListeners.length;
+
+				if (parent) {
+					do {
+						if (parent[expando] && parent[expando].groups.indexOf(groupName) > -1) {
+							while (i--) {
+								touchDragOverListeners[i]({
+									clientX: touchEvt.clientX,
+									clientY: touchEvt.clientY,
+									target: target,
+									rootEl: parent
+								});
+							}
+
+							break;
+						}
+
+						target = parent; // store last element
+					}
+					/* jshint boss:true */
+					while (parent = parent.parentNode);
+				}
+
+				_css(ghostEl, 'display', '');
+			}
+		},
+
+
+		_onTouchMove: function (/**TouchEvent*/evt) {
+			if (tapEvt) {
+				var touch = evt.touches ? evt.touches[0] : evt,
+					dx = touch.clientX - tapEvt.clientX,
+					dy = touch.clientY - tapEvt.clientY,
+					translate3d = evt.touches ? 'translate3d(' + dx + 'px,' + dy + 'px,0)' : 'translate(' + dx + 'px,' + dy + 'px)';
+
+				touchEvt = touch;
+
+				_css(ghostEl, 'webkitTransform', translate3d);
+				_css(ghostEl, 'mozTransform', translate3d);
+				_css(ghostEl, 'msTransform', translate3d);
+				_css(ghostEl, 'transform', translate3d);
+
+				evt.preventDefault();
+			}
+		},
+
+
+		_onDragStart: function (/**Event*/evt, /**boolean*/useFallback) {
+			var dataTransfer = evt.dataTransfer,
+				options = this.options;
+
+			this._offUpEvents();
+
+			if (activeGroup.pull == 'clone') {
+				cloneEl = dragEl.cloneNode(true);
+				_css(cloneEl, 'display', 'none');
+				rootEl.insertBefore(cloneEl, dragEl);
+			}
+
+			if (useFallback) {
+				var rect = dragEl.getBoundingClientRect(),
+					css = _css(dragEl),
+					ghostRect;
+
+				ghostEl = dragEl.cloneNode(true);
+
+				_css(ghostEl, 'top', rect.top - parseInt(css.marginTop, 10));
+				_css(ghostEl, 'left', rect.left - parseInt(css.marginLeft, 10));
+				_css(ghostEl, 'width', rect.width);
+				_css(ghostEl, 'height', rect.height);
+				_css(ghostEl, 'opacity', '0.8');
+				_css(ghostEl, 'position', 'fixed');
+				_css(ghostEl, 'zIndex', '100000');
+
+				rootEl.appendChild(ghostEl);
+
+				// Fixing dimensions.
+				ghostRect = ghostEl.getBoundingClientRect();
+				_css(ghostEl, 'width', rect.width * 2 - ghostRect.width);
+				_css(ghostEl, 'height', rect.height * 2 - ghostRect.height);
+
+				if (useFallback === 'touch') {
+					// Bind touch events
+					_on(document, 'touchmove', this._onTouchMove);
+					_on(document, 'touchend', this._onDrop);
+					_on(document, 'touchcancel', this._onDrop);
+				} else {
+					// Old brwoser
+					_on(document, 'mousemove', this._onTouchMove);
+					_on(document, 'mouseup', this._onDrop);
+				}
+
+				this._loopId = setInterval(this._emulateDragOver, 150);
+			}
+			else {
+				if (dataTransfer) {
+					dataTransfer.effectAllowed = 'move';
+					options.setData && options.setData.call(this, dataTransfer, dragEl);
+				}
+
+				_on(document, 'drop', this);
+			}
+
+			setTimeout(this._dragStarted, 0);
+		},
+
+		_onDragOver: function (/**Event*/evt) {
+			var el = this.el,
+				target,
+				dragRect,
+				revert,
+				options = this.options,
+				group = options.group,
+				groupPut = group.put,
+				isOwner = (activeGroup === group),
+				canSort = options.sort;
+
+			if (!dragEl) {
+				return;
+			}
+
+			if (evt.preventDefault !== void 0) {
+				evt.preventDefault();
+				!options.dragoverBubble && evt.stopPropagation();
+			}
+
+			if (activeGroup && !options.disabled &&
+				(isOwner
+					? canSort || (revert = !rootEl.contains(dragEl))
+					: activeGroup.pull && groupPut && (
+						(activeGroup.name === group.name) || // by Name
+						(groupPut.indexOf && ~groupPut.indexOf(activeGroup.name)) // by Array
+					)
+				) &&
+				(evt.rootEl === void 0 || evt.rootEl === this.el)
+			) {
+				// Smart auto-scrolling
+				_autoScroll(evt, options, this.el);
+
+				if (_silent) {
+					return;
+				}
+
+				target = _closest(evt.target, options.draggable, el);
+				dragRect = dragEl.getBoundingClientRect();
+
+
+				if (revert) {
+					_cloneHide(true);
+
+					if (cloneEl || nextEl) {
+						rootEl.insertBefore(dragEl, cloneEl || nextEl);
+					}
+					else if (!canSort) {
+						rootEl.appendChild(dragEl);
+					}
+
+					return;
+				}
+
+
+				if ((el.children.length === 0) || (el.children[0] === ghostEl) ||
+					(el === evt.target) && (target = _ghostInBottom(el, evt))
+				) {
+					if (target) {
+						if (target.animated) {
+							return;
+						}
+						targetRect = target.getBoundingClientRect();
+					}
+
+					_cloneHide(isOwner);
+
+					el.appendChild(dragEl);
+					this._animate(dragRect, dragEl);
+					target && this._animate(targetRect, target);
+				}
+				else if (target && !target.animated && target !== dragEl && (target.parentNode[expando] !== void 0)) {
+					if (lastEl !== target) {
+						lastEl = target;
+						lastCSS = _css(target);
+					}
+
+
+					var targetRect = target.getBoundingClientRect(),
+						width = targetRect.right - targetRect.left,
+						height = targetRect.bottom - targetRect.top,
+						floating = /left|right|inline/.test(lastCSS.cssFloat + lastCSS.display),
+						isWide = (target.offsetWidth > dragEl.offsetWidth),
+						isLong = (target.offsetHeight > dragEl.offsetHeight),
+						halfway = (floating ? (evt.clientX - targetRect.left) / width : (evt.clientY - targetRect.top) / height) > 0.5,
+						nextSibling = target.nextElementSibling,
+						after
+					;
+
+					_silent = true;
+					setTimeout(_unsilent, 30);
+
+					_cloneHide(isOwner);
+
+					if (floating) {
+						after = (target.previousElementSibling === dragEl) && !isWide || halfway && isWide;
+					} else {
+						after = (nextSibling !== dragEl) && !isLong || halfway && isLong;
+					}
+
+					if (after && !nextSibling) {
+						el.appendChild(dragEl);
+					} else {
+						target.parentNode.insertBefore(dragEl, after ? nextSibling : target);
+					}
+
+					this._animate(dragRect, dragEl);
+					this._animate(targetRect, target);
+				}
+			}
+		},
+
+		_animate: function (prevRect, target) {
+			var ms = this.options.animation;
+
+			if (ms) {
+				var currentRect = target.getBoundingClientRect();
+
+				_css(target, 'transition', 'none');
+				_css(target, 'transform', 'translate3d('
+					+ (prevRect.left - currentRect.left) + 'px,'
+					+ (prevRect.top - currentRect.top) + 'px,0)'
+				);
+
+				target.offsetWidth; // repaint
+
+				_css(target, 'transition', 'all ' + ms + 'ms');
+				_css(target, 'transform', 'translate3d(0,0,0)');
+
+				clearTimeout(target.animated);
+				target.animated = setTimeout(function () {
+					_css(target, 'transition', '');
+					_css(target, 'transform', '');
+					target.animated = false;
+				}, ms);
+			}
+		},
+
+		_offUpEvents: function () {
+			_off(document, 'mouseup', this._onDrop);
+			_off(document, 'touchmove', this._onTouchMove);
+			_off(document, 'touchend', this._onDrop);
+			_off(document, 'touchcancel', this._onDrop);
+		},
+
+		_onDrop: function (/**Event*/evt) {
+			var el = this.el,
+				options = this.options;
+
+			clearInterval(this._loopId);
+			clearInterval(autoScroll.pid);
+
+			// Unbind events
+			_off(document, 'drop', this);
+			_off(document, 'mousemove', this._onTouchMove);
+			_off(el, 'dragstart', this._onDragStart);
+
+			this._offUpEvents();
+
+			if (evt) {
+				evt.preventDefault();
+				!options.dropBubble && evt.stopPropagation();
+
+				ghostEl && ghostEl.parentNode.removeChild(ghostEl);
+
+				if (dragEl) {
+					_off(dragEl, 'dragend', this);
+
+					_disableDraggable(dragEl);
+					_toggleClass(dragEl, this.options.ghostClass, false);
+
+					if (rootEl !== dragEl.parentNode) {
+						newIndex = _index(dragEl);
+
+						// drag from one list and drop into another
+						_dispatchEvent(dragEl.parentNode, 'sort', dragEl, rootEl, oldIndex, newIndex);
+						_dispatchEvent(rootEl, 'sort', dragEl, rootEl, oldIndex, newIndex);
+
+						// Add event
+						_dispatchEvent(dragEl, 'add', dragEl, rootEl, oldIndex, newIndex);
+
+						// Remove event
+						_dispatchEvent(rootEl, 'remove', dragEl, rootEl, oldIndex, newIndex);
+					}
+					else {
+						// Remove clone
+						cloneEl && cloneEl.parentNode.removeChild(cloneEl);
+
+						if (dragEl.nextSibling !== nextEl) {
+							// Get the index of the dragged element within its parent
+							newIndex = _index(dragEl);
+
+							// drag & drop within the same list
+							_dispatchEvent(rootEl, 'update', dragEl, rootEl, oldIndex, newIndex);
+							_dispatchEvent(rootEl, 'sort', dragEl, rootEl, oldIndex, newIndex);
+						}
+					}
+
+					// Drag end event
+					Sortable.active && _dispatchEvent(rootEl, 'end', dragEl, rootEl, oldIndex, newIndex);
+				}
+
+				// Nulling
+				rootEl =
+				dragEl =
+				ghostEl =
+				nextEl =
+				cloneEl =
+
+				scrollEl =
+				scrollParentEl =
+
+				tapEvt =
+				touchEvt =
+
+				lastEl =
+				lastCSS =
+
+				activeGroup =
+				Sortable.active = null;
+
+				// Save sorting
+				this.save();
+			}
+		},
+
+
+		handleEvent: function (/**Event*/evt) {
+			var type = evt.type;
+
+			if (type === 'dragover' || type === 'dragenter') {
+				this._onDragOver(evt);
+				_globalDragOver(evt);
+			}
+			else if (type === 'drop' || type === 'dragend') {
+				this._onDrop(evt);
+			}
+		},
+
+
+		/**
+		 * Serializes the item into an array of string.
+		 * @returns {String[]}
+		 */
+		toArray: function () {
+			var order = [],
+				el,
+				children = this.el.children,
+				i = 0,
+				n = children.length;
+
+			for (; i < n; i++) {
+				el = children[i];
+				if (_closest(el, this.options.draggable, this.el)) {
+					order.push(el.getAttribute('data-id') || _generateId(el));
+				}
+			}
+
+			return order;
+		},
+
+
+		/**
+		 * Sorts the elements according to the array.
+		 * @param  {String[]}  order  order of the items
+		 */
+		sort: function (order) {
+			var items = {}, rootEl = this.el;
+
+			this.toArray().forEach(function (id, i) {
+				var el = rootEl.children[i];
+
+				if (_closest(el, this.options.draggable, rootEl)) {
+					items[id] = el;
+				}
+			}, this);
+
+			order.forEach(function (id) {
+				if (items[id]) {
+					rootEl.removeChild(items[id]);
+					rootEl.appendChild(items[id]);
+				}
+			});
+		},
+
+
+		/**
+		 * Save the current sorting
+		 */
+		save: function () {
+			var store = this.options.store;
+			store && store.set(this);
+		},
+
+
+		/**
+		 * For each element in the set, get the first element that matches the selector by testing the element itself and traversing up through its ancestors in the DOM tree.
+		 * @param   {HTMLElement}  el
+		 * @param   {String}       [selector]  default: `options.draggable`
+		 * @returns {HTMLElement|null}
+		 */
+		closest: function (el, selector) {
+			return _closest(el, selector || this.options.draggable, this.el);
+		},
+
+
+		/**
+		 * Set/get option
+		 * @param   {string} name
+		 * @param   {*}      [value]
+		 * @returns {*}
+		 */
+		option: function (name, value) {
+			var options = this.options;
+
+			if (value === void 0) {
+				return options[name];
+			} else {
+				options[name] = value;
+			}
+		},
+
+
+		/**
+		 * Destroy
+		 */
+		destroy: function () {
+			var el = this.el, options = this.options;
+
+			_customEvents.forEach(function (name) {
+				_off(el, name.substr(2).toLowerCase(), options[name]);
+			});
+
+			_off(el, 'mousedown', this._onTapStart);
+			_off(el, 'touchstart', this._onTapStart);
+
+			_off(el, 'dragover', this);
+			_off(el, 'dragenter', this);
+
+			//remove draggable attributes
+			Array.prototype.forEach.call(el.querySelectorAll('[draggable]'), function (el) {
+				el.removeAttribute('draggable');
+			});
+
+			touchDragOverListeners.splice(touchDragOverListeners.indexOf(this._onDragOver), 1);
+
+			this._onDrop();
+
+			this.el = null;
+		}
+	};
+
+
+	function _cloneHide(state) {
+		if (cloneEl && (cloneEl.state !== state)) {
+			_css(cloneEl, 'display', state ? 'none' : '');
+			!state && cloneEl.state && rootEl.insertBefore(cloneEl, dragEl);
+			cloneEl.state = state;
+		}
+	}
+
+
+	function _bind(ctx, fn) {
+		var args = slice.call(arguments, 2);
+		return	fn.bind ? fn.bind.apply(fn, [ctx].concat(args)) : function () {
+			return fn.apply(ctx, args.concat(slice.call(arguments)));
+		};
+	}
+
+
+	function _closest(/**HTMLElement*/el, /**String*/selector, /**HTMLElement*/ctx) {
+		if (el) {
+			ctx = ctx || document;
+			selector = selector.split('.');
+
+			var tag = selector.shift().toUpperCase(),
+				re = new RegExp('\\s(' + selector.join('|') + ')\\s', 'g');
+
+			do {
+				if (
+					(tag === '>*' && el.parentNode === ctx) || (
+						(tag === '' || el.nodeName.toUpperCase() == tag) &&
+						(!selector.length || ((' ' + el.className + ' ').match(re) || []).length == selector.length)
+					)
+				) {
+					return el;
+				}
+			}
+			while (el !== ctx && (el = el.parentNode));
+		}
+
+		return null;
+	}
+
+
+	function _globalDragOver(/**Event*/evt) {
+		evt.dataTransfer.dropEffect = 'move';
+		evt.preventDefault();
+	}
+
+
+	function _on(el, event, fn) {
+		el.addEventListener(event, fn, false);
+	}
+
+
+	function _off(el, event, fn) {
+		el.removeEventListener(event, fn, false);
+	}
+
+
+	function _toggleClass(el, name, state) {
+		if (el) {
+			if (el.classList) {
+				el.classList[state ? 'add' : 'remove'](name);
+			}
+			else {
+				var className = (' ' + el.className + ' ').replace(/\s+/g, ' ').replace(' ' + name + ' ', '');
+				el.className = className + (state ? ' ' + name : '');
+			}
+		}
+	}
+
+
+	function _css(el, prop, val) {
+		var style = el && el.style;
+
+		if (style) {
+			if (val === void 0) {
+				if (document.defaultView && document.defaultView.getComputedStyle) {
+					val = document.defaultView.getComputedStyle(el, '');
+				}
+				else if (el.currentStyle) {
+					val = el.currentStyle;
+				}
+
+				return prop === void 0 ? val : val[prop];
+			}
+			else {
+				if (!(prop in style)) {
+					prop = '-webkit-' + prop;
+				}
+
+				style[prop] = val + (typeof val === 'string' ? '' : 'px');
+			}
+		}
+	}
+
+
+	function _find(ctx, tagName, iterator) {
+		if (ctx) {
+			var list = ctx.getElementsByTagName(tagName), i = 0, n = list.length;
+
+			if (iterator) {
+				for (; i < n; i++) {
+					iterator(list[i], i);
+				}
+			}
+
+			return list;
+		}
+
+		return [];
+	}
+
+
+	function _disableDraggable(el) {
+		el.draggable = false;
+	}
+
+
+	function _unsilent() {
+		_silent = false;
+	}
+
+
+	/** @returns {HTMLElement|false} */
+	function _ghostInBottom(el, evt) {
+		var lastEl = el.lastElementChild, rect = lastEl.getBoundingClientRect();
+		return (evt.clientY - (rect.top + rect.height) > 5) && lastEl; // min delta
+	}
+
+
+	/**
+	 * Generate id
+	 * @param   {HTMLElement} el
+	 * @returns {String}
+	 * @private
+	 */
+	function _generateId(el) {
+		var str = el.tagName + el.className + el.src + el.href + el.textContent,
+			i = str.length,
+			sum = 0;
+
+		while (i--) {
+			sum += str.charCodeAt(i);
+		}
+
+		return sum.toString(36);
+	}
+
+	/**
+	 * Returns the index of an element within its parent
+	 * @param el
+	 * @returns {number}
+	 * @private
+	 */
+	function _index(/**HTMLElement*/el) {
+		var index = 0;
+		while (el && (el = el.previousElementSibling)) {
+			if (el.nodeName.toUpperCase() !== 'TEMPLATE') {
+				index++;
+			}
+		}
+		return index;
+	}
+
+	function _throttle(callback, ms) {
+		var args, _this;
+
+		return function () {
+			if (args === void 0) {
+				args = arguments;
+				_this = this;
+
+				setTimeout(function () {
+					if (args.length === 1) {
+						callback.call(_this, args[0]);
+					} else {
+						callback.apply(_this, args);
+					}
+
+					args = void 0;
+				}, ms);
+			}
+		};
+	}
+
+
+	// Export utils
+	Sortable.utils = {
+		on: _on,
+		off: _off,
+		css: _css,
+		find: _find,
+		bind: _bind,
+		is: function (el, selector) {
+			return !!_closest(el, selector, el);
+		},
+		throttle: _throttle,
+		closest: _closest,
+		toggleClass: _toggleClass,
+		dispatchEvent: _dispatchEvent,
+		index: _index
+	};
+
+
+	Sortable.version = '1.1.1';
+
+
+	/**
+	 * Create sortable instance
+	 * @param {HTMLElement}  el
+	 * @param {Object}      [options]
+	 */
+	Sortable.create = function (el, options) {
+		return new Sortable(el, options);
+	};
+
+	// Export
+	return Sortable;
+});
+;/**
  * @license
  * lodash 3.1.0 (Custom Build) <https://lodash.com/>
  * Build: `lodash modern exports="amd,commonjs,node" iife="angular.module('ngLodash', []).constant('lodash', null).config(function ($provide) { %output% $provide.constant('lodash', _);});" --output build/ng-lodash.js`
@@ -26637,19 +27872,19 @@ for (var key in angularFileUpload) {
   );
 
 
-  $templateCache.put('templates/tinkSortableTable.html',
-    " <div class=bar> <div class=bar-section>  <div class=bar-section-right> <button class=btn-pop-over tink-popover tink-popover-group=option-table tink-popover-template=templates/tinkTableShift.html>Kolommen <i class=\"fa fa-caret-down\"></i></button> </div> </div> </div>  <table></table> <div data-ng-if=\"viewActions && selectedCheck === true\"> <button tink-popover tink-popover-template=templates/tinkTableAction.html>Actions</button> </div> <div class=table-sort-options data-ng-if=\"itemLength > 0\"> <div class=table-sort-info> <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}} <div class=select> <select data-ng-change=setItems() data-ng-model=perPage> <option data-ng-repeat=\"items in itemsPerPage\" data-ng-bind=items>{{items}}</option> </select> items per pagina </div> </div> <div class=table-sort-pagination data-ng-if=\"pages > 1\"> <ul class=pagination> <li class=prev data-ng-class=\"{disabled:pageSelected===1}\" data-ng-click=setPrev()><a href=\"\"><span>Vorige</span></a></li> <li data-ng-class=\"{active:pageSelected===1}\" data-ng-click=setFirst()><a href=\"\">1</a></li> <li data-ng-repeat=\"pag in showNums track by $index\" data-ng-class=\"{active:pag===pageSelected}\" data-ng-click=setPage(pag)><a href=\"\" data-ng-if=\"pag !== -1\">{{pag}}</a> <span data-ng-show=\"pag === -1\">...<span></span></span></li> <li class=next data-ng-click=setNext() data-ng-class=\"{disabled:pageSelected===pages}\"><a href=\"\"><span>Volgende</span></a></li> </ul> </div> </div> <br> <br>"
+  $templateCache.put('templates/tinkInteractiveTable.html',
+    " <div class=bar> <div class=bar-section>  <ul class=bar-section-right> <li> <button data-ng-if=\"viewActions && selectedCheck\" tink-popover tink-popover-group=option-table tink-popover-template=templates/tinkTableAction.html>Acties <i class=\"fa fa-caret-down\"></i></button> </li> <li> <button tink-popover tink-popover-group=option-table tink-popover-template=templates/tinkTableShift.html>Kolommen <i class=\"fa fa-caret-down\"></i></button> </li> </ul> </div> </div>  <table></table> <div class=table-sort-options data-ng-if=\"itemLength > 0\"> <div class=table-sort-info> <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}} <div class=select> <select data-ng-change=setItems() data-ng-model=perPage> <option data-ng-repeat=\"items in itemsPerPage\" data-ng-bind=items>{{items}}</option> </select> items per pagina </div> </div> <div class=table-sort-pagination data-ng-if=\"pages > 1\"> <ul class=pagination> <li class=prev data-ng-class=\"{disabled:pageSelected===1}\" data-ng-click=setPrev()><a href=\"\"><span>Vorige</span></a></li> <li data-ng-class=\"{active:pageSelected===1}\" data-ng-click=setFirst()><a href=\"\">1</a></li> <li data-ng-repeat=\"pag in showNums track by $index\" data-ng-class=\"{active:pag===pageSelected}\" data-ng-click=setPage(pag)><a href=\"\" data-ng-if=\"pag !== -1\">{{pag}}</a> <span data-ng-show=\"pag === -1\">...<span></span></span></li> <li class=next data-ng-click=setNext() data-ng-class=\"{disabled:pageSelected===pages}\"><a href=\"\"><span>Volgende</span></a></li> </ul> </div> </div>"
   );
 
 
   $templateCache.put('templates/tinkTableAction.html',
-    "<button ng-repeat=\"action in viewActions\" ng-click=action.callback()>{{action.name}}</button>"
+    "<ul class=\"popover-list-buttons ng-scope\"> <li data-ng-repeat=\"action in viewActions\"><a href=\"\" data-ng-click=action.callback()>{{action.name}}</a></li> </ul>"
   );
 
 
   $templateCache.put('templates/tinkTableShift.html',
-    "<div class=table-interactive-options>  <div class=table-interactive-sort> <button class=btn-borderless ng-disabled=\"selected<1\" ng-click=omhoog()><i class=\"fa fa-arrow-up\"> </i></button>\n" +
-    "<button class=btn-borderless ng-disabled=\"selected<0 || selected === selectedMax\" ng-click=omlaag()><i class=\"fa fa-arrow-down\"></i></button> </div>  <ul class=\"table-interactive-cols clearfix\"> <li ng-repeat=\"header in viewer | filter:{ visible: true }\"> <div class=\"checkbox is-selectable is-draggable\" ng-class=\"{selected:selected===$index}\"> <input type=checkbox ng-model=header.checked ng-change=headerChange() id={{header.alias}} name={{header.alias}} value={{header.alias}} checked> <label for={{header.alias}}><span ng-class=\"{selected:selected===$index}\" ng-click=select($event,$index)>{{header.alias}}</span></label> </div> </li> </ul> <div class=table-interactive-sort>  <button class=btn-xs ng-click=close()>Sluiten</button> </div> </div>"
+    "<div class=table-interactive-options tink-shift-sort>  <div class=table-interactive-sort> <button class=btn-borderless ng-disabled=\"selected<1\" ng-click=omhoog()><i class=\"fa fa-arrow-up\"> </i></button>\n" +
+    "<button class=btn-borderless ng-disabled=\"selected<0 || selected === selectedMax\" ng-click=omlaag()><i class=\"fa fa-arrow-down\"></i></button> </div>  <ul ng-model=viewer class=table-interactive-cols> <li ng-repeat=\"header in viewer | filter:{ visible: true }\"> <div class=\"checkbox is-selectable is-draggable\" ng-class=\"{selected:selected===$index}\"> <input type=checkbox ng-model=header.checked ng-change=headerChange() id={{header.alias}} name={{header.alias}} value={{header.alias}} checked> <label for={{header.alias}}><span class=draggable-elem ng-class=\"{selected:selected===$index}\" ng-click=select($event,$index)>{{header.alias}}</span></label> </div> </li> </ul> <div class=table-interactive-sort>  <button class=btn-xs ng-click=close()>Sluiten</button> </div> </div>"
   );
 
 

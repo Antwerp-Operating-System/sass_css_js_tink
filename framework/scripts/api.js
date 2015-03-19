@@ -351,11 +351,11 @@
 
 		};
 		var openMenu = function(){
-			$(options.toggleMenu).toggleClass(options.toggleClass);
+			$(options.toggleMenu).addClass(options.toggleClass);
 		};
 
 		var closeMenu = function(){
-			$(options.toggleMenu).toggleClass(options.toggleClass);
+			$(options.toggleMenu).removeClass(options.toggleClass);
 		};
 
 		var calculateTop = function(){

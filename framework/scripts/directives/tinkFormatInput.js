@@ -241,7 +241,7 @@
   }
 };
 }])
-  .controller('tinkFormatController',function($scope){
+  .controller('tinkFormatController',function(){
 
     var self = this;
     var config;
@@ -263,7 +263,8 @@
       config = self.config;
       format = config.format;
       placeholder = config.placeholder;
-      $scope.placeholder = placeholder;
+      //$scope.placeholder = valueToHtml(placeholder);
+      self.setValue(placeholder);
       newVa = placeholder;
       self.element.bind('keydown', function(event) {
         keyDowned = self.getValue();
