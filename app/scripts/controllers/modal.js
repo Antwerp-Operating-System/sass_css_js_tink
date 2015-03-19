@@ -28,10 +28,10 @@ angular.module('tinkFramework.controllers')
     });
   };
 
-  scope.lose = function(){
+  scope.close = function(){
     console.log('close called');
   };
-  scope.ismissed = function(){
+  scope.dismissed = function(){
     console.log('dismissed called');
   };
 }]);

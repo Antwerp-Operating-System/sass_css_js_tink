@@ -2,18 +2,27 @@
   <h1>Popover</h1>
   <hr>
 
-<script type="text/ng-template" id="popContent.html">
+  <div class="row">
+    <div class="col-xs-12">
+      <script type="text/ng-template" id="popContent.html">
         <h1>This is pop 1</h1>
-    </script>
+      </script>
+    </div>
+    <div class="col-xs-12">
+      <p>
+        <button popover-placement="left" tink-popover tink-popover-group="g1"  tink-popover-template="popContent.html">top</button>
+      </p>
+    </div>
+    <div class="col-xs-12">
+      <p>
+        <button popover-placement="left" tink-popover tink-popover-group="g1" tink-popover-template="views/modal-template.html">top</button>
+      </p>
+    </div>
+    <div class="col-xs-12">
+    </div>
 
-
-<br/><br/><br/><br/><br/><br/>
-      <hr/>
-      <button popover-placement="left" tink-popover class="pull-left" tink-popover-group="g1"  tink-popover-template="popContent.html">top</button><hr/>
-      <button popover-placement="left" tink-popover class="pull-left" tink-popover-group="g1" tink-popover-template="views/modal-template.html">top</button>
-
-      <hr>
-      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+  </div>
+  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
   <section class="panel">
     <header class="panel-heading">
