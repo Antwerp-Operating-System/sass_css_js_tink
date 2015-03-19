@@ -82,24 +82,29 @@ scope.extraOptions = {date:{isPrivate:true},formName:'lalaForm'};
     console.log(scope.userForm.dubbel);
   };
   scope.addData = function(){
-    scope.data.push({name:'AAAAAAAa',achternaam:'AZERTY',adress:'BIMBAM STREER'});
+    scope.data.push({name:'First name',achternaam:'Last name',adress:'Generaal Armstrongweg 1, 2020 Antwerp'});
   };
   scope.changeData = function(){
-    scope.data[0].name = 'AUWJEEASS';
+    scope.data[0].name = 'Edited name';
   };
 
-  scope.actions = [{name:'remove',callback:function(items,uncheck){
-    console.log(scope.data.indexOf(items[0]));
-    //scope.data[scope.data.indexOf(items[0])]._checked = false;
-    uncheck();
-    angular.forEach(items,function(val){
-      scope.data.splice(scope.data.indexOf(val),1);
-    });
+  scope.actions = [
+    {
+      name: 'Rij verwijderen',
+      callback: function(items,uncheck){
+        console.log(scope.data.indexOf(items[0]));
+        //scope.data[scope.data.indexOf(items[0])]._checked = false;
+        uncheck();
+        angular.forEach(items,function(val){
+          scope.data.splice(scope.data.indexOf(val),1);
+        });
+        console.log(items);
+        //console.log(scope.data.indexOf(items[0]))
+        //uncheck();
+      }
+    }
+  ];
 
-    console.log(items);
-    //console.log(scope.data.indexOf(items[0]))
-    //uncheck();
-  }}];
 
 
 }]);

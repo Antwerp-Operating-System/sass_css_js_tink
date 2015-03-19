@@ -508,15 +508,17 @@ html {
 .back-to-top {
   background-color: $back-top-top-bgcolor;
   border: none;
-  bottom: rem(16);
+  // bottom: rem(16);
+  bottom: rem(-44); // 16 - 60
   color: $back-top-top-color;
   line-height: 0;
   opacity: 0;
   padding: rem(15 12 17);
   position: fixed;
   right: rem(16);
-  transform: translate(0, rem(60));
-  transition: background $animation-speed linear, opacity $animation-speed linear, transform $animation-speed linear;
+  // See third issue here why we don't use transform anymore: http://caniuse.com/#feat=transforms2d
+  // transform: translate(0, rem(60));
+  transition: background $animation-speed linear, opacity $animation-speed linear, bottom $animation-speed linear;
   z-index: layer("above-pseudo");
 
   &:after {
@@ -534,8 +536,9 @@ html {
   }
 
   &.is-visible {
+    bottom: rem(16);
     opacity: 1;
-    transform: translate(0, 0);
+    // transform: translate(0, 0);
   }
 
   span {

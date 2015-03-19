@@ -1,1 +1,3 @@
-<button ng-repeat='action in viewActions' ng-click="action.callback()">{{action.name}}</button>
+<ul class="popover-list-buttons ng-scope">
+  <li data-ng-repeat="action in viewActions"><a href="" data-ng-click="action.callback()">{{action.name}}</a></li>
+</ul>

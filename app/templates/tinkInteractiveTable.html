@@ -1,41 +1,31 @@
 <!-- Top information bar for table -->
 
-  <!-- <div class="top table-sort-info">
-    <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}}
-  </div>
-  <button class="btn-pop-over pull-right" tink-popover tink-popover-group="option-table" tink-popover-template="templates/tinkTableShift.html">Kolommen</button> -->
-
-<!-- <div class="row margin-bottom">
-  <div class="col-xs-6">
-    <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}}
-  </div>
-  <div class="text-right">
-    <button class="btn-pop-over" tink-popover tink-popover-group="option-table" tink-popover-template="templates/tinkTableShift.html">Kolommen</button>
-  </div>
-</div> -->
 <div class="bar">
   <div class="bar-section">
     <!-- <div class="bar-section-left">
       <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}}
     </div> -->
-    <div class="bar-section-right">
-      <button class="btn-pop-over" tink-popover tink-popover-group="option-table" tink-popover-template="templates/tinkTableShift.html">Kolommen <i class="fa fa-caret-down"></i></button>
-    </div>
+    <ul class="bar-section-right">
+      <li>
+        <button data-ng-if="viewActions && selectedCheck" tink-popover tink-popover-group="option-table" tink-popover-template="templates/tinkTableAction.html">Acties <i class="fa fa-caret-down"></i></button>
+      </li>
+      <li>
+        <button tink-popover tink-popover-group="option-table" tink-popover-template="templates/tinkTableShift.html">Kolommen <i class="fa fa-caret-down"></i></button>
+      </li>
+    </ul>
   </div>
 </div>
+
 
 <!-- placeholder for table -->
 <table></table>
 
-<div data-ng-if="viewActions && selectedCheck === true">
-  <button tink-popover tink-popover-template="templates/tinkTableAction.html">Actions</button>
-</div>
 
 <div class="table-sort-options" data-ng-if="itemLength > 0">
   <div class="table-sort-info">
     <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}}
     <div class="select">
-      <select data-ng-Change='setItems()' data-ng-model='perPage'>
+      <select data-ng-change="setItems()" data-ng-model="perPage">
         <option data-ng-repeat="items in itemsPerPage" data-ng-bind="items">{{items}}</option>
       </select> items per pagina
     </div>
@@ -49,10 +39,3 @@
     </ul>
   </div>
 </div>
-
-
-
-<br />
-<br />
-
-
