@@ -39,6 +39,7 @@ body {
   font-family: $font-family-base;
   font-size: rem($font-size-base);
   line-height: $line-height-base;
+  height: 100vh; // Fix for iOS bug where navigation would be chopped off when there isn't enough body content
 }
 
 
