@@ -147,7 +147,7 @@ html {
       }
     }
 
-    li {
+    > li {
       float: left;
       height: rem($nav-top-height);
       line-height: rem($nav-top-height);
@@ -206,11 +206,11 @@ html {
   }
 
   &-section-left {
-    margin-left: rem($bar-padding / 2);
+    margin-left: rem($bar-padding);
   }
 
   &-section-right {
-    margin-right: rem($bar-padding / 2);
+    margin-right: rem($bar-padding);
   }
 }
 

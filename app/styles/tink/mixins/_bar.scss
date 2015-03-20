@@ -45,7 +45,15 @@
       height: 100%;
       line-height: rem($height);
       margin: 0;
-      padding: rem(0 $padding / 2);
+      padding: rem(0 ($padding / 2));
+
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        padding-right: 0;
+      }
 
       .link {
         color: $link-color;
