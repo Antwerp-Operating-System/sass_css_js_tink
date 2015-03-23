@@ -35,7 +35,7 @@
   <div class="table-sort-info">
     <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}}
     <div class="select">
-      <select data-ng-Change='setItems()' data-ng-model='perPage'>
+      <select data-ng-Change='setItems()' data-ng-model='perPage.pages'>
         <option data-ng-repeat="items in itemsPerPage" data-ng-bind="items">{{items}}</option>
       </select> items per pagina
     </div>
