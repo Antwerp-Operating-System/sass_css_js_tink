@@ -1,7 +1,7 @@
 'use strict';
 angular.module('tink.accordion', []);
 angular.module('tink.accordion')
-.directive('tinkAccordion',['tinkApi',function (tinkApi) {
+.directive('tinkAccordionGroup',['tinkApi',function (tinkApi) {
   return {
     restrict:'EA',
     controller:'TinkAccordionController',
@@ -28,9 +28,9 @@ angular.module('tink.accordion')
     }
   };
 }])
-.directive('tinkAccordionGroup', function() {
+.directive('tinkAccordion', function() {
   return {
-    require:'^tinkAccordion',         // We need this directive to be inside an accordion
+    require:'^tinkAccordionGroup',         // We need this directive to be inside an accordion
     restrict:'EA',
     transclude:true,              // It transcludes the contents of the directive into the template
     replace: true,                // The element containing the directive will be replaced with the template
