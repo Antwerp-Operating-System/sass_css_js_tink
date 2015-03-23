@@ -302,7 +302,7 @@
         setTimeout(function(){
           setCursor(firstCh());
         },10);     
-      })
+      });
 
       self.element.bind('paste', function (e) {
           var cursor = getCaretSelection();
@@ -403,7 +403,6 @@
     }
 
     function firstCh(){
-      console.log(format,newVa)
       for(var i=0;i<newVa.length;i++){
         if(newVa.length === format.length){
           if(format[i] === '0'){
