@@ -298,6 +298,12 @@
         }, 1);
       });
 
+      self.element.bind('focus',function(){
+        setTimeout(function(){
+          setCursor(firstCh());
+        },10);     
+      })
+
       self.element.bind('paste', function (e) {
           var cursor = getCaretSelection();
           e.preventDefault();
@@ -393,6 +399,23 @@
       } else {
         newVa = newVa.replaceRange(cursor.start, cursor.end, placeholder);
         self.setValue(newVa,cursor.start);
+      }
+    }
+
+    function firstCh(){
+      console.log(format,newVa)
+      for(var i=0;i<newVa.length;i++){
+        if(newVa.length === format.length){
+          if(format[i] === '0'){
+            if(newVa[i] >-1 && newVa[i] < 10){
+
+            }else{
+              return i;
+            }
+          }
+        }else{
+          return 0;
+        }
       }
     }
 
