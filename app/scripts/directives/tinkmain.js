@@ -18,5 +18,6 @@ angular.module('tink', [
 		'angularFileUpload',
 		'tink.interactiveTable',
 		'tink.modal',
-		'tink.backtotop'
+		'tink.backtotop',
+		'ngLodash'
 	]);
