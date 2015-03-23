@@ -30,15 +30,13 @@ angular.module('tink.accordion')
 }])
 .directive('tinkAccordion', function() {
   return {
-    require:'^tinkAccordionGroup',         // We need this directive to be inside an accordion
+    require:'^tinkAccordionGroup',         // We need this directive to be inside an accordion group
     restrict:'EA',
     transclude:true,              // It transcludes the contents of the directive into the template
     replace: true,                // The element containing the directive will be replaced with the template
-    templateUrl:'templates/tinkAccordionGroup.html',
+    templateUrl:'templates/tinkAccordion.html',
     scope: {
       heading: '@',               // Interpolate the heading attribute onto this scope
-      isOpen: '=?',
-      isDisabled: '=?',
       onclick:'=?',
       isCollapsed:'='
     },
