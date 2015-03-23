@@ -11,7 +11,7 @@
   <p class="upload-file-change" data-ng-if="message.hold">De vorige file werd vervangen. <a data-ng-mouseup="undo($event)">Ongedaan maken.</a></p>
 
   <ul class="upload-files">
-    <li data-ng-repeat="file in files track by $index" data-ng-class="{'success': !file.error && file.getProgress() === 100, 'error': file.error}">
+    <li data-ng-repeat="file in files" data-ng-class="{'success': !file.error && file.getProgress() === 100, 'error': file.error}">
       <span class="upload-filename">{{file.getFileName()}}</span>
 
       <span class="upload-fileoptions">
