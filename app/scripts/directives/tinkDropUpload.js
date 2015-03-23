@@ -203,12 +203,12 @@ angular.module('tink.dropupload')
                       file.upload(scope.sendOptions).then(function() {
                         //file is uploaded
                         //add the uploaded file to the ngModel
-                      }, function error() {
-                        //file is not uploaded
-                        if(!file.error){
-                          file.error = {};
-                        }
-                        file.error.fail = true;
+                      }, function error(file) {
+                          //file is not uploaded
+                          if(!file.error){
+                            file.error = {};
+                          }
+                          file.error.fail = true;
                       }, function update() {
                         //Notification of upload
                       });
