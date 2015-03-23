@@ -239,11 +239,11 @@ angular.module('tink.dropupload')
               scope.files[index].remove();
 
               if(config.multiple){
-                _.pull(scope.ngModel, scope.files[0]);
+                //_.pull(scope.ngModel, scope.files[index]);
               }else{
                 scope.ngModel.length = 0;
               }
-                _.pull(scope.ngModel, scope.files[0]);
+                _.pull(scope.ngModel, scope.files[index]);
             };
 
             function checkFileType(file){
