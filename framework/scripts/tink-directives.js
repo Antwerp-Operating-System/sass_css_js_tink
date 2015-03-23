@@ -1,7 +1,7 @@
 'use strict';
 angular.module('tink.accordion', []);
 angular.module('tink.accordion')
-.directive('tinkAccordionGroup',['tinkApi',function (tinkApi) {
+.directive('tinkAccordion',['tinkApi',function (tinkApi) {
   return {
     restrict:'EA',
     controller:'TinkAccordionController',
@@ -11,7 +11,7 @@ angular.module('tink.accordion')
       startOpen:'=',
       oneAtATime:'='
     },
-    template: '<div class="panel-group" ng-transclude></div>',
+    template: '<div class="accordion" ng-transclude></div>',
     link:function(scope,element, attrs, accordionCtrl){
       var options = {};
       angular.forEach(['oneAtATime','startOpen'], function(key) {
@@ -28,13 +28,13 @@ angular.module('tink.accordion')
     }
   };
 }])
-.directive('tinkAccordion', function() {
+.directive('tinkAccordionPanel', function() {
   return {
-    require:'^tinkAccordionGroup',         // We need this directive to be inside an accordion group
+    require:'^tinkAccordion',         // We need this directive to be inside an accordion group
     restrict:'EA',
     transclude:true,              // It transcludes the contents of the directive into the template
     replace: true,                // The element containing the directive will be replaced with the template
-    templateUrl:'templates/tinkAccordion.html',
+    templateUrl:'templates/tinkAccordionPanel.html',
     scope: {
       heading: '@',               // Interpolate the heading attribute onto this scope
       onclick:'=?',
@@ -4435,7 +4435,8 @@ angular.module('tink', [
 		'angularFileUpload',
 		'tink.interactiveTable',
 		'tink.modal',
-		'tink.backtotop'
+		'tink.backtotop',
+		'ngLodash'
 	]);
 ; 'use strict';
  angular.module('tink.tinkApi', []);
@@ -27864,7 +27865,7 @@ for (var key in angularFileUpload) {
 ;angular.module('tink.templates', []).run(['$templateCache', function($templateCache) {
   'use strict';
 
-  $templateCache.put('templates/tinkAccordion.html',
+  $templateCache.put('templates/tinkAccordionPanel.html',
     "<section class=accordion-panel> <a href class=accordion-toggle ng-click=toggleOpen()> <div class=accordion-panel-heading> <h4 class=panel-title> <span>{{heading}}</span> </h4> </div> </a> <div class=accordion-panel-body> <div class=accordion-loaded-content ng-transclude> <p>DOM content comes here</p> </div> </div> </section>"
   );
 
