@@ -17,11 +17,6 @@ angular.module('tink.backtotop', [])
         var offset = 300,
           scrollTopDuration = 200;
 
-        // var offset = (scope.offset !== undefined || parseInt(scope.offset) !== isNaN()) ? parseInt(scope.offset) : 300;
-        if(scope.offset !== undefined || parseInt(scope.offset) !== isNaN()) {
-          offset = parseInt(scope.offset);
-        }
-
         // Hide or show the "back to top" link
         function checkVisibility(checkThis) {
           if(checkThis.scrollTop() >= offset) {
@@ -33,6 +28,12 @@ angular.module('tink.backtotop', [])
 
         // Do this on load
         function initialize() {
+          // var offset = (!isNaN(parseInt(scope.offset))) ? parseInt(scope.offset) : 300;
+          if(!isNaN(parseInt(scope.offset))) {
+            offset = parseInt(scope.offset);
+          }
+
+          // check whether the button should be visible on load
           checkVisibility($(element));
         }
 
