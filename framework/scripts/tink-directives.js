@@ -11,7 +11,7 @@ angular.module('tink.accordion')
       startOpen:'=',
       oneAtATime:'='
     },
-    template: '<div class="panel-group" ng-transclude></div>',
+    template: '<div class="accordion" ng-transclude></div>',
     link:function(scope,element, attrs, accordionCtrl){
       var options = {};
       angular.forEach(['oneAtATime','startOpen'], function(key) {
@@ -28,17 +28,15 @@ angular.module('tink.accordion')
     }
   };
 }])
-.directive('tinkAccordionGroup', function() {
+.directive('tinkAccordionPanel', function() {
   return {
-    require:'^tinkAccordion',         // We need this directive to be inside an accordion
+    require:'^tinkAccordion',         // We need this directive to be inside an accordion group
     restrict:'EA',
     transclude:true,              // It transcludes the contents of the directive into the template
     replace: true,                // The element containing the directive will be replaced with the template
-    templateUrl:'templates/tinkAccordionGroup.html',
+    templateUrl:'templates/tinkAccordionPanel.html',
     scope: {
       heading: '@',               // Interpolate the heading attribute onto this scope
-      isOpen: '=?',
-      isDisabled: '=?',
       onclick:'=?',
       isCollapsed:'='
     },
@@ -221,11 +219,6 @@ angular.module('tink.backtotop', [])
         var offset = 300,
           scrollTopDuration = 200;
 
-        // var offset = (scope.offset !== undefined || parseInt(scope.offset) !== isNaN()) ? parseInt(scope.offset) : 300;
-        if(scope.offset !== undefined || parseInt(scope.offset) !== isNaN()) {
-          offset = parseInt(scope.offset);
-        }
-
         // Hide or show the "back to top" link
         function checkVisibility(checkThis) {
           if(checkThis.scrollTop() >= offset) {
@@ -237,6 +230,12 @@ angular.module('tink.backtotop', [])
 
         // Do this on load
         function initialize() {
+          // var offset = (!isNaN(parseInt(scope.offset))) ? parseInt(scope.offset) : 300;
+          if(!isNaN(parseInt(scope.offset))) {
+            offset = parseInt(scope.offset);
+          }
+
+          // check whether the button should be visible on load
           checkVisibility($(element));
         }
 
@@ -469,15 +468,18 @@ angular.module('tink.datepicker', [])
           if($directive.mode === 1){
             scope.title = dateCalculator.format($directive.viewDate, 'yyyy');
             scope.rows =  calView.monthInRows($directive.viewDate,scope.minDate,scope.maxDate);
+            scope.showLabels = 0;
           }
           if($directive.mode === 0){
             scope.title = dateCalculator.format($directive.viewDate, options.yearTitleFormat);
             scope.rows =  calView.daysInRows($directive.viewDate,$directive.selectedDate,scope.minDate,scope.maxDate);
+            scope.showLabels = 1;
           }
           if($directive.mode === 2){
             var currentYear = parseInt(dateCalculator.format($directive.viewDate, 'yyyy'));
             scope.title = (currentYear-11) +'-'+ currentYear;
             scope.rows = calView.yearInRows($directive.viewDate,scope.minDate,scope.maxDate);
+            scope.showLabels = 0;
             //setMode(1);
           }
       };
@@ -551,7 +553,8 @@ angular.module('tink.datepicker', [])
       };
     }
   };
-}]);;'use strict';
+}]);
+;'use strict';
     angular.module('tink.datepickerRange', ['tink.dateHelper','tink.safeApply'])
     .directive('tinkDatepickerRange',['$q', '$templateCache', '$http', 'calView', '$sce','$compile','dateCalculator','$window','safeApply', function ($q, $templateCache, $http, calView, $sce,$compile,dateCalculator,$window,safeApply) {
       return {
@@ -1427,12 +1430,12 @@ angular.module('tink.dropupload')
                       file.upload(scope.sendOptions).then(function() {
                         //file is uploaded
                         //add the uploaded file to the ngModel
-                      }, function error() {
-                        //file is not uploaded
-                        if(!file.error){
-                          file.error = {};
-                        }
-                        file.error.fail = true;
+                      }, function error(file) {
+                          //file is not uploaded
+                          if(!file.error){
+                            file.error = {};
+                          }
+                          file.error.fail = true;
                       }, function update() {
                         //Notification of upload
                       });
@@ -1463,11 +1466,11 @@ angular.module('tink.dropupload')
               scope.files[index].remove();
 
               if(config.multiple){
-                _.pull(scope.ngModel, scope.files[0]);
+                //_.pull(scope.ngModel, scope.files[index]);
               }else{
                 scope.ngModel.length = 0;
               }
-                _.pull(scope.ngModel, scope.files[0]);
+                _.pull(scope.ngModel, scope.files[index]);
             };
 
             function checkFileType(file){
@@ -1838,6 +1841,12 @@ angular.module('tink.dropupload')
         }, 1);
       });
 
+      self.element.bind('focus',function(){
+        setTimeout(function(){
+          setCursor(firstCh());
+        },10);     
+      });
+
       self.element.bind('paste', function (e) {
           var cursor = getCaretSelection();
           e.preventDefault();
@@ -1933,6 +1942,22 @@ angular.module('tink.dropupload')
       } else {
         newVa = newVa.replaceRange(cursor.start, cursor.end, placeholder);
         self.setValue(newVa,cursor.start);
+      }
+    }
+
+    function firstCh(){
+      for(var i=0;i<newVa.length;i++){
+        if(newVa.length === format.length){
+          if(format[i] === '0'){
+            if(newVa[i] >-1 && newVa[i] < 10){
+
+            }else{
+              return i;
+            }
+          }
+        }else{
+          return 0;
+        }
       }
     }
 
@@ -2128,7 +2153,7 @@ angular.module('tink.interactiveTable')
         for(var j=0;j<items.length;j++){
           if(items[j].slice(-1) === '*'){
             var num = _.parseInt(items[j].substr(0,items[j].length-1));
-            scope.perPage = num;
+            scope.perPage = {pages:num};
             scope.itemsPerPage.push(num);
           }else{
             scope.itemsPerPage.push(_.parseInt(items[j]));
@@ -2136,11 +2161,11 @@ angular.module('tink.interactiveTable')
         }
 
         if(!scope.perPage && scope.itemsPerPage.length !==0){
-          scope.perPage = _.parseInt(items[0]);
+          scope.perPage = {pages:_.parseInt(items[0])};
         }
 
       }else{
-        scope.perPage = _.parseInt(10);
+        scope.perPage = {pages:10};
         scope.itemsPerPage = [10,20,50];
       }
       //which sorting is happening
@@ -2384,7 +2409,7 @@ angular.module('tink.interactiveTable')
         }
       }
 
-      aantalToShow = scope.perPage;
+      aantalToShow = scope.perPage.pages;
       pages = Math.ceil(scope.ngModel.length/aantalToShow);
       scope.pages = _.range(1,pages);
 
@@ -2392,7 +2417,7 @@ angular.module('tink.interactiveTable')
       scope.buildTable = function(){
         var table = document.createElement('table');
         setHeader(table,scope.headers);
-        aantalToShow = scope.perPage;
+        aantalToShow = scope.perPage.pages;
         pages = Math.ceil(scope.ngModel.length/aantalToShow);
         scope.pages = pages;
 
@@ -4410,7 +4435,8 @@ angular.module('tink', [
 		'angularFileUpload',
 		'tink.interactiveTable',
 		'tink.modal',
-		'tink.backtotop'
+		'tink.backtotop',
+		'ngLodash'
 	]);
 ; 'use strict';
  angular.module('tink.tinkApi', []);
@@ -27839,8 +27865,8 @@ for (var key in angularFileUpload) {
 ;angular.module('tink.templates', []).run(['$templateCache', function($templateCache) {
   'use strict';
 
-  $templateCache.put('templates/tinkAccordionGroup.html',
-    "<section class=accordion-panel> <a href class=accordion-toggle ng-click=toggleOpen()> <div class=accordion-panel-heading> <i class=\"fa fa-th-large\"></i> <h4 class=panel-title> <span>{{heading}}</span> </h4> </div> </a> <div class=accordion-panel-body> <div class=accordion-loaded-content ng-transclude> <p>New DOM content comes here</p> </div> </div> </section>"
+  $templateCache.put('templates/tinkAccordionPanel.html',
+    "<section class=accordion-panel> <a href class=accordion-toggle ng-click=toggleOpen()> <div class=accordion-panel-heading> <h4 class=panel-title> <span>{{heading}}</span> </h4> </div> </a> <div class=accordion-panel-body> <div class=accordion-loaded-content ng-transclude> <p>DOM content comes here</p> </div> </div> </section>"
   );
 
 
@@ -27850,7 +27876,7 @@ for (var key in angularFileUpload) {
 
 
   $templateCache.put('templates/tinkDatePickerField.html',
-    "<div class=\"dropdown-menu datepicker\" ng-class=\"'datepicker-mode-' + $mode\"> <table style=\"table-layout: fixed; height: 100%; width: 100%\"> <thead> <tr class=text-center> <th> <button tabindex=-1 type=button ng-disabled=pane.prev class=\"btn pull-left\" ng-click=$selectPane(-1)> <i class=\"fa fa-chevron-left\"></i> </button> </th> <th colspan=\"{{ rows[0].length - 2 }}\"> <button tabindex=-1 type=button class=\"btn btn-block text-strong\" ng-click=$toggleMode()> <strong style=\"text-transform: capitalize\" ng-bind=title></strong> </button> </th> <th> <button tabindex=-1 type=button ng-disabled=pane.next class=\"btn pull-right\" ng-click=$selectPane(+1)> <i class=\"fa fa-chevron-right\"></i> </button> </th> </tr> <tr class=datepicker-days ng-bind-html=labels></tr> </thead> <tbody> <tr ng-repeat=\"(i, row) in rows\" height=\"{{ 100 / rows.length }}%\"> <td class=text-center ng-repeat=\"(j, el) in row\"> <button tabindex=-1 type=button class=btn style=\"width: 100%\" ng-class=\"{'btn-selected': el.selected, 'btn-today': el.isToday && !el.elected}\" ng-click=$select(el.date) ng-disabled=el.disabled> <span ng-class=\"{'text-muted': el.muted}\" ng-bind=el.label></span> </button> </td> </tr> </tbody> </table> </div>"
+    "<div class=\"dropdown-menu datepicker\" ng-class=\"'datepicker-mode-' + $mode\"> <table style=\"table-layout: fixed; height: 100%; width: 100%\"> <thead> <tr class=text-center> <th> <button tabindex=-1 type=button ng-disabled=pane.prev class=\"btn pull-left\" ng-click=$selectPane(-1)> <i class=\"fa fa-chevron-left\"></i> </button> </th> <th colspan=\"{{ rows[0].length - 2 }}\"> <button tabindex=-1 type=button class=\"btn btn-block text-strong\" ng-click=$toggleMode()> <strong style=\"text-transform: capitalize\" ng-bind=title></strong> </button> </th> <th> <button tabindex=-1 type=button ng-disabled=pane.next class=\"btn pull-right\" ng-click=$selectPane(+1)> <i class=\"fa fa-chevron-right\"></i> </button> </th> </tr> <tr class=datepicker-days ng-bind-html=labels ng-if=showLabels></tr> </thead> <tbody> <tr ng-repeat=\"(i, row) in rows\" height=\"{{ 100 / rows.length }}%\"> <td class=text-center ng-repeat=\"(j, el) in row\"> <button tabindex=-1 type=button class=btn style=\"width: 100%\" ng-class=\"{'btn-selected': el.selected, 'btn-today': el.isToday && !el.elected}\" ng-click=$select(el.date) ng-disabled=el.disabled> <span ng-class=\"{'text-muted': el.muted}\" ng-bind=el.label></span> </button> </td> </tr> </tbody> </table> </div>"
   );
 
 
@@ -27873,7 +27899,7 @@ for (var key in angularFileUpload) {
 
 
   $templateCache.put('templates/tinkInteractiveTable.html',
-    " <div class=bar> <div class=bar-section>  <ul class=bar-section-right> <li> <button data-ng-if=\"viewActions && selectedCheck\" tink-popover tink-popover-group=option-table tink-popover-template=templates/tinkTableAction.html>Acties <i class=\"fa fa-caret-down\"></i></button> </li> <li> <button tink-popover tink-popover-group=option-table tink-popover-template=templates/tinkTableShift.html>Kolommen <i class=\"fa fa-caret-down\"></i></button> </li> </ul> </div> </div>  <table></table> <div class=table-sort-options data-ng-if=\"itemLength > 0\"> <div class=table-sort-info> <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}} <div class=select> <select data-ng-change=setItems() data-ng-model=perPage> <option data-ng-repeat=\"items in itemsPerPage\" data-ng-bind=items>{{items}}</option> </select> items per pagina </div> </div> <div class=table-sort-pagination data-ng-if=\"pages > 1\"> <ul class=pagination> <li class=prev data-ng-class=\"{disabled:pageSelected===1}\" data-ng-click=setPrev()><a href=\"\"><span>Vorige</span></a></li> <li data-ng-class=\"{active:pageSelected===1}\" data-ng-click=setFirst()><a href=\"\">1</a></li> <li data-ng-repeat=\"pag in showNums track by $index\" data-ng-class=\"{active:pag===pageSelected}\" data-ng-click=setPage(pag)><a href=\"\" data-ng-if=\"pag !== -1\">{{pag}}</a> <span data-ng-show=\"pag === -1\">...<span></span></span></li> <li class=next data-ng-click=setNext() data-ng-class=\"{disabled:pageSelected===pages}\"><a href=\"\"><span>Volgende</span></a></li> </ul> </div> </div>"
+    " <div class=bar> <div class=bar-section>  <ul class=bar-section-right> <li> <button data-ng-if=\"viewActions && selectedCheck\" tink-popover tink-popover-group=option-table tink-popover-template=templates/tinkTableAction.html>Acties <i class=\"fa fa-caret-down\"></i></button> </li> <li> <button tink-popover tink-popover-group=option-table tink-popover-template=templates/tinkTableShift.html>Kolommen <i class=\"fa fa-caret-down\"></i></button> </li> </ul> </div> </div>  <table></table> <div class=table-sort-options data-ng-if=\"itemLength > 0\"> <div class=table-sort-info> <strong>{{numFirst}} - {{numLast}}</strong> van {{itemLength}} <div class=select> <select data-ng-change=setItems() data-ng-model=perPage.pages> <option data-ng-repeat=\"items in itemsPerPage\" data-ng-bind=items>{{items}}</option> </select> items per pagina </div> </div> <div class=table-sort-pagination data-ng-if=\"pages > 1\"> <ul class=pagination> <li class=prev data-ng-class=\"{disabled:pageSelected===1}\" data-ng-click=setPrev()><a href=\"\"><span>Vorige</span></a></li> <li data-ng-class=\"{active:pageSelected===1}\" data-ng-click=setFirst()><a href=\"\">1</a></li> <li data-ng-repeat=\"pag in showNums track by $index\" data-ng-class=\"{active:pag===pageSelected}\" data-ng-click=setPage(pag)><a href=\"\" data-ng-if=\"pag !== -1\">{{pag}}</a> <span data-ng-show=\"pag === -1\">...<span></span></span></li> <li class=next data-ng-click=setNext() data-ng-class=\"{disabled:pageSelected===pages}\"><a href=\"\"><span>Volgende</span></a></li> </ul> </div> </div>"
   );
 
 
@@ -27891,7 +27917,7 @@ for (var key in angularFileUpload) {
   $templateCache.put('templates/tinkUpload.html',
     "<div class=upload> <div class=upload-zone> <div data-ng-mouseup=browseFiles($event)> <strong translate>Sleep hier een bestand</strong> <span translate>of klik om te bladeren</span>\n" +
     "<input data-ng-if=multiple class=upload-file-input name={{fieldName}} type=file data-ng-file-select=onFileSelect($files) multiple>\n" +
-    "<input data-ng-if=!multiple class=upload-file-input name={{fieldName}} type=file data-ng-file-select=\"onFileSelect($files)\"> </div> <span class=help-block data-ng-transclude>Toegelaten bestanden: jpg, gif, png, pdf. Maximum grootte: 2MB</span> </div> <p class=upload-file-change data-ng-if=message.hold>De vorige file werd vervangen. <a data-ng-mouseup=undo($event)>Ongedaan maken.</a></p> <ul class=upload-files> <li data-ng-repeat=\"file in files track by $index\" data-ng-class=\"{'success': !file.error && file.getProgress() === 100, 'error': file.error}\"> <span class=upload-filename>{{file.getFileName()}}</span>\n" +
+    "<input data-ng-if=!multiple class=upload-file-input name={{fieldName}} type=file data-ng-file-select=\"onFileSelect($files)\"> </div> <span class=help-block data-ng-transclude>Toegelaten bestanden: jpg, gif, png, pdf. Maximum grootte: 2MB</span> </div> <p class=upload-file-change data-ng-if=message.hold>De vorige file werd vervangen. <a data-ng-mouseup=undo($event)>Ongedaan maken.</a></p> <ul class=upload-files> <li data-ng-repeat=\"file in files\" data-ng-class=\"{'success': !file.error && file.getProgress() === 100, 'error': file.error}\"> <span class=upload-filename>{{file.getFileName()}}</span>\n" +
     "<span class=upload-fileoptions> <button class=upload-btn-delete data-ng-click=del($index) data-ng-if=\"file.getProgress() === 100 || file.error\"><span class=sr-only>Verwijder</span></button>\n" +
     "<span class=upload-feedback data-ng-if=\"!file.error && file.getProgress() !== 100\">{{file.getProgress()}}%</span> </span>\n" +
     "<span class=upload-error data-ng-if=file.error> <span data-ng-if=file.error.type>Dit bestandstype is niet toegelaten.</span>\n" +

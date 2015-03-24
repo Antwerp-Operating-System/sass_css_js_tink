@@ -63,7 +63,7 @@ angular.module('tink.interactiveTable')
         for(var j=0;j<items.length;j++){
           if(items[j].slice(-1) === '*'){
             var num = _.parseInt(items[j].substr(0,items[j].length-1));
-            scope.perPage = num;
+            scope.perPage = {pages:num};
             scope.itemsPerPage.push(num);
           }else{
             scope.itemsPerPage.push(_.parseInt(items[j]));
@@ -71,11 +71,11 @@ angular.module('tink.interactiveTable')
         }
 
         if(!scope.perPage && scope.itemsPerPage.length !==0){
-          scope.perPage = _.parseInt(items[0]);
+          scope.perPage = {pages:_.parseInt(items[0])};
         }
 
       }else{
-        scope.perPage = _.parseInt(10);
+        scope.perPage = {pages:10};
         scope.itemsPerPage = [10,20,50];
       }
       //which sorting is happening
@@ -319,7 +319,7 @@ angular.module('tink.interactiveTable')
         }
       }
 
-      aantalToShow = scope.perPage;
+      aantalToShow = scope.perPage.pages;
       pages = Math.ceil(scope.ngModel.length/aantalToShow);
       scope.pages = _.range(1,pages);
 
@@ -327,7 +327,7 @@ angular.module('tink.interactiveTable')
       scope.buildTable = function(){
         var table = document.createElement('table');
         setHeader(table,scope.headers);
-        aantalToShow = scope.perPage;
+        aantalToShow = scope.perPage.pages;
         pages = Math.ceil(scope.ngModel.length/aantalToShow);
         scope.pages = pages;
 
