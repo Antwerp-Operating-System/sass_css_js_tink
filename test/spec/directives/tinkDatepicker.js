@@ -143,7 +143,7 @@ describe('datepicker', function() {
 
      it('on second click show years',function(){
       var elm = compileDirective('onfocus',{selectedDate:new Date(2015,1,20)});
-      angular.element(elm.find('.datepicker-icon')[0]).triggerHandler('mousedown');;
+      angular.element(elm.find('.datepicker-icon')[0]).triggerHandler('mousedown');
       elm.find('button.btn.btn-block.text-strong strong').trigger('click');
       scope.$digest();
       elm.find('button.btn.btn-block.text-strong strong').trigger('click');
@@ -158,7 +158,7 @@ describe('datepicker', function() {
 
      it('on second click show years',function(){
       var elm = compileDirective('onfocus',{selectedDate:new Date(2015,1,20)});
-      angular.element(elm.find('.datepicker-icon')[0]).triggerHandler('mousedown');;
+      angular.element(elm.find('.datepicker-icon')[0]).triggerHandler('mousedown');
       scope.$digest();
 
       elm.find('button.btn.btn-block.text-strong strong').trigger('click');
