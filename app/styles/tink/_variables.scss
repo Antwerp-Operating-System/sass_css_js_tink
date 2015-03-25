@@ -678,7 +678,7 @@ $pagination-link-disabled-border: lighten($gray-light, 10%) !default;
 $zindex-tooltip:              layer("popover") !default;
 
 //** Tooltip max width
-$tooltip-max-width:           rem(200px) !default;
+$tooltip-max-width:           200px !default;
 //** Tooltip text color
 $tooltip-color:               $gray-darker !default;
 //** Tooltip background color
@@ -713,7 +713,7 @@ $popover-button-background-color:       $nav-aside-item-open-color !default;
 $popover-button-hover-background-color: $nav-aside-link-hover-background-color !default;
 $popover-button-color:                  $nav-aside-link-color !default;
 
-$popover-arrow-offset:                  33 !default;
+$popover-arrow-offset:                  33px !default;
 
 
 /**

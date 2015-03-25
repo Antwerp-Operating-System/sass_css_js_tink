@@ -59,14 +59,14 @@
     &-left {
       @extend .arrow-top;
       &:before, &:after {
-        left: rem( $popover-arrow-offset * 1px);
+        left: rem($popover-arrow-offset);
       }
     }
     &-right {
       @extend .arrow-top;
       &:before, &:after {
         left: auto; //(100 - $popover-arrow-offset) * 1%;
-        right: rem( ( $popover-arrow-offset * 1px) - $popover-arrow-outer-width);
+        right: rem($popover-arrow-offset - $popover-arrow-outer-width);
       }
     }
   }
@@ -93,14 +93,14 @@
     &-left {
       @extend .arrow-bottom;
       &:before, &:after {
-        left: rem( $popover-arrow-offset * 1px);
+        left: rem($popover-arrow-offset);
       }
     }
     &-right {
       @extend .arrow-bottom;
       &:before, &:after {
         left: auto; //(100 - $popover-arrow-offset) * 1%;
-        right: rem( ( $popover-arrow-offset * 1px) - $popover-arrow-outer-width);
+        right: rem($popover-arrow-offset - $popover-arrow-outer-width);
       }
     }
   }
@@ -127,14 +127,14 @@
     &-top {
       @extend .arrow-left;
       &:before, &:after {
-        top: rem( $popover-arrow-offset * 1px);
+        top: rem($popover-arrow-offset);
       }
     }
     &-bottom {
       @extend .arrow-left;
       &:before, &:after {
         top: auto;
-        bottom: rem( ( $popover-arrow-offset * 1px) - $popover-arrow-outer-width);
+        bottom: rem($popover-arrow-offset - $popover-arrow-outer-width);
       }
     }
   }
@@ -161,14 +161,14 @@
     &-top {
       @extend .arrow-right;
       &:before, &:after {
-        top: rem( $popover-arrow-offset * 1px);
+        top: rem($popover-arrow-offset);
       }
     }
     &-bottom {
       @extend .arrow-right;
       &:before, &:after {
         top: auto;
-        bottom: rem( ( $popover-arrow-offset * 1px) - $popover-arrow-outer-width);
+        bottom: rem($popover-arrow-offset - $popover-arrow-outer-width);
       }
     }
   }
