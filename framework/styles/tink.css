@@ -1,5 +1,5 @@
 @import url("//fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic");
-@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css");
+@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
 /**
  * Tink default theme
  */
@@ -1325,7 +1325,12 @@ small, .small {
   font-size: 85%; }
 
 cite {
-  font-style: normal; }
+  font-style: italic; }
+
+mark, .mark {
+  background-color: #fff799;
+  border-radius: 0.21429rem ;
+  padding: 0.07143rem 0.28571rem 0.14286rem ; }
 
 .text-left {
   text-align: left; }
@@ -3217,9 +3222,10 @@ button i {
     border-left: 11px transparent solid;
     border-right: 11px transparent solid; }
   .popover.arrow-top-left:before, .popover.arrow-top-left:after {
-    left: 15%; }
+    left: 2.35714rem ; }
   .popover.arrow-top-right:before, .popover.arrow-top-right:after {
-    left: 85%; }
+    left: auto;
+    right: 1.57143rem ; }
   .popover.arrow-bottom:before, .popover.arrow-bottom-left:before, .popover.arrow-bottom-right:before {
     bottom: -1px;
     left: 50%;
@@ -3237,9 +3243,10 @@ button i {
     border-left: 11px transparent solid;
     border-right: 11px transparent solid; }
   .popover.arrow-bottom-left:before, .popover.arrow-bottom-left:after {
-    left: 15%; }
+    left: 2.35714rem ; }
   .popover.arrow-bottom-right:before, .popover.arrow-bottom-right:after {
-    left: 85%; }
+    left: auto;
+    right: 1.57143rem ; }
   .popover.arrow-left:before, .popover.arrow-left-top:before, .popover.arrow-left-bottom:before {
     left: -1px;
     top: 50%;
@@ -3257,9 +3264,10 @@ button i {
     border-top: 11px transparent solid;
     border-bottom: 11px transparent solid; }
   .popover.arrow-left-top:before, .popover.arrow-left-top:after {
-    top: 15%; }
+    top: 2.35714rem ; }
   .popover.arrow-left-bottom:before, .popover.arrow-left-bottom:after {
-    top: 85%; }
+    top: auto;
+    bottom: 1.57143rem ; }
   .popover.arrow-right:before, .popover.arrow-right-top:before, .popover.arrow-right-bottom:before {
     right: -1px;
     top: 50%;
@@ -3277,9 +3285,10 @@ button i {
     border-top: 11px transparent solid;
     border-bottom: 11px transparent solid; }
   .popover.arrow-right-top:before, .popover.arrow-right-top:after {
-    top: 15%; }
+    top: 2.35714rem ; }
   .popover.arrow-right-bottom:before, .popover.arrow-right-bottom:after {
-    top: 85%; }
+    top: auto;
+    bottom: 1.57143rem ; }
   .popover-header {
     margin: 0.42857rem 0rem 0.85714rem ;
     text-align: center; }
@@ -3316,25 +3325,25 @@ button i {
   visibility: visible;
   z-index: layer("popover"); }
   .tooltip.top {
-    margin-top: -3px;
-    padding: 5px 0; }
+    margin-top: -0.21429rem ;
+    padding: 0.35714rem  0; }
   .tooltip.right {
-    margin-left: 3px;
-    padding: 0 5px; }
+    margin-left: 0.21429rem ;
+    padding: 0 0.35714rem ; }
   .tooltip.bottom {
-    margin-top: 3px;
-    padding: 5px 0; }
+    margin-top: 0.21429rem ;
+    padding: 0.35714rem  0; }
   .tooltip.left {
-    margin-left: -3px;
-    padding: 0 5px; }
+    margin-left: -0.21429rem ;
+    padding: 0 0.35714rem ; }
 
 .tooltip-inner {
   background-color: #fff;
   border-radius: 3px;
   color: #141414;
   font-size: 14px;
-  max-width: rem(200px);
-  padding: 3px 8px;
+  max-width: 14.28571rem ;
+  padding: 0.21429rem 0.57143rem ;
   text-align: center;
   text-decoration: none; }
 
@@ -3346,52 +3355,52 @@ button i {
   width: 0; }
 
 .tooltip.top .tooltip-arrow {
-  border-width: 5px 5px 0;
+  border-width: 0.35714rem  0.35714rem  0;
   border-top-color: #fff;
   bottom: 0;
   left: 50%;
-  margin-left: -5px; }
+  margin-left: -0.35714rem ; }
 .tooltip.top-left .tooltip-arrow {
-  border-width: 5px 5px 0;
+  border-width: 0.35714rem  0.35714rem  0;
   border-top-color: #fff;
   bottom: 0;
-  margin-bottom: -5px;
-  right: 5px; }
+  margin-bottom: -0.35714rem ;
+  right: 0.35714rem ; }
 .tooltip.top-right .tooltip-arrow {
-  border-width: 5px 5px 0;
+  border-width: 0.35714rem  0.35714rem  0;
   border-top-color: #fff;
   bottom: 0;
-  left: 5px;
-  margin-bottom: -5px; }
+  left: 0.35714rem ;
+  margin-bottom: -0.35714rem ; }
 .tooltip.right .tooltip-arrow {
-  border-width: 5px 5px 5px 0;
+  border-width: 0.35714rem  0.35714rem  0.35714rem  0;
   border-right-color: #fff;
   left: 0;
-  margin-top: -5px;
+  margin-top: -0.35714rem ;
   top: 50%; }
 .tooltip.left .tooltip-arrow {
-  border-width: 5px 0 5px 5px;
+  border-width: 0.35714rem  0 0.35714rem  0.35714rem ;
   border-left-color: #fff;
   right: 0;
-  margin-top: -5px;
+  margin-top: -0.35714rem ;
   top: 50%; }
 .tooltip.bottom .tooltip-arrow {
-  border-width: 0 5px 5px;
+  border-width: 0 0.35714rem  0.35714rem ;
   border-bottom-color: #fff;
   left: 50%;
-  margin-left: -5px;
+  margin-left: -0.35714rem ;
   top: 0; }
 .tooltip.bottom-left .tooltip-arrow {
-  border-width: 0 5px 5px;
+  border-width: 0 0.35714rem  0.35714rem ;
   border-bottom-color: #fff;
-  right: 5px;
-  margin-top: -5px;
+  right: 0.35714rem ;
+  margin-top: -0.35714rem ;
   top: 0; }
 .tooltip.bottom-right .tooltip-arrow {
-  border-width: 0 5px 5px;
+  border-width: 0 0.35714rem  0.35714rem ;
   border-bottom-color: #fff;
-  left: 5px;
-  margin-top: -5px;
+  left: 0.35714rem ;
+  margin-top: -0.35714rem ;
   top: 0; }
 
 /**
@@ -3673,7 +3682,8 @@ html {
         display: table-cell;
         vertical-align: middle; }
       .nav-aside-section li a > i {
-        padding: 0.07143rem 0.71429rem 0rem 0rem ; }
+        padding: 0.21429rem 0.71429rem 0rem 0rem ;
+        vertical-align: top; }
     .nav-aside-section li.active a {
       color: #347ea6;
       font-weight: 700; }
