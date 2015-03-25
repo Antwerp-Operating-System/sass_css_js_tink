@@ -2,12 +2,12 @@
 describe('popover', function() {
 
   var bodyEl = $('body'), sandboxEl;
-  var $compile, $templateCache, $animate, dateFilter, scope, today, $timeout,dateCalculator,$window,tinkApi;
+  var $compile, $templateCache, scope,$window;
 
   beforeEach(module('tink'));
 
 
-  beforeEach(inject(function (_$rootScope_, _$compile_, _$templateCache_, _$animate_, _dateFilter_, _$timeout_,_dateCalculator_,_$window_,_tinkApi_) {
+  beforeEach(inject(function (_$rootScope_, _$compile_, _$templateCache_, _$animate_, _dateFilter_, _$timeout_,_dateCalculator_,_$window_) {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $templateCache = _$templateCache_;
@@ -44,7 +44,7 @@ describe('popover', function() {
 
   describe('default', function() {
     it('On start it should be closed',function(){
-      var elm = compileDirective('default');
+      compileDirective('default');
       scope.$digest();
       expect(sandboxEl.find('.popover').length).toBe(0);
     });
