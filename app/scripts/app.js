@@ -31,6 +31,9 @@ angular.module('tinkFramework', [
 				templateUrl: 'views/datepicker.html',
         controller: 'MainCtrl'
 			})
+      .when('/typography', {
+        templateUrl: 'views/typography.html'
+      })
       .when('/forms', {
         templateUrl: 'views/forms.html',
         controller: 'FormsCtrl'

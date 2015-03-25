@@ -35,7 +35,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                 var trigger = 'click';
                 var spacing = 2;
 
-               
+
                 var isOpen = null;
                 if(trigger === 'click'){
                   element.bind('click',function(){
@@ -111,7 +111,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                       el.css('left',-10);
 
                         calcPos(element,el,placement,align,spacing);
-                      
+
 
                       if(attributes.tinkPopoverGroup){
                         $rootScope.$broadcast('popover-open', { group: attributes.tinkPopoverGroup,el:el });
@@ -151,11 +151,11 @@ angular.module('tink.popOver', ['tink.tooltip'])
                   isOpen = null;
                 }
               }
-              
+
                  //The function that will be called to position the tooltip;
             function getPos(el,placement,align,spacing){
 
-            
+
                 var porcent = {right:0.85,left:0.15,top:0.15,bottom:0.85};
                 var arrowHeight = 10;
                 var arrowWidth = 10;
@@ -196,12 +196,12 @@ angular.module('tink.popOver', ['tink.tooltip'])
                       left = element.position().left - ((el.outerWidth(true) / 2)-(element.outerWidth(true)/2));
                     }else if(placement === 'left' || placement === 'right'){
                       top = element.position().top - ((el.outerHeight(true) / 2)-(element.outerHeight(true)/2));
-                    }                    
+                    }
                   }
 
 
                     return {top:top,left:left,place:placement,align:align};
-        
+
             }
 
               function placementCheck(element,popover,place,align){
@@ -332,7 +332,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                     if((el.outerWidth(true) - element.outerWidth(true)) > w2){
                       place = undefined;
                       align = undefined;
-                    }                   
+                    }
                   }else{
                     place = undefined;
                     align = undefined;
@@ -419,7 +419,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                 calcPostInside();
                 $timeout(function(){
                   calcPostInside();
-                },120);                
+                },120);
                 $timeout(function(){el.css('visibility','visible');},220);
               }
 
