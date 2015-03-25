@@ -116,6 +116,25 @@
       }
     }
   }
+
+  .draggable-placeholder > div {
+    opacity: .32;
+    position: relative;
+
+    &:before {
+      background: $white;
+      border: 1px dashed $brand;
+      border-radius: $border-radius-base;
+      bottom: 0;
+      content: "";
+      left: 0;
+      opacity: 1;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 2;
+    }
+  }
 }
 
 .table-interactive-sort {
@@ -144,11 +163,17 @@
 
 .table-interactive-cols {
   @extend .list-unstyled;
+  @extend .clearfix;
   display: block;
   margin: rem(5 0);
   max-height: rem(150);
   overflow: hidden;
   overflow-y: auto;
+  user-select: none;
+
+  li {
+    overflow: hidden;
+  }
 }
 
 button i {

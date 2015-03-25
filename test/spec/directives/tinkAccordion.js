@@ -25,10 +25,10 @@ describe('tinkaccordion', function() {
     'default': {
       scope: {},
       element: '<tink-accordion data-one-at-a-time="false" data-start-open="false">'+
-      '<tink-accordion-group toggle-var="togle" heading="head 1">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group toggle-var="togle" heading="head 2">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group heading="head 3">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group data-onclick="group1go" heading="head 4">'+
+      '<tink-accordion-panel toggle-var="togle" heading="head 1">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel toggle-var="togle" heading="head 2">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel heading="head 3">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel data-onclick="group1go" heading="head 4">'+
       'nu gaan we effe heel veel content plaatsen<br/>'+
       'hier komt dus super veel<br/>'+
       'om dit goed te kunnen testen<br/>'+
@@ -68,16 +68,16 @@ describe('tinkaccordion', function() {
           '</tr>'+
         '</tfoot>'+
       '</table>'+
-      '</tink-accordion-group>'+
+      '</tink-accordion-panel>'+
       '</tink-accordion>'
     },
     'all-open': {
       scope: {},
       element: '<tink-accordion data-one-at-a-time="false" data-start-open="true">'+
-      '<tink-accordion-group toggle-var="togle" heading="head 1">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group toggle-var="togle" heading="head 2">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group heading="head 3">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group data-onclick="group1go" heading="head 4">'+
+      '<tink-accordion-panel toggle-var="togle" heading="head 1">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel toggle-var="togle" heading="head 2">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel heading="head 3">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel data-onclick="group1go" heading="head 4">'+
       'nu gaan we effe heel veel content plaatsen<br/>'+
       'hier komt dus super veel<br/>'+
       'om dit goed te kunnen testen<br/>'+
@@ -117,16 +117,16 @@ describe('tinkaccordion', function() {
           '</tr>'+
         '</tfoot>'+
       '</table>'+
-      '</tink-accordion-group>'+
+      '</tink-accordion-panel>'+
       '</tink-accordion>'
     },
     'all-var': {
       scope: {openStart:true},
       element: '<tink-accordion data-one-at-a-time="false" data-start-open="openStart">'+
-      '<tink-accordion-group data-is-collapsed="group1collapsed" heading="head 1">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group heading="head 2">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group heading="head 3">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group data-onclick="group1go" heading="head 4">'+
+      '<tink-accordion-panel data-is-collapsed="group1collapsed" heading="head 1">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel heading="head 2">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel heading="head 3">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel data-onclick="group1go" heading="head 4">'+
       'nu gaan we effe heel veel content plaatsen<br/>'+
       'hier komt dus super veel<br/>'+
       'om dit goed te kunnen testen<br/>'+
@@ -166,16 +166,16 @@ describe('tinkaccordion', function() {
           '</tr>'+
         '</tfoot>'+
       '</table>'+
-      '</tink-accordion-group>'+
+      '</tink-accordion-panel>'+
       '</tink-accordion>'
     },
     'group1-collapsed-false': {
       scope: {openStart:true},
       element: '<tink-accordion data-one-at-a-time="false" data-start-open="openStart">'+
-      '<tink-accordion-group data-is-collapsed="false" heading="head 1">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group heading="head 2">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group heading="head 3">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group data-onclick="group1go" heading="head 4">'+
+      '<tink-accordion-panel data-is-collapsed="false" heading="head 1">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel heading="head 2">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel heading="head 3">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel data-onclick="group1go" heading="head 4">'+
       'nu gaan we effe heel veel content plaatsen<br/>'+
       'hier komt dus super veel<br/>'+
       'om dit goed te kunnen testen<br/>'+
@@ -215,16 +215,16 @@ describe('tinkaccordion', function() {
           '</tr>'+
         '</tfoot>'+
       '</table>'+
-      '</tink-accordion-group>'+
+      '</tink-accordion-panel>'+
       '</tink-accordion>'
     },
     'group1-collapsed-true': {
       scope: {openStart:true},
       element: '<tink-accordion data-one-at-a-time="false" data-start-open="openStart">'+
-      '<tink-accordion-group data-is-collapsed="true" heading="head 1">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group heading="head 2">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group heading="head 3">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group data-onclick="group1go" heading="head 4">'+
+      '<tink-accordion-panel data-is-collapsed="true" heading="head 1">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel heading="head 2">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel heading="head 3">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel data-onclick="group1go" heading="head 4">'+
       'nu gaan we effe heel veel content plaatsen<br/>'+
       'hier komt dus super veel<br/>'+
       'om dit goed te kunnen testen<br/>'+
@@ -264,16 +264,16 @@ describe('tinkaccordion', function() {
           '</tr>'+
         '</tfoot>'+
       '</table>'+
-      '</tink-accordion-group>'+
+      '</tink-accordion-panel>'+
       '</tink-accordion>'
     },
     'loading-func': {
       scope: {openStart:false},
       element: '<tink-accordion data-one-at-a-time="false" data-start-open="openStart">'+
-      '<tink-accordion-group data-is-collapsed="true" heading="head 1">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group heading="head 2">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group heading="head 3">hier is wat content</tink-accordion-group>'+
-      '<tink-accordion-group data-onclick="group1go" heading="head 4">'+
+      '<tink-accordion-panel data-is-collapsed="true" heading="head 1">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel heading="head 2">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel heading="head 3">hier is wat content</tink-accordion-panel>'+
+      '<tink-accordion-panel data-onclick="group1go" heading="head 4">'+
       'nu gaan we effe heel veel content plaatsen<br/>'+
       'hier komt dus super veel<br/>'+
       'om dit goed te kunnen testen<br/>'+
@@ -313,7 +313,7 @@ describe('tinkaccordion', function() {
           '</tr>'+
         '</tfoot>'+
       '</table>'+
-      '</tink-accordion-group>'+
+      '</tink-accordion-panel>'+
       '</tink-accordion>'
     }
   };

@@ -2,15 +2,46 @@
   <h1>Popover</h1>
   <hr>
 
+  <div class="row">
+    <div class="col-xs-12">
+      <script type="text/ng-template" id="popContent.html">
+        <h1>This is pop 1</h1>
+      </script>
+    </div>
+    <div class="col-xs-12">
+      <p>
+        <button popover-placement="left" tink-popover tink-popover-group="g1"  tink-popover-template="popContent.html">top</button>
+      </p>
+    </div>
+    <div class="col-xs-12">
+      <p>
+        <button popover-placement="left" tink-popover tink-popover-group="g1" tink-popover-template="views/modal-template.html">top</button>
+      </p>
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <p>
+        <button tink-popover="" tink-popover-place="left" tink-popover-align="center" tink-popover-template="popContent.html">Left Popover</button>
+      </p>
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <p>
+        <button tink-popover="" tink-popover-place="top" tink-popover-align="left" tink-popover-template="popContent.html">Top Popover</button>
+      </p>
+    </div>
 
-
-<br/><br/><br/><br/><br/><br/>
-      <hr/>
-      <button popover-placement="left" tink-popover class="pull-left" tink-popover-group="g1"  tink-popover-template="views/modal-template.html">top</button><hr/>
-      <button popover-placement="left" tink-popover class="pull-left" tink-popover-group="g1" tink-popover-template="views/modal-template.html">top</button>
-
-      <hr>
-      <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    <div class="col-xs-12 col-md-3">
+      <p>
+        <button tink-popover="" tink-popover-place="bottom" tink-popover-align="right" tink-popover-template="popContent.html">Bottom Popover</button>
+      </p>
+    </div>
+    <div class="col-xs-12 col-md-3">
+      <p>
+        <button tink-popover="" tink-popover-place="right" tink-popover-align="center" tink-popover-template="popContent.html">Right Popover</button>
+      </p>
+    </div>
+<button tink-popover="" tink-popover-place="top" tink-popover-align="center" tink-popover-template="popContent.html">Top Popover</button>
+  </div>
+  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
   <section class="panel">
     <header class="panel-heading">
@@ -19,7 +50,230 @@
     </header>
     <div class="panel-body">
 
+    left - rem / no pct
+    <div class="row">
+      <div class="col-md-4">
+        <h2>left top</h2>
+        <div class="popover arrow-left-top show">
+          <header class="popover-header">
+            <img class="popover-header-avatar img-circle" src="http://img5.visualizeus.com/thumbs/3f/be/black,and,white,daria,werbowy,fashion,model,photograph,favorites-3fbea166708197bba7506af580bb6046_h.jpg" alt="">
+            <h1 class="popover-header-title">brand spankin new baby</h1>
+          </header>
+            <ul class="popover-list-buttons">
+              <li>
+                <a href=""><span>List Item 01</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 02</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 03</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 04</span></a>
+              </li>
+            </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h2>left (center)</h2>
+        <div class="popover arrow-left show">
+          <header class="popover-header">
+            <img class="popover-header-avatar img-circle" src="http://img5.visualizeus.com/thumbs/3f/be/black,and,white,daria,werbowy,fashion,model,photograph,favorites-3fbea166708197bba7506af580bb6046_h.jpg" alt="">
+            <h1 class="popover-header-title">brand spankin new baby</h1>
+          </header>
+            <ul class="popover-list-buttons">
+              <li>
+                <a href=""><span>List Item 01</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 02</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 03</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 04</span></a>
+              </li>
+            </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h2>left bottom</h2>
+        <div class="popover arrow-left-bottom show">
+          <header class="popover-header">
+            <img class="popover-header-avatar img-circle" src="http://img5.visualizeus.com/thumbs/3f/be/black,and,white,daria,werbowy,fashion,model,photograph,favorites-3fbea166708197bba7506af580bb6046_h.jpg" alt="">
+            <h1 class="popover-header-title">brand spankin new baby</h1>
+          </header>
+            <ul class="popover-list-buttons">
+              <li>
+                <a href=""><span>List Item 01</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 02</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 03</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 04</span></a>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </div>
 
+    <hr>
+
+    bottom - rem / no pct
+    <div class="row">
+      <div class="col-md-4">
+        <h2>bottom left</h2>
+        <div class="popover arrow-bottom-left show">
+          <header class="popover-header">
+            <img class="popover-header-avatar img-circle" src="http://img5.visualizeus.com/thumbs/3f/be/black,and,white,daria,werbowy,fashion,model,photograph,favorites-3fbea166708197bba7506af580bb6046_h.jpg" alt="">
+            <h1 class="popover-header-title">brand spankin new baby</h1>
+          </header>
+            <ul class="popover-list-buttons">
+              <li>
+                <a href=""><span>List Item 01</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 02</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 03</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 04</span></a>
+              </li>
+            </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h2>bottom (center)</h2>
+        <div class="popover arrow-bottom show">
+          <header class="popover-header">
+            <img class="popover-header-avatar img-circle" src="http://img5.visualizeus.com/thumbs/3f/be/black,and,white,daria,werbowy,fashion,model,photograph,favorites-3fbea166708197bba7506af580bb6046_h.jpg" alt="">
+            <h1 class="popover-header-title">brand spankin new baby</h1>
+          </header>
+            <ul class="popover-list-buttons">
+              <li>
+                <a href=""><span>List Item 01</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 02</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 03</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 04</span></a>
+              </li>
+            </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h2>bottom right</h2>
+        <div class="popover arrow-bottom-right show">
+          <header class="popover-header">
+            <img class="popover-header-avatar img-circle" src="http://img5.visualizeus.com/thumbs/3f/be/black,and,white,daria,werbowy,fashion,model,photograph,favorites-3fbea166708197bba7506af580bb6046_h.jpg" alt="">
+            <h1 class="popover-header-title">brand spankin new baby</h1>
+          </header>
+            <ul class="popover-list-buttons">
+              <li>
+                <a href=""><span>List Item 01</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 02</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 03</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 04</span></a>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    top - rem / no pct
+
+    <div class="row">
+      <div class="col-md-4">
+        <h2>top left</h2>
+        <div class="popover arrow-top-left show">
+          <header class="popover-header">
+            <img class="popover-header-avatar img-circle" src="http://img5.visualizeus.com/thumbs/3f/be/black,and,white,daria,werbowy,fashion,model,photograph,favorites-3fbea166708197bba7506af580bb6046_h.jpg" alt="">
+            <h1 class="popover-header-title">brand spankin new baby</h1>
+          </header>
+            <ul class="popover-list-buttons">
+              <li>
+                <a href=""><span>List Item 01</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 02</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 03</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 04</span></a>
+              </li>
+            </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h2>top (center)</h2>
+        <div class="popover arrow-top show">
+          <header class="popover-header">
+            <img class="popover-header-avatar img-circle" src="http://img5.visualizeus.com/thumbs/3f/be/black,and,white,daria,werbowy,fashion,model,photograph,favorites-3fbea166708197bba7506af580bb6046_h.jpg" alt="">
+            <h1 class="popover-header-title">brand spankin new baby</h1>
+          </header>
+            <ul class="popover-list-buttons">
+              <li>
+                <a href=""><span>List Item 01</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 02</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 03</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 04</span></a>
+              </li>
+            </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h2>top right</h2>
+        <div class="popover arrow-top-right show">
+          <header class="popover-header">
+            <img class="popover-header-avatar img-circle" src="http://img5.visualizeus.com/thumbs/3f/be/black,and,white,daria,werbowy,fashion,model,photograph,favorites-3fbea166708197bba7506af580bb6046_h.jpg" alt="">
+            <h1 class="popover-header-title">brand spankin new baby</h1>
+          </header>
+            <ul class="popover-list-buttons">
+              <li>
+                <a href=""><span>List Item 01</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 02</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 03</span></a>
+              </li>
+              <li>
+                <a href=""><span>List Item 04</span></a>
+              </li>
+            </ul>
+        </div>
+      </div>
+    </div>
+
+    <hr>
 
     <div class="row">
       <div class="col-md-6">

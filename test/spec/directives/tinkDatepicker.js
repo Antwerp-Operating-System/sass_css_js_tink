@@ -34,15 +34,15 @@ describe('datepicker', function() {
   var templates = {
     'default': {
       scope: {selectedDate: new Date()},
-      element: '<input type="text" ng-model="selectedDate" data-tink-datepicker>'
+      element: '<data-tink-datepicker data-ng-model="selectedDate" />'
     },
     'onfocus': {
       scope: {selectedDate: new Date()},
-      element: '<input type="text" data-trigger="focus" ng-model="selectedDate" data-tink-datepicker>'
+      element: '<data-tink-datepicker data-ng-model="selectedDate" />'
     },
     'max-min': {
       scope: {selectedDate: new Date(),mindate:null,maxdate:null},
-      element: '<input type="text" data-max-date="maxdate" data-min-date="mindate" data-trigger="focus" ng-model="selectedDate" data-tink-datepicker>'
+      element:  '<data-tink-datepicker required="required" name="datepick" data-max-date="maxdate" data-min-date="mindate" data-ng-model="selectedDate"/>'
     },
 
   };
@@ -62,9 +62,9 @@ describe('datepicker', function() {
 
     it('standart does not open on focus',function(){
       var elm = compileDirective('default');
-      angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
+      angular.element(elm.find('.datepicker-icon')[0]).triggerHandler('mousedown');
       scope.$digest();
-      expect(sandboxEl.find('.datepicker').css('display')).toBe(undefined);
+      expect(sandboxEl.find('.datepicker').css('display')).toBe('block');
     });
 
     it('standart does open on click',function(){
@@ -76,97 +76,99 @@ describe('datepicker', function() {
 
     it('with attribute trigger=focus open on focus',function(){
       var elm = compileDirective('onfocus');
-      angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
+      angular.element(elm.find('.datepicker-icon')[0]).triggerHandler('mousedown');
       scope.$digest();
       expect(sandboxEl.find('.datepicker').css('display')).toBe('block');
     });
 
     it('when open select next month',function(){
       var elm = compileDirective('onfocus',{selectedDate:new Date(2015,1,20)});
-      angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
+      angular.element(elm.find('.datepicker-icon')[0]).triggerHandler('mousedown');
       scope.$digest();
       //go to next month
       for(var i=2; i< 50; i++ ){
         elm.find('button.btn.pull-right').triggerHandler('click');
         scope.$digest();
-        var title = elm.find('button.btn.btn-default.btn-block.text-strong strong');
+        var title = elm.find('button.btn.btn-block.text-strong strong');
         expect(title.html()).toBe(dateCalculator.format(new Date(2015, i, 1), 'MMMM yyyy'));
       }
     });
 
     it('when open select prev month',function(){
       var elm = compileDirective('onfocus',{selectedDate:new Date(2015,1,20)});
-      angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
+      angular.element(elm.find('.datepicker-icon')[0]).triggerHandler('mousedown');
       scope.$digest();
       //go to next month
       for(var i=1; i< 50; i++ ){
         elm.find('button.btn.pull-left').triggerHandler('click');
         scope.$digest();
-        var title = elm.find('button.btn.btn-default.btn-block.text-strong strong');
+        var title = elm.find('button.btn.btn-block.text-strong strong');
         expect(title.html()).toBe(dateCalculator.format(new Date(2015, 1-i, 1), 'MMMM yyyy'));
       }
     });
 
     it('on first click show months',function(){
       var elm = compileDirective('onfocus',{selectedDate:new Date(2015,1,20)});
-      angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
-      elm.find('button.btn.btn-default.btn-block.text-strong strong').trigger('click');
+      angular.element(elm.find('.datepicker-icon')[0]).triggerHandler('mousedown');
+      elm.find('button.btn.btn-block.text-strong strong').trigger('click');
       scope.$digest();
       expect(elm.find('.datepicker button span[ng-bind="el.label"]').length).toBe(12);
     });
 
      it('on first click show months',function(){
       var elm = compileDirective('onfocus',{selectedDate:new Date(2015,1,20)});
-      angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
-      elm.find('button.btn.btn-default.btn-block.text-strong strong').trigger('click');
+      angular.element(elm.find('.datepicker-icon')[0]).triggerHandler('mousedown');
+      elm.find('button.btn.btn-block.text-strong strong').trigger('click');
       scope.$digest();
        for(var i=1; i< 50; i++ ){
         elm.find('button.btn.pull-right').triggerHandler('click');
         scope.$digest();
-        var title = elm.find('button.btn.btn-default.btn-block.text-strong strong');
+        var title = elm.find('button.btn.btn-block.text-strong strong');
         expect(title.html()).toBe((2015+i).toString());
       }
     });
 
      it('on first click show months',function(){
       var elm = compileDirective('onfocus',{selectedDate:new Date(2015,1,20)});
-      angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
-      elm.find('button.btn.btn-default.btn-block.text-strong strong').trigger('click');
+      angular.element(elm.find('.datepicker-icon')[0]).triggerHandler('mousedown');
+      elm.find('button.btn.btn-block.text-strong strong').trigger('click');
       scope.$digest();
        for(var i=1; i< 50; i++ ){
         elm.find('button.btn.pull-left').triggerHandler('click');
         scope.$digest();
-        var title = elm.find('button.btn.btn-default.btn-block.text-strong strong');
+        var title = elm.find('button.btn.btn-block.text-strong strong');
         expect(title.html()).toBe((2015-i).toString());
       }
     });
 
      it('on second click show years',function(){
       var elm = compileDirective('onfocus',{selectedDate:new Date(2015,1,20)});
-      angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
-      elm.find('button.btn.btn-default.btn-block.text-strong strong').trigger('click');
+      angular.element(elm.find('.datepicker-icon')[0]).triggerHandler('mousedown');
+      elm.find('button.btn.btn-block.text-strong strong').trigger('click');
       scope.$digest();
-      elm.find('button.btn.btn-default.btn-block.text-strong strong').trigger('click');
+      elm.find('button.btn.btn-block.text-strong strong').trigger('click');
       scope.$digest();
        for(var i=12; i< 68; i=i+12 ){
         elm.find('button.btn.pull-left').triggerHandler('click');
         scope.$digest();
-        var title = elm.find('button.btn.btn-default.btn-block.text-strong strong');
+        var title = elm.find('button.btn.btn-block.text-strong strong');
         expect(title.html()).toBe((2004-i)+'-'+(2015-i));
       }
     });
 
      it('on second click show years',function(){
       var elm = compileDirective('onfocus',{selectedDate:new Date(2015,1,20)});
-      angular.element(elm.find('div.faux-input')[0]).triggerHandler('focus');
-      elm.find('button.btn.btn-default.btn-block.text-strong strong').trigger('click');
+      angular.element(elm.find('.datepicker-icon')[0]).triggerHandler('mousedown');
       scope.$digest();
-      elm.find('button.btn.btn-default.btn-block.text-strong strong').trigger('click');
+
+      elm.find('button.btn.btn-block.text-strong strong').trigger('click');
+      scope.$digest();
+      elm.find('button.btn.btn-block.text-strong strong').trigger('click');
       scope.$digest();
        for(var i=12; i< 68; i=i+12 ){
         elm.find('button.btn.pull-right').triggerHandler('click');
         scope.$digest();
-        var title = elm.find('button.btn.btn-default.btn-block.text-strong strong');
+        var title = elm.find('button.btn.btn-block.text-strong strong');
         expect(title.html()).toBe((2004+i)+'-'+(2015+i));
       }
     });
@@ -195,7 +197,7 @@ describe('datepicker', function() {
           num +=1;
         }
       });
-      expect(num).toBe(15);
+      expect(num).toBe(16);
     });
 
     it('max date',function(){
@@ -208,7 +210,7 @@ describe('datepicker', function() {
           num +=1;
         }
       });
-      expect(num).toBe(8);
+      expect(num).toBe(9);
     });
 
     it('min max date',function(){
@@ -221,7 +223,7 @@ describe('datepicker', function() {
           num +=1;
         }
       });
-      expect(num).toBe(23);
+      expect(num).toBe(25);
     });
 
     it('min max date',function(){
@@ -236,12 +238,13 @@ describe('datepicker', function() {
       });
       elm.find('button.btn.pull-left').triggerHandler('click');
       scope.$digest();
+
       elm.find('.datepicker button').each(function(){
         if($(this).is(':disabled')){
           num +=1;
         }
       });
-      expect(num).toBe(46);
+      expect(num).toBe(50);
     });
 
     it('min max date',function(){
@@ -261,7 +264,7 @@ describe('datepicker', function() {
           num +=1;
         }
       });
-      expect(num).toBe(46);
+      expect(num).toBe(49);
     });
 
   });

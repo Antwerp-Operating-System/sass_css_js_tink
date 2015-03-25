@@ -241,7 +241,7 @@
   }
 };
 }])
-  .controller('tinkFormatController',function($scope){
+  .controller('tinkFormatController',function(){
 
     var self = this;
     var config;
@@ -263,7 +263,8 @@
       config = self.config;
       format = config.format;
       placeholder = config.placeholder;
-      $scope.placeholder = placeholder;
+      //$scope.placeholder = valueToHtml(placeholder);
+      self.setValue(placeholder);
       newVa = placeholder;
       self.element.bind('keydown', function(event) {
         keyDowned = self.getValue();
@@ -295,6 +296,12 @@
             setCursor(0);
           }
         }, 1);
+      });
+
+      self.element.bind('focus',function(){
+        setTimeout(function(){
+          setCursor(firstCh());
+        },10);     
       });
 
       self.element.bind('paste', function (e) {
@@ -392,6 +399,22 @@
       } else {
         newVa = newVa.replaceRange(cursor.start, cursor.end, placeholder);
         self.setValue(newVa,cursor.start);
+      }
+    }
+
+    function firstCh(){
+      for(var i=0;i<newVa.length;i++){
+        if(newVa.length === format.length){
+          if(format[i] === '0'){
+            if(newVa[i] >-1 && newVa[i] < 10){
+
+            }else{
+              return i;
+            }
+          }
+        }else{
+          return 0;
+        }
       }
     }
 

@@ -5,7 +5,9 @@
  * - top navigation
  * - side navigation:
  *   - left navigation
+ *   - right navigation
  * - bar
+ * - back-to top
  */
 
 
@@ -15,17 +17,33 @@
  * HTML behaviour when side navigation is open
  */
 
-html.nav-left-open {
+html.nav-left-open,
+html.nav-right-open {
 
   body {
     overflow-x: hidden;
   }
+}
+
+html.nav-left-open {
 
   @include mq($screen-sm, "max") {
     .main {
-      transform: translate($nav-aside-width, 0);
+      transform: translate(rem($nav-aside-width), 0);
     }
     .nav-left {
+      transform: translate(0, 0);
+    }
+  }
+}
+
+html.nav-right-open {
+
+  @include mq($screen-sm, "max") {
+    .main {
+      transform: translate(rem(-$nav-aside-width), 0);
+    }
+    .nav-right {
       transform: translate(0, 0);
     }
   }
@@ -39,35 +57,36 @@ html.nav-left-open {
  * so we need to 'fix' the body's padding
  */
 
-body {
-  padding-top: rem($nav-top-height);
+html {
+  &.has-nav-left {
+    .main {
+      @include mq($screen-sm) {
+        padding-left: rem($nav-aside-width);
+      }
+    }
+  }
 
-  // If the nav-top for some reason needs to scroll with the page
+  &.has-nav-right {
+    .main {
+      @include mq($screen-sm) {
+        padding-right: rem($nav-aside-width);
+      }
+    }
+  }
+
+  /**
+   * If the nav-top for some reason needs to scroll with the page
+   */
   &.has-relative-nav-top {
-    padding-top: 0;
-
     .nav-top {
       position: relative;
     }
   }
-
-  &.reset-padding {
-    padding-top: 0;
-
-    .main {
-      @include mq($screen-sm) {
-        padding-left: 0;
-      }
-    }
-  }
 }
+
 
 .main {
   transition: opacity ($animation-speed * 2) linear, padding $animation-speed linear, transform $animation-speed linear;
-
-  @include mq($screen-sm) {
-    padding-left: rem($nav-aside-width);
-  }
 
   /**
    * ng-animate classes
@@ -95,6 +114,7 @@ body {
 
 .nav-top {
   @include bar($nav-top-height, $nav-top-bg-color, $nav-top-color, $nav-top-link-color, $nav-top-link-hover-color, $nav-top-link-bg-hover-color, $nav-top-padding);
+  left: 0;
   position: fixed;
   top: 0;
   transition: height $animation-speed linear;
@@ -127,7 +147,7 @@ body {
       }
     }
 
-    li {
+    > li {
       float: left;
       height: rem($nav-top-height);
       line-height: rem($nav-top-height);
@@ -186,11 +206,11 @@ body {
   }
 
   &-section-left {
-    margin-left: rem($bar-padding / 2);
+    margin-left: rem($bar-padding);
   }
 
   &-section-right {
-    margin-right: rem($bar-padding / 2);
+    margin-right: rem($bar-padding);
   }
 }
 
@@ -308,7 +328,8 @@ body {
         }
 
         > i {
-          padding: rem(1 10 0 0);
+          padding: rem(3 10 0 0);
+          vertical-align: top;
         }
       }
 
@@ -439,7 +460,6 @@ body {
 .nav-left {
   left: 0;
   transform: translate(rem(-$nav-aside-width), 0);
-  transition: transform $animation-speed linear;
 
   @include mq($screen-sm) {
     transform: translate(0, 0);
@@ -454,8 +474,75 @@ body {
 
 
 /**
+ * Right navigation
+ * (add-on for .nav-aside)
+ */
+
+.nav-right {
+  right: 0;
+  transform: translate(rem($nav-aside-width), 0);
+
+  @include mq($screen-sm) {
+    transform: translate(0, 0);
+  }
+
+  &:before {
+    left: 0;
+  }
+}
+
+
+
+
+/**
  * Bar
  */
 .bar {
   @include bar($nav-top-height, transparent, $bar-color);
+}
+
+
+
+/**
+ * Back to top
+ */
+.back-to-top {
+  background-color: $back-top-top-bgcolor;
+  border: none;
+  // bottom: rem(16);
+  bottom: rem(-44); // 16 - 60
+  color: $back-top-top-color;
+  line-height: 0;
+  opacity: 0;
+  padding: rem(15 12 17);
+  position: fixed;
+  right: rem(16);
+  // See third issue here why we don't use transform anymore: http://caniuse.com/#feat=transforms2d
+  // transform: translate(0, rem(60));
+  transition: background $animation-speed linear, opacity $animation-speed linear, bottom $animation-speed linear;
+  z-index: layer("above-pseudo");
+
+  &:after {
+    color: $white;
+    content: '\f077';
+    font-family: 'FontAwesome';
+    font-weight: normal;
+  }
+
+  &:hover,
+  &:active,
+  &:focus  {
+    background-color: $back-top-top-hover-bgcolor;
+    color: $back-top-top-hover-color;
+  }
+
+  &.is-visible {
+    bottom: rem(16);
+    opacity: 1;
+    // transform: translate(0, 0);
+  }
+
+  span {
+    @extend .sr-only;
+  }
 }

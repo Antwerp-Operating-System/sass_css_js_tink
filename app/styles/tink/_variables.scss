@@ -118,6 +118,8 @@ $headings-font-weight:    500 !default;
 $headings-line-height:    1.1 !default;
 $headings-color:          inherit !default;
 
+$mark-bgcolor:            #fff799 !default;
+
 
 
 /**
@@ -436,6 +438,11 @@ $nav-aside-badge-active-background-color:       $nav-aside-link-hover-color !def
 $nav-aside-badge-active-hover-color:            $white !default;
 $nav-aside-badge-active-background-hover-color: $nav-aside-link-hover-color !default;
 
+$back-top-top-color:                            $white !default;
+$back-top-top-bgcolor:                          rgba($brand, .4) !default;
+$back-top-top-hover-color:                      $white !default;
+$back-top-top-hover-bgcolor:                    rgba($brand, .8) !default;
+
 
 
 /**
@@ -671,7 +678,7 @@ $pagination-link-disabled-border: lighten($gray-light, 10%) !default;
 $zindex-tooltip:              layer("popover") !default;
 
 //** Tooltip max width
-$tooltip-max-width:           rem(200px) !default;
+$tooltip-max-width:           200px !default;
 //** Tooltip text color
 $tooltip-color:               $gray-darker !default;
 //** Tooltip background color
@@ -706,7 +713,7 @@ $popover-button-background-color:       $nav-aside-item-open-color !default;
 $popover-button-hover-background-color: $nav-aside-link-hover-background-color !default;
 $popover-button-color:                  $nav-aside-link-color !default;
 
-$popover-percentage:                    15 !default;
+$popover-arrow-offset:                  33px !default;
 
 
 /**

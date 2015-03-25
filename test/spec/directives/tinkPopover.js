@@ -1,72 +1,65 @@
 'use strict';
 describe('popover', function() {
-  var elm,
-      elmBody,
-      scope,
-      elmScope,
-      tooltipScope;
 
-  // load the popover code
+  var bodyEl = $('body'), sandboxEl;
+  var $compile, $templateCache, scope,$window;
+
   beforeEach(module('tink'));
 
-  // load the template
-  //beforeEach(module('tink.templates'));
 
-  beforeEach(inject(function($rootScope, $compile) {
-    elmBody = angular.element(
-      '<div><span tink-popover="popover text">Selector Text</span></div>'
-    );
+  beforeEach(inject(function (_$rootScope_, _$compile_, _$templateCache_, _$animate_, _dateFilter_, _$timeout_,_dateCalculator_,_$window_) {
+    scope = _$rootScope_.$new();
+    $compile = _$compile_;
+    $templateCache = _$templateCache_;
+    bodyEl.html('<script type="text/ng-template" id="popContent.html">'+
+        '<h1>This is pop 1</h1>'+
+      '</script>');
+    $compile(bodyEl)(scope);
+    sandboxEl = $('<div>').attr('id', 'sandbox').appendTo(bodyEl);
+    $window = _$window_;
+  }));
 
-    scope = $rootScope;
-    $compile(elmBody)(scope);
+  afterEach(function() {
+    scope.$destroy();
+    sandboxEl.remove();
+  });
+
+  function compileDirective(template, locals) {
+    template = templates[template];
+    angular.extend(scope, angular.copy(template.scope || templates['default'].scope), locals);
+    var element = $(template.element).appendTo(sandboxEl);
+    element = $compile(element)(scope);
     scope.$digest();
-    elm = elmBody.find('span');
-    elmScope = elm.scope();
-    tooltipScope = elmScope.$$childTail;
-  }));
+    return jQuery(element[0]);
+  }
 
-  it('should not be open initially', inject(function() {
-    expect( tooltipScope.isOpen ).toBe( false );
+  var templates = {
+    'default': {
+      scope: {selectedDate: new Date()},
+      element: '<button popover-placement="left" tink-popover tink-popover-group="g1"  tink-popover-template="popContent.html">top</button>'
+    },
+    
+  };
 
-    // We can only test *that* the popover-popup element wasn't created as the
-    // implementation is templated and replaced.
-    expect( elmBody.children().length ).toBe( 1 );
-  }));
 
-  it('should open on click', inject(function() {
-    elm.trigger( 'click' );
-    expect( tooltipScope.isOpen ).toBe( true );
-
-    // We can only test *that* the popover-popup element was created as the
-    // implementation is templated and replaced.
-    expect( elmBody.children().length ).toBe( 2 );
-  }));
-
-  it('should close on second click', inject(function() {
-    elm.trigger( 'click' );
-    elm.trigger( 'click' );
-    expect( tooltipScope.isOpen ).toBe( false );
-  }));
-
-  it('should not unbind event handlers created by other directives - issue 456', inject( function( $compile ) {
-
-    scope.click = function() {
-      scope.clicked = !scope.clicked;
-    };
-
-    elmBody = angular.element(
-      '<div><input tink-popover="Hello!" ng-click="click()" tink-popover-trigger="mouseenter"/></div>'
-    );
-    $compile(elmBody)(scope);
-    scope.$digest();
-
-    elm = elmBody.find('input');
-
-    elm.trigger( 'mouseenter' );
-    elm.trigger( 'mouseleave' );
-    expect(scope.clicked).toBeFalsy();
-
-    elm.click();
-    expect(scope.clicked).toBeTruthy();
-  }));
-});
+  describe('default', function() {
+    it('On start it should be closed',function(){
+      compileDirective('default');
+      scope.$digest();
+      expect(sandboxEl.find('.popover').length).toBe(0);
+    });
+    it('on click it should open',function(){
+      var elm = compileDirective('default');
+      angular.element(elm[0]).click();
+      scope.$digest();
+      expect(sandboxEl.find('.popover').length).toBe(1);
+    });
+    it('On double click it should be closed',function(){
+      var elm = compileDirective('default');
+      angular.element(elm[0]).click();
+      angular.element(elm[0]).click();
+      scope.$digest();
+      expect(sandboxEl.find('.popover').length).toBe(0);
+    });
+  });
+ });

@@ -69,11 +69,12 @@ angular.module('tink.nationalNumber')
             if(isRRNoValid(value)){
               ngControl.$setViewValue(value);
               ngControl.$render();
+            }else{
+               ngControl.$setViewValue(null);
             }
-            if(value === 'xx.xx.xx-xxx.xx' || value === ''){
+            /*if(value === 'xx.xx.xx-xxx.xx' || value === ''){
               ngControl.$setViewValue(null);
-            }
-
+            }*/
         });
       });
 
@@ -111,12 +112,12 @@ angular.module('tink.nationalNumber')
             var nrToCheck = parseInt(n.substr(0, 9));
 
             // first check without 2
-            if (modFunction(nrToCheck) === checkDigit) {
+            if (modFunction(nrToCheck) === parseInt(checkDigit)) {
               return true;
             }
             // then check with 2 appended for y2k+ births
             nrToCheck = parseInt('2' + n.substr(0, 9));
-            return (modFunction(nrToCheck) === checkDigit);
+            return (modFunction(nrToCheck) === parseInt(checkDigit));
         }
 
        function checkvalidty(value){

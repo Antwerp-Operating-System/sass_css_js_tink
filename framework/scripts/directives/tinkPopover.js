@@ -394,7 +394,6 @@ var pos;
                     }
                 }
 
-
                 pos.then(function(data){
                     el.css('top',data.top);
                     el.css('left',data.left);
