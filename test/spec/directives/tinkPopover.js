@@ -11,7 +11,10 @@ describe('popover', function() {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $templateCache = _$templateCache_;
-    bodyEl.html('');
+    bodyEl.html('<script type="text/ng-template" id="popContent.html">'+
+        '<h1>This is pop 1</h1>'+
+      '</script>');
+    $compile(bodyEl)(scope);
     sandboxEl = $('<div>').attr('id', 'sandbox').appendTo(bodyEl);
     $window = _$window_;
   }));
@@ -33,23 +36,30 @@ describe('popover', function() {
   var templates = {
     'default': {
       scope: {selectedDate: new Date()},
-      element: '<script type="text/ng-template" id="popContent.html">'+
-        '<h1>This is pop 1</h1>'+
-      '</script>'+
-      '<button popover-placement="left" tink-popover tink-popover-group="g1"  tink-popover-template="popContent.html">top</button>'
+      element: '<button popover-placement="left" tink-popover tink-popover-group="g1"  tink-popover-template="popContent.html">top</button>'
     },
     
   };
 
 
   describe('default', function() {
-    it('should be closed on start',function(){
+    it('On start it should be closed',function(){
       var elm = compileDirective('default');
-      var bodyStart = bodyEl.css('padding-top');
-      bodyEl.css('width', '50px');
-      $(window).trigger('resize');
       scope.$digest();
-      
+      expect(sandboxEl.find('.popover').length).toBe(0);
+    });
+    it('on click it should open',function(){
+      var elm = compileDirective('default');
+      angular.element(elm[0]).click();
+      scope.$digest();
+      expect(sandboxEl.find('.popover').length).toBe(1);
+    });
+    it('On double click it should be closed',function(){
+      var elm = compileDirective('default');
+      angular.element(elm[0]).click();
+      angular.element(elm[0]).click();
+      scope.$digest();
+      expect(sandboxEl.find('.popover').length).toBe(0);
     });
   });
  });
