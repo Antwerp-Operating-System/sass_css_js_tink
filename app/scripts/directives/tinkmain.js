@@ -16,7 +16,10 @@ angular.module('tink', [
 		'tink.nationalNumber',
 		'tink.dropupload',
 		'angularFileUpload',
-		'tink.sortable',
 		'tink.modal',
-		'ngAria'
+		'ngAria',
+		'tink.interactiveTable',
+		'tink.modal',
+		'tink.backtotop',
+		'ngLodash'
 	]);

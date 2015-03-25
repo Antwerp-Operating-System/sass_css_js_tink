@@ -18,7 +18,7 @@
           </button>
         </th>
       </tr>
-      <tr class="datepicker-days" ng-bind-html="labels"></tr>
+      <tr class="datepicker-days" ng-bind-html="labels" ng-if="showLabels"></tr>
     </thead>
     <tbody>
       <tr ng-repeat="(i, row) in rows" height="{{ 100 / rows.length }}%">

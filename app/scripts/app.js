@@ -32,6 +32,9 @@ angular.module('tinkFramework', [
 				templateUrl: 'views/datepicker.html',
         controller: 'MainCtrl'
 			})
+      .when('/typography', {
+        templateUrl: 'views/typography.html'
+      })
       .when('/forms', {
         templateUrl: 'views/forms.html',
         controller: 'FormsCtrl'
@@ -54,13 +57,16 @@ angular.module('tinkFramework', [
       .when('/grid', {
         templateUrl: 'views/grid.html'
       })
-      .when('/sortable-table', {
-        templateUrl: 'views/sortable-table.html',
+      .when('/interactive-table', {
+        templateUrl: 'views/interactive-table.html',
         controller: 'MainCtrl'
       })
       .when('/modal', {
         templateUrl: 'views/modal.html',
         controller: 'ModalCtrl'
+      })
+      .when('/back-to-top', {
+        templateUrl: 'views/back-to-top.html',
       })
       .when('/work-agile-tool', {
         templateUrl: 'views/work-agile-tool.html'

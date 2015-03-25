@@ -397,6 +397,7 @@ angular.module('tink.datepicker', [])
           if($directive.mode === 1){
             scope.title = dateCalculator.format($directive.viewDate, 'yyyy');
             scope.rows =  calView.monthInRows($directive.viewDate,scope.minDate,scope.maxDate);
+            scope.showLabels = 0;
           }
           if($directive.mode === 0){
             scope.title = dateCalculator.format($directive.viewDate, options.yearTitleFormat);
