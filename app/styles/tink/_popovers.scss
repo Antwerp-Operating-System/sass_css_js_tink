@@ -59,14 +59,14 @@
     &-left {
       @extend .arrow-top;
       &:before, &:after {
-        left: rem( $popover-percentage * 1px);
+        left: rem( $popover-arrow-offset * 1px);
       }
     }
     &-right {
       @extend .arrow-top;
       &:before, &:after {
-        left: auto; //(100 - $popover-percentage) * 1%;
-        right: rem( ( $popover-percentage * 1px) - $popover-arrow-outer-width);
+        left: auto; //(100 - $popover-arrow-offset) * 1%;
+        right: rem( ( $popover-arrow-offset * 1px) - $popover-arrow-outer-width);
       }
     }
   }
@@ -93,14 +93,14 @@
     &-left {
       @extend .arrow-bottom;
       &:before, &:after {
-        left: rem( $popover-percentage * 1px);
+        left: rem( $popover-arrow-offset * 1px);
       }
     }
     &-right {
       @extend .arrow-bottom;
       &:before, &:after {
-        left: auto; //(100 - $popover-percentage) * 1%;
-        right: rem( ( $popover-percentage * 1px) - $popover-arrow-outer-width);
+        left: auto; //(100 - $popover-arrow-offset) * 1%;
+        right: rem( ( $popover-arrow-offset * 1px) - $popover-arrow-outer-width);
       }
     }
   }
@@ -127,14 +127,14 @@
     &-top {
       @extend .arrow-left;
       &:before, &:after {
-        top: rem( $popover-percentage * 1px);
+        top: rem( $popover-arrow-offset * 1px);
       }
     }
     &-bottom {
       @extend .arrow-left;
       &:before, &:after {
         top: auto;
-        bottom: rem( ( $popover-percentage * 1px) - $popover-arrow-outer-width);
+        bottom: rem( ( $popover-arrow-offset * 1px) - $popover-arrow-outer-width);
       }
     }
   }
@@ -161,14 +161,14 @@
     &-top {
       @extend .arrow-right;
       &:before, &:after {
-        top: rem( $popover-percentage * 1px);
+        top: rem( $popover-arrow-offset * 1px);
       }
     }
     &-bottom {
       @extend .arrow-right;
       &:before, &:after {
         top: auto;
-        bottom: rem( ( $popover-percentage * 1px) - $popover-arrow-outer-width);
+        bottom: rem( ( $popover-arrow-offset * 1px) - $popover-arrow-outer-width);
       }
     }
   }
