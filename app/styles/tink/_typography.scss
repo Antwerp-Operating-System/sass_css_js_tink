@@ -146,14 +146,16 @@ small,
 
 // Undo browser default styling
 cite {
-  font-style: normal;
+  font-style: italic;
 }
 
-    // mark,
-    // .mark {
-    //   background-color: $state-warning-bg;
-    //   padding: .2em;
-    // }
+mark,
+.mark {
+  background-color: $mark-bgcolor;
+  border-radius: rem($border-radius-base);
+  padding: rem(1 4 2);
+  // padding: .2em;
+}
 
 // Alignment
 .text-left           { text-align: left; }
@@ -219,11 +221,6 @@ ul,
 ol {
   margin-bottom: rem($line-height-computed / 2);
   margin-top: 0;
-
-  // ul,
-  // ol {
-  //   margin-bottom: 0;
-  // }
 }
 
 // List options
