@@ -237,7 +237,7 @@ $padding-xs-vertical:       1px !default;
 $padding-xs-horizontal:     5px !default;
 
 $line-height-large:         1.33 !default;
-$line-height-small:         1.5 !default;
+// $line-height-small:         1.5 !default;
 
 $border-radius-base:        3px !default;
 $border-radius-large:       4px !default;
@@ -307,7 +307,7 @@ $input-border-focus:             $brand-light !default; // Border color for inpu
 $input-color-placeholder:        $gray-light !default; // Placeholder text color
 $input-height-base:              ($line-height-computed + ($padding-base-vertical * 2) + 2) !default; // Default input height
 $input-height-large:             (ceil($font-size-large * $line-height-large) + ($padding-large-vertical * 2) + 2) !default; // Large `.form-control` height
-$input-height-small:             (floor($font-size-small * $line-height-small) + ($padding-small-vertical * 2) + 2) !default; // Small `.form-control` height
+// $input-height-small:             (floor($font-size-small * $line-height-small) + ($padding-small-vertical * 2) + 2) !default; // Small `.form-control` height
 
 $legend-color:                   $gray-dark !default;
 $legend-border-color:            $gray-lighter !default;
@@ -978,7 +978,7 @@ $badge-color:                 $gray-dark !default;
 $badge-link-hover-color:      $white !default;
 $badge-bg:                    $gray-lighter !default;
 
-$badge-padding-vertical:      0px !default;
+$badge-padding-vertical:      0 !default;
 $badge-padding-horizontal:    5px !default;
 
 // ** Badge text color in active nav link
