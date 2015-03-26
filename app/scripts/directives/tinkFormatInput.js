@@ -234,7 +234,7 @@
               //var modelString = dateCalculator.format(ngControl.$modelValue,dateformat);
               //if(value !== modelString){
                 //console.log(value)
-                
+
               //}
             });
           });
@@ -283,11 +283,8 @@
         if (event.which === 8) {
           handleBackspace();
           return false;
-        }else if(event.wich === 37){
 
-        }else if(event.wich === 39){
-
-        }else if (event.which === 46) {
+        } else if (event.which === 46) {
           handleDelete();
           return false;
         }
@@ -311,7 +308,7 @@
           if(pos !== newVa.length){
             setCursor(firstCh());
           }
-        },20);     
+        },20);
       });
 
       self.element.bind('paste', function (e) {

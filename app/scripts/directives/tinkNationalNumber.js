@@ -16,7 +16,7 @@ angular.module('tink.nationalNumber')
       }
     },
     link:function(scope,elm,attr,ctrl){
-      elm.attr('tabindex','-1')
+      elm.attr('tabindex','-1');
       var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
       var isTouch = ('createTouch' in $window.document) && isNative;
       var controller = ctrl[0];
