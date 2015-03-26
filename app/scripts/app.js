@@ -68,6 +68,9 @@ angular.module('tinkFramework', [
       .when('/back-to-top', {
         templateUrl: 'views/back-to-top.html',
       })
+      .when('/badge', {
+        templateUrl: 'views/badge.html',
+      })
       .when('/work-agile-tool', {
         templateUrl: 'views/work-agile-tool.html'
       })

@@ -444,7 +444,7 @@ html {
     background-color: $nav-aside-badge-background-color;
     color: $nav-aside-badge-color;
     float: right;
-    margin-top: rem(5.5 - $badge-padding-vertical);
+    margin-top: rem(3);
     transition: background $animation-speed linear, color $animation-speed linear;
   }
 }
@@ -503,15 +503,16 @@ html {
 
 
 
+
 /**
  * Back to top
  */
 .back-to-top {
-  background-color: $back-top-top-bgcolor;
+  background-color: $back-to-top-bgcolor;
   border: none;
   // bottom: rem(16);
   bottom: rem(-44); // 16 - 60
-  color: $back-top-top-color;
+  color: $back-to-top-color;
   line-height: 0;
   opacity: 0;
   padding: rem(15 12 17);
@@ -532,8 +533,8 @@ html {
   &:hover,
   &:active,
   &:focus  {
-    background-color: $back-top-top-hover-bgcolor;
-    color: $back-top-top-hover-color;
+    background-color: $back-to-top-hover-bgcolor;
+    color: $back-to-top-hover-color;
   }
 
   &.is-visible {

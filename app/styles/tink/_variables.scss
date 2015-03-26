@@ -438,10 +438,10 @@ $nav-aside-badge-active-background-color:       $nav-aside-link-hover-color !def
 $nav-aside-badge-active-hover-color:            $white !default;
 $nav-aside-badge-active-background-hover-color: $nav-aside-link-hover-color !default;
 
-$back-top-top-color:                            $white !default;
-$back-top-top-bgcolor:                          rgba($brand, .4) !default;
-$back-top-top-hover-color:                      $white !default;
-$back-top-top-hover-bgcolor:                    rgba($brand, .8) !default;
+$back-to-top-color:                            $white !default;
+$back-to-top-bgcolor:                          rgba($brand, .4) !default;
+$back-to-top-hover-color:                      $white !default;
+$back-to-top-hover-bgcolor:                    rgba($brand, .8) !default;
 
 
 
@@ -696,24 +696,17 @@ $tooltip-arrow-color:         $tooltip-bg !default;
  * Popovers
  */
 $popover-bg-color:                      lighten($nav-aside-item-open-color, 2) !default;
-$popover-border-color:                  rgba(0,0,0,.2) !default;
-$popover-fallback-border-color:         $gray !default;
-$popover-border-width:                  1px !default;
-$popover-min-width:                     220px !default;
-$popover-max-width:                     $popover-min-width * 2 !default;
-$popover-padding:                       $padding-base-vertical !default;
+$popover-border-color:                  $btn-default-border !default;// rgba(0,0,0,.2)
+$popover-padding:                       6px !default;
 $popover-header-bg:                     $white !default;
 
-$popover-arrow-color:                   $popover-bg-color !default;
 $popover-arrow-width:                   11px !default;
-$popover-arrow-outer-width:             $popover-arrow-width !default;
-$popover-arrow-outer-color:             $popover-border-color !default;
 
 $popover-button-background-color:       $nav-aside-item-open-color !default;
 $popover-button-hover-background-color: $nav-aside-link-hover-background-color !default;
 $popover-button-color:                  $nav-aside-link-color !default;
 
-$popover-arrow-offset:                  33px !default;
+$popover-arrow-offset:                  16px !default;
 
 
 /**
@@ -936,6 +929,7 @@ $table-interactive-heading-hover-bg:         darken($table-heading-bg, 5%) !defa
 $table-interactive-heading-hover-color:      $table-heading-color !default;
 $table-interactive-options-selected-bgcolor: lighten($brand, 50%) !default;
 $table-interactive-options-hover-bgcolor:    rgba($black, .05) !default;
+$table-interactive-options-dropzone-border:  $brand !default;
 
 /**
  * Table alternative heading
@@ -984,7 +978,7 @@ $badge-color:                 $gray-dark !default;
 $badge-link-hover-color:      $white !default;
 $badge-bg:                    $gray-lighter !default;
 
-$badge-padding-vertical:      4px !default;
+$badge-padding-vertical:      0px !default;
 $badge-padding-horizontal:    5px !default;
 
 // ** Badge text color in active nav link

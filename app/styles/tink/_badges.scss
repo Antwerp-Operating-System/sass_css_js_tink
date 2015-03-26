@@ -12,9 +12,9 @@
   display: inline-block;
   font-size: rem($badge-font-size);
   font-weight: $badge-font-weight;
-  line-height: $badge-line-height;
+
   min-width: rem(10);
-  padding: rem($badge-padding-vertical $badge-padding-horizontal);
+  padding: rem($badge-padding-vertical $badge-padding-horizontal);//padding: rem($badge-padding-vertical $badge-padding-horizontal);
   text-align: center;
   vertical-align: baseline;
   white-space: nowrap;
@@ -24,14 +24,8 @@
     display: none;
   }
 
-  // Quick fix for badges in buttons
-  .btn & {
-    position: relative;
-    top: rem(-1);
-  }
   .btn-xs & {
-    top: 0;
-    padding: rem(1 5);
+    vertical-align: text-top;
   }
 
   // [converter] extracted a& to a.badge
