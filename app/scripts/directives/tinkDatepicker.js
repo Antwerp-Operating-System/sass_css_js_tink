@@ -173,7 +173,7 @@ angular.module('tink.datepicker', [])
               $(copyEl.find('.btn-today')).focus();
               currentSelected = $(copyEl.find('.btn-today'));
             }else{
-              var firstTb = $(copyEl.find('tbody button:first'));
+              var firstTb = $(copyEl.find('tbody button:not(.btn-grayed):first'));
               firstTb.attr('aria-selected', 'true');
               firstTb.focus();
               currentSelected = firstTb;
