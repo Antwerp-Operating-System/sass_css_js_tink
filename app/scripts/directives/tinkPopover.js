@@ -204,67 +204,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
 
             }
 
-              function placementCheck(element,popover,place,align){
-                var pageScrollY = ($window.scrollY || $window.pageYOffset);
-                var pageScrollX = ($window.scrollX || $window.pageXOffset);
-                var w1 = element.position().left - pageScrollX;
-                var w2 = $window.innerWidth - (w1+element.outerWidth(true));
-                var h1 = element.position().top - pageScrollY;
-                var h2 = $window.innerHeight - (h1+element.outerHeight(true));
-                var elemOffsetX = element.position().left + element.outerWidth(true) - pageScrollY;
-
-                var pW = popover.outerWidth(true);
-                var pH = popover.outerHeight(true);
-                var pPos = pW + elemOffsetX;
-
-                //experimental
-                var procent = {right:0.85,left:0.15,top:0.15,bottom:0.85,center:0.5};
-                var popoverMessare= {};
-
-                popoverMessare.top = pH * procent[align]-(element.outerHeight(true)/2);
-                popoverMessare.bottom = pH * (1-procent[align])-(element.outerHeight(true)/2);
-                //
-
-
-                for(var i =0; i < place.length;i++){
-                  var placement = place[i];
-                  var Ralign = null;
-                  if(placement === 'left' || placement === 'right'){
-                    if(align){
-                      popoverMessare.top = pH * procent[align[i]]-(element.outerHeight(true)/2);
-                      popoverMessare.bottom = pH * (1-procent[align[i]])-(element.outerHeight(true)/2);
-                      Ralign = align[i];
-                    }
-                    if(h1 > popoverMessare.top || align === undefined){
-                      if(h2 > popoverMessare.bottom || align === undefined){
-                        if(placement === 'left' && w1 > pW){
-                          return {place:placement,align:Ralign};
-                        }else if(placement === 'right' && pPos > pW){
-                          return {place:placement,align:Ralign};
-                        }
-                      }
-                    }
-                  }else if(placement === 'top' || placement === 'bottom'){
-                    Ralign = null;
-                    if(align){
-                      popoverMessare.left = pH * procent[align[i]]-(element.outerWidth(true)/2);
-                      popoverMessare.right = pH * (1-procent[align[i]])-(element.outerWidth(true)/2);
-                      Ralign = align[i];
-                    }
-
-                    if(w1 > popoverMessare.left || align === undefined){
-                      if(w2 > popoverMessare.right || align === undefined){
-                        if(placement === 'top'&& pH < h1){
-                          return {place:placement,align:Ralign};
-                        }else if(placement === 'bottom' && pH+h1+element.outerHeight(true) < $window.innerHeight){
-                          return {place:placement,align:Ralign};
-                        }
-                      }
-                    }
-                }}
-                return false;
-              }
-
+            
               function arrowCal(placement,align){
                   var arrowCss = 'arrow-';
                   switch(placement){
@@ -300,7 +240,6 @@ angular.module('tink.popOver', ['tink.tooltip'])
                   scope.arrowPlacement = arrowCss;
                 }
               arrowCal(placement,align);
-              var timoutPos = null;
 
               //calculate the position
               function calcPos(element,el,place,align,spacing){
@@ -356,7 +295,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                     place = 'bottom';
                   }
                 }
-
+                var val;
                 if(align){
                   if(place === 'left' || place === 'right'){
                     if(align === 'top'){
@@ -368,7 +307,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                         align = undefined;
                       }
                     }else if(align === 'center'){
-                      var val = (el.outerHeight(true) - element.outerHeight(true)) / 2;
+                      val = (el.outerHeight(true) - element.outerHeight(true)) / 2;
                       if(val > h1 || val > h2){
                         align = undefined;
                       }
@@ -384,7 +323,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                         align = undefined;
                       }
                     }else if(align === 'center'){
-                      var val = (el.outerWidth(true) - element.outerWidth(true))/2;
+                      val = (el.outerWidth(true) - element.outerWidth(true))/2;
                       if(val > w1 || val > w2){
                         align = undefined;
                       }

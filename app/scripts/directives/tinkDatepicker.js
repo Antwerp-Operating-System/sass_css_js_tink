@@ -100,7 +100,7 @@ angular.module('tink.datepicker', [])
 
       content.bind('focus',function(){
          currentSelected = null;
-      })
+      });
 
       $.fn.bindFirst = function(name, fn) {
           // bind as you normally would
