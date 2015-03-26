@@ -17,7 +17,7 @@
         if (isTouch) {
           return '<div><input id="input" class="faux-input" type="date"/><div>';
         } else {
-          return '<div><div id="input" role="textbox" class="faux-input" contenteditable="true">{{placeholder}}</div></div>';
+          return '<div tabindex="-1"><div  id="input" role="textbox" class="faux-input" contenteditable="true">{{placeholder}}</div></div>';
         }
       },
       compile: function(template) {

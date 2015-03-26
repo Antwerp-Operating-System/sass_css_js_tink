@@ -8,7 +8,7 @@
 
 <form name="userForm" ng-submit="submitForm()" novalidate>
 <tink-national-number name="rijk" ng-model='rek' ></tink-national-number>
-        <!-- NAME-->uy
+        <!-- NAME-->
         <div class="form-group" ng-class="{ 'has-error' : userForm.single.$invalid && !userForm.single.$pristine }">
             <label>Name</label>
             <tink-datepicker name="single"  required="required" class="form-control" data-max-date="maxdate" ng-model="dates.first">
