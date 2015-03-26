@@ -1,6 +1,6 @@
 'use strict';
 angular.module('tink.datepicker', [])
-.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply','$window','$sce',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply,$window,$sce) {
+.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply','$window','$sce','$timeout',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply,$window,$sce,setTimeout) {
   return {
     restrict:'E',
     require:['ngModel','?^form'],
@@ -25,9 +25,6 @@ angular.module('tink.datepicker', [])
         pre:function(){},
         post:function(scope,element,attr){
 
-      //var ctrl = element.controller('ngModel');
-      //ctrls[1].$removeControl(ctrls[1]['single']);
-      //ctrls[1].$removeControl(ctrls[0])
       scope.opts = attr;
       var input = element.find('div.faux-input');
       var clickable = element.find('.datepicker-icon');
@@ -36,30 +33,241 @@ angular.module('tink.datepicker', [])
 
       scope.$show = function(){
         copyEl = templateElem;
+        if($directive.appended !== 1) {
+          element.append(copyEl);
+          $directive.appended=1;
+        }
+        copyEl.attr('aria-hidden','false');
         copyEl.css({position: 'absolute', display: 'block'});
-        element.append(copyEl);
         bindLiseners();
         $directive.pane.month = 1;
         $directive.open = 1;
         scope.build();
       };
 
-      //content = angular.element('<input tink-format-input data-format="00/00/0000" data-placeholder="mm/dd/jjjj" data-date name="'+attr.name+'"  ng-model="ngModel" />');
-      //$(content).insertBefore(element.find('span.datepicker-icon'));
-      //$compile(content)(scope);
+      content.bind('valueChanged',function(e,val){
+        safeApply(scope,function(){
+          if(validFormat(val,'dd/mm/yyyy')){
+            $directive.selectedDate = dateCalculator.getDate(val,'dd/mm/yyyy');
+            $directive.viewDate = $directive.selectedDate;
+            scope.build();
+          }
+        });
+      });
 
+      var Liseners = {};
       function bindLiseners(){
 
-        copyEl.bind('mousedown',function(){
-          //input.focus();
-          return false;
-        });
+        function childOf(c,p){ //returns boolean
+          while((c=c.parentNode)&&c!==p){
+          }
+          return !!c;
+        }
 
+        Liseners.windowClick = function(event){
+          if($directive.open){
+            if(!childOf(event.target,copyEl.get(0)) && !childOf(event.target,element.get(0)) && !$directive.click){
+              scope.hide();
+            }
+            $directive.click = 0;
+          }
+        };
+
+
+
+        Liseners.windowKeydown = function (event) {
+          if($directive.open){
+            safeApply(scope,function(){
+              if (currentSelected && (event.which === 38 || event.which === 37 || event.which === 39 || event.which === 40)) {
+                event.preventDefault();
+                calcFocus(event.which);
+              }else if(event.keyCode === 9){              
+                content.bindFirst('blur.disable',function(e){
+                  e.stopImmediatePropagation();
+                  return false;
+                });
+
+                event.preventDefault();
+                setFocusButton();
+                //return false;
+              }else if(currentSelected && event.keyCode !== 13){
+                content.focus();
+                currentSelected = null;
+              }
+            });
+          }
+        };
+
+        $($window).bind('click',Liseners.windowClick);
+
+        $($window).bind('keydown',Liseners.windowKeydown);
       }
 
-      // ctrl.$formatters.push(function(modelValue) {
-      //   console.log(modelValue)
-      // });
+      content.bind('focus',function(){
+         currentSelected = null;
+      });
+
+      $.fn.bindFirst = function(name, fn) {
+          // bind as you normally would
+          // don't want to miss out on any jQuery magic
+          this.on(name, fn);
+
+          // Thanks to a comment by @Martin, adding support for
+          // namespaced events too.
+          this.each(function() {
+              var handlers = $._data(this, 'events')[name.split('.')[0]];
+              console.log(handlers);
+              // take out the handler we just inserted from the end
+              var handler = handlers.pop();
+              // move it at the beginning
+              handlers.splice(0, 0, handler);
+          });
+      };
+
+      function validFormat(date,format){
+          var dateObject;
+          if(angular.isDefined(date) && date !== null){
+
+            if(typeof date === 'string'){
+              if(date.length !== 10){ return false; }
+
+              if(!isTouch && !/^(?:(?:31(\/)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/.test(date)){return false;}
+
+              dateObject = dateCalculator.getDate(date, format);
+            }else if(angular.isDate(date)){
+              dateObject = date;
+            }else if(typeof date === 'function'){
+              return validFormat(date(),format);
+            }else {
+              return false;
+            }
+
+            return dateObject.toString()!=='Invalid Date';
+          }
+        }
+
+      function removeLiseners(){
+        $($window).unbind('click',Liseners.windowClick);
+
+        $($window).unbind('keydown',Liseners.windowKeydown);
+      }
+
+      scope.elemFocus = function(ev){
+        setFocusButton($(ev.target),false);
+      };
+
+      function setFocusButton(btn,focus){
+        setTimeout(function(){
+          if(currentSelected){
+            currentSelected.attr('aria-selected', 'false');
+          }
+          if(btn){
+            btn.attr('aria-selected', 'true');
+            if(focus !== false){
+              btn.focus();
+            }
+            currentSelected= btn;
+          }else{
+            if($(copyEl.find('.btn-today')).length !== 0){
+              $(copyEl.find('.btn-today')).attr('aria-selected', 'true');
+              $(copyEl.find('.btn-today')).focus();
+              currentSelected = $(copyEl.find('.btn-today'));
+            }else{
+              var firstTb = $(copyEl.find('tbody button:not(.btn-grayed):first'));
+              firstTb.attr('aria-selected', 'true');
+              firstTb.focus();
+              currentSelected = firstTb;
+            }
+          }
+          },10);
+      }
+
+      function calcLast(){
+        var viewDate = $directive.viewDate;
+        var firstdate = scope.minDate;
+        var lastNum = new Date(viewDate.getFullYear(),viewDate.getMonth()+1,0,0,0,0);
+        return !dateCalculator.isSameDate(lastNum,firstdate);
+      }
+
+      function calcFirst(){
+        var viewDate = $directive.viewDate;
+        var lastdate = scope.maxDate;
+        var firstNum = new Date(viewDate.getFullYear(),viewDate.getMonth()+1,1,0,0,0);
+        var current = new Date(viewDate.getFullYear(),viewDate.getMonth()+1,0,0,0,0);
+        return !(dateCalculator.isSameDate(firstNum,lastdate) || dateCalculator.isSameDate(current,lastdate));
+      }
+
+      function calcFocus(e){
+        var calcPos;
+        var btn;
+        var rijen = copyEl.find('tbody').children();
+        var rijIndex = rijen.index( currentSelected.closest('tr'));
+        if(rijIndex !== -1){
+          var kolommen = $(rijen[rijIndex]).children();
+          var kolomIndex = kolommen.index( currentSelected.closest('td'));
+
+          if (e === 37){
+            //left Arrow
+            if( rijIndex === 0 && kolomIndex === 0){
+              if(!angular.isDate(scope.minDate) || calcLast()){
+                scope.$selectPane(-1,true);
+              }
+            }else if(kolomIndex>0){
+               btn = $($(kolommen[kolomIndex-1]).find('button'));
+              if(btn.hasClass('btn-grayed') && !btn.is(':disabled')){
+                scope.$selectPane(-1,true);
+              }else{
+                calcPos = btn;
+              }
+            }else{
+              calcPos = $($(rijen[rijIndex-1]).children()[$(rijen[rijIndex-1]).children().length-1]).find('button');
+            }
+          }else if(e === 39){
+            //right arrow
+            if(rijIndex === rijen.length-1 && kolomIndex === $(rijen[rijIndex]).children().length-1){
+              if(calcFirst()){
+                scope.$selectPane(+1,true);
+              }
+            }else if(kolomIndex<kolommen.length-1){
+               btn = $($(kolommen[kolomIndex+1]).find('button'));
+              if(btn.hasClass('btn-grayed') && !btn.is(':disabled')){
+                scope.$selectPane(+1,true);
+              }else{
+                calcPos = btn;
+              }
+            }else{
+              calcPos = $($(rijen[rijIndex+1]).children()[0]).find('button');
+            }
+          }else if(e===38){
+            if(rijIndex>0){
+               btn = $($(rijen[rijIndex-1]).children()[kolomIndex]).find('button');
+              if(btn.hasClass('btn-grayed') && !btn.is(':disabled')){
+                scope.$selectPane(-1,true);
+              }else{
+                calcPos = btn;
+              }
+            }else{
+              scope.$selectPane(-1,true);
+            }
+          }else if(e===40){
+            if(rijIndex<rijen.length-1){
+               btn = $($(rijen[rijIndex+1]).children()[kolomIndex]).find('button');
+              if(btn.hasClass('btn-grayed') && !btn.is(':disabled')){
+                scope.$selectPane(+1,true);
+              }else{
+                calcPos = btn;
+              }
+            }else{
+              if(calcFirst()){
+                scope.$selectPane(+1,true);
+              }
+            }
+          }
+          if(calcPos && !calcPos.is(':disabled')){
+            setFocusButton(calcPos);
+          }
+        }
+      }
 
       if(attr.trigger && attr.trigger === 'focus'){
         input.bind('focus',function(){
@@ -77,7 +285,7 @@ angular.module('tink.datepicker', [])
       // labels for the days you can make this variable //
       var dayLabels = ['ma', 'di', 'wo', 'do', 'vr', 'za', 'zo'];
        // -- create the labels  --/
-       scope.labels = $sce.trustAsHtml('<th>' + dayLabels.join('</th><th>') + '</th>');
+       scope.labels = [];
       // Add a watch to know when input changes from the outside //
 
       // -- check if we are using a touch device  --/
@@ -96,12 +304,14 @@ angular.module('tink.datepicker', [])
           element.find('input[type=date]:first').click();
         }else{
           safeApply(scope,function(){
+            currentSelected = null;
             if($directive.open){
               scope.hide();
             }else{
               scope.$show();
               content.focus();
             }
+
           });
         }
         return false;
@@ -118,12 +328,23 @@ angular.module('tink.datepicker', [])
         pane:{},
         open:0,
         mode:0,
+        appended:0,
         selectedDate:null
       };
 
-      scope.$selectPane = function(value) {
+      scope.$selectPane = function(value,keyboard) {
         $directive.viewDate = new Date(Date.UTC($directive.viewDate.getFullYear()+( ($directive.pane.year|| 0) * value), $directive.viewDate.getMonth() + ( ($directive.pane.month || 0) * value), 1));
         scope.build();
+        if(keyboard){
+          setTimeout(function(){
+            var rijen = copyEl.find('tbody').children();
+            if(value === +1){
+               setFocusButton($(rijen[0]).find('button:not(.btn-grayed):first'));
+            }else if(value === -1){
+              setFocusButton($(rijen[rijen.length-1]).find('button:not(.btn-grayed):last'));
+            }
+          },50);
+        }
       };
 
       scope.$toggleMode = function(){
@@ -155,24 +376,25 @@ angular.module('tink.datepicker', [])
       scope.hide = function(){
         if(copyEl){
          copyEl.css({display: 'none'});
+         copyEl.attr('aria-hidden','true');
          $directive.open = 0;
          copyEl = null;
+         removeLiseners();
+         safeApply(scope,function(){
+         // content.click();
+         //content.focus();
+            $directive.open = 0;
+            content.unbind('blur.disable');
+         });
+
         }
       };
 
-      // function setDirty(ctrl){
-      //   ctrl.$dirty = true;
-      //   ctrl.$pristine = false;
-      // }
-
       scope.$select = function(date){
+      $directive.click = 1;
       $directive.viewDate = date;
         if($directive.mode === 0){
-          //ctrls[1]['single'].$setViewValue('20/01/1992');
           scope.ngModel = date;
-          //console.log(ctrls[1]['single'])
-          //input.val(dateCalculator.formatDate(date, options.dateFormat))
-          //ngModel =
           scope.hide();
           setTimeout(function(){ content.blur(); }, 0);
         }else if($directive.mode >0){
@@ -182,28 +404,27 @@ angular.module('tink.datepicker', [])
         }
       };
 
-      content.blur(function(){
-        scope.hide();
-      });
-      scope.pane={prev:0,next:0};
+      var currentSelected;
+
+      scope.pane={prev:false,next:false};
       scope.build = function() {
         if($directive.viewDate === null || $directive.viewDate === undefined){
           $directive.viewDate = new Date();
         }
 
         if(checkBefore($directive.viewDate,scope.minDate)){
-          scope.pane.prev = 1;
+          scope.pane.prev = true;
           $directive.viewDate = new Date(scope.minDate);
         }else{
-          scope.pane.prev = 0;
+          scope.pane.prev = false;
         }
         if(checkAfter($directive.viewDate,scope.maxDate)){
-          scope.pane.next = 1;
+          scope.pane.next = true;
           $directive.viewDate = new Date(scope.maxDate);
         }else{
-          scope.pane.next = 0;
+          scope.pane.next = false;
         }
-
+          scope.labels = [];
           if($directive.mode === 1){
             scope.title = dateCalculator.format($directive.viewDate, 'yyyy');
             scope.rows =  calView.monthInRows($directive.viewDate,scope.minDate,scope.maxDate);
@@ -212,13 +433,12 @@ angular.module('tink.datepicker', [])
           if($directive.mode === 0){
             scope.title = dateCalculator.format($directive.viewDate, options.yearTitleFormat);
             scope.rows =  calView.daysInRows($directive.viewDate,$directive.selectedDate,scope.minDate,scope.maxDate);
-            scope.showLabels = 1;
+            scope.labels = $sce.trustAsHtml('<th>' + dayLabels.join('</th><th>') + '</th>');
           }
           if($directive.mode === 2){
             var currentYear = parseInt(dateCalculator.format($directive.viewDate, 'yyyy'));
             scope.title = (currentYear-11) +'-'+ currentYear;
             scope.rows = calView.yearInRows($directive.viewDate,scope.minDate,scope.maxDate);
-            scope.showLabels = 0;
             //setMode(1);
           }
       };

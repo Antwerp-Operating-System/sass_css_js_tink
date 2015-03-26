@@ -261,7 +261,7 @@ angular.module('tink.backtotop', [])
   }]);
 ;'use strict';
 angular.module('tink.datepicker', [])
-.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply','$window','$sce',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply,$window,$sce) {
+.directive('tinkDatepicker',['$q','$templateCache','$http','$compile','dateCalculator','calView','safeApply','$window','$sce','$timeout',function($q,$templateCache,$http,$compile,dateCalculator,calView,safeApply,$window,$sce,setTimeout) {
   return {
     restrict:'E',
     require:['ngModel','?^form'],
@@ -286,9 +286,6 @@ angular.module('tink.datepicker', [])
         pre:function(){},
         post:function(scope,element,attr){
 
-      //var ctrl = element.controller('ngModel');
-      //ctrls[1].$removeControl(ctrls[1]['single']);
-      //ctrls[1].$removeControl(ctrls[0])
       scope.opts = attr;
       var input = element.find('div.faux-input');
       var clickable = element.find('.datepicker-icon');
@@ -297,30 +294,241 @@ angular.module('tink.datepicker', [])
 
       scope.$show = function(){
         copyEl = templateElem;
+        if($directive.appended !== 1) {
+          element.append(copyEl);
+          $directive.appended=1;
+        }
+        copyEl.attr('aria-hidden','false');
         copyEl.css({position: 'absolute', display: 'block'});
-        element.append(copyEl);
         bindLiseners();
         $directive.pane.month = 1;
         $directive.open = 1;
         scope.build();
       };
 
-      //content = angular.element('<input tink-format-input data-format="00/00/0000" data-placeholder="mm/dd/jjjj" data-date name="'+attr.name+'"  ng-model="ngModel" />');
-      //$(content).insertBefore(element.find('span.datepicker-icon'));
-      //$compile(content)(scope);
+      content.bind('valueChanged',function(e,val){
+        safeApply(scope,function(){
+          if(validFormat(val,'dd/mm/yyyy')){
+            $directive.selectedDate = dateCalculator.getDate(val,'dd/mm/yyyy');
+            $directive.viewDate = $directive.selectedDate;
+            scope.build();
+          }
+        });
+      });
 
+      var Liseners = {};
       function bindLiseners(){
 
-        copyEl.bind('mousedown',function(){
-          //input.focus();
-          return false;
-        });
+        function childOf(c,p){ //returns boolean
+          while((c=c.parentNode)&&c!==p){
+          }
+          return !!c;
+        }
 
+        Liseners.windowClick = function(event){
+          if($directive.open){
+            if(!childOf(event.target,copyEl.get(0)) && !childOf(event.target,element.get(0)) && !$directive.click){
+              scope.hide();
+            }
+            $directive.click = 0;
+          }
+        };
+
+
+
+        Liseners.windowKeydown = function (event) {
+          if($directive.open){
+            safeApply(scope,function(){
+              if (currentSelected && (event.which === 38 || event.which === 37 || event.which === 39 || event.which === 40)) {
+                event.preventDefault();
+                calcFocus(event.which);
+              }else if(event.keyCode === 9){              
+                content.bindFirst('blur.disable',function(e){
+                  e.stopImmediatePropagation();
+                  return false;
+                });
+
+                event.preventDefault();
+                setFocusButton();
+                //return false;
+              }else if(currentSelected && event.keyCode !== 13){
+                content.focus();
+                currentSelected = null;
+              }
+            });
+          }
+        };
+
+        $($window).bind('click',Liseners.windowClick);
+
+        $($window).bind('keydown',Liseners.windowKeydown);
       }
 
-      // ctrl.$formatters.push(function(modelValue) {
-      //   console.log(modelValue)
-      // });
+      content.bind('focus',function(){
+         currentSelected = null;
+      });
+
+      $.fn.bindFirst = function(name, fn) {
+          // bind as you normally would
+          // don't want to miss out on any jQuery magic
+          this.on(name, fn);
+
+          // Thanks to a comment by @Martin, adding support for
+          // namespaced events too.
+          this.each(function() {
+              var handlers = $._data(this, 'events')[name.split('.')[0]];
+              console.log(handlers);
+              // take out the handler we just inserted from the end
+              var handler = handlers.pop();
+              // move it at the beginning
+              handlers.splice(0, 0, handler);
+          });
+      };
+
+      function validFormat(date,format){
+          var dateObject;
+          if(angular.isDefined(date) && date !== null){
+
+            if(typeof date === 'string'){
+              if(date.length !== 10){ return false; }
+
+              if(!isTouch && !/^(?:(?:31(\/)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/.test(date)){return false;}
+
+              dateObject = dateCalculator.getDate(date, format);
+            }else if(angular.isDate(date)){
+              dateObject = date;
+            }else if(typeof date === 'function'){
+              return validFormat(date(),format);
+            }else {
+              return false;
+            }
+
+            return dateObject.toString()!=='Invalid Date';
+          }
+        }
+
+      function removeLiseners(){
+        $($window).unbind('click',Liseners.windowClick);
+
+        $($window).unbind('keydown',Liseners.windowKeydown);
+      }
+
+      scope.elemFocus = function(ev){
+        setFocusButton($(ev.target),false);
+      };
+
+      function setFocusButton(btn,focus){
+        setTimeout(function(){
+          if(currentSelected){
+            currentSelected.attr('aria-selected', 'false');
+          }
+          if(btn){
+            btn.attr('aria-selected', 'true');
+            if(focus !== false){
+              btn.focus();
+            }
+            currentSelected= btn;
+          }else{
+            if($(copyEl.find('.btn-today')).length !== 0){
+              $(copyEl.find('.btn-today')).attr('aria-selected', 'true');
+              $(copyEl.find('.btn-today')).focus();
+              currentSelected = $(copyEl.find('.btn-today'));
+            }else{
+              var firstTb = $(copyEl.find('tbody button:not(.btn-grayed):first'));
+              firstTb.attr('aria-selected', 'true');
+              firstTb.focus();
+              currentSelected = firstTb;
+            }
+          }
+          },10);
+      }
+
+      function calcLast(){
+        var viewDate = $directive.viewDate;
+        var firstdate = scope.minDate;
+        var lastNum = new Date(viewDate.getFullYear(),viewDate.getMonth()+1,0,0,0,0);
+        return !dateCalculator.isSameDate(lastNum,firstdate);
+      }
+
+      function calcFirst(){
+        var viewDate = $directive.viewDate;
+        var lastdate = scope.maxDate;
+        var firstNum = new Date(viewDate.getFullYear(),viewDate.getMonth()+1,1,0,0,0);
+        var current = new Date(viewDate.getFullYear(),viewDate.getMonth()+1,0,0,0,0);
+        return !(dateCalculator.isSameDate(firstNum,lastdate) || dateCalculator.isSameDate(current,lastdate));
+      }
+
+      function calcFocus(e){
+        var calcPos;
+        var btn;
+        var rijen = copyEl.find('tbody').children();
+        var rijIndex = rijen.index( currentSelected.closest('tr'));
+        if(rijIndex !== -1){
+          var kolommen = $(rijen[rijIndex]).children();
+          var kolomIndex = kolommen.index( currentSelected.closest('td'));
+
+          if (e === 37){
+            //left Arrow
+            if( rijIndex === 0 && kolomIndex === 0){
+              if(!angular.isDate(scope.minDate) || calcLast()){
+                scope.$selectPane(-1,true);
+              }
+            }else if(kolomIndex>0){
+               btn = $($(kolommen[kolomIndex-1]).find('button'));
+              if(btn.hasClass('btn-grayed') && !btn.is(':disabled')){
+                scope.$selectPane(-1,true);
+              }else{
+                calcPos = btn;
+              }
+            }else{
+              calcPos = $($(rijen[rijIndex-1]).children()[$(rijen[rijIndex-1]).children().length-1]).find('button');
+            }
+          }else if(e === 39){
+            //right arrow
+            if(rijIndex === rijen.length-1 && kolomIndex === $(rijen[rijIndex]).children().length-1){
+              if(calcFirst()){
+                scope.$selectPane(+1,true);
+              }
+            }else if(kolomIndex<kolommen.length-1){
+               btn = $($(kolommen[kolomIndex+1]).find('button'));
+              if(btn.hasClass('btn-grayed') && !btn.is(':disabled')){
+                scope.$selectPane(+1,true);
+              }else{
+                calcPos = btn;
+              }
+            }else{
+              calcPos = $($(rijen[rijIndex+1]).children()[0]).find('button');
+            }
+          }else if(e===38){
+            if(rijIndex>0){
+               btn = $($(rijen[rijIndex-1]).children()[kolomIndex]).find('button');
+              if(btn.hasClass('btn-grayed') && !btn.is(':disabled')){
+                scope.$selectPane(-1,true);
+              }else{
+                calcPos = btn;
+              }
+            }else{
+              scope.$selectPane(-1,true);
+            }
+          }else if(e===40){
+            if(rijIndex<rijen.length-1){
+               btn = $($(rijen[rijIndex+1]).children()[kolomIndex]).find('button');
+              if(btn.hasClass('btn-grayed') && !btn.is(':disabled')){
+                scope.$selectPane(+1,true);
+              }else{
+                calcPos = btn;
+              }
+            }else{
+              if(calcFirst()){
+                scope.$selectPane(+1,true);
+              }
+            }
+          }
+          if(calcPos && !calcPos.is(':disabled')){
+            setFocusButton(calcPos);
+          }
+        }
+      }
 
       if(attr.trigger && attr.trigger === 'focus'){
         input.bind('focus',function(){
@@ -338,7 +546,7 @@ angular.module('tink.datepicker', [])
       // labels for the days you can make this variable //
       var dayLabels = ['ma', 'di', 'wo', 'do', 'vr', 'za', 'zo'];
        // -- create the labels  --/
-       scope.labels = $sce.trustAsHtml('<th>' + dayLabels.join('</th><th>') + '</th>');
+       scope.labels = [];
       // Add a watch to know when input changes from the outside //
 
       // -- check if we are using a touch device  --/
@@ -357,12 +565,14 @@ angular.module('tink.datepicker', [])
           element.find('input[type=date]:first').click();
         }else{
           safeApply(scope,function(){
+            currentSelected = null;
             if($directive.open){
               scope.hide();
             }else{
               scope.$show();
               content.focus();
             }
+
           });
         }
         return false;
@@ -379,12 +589,23 @@ angular.module('tink.datepicker', [])
         pane:{},
         open:0,
         mode:0,
+        appended:0,
         selectedDate:null
       };
 
-      scope.$selectPane = function(value) {
+      scope.$selectPane = function(value,keyboard) {
         $directive.viewDate = new Date(Date.UTC($directive.viewDate.getFullYear()+( ($directive.pane.year|| 0) * value), $directive.viewDate.getMonth() + ( ($directive.pane.month || 0) * value), 1));
         scope.build();
+        if(keyboard){
+          setTimeout(function(){
+            var rijen = copyEl.find('tbody').children();
+            if(value === +1){
+               setFocusButton($(rijen[0]).find('button:not(.btn-grayed):first'));
+            }else if(value === -1){
+              setFocusButton($(rijen[rijen.length-1]).find('button:not(.btn-grayed):last'));
+            }
+          },50);
+        }
       };
 
       scope.$toggleMode = function(){
@@ -416,24 +637,25 @@ angular.module('tink.datepicker', [])
       scope.hide = function(){
         if(copyEl){
          copyEl.css({display: 'none'});
+         copyEl.attr('aria-hidden','true');
          $directive.open = 0;
          copyEl = null;
+         removeLiseners();
+         safeApply(scope,function(){
+         // content.click();
+         //content.focus();
+            $directive.open = 0;
+            content.unbind('blur.disable');
+         });
+
         }
       };
 
-      // function setDirty(ctrl){
-      //   ctrl.$dirty = true;
-      //   ctrl.$pristine = false;
-      // }
-
       scope.$select = function(date){
+      $directive.click = 1;
       $directive.viewDate = date;
         if($directive.mode === 0){
-          //ctrls[1]['single'].$setViewValue('20/01/1992');
           scope.ngModel = date;
-          //console.log(ctrls[1]['single'])
-          //input.val(dateCalculator.formatDate(date, options.dateFormat))
-          //ngModel =
           scope.hide();
           setTimeout(function(){ content.blur(); }, 0);
         }else if($directive.mode >0){
@@ -443,28 +665,27 @@ angular.module('tink.datepicker', [])
         }
       };
 
-      content.blur(function(){
-        scope.hide();
-      });
-      scope.pane={prev:0,next:0};
+      var currentSelected;
+
+      scope.pane={prev:false,next:false};
       scope.build = function() {
         if($directive.viewDate === null || $directive.viewDate === undefined){
           $directive.viewDate = new Date();
         }
 
         if(checkBefore($directive.viewDate,scope.minDate)){
-          scope.pane.prev = 1;
+          scope.pane.prev = true;
           $directive.viewDate = new Date(scope.minDate);
         }else{
-          scope.pane.prev = 0;
+          scope.pane.prev = false;
         }
         if(checkAfter($directive.viewDate,scope.maxDate)){
-          scope.pane.next = 1;
+          scope.pane.next = true;
           $directive.viewDate = new Date(scope.maxDate);
         }else{
-          scope.pane.next = 0;
+          scope.pane.next = false;
         }
-
+          scope.labels = [];
           if($directive.mode === 1){
             scope.title = dateCalculator.format($directive.viewDate, 'yyyy');
             scope.rows =  calView.monthInRows($directive.viewDate,scope.minDate,scope.maxDate);
@@ -473,13 +694,12 @@ angular.module('tink.datepicker', [])
           if($directive.mode === 0){
             scope.title = dateCalculator.format($directive.viewDate, options.yearTitleFormat);
             scope.rows =  calView.daysInRows($directive.viewDate,$directive.selectedDate,scope.minDate,scope.maxDate);
-            scope.showLabels = 1;
+            scope.labels = $sce.trustAsHtml('<th>' + dayLabels.join('</th><th>') + '</th>');
           }
           if($directive.mode === 2){
             var currentYear = parseInt(dateCalculator.format($directive.viewDate, 'yyyy'));
             scope.title = (currentYear-11) +'-'+ currentYear;
             scope.rows = calView.yearInRows($directive.viewDate,scope.minDate,scope.maxDate);
-            scope.showLabels = 0;
             //setMode(1);
           }
       };
@@ -553,8 +773,7 @@ angular.module('tink.datepicker', [])
       };
     }
   };
-}]);
-;'use strict';
+}]);;'use strict';
     angular.module('tink.datepickerRange', ['tink.dateHelper','tink.safeApply'])
     .directive('tinkDatepickerRange',['$q', '$templateCache', '$http', 'calView', '$sce','$compile','dateCalculator','$window','safeApply', function ($q, $templateCache, $http, calView, $sce,$compile,dateCalculator,$window,safeApply) {
       return {
@@ -1560,7 +1779,7 @@ angular.module('tink.dropupload')
         if (isTouch) {
           return '<div><input id="input" class="faux-input" type="date"/><div>';
         } else {
-          return '<div><div id="input" class="faux-input" contenteditable="true">{{placeholder}}</div></div>';
+          return '<div tabindex="-1"><div  id="input" role="textbox" class="faux-input" contenteditable="true">{{placeholder}}</div></div>';
         }
       },
       compile: function(template) {
@@ -1744,7 +1963,7 @@ angular.module('tink.dropupload')
             }
           });
           element.unbind('input').unbind('change');
-          element.bind('input change', function() {
+          element.bind('input', function() {
                     safeApply(scope,function() {
 
                         //ctrl.$setViewValue(undefined);
@@ -1770,11 +1989,14 @@ angular.module('tink.dropupload')
                 }else{
                   checkValidity(date);
                 }
+                ngControl.$setViewValue(value);
+                ngControl.$setDirty();
+                ngControl.$render();
               }
               //var modelString = dateCalculator.format(ngControl.$modelValue,dateformat);
               //if(value !== modelString){
-                ngControl.$setViewValue(value);
-                ngControl.$render();
+                //console.log(value)
+
               //}
             });
           });
@@ -1823,6 +2045,7 @@ angular.module('tink.dropupload')
         if (event.which === 8) {
           handleBackspace();
           return false;
+
         } else if (event.which === 46) {
           handleDelete();
           return false;
@@ -1843,8 +2066,11 @@ angular.module('tink.dropupload')
 
       self.element.bind('focus',function(){
         setTimeout(function(){
-          setCursor(firstCh());
-        },10);     
+          var pos = firstCh();
+          if(pos !== newVa.length){
+            setCursor(firstCh());
+          }
+        },20);
       });
 
       self.element.bind('paste', function (e) {
@@ -1959,6 +2185,7 @@ angular.module('tink.dropupload')
           return 0;
         }
       }
+      return newVa.length;
     }
 
     function valueToHtml(value) {
@@ -2005,6 +2232,7 @@ angular.module('tink.dropupload')
 
     if(self.element[0].nodeName === 'DIV'){
       self.element.html(valueToHtml(newVa));
+      self.element.trigger('valueChanged',[newVa]);
     }else{
       self.element.val(newVa);
     }
@@ -2798,10 +3026,11 @@ angular.module('tink.nationalNumber')
       if (isTouch) {
         return '<div><input class="hide-styling" type="text"><div>';
       } else {
-        return '<div><div id="input" class="faux-input" contenteditable="true">{{placeholder}}</div></div>';
+        return '<div tabindex="-1"><div id="input" class="faux-input" contenteditable="true">{{placeholder}}</div></div>';
       }
     },
     link:function(scope,elm,attr,ctrl){
+      elm.attr('tabindex','-1');
       var isNative = /(ip(a|o)d|iphone|android)/ig.test($window.navigator.userAgent);
       var isTouch = ('createTouch' in $window.document) && isNative;
       var controller = ctrl[0];
@@ -2951,456 +3180,6 @@ angular.module('tink.nationalNumber')
       }
     }
 };
-}]);;'use strict';
-angular.module('tink.popOver', ['tink.tooltip'])
-.directive( 'tinkPopover', ['$q','$templateCache','$http','$compile','$timeout','$window','$rootScope',function ($q,$templateCache,$http,$compile,$timeout,$window,$rootScope) {
-  return {
-    restrict:'EA',
-    compile: function compile( tElement, attrs ) {
-      var fetchPromises = {};
-      //to retrieve a template;
-      function haalTemplateOp(template) {
-        // --- if the template already is in our app cache return it. //
-        if (fetchPromises[template]){
-          return fetchPromises[template];
-        }
-        // --- If not get the template from templatecache or http. //
-        return (fetchPromises[template] = $q.when($templateCache.get(template) || $http.get(template))
-          .then(function (res) {
-            // --- When the template is retrieved return it. //
-            if (angular.isObject(res)) {
-              $templateCache.put(template, res.data);
-              return res.data;
-            }
-            return res;
-          }));
-      }
-      var theTemplate = null;
-      if(attrs.tinkPopoverTemplate){
-        theTemplate = haalTemplateOp(attrs.tinkPopoverTemplate);
-      }
-
-
-      return {
-          post: function postLink( scope, element, attributes ) {
-                var placement = attributes.tinkPopoverPlace;
-                var align = attributes.tinkPopoverAlign;
-                var trigger = 'click';
-                var spacing = 2;
-
-                function arrowCal(placement,align){
-                  var arrowCss = 'arrow-';
-                  switch(placement){
-                    case 'left':
-                      arrowCss = arrowCss + 'right';
-                      break;
-                    case 'right':
-                      arrowCss = arrowCss + 'left';
-                      break;
-                    case 'top':
-                      arrowCss = arrowCss + 'bottom';
-                      break;
-                    case 'bottom':
-                      arrowCss = arrowCss + 'top';
-                      break;
-                  }
-
-                  switch(align){
-                    case 'center':
-                      break;
-                    case 'top':
-                    case 'bottom':
-                      if(placement === 'right' || placement === 'left'){
-                        arrowCss = arrowCss + '-' + align;
-                      }
-                      break;
-                    case 'left':
-                    case 'right':
-                      if(placement === 'top' || placement === 'bottom'){
-                        arrowCss = arrowCss + '-' + align;
-                      }
-                  }
-                  scope.arrowPlacement = arrowCss;
-                }
-
-                var isOpen = null;
-                if(trigger === 'click'){
-                  element.bind('click',function(){
-                    scope.$apply(function(){
-                      if(isOpen === null){
-                        show();
-                      }else{
-                        hide();
-                      }
-
-                    });
-                  });
-                }else if(trigger === 'hover'){
-                   element.bind('mouseenter',function(){
-                    show();
-                   });
-                   element.bind('mouseleave',function(){
-                    hide();
-                   });
-                }
-
-              function popoverHtml(){
-                var html = '<div class="popover {{arrowPlacement}}">'+
-                            '<span class="arrow"></span>'+
-                          '</div>';
-                          return html;
-              }
-
-              function childOf(c,p){ //returns boolean
-                while((c=c.parentNode)&&c!==p){
-                }
-                return !!c;
-              }
-
-              $(document).bind('click',function(e){
-                var clicked = $(e.target).parents('.popover').last();
-                if(isOpen && !childOf($(e.target).get(0),element.get(0)) && ($(e.target).get(0) !== element.get(0) || clicked.length > 0)){
-                  if(isOpen.get(0) !== clicked.get(0) &&  $(e.target).get(0) !== isOpen.get(0) ){
-                    hide();
-                  }
-                }
-
-              });
-
-              if(attributes.tinkPopoverGroup){
-                scope.$on('popover-open', function(event, args) {
-
-                    var group = args.group;
-                    if(group === attributes.tinkPopoverGroup && isOpen && $(args.el).get(0) !== isOpen.get(0)){
-                      hide();
-                    }
-                });
-              }
-
-              function show (){
-                if(theTemplate !== null){
-                  theTemplate.then(function(data){
-                    if(isOpen === null){
-                      var elContent = $($compile(data)(scope));
-                      var el =$($compile(popoverHtml())(scope));
-                      el.css('position','absolute');
-                      el.css('display','none');
-                      elContent.insertAfter(el.find('span'));
-                      // el.css('z-index','99999999999');
-                      if(placement === 'top'){
-                        el.insertBefore(element);
-                      }else{
-                        el.insertAfter(element);
-                      }
-                      calcPos(element,el,placement,align,spacing);
-
-                      if(attributes.tinkPopoverGroup){
-                        $rootScope.$broadcast('popover-open', { group: attributes.tinkPopoverGroup,el:el });
-                      }
-
-                      isOpen = el;
-                    }
-                  });
-                }
-              }
-
-              var timeoutResize = null;
-
-              $window.addEventListener('resize', function() {
-                if(isOpen!== null){
-                  $timeout.cancel( timeoutResize);
-                  timeoutResize = $timeout(function(){
-                   // setPos(isOpen,placement,align,spacing);
-                    calcPos(element,isOpen,placement,align,spacing);
-                  },250);
-                }
-              }, true);
-
-              $window.addEventListener('scroll', function() {
-                if(isOpen!== null){
-                  $timeout.cancel( timeoutResize);
-                  timeoutResize = $timeout(function(){
-                   // setPos(isOpen,placement,align,spacing);
-                    calcPos(element,isOpen,placement,align,spacing);
-                  },450);
-                }
-              }, true);
-
-              function hide(){
-                if(isOpen !== null){
-                  isOpen.remove();
-                  isOpen = null;
-                }
-              }
-              /*function inViewPort(el,top,left){
-                var win = $($window);
-                var viewport = {
-                  top : win.scrollTop(),
-                  left : win.scrollLeft()
-                };
-                viewport.right = viewport.left + win.width();
-                viewport.bottom = viewport.top + win.height();
-
-                var bounds = el.position();
-                  bounds.right = bounds.left + el.outerWidth();
-                  bounds.bottom = bounds.top + el.outerHeight();
-
-                  return (viewport.right > bounds.right && left  > 0 && bounds.bottom < viewport.bottom);
-              }*/
-
-              function placementCheck(element,popover,place,align){
-                var pageScrollY = ($window.scrollY || $window.pageYOffset);
-                var pageScrollX = ($window.scrollX || $window.pageXOffset);
-                var w1 = element.position().left - pageScrollX;
-                var w2 = $window.innerWidth - (w1+element.outerWidth(true));
-                var h1 = element.position().top - pageScrollY;
-                var h2 = $window.innerHeight - (h1+element.outerHeight(true));
-                var elemOffsetX = element.position().left + element.outerWidth(true) - pageScrollY;
-
-                var pW = popover.outerWidth(true);
-                var pH = popover.outerHeight(true);
-                var pPos = pW + elemOffsetX;
-
-                //experimental
-                var procent = {right:0.85,left:0.15,top:0.15,bottom:0.85,center:0.5};
-                var popoverMessare= {};
-
-                popoverMessare.top = pH * procent[align]-(element.outerHeight(true)/2);
-                popoverMessare.bottom = pH * (1-procent[align])-(element.outerHeight(true)/2);
-                //
-
-
-                for(var i =0; i < place.length;i++){
-                  var placement = place[i];
-                  var Ralign = null;
-                  if(placement === 'left' || placement === 'right'){
-                    if(align){
-                      popoverMessare.top = pH * procent[align[i]]-(element.outerHeight(true)/2);
-                      popoverMessare.bottom = pH * (1-procent[align[i]])-(element.outerHeight(true)/2);
-                      Ralign = align[i];
-                    }
-                    if(h1 > popoverMessare.top || align === undefined){
-                      if(h2 > popoverMessare.bottom || align === undefined){
-                        if(placement === 'left' && w1 > pW){
-                          return {place:placement,align:Ralign};
-                        }else if(placement === 'right' && pPos > pW){
-                          return {place:placement,align:Ralign};
-                        }
-                      }
-                    }
-                  }else if(placement === 'top' || placement === 'bottom'){
-                    Ralign = null;
-                    if(align){
-                      popoverMessare.left = pH * procent[align[i]]-(element.outerWidth(true)/2);
-                      popoverMessare.right = pH * (1-procent[align[i]])-(element.outerWidth(true)/2);
-                      Ralign = align[i];
-                    }
-
-                    if(w1 > popoverMessare.left || align === undefined){
-                      if(w2 > popoverMessare.right || align === undefined){
-                        if(placement === 'top'&& pH < h1){
-                          return {place:placement,align:Ralign};
-                        }else if(placement === 'bottom' && pH+h1+element.outerHeight(true) < $window.innerHeight){
-                          return {place:placement,align:Ralign};
-                        }
-                      }
-                    }
-                }}
-                return false;
-              }
-              arrowCal(placement,align);
-              var timoutPos = null;
-
-              //calculate the position
-              function calcPos(element,el,place,align,spacing){
-                var pageScrollY = ($window.scrollY || $window.pageYOffset);
-                var pageScrollX = ($window.scrollX || $window.pageXOffset);
-
-                var w1 = element.position().left - pageScrollX;
-                var w2 = $window.innerWidth - (w1+element.outerWidth(true));
-                var h1 = element.position().top - pageScrollY;
-                var h2 = $window.innerHeight - (h1+element.outerHeight(true));
-                //var elemOffsetX = element.position().left + element.outerWidth(true) - $window.scrollY;
-                var chosen = {};
-
-
-                //calc biggest quadrant
-                if(w1 > w2){
-                  chosen.xWidth = w1;
-                  chosen.Xname = 'left';
-                  chosen.x = placementCheck(element,el,['left']).place;
-                }else{
-                  chosen.x = placementCheck(element,el,['right']).place;
-                  chosen.Xname = 'right';
-                  chosen.xWidth = w2;
-                }
-
-                if(h1 > h2){
-                  chosen.y = placementCheck(element,el,['top']).place;
-                  chosen.yHeight = h1;
-                  chosen.Yname = 'top';
-                }else{
-                  chosen.y = placementCheck(element,el,['bottom']).place;
-                  chosen.yHeight = h2;
-                  chosen.Yname = 'bottom';
-                }
-
-                //height quadrant
-                var qHeight = $window.innerHeight * 0.25;
-
-                if(placementCheck(element,el,[place],[align]) !== false){
-                  chosen.place = place;
-                  chosen.align = align;
-
-                }else{
-                  if(h1 < qHeight){
-                    var alignB;
-                    //q1
-                    if(w1 > w2){
-                      alignB = 'right';
-                    }else{
-                      alignB = 'left';
-                    }
-                    if(placementCheck(element,el,['bottom'],[alignB]) !== false){
-                      chosen.preferPlacement = 'bottom';
-                      chosen.preferAlign = alignB;
-                    }else if(chosen.x !== false){
-                      //chosen.preferPlacement = chosen.x;
-                    }else{
-                      console.warn('tosmall screen');
-                    }
-                  }else if (h1 > qHeight && h1 < qHeight *3){
-                    //qCenter
-                    if(chosen.x !== false){
-                      chosen.preferPlacement = chosen.x;
-                    }else if(chosen.y !== false){
-                      chosen.preferPlacement = chosen.y;
-                    }else{
-                      console.warn('to small screen');
-                    }
-                    if(placementCheck(element,el,[chosen.Xname],['center']) !== false){
-                      chosen.preferAlign = 'center';
-                    }
-                  }else{
-                    //Qbottom
-                    if(placementCheck(element,el,['top'],[chosen.Xname]) !== false){
-                      chosen.preferPlacement = 'top';
-                    }else if(chosen.x !== false){
-                      chosen.preferPlacement = chosen.x;
-                    }else if(chosen.y !== false){
-                      chosen.preferPlacement = chosen.y;
-                    }
-                  }
-
-                  if(chosen.preferPlacement !== undefined){
-                    chosen.place = chosen.preferPlacement;
-                  }
-
-                  if(chosen.place === 'left' || chosen.place === 'right'){
-                    if(h1 > h2){
-                      chosen.align = 'bottom';
-                    }else{
-                      chosen.align = 'top';
-                    }
-
-                  }
-
-                  if(chosen.place === 'bottom' || chosen.place === 'top'){
-                    if(w1 > w2){
-                      chosen.align = 'right';
-                    }else{
-                      chosen.align = 'left';
-                    }
-                  }
-
-                  if(chosen.preferAlign !== undefined){
-                    chosen.align = chosen.preferAlign;
-                  }
-
-                }
-var pos;
-                if(placementCheck(element,el,[chosen.place],[chosen.align])){
-                  pos = getPos(el,chosen.place,chosen.align,spacing);
-                }else{
-                  var pos1 = [];
-                    var pos2 = ['left','center','right','left','center','right','top','center','bottom','top','center','bottom'];
-                    if(w1 > w2){
-                      pos1 = pos1.concat(['left','left','left']);
-                    }else{
-                      pos1 = pos1.concat(['right','right','right']);
-                    }
-                    if(h1 > h2){
-                      pos1 = pos1.concat(['top','top','top']);
-                    }else{
-                      pos1 = pos1.concat(['bottom','bottom','bottom']);
-                    }
-                    var search = placementCheck(element,el,pos1,pos2);
-                    if(search !== false){
-                      pos = getPos(el,search.place,search.align,spacing);
-                    }else{
-                      console.log(chosen);
-                      if(chosen.xWidth > el.outerWidth(true)+spacing){
-                        pos = getPos(el,chosen.Xname,'top',spacing);
-                      }else{
-                        pos = getPos(el,'bottom',chosen.Xname,spacing);
-                      }
-                    }
-                }
-
-                pos.then(function(data){
-                    el.css('top',data.top);
-                    el.css('left',data.left);
-                    arrowCal(data.place,data.align);
-                    // el.addClass('prevent-transition');
-                    el.css('display','block');
-                    // el.removeClass('prevent-transition');
-                });
-              }
-
-               //The function that will be called to position the tooltip;
-            function getPos(el,placement,align,spacing){
-              var q = $q.defer();
-              $timeout.cancel(timoutPos);
-              timoutPos = $timeout(function(){
-                var porcent = {right:0.85,left:0.15,top:0.15,bottom:0.85};
-                var arrowHeight = 10;
-                var arrowWidth = 10;
-
-                var alignLeft = 0;
-                var alignTop = 0;
-                if(align === 'center'){
-                  alignLeft = (el.outerWidth(true) / 2)-(element.outerWidth(true)/2);
-                  alignTop = (el.outerHeight(true) / 2)-(element.outerHeight(true)/2);
-                }else if(align === 'left' || align === 'right'){
-                  alignLeft = (el.outerWidth(true)*porcent[align]) -(element.outerWidth(true)/2);
-                }else if(align === 'top' || align === 'bottom'){
-                  alignTop = (el.outerHeight(true)*porcent[align]) - (element.outerHeight(true)/2);
-                }
-
-                var left = element.position().left - alignLeft;
-                var top = null;
-                  if(placement === 'top'){
-                    top = element.position().top - el.outerHeight(true)- arrowHeight - spacing;
-                  }else if(placement === 'bottom'){
-                    top = element.position().top + element.outerHeight() + arrowHeight +spacing;
-                  }else if(placement === 'right'){
-                    left = element.position().left + element.outerWidth(true) + arrowWidth + spacing;
-                  }else if(placement === 'left'){
-                    left = element.position().left - el.outerWidth(true)- arrowWidth - spacing;
-                  }
-
-                  if(placement === 'right' || placement === 'left'){
-                    top = element.position().top- alignTop;
-                  }
-                    q.resolve({top:top,left:left,place:placement,align:align});
-              },50);
-              return q.promise;
-            }
-          }
-      };
-    }
-  };
-
 }]);;'use strict';
 angular.module('tink.popOver', ['tink.tooltip'])
 .directive( 'tinkPopover', ['$q','$templateCache','$http','$compile','$timeout','$window','$rootScope',function ($q,$templateCache,$http,$compile,$timeout,$window,$rootScope) {
@@ -3607,67 +3386,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
 
             }
 
-              function placementCheck(element,popover,place,align){
-                var pageScrollY = ($window.scrollY || $window.pageYOffset);
-                var pageScrollX = ($window.scrollX || $window.pageXOffset);
-                var w1 = element.position().left - pageScrollX;
-                var w2 = $window.innerWidth - (w1+element.outerWidth(true));
-                var h1 = element.position().top - pageScrollY;
-                var h2 = $window.innerHeight - (h1+element.outerHeight(true));
-                var elemOffsetX = element.position().left + element.outerWidth(true) - pageScrollY;
-
-                var pW = popover.outerWidth(true);
-                var pH = popover.outerHeight(true);
-                var pPos = pW + elemOffsetX;
-
-                //experimental
-                var procent = {right:0.85,left:0.15,top:0.15,bottom:0.85,center:0.5};
-                var popoverMessare= {};
-
-                popoverMessare.top = pH * procent[align]-(element.outerHeight(true)/2);
-                popoverMessare.bottom = pH * (1-procent[align])-(element.outerHeight(true)/2);
-                //
-
-
-                for(var i =0; i < place.length;i++){
-                  var placement = place[i];
-                  var Ralign = null;
-                  if(placement === 'left' || placement === 'right'){
-                    if(align){
-                      popoverMessare.top = pH * procent[align[i]]-(element.outerHeight(true)/2);
-                      popoverMessare.bottom = pH * (1-procent[align[i]])-(element.outerHeight(true)/2);
-                      Ralign = align[i];
-                    }
-                    if(h1 > popoverMessare.top || align === undefined){
-                      if(h2 > popoverMessare.bottom || align === undefined){
-                        if(placement === 'left' && w1 > pW){
-                          return {place:placement,align:Ralign};
-                        }else if(placement === 'right' && pPos > pW){
-                          return {place:placement,align:Ralign};
-                        }
-                      }
-                    }
-                  }else if(placement === 'top' || placement === 'bottom'){
-                    Ralign = null;
-                    if(align){
-                      popoverMessare.left = pH * procent[align[i]]-(element.outerWidth(true)/2);
-                      popoverMessare.right = pH * (1-procent[align[i]])-(element.outerWidth(true)/2);
-                      Ralign = align[i];
-                    }
-
-                    if(w1 > popoverMessare.left || align === undefined){
-                      if(w2 > popoverMessare.right || align === undefined){
-                        if(placement === 'top'&& pH < h1){
-                          return {place:placement,align:Ralign};
-                        }else if(placement === 'bottom' && pH+h1+element.outerHeight(true) < $window.innerHeight){
-                          return {place:placement,align:Ralign};
-                        }
-                      }
-                    }
-                }}
-                return false;
-              }
-
+            
               function arrowCal(placement,align){
                   var arrowCss = 'arrow-';
                   switch(placement){
@@ -3703,7 +3422,6 @@ angular.module('tink.popOver', ['tink.tooltip'])
                   scope.arrowPlacement = arrowCss;
                 }
               arrowCal(placement,align);
-              var timoutPos = null;
 
               //calculate the position
               function calcPos(element,el,place,align,spacing){
@@ -3759,7 +3477,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                     place = 'bottom';
                   }
                 }
-
+                var val;
                 if(align){
                   if(place === 'left' || place === 'right'){
                     if(align === 'top'){
@@ -3771,7 +3489,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                         align = undefined;
                       }
                     }else if(align === 'center'){
-                      var val = (el.outerHeight(true) - element.outerHeight(true)) / 2;
+                      val = (el.outerHeight(true) - element.outerHeight(true)) / 2;
                       if(val > h1 || val > h2){
                         align = undefined;
                       }
@@ -3787,7 +3505,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                         align = undefined;
                       }
                     }else if(align === 'center'){
-                      var val = (el.outerWidth(true) - element.outerWidth(true))/2;
+                      val = (el.outerWidth(true) - element.outerWidth(true))/2;
                       if(val > w1 || val > w2){
                         align = undefined;
                       }
@@ -4862,6 +4580,8 @@ angular.module('tink', [
 		'tink.nationalNumber',
 		'tink.dropupload',
 		'angularFileUpload',
+		'tink.modal',
+		'ngAria',
 		'tink.interactiveTable',
 		'tink.modal',
 		'tink.backtotop',
@@ -28305,13 +28025,13 @@ for (var key in angularFileUpload) {
 
 
   $templateCache.put('templates/tinkDatePickerField.html',
-    "<div class=\"dropdown-menu datepicker\" ng-class=\"'datepicker-mode-' + $mode\"> <table style=\"table-layout: fixed; height: 100%; width: 100%\"> <thead> <tr class=text-center> <th> <button tabindex=-1 type=button ng-disabled=pane.prev class=\"btn pull-left\" ng-click=$selectPane(-1)> <i class=\"fa fa-chevron-left\"></i> </button> </th> <th colspan=\"{{ rows[0].length - 2 }}\"> <button tabindex=-1 type=button class=\"btn btn-block text-strong\" ng-click=$toggleMode()> <strong style=\"text-transform: capitalize\" ng-bind=title></strong> </button> </th> <th> <button tabindex=-1 type=button ng-disabled=pane.next class=\"btn pull-right\" ng-click=$selectPane(+1)> <i class=\"fa fa-chevron-right\"></i> </button> </th> </tr> <tr class=datepicker-days ng-bind-html=labels ng-if=showLabels></tr> </thead> <tbody> <tr ng-repeat=\"(i, row) in rows\" height=\"{{ 100 / rows.length }}%\"> <td class=text-center ng-repeat=\"(j, el) in row\"> <button tabindex=-1 type=button class=btn style=\"width: 100%\" ng-class=\"{'btn-selected': el.selected, 'btn-today': el.isToday && !el.elected}\" ng-click=$select(el.date) ng-disabled=el.disabled> <span ng-class=\"{'text-muted': el.muted}\" ng-bind=el.label></span> </button> </td> </tr> </tbody> </table> </div>"
+    "<div role=datepicker class=\"dropdown-menu datepicker\" ng-class=\"'datepicker-mode-' + $mode\"> <table style=\"table-layout: fixed; height: 100%; width: 100%\"> <thead> <tr class=text-center> <th> <button tabindex=-1 type=button ng-disabled=pane.prev aria-label=\"vorige maand\" class=\"btn pull-left\" ng-click=$selectPane(-1)> <i class=\"fa fa-chevron-left\"></i> </button> </th> <th colspan=\"{{ rows[0].length - 2 }}\"> <button tabindex=0 type=button class=\"btn btn-block text-strong\" ng-click=$toggleMode()> <strong style=\"text-transform: capitalize\" ng-bind=title></strong> </button> </th> <th> <button tabindex=0 type=button ng-disabled=pane.next aria-label=\"volgende maand\" class=\"btn pull-right\" ng-click=$selectPane(+1)> <i class=\"fa fa-chevron-right\"></i> </button> </th> </tr> <tr class=datepicker-days ng-bind-html=labels ng-if=showLabels></tr> </thead> <tbody> <tr ng-repeat=\"(i, row) in rows\" height=\"{{ 100 / rows.length }}%\"> <td class=text-center ng-repeat=\"(j, el) in row\"> <button tabindex=0 type=button class=btn style=\"width: 100%\" ng-class=\"{'btn-selected': el.selected, 'btn-today': el.isToday && !el.elected, 'btn-grayed':el.isMuted}\" ng-focus=elemFocus($event) ng-click=$select(el.date) ng-disabled=el.disabled> <span role=\"\" ng-class=\"{'text-muted': el.muted}\" ng-bind=el.label></span> </button> </td> </tr> </tbody> </table> </div>"
   );
 
 
   $templateCache.put('templates/tinkDatePickerInput.html',
-    "<div class=datepicker-input-fields> <input tink-format-input data-format=00/00/0000 data-placeholder=dd/mm/jjjj data-date dynamic-name=dynamicName data-max-date=maxDate data-min-date=minDate ng-model=\"ngModel\">\n" +
-    "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div>"
+    "<div class=datepicker-input-fields tabindex=-1> <input role=date aria-label=datepicker tabindex=-1 tink-format-input data-format=00/00/0000 data-placeholder=dd/mm/jjjj data-date dynamic-name=dynamicName data-max-date=maxDate data-min-date=minDate ng-model=\"ngModel\">\n" +
+    "<span role=\"datepicker icon\" class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div>"
   );
 
 
@@ -28321,8 +28041,8 @@ for (var key in angularFileUpload) {
 
 
   $templateCache.put('templates/tinkDatePickerRangeInputs.html',
-    "<div class=\"datepicker-input-fields row no-gutter\"> <div class=col-sm-6> <input id=firstDateElem class=elem-one data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj tink-format-input ng-model=firstDate valid-name=first>\n" +
-    "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div> <div class=col-sm-6> <input id=lastDateElem class=elem-two data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj tink-format-input ctrl-model=dynamicName valid-name=last ng-model=lastDate>\n" +
+    "<div class=\"datepicker-input-fields row no-gutter\"> <div class=col-sm-6> <input id=firstDateElem tabindex=-1 class=elem-one data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj tink-format-input ng-model=firstDate valid-name=first>\n" +
+    "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div> <div class=col-sm-6> <input id=lastDateElem tabindex=-1 class=elem-two data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj tink-format-input ctrl-model=dynamicName valid-name=last ng-model=lastDate>\n" +
     "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div> </div>"
   );
 
