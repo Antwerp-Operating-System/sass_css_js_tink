@@ -81,7 +81,12 @@ angular.module('tink.datepicker', [])
               if (currentSelected && (event.which === 38 || event.which === 37 || event.which === 39 || event.which === 40)) {
                 event.preventDefault();
                 calcFocus(event.which);
-              }else if(event.keyCode === 9){
+              }else if(event.keyCode === 9){              
+                content.bindFirst('blur.disable',function(e){
+                  e.stopImmediatePropagation();
+                  return false;
+                });
+
                 event.preventDefault();
                 setFocusButton();
                 //return false;
@@ -118,11 +123,6 @@ angular.module('tink.datepicker', [])
               handlers.splice(0, 0, handler);
           });
       };
-
-      content.bindFirst('blur.disable',function(e){
-        e.stopImmediatePropagation();
-        return false;
-      });
 
       function validFormat(date,format){
           var dateObject;
@@ -384,6 +384,7 @@ angular.module('tink.datepicker', [])
          // content.click();
          //content.focus();
             $directive.open = 0;
+            content.unbind('blur.disable');
          });
 
         }

@@ -228,6 +228,7 @@
                   checkValidity(date);
                 }
                 ngControl.$setViewValue(value);
+                ngControl.$setDirty();
                 ngControl.$render();
               }
               //var modelString = dateCalculator.format(ngControl.$modelValue,dateformat);
@@ -310,7 +311,7 @@
           if(pos !== newVa.length){
             setCursor(firstCh());
           }
-        },15);     
+        },20);     
       });
 
       self.element.bind('paste', function (e) {
