@@ -227,11 +227,13 @@
                 }else{
                   checkValidity(date);
                 }
+                ngControl.$setViewValue(value);
+                ngControl.$render();
               }
               //var modelString = dateCalculator.format(ngControl.$modelValue,dateformat);
               //if(value !== modelString){
-                ngControl.$setViewValue(value);
-                ngControl.$render();
+                //console.log(value)
+                
               //}
             });
           });
@@ -420,6 +422,7 @@
           return 0;
         }
       }
+      return newVa.length;
     }
 
     function valueToHtml(value) {

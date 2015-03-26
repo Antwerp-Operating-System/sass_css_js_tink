@@ -79,11 +79,15 @@ angular.module('tink.datepicker', [])
           if($directive.open){
             safeApply(scope,function(){
               if (currentSelected && (event.which === 38 || event.which === 37 || event.which === 39 || event.which === 40)) {
+                event.preventDefault();
                 calcFocus(event.which);
               }else if(event.keyCode === 9){
                 event.preventDefault();
                 setFocusButton();
-               // return false;
+                //return false;
+              }else if(currentSelected && event.keyCode !== 13){
+                content.focus();
+                currentSelected = null;
               }
             });
           }
@@ -93,6 +97,32 @@ angular.module('tink.datepicker', [])
 
         $($window).bind('keydown',Liseners.windowKeydown);
       }
+
+      content.bind('focus',function(){
+         currentSelected = null;
+      })
+
+      $.fn.bindFirst = function(name, fn) {
+          // bind as you normally would
+          // don't want to miss out on any jQuery magic
+          this.on(name, fn);
+
+          // Thanks to a comment by @Martin, adding support for
+          // namespaced events too.
+          this.each(function() {
+              var handlers = $._data(this, 'events')[name.split('.')[0]];
+              console.log(handlers);
+              // take out the handler we just inserted from the end
+              var handler = handlers.pop();
+              // move it at the beginning
+              handlers.splice(0, 0, handler);
+          });
+      };
+
+      content.bindFirst('blur.disable',function(e){
+        e.stopImmediatePropagation();
+        return false;
+      });
 
       function validFormat(date,format){
           var dateObject;
@@ -274,7 +304,7 @@ angular.module('tink.datepicker', [])
           element.find('input[type=date]:first').click();
         }else{
           safeApply(scope,function(){
-
+            currentSelected = null;
             if($directive.open){
               scope.hide();
             }else{
