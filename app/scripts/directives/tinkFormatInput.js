@@ -306,8 +306,11 @@
 
       self.element.bind('focus',function(){
         setTimeout(function(){
-          setCursor(firstCh());
-        },10);     
+          var pos = firstCh();
+          if(pos !== newVa.length){
+            setCursor(firstCh());
+          }
+        },15);     
       });
 
       self.element.bind('paste', function (e) {
