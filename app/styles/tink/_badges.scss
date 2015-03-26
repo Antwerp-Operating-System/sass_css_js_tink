@@ -25,7 +25,12 @@
   }
 
   .btn-xs & {
-    vertical-align: text-top;
+    //vertical-align: 1px;
+    // vertical aligen correction needed or not?
+    // chrome:  xs: NO / md: NO
+    // firefox xs: YES / md: NO
+    // safari xs: NO / md: YES
+    //}
   }
 
   // [converter] extracted a& to a.badge
