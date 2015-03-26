@@ -16,6 +16,8 @@ angular.module('tink', [
 		'tink.nationalNumber',
 		'tink.dropupload',
 		'angularFileUpload',
+		'tink.modal',
+		'ngAria',
 		'tink.interactiveTable',
 		'tink.modal',
 		'tink.backtotop',

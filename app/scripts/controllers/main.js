@@ -12,9 +12,9 @@ angular.module('tinkFramework.controllers')
 
   scope.dates= {last:new Date(2015,0,2),first:new Date()};
 scope.signup={username:'11.11.11-111.1'};
-scope.mindate = new Date(2014,1,27);
-scope.maxdate = new Date(2014,2,20);
-scope.pages='5,10,15,20,50';
+scope.mindate = new Date(2012,8,1);
+scope.maxdate = new Date(2012,9,1);
+scope.pages='5,10*,15,20,50';
 scope.rek='92012023338';
   scope.go = function(){
   	console.log(scope.dates);
@@ -27,7 +27,7 @@ scope.file=null;
   };
 
 tinkUploadService.addUrls('http://localhost:3000/upload');
-scope.valid={mimeTypes:['image/jpeg', 'image/png', 'image/pjpeg', 'image/gif'],extensions:['.jpg', '.png', '.gif']};
+//scope.valid={mimeTypes:['image/jpeg', 'image/png', 'image/pjpeg', 'image/gif'],extensions:['.jpg', '.png', '.gif']};
 scope.extraOptions = {date:{isPrivate:true},formName:'lalaForm'};
 //Preview DATA
       scope.data = [
@@ -85,7 +85,7 @@ scope.extraOptions = {date:{isPrivate:true},formName:'lalaForm'};
     scope.data.push({name:'First name',achternaam:'Last name',adress:'Generaal Armstrongweg 1, 2020 Antwerp'});
   };
   scope.changeData = function(){
-    scope.data[0].name = 'Edited name';
+    scope.data[0].name = 'AUWJEEASS';
   };
 
   scope.actions = [

@@ -17,7 +17,7 @@
         if (isTouch) {
           return '<div><input id="input" class="faux-input" type="date"/><div>';
         } else {
-          return '<div><div id="input" class="faux-input" contenteditable="true">{{placeholder}}</div></div>';
+          return '<div tabindex="-1"><div  id="input" role="textbox" class="faux-input" contenteditable="true">{{placeholder}}</div></div>';
         }
       },
       compile: function(template) {
@@ -201,7 +201,7 @@
             }
           });
           element.unbind('input').unbind('change');
-          element.bind('input change', function() {
+          element.bind('input', function() {
                     safeApply(scope,function() {
 
                         //ctrl.$setViewValue(undefined);
@@ -227,11 +227,14 @@
                 }else{
                   checkValidity(date);
                 }
+                ngControl.$setViewValue(value);
+                ngControl.$setDirty();
+                ngControl.$render();
               }
               //var modelString = dateCalculator.format(ngControl.$modelValue,dateformat);
               //if(value !== modelString){
-                ngControl.$setViewValue(value);
-                ngControl.$render();
+                //console.log(value)
+
               //}
             });
           });
@@ -280,6 +283,7 @@
         if (event.which === 8) {
           handleBackspace();
           return false;
+
         } else if (event.which === 46) {
           handleDelete();
           return false;
@@ -300,8 +304,11 @@
 
       self.element.bind('focus',function(){
         setTimeout(function(){
-          setCursor(firstCh());
-        },10);     
+          var pos = firstCh();
+          if(pos !== newVa.length){
+            setCursor(firstCh());
+          }
+        },20);
       });
 
       self.element.bind('paste', function (e) {
@@ -416,6 +423,7 @@
           return 0;
         }
       }
+      return newVa.length;
     }
 
     function valueToHtml(value) {
@@ -462,6 +470,7 @@
 
     if(self.element[0].nodeName === 'DIV'){
       self.element.html(valueToHtml(newVa));
+      self.element.trigger('valueChanged',[newVa]);
     }else{
       self.element.val(newVa);
     }

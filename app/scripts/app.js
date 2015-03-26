@@ -18,6 +18,7 @@ angular.module('tinkFramework', [
     'ngSanitize',
     'ngTouch',
     'tinkFramework.controllers',
+    'ngAria',
   ]).config(function ($routeProvider) { /*, $locationProvider */
 		$routeProvider
 			.when('/', {

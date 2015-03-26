@@ -45,7 +45,7 @@
           <!-- NAME-->
           <div class="form-group" ng-class="{ 'has-error' : userForm.single.$invalid && !userForm.single.$pristine }">
             <label>Name</label>
-            <tink-datepicker name="single"  required="required" class="form-control" data-max-date="maxdate" ng-model="dates.first">
+          <tink-datepicker name="single"  required="required" class="form-control" data-min-date="maxdate" ng-model="dates.first">
             <p ng-show="userForm.single.$invalid && !userForm.single.$pristine" class="help-block">You name is required.</p>
           </div>
         <tink-national-number name="nation" ng-model="tem"></tink-national-number>

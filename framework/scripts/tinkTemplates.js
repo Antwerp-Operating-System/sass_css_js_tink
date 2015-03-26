@@ -12,13 +12,13 @@ angular.module('tink.templates', []).run(['$templateCache', function($templateCa
 
 
   $templateCache.put('templates/tinkDatePickerField.html',
-    "<div class=\"dropdown-menu datepicker\" ng-class=\"'datepicker-mode-' + $mode\"> <table style=\"table-layout: fixed; height: 100%; width: 100%\"> <thead> <tr class=text-center> <th> <button tabindex=-1 type=button ng-disabled=pane.prev class=\"btn pull-left\" ng-click=$selectPane(-1)> <i class=\"fa fa-chevron-left\"></i> </button> </th> <th colspan=\"{{ rows[0].length - 2 }}\"> <button tabindex=-1 type=button class=\"btn btn-block text-strong\" ng-click=$toggleMode()> <strong style=\"text-transform: capitalize\" ng-bind=title></strong> </button> </th> <th> <button tabindex=-1 type=button ng-disabled=pane.next class=\"btn pull-right\" ng-click=$selectPane(+1)> <i class=\"fa fa-chevron-right\"></i> </button> </th> </tr> <tr class=datepicker-days ng-bind-html=labels ng-if=showLabels></tr> </thead> <tbody> <tr ng-repeat=\"(i, row) in rows\" height=\"{{ 100 / rows.length }}%\"> <td class=text-center ng-repeat=\"(j, el) in row\"> <button tabindex=-1 type=button class=btn style=\"width: 100%\" ng-class=\"{'btn-selected': el.selected, 'btn-today': el.isToday && !el.elected}\" ng-click=$select(el.date) ng-disabled=el.disabled> <span ng-class=\"{'text-muted': el.muted}\" ng-bind=el.label></span> </button> </td> </tr> </tbody> </table> </div>"
+    "<div role=datepicker class=\"dropdown-menu datepicker\" ng-class=\"'datepicker-mode-' + $mode\"> <table style=\"table-layout: fixed; height: 100%; width: 100%\"> <thead> <tr class=text-center> <th> <button tabindex=-1 type=button ng-disabled=pane.prev aria-label=\"vorige maand\" class=\"btn pull-left\" ng-click=$selectPane(-1)> <i class=\"fa fa-chevron-left\"></i> </button> </th> <th colspan=\"{{ rows[0].length - 2 }}\"> <button tabindex=0 type=button class=\"btn btn-block text-strong\" ng-click=$toggleMode()> <strong style=\"text-transform: capitalize\" ng-bind=title></strong> </button> </th> <th> <button tabindex=0 type=button ng-disabled=pane.next aria-label=\"volgende maand\" class=\"btn pull-right\" ng-click=$selectPane(+1)> <i class=\"fa fa-chevron-right\"></i> </button> </th> </tr> <tr class=datepicker-days ng-bind-html=labels ng-if=showLabels></tr> </thead> <tbody> <tr ng-repeat=\"(i, row) in rows\" height=\"{{ 100 / rows.length }}%\"> <td class=text-center ng-repeat=\"(j, el) in row\"> <button tabindex=0 type=button class=btn style=\"width: 100%\" ng-class=\"{'btn-selected': el.selected, 'btn-today': el.isToday && !el.elected, 'btn-grayed':el.isMuted}\" ng-focus=elemFocus($event) ng-click=$select(el.date) ng-disabled=el.disabled> <span role=\"\" ng-class=\"{'text-muted': el.muted}\" ng-bind=el.label></span> </button> </td> </tr> </tbody> </table> </div>"
   );
 
 
   $templateCache.put('templates/tinkDatePickerInput.html',
-    "<div class=datepicker-input-fields> <input tink-format-input data-format=00/00/0000 data-placeholder=dd/mm/jjjj data-date dynamic-name=dynamicName data-max-date=maxDate data-min-date=minDate ng-model=\"ngModel\">\n" +
-    "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div>"
+    "<div class=datepicker-input-fields tabindex=-1> <input role=date aria-label=datepicker tabindex=-1 tink-format-input data-format=00/00/0000 data-placeholder=dd/mm/jjjj data-date dynamic-name=dynamicName data-max-date=maxDate data-min-date=minDate ng-model=\"ngModel\">\n" +
+    "<span role=\"datepicker icon\" class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div>"
   );
 
 
@@ -28,8 +28,8 @@ angular.module('tink.templates', []).run(['$templateCache', function($templateCa
 
 
   $templateCache.put('templates/tinkDatePickerRangeInputs.html',
-    "<div class=\"datepicker-input-fields row no-gutter\"> <div class=col-sm-6> <input id=firstDateElem class=elem-one data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj tink-format-input ng-model=firstDate valid-name=first>\n" +
-    "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div> <div class=col-sm-6> <input id=lastDateElem class=elem-two data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj tink-format-input ctrl-model=dynamicName valid-name=last ng-model=lastDate>\n" +
+    "<div class=\"datepicker-input-fields row no-gutter\"> <div class=col-sm-6> <input id=firstDateElem tabindex=-1 class=elem-one data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj tink-format-input ng-model=firstDate valid-name=first>\n" +
+    "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div> <div class=col-sm-6> <input id=lastDateElem tabindex=-1 class=elem-two data-date data-format=00/00/0000 data-placeholder=dd/mm/jjjj tink-format-input ctrl-model=dynamicName valid-name=last ng-model=lastDate>\n" +
     "<span class=datepicker-icon> <i class=\"fa fa-calendar\"></i> </span> </div> </div>"
   );
 
