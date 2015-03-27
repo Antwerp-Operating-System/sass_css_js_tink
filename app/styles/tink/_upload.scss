@@ -25,10 +25,17 @@ $upload-font-size:  $font-size-base;
   text-align: center;
   transition: background $animation-speed linear;
 
+  &:focus {
+    outline: none;
+
+    .upload-zone {
+      background-color: $upload-hover-background-color;
+    }
+  }
 
   &:active {
     &:focus {
-      @include tab-focus();
+      // @include tab-focus();
     }
   }
 

@@ -7,11 +7,17 @@
 
 
 .table-interactive {
-  input[type="checkbox"] + label {
-    padding: 0; // remove padding so the tablecell width can be adjusted
+  &:focus {
+    outline: none;
+  }
 
-    @include mq($screen-sm, "max") {
-      padding-right: rem(24);
+  table {
+    input[type="checkbox"] + label {
+      padding: 0; // remove padding so the tablecell width can be adjusted
+
+      @include mq($screen-sm, "max") {
+        padding-right: rem(24);
+      }
     }
   }
 
@@ -171,8 +177,18 @@
   overflow-y: auto;
   user-select: none;
 
+  &:focus {
+    outline: none;
+  }
+
   li {
     overflow: hidden;
+  }
+}
+
+.draggable-elem {
+  &:focus {
+    outline: none;
   }
 }
 
