@@ -190,7 +190,7 @@ angular.module('tink.popOver', ['tink.tooltip'])
                   }else if(align === 'top'){
                     top = element.position().top;
                   }else if(align === 'bottom'){
-                    top = element.position().top - (element.outerHeight(true) - el.outerHeight(true));
+                    top = element.position().top - el.outerHeight(true) + element.outerHeight(true);
                   }else if(align === 'center'){
                     if(placement === 'top' || placement === 'bottom'){
                       left = element.position().left - ((el.outerWidth(true) / 2)-(element.outerWidth(true)/2));
