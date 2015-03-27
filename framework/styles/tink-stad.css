@@ -2808,9 +2808,10 @@ html.has-open-modal {
   padding: 0.42857rem ;
   text-align: center;
   transition: background 0.1s linear; }
-  .upload:active:focus {
-    outline: 0;
-    box-shadow: 0 0 0 2px rgba(33, 157, 200, 0.25); }
+  .upload:focus {
+    outline: none; }
+    .upload:focus .upload-zone {
+      background-color: #ecf8fc; }
   .upload.disabled, .upload[disabled], fieldset[disabled] .upload {
     box-shadow: none;
     cursor: not-allowed;
@@ -3089,10 +3090,12 @@ html.has-open-modal {
  * Basic styling is already done on the table element by the _table.scss
  * .table-interactive adds interactive styling elements
  */
-.table-interactive input[type="checkbox"] + label {
+.table-interactive:focus {
+  outline: none; }
+.table-interactive table input[type="checkbox"] + label {
   padding: 0; }
   @media (max-width: 768px) {
-    .table-interactive input[type="checkbox"] + label {
+    .table-interactive table input[type="checkbox"] + label {
       padding-right: 1.71429rem ; } }
 .table-interactive > thead > tr > th {
   cursor: pointer;
@@ -3194,8 +3197,13 @@ html.has-open-modal {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none; }
+  .table-interactive-cols:focus {
+    outline: none; }
   .table-interactive-cols li {
     overflow: hidden; }
+
+.draggable-elem:focus {
+  outline: none; }
 
 button i {
   position: relative;
