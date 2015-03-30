@@ -232,24 +232,24 @@ module.exports = function (grunt) {
               '{,*/}*'
             ]
           },
-          {
-            expand: true,
-            dot: true,
-            cwd: 'bower_components/lodash',
-            dest: '<%= yeoman.dist %>/scripts/directives',
-            src: [
-              'lodash.js'
-            ]
-          },
-          {
-            expand: true,
-            dot: true,
-            cwd: 'bower_components/ng-lodash/build',
-            dest: '<%= yeoman.dist %>/scripts/directives',
-            src: [
-              'ng-lodash.js'
-            ]
-          },
+          // {
+          //   expand: true,
+          //   dot: true,
+          //   cwd: 'bower_components/lodash',
+          //   dest: '<%= yeoman.dist %>/scripts/directives',
+          //   src: [
+          //     'lodash.js'
+          //   ]
+          // },
+          // {
+          //   expand: true,
+          //   dot: true,
+          //   cwd: 'bower_components/ng-lodash/build',
+          //   dest: '<%= yeoman.dist %>/scripts/directives',
+          //   src: [
+          //     'ng-lodash.js'
+          //   ]
+          // },
           {
             expand: true,
             dot: true,
@@ -291,7 +291,15 @@ module.exports = function (grunt) {
         separator: ';'
       },
       dist: {
-        src: ['<%= yeoman.app %>/scripts/directives/*.js','<%= yeoman.app %>/scripts/services/*.js','bower_components/Sortable/Sortable.js','bower_components/ng-lodash/build/ng-lodash.js','bower_components/lodash/lodash.js','bower_components/ng-file-upload/angular-file-upload.js','<%= yeoman.dist %>/scripts/tinkTemplates.js'],
+        src: [
+          '<%= yeoman.app %>/scripts/directives/*.js',
+          '<%= yeoman.app %>/scripts/services/*.js',
+          'bower_components/Sortable/Sortable.js',
+          'bower_components/ng-lodash/build/ng-lodash.js',
+          'bower_components/lodash/lodash.js',
+          'bower_components/ng-file-upload/angular-file-upload.js',
+          '<%= yeoman.dist %>/scripts/tinkTemplates.js'
+        ],
         dest: '<%= yeoman.dist %>/scripts/tink-directives.js'
       }
     },
