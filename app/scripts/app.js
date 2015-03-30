@@ -71,6 +71,9 @@ angular.module('tinkFramework', [
       .when('/badge', {
         templateUrl: 'views/badge.html',
       })
+      .when('/accordion', {
+        templateUrl: 'views/accordion.html',
+      })
       .when('/work-agile-tool', {
         templateUrl: 'views/work-agile-tool.html'
       })
