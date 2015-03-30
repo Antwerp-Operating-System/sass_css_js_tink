@@ -2787,11 +2787,13 @@ html.has-open-modal {
     bottom: 0;
     background: rgba(255, 255, 0, 0.2);
     cursor: pointer;
+    height: 100%;
     left: 0;
     opacity: 0.01;
     position: absolute;
     right: 0;
-    top: 0; }
+    top: 0;
+    width: 100%; }
   .upload-files {
     padding: 0;
     text-align: left; }

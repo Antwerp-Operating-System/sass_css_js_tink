@@ -138,7 +138,7 @@ angular.module('tink.dropupload')
             };
 
             //if the ngModel is not defined we define it for you
-            if(scope.ngModel !== undefined){
+            if(scope.ngModel === undefined){
                 scope.ngModel = [];
             }
             //create internal files object for use to handle the view
