@@ -192,7 +192,6 @@ table {
   @media screen and (max-width: $screen-sm-max) {
     table {
       border: 1px solid $table-border-color;
-      border-bottom: none;
       border-collapse: collapse;
       border-spacing: 0;
       display: block;
@@ -209,6 +208,10 @@ table {
       min-height: 2.63em;
       text-align: left;
       vertical-align: top;
+
+      &:last-child {
+        border-bottom: 1px solid transparent;
+      }
     }
 
     th {
