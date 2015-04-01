@@ -9,10 +9,10 @@
 @mixin img-responsive($display: block) {
   display: $display;
   height: auto; // Part 2: Scale the height according to the width, otherwise you get stretching
-  height: 100% \9; // IE9 hack for images
-  max-height: 100%;
-  max-width: 100%; // Part 1: Set a maximum relative to the parent
-  width: 100% \9; // Force IE10 and below to size SVG images correctly
+  // height: 100% \9; // IE9 hack for images
+  // max-height: 100%;
+  // max-width: 100%; // Part 1: Set a maximum relative to the parent
+  width: 100%; // \9; // Force IE10 and below to size SVG images correctly
 }
 
 

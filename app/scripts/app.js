@@ -74,6 +74,9 @@ angular.module('tinkFramework', [
       .when('/accordion', {
         templateUrl: 'views/accordion.html',
       })
+      .when('/responsive-images', {
+        templateUrl: 'views/responsive-images.html',
+      })
       .when('/work-agile-tool', {
         templateUrl: 'views/work-agile-tool.html'
       })
