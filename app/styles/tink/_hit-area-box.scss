@@ -77,17 +77,28 @@
       + label {
         &:before,
         &:after {
-          height: rem(20); // visually compensating size for removing border on checkbox
+          height: rem(20);
           left: rem(13);
-          top: rem(7);
-          width: rem(20); // visually compensating size for removing border on checkbox
+          width: rem(20);
 
           @include mq($screen-sm) {
-            height: rem(14); // visually compensating size for removing border on checkbox
+            height: rem(14);
             left: rem(16);
             top: rem(10);
-            width: rem(14); // visually compensating size for removing border on checkbox
+            width: rem(14);
           }
+        }
+
+        &:before {
+          top: rem(7);
+
+          @include mq($screen-sm) {
+            top: rem(10);
+          }
+        }
+
+        &:after {
+          top: rem($line-height-computed / 2 + 7);
         }
       }
     }
