@@ -45,6 +45,9 @@ angular.module('tinkFramework', [
       .when('/code', {
         templateUrl: 'views/code.html'
       })
+      .when('/checkbox', {
+        templateUrl: 'views/checkbox.html'
+      })
       .when('/breadcrumbs', {
         templateUrl: 'views/breadcrumbs.html'
       })
