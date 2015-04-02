@@ -15,7 +15,7 @@ angular.module('tink.accordion')
     
     
     if(scope.ngModel instanceof Array){
-      var template = $compile(checkboxCtrl.teken(scope.ngModel))(scope);
+      var template = $compile(checkboxCtrl.createTemplate(scope.ngModel))(scope);
       //$(template).find('input[type=checkbox]').bind('change')
       element.replaceWith(template); 
     }else{
@@ -33,22 +33,45 @@ angular.module('tink.accordion')
   this.init = function(scope,modelName){
     config.scope = scope;
     config.scope.checkboxSelect = {};
+    config.scope.secretIndeterminate = {};
+    config.scope.secretSelected = {};
     config.ngmodelN = 'ngModel';
-    config.scope.$watch('ngModel',function(newVal,oldVal){
-      console.log(newVal,oldVal);
-    },true);
+
+    self.mapArray(config.scope.ngModel,config.scope.secretSelected);
+    console.log(config.scope.secretSelected)
+
   }
-  scope.secretIndeterminate = {};
+  
+  this.mapArray = function(arr,map){
+    arr.forEach(function (element, index, array) {
+      var obj = element;
+      map['id'+obj.id] = obj.selected;
+      if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
+        
+        self.mapArray(obj.childs,map);
+      }
+    });
+  }
+
+  
+  function doTheChanges(){
+    var copyModel = angular.copy(config.scope.ngModel);
+    var cope = angular.copy(config.scope.secretIndeterminate);
+    doWeird(copyModel,cope);
+    config.scope.ngModel = copyModel;
+    config.scope.secretIndeterminate = cope;
+  }
+
   function checkFunc(array,secretIndet){
     array.forEach(function (element, index, array) {
       var obj = element;
       if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
         if(obj.selected === true){
           allValueChange(obj.childs,true);
-          scope.secretIndet[id] = false;
+          scope.secretIndet['id'+obj.id] = false;
         }else{
           //config.element.find('input[name='+obj.id+']').prop('indeterminate',true);
-          scope.secretIndet[id] = true;
+          scope.secretIndet['id'+obj.id] = true;
           checkFunc(obj.childs);
         }        
       }
@@ -75,7 +98,7 @@ angular.module('tink.accordion')
     });
   }
 
-  function doWeird(arr,parent){
+  function doWeird(arr,inter,parent){
     if(parent === undefined){
       parent = '';
     }else{
@@ -83,22 +106,36 @@ angular.module('tink.accordion')
     };
     var length = 0;
     arr.forEach(function (element, index, array) {
-      element.selected = val;
+      var obj = element;
       if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
-        console.log(doWeird(arr,parent));
+        var checked = doWeird(obj.childs,inter,parent);
+        inter['id'+obj.id] = false;
+        obj.selected = false;
+        if( checked === 1){
+          obj.selected = true;
+        }else if(checked === 0){
+          inter['id'+obj.id] = true;
+        }else{
+          obj.selected = false;
+        }
       }
-      length++;
+      if(obj.selected){
+        length++;
+      }      
     });
-    console.log(arr.length === length)
-    return arr.length === length;
+
+    if(arr.length === length){
+      return 1;
+    }else if(length > 0){
+      return 0;
+    }else{
+      return -1;
+    }
+
   }
 
   scope.checkboxChange = function(id){
-    var id = '5';
-   $scope.users = $filter('filter')(config.scope, function( obj ){
-      if ( obj._id !== old._id ){ return obj; } else { return false; }
-    });
-
+    doTheChanges();
   }
 
   function createCheckbox (name,text,checked,parent){
@@ -108,12 +145,18 @@ angular.module('tink.accordion')
       checked = '';
     }
     var label = '<div class="checkbox">'+
-                  '<input type="checkbox" indeterminate="secretIndeterminate.'+name+'" ng-change="checkboxChange(\'id'+name+'\')" ng-model="'+config.ngmodelN+''+parent+'.selected" name="'+name+'" id="'+name+'" '+checked+'>'+
+                  '<input type="checkbox" ng-class="{indeterminate:secretIndeterminate.id'+name+'}" ng-change="checkboxChange(\'id'+name+'\')" ng-model="secretSelected.id'+name+'" name="'+name+'" id="'+name+'" '+checked+'>'+
                   '<label for="'+name+'">'+text+'</label>'+
                 '</div>';
     return label;
   }
   
+  this.createTemplate = function(arr){
+
+    var template = self.teken(arr);
+    doTheChanges();
+    return template;
+  }
 
   this.teken = function(arr,parent){
     if(parent === undefined){
