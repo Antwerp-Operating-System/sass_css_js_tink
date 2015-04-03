@@ -47,7 +47,7 @@ angular.module('tink.accordion')
       var obj = element;
       map['id'+obj.id] = obj.selected;
       if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
-        
+
         self.mapArray(obj.childs,map);
       }
     });
@@ -79,11 +79,24 @@ angular.module('tink.accordion')
     return {array:array,secretIndet:secretIndet};
   }
 
+
+
   function allValueChange(arr,val){
     arr.forEach(function (element, index, array) {
       element.selected = val;
+      var obj = element;
       if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
         allValueChange(obj.childs,val);
+      }
+    });
+  }
+
+  function changeCheckValue(arr,value){
+    arr.forEach(function (element, index, array) {
+      config.scope.secretSelected['id'+element.id] = value;
+      var obj = element;
+      if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
+        changeCheckValue(obj.childs,value);
       }
     });
   }
@@ -135,7 +148,39 @@ angular.module('tink.accordion')
   }
 
   scope.checkboxChange = function(id){
-    doTheChanges();
+    console.log(id);
+    var selected = findTheParent(config.scope.ngModel,id);
+    var valueSelected = config.scope.secretSelected[id];
+    console.log(selected.obj)
+    changeCheckValue(selected.obj.childs,valueSelected);
+  }
+
+  function findTheParent(arr,id){
+    var found = false;
+    arr.forEach(function (element, index, array) {
+      if(found === false || found === undefined){
+        var obj = element;
+        var safeId = 'id'+obj.id;
+        var isMyChild;
+        if(safeId === id){
+          found = {go:true,obj:obj};
+          return true;
+        }else{
+          if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
+            isMyChild = findTheParent(obj.childs,id);
+          }
+        }
+        if(isMyChild !== false && typeof isMyChild === "object" && isMyChild.go){
+          found = {parent:obj,obj:isMyChild.obj};
+          isMyChild.go = false;
+        }else{
+          found = isMyChild;
+        }
+      }else{
+        return;
+      }
+    });
+    return found;
   }
 
   function createCheckbox (name,text,checked,parent){
