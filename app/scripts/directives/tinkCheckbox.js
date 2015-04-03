@@ -15,16 +15,15 @@ angular.module('tink.accordion')
     
     
     if(scope.ngModel instanceof Array){
-      var template = $compile(checkboxCtrl.createTemplate(scope.ngModel))(scope);
       //$(template).find('input[type=checkbox]').bind('change')
-      element.replaceWith(template); 
+      element.replaceWith(checkboxCtrl.createTemplate(scope.ngModel)); 
     }else{
       console.warn('you have to give a array of objects check the docs !');
     }
   }
 }
 }])
-.controller('TinkCheckboxController', ['$scope','$filter',function (scope,$filter) {
+.controller('TinkCheckboxController', ['$scope','$filter','$compile',function (scope,$filter,$compile) {
   var self = this;
 
   this.groups = {};
@@ -38,8 +37,6 @@ angular.module('tink.accordion')
     config.ngmodelN = 'ngModel';
 
     self.mapArray(config.scope.ngModel,config.scope.secretSelected);
-    console.log(config.scope.secretSelected)
-
   }
   
   this.mapArray = function(arr,map){
@@ -93,6 +90,7 @@ angular.module('tink.accordion')
 
   function changeCheckValue(arr,value){
     arr.forEach(function (element, index, array) {
+      config.scope.secretIndeterminate['id'+element.id] = false;
       config.scope.secretSelected['id'+element.id] = value;
       var obj = element;
       if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
@@ -147,12 +145,53 @@ angular.module('tink.accordion')
 
   }
 
+  function countValues(arr){
+    var values = {checked:0,indeterminate:0};
+    arr.forEach(function (element, index, array) {
+      var safeId = 'id'+element.id;
+      var inder = config.scope.secretIndeterminate[safeId];
+      var check = config.scope.secretSelected[safeId];
+      if(inder){
+        values.indeterminate++;
+      }else if(check){
+        values.checked++;
+      }
+    });
+    values.all = (values.checked === arr.length);
+    return values;
+  }
+
+  function resetValue(id){
+    config.scope.secretSelected[id] = false;
+    config.scope.secretIndeterminate[id] = false;
+  }
+
+  scope.$watch('secretIndeterminate',function(newI,oldI){
+    for (var id in newI) {     
+    console.log($(self.element).find('input[name='+id+']')) 
+      $(self.element).find('input[name='+id+']').prop("indeterminate", newI[id]);
+    }
+  },true);
+
   scope.checkboxChange = function(id){
-    console.log(id);
+    config.scope.secretIndeterminate[id] = false;
     var selected = findTheParent(config.scope.ngModel,id);
     var valueSelected = config.scope.secretSelected[id];
-    console.log(selected.obj)
-    changeCheckValue(selected.obj.childs,valueSelected);
+    if(selected.obj.childs){
+      changeCheckValue(selected.obj.childs,valueSelected);
+    }
+    if(selected.parent && selected.parent.childs){
+      var counts = countValues(selected.parent.childs);
+
+      var safeID = 'id'+selected.parent.id;
+      resetValue(safeID);
+      if(counts.all){
+        config.scope.secretSelected[safeID] = true;
+      }else if(counts.checked > 0 || counts.indeterminate > 0){
+        config.scope.secretIndeterminate[safeID] = true;
+      }
+    }
+    
   }
 
   function findTheParent(arr,id){
@@ -190,17 +229,17 @@ angular.module('tink.accordion')
       checked = '';
     }
     var label = '<div class="checkbox">'+
-                  '<input type="checkbox" ng-class="{indeterminate:secretIndeterminate.id'+name+'}" ng-change="checkboxChange(\'id'+name+'\')" ng-model="secretSelected.id'+name+'" name="'+name+'" id="'+name+'" '+checked+'>'+
-                  '<label for="'+name+'">'+text+'</label>'+
+                  '<input type="checkbox" ng-class="{indeterminate:secretIndeterminate.id'+name+'}" ng-change="checkboxChange(\'id'+name+'\')" ng-model="secretSelected.id'+name+'" name="id'+name+'" id="id'+name+'" '+checked+'>'+
+                  '<label for="id'+name+'">'+text+'</label>'+
                 '</div>';
     return label;
   }
-  
+  this.element = null;
   this.createTemplate = function(arr){
-
     var template = self.teken(arr);
-    doTheChanges();
-    return template;
+    this.element = $compile(template)(scope);
+    //doTheChanges();
+    return this.element;
   }
 
   this.teken = function(arr,parent){
