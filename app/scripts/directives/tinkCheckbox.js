@@ -167,23 +167,18 @@ angular.module('tink.accordion')
   }
 
   scope.$watch('secretIndeterminate',function(newI,oldI){
-    for (var id in newI) {     
-    console.log($(self.element).find('input[name='+id+']')) 
+    for (var id in newI) { 
+      if(newI[id]){
+        $(self.element).find('input[name='+id+']').attr("checked",false);
+      }    
       $(self.element).find('input[name='+id+']').prop("indeterminate", newI[id]);
     }
   },true);
 
-  scope.checkboxChange = function(id){
-    config.scope.secretIndeterminate[id] = false;
-    var selected = findTheParent(config.scope.ngModel,id);
-    var valueSelected = config.scope.secretSelected[id];
-    if(selected.obj.childs){
-      changeCheckValue(selected.obj.childs,valueSelected);
-    }
-    if(selected.parent && selected.parent.childs){
-      var counts = countValues(selected.parent.childs);
-
-      var safeID = 'id'+selected.parent.id;
+  function checkState(selected){
+    if(selected && selected.childs){
+      var counts = countValues(selected.childs);
+      var safeID = 'id'+selected.id;
       resetValue(safeID);
       if(counts.all){
         config.scope.secretSelected[safeID] = true;
@@ -191,7 +186,24 @@ angular.module('tink.accordion')
         config.scope.secretIndeterminate[safeID] = true;
       }
     }
-    
+  }
+
+
+
+  scope.checkboxChange = function(id){
+    //config.scope.secretIndeterminate[id] = false;
+    var selected = findTheParent(config.scope.ngModel,id);
+    var valueSelected = config.scope.secretSelected[id];
+    if(selected.obj.childs){
+      changeCheckValue(selected.obj.childs,valueSelected);
+    }
+    if(selected.newd){
+      selected.newd.forEach(function (element, index, array) {
+        checkState(element);
+      });
+    }else{
+      checkState(selected.obj);
+    }
   }
 
   function findTheParent(arr,id){
@@ -210,9 +222,13 @@ angular.module('tink.accordion')
           }
         }
         if(isMyChild !== false && typeof isMyChild === "object" && isMyChild.go){
-          found = {parent:obj,obj:isMyChild.obj};
+          found = {parent:obj,obj:isMyChild.obj,newd:[]};
+          found.newd.push(obj);
           isMyChild.go = false;
         }else{
+          if(isMyChild && isMyChild.newd){
+            isMyChild.newd.push(obj);
+          }
           found = isMyChild;
         }
       }else{
