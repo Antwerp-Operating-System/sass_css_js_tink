@@ -35,8 +35,18 @@ angular.module('tink.accordion')
     config.scope.secretIndeterminate = {};
     config.scope.secretSelected = {};
     config.ngmodelN = 'ngModel';
-
     self.mapArray(config.scope.ngModel,config.scope.secretSelected);
+
+    var childs = objectToWatch(config.scope.ngModel).watch;
+    childs.forEach(function (element, index, array) {
+      config.scope.secretSelected['id'+element.id] = element.selected;
+    });
+
+    var parents = objectToWatch(config.scope.ngModel).parents;
+
+    parents.reverse().forEach(function (element, index, array) {
+      checkState(element);
+    });
   }
   
   this.mapArray = function(arr,map){
@@ -165,11 +175,12 @@ angular.module('tink.accordion')
     config.scope.secretSelected[id] = false;
     config.scope.secretIndeterminate[id] = false;
   }
-
   scope.$watch('secretIndeterminate',function(newI,oldI){
     for (var id in newI) { 
       if(newI[id]){
         $(self.element).find('input[name='+id+']').attr("checked",false);
+        config.scope.secretSelected['id'+id] = false;
+        config.scope.secretIndeterminate['id'+id] = false;
       }    
       $(self.element).find('input[name='+id+']').prop("indeterminate", newI[id]);
     }
@@ -179,6 +190,7 @@ angular.module('tink.accordion')
     if(selected && selected.childs){
       var counts = countValues(selected.childs);
       var safeID = 'id'+selected.id;
+
       resetValue(safeID);
       if(counts.all){
         config.scope.secretSelected[safeID] = true;
@@ -188,7 +200,22 @@ angular.module('tink.accordion')
     }
   }
 
-
+  function objectToWatch(arr){
+    var found = {watch:[],parents:[]};
+    arr.forEach(function (element, index, array) {
+      var obj = element;
+      var myChild = null;
+      if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
+        found.parents.push(obj);
+        myChild = objectToWatch(obj.childs)
+        found.watch = found.watch.concat(myChild.watch);
+        found.parents = found.parents.concat(myChild.parents);
+      }else{
+        found.watch.push(obj);
+      }
+    })
+    return found;
+  }
 
   scope.checkboxChange = function(id){
     //config.scope.secretIndeterminate[id] = false;
