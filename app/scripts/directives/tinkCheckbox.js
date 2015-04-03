@@ -7,15 +7,13 @@ angular.module('tink.accordion')
     controller:'TinkCheckboxController',
     replace: false,
     scope:{
-      ngModel:'='
+      ngModel:'=',
+      checked:'='
     },
     link:function(scope,element, attrs, checkboxCtrl){
-      checkboxCtrl.init(scope,attrs.ngModel);
-
-    
-    
+    checkboxCtrl.init(scope,attrs.ngModel);
+      
     if(scope.ngModel instanceof Array){
-      //$(template).find('input[type=checkbox]').bind('change')
       element.replaceWith(checkboxCtrl.createTemplate(scope.ngModel)); 
     }else{
       console.warn('you have to give a array of objects check the docs !');
@@ -30,131 +28,98 @@ angular.module('tink.accordion')
   var config={};
 
   this.init = function(scope,modelName){
+    //get the scope from the start is not needed
     config.scope = scope;
+    //create private scope variables to handle the dom
     config.scope.checkboxSelect = {};
     config.scope.secretIndeterminate = {};
     config.scope.secretSelected = {};
-    config.ngmodelN = 'ngModel';
+
+    if(scope.checked === null || scope.checked === undefined || !scope.checked instanceof Array ){
+      scope.checked = [];
+    }
+
+    /*Map all the data to the scope.
+    * only use the selected variable.
+    */
     self.mapArray(config.scope.ngModel,config.scope.secretSelected);
 
+    //get all the elements that has no parent
     var childs = objectToWatch(config.scope.ngModel).watch;
+    //Loop trough this elements and give them the selected state of the data
     childs.forEach(function (element, index, array) {
       config.scope.secretSelected['id'+element.id] = element.selected;
     });
 
+    //get alle the elements that has children
     var parents = objectToWatch(config.scope.ngModel).parents;
-
+    /*Check every parent element if their childs are selected or not
+    * We do this to see if the parent needs thave cheched or inderterminate status.
+    */
     parents.reverse().forEach(function (element, index, array) {
       checkState(element);
     });
   }
-  
-  this.mapArray = function(arr,map){
-    arr.forEach(function (element, index, array) {
-      var obj = element;
-      map['id'+obj.id] = obj.selected;
-      if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
 
+
+  /*
+  * Function to map every slected property to a map object.
+  */ 
+  this.mapArray = function(arr,map){
+    //Loop trough the array
+    arr.forEach(function (element, index, array) {
+      //rename element
+      var obj = element;
+      //set the selected value and rename the id so it is always a valid id.
+      map['id'+obj.id] = obj.selected;
+      //If the object has children go trough.
+      if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
+        //Loop trough the children of the object.
         self.mapArray(obj.childs,map);
       }
     });
   }
 
-  
-  function doTheChanges(){
-    var copyModel = angular.copy(config.scope.ngModel);
-    var cope = angular.copy(config.scope.secretIndeterminate);
-    doWeird(copyModel,cope);
-    config.scope.ngModel = copyModel;
-    config.scope.secretIndeterminate = cope;
-  }
-
-  function checkFunc(array,secretIndet){
-    array.forEach(function (element, index, array) {
-      var obj = element;
-      if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
-        if(obj.selected === true){
-          allValueChange(obj.childs,true);
-          scope.secretIndet['id'+obj.id] = false;
-        }else{
-          //config.element.find('input[name='+obj.id+']').prop('indeterminate',true);
-          scope.secretIndet['id'+obj.id] = true;
-          checkFunc(obj.childs);
-        }        
-      }
-    });
-    return {array:array,secretIndet:secretIndet};
-  }
-
-
-
+  /*
+  * Function to loop trough every array and set the selected value to a given boolean.
+  */
   function allValueChange(arr,val){
+    //Loop trough the array of objects
     arr.forEach(function (element, index, array) {
+      //change the selected property to the given value
       element.selected = val;
       var obj = element;
+        //If the object has children go further.
       if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
+        //Loop trough the children of the object.
         allValueChange(obj.childs,val);
       }
     });
   }
 
+  /*
+  * Function to loop trough every array and set the selected value to a given boolean.
+  * This function differs from allValueChange because this function does it on the scope.
+  */
   function changeCheckValue(arr,value){
+    //Loop trough the array of objects
     arr.forEach(function (element, index, array) {
+      //set de inderteminate to false
       config.scope.secretIndeterminate['id'+element.id] = false;
+      //set the proper value on the scope
       config.scope.secretSelected['id'+element.id] = value;
       var obj = element;
+      //If the object has children go further.
       if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
+      //Loop trough the children of the object.
         changeCheckValue(obj.childs,value);
       }
     });
   }
 
-  function checkIfoneTrue(arr){
-
-    arr.forEach(function (element, index, array) {
-      element.selected = val;
-      if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
-        allValueChange(obj.childs,val);
-      }
-    });
-  }
-
-  function doWeird(arr,inter,parent){
-    if(parent === undefined){
-      parent = '';
-    }else{
-      parent += '.childs';
-    };
-    var length = 0;
-    arr.forEach(function (element, index, array) {
-      var obj = element;
-      if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
-        var checked = doWeird(obj.childs,inter,parent);
-        inter['id'+obj.id] = false;
-        obj.selected = false;
-        if( checked === 1){
-          obj.selected = true;
-        }else if(checked === 0){
-          inter['id'+obj.id] = true;
-        }else{
-          obj.selected = false;
-        }
-      }
-      if(obj.selected){
-        length++;
-      }      
-    });
-
-    if(arr.length === length){
-      return 1;
-    }else if(length > 0){
-      return 0;
-    }else{
-      return -1;
-    }
-
-  }
-
+  /*
+  * 
+  */
   function countValues(arr){
     var values = {checked:0,indeterminate:0};
     arr.forEach(function (element, index, array) {
@@ -171,20 +136,44 @@ angular.module('tink.accordion')
     return values;
   }
 
+  /*
+  * 
+  */
   function resetValue(id){
     config.scope.secretSelected[id] = false;
     config.scope.secretIndeterminate[id] = false;
   }
+
+  /*
+  * 
+  */
   scope.$watch('secretIndeterminate',function(newI,oldI){
     for (var id in newI) { 
       if(newI[id]){
         $(self.element).find('input[name='+id+']').attr("checked",false);
-        config.scope.secretSelected['id'+id] = false;
-        config.scope.secretIndeterminate['id'+id] = false;
+        config.scope.secretSelected[id] = false;
+        //config.scope.secretIndeterminate[id] = false;
       }    
       $(self.element).find('input[name='+id+']').prop("indeterminate", newI[id]);
+      
     }
   },true);
+
+  scope.$watch('secretSelected',function(newI){
+    for (var id in newI) { 
+      var Did = id.substr(2,id.length);
+        var index = scope.checked.indexOf(Did);
+        if(newI[id]){
+          if(index === -1){
+            scope.checked.push(Did);
+          }        
+        }else{
+          if(index !== -1){
+            scope.checked.splice(index,1);
+          }
+        }
+      }
+  },true)
 
   function checkState(selected){
     if(selected && selected.childs){
@@ -218,9 +207,9 @@ angular.module('tink.accordion')
   }
 
   scope.checkboxChange = function(id){
-    //config.scope.secretIndeterminate[id] = false;
     var selected = findTheParent(config.scope.ngModel,id);
     var valueSelected = config.scope.secretSelected[id];
+    config.scope.secretIndeterminate[id] = false;
     if(selected.obj.childs){
       changeCheckValue(selected.obj.childs,valueSelected);
     }

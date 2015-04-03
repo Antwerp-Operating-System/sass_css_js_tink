@@ -50,6 +50,57 @@ scope.file=null;
                 id:'5',
                 name:'Heverlee',
                 selected:true,
+                  childs:[
+                  {
+                  id:'6',
+                  name:'Doleegstraat',
+                  selected:true,
+                  },
+                  {
+                  id:'7',
+                  name:'Bergstraat',
+                  selected:true,
+                  childs:[
+                  {
+                  id:'8',
+                  name:'Doleegstraat',
+                  selected:true,
+                  },
+                  {
+                  id:'9',
+                  name:'Bergstraat',
+                  selected:true,
+                  childs:[
+                  {
+                  id:'10',
+                  name:'Doleegstraat',
+                  selected:true,
+                  },
+                  {
+                  id:'11',
+                  name:'Bergstraat',
+                  selected:true,
+                  },
+                  {
+                  id:'12',
+                  name:'Lubbeekstraat',
+                  selected:false,
+                  },
+                ]
+                  },
+                  {
+                  id:'13',
+                  name:'Lubbeekstraat',
+                  selected:false,
+                  },
+                ]
+                  },
+                  {
+                  id:'14',
+                  name:'Lubbeekstraat',
+                  selected:false,
+                  },
+                ]
                 },
               ]
             }
@@ -58,7 +109,7 @@ scope.file=null;
       ];
 
 scope.dataxc=function(){
-  
+  console.log(scope.dataY)
   scope.dataX[0].childs[0].selected = !scope.dataX[0].childs[0].selected;
 }
 
