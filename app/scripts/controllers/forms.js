@@ -12,4 +12,9 @@ angular.module('tinkFramework.controllers')
 
   scope.nationalnumber='92012023338';
 
+  // Not so clean code, but hey…
+  var checkbox = document.getElementById('checkbox2');
+  checkbox.indeterminate = true;
+  console.log(checkbox.indeterminate);
+
 }]);
