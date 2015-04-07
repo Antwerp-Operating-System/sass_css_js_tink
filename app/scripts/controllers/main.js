@@ -25,6 +25,92 @@ scope.file=null;
     console.log(scope.userForm.single.$error);
     console.log(scope.userForm);
   };
+  scope.dataX = [
+        {
+          id:'1',
+          name:'Belgie',
+          selected:false,
+          childs:[
+            {
+              id:'2',
+              name:'Antwerpen',
+              selected:false,
+            },
+            {
+              id:'3',
+              name:'Vlaams-brabant',
+              selected:false,
+              childs:[
+                {
+                id:'4',
+                name:'Leuven',
+                selected:true,
+                },
+                {
+                id:'5',
+                name:'Heverlee',
+                selected:true,
+                  childs:[
+                  {
+                  id:'6',
+                  name:'Doleegstraat',
+                  selected:true,
+                  },
+                  {
+                  id:'7',
+                  name:'Bergstraat',
+                  selected:true,
+                  childs:[
+                  {
+                  id:'8',
+                  name:'Doleegstraat',
+                  selected:true,
+                  },
+                  {
+                  id:'9',
+                  name:'Bergstraat',
+                  selected:true,
+                  childs:[
+                  {
+                  id:'10',
+                  name:'Doleegstraat',
+                  selected:true,
+                  },
+                  {
+                  id:'11',
+                  name:'Bergstraat',
+                  selected:true,
+                  },
+                  {
+                  id:'12',
+                  name:'Lubbeekstraat',
+                  selected:false,
+                  },
+                ]
+                  },
+                  {
+                  id:'13',
+                  name:'Lubbeekstraat',
+                  selected:false,
+                  },
+                ]
+                  },
+                  {
+                  id:'14',
+                  name:'Lubbeekstraat',
+                  selected:false,
+                  },
+                ]
+                },
+              ]
+            }
+          ]
+        }
+      ];
+
+scope.dataxc=function(){
+  scope.dataX[0].childs[0].selected = !scope.dataX[0].childs[0].selected;
+};
 
 tinkUploadService.addUrls('http://localhost:3000/upload');
 //scope.valid={mimeTypes:['image/jpeg', 'image/png', 'image/pjpeg', 'image/gif'],extensions:['.jpg', '.png', '.gif']};
