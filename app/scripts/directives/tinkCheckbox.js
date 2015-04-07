@@ -12,9 +12,9 @@ angular.module('tink.accordion')
     },
     link:function(scope,element, attrs, checkboxCtrl){
     checkboxCtrl.init(scope,attrs.ngModel);
-      
+
     if(scope.ngModel instanceof Array){
-      element.replaceWith(checkboxCtrl.createTemplate(scope.ngModel)); 
+      element.replaceWith(checkboxCtrl.createTemplate(scope.ngModel));
     }else{
       console.warn('you have to give a array of objects check the docs !');
     }
@@ -64,7 +64,7 @@ angular.module('tink.accordion')
 
   /*
   * Function to map every slected property to a map object.
-  */ 
+  */
   this.mapArray = function(arr,map){
     //Loop trough the array
     arr.forEach(function (element, index, array) {
@@ -118,7 +118,7 @@ angular.module('tink.accordion')
   }
 
   /*
-  * 
+  *
   */
   function countValues(arr){
     var values = {checked:0,indeterminate:0};
@@ -137,7 +137,7 @@ angular.module('tink.accordion')
   }
 
   /*
-  * 
+  *
   */
   function resetValue(id){
     config.scope.secretSelected[id] = false;
@@ -145,28 +145,28 @@ angular.module('tink.accordion')
   }
 
   /*
-  * 
+  *
   */
   scope.$watch('secretIndeterminate',function(newI,oldI){
-    for (var id in newI) { 
+    for (var id in newI) {
       if(newI[id]){
         $(self.element).find('input[name='+id+']').attr("checked",false);
         config.scope.secretSelected[id] = false;
         //config.scope.secretIndeterminate[id] = false;
-      }    
+      }
       $(self.element).find('input[name='+id+']').prop("indeterminate", newI[id]);
-      
+
     }
   },true);
 
   scope.$watch('secretSelected',function(newI){
-    for (var id in newI) { 
+    for (var id in newI) {
       var Did = id.substr(2,id.length);
         var index = scope.checked.indexOf(Did);
         if(newI[id]){
           if(index === -1){
             scope.checked.push(Did);
-          }        
+          }
         }else{
           if(index !== -1){
             scope.checked.splice(index,1);
@@ -281,7 +281,7 @@ angular.module('tink.accordion')
       parent += '.childs';
     };
     var aantal = 0;
-    var str = '<ul>';
+    var str = '<ul class="checkbox-intermediate">';
     arr.forEach(function (element, index, array) {
         var obj = element;
         var subparent = parent + '['+aantal+']';
