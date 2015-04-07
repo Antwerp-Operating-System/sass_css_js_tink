@@ -12,7 +12,7 @@
   height: 100% \9; // IE9 hack for images
   max-height: 100%;
   max-width: 100%; // Part 1: Set a maximum relative to the parent
-  width: 100% \9; // Force IE10 and below to size SVG images correctly
+  width: 100%; //hack is not recognised by IE11 // Force IE10 and below to size SVG images correctly
 }
 
 

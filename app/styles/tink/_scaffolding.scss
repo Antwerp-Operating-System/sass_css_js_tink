@@ -114,7 +114,7 @@ figcaption {
 // Images
 
 // Images are by default responsive (they don't scale beyond their parents)
-img {
+img:not(.media-object):not(.non-responsive) {
   @include img-responsive();
   vertical-align: middle;
 }
