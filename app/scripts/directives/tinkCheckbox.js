@@ -1,7 +1,7 @@
 'use strict';
 angular.module('tink.accordion', []);
 angular.module('tink.accordion')
-.directive('tinkCheckboxList',['$compile',function ($compile) {
+.directive('tinkCheckboxList',[function () {
   return {
     restrict:'A',
     controller:'TinkCheckboxController',
@@ -19,7 +19,7 @@ angular.module('tink.accordion')
       console.warn('you have to give a array of objects check the docs !');
     }
   }
-}
+};
 }])
 .controller('TinkCheckboxController', ['$scope','$filter','$compile',function (scope,$filter,$compile) {
   var self = this;
@@ -27,7 +27,7 @@ angular.module('tink.accordion')
   this.groups = {};
   var config={};
 
-  this.init = function(scope,modelName){
+  this.init = function(scope){
     //get the scope from the start is not needed
     config.scope = scope;
     //create private scope variables to handle the dom
@@ -47,7 +47,7 @@ angular.module('tink.accordion')
     //get all the elements that has no parent
     var childs = objectToWatch(config.scope.ngModel).watch;
     //Loop trough this elements and give them the selected state of the data
-    childs.forEach(function (element, index, array) {
+    childs.forEach(function (element) {
       config.scope.secretSelected['id'+element.id] = element.selected;
     });
 
@@ -56,10 +56,10 @@ angular.module('tink.accordion')
     /*Check every parent element if their childs are selected or not
     * We do this to see if the parent needs thave cheched or inderterminate status.
     */
-    parents.reverse().forEach(function (element, index, array) {
+    parents.reverse().forEach(function (element) {
       checkState(element);
     });
-  }
+  };
 
 
   /*
@@ -67,7 +67,7 @@ angular.module('tink.accordion')
   */
   this.mapArray = function(arr,map){
     //Loop trough the array
-    arr.forEach(function (element, index, array) {
+    arr.forEach(function (element) {
       //rename element
       var obj = element;
       //set the selected value and rename the id so it is always a valid id.
@@ -78,24 +78,8 @@ angular.module('tink.accordion')
         self.mapArray(obj.childs,map);
       }
     });
-  }
+  };
 
-  /*
-  * Function to loop trough every array and set the selected value to a given boolean.
-  */
-  function allValueChange(arr,val){
-    //Loop trough the array of objects
-    arr.forEach(function (element, index, array) {
-      //change the selected property to the given value
-      element.selected = val;
-      var obj = element;
-        //If the object has children go further.
-      if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
-        //Loop trough the children of the object.
-        allValueChange(obj.childs,val);
-      }
-    });
-  }
 
   /*
   * Function to loop trough every array and set the selected value to a given boolean.
@@ -103,7 +87,7 @@ angular.module('tink.accordion')
   */
   function changeCheckValue(arr,value){
     //Loop trough the array of objects
-    arr.forEach(function (element, index, array) {
+    arr.forEach(function (element) {
       //set de inderteminate to false
       config.scope.secretIndeterminate['id'+element.id] = false;
       //set the proper value on the scope
@@ -122,7 +106,7 @@ angular.module('tink.accordion')
   */
   function countValues(arr){
     var values = {checked:0,indeterminate:0};
-    arr.forEach(function (element, index, array) {
+    arr.forEach(function (element) {
       var safeId = 'id'+element.id;
       var inder = config.scope.secretIndeterminate[safeId];
       var check = config.scope.secretSelected[safeId];
@@ -147,14 +131,14 @@ angular.module('tink.accordion')
   /*
   *
   */
-  scope.$watch('secretIndeterminate',function(newI,oldI){
+  scope.$watch('secretIndeterminate',function(newI){
     for (var id in newI) {
       if(newI[id]){
-        $(self.element).find('input[name='+id+']').attr("checked",false);
+        $(self.element).find('input[name='+id+']').attr('checked',false);
         config.scope.secretSelected[id] = false;
         //config.scope.secretIndeterminate[id] = false;
       }
-      $(self.element).find('input[name='+id+']').prop("indeterminate", newI[id]);
+      $(self.element).find('input[name='+id+']').prop('indeterminate', newI[id]);
 
     }
   },true);
@@ -173,7 +157,7 @@ angular.module('tink.accordion')
           }
         }
       }
-  },true)
+  },true);
 
   function checkState(selected){
     if(selected && selected.childs){
@@ -191,18 +175,18 @@ angular.module('tink.accordion')
 
   function objectToWatch(arr){
     var found = {watch:[],parents:[]};
-    arr.forEach(function (element, index, array) {
+    arr.forEach(function (element) {
       var obj = element;
       var myChild = null;
       if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
         found.parents.push(obj);
-        myChild = objectToWatch(obj.childs)
+        myChild = objectToWatch(obj.childs);
         found.watch = found.watch.concat(myChild.watch);
         found.parents = found.parents.concat(myChild.parents);
       }else{
         found.watch.push(obj);
       }
-    })
+    });
     return found;
   }
 
@@ -214,17 +198,17 @@ angular.module('tink.accordion')
       changeCheckValue(selected.obj.childs,valueSelected);
     }
     if(selected.newd){
-      selected.newd.forEach(function (element, index, array) {
+      selected.newd.forEach(function (element) {
         checkState(element);
       });
     }else{
       checkState(selected.obj);
     }
-  }
+  };
 
   function findTheParent(arr,id){
     var found = false;
-    arr.forEach(function (element, index, array) {
+    arr.forEach(function (element) {
       if(found === false || found === undefined){
         var obj = element;
         var safeId = 'id'+obj.id;
@@ -237,7 +221,7 @@ angular.module('tink.accordion')
             isMyChild = findTheParent(obj.childs,id);
           }
         }
-        if(isMyChild !== false && typeof isMyChild === "object" && isMyChild.go){
+        if(isMyChild !== false && typeof isMyChild === 'object' && isMyChild.go){
           found = {parent:obj,obj:isMyChild.obj,newd:[]};
           found.newd.push(obj);
           isMyChild.go = false;
@@ -254,7 +238,7 @@ angular.module('tink.accordion')
     return found;
   }
 
-  function createCheckbox (name,text,checked,parent){
+  function createCheckbox (name,text,checked){
     if(checked === true){
       checked = 'checked';
     }else{
@@ -272,17 +256,17 @@ angular.module('tink.accordion')
     this.element = $compile(template)(scope);
     //doTheChanges();
     return this.element;
-  }
+  };
 
   this.teken = function(arr,parent){
     if(parent === undefined){
       parent = '';
     }else{
       parent += '.childs';
-    };
+    }
     var aantal = 0;
     var str = '<ul class="checkbox-intermediate">';
-    arr.forEach(function (element, index, array) {
+    arr.forEach(function (element) {
         var obj = element;
         var subparent = parent + '['+aantal+']';
         str += '<li>';
@@ -296,6 +280,6 @@ angular.module('tink.accordion')
     });
     str += '</ul>';
     return str;
-  }
+  };
 
 }]);

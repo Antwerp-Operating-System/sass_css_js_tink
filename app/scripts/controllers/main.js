@@ -109,9 +109,8 @@ scope.file=null;
       ];
 
 scope.dataxc=function(){
-  console.log(scope.dataY)
   scope.dataX[0].childs[0].selected = !scope.dataX[0].childs[0].selected;
-}
+};
 
 tinkUploadService.addUrls('http://localhost:3000/upload');
 //scope.valid={mimeTypes:['image/jpeg', 'image/png', 'image/pjpeg', 'image/gif'],extensions:['.jpg', '.png', '.gif']};
