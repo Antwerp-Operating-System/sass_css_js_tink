@@ -402,6 +402,10 @@ select {
   }
 }
 
+// ---- IE specific pseudo-element to remove select button in IE10 and up
+select::-ms-expand {
+    display: none;
+}
 
 select[multiple],
 select[size],
