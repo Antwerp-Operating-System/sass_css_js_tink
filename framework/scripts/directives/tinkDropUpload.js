@@ -21,6 +21,12 @@ angular.module('tink.dropupload')
           pre: function() {
           },
           post: function(scope, elem) {
+
+            //if the ngModel is not defined we define it for you
+            if(scope.ngModel === undefined){
+                scope.ngModel = [];
+            }
+
             //Config object with default values
             var config = {
               multiple:true,
@@ -137,10 +143,7 @@ angular.module('tink.dropupload')
               holding = null;
             };
 
-            //if the ngModel is not defined we define it for you
-            if(scope.ngModel === undefined){
-                scope.ngModel = [];
-            }
+            
             //create internal files object for use to handle the view
               scope.files = [];
             //}
@@ -191,8 +194,13 @@ angular.module('tink.dropupload')
                       }
                       scope.ngModel.unshift(file);
                     }else{
-                      scope.ngModel.length = 0;
-                      scope.ngModel.push(file);
+                      if(scope.ngModel !== null){
+                        scope.ngModel.length = 0;
+                        scope.ngModel.push(file);
+                      }else{
+                        scope.ngModel = [];
+                        scope.ngModel.push(file);
+                      }                      
                     }
 
                     //check if the type and size is oke.
