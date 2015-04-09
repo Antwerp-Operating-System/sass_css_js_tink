@@ -50,3 +50,23 @@ a.badge {
     text-decoration: none;
   }
 }
+
+// Alternate badges
+// --------------------------------------------------
+
+// Success appears as green
+.badge-success {
+  @include badge-variant($badge-success-color, $badge-success-bg);
+}
+// Info appears as blue-green
+.badge-info {
+  @include badge-variant($badge-info-color, $badge-info-bg);
+}
+// Warning appears as orange
+.badge-warning {
+  @include badge-variant($badge-warning-color, $badge-warning-bg);
+}
+// Danger and error appear as red
+.badge-danger {
+  @include badge-variant($badge-danger-color, $badge-danger-bg);
+}

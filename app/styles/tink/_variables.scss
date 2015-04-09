@@ -990,6 +990,22 @@ $badge-font-weight:           600 !default;
 $badge-line-height:           .9 !default;
 $badge-border-radius:         3px !default;
 
+//added badge variants
+
+$badge-primary-color:              $white !default;
+$badge-primary-bg:                 $brand !default;
+
+$badge-success-color:              $white !default;
+$badge-success-bg:                 $state-success-text !default;
+
+$badge-info-color:                 $white !default;
+$badge-info-bg:                    $state-info-text !default;
+
+$badge-warning-color:              $white !default;
+$badge-warning-bg:                 $state-warning-text !default;
+
+$badge-danger-color:               $white !default;
+$badge-danger-bg:                  $state-danger-text !default;
 
 
 //== Breadcrumbs
