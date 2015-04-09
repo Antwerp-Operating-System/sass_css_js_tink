@@ -5,7 +5,7 @@
 
 
 // Base class
-.badge {
+%badge {
   background-color: $badge-bg;
   border-radius: rem($badge-border-radius);
   color: $badge-color;
@@ -51,22 +51,35 @@ a.badge {
   }
 }
 
+.badge {
+  @extend %badge;
+  @include badge-variant ($badge-default-color, $badge-default-bg);
+}
+
 // Alternate badges
 // --------------------------------------------------
 
-// Success appears as green
+// Primary appears as brand color
+.badge-primary {
+  @extend %badge;
+  @include badge-variant($badge-primary-color, $badge-primary-bg);
+}// Success appears as green
 .badge-success {
+  @extend %badge;
   @include badge-variant($badge-success-color, $badge-success-bg);
 }
-// Info appears as blue-green
+// Info appears as light blue
 .badge-info {
+  @extend %badge;
   @include badge-variant($badge-info-color, $badge-info-bg);
 }
 // Warning appears as orange
 .badge-warning {
+  @extend %badge;
   @include badge-variant($badge-warning-color, $badge-warning-bg);
 }
 // Danger and error appear as red
 .badge-danger {
+  @extend %badge;
   @include badge-variant($badge-danger-color, $badge-danger-bg);
 }
