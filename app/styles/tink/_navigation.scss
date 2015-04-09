@@ -316,6 +316,11 @@ html {
             background-color: $nav-aside-badge-hover-background-color;
             color: $nav-aside-badge-hover-color;
           }
+
+          .badge-danger {
+            background-color: $nav-aside-badge-hover-background-color;
+            color: $nav-aside-badge-hover-color;
+          }
         }
 
         &:focus {
