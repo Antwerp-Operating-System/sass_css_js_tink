@@ -83,3 +83,29 @@ a.badge {
   @extend %badge;
   @include badge-variant($badge-danger-color, $badge-danger-bg);
 }
+
+.btn,
+.btn-sm,
+.btn-xs,
+.nav-aside {
+    .badge-primary {
+      @extend %badge;
+      @include badge-variant($badge-primary-bg, $badge-default-bg);
+    }
+    .badge-success {
+      @extend %badge;
+      @include badge-variant($badge-success-bg, $badge-default-bg);
+    }
+    .badge-info {
+      @extend %badge;
+      @include badge-variant($badge-info-bg, $badge-default-bg);
+    }
+    .badge-warning {
+      @extend %badge;
+      @include badge-variant($badge-warning-bg, $badge-default-bg);
+    }
+    .badge-danger {
+      @extend %badge;
+      @include badge-variant($badge-danger-bg, $badge-default-bg);
+    }
+}

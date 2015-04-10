@@ -317,10 +317,6 @@ html {
             color: $nav-aside-badge-hover-color;
           }
 
-          .badge-danger {
-            background-color: $nav-aside-badge-hover-background-color;
-            color: $nav-aside-badge-hover-color;
-          }
         }
 
         &:focus {
@@ -452,6 +448,7 @@ html {
     margin-top: rem(3);
     transition: background $animation-speed linear, color $animation-speed linear;
   }
+
 }
 
 
