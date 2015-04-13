@@ -980,6 +980,11 @@ $badge-bg:                    $gray-lighter !default;
 
 $badge-padding-vertical:      0 !default;
 $badge-padding-horizontal:    5px !default;
+$badge-margin-base-left:      $padding-base-horizontal !default;
+
+$badge-margin-lg-left:        $padding-large-horizontal!default;
+$badge-margin-sm-left:        $padding-small-horizontal !default;
+$badge-margin-xs-left:        $padding-xs-horizontal !default;
 
 // ** Badge text color in active nav link
 $badge-active-color:          $link-color !default;
@@ -987,13 +992,19 @@ $badge-active-color:          $link-color !default;
 $badge-active-bg:             $white !default;
 $badge-font-size:             11px !default;
 $badge-font-weight:           600 !default;
-$badge-line-height:           .9 !default;
+$badge-line-height:           1.4 !default;
+$badge-sm-line-height:        1.2 !default;
 $badge-border-radius:         3px !default;
 
-//added badge variants
-
+// Alternate badge colors
 $badge-default-color:              $badge-color !default;
 $badge-default-bg:                 $badge-bg !default;
+
+$badge-danger-color:               $white !default;
+$badge-danger-bg:                  $state-danger-text !default;
+
+$badge-info-color:                 $white !default;
+$badge-info-bg:                    $state-info-text !default;
 
 $badge-primary-color:              $white !default;
 $badge-primary-bg:                 $brand !default;
@@ -1001,14 +1012,8 @@ $badge-primary-bg:                 $brand !default;
 $badge-success-color:              $white !default;
 $badge-success-bg:                 $state-success-text !default;
 
-$badge-info-color:                 $white !default;
-$badge-info-bg:                    $state-info-text !default;
-
 $badge-warning-color:              $white !default;
 $badge-warning-bg:                 $state-warning-text !default;
-
-$badge-danger-color:               $white !default;
-$badge-danger-bg:                  $state-danger-text !default;
 
 
 //== Breadcrumbs

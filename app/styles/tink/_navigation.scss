@@ -313,8 +313,16 @@ html {
           color: $nav-aside-link-hover-color;
 
           .badge {
-            background-color: $nav-aside-badge-hover-background-color;
             color: $nav-aside-badge-hover-color;
+          }
+
+          .badge,
+          .badge-danger,
+          .badge-info,
+          .badge-primary,
+          .badge-success,
+          .badge-warning {
+            background-color: $nav-aside-badge-hover-background-color;
           }
 
         }

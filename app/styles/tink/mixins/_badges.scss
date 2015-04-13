@@ -4,3 +4,11 @@
   color: $color;
   background-color: $background;
 }
+
+// Badges sizes
+@mixin badge-size($padding-vertical, $padding-horizontal, $font-size, $line-height, $border-radius) {
+  border-radius: rem($border-radius);
+  font-size: rem($font-size);
+  line-height: $line-height;
+  padding: rem($padding-vertical $padding-horizontal);
+}
