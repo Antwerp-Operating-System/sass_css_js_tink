@@ -2610,32 +2610,81 @@ button[type="submit"], input[type="submit"], .btn-primary {
  * Badges
  * --------------------------------------------------
  */
-.badge {
-  background-color: #eaeaea;
+.badge, .badge-primary, .badge-success, .badge-info, .badge-warning, .badge-danger, .btn .badge-primary, .btn-sm .badge-primary, .btn-xs .badge-primary, .nav-aside .badge-primary, .btn .badge-success, .btn-sm .badge-success, .btn-xs .badge-success, .nav-aside .badge-success, .btn .badge-info, .btn-sm .badge-info, .btn-xs .badge-info, .nav-aside .badge-info, .btn .badge-warning, .btn-sm .badge-warning, .btn-xs .badge-warning, .nav-aside .badge-warning, .btn .badge-danger, .btn-sm .badge-danger, .btn-xs .badge-danger, .nav-aside .badge-danger {
   border-radius: 0.21429rem ;
+  font-size: 0.78571rem ;
+  line-height: 1.4;
+  padding: 0rem 0.35714rem ;
+  background-color: #eaeaea;
   color: #333;
   display: inline-block;
-  font-size: 0.78571rem ;
   font-weight: 600;
   min-width: 0.71429rem ;
-  padding: 0rem 0.35714rem ;
   text-align: center;
   vertical-align: baseline;
   white-space: nowrap; }
-  .badge:empty {
+  .badge:empty, .badge-primary:empty, .badge-success:empty, .badge-info:empty, .badge-warning:empty, .badge-danger:empty {
     display: none; }
-  .btn-sm .badge, .btn-group-sm > .btn .badge, .btn-xs .badge, .btn-group-xs > .btn .badge {
-    line-height: 1.3; }
-  a.list-group-item.active > .badge, .nav-pills > .active > a > .badge {
+  .btn .badge, .btn .badge-primary, .btn .badge-success, .btn .badge-info, .btn .badge-warning, .btn .badge-danger {
+    margin-left: 12px; }
+  .btn-large .badge, .btn-large .badge-primary, .btn-large .badge-success, .btn-large .badge-info, .btn-large .badge-warning, .btn-large .badge-danger {
+    margin-left: 16px; }
+  .btn-sm .badge, .btn-group-sm > .btn .badge, .btn-sm .badge-primary, .btn-group-sm > .btn .badge-primary, .btn-sm .badge-success, .btn-group-sm > .btn .badge-success, .btn-sm .badge-info, .btn-group-sm > .btn .badge-info, .btn-sm .badge-warning, .btn-group-sm > .btn .badge-warning, .btn-sm .badge-danger, .btn-group-sm > .btn .badge-danger {
+    margin-left: 10px; }
+  .btn-xs .badge, .btn-group-xs > .btn .badge, .btn-xs .badge-primary, .btn-group-xs > .btn .badge-primary, .btn-xs .badge-success, .btn-group-xs > .btn .badge-success, .btn-xs .badge-info, .btn-group-xs > .btn .badge-info, .btn-xs .badge-warning, .btn-group-xs > .btn .badge-warning, .btn-xs .badge-danger, .btn-group-xs > .btn .badge-danger {
+    margin-left: 5px; }
+  .btn-xs .badge, .btn-group-xs > .btn .badge, .btn-xs .badge-primary, .btn-group-xs > .btn .badge-primary, .btn-xs .badge-success, .btn-group-xs > .btn .badge-success, .btn-xs .badge-info, .btn-group-xs > .btn .badge-info, .btn-xs .badge-warning, .btn-group-xs > .btn .badge-warning, .btn-xs .badge-danger, .btn-group-xs > .btn .badge-danger {
+    line-height: 1.2; }
+  a.list-group-item.active > .badge, a.list-group-item.active > .badge-primary, a.list-group-item.active > .badge-success, a.list-group-item.active > .badge-info, a.list-group-item.active > .badge-warning, a.list-group-item.active > .badge-danger, .nav-pills > .active > a > .badge, .nav-pills > .active > a > .badge-primary, .nav-pills > .active > a > .badge-success, .nav-pills > .active > a > .badge-info, .nav-pills > .active > a > .badge-warning, .nav-pills > .active > a > .badge-danger {
     background-color: #fff;
     color: #219dc8; }
-  .nav-pills > li > a > .badge {
+  .nav-pills > li > a > .badge, .nav-pills > li > a > .badge-primary, .nav-pills > li > a > .badge-success, .nav-pills > li > a > .badge-info, .nav-pills > li > a > .badge-warning, .nav-pills > li > a > .badge-danger {
     margin-left: 0.21429rem ; }
 
 a.badge:hover, a.badge:focus {
   color: #fff;
   cursor: pointer;
   text-decoration: none; }
+
+.badge {
+  color: #333;
+  background-color: #eaeaea; }
+
+.badge-primary {
+  color: #fff;
+  background-color: #cf0039; }
+
+.badge-success {
+  color: #fff;
+  background-color: #0b0; }
+
+.badge-info {
+  color: #fff;
+  background-color: #76b9f4; }
+
+.badge-warning {
+  color: #fff;
+  background-color: #ff8d00; }
+
+.badge-danger {
+  color: #fff;
+  background-color: #e60038; }
+
+.btn .badge-primary, .btn-sm .badge-primary, .btn-group-sm > .btn .badge-primary, .btn-xs .badge-primary, .btn-group-xs > .btn .badge-primary, .nav-aside .badge-primary {
+  color: #cf0039;
+  background-color: #eaeaea; }
+.btn .badge-success, .btn-sm .badge-success, .btn-group-sm > .btn .badge-success, .btn-xs .badge-success, .btn-group-xs > .btn .badge-success, .nav-aside .badge-success {
+  color: #0b0;
+  background-color: #eaeaea; }
+.btn .badge-info, .btn-sm .badge-info, .btn-group-sm > .btn .badge-info, .btn-xs .badge-info, .btn-group-xs > .btn .badge-info, .nav-aside .badge-info {
+  color: #76b9f4;
+  background-color: #eaeaea; }
+.btn .badge-warning, .btn-sm .badge-warning, .btn-group-sm > .btn .badge-warning, .btn-xs .badge-warning, .btn-group-xs > .btn .badge-warning, .nav-aside .badge-warning {
+  color: #ff8d00;
+  background-color: #eaeaea; }
+.btn .badge-danger, .btn-sm .badge-danger, .btn-group-sm > .btn .badge-danger, .btn-xs .badge-danger, .btn-group-xs > .btn .badge-danger, .nav-aside .badge-danger {
+  color: #e60038;
+  background-color: #eaeaea; }
 
 /**
  * Modal
@@ -3743,8 +3792,9 @@ html {
         background-color: rgba(0, 0, 0, 0.05);
         color: #219dc8; }
         .nav-aside-section li a:hover .badge, .nav-aside-section li a:active .badge, .nav-aside-section li a:focus .badge {
-          background-color: #fff;
           color: #219dc8; }
+        .nav-aside-section li a:hover .badge, .nav-aside-section li a:hover .badge-danger, .nav-aside-section li a:hover .badge-info, .nav-aside-section li a:hover .badge-primary, .nav-aside-section li a:hover .badge-success, .nav-aside-section li a:hover .badge-warning, .nav-aside-section li a:active .badge, .nav-aside-section li a:active .badge-danger, .nav-aside-section li a:active .badge-info, .nav-aside-section li a:active .badge-primary, .nav-aside-section li a:active .badge-success, .nav-aside-section li a:active .badge-warning, .nav-aside-section li a:focus .badge, .nav-aside-section li a:focus .badge-danger, .nav-aside-section li a:focus .badge-info, .nav-aside-section li a:focus .badge-primary, .nav-aside-section li a:focus .badge-success, .nav-aside-section li a:focus .badge-warning {
+          background-color: #fff; }
       .nav-aside-section li a:focus {
         box-shadow: none; }
       .nav-aside-section li a > * {
