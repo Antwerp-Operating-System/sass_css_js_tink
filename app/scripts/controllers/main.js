@@ -13,7 +13,7 @@ angular.module('tinkFramework.controllers')
   scope.dates= {last:new Date(2015,0,2),first:new Date()};
 scope.signup={username:'11.11.11-111.1'};
 scope.mindate = new Date(2012,8,1);
-scope.maxdate = new Date(2012,9,1);
+scope.maxdate = new Date(2016,9,1);
 scope.pages='5,10*,15,20,50';
 scope.rek='92012023338';
   scope.go = function(){
@@ -21,9 +21,7 @@ scope.rek='92012023338';
   };
 scope.file=null;
   scope.getDate = function(){
-    console.log(scope.file);
-    console.log(scope.userForm.single.$error);
-    console.log(scope.userForm);
+    scope.dates.first.setMonth(scope.dates.first.getMonth()+1);
   };
   scope.dataX = [
         {
