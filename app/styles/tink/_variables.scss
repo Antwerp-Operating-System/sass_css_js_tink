@@ -999,21 +999,27 @@ $badge-border-radius:         3px !default;
 // Alternate badge colors
 $badge-default-color:              $badge-color !default;
 $badge-default-bg:                 $badge-bg !default;
+$badge-default-invert-bg:          $white !default;
 
 $badge-danger-color:               $white !default;
 $badge-danger-bg:                  $state-danger-text !default;
+$badge-danger-invert-bg:           $white !default;
 
 $badge-info-color:                 $white !default;
 $badge-info-bg:                    $state-info-text !default;
+$badge-info-invert-bg:             $white !default;
 
 $badge-primary-color:              $white !default;
 $badge-primary-bg:                 $brand !default;
+$badge-primary-invert-bg:          $white !default;
 
 $badge-success-color:              $white !default;
 $badge-success-bg:                 $state-success-text !default;
+$badge-success-invert-bg:          $white !default;
 
 $badge-warning-color:              $white !default;
 $badge-warning-bg:                 $state-warning-text !default;
+$badge-warning-invert-bg:          $white !default;
 
 
 //== Breadcrumbs

@@ -22,22 +22,22 @@
   }
 
   .btn & {
-    margin-left: $badge-margin-base-left;
+    margin-left: rem($badge-margin-base-left);
 
   }
 
   .btn-large & {
-    margin-left: $badge-margin-lg-left;
+    margin-left: rem($badge-margin-lg-left);
 
   }
 
   .btn-sm & {
-    margin-left: $badge-margin-sm-left;
+    margin-left: rem($badge-margin-sm-left);
 
   }
 
   .btn-xs & {
-    margin-left: $badge-margin-xs-left;
+    margin-left: rem($badge-margin-xs-left);
 
   }
 
@@ -103,26 +103,25 @@ a.badge {
 
 .btn,
 .btn-sm,
-.btn-xs,
-.nav-aside {
+.btn-xs {
     .badge-primary {
       @extend %badge;
-      @include badge-variant($badge-primary-bg, $badge-default-bg);
+      @include badge-variant($badge-primary-bg, $badge-default-invert-bg);
     }
     .badge-success {
       @extend %badge;
-      @include badge-variant($badge-success-bg, $badge-default-bg);
+      @include badge-variant($badge-success-bg, $badge-default-invert-bg);
     }
     .badge-info {
       @extend %badge;
-      @include badge-variant($badge-info-bg, $badge-default-bg);
+      @include badge-variant($badge-info-bg, $badge-default-invert-bg);
     }
     .badge-warning {
       @extend %badge;
-      @include badge-variant($badge-warning-bg, $badge-default-bg);
+      @include badge-variant($badge-warning-bg, $badge-default-invert-bg);
     }
     .badge-danger {
       @extend %badge;
-      @include badge-variant($badge-danger-bg, $badge-default-bg);
+      @include badge-variant($badge-danger-bg, $badge-default-invert-bg);
     }
 }
