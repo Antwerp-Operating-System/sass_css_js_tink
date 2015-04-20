@@ -1,8 +1,8 @@
 // Badges variants
 
 @mixin badge-variant($color, $background) {
-  color: $color;
   background-color: $background;
+  color: $color;
 }
 
 // Badges sizes

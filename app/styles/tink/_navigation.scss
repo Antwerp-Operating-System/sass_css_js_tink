@@ -313,18 +313,28 @@ html {
           color: $nav-aside-link-hover-color;
 
           .badge {
-            color: $nav-aside-badge-hover-color;
+            @include badge-variant($nav-aside-badge-hover-color, $nav-aside-badge-hover-background-color);
           }
 
-          .badge,
-          .badge-danger,
-          .badge-info,
-          .badge-primary,
-          .badge-success,
-          .badge-warning {
-            background-color: $nav-aside-badge-hover-background-color;
-          }
+          // .badge-info {
+          //   @include badge-variant($badge-info-bg, $nav-aside-badge-hover-background-color);
+          // }
 
+          // .badge-primary {
+          //   @include badge-variant($badge-primary-bg, $nav-aside-badge-hover-background-color);
+          // }
+
+          // .badge-success {
+          //   @include badge-variant($badge-success-bg, $nav-aside-badge-hover-background-color);
+          // }
+
+          // .badge-warning {
+          //   @include badge-variant($badge-warning-bg, $nav-aside-badge-hover-background-color);
+          // }
+
+          // .badge-danger {
+          //   @include badge-variant($badge-danger-bg, $nav-aside-badge-hover-background-color);
+          // }
         }
 
         &:focus {
@@ -449,9 +459,17 @@ html {
     }
   }
 
-  .badge {
+  .badge  {
     background-color: $nav-aside-badge-background-color;
     color: $nav-aside-badge-color;
+  }
+
+  .badge,
+  .badge-danger,
+  .badge-info,
+  .badge-primary,
+  .badge-success,
+  .badge-warning {
     float: right;
     margin-top: rem(3);
     transition: background $animation-speed linear, color $animation-speed linear;
