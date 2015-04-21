@@ -1,6 +1,6 @@
 'use strict';
-angular.module('tink.accordion', []);
-angular.module('tink.accordion')
+angular.module('tink.checkbox', []);
+angular.module('tink.checkbox')
 .directive('tinkCheckboxList',[function () {
   return {
     restrict:'A',
