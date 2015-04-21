@@ -2163,7 +2163,7 @@ angular.module('tink.dropupload')
 
         function checkValidity(value){
           var stringValue;
-          if(angular.isDate(value)){
+          if(!isNaN(value) && angular.isDate(value)){
             stringValue = dateCalculator.format(value,dateformat);
           }else{
             stringValue = value;
@@ -2221,23 +2221,30 @@ angular.module('tink.dropupload')
           });
         }
 
-        controller.init(element,config,form,ngControl);
-          //format text going to user (model to view)
-          ngControl.$formatters.push(function(modelValue) {
-            if(!isTouch || isTouch && modelValue !== ''){
-              if(angular.isDate(modelValue)){
-                var date = dateCalculator.format(modelValue,dateformat);
+ //format text going to user (model to view)
+        scope.$watch('$parent.'+ attr.ngModel, function(newVal) {
+          if(!isTouch || isTouch && newVal !== ''){
+              if(!isNaN(newVal) && angular.isDate(newVal)){
+                var date = dateCalculator.format(newVal,dateformat);
                 controller.setValue(date,null,isTouch);
-                checkValidity(modelValue);
-                return date;
+                checkValidity(newVal);
               }else{
                 controller.setValue(null,null,isTouch);
               }
             }else{
                controller.setValue('',null,isTouch);
             }
-            checkValidity(modelValue);
+            checkValidity(newVal);
+        }, true);
+
+        controller.init(element,config,form,ngControl);
+         
+         /* ngControl.$formatters.push(function(modelValue) {
+           
           });
+*/
+
+
 
           //format text from the user (view to model)
           ngControl.$parsers.unshift(function(value) {
@@ -2256,13 +2263,6 @@ angular.module('tink.dropupload')
             }
           });
           element.unbind('input').unbind('change');
-          element.bind('input', function() {
-                    safeApply(scope,function() {
-
-                        //ctrl.$setViewValue(undefined);
-
-                    });
-                  });
 
           //on blur update the model.
           element.on('blur', function() {
@@ -2286,11 +2286,7 @@ angular.module('tink.dropupload')
                 ngControl.$setDirty();
                 ngControl.$render();
               }
-              //var modelString = dateCalculator.format(ngControl.$modelValue,dateformat);
-              //if(value !== modelString){
-                //console.log(value)
 
-              //}
             });
           });
       }
@@ -2298,8 +2294,7 @@ angular.module('tink.dropupload')
 
   }
 };
-}])
-  .controller('tinkFormatController',function(){
+}]).controller('tinkFormatController',function(){
 
     var self = this;
     var config;
