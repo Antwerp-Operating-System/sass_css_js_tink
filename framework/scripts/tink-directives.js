@@ -260,8 +260,8 @@ angular.module('tink.backtotop', [])
     };
   }]);
 ;'use strict';
-angular.module('tink.accordion', []);
-angular.module('tink.accordion')
+angular.module('tink.checkbox', []);
+angular.module('tink.checkbox')
 .directive('tinkCheckboxList',[function () {
   return {
     restrict:'A',
@@ -4873,7 +4873,8 @@ angular.module('tink', [
 		'tink.interactiveTable',
 		'tink.modal',
 		'tink.backtotop',
-		'ngLodash'
+		'ngLodash',
+		'tink.checkbox'
 	]);
 ; 'use strict';
  angular.module('tink.tinkApi', []);

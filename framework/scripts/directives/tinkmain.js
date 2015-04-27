@@ -21,5 +21,6 @@ angular.module('tink', [
 		'tink.interactiveTable',
 		'tink.modal',
 		'tink.backtotop',
-		'ngLodash'
+		'ngLodash',
+		'tink.checkbox'
 	]);
