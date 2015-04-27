@@ -11,13 +11,19 @@ angular.module('tink.checkbox')
       checked:'='
     },
     link:function(scope,element, attrs, checkboxCtrl){
-    checkboxCtrl.init(scope,attrs.ngModel);
+      var elementHulp;
+      scope.$watch('ngModel',function(newV){
+        console.log('changed',newV);
+        checkboxCtrl.init(scope,attrs.ngModel);
+        if(scope.ngModel instanceof Array){
+          elementHulp = checkboxCtrl.createTemplate(scope.ngModel);
+          element.replaceWith(elementHulp);
+          element = elementHulp;
+        }else{
+          console.warn('you have to give a array of objects check the docs !');
+        }
+      },true);
 
-    if(scope.ngModel instanceof Array){
-      element.replaceWith(checkboxCtrl.createTemplate(scope.ngModel));
-    }else{
-      console.warn('you have to give a array of objects check the docs !');
-    }
   }
 };
 }])
@@ -60,7 +66,6 @@ angular.module('tink.checkbox')
       checkState(element);
     });
   };
-
 
   /*
   * Function to map every slected property to a map object.

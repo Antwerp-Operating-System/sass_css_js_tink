@@ -1,6 +1,6 @@
 # Tink Framework
 
-v1.2.5
+v1.2.6
 
 ## What is this repository for?
 
