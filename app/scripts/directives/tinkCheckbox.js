@@ -30,8 +30,18 @@ angular.module('tink.checkbox')
           });
           return result;
       }
+    function checkchilds(childs){
+      var c = 0;
+      childs.forEach(function (element) {
+        if(scope.ngModel.indexOf(element.id)){
+          c++;
+        } 
+      });
+      return c;
+    }
 
     scope.$watch('checked',function(newD,oldD){
+
       var uniqueT = unique(newD);
       if(uniqueT.length !== newD.length){
         scope.checked = uniqueT;
@@ -51,7 +61,9 @@ angular.module('tink.checkbox')
           if(!(obj.obj.children && obj.obj.children.length >0)){
             scope.secretSelected['id'+element] = false;
             scope.checkboxChange('id'+element,obj);
-          } 
+          }else{
+
+          }
         }   
       });
 
@@ -187,7 +199,8 @@ angular.module('tink.checkbox')
       var Did = id.substr(2,id.length);
         var index = scope.checked.indexOf(Did);
         if(newI[id]){
-          if(index === -1){
+          var data = scope.findTheParent(config.scope.ngModel,id);
+          if(index === -1 && !(data.obj.children && data.obj.children>0)){
             scope.checked.push(Did);
           }
         }else{
@@ -289,7 +302,7 @@ angular.module('tink.checkbox')
       checked = '';
     }
     var label = '<div class="checkbox">'+
-                  '<input type="checkbox" ng-class="{indeterminate:secretIndeterminate.id'+name+'}"  ng-model="secretSelected.id'+name+'" name="id'+name+'" id="id'+name+'" '+checked+'>'+
+                    '<input type="checkbox" ng-class="{indeterminate:secretIndeterminate.id'+name+'}" ng-change="checkboxChange(\'id'+name+'\')" ng-model="secretSelected.id'+name+'" name="id'+name+'" id="id'+name+'" '+checked+'>'+
                   '<label for="id'+name+'">'+text+'-'+name+'</label>'+
                 '</div>';
     return label;
