@@ -273,8 +273,7 @@ angular.module('tink.checkbox')
     },
     link:function(scope,element, attrs, checkboxCtrl){
       var elementHulp;
-      scope.$watch('ngModel',function(newV){
-        console.log('changed',newV);
+      scope.$watch('ngModel',function(){
         checkboxCtrl.init(scope,attrs.ngModel);
         if(scope.ngModel instanceof Array){
           elementHulp = checkboxCtrl.createTemplate(scope.ngModel);
@@ -312,15 +311,15 @@ angular.module('tink.checkbox')
     self.mapArray(config.scope.ngModel,config.scope.secretSelected);
 
     //get all the elements that has no parent
-    var childs = objectToWatch(config.scope.ngModel).watch;
+    var children = objectToWatch(config.scope.ngModel).watch;
     //Loop trough this elements and give them the selected state of the data
-    childs.forEach(function (element) {
+    children.forEach(function (element) {
       config.scope.secretSelected['id'+element.id] = element.selected;
     });
 
     //get alle the elements that has children
     var parents = objectToWatch(config.scope.ngModel).parents;
-    /*Check every parent element if their childs are selected or not
+    /*Check every parent element if their children are selected or not
     * We do this to see if the parent needs thave cheched or inderterminate status.
     */
     parents.reverse().forEach(function (element) {
@@ -339,9 +338,9 @@ angular.module('tink.checkbox')
       //set the selected value and rename the id so it is always a valid id.
       map['id'+obj.id] = obj.selected;
       //If the object has children go trough.
-      if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
+      if(obj && obj.children && obj.children instanceof Array && obj.children.length > 0){
         //Loop trough the children of the object.
-        self.mapArray(obj.childs,map);
+        self.mapArray(obj.children,map);
       }
     });
   };
@@ -360,9 +359,9 @@ angular.module('tink.checkbox')
       config.scope.secretSelected['id'+element.id] = value;
       var obj = element;
       //If the object has children go further.
-      if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
+      if(obj && obj.children && obj.children instanceof Array && obj.children.length > 0){
       //Loop trough the children of the object.
-        changeCheckValue(obj.childs,value);
+        changeCheckValue(obj.children,value);
       }
     });
   }
@@ -382,6 +381,7 @@ angular.module('tink.checkbox')
         values.checked++;
       }
     });
+
     values.all = (values.checked === arr.length);
     return values;
   }
@@ -426,8 +426,8 @@ angular.module('tink.checkbox')
   },true);
 
   function checkState(selected){
-    if(selected && selected.childs){
-      var counts = countValues(selected.childs);
+    if(selected && selected.children && selected.children.length >0){
+      var counts = countValues(selected.children);
       var safeID = 'id'+selected.id;
 
       resetValue(safeID);
@@ -444,9 +444,9 @@ angular.module('tink.checkbox')
     arr.forEach(function (element) {
       var obj = element;
       var myChild = null;
-      if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
+      if(obj && obj.children && obj.children instanceof Array && obj.children.length > 0){
         found.parents.push(obj);
-        myChild = objectToWatch(obj.childs);
+        myChild = objectToWatch(obj.children);
         found.watch = found.watch.concat(myChild.watch);
         found.parents = found.parents.concat(myChild.parents);
       }else{
@@ -460,8 +460,8 @@ angular.module('tink.checkbox')
     var selected = findTheParent(config.scope.ngModel,id);
     var valueSelected = config.scope.secretSelected[id];
     config.scope.secretIndeterminate[id] = false;
-    if(selected.obj.childs){
-      changeCheckValue(selected.obj.childs,valueSelected);
+    if(selected.obj.children){
+      changeCheckValue(selected.obj.children,valueSelected);
     }
     if(selected.newd){
       selected.newd.forEach(function (element) {
@@ -483,8 +483,8 @@ angular.module('tink.checkbox')
           found = {go:true,obj:obj};
           return true;
         }else{
-          if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
-            isMyChild = findTheParent(obj.childs,id);
+          if(obj && obj.children && obj.children instanceof Array && obj.children.length > 0){
+            isMyChild = findTheParent(obj.children,id);
           }
         }
         if(isMyChild !== false && typeof isMyChild === 'object' && isMyChild.go){
@@ -528,7 +528,7 @@ angular.module('tink.checkbox')
     if(parent === undefined){
       parent = '';
     }else{
-      parent += '.childs';
+      parent += '.children';
     }
     var aantal = 0;
     var str = '<ul class="checkbox-intermediate">';
@@ -538,8 +538,8 @@ angular.module('tink.checkbox')
         str += '<li>';
         str += createCheckbox(obj.id,obj.name,obj.selected,subparent);
 
-        if(obj && obj.childs && obj.childs instanceof Array && obj.childs.length > 0){
-          str += self.teken(obj.childs,subparent);
+        if(obj && obj.children && obj.children instanceof Array && obj.children.length > 0){
+          str += self.teken(obj.children,subparent);
         }
         str += '</li>';
         aantal++;
