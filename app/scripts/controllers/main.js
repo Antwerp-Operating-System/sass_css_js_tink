@@ -8,7 +8,7 @@
  * Controller of the tinkApp
  */
 angular.module('tinkFramework.controllers')
-  .controller('MainCtrl',['$scope','tinkUploadService',function (scope,tinkUploadService) {
+  .controller('MainCtrl',['$scope','tinkUploadService','$timeout',function (scope,tinkUploadService,$timeout) {
 
   scope.dates= {last:new Date(2015,0,2),first:new Date()};
 scope.signup={username:'11.11.11-111.1'};
@@ -23,7 +23,10 @@ scope.file=null;
   scope.getDate = function(){
     scope.dates.first.setMonth(scope.dates.first.getMonth()+1);
   };
-  scope.dataX = [
+  scope.dataX = [];
+
+  scope.showCheck = function(){
+    scope.dataX = [
         {
           id:'1',
           name:'Belgie',
@@ -105,6 +108,7 @@ scope.file=null;
           ]
         }
       ];
+  }
 
 scope.dataxc=function(){
   scope.dataX[0].childs[0].selected = !scope.dataX[0].childs[0].selected;
