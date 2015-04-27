@@ -40,14 +40,12 @@ angular.module('tink.checkbox')
 
       var added = $(newD).not(oldD).get();
       var removed = $(oldD).not(newD).get();
-      console.log(added);
-
-      added.forEach(function (element) {console.log( scope.secretSelected)
+      added.forEach(function (element) {
         scope.secretSelected['id'+element] = true;
         scope.checkboxChange('id'+element);
       });
 
-      removed.forEach(function (element) {console.log( scope.secretSelected)
+      removed.forEach(function (element) {
         var obj = scope.findTheParent(scope.ngModel,'id'+element);
         if(obj.obj){
           if(!(obj.obj.children && obj.obj.children.length >0)){
