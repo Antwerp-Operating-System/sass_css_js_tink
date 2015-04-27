@@ -8,7 +8,7 @@
  * Controller of the tinkApp
  */
 angular.module('tinkFramework.controllers')
-  .controller('MainCtrl',['$scope','tinkUploadService','$timeout',function (scope,tinkUploadService,$timeout) {
+  .controller('MainCtrl',['$scope','tinkUploadService',function (scope,tinkUploadService) {
 
   scope.dates= {last:new Date(2015,0,2),first:new Date()};
 scope.signup={username:'11.11.11-111.1'};
@@ -27,11 +27,23 @@ scope.file=null;
 
   scope.showCheck = function(){
     scope.dataX = [
+    {
+                  id:'33',
+                  name:'Lubbeekstraat',
+                  selected:false,
+                  children:[]
+                  },
+
+                      {
+                  id:'343',
+                  name:'Lubbeekstraat',
+                  selected:false
+                  },
         {
           id:'1',
           name:'Belgie',
           selected:false,
-          childs:[
+          children:[
             {
               id:'2',
               name:'Antwerpen',
@@ -41,7 +53,7 @@ scope.file=null;
               id:'3',
               name:'Vlaams-brabant',
               selected:false,
-              childs:[
+              children:[
                 {
                 id:'4',
                 name:'Leuven',
@@ -51,7 +63,7 @@ scope.file=null;
                 id:'5',
                 name:'Heverlee',
                 selected:true,
-                  childs:[
+                  children:[
                   {
                   id:'6',
                   name:'Doleegstraat',
@@ -61,7 +73,7 @@ scope.file=null;
                   id:'7',
                   name:'Bergstraat',
                   selected:true,
-                  childs:[
+                  children:[
                   {
                   id:'8',
                   name:'Doleegstraat',
@@ -71,7 +83,7 @@ scope.file=null;
                   id:'9',
                   name:'Bergstraat',
                   selected:true,
-                  childs:[
+                  children:[
                   {
                   id:'10',
                   name:'Doleegstraat',
@@ -108,7 +120,7 @@ scope.file=null;
           ]
         }
       ];
-  }
+  };
 
 scope.dataxc=function(){
   scope.dataX[0].childs[0].selected = !scope.dataX[0].childs[0].selected;
