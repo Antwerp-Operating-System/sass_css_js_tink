@@ -7,7 +7,7 @@ angular.module('tink.templates', []).run(['$templateCache', function($templateCa
 
 
   $templateCache.put('templates/tinkCheckbox.html',
-    "<div class=checkbox> <div data-ng-if=!conf.multiple class=checkboxWrapper> <input id={{conf.id}}-0 name={{conf.name}} type=checkbox ng-model=\"ngModel\"> <label data-ng-if=conf.label for={{conf.id}}-0>{{conf.label}}</label> </div> <div data-ng-if=conf.multiple> <label data-ng-if=conf.label>{{conf.label}}</label> <div data-ng-repeat=\"option in ngOptions\" class=checkboxWrapper> <input id={{conf.id}}-{{$index}} name={{conf.id}}-{{$index}} type=checkbox ng-model=option.checked ng-change=checkChildren(option) ng-class=\"{childSelected: option.options && !option.checked && childrenSelected(option)}\"> <label for={{conf.id}}-{{$index}}>{{option.value}}</label> <div data-ng-if=option.options class=checkboxWrapper> <div data-ng-repeat=\"childOption in option.options\"> <input id={{conf.id}}-{{option.key}}-{{$index}} name={{conf.id}}-{{option.key.id}}-{{$index}} type=checkbox ng-model=childOption.checked ng-change=\"checkParent(childOption, option)\"> <label for={{conf.id}}-{{option.key}}-{{$index}}>{{childOption.value}}</label> </div> </div> </div> </div> </div>"
+    ""
   );
 
 

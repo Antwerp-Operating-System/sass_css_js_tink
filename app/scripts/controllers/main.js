@@ -24,7 +24,16 @@ scope.file=null;
     scope.dates.first.setMonth(scope.dates.first.getMonth()+1);
   };
   scope.dataX = [];
-
+scope.addID = function(){
+  scope.dataY.push(scope.idtomap)
+}
+scope.removeID = function(){
+  var index = scope.dataY.indexOf(scope.idtomap);
+  if(index !== -1){
+    scope.dataY.splice(index,1);
+  }
+  
+}
   scope.showCheck = function(){
     scope.dataX = [
     {
