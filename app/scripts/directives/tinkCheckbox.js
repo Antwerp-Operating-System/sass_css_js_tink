@@ -26,7 +26,7 @@ angular.module('tink.checkbox')
       function unique(list) {
           var result = [];
           $.each(list, function(i, e) {
-              if ($.inArray(e, result) == -1) result.push(e);
+              if ($.inArray(e, result) === -1){ result.push(e); }
           });
           return result;
       }
@@ -55,7 +55,7 @@ angular.module('tink.checkbox')
         }   
       });
 
-    },true)
+    },true);
   }
 };
 }])
@@ -280,7 +280,7 @@ angular.module('tink.checkbox')
       }
     });
     return found;
-  }
+  };
 
   function createCheckbox (name,text,checked){
     if(checked === true){
