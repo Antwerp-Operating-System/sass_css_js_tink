@@ -34,6 +34,8 @@ scope.removeID = function(){
   }
   
 };
+  scope.showCheck = function(){
+    scope.dataX = [
     {
                   id:'33',
                   name:'Lubbeekstraat',
