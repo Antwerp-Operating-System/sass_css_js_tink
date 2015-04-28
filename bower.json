@@ -1,6 +1,6 @@
 {
   "name": "Tink",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "main": [
     "framework/styles/tink.min.css",
     "framework/scripts/api.min.js",
