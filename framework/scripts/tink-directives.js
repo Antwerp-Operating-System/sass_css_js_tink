@@ -549,7 +549,7 @@ angular.module('tink.checkbox')
     }
     var label = '<div class="checkbox">'+
                     '<input type="checkbox" ng-class="{indeterminate:secretIndeterminate.id'+name+'}" ng-change="checkboxChange(\'id'+name+'\')" ng-model="secretSelected.id'+name+'" name="id'+name+'" id="id'+name+'" '+checked+'>'+
-                  '<label for="id'+name+'">'+text+'-'+name+'</label>'+
+                  '<label for="id'+name+'">'+text+'</label>'+
                 '</div>';
     return label;
   }
