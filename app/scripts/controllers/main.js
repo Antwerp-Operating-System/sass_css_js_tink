@@ -24,6 +24,7 @@ scope.file=null;
     scope.dates.first.setMonth(scope.dates.first.getMonth()+1);
   };
   scope.dataX = [];
+  scope.dataY= ['12'];
 scope.addID = function(){
   scope.dataY.push(scope.idtomap);
 };
@@ -39,88 +40,78 @@ scope.removeID = function(){
     {
                   id:'33',
                   name:'Lubbeekstraat',
-                  selected:false,
+                  
                   children:[]
                   },
 
                       {
                   id:'343',
                   name:'Lubbeekstraat',
-                  selected:false
                   },
         {
           id:'1',
           name:'Belgie',
-          selected:false,
+          
           children:[
             {
               id:'2',
               name:'Antwerpen',
-              selected:false,
+              
             },
             {
               id:'3',
               name:'Vlaams-brabant',
-              selected:false,
+              
               children:[
                 {
                 id:'4',
                 name:'Leuven',
-                selected:true,
+                
                 },
                 {
                 id:'5',
                 name:'Heverlee',
-                selected:true,
+                
                   children:[
                   {
                   id:'6',
                   name:'Doleegstraat',
-                  selected:true,
                   },
                   {
                   id:'7',
                   name:'Bergstraat',
-                  selected:true,
                   children:[
                   {
                   id:'8',
                   name:'Doleegstraat',
-                  selected:true,
                   },
                   {
                   id:'9',
                   name:'Bergstraat',
-                  selected:true,
                   children:[
                   {
                   id:'10',
                   name:'Doleegstraat',
-                  selected:true,
                   },
                   {
                   id:'11',
                   name:'Bergstraat',
-                  selected:true,
                   },
                   {
                   id:'12',
                   name:'Lubbeekstraat',
-                  selected:false,
                   },
                 ]
                   },
                   {
                   id:'13',
                   name:'Lubbeekstraat',
-                  selected:false,
                   },
                 ]
                   },
                   {
                   id:'14',
                   name:'Lubbeekstraat',
-                  selected:false,
                   },
                 ]
                 },
