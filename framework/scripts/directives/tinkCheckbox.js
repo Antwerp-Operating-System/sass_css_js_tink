@@ -23,6 +23,54 @@ angular.module('tink.checkbox')
         }
       },true);
 
+      function unique(list) {
+          var result = [];
+          $.each(list, function(i, e) {
+              if ($.inArray(e, result) === -1){ result.push(e); }
+          });
+          return result;
+      }
+   /*function checkchilds(childs){
+      var c = 0;
+      childs.forEach(function (element) {
+        if(scope.ngModel.indexOf(element.id)){
+          c++;
+        } 
+      });
+      return c;
+    }*/
+
+    scope.$watch('checked',function(newD,oldD){
+
+      var uniqueT = unique(newD);
+      if(uniqueT.length !== newD.length){
+        scope.checked = uniqueT;
+        return;
+      }
+
+      var added = $(newD).not(oldD).get();
+      var removed = $(oldD).not(newD).get();
+      added.forEach(function (element) {
+        var obj = scope.findTheParent(scope.ngModel,'id'+element);
+        if(obj.obj){
+          if(!(obj.obj.children && obj.obj.children.length >0)){
+            scope.secretSelected['id'+element] = true;
+            scope.checkboxChange('id'+element,obj);
+          }
+        } 
+      });
+
+      removed.forEach(function (element) {
+        var obj = scope.findTheParent(scope.ngModel,'id'+element);
+        if(obj.obj){
+          if(!(obj.obj.children && obj.obj.children.length >0)){
+            scope.secretSelected['id'+element] = false;
+            scope.checkboxChange('id'+element,obj);
+          }
+        }   
+      });
+
+    },true);
   }
 };
 }])
@@ -43,6 +91,7 @@ angular.module('tink.checkbox')
     if(scope.checked === null || scope.checked === undefined || !scope.checked instanceof Array ){
       scope.checked = [];
     }
+
 
     /*Map all the data to the scope.
     * only use the selected variable.
@@ -153,7 +202,8 @@ angular.module('tink.checkbox')
       var Did = id.substr(2,id.length);
         var index = scope.checked.indexOf(Did);
         if(newI[id]){
-          if(index === -1){
+          var data = scope.findTheParent(config.scope.ngModel,id);
+          if(index === -1 && !(data.obj.children && data.obj.children>0)){
             scope.checked.push(Did);
           }
         }else{
@@ -195,8 +245,13 @@ angular.module('tink.checkbox')
     return found;
   }
 
-  scope.checkboxChange = function(id){
-    var selected = findTheParent(config.scope.ngModel,id);
+  scope.checkboxChange = function(id,obj){
+    var selected;
+    if(obj !== null && obj !== undefined){
+      selected = obj;
+    }else{
+      selected = scope.findTheParent(config.scope.ngModel,id);
+    } 
     var valueSelected = config.scope.secretSelected[id];
     config.scope.secretIndeterminate[id] = false;
     if(selected.obj.children){
@@ -211,7 +266,7 @@ angular.module('tink.checkbox')
     }
   };
 
-  function findTheParent(arr,id){
+  scope.findTheParent = function(arr,id){
     var found = false;
     arr.forEach(function (element) {
       if(found === false || found === undefined){
@@ -223,7 +278,7 @@ angular.module('tink.checkbox')
           return true;
         }else{
           if(obj && obj.children && obj.children instanceof Array && obj.children.length > 0){
-            isMyChild = findTheParent(obj.children,id);
+            isMyChild = scope.findTheParent(obj.children,id);
           }
         }
         if(isMyChild !== false && typeof isMyChild === 'object' && isMyChild.go){
@@ -241,7 +296,7 @@ angular.module('tink.checkbox')
       }
     });
     return found;
-  }
+  };
 
   function createCheckbox (name,text,checked){
     if(checked === true){
@@ -250,8 +305,8 @@ angular.module('tink.checkbox')
       checked = '';
     }
     var label = '<div class="checkbox">'+
-                  '<input type="checkbox" ng-class="{indeterminate:secretIndeterminate.id'+name+'}" ng-change="checkboxChange(\'id'+name+'\')" ng-model="secretSelected.id'+name+'" name="id'+name+'" id="id'+name+'" '+checked+'>'+
-                  '<label for="id'+name+'">'+text+'</label>'+
+                    '<input type="checkbox" ng-class="{indeterminate:secretIndeterminate.id'+name+'}" ng-change="checkboxChange(\'id'+name+'\')" ng-model="secretSelected.id'+name+'" name="id'+name+'" id="id'+name+'" '+checked+'>'+
+                  '<label for="id'+name+'">'+text+'-'+name+'</label>'+
                 '</div>';
     return label;
   }
