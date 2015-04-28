@@ -340,6 +340,7 @@ angular.module('tink.checkbox')
 
   this.groups = {};
   var config={};
+  var parents;
 
   this.init = function(scope){
     //get the scope from the start is not needed
@@ -367,7 +368,7 @@ angular.module('tink.checkbox')
     });
 
     //get alle the elements that has children
-    var parents = objectToWatch(config.scope.ngModel).parents;
+    parents = objectToWatch(config.scope.ngModel).parents;
     /*Check every parent element if their children are selected or not
     * We do this to see if the parent needs thave cheched or inderterminate status.
     */
@@ -384,6 +385,11 @@ angular.module('tink.checkbox')
     arr.forEach(function (element) {
       //rename element
       var obj = element;
+      if(scope.checked && scope.checked.indexOf(obj.id) !== -1){
+        obj.selected = true;
+      }else{
+        obj.selected = false;
+      }
       //set the selected value and rename the id so it is always a valid id.
       map['id'+obj.id] = obj.selected;
       //If the object has children go trough.
@@ -392,6 +398,7 @@ angular.module('tink.checkbox')
         self.mapArray(obj.children,map);
       }
     });
+
   };
 
 
@@ -446,34 +453,9 @@ angular.module('tink.checkbox')
   /*
   *
   */
-  scope.$watch('secretIndeterminate',function(newI){
-    for (var id in newI) {
-      if(newI[id]){
-        $(self.element).find('input[name='+id+']').attr('checked',false);
-        config.scope.secretSelected[id] = false;
-        //config.scope.secretIndeterminate[id] = false;
-      }
-      $(self.element).find('input[name='+id+']').prop('indeterminate', newI[id]);
 
-    }
-  },true);
 
-  scope.$watch('secretSelected',function(newI){
-    for (var id in newI) {
-      var Did = id.substr(2,id.length);
-        var index = scope.checked.indexOf(Did);
-        if(newI[id]){
-          var data = scope.findTheParent(config.scope.ngModel,id);
-          if(index === -1 && !(data.obj.children && data.obj.children>0)){
-            scope.checked.push(Did);
-          }
-        }else{
-          if(index !== -1){
-            scope.checked.splice(index,1);
-          }
-        }
-      }
-  },true);
+ 
 
   function checkState(selected){
     if(selected && selected.children && selected.children.length >0){
@@ -572,9 +554,48 @@ angular.module('tink.checkbox')
     return label;
   }
   this.element = null;
+  var watchers = {};
   this.createTemplate = function(arr){
+
     var template = self.teken(arr);
     this.element = $compile(template)(scope);
+    parents.reverse().forEach(function (element) {
+      checkState(element);
+    });
+    if(watchers.secretIndeterminate){
+      watchers.secretIndeterminate();
+    }
+    if(watchers.secretSelected){
+      watchers.secretSelected();
+    }
+     watchers.secretIndeterminate =  scope.$watch('secretIndeterminate',function(newI){
+      for (var id in newI) {
+        if(newI[id]){
+          $(self.element).find('input[name='+id+']').attr('checked',false);
+          config.scope.secretSelected[id] = false;
+          //config.scope.secretIndeterminate[id] = false;
+        }
+        $(self.element).find('input[name='+id+']').prop('indeterminate', newI[id]);
+
+      }
+    },true);
+
+    watchers.secretSelected = scope.$watch('secretSelected',function(newI){console.log(newI)
+    for (var id in newI) {
+      var Did = id.substr(2,id.length);
+        var index = scope.checked.indexOf(Did);
+        if(newI[id]){
+          var data = scope.findTheParent(config.scope.ngModel,id);
+          if(index === -1 && !(data.obj.children && data.obj.children>0)){
+            scope.checked.push(Did);
+          }
+        }else{
+          if(index !== -1){
+            scope.checked.splice(index,1);
+          }
+        }
+      }
+  },true);
     //doTheChanges();
     return this.element;
   };
@@ -591,6 +612,11 @@ angular.module('tink.checkbox')
         var obj = element;
         var subparent = parent + '['+aantal+']';
         str += '<li>';
+        if(scope.checked && scope.checked.indexOf(obj.id)!== -1){
+          obj.slected = true;
+        }else{
+          obj.slected = false;
+        }
         str += createCheckbox(obj.id,obj.name,obj.selected,subparent);
 
         if(obj && obj.children && obj.children instanceof Array && obj.children.length > 0){
