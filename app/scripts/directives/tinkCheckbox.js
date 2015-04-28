@@ -30,7 +30,7 @@ angular.module('tink.checkbox')
           });
           return result;
       }
-    function checkchilds(childs){
+   /*function checkchilds(childs){
       var c = 0;
       childs.forEach(function (element) {
         if(scope.ngModel.indexOf(element.id)){
@@ -38,7 +38,7 @@ angular.module('tink.checkbox')
         } 
       });
       return c;
-    }
+    }*/
 
     scope.$watch('checked',function(newD,oldD){
 
@@ -51,8 +51,13 @@ angular.module('tink.checkbox')
       var added = $(newD).not(oldD).get();
       var removed = $(oldD).not(newD).get();
       added.forEach(function (element) {
-        scope.secretSelected['id'+element] = true;
-        scope.checkboxChange('id'+element);
+        var obj = scope.findTheParent(scope.ngModel,'id'+element);
+        if(obj.obj){
+          if(!(obj.obj.children && obj.obj.children.length >0)){
+            scope.secretSelected['id'+element] = true;
+            scope.checkboxChange('id'+element,obj);
+          }
+        } 
       });
 
       removed.forEach(function (element) {
@@ -61,8 +66,6 @@ angular.module('tink.checkbox')
           if(!(obj.obj.children && obj.obj.children.length >0)){
             scope.secretSelected['id'+element] = false;
             scope.checkboxChange('id'+element,obj);
-          }else{
-
           }
         }   
       });
