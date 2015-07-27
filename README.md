@@ -1,3 +1,11 @@
+# THIS REPO IS NOW OBSOLETE
+This repo is obsolete. TiNK has a new home at this location:
+
+http://tink.digipolis.be/
+
+
+# -------------------
+
 # Tink Framework
 
 v1.2.7
